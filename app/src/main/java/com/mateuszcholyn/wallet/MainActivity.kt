@@ -1,12 +1,17 @@
 package com.mateuszcholyn.wallet
 
+
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-
+import android.view.View
+import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_main.*
+
+const val EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,4 +41,15 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    fun sendMessage(view: View) {
+        val editText = findViewById<EditText>(R.id.editText)
+        val message = editText.text.toString()
+//        val intent = Intent(this, DisplayMessageActivity::class.java).apply {
+//            putExtra(EXTRA_MESSAGE, message)
+//        }
+        startActivity(intent)
+    }
+
+
 }
