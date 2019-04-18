@@ -22,6 +22,8 @@
         <activity android:name=".DisplayMessageActivity"
                   android:parentActivityName=".MainActivity">
         </activity>
+        <activity android:name=".CategoryActivity"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

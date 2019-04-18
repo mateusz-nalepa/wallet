@@ -5,4 +5,7 @@
     <string name="button_send">Send</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="history">Historia</string>
+    <string name="category">Kategorie</string>
+    <string name="addExpense">Dodaj wydatek</string>
 </resources>

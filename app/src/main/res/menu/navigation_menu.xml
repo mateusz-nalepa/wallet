@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item android:id="@+id/action_container"
-        android:title="Dodaj wydatek"/>
+    <item android:id="@+id/dodajWydatek"
+    android:title="@string/addExpense"/>
 
-    <item android:id="@+id/action_settings"
-        android:title="Kategorie"/>
+    <item android:id="@+id/kategorie"
+        android:title="@string/category"/>
 
-    <item android:id="@+id/action_bar_spinner"
-        android:title="Historia"/>
+    <item android:id="@+id/historia"
+        android:title="@string/history"/>
 
 
 </menu>

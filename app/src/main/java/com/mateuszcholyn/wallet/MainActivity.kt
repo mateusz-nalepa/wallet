@@ -71,5 +71,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun showCategoryActivity(item: MenuItem) {
+        val intent = Intent(this, CategoryActivity::class.java)
+        startActivity(intent)
+    }
+
 
 }
