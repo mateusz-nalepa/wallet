@@ -27,6 +27,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin"
     implementation "com.android.support:appcompat-v7:$appcompat_v7"
+    implementation "com.android.support:design:$appcompat_v7"
     implementation "com.android.support.constraint:constraint-layout:$constraint_layout"
     implementation "com.android.support:design:$design"
     testImplementation "junit:junit:$junit"

@@ -1,5 +1,5 @@
 ext {
-    build_gradle = "3.2.1"
+    build_gradle = '3.4.0'
     kodein = "5.2.0"
     kotlin = "1.3.21"
     appcompat_v7 = "27.1.1"
