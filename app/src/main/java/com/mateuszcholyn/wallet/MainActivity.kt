@@ -18,7 +18,7 @@ const val EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"
 
 class MainActivity : AppCompatActivity() {
 
-    private var drawerLayout : DrawerLayout?  = null
+    private var drawerLayout: DrawerLayout? = null
     private var toggle: ActionBarDrawerToggle? = null
 
     @SuppressLint("RestrictedApi")
@@ -27,9 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         drawerLayout = findViewById(R.id.drawerLayout)
-
         toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
-
         drawerLayout?.addDrawerListener(toggle!!)
         toggle?.syncState()
         supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
@@ -40,6 +38,8 @@ class MainActivity : AppCompatActivity() {
                     .setAction("Action", null).show()
         }
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -68,6 +68,11 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, DisplayMessageActivity::class.java).apply {
             putExtra(EXTRA_MESSAGE, message)
         }
+        startActivity(intent)
+    }
+
+    fun showAddExpenseActivity(item: MenuItem) {
+        val intent = Intent(this, AddExpenseActivity::class.java)
         startActivity(intent)
     }
 

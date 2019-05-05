@@ -8,11 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"></LinearLayout>-->
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,26 +19,14 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
-
+<!---->
     </android.support.design.widget.AppBarLayout>
 
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
 
-        <!--<TextView-->
-            <!--android:id="@+id/textView"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:text="Main Layout"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textSize="24dp" />-->
 
-    <!--</LinearLayout>-->
-
-    <include layout="@layout/content_main" />
+    <!--<include layout="@layout/add_expense" />-->
+    <!--<include layout="@layout/basic_edit_and_button" />-->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -54,12 +37,11 @@
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
 
-    <android.support.design.widget.NavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/navigation_menu">
+    <!--<android.support.design.widget.NavigationView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="start"-->
+        <!--app:menu="@menu/navigation_menu">-->
+    <!--</android.support.design.widget.NavigationView>-->
 
-
-    </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

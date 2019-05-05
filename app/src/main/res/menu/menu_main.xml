@@ -10,7 +10,8 @@
           app:showAsAction="never"/>
 
     <item android:id="@+id/dodajWydatek"
-        android:title="@string/addExpense"/>
+        android:title="@string/addExpense"
+        android:onClick="showAddExpenseActivity"/>
 
     <item android:id="@+id/kategorie"
         android:title="@string/category"

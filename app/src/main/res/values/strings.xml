@@ -8,4 +8,16 @@
     <string name="history">Historia</string>
     <string name="category">Kategorie</string>
     <string name="addExpense">Dodaj wydatek</string>
+    <string name="categoryItemName">categoryItem</string>
+    <string-array name="category_array">
+        <item>Mieszkanie</item>
+        <item>Zakupy</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+
 </resources>
