@@ -7,10 +7,3 @@
     android:layout_weight="1"
     android:text="@string/categoryItemName"
     android:textSize="24sp" />
-<!--<LinearLayout-->
-    <!--android:id="@+id/category_linear_layout"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_width="match_parent">-->
-
-
-<!--</LinearLayout>-->

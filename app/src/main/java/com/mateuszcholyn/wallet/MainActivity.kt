@@ -81,5 +81,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun showHistoryActivity(item: MenuItem) {
+        val intent = Intent(this, HistoryActivity::class.java)
+        startActivity(intent)
+    }
+
 
 }

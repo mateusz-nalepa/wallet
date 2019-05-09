@@ -1,11 +1,11 @@
-package com.mateuszcholyn.wallet
+package com.mateuszcholyn.wallet.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.support.v7.widget.RecyclerView.ViewHolder
-import android.view.View
+import com.mateuszcholyn.wallet.R
 
 
 class CategoryAdapter(private val myDataset: Array<String>) :

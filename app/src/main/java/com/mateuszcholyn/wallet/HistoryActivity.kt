@@ -1,12 +1,13 @@
 package com.mateuszcholyn.wallet
 
-import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.mateuszcholyn.wallet.adapter.CategoryAdapter
+import com.mateuszcholyn.wallet.adapter.HistoryAdapter
 
-class CategoryActivity : AppCompatActivity() {
+class HistoryActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -15,12 +16,13 @@ class CategoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_categories)
+        setContentView(R.layout.activity_history)
 
-        recyclerView = findViewById(R.id.categories_recycler_view)
+        recyclerView = findViewById(R.id.histories_recycler_view)
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = CategoryAdapter(arrayOf(
+        viewAdapter = HistoryAdapter(arrayOf(
+                "Historia",
                 "Arya",
                 "Tyrion",
                 "Jon",
@@ -32,5 +34,4 @@ class CategoryActivity : AppCompatActivity() {
             adapter = viewAdapter
         }
     }
-
 }

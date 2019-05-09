@@ -18,5 +18,6 @@
         android:onClick="showCategoryActivity"/>
 
     <item android:id="@+id/historia"
-        android:title="@string/history"/>
+        android:title="@string/history"
+        android:onClick="showHistoryActivity"/>
 </menu>
