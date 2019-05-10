@@ -18,33 +18,39 @@ const val EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"
 
 class MainActivity : AppCompatActivity() {
 
-    private var drawerLayout: DrawerLayout? = null
-    private var toggle: ActionBarDrawerToggle? = null
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var toggle: ActionBarDrawerToggle
 
-    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        drawerLayout = findViewById(R.id.drawerLayout)
-        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
-        drawerLayout?.addDrawerListener(toggle!!)
-        toggle?.syncState()
-        supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
-        setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+        initMainActivity()
     }
 
+    @SuppressLint("RestrictedApi")
+    private fun initMainActivity() {
+        drawerLayout = findViewById(R.id.drawerLayout)
+        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
+        setSupportActionBar(toolbar)
+        makeSnackBar()
+    }
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
+    }
+
+    private fun makeSnackBar() {
+        fab.setOnClickListener {
+            Snackbar.make(it, "Replace with your own action", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null)
+                    .show()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -56,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 //            else -> super.onOptionsItemSelected(item)
         }
 
-        if (toggle!!.onOptionsItemSelected(item)) {
+        if (toggle.onOptionsItemSelected(item)) {
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -86,5 +92,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun showAverageExpenseActivity(item: MenuItem) {
+        val intent = Intent(this, AverageExpenseActivity::class.java)
+        startActivity(intent)
+    }
 
 }

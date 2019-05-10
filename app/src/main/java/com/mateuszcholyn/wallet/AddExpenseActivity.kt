@@ -9,11 +9,12 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.*
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.*
 
 class AddExpenseActivity : AppCompatActivity() {
 
-    private val simpleDateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm", Locale.getDefault())
+    private val simpleDateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.getDefault())
     private lateinit var mCalendar: Calendar
     private lateinit var activity: Activity
     private lateinit var date: TextView
@@ -29,6 +30,7 @@ class AddExpenseActivity : AppCompatActivity() {
 
     private fun initDateTimePicker() {
         date = findViewById(R.id.dateTimePicker)
+        date.text = simpleDateFormat.format(GregorianCalendar().time)
         date.setOnClickListener(textListener)
     }
 

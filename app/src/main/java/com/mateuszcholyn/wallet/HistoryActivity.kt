@@ -1,11 +1,11 @@
 package com.mateuszcholyn.wallet
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.mateuszcholyn.wallet.adapter.CategoryAdapter
 import com.mateuszcholyn.wallet.adapter.HistoryAdapter
+import com.mateuszcholyn.wallet.util.Tablica
 
 class HistoryActivity : AppCompatActivity() {
 
@@ -19,15 +19,8 @@ class HistoryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_history)
 
         recyclerView = findViewById(R.id.histories_recycler_view)
-
         viewManager = LinearLayoutManager(this)
-        viewAdapter = HistoryAdapter(arrayOf(
-                "Historia",
-                "Arya",
-                "Tyrion",
-                "Jon",
-                "Hodor", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"
-        ))
+        viewAdapter = HistoryAdapter(Tablica.napisy())
 
         recyclerView = recyclerView.apply {
             layoutManager = viewManager
