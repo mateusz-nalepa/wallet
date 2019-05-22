@@ -35,7 +35,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/expenseAmount"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="27dp"
@@ -101,7 +101,7 @@
         android:textSize="24dp"
         app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editText6"
+        app:layout_constraintStart_toEndOf="@+id/expenseAmount"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView

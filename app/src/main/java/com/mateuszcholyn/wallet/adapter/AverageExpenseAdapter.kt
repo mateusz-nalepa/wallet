@@ -12,8 +12,8 @@ class AverageExpenseAdapter(private val myDataset: Array<String>) :
         RecyclerView.Adapter<AverageExpenseAdapter.MyViewHolder>() {
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val categoryName = view.findViewById(R.id.history_category_name) as TextView
-        val expenseValue = view.findViewById(R.id.history_expense_value) as TextView
+        val leftText = view.findViewById(R.id.leftText) as TextView
+        val rightText = view.findViewById(R.id.rightText) as TextView
 
     }
 
@@ -21,13 +21,13 @@ class AverageExpenseAdapter(private val myDataset: Array<String>) :
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): MyViewHolder {
         val v = LayoutInflater.from(parent.context)
-                .inflate(R.layout.history_single_expense, parent, false)
+                .inflate(R.layout.average_single_category, parent, false)
         return MyViewHolder(v as View)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.categoryName.text = myDataset[position]
-        holder.expenseValue.text = myDataset[position]
+        holder.leftText.text = myDataset[position]
+        holder.rightText.text = myDataset[position]
     }
 
     override fun getItemCount() = myDataset.size

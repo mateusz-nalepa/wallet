@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.*
+import com.mateuszcholyn.wallet.database.service.DbService
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 
 class AddExpenseActivity : AppCompatActivity() {
@@ -45,10 +45,10 @@ class AddExpenseActivity : AppCompatActivity() {
         ).show()
     }
 
-    private val mDateDataSet = DatePickerDialog.OnDateSetListener {datePicker, year, month, day ->
-        mCalendar.set(Calendar.YEAR, year )
-        mCalendar.set(Calendar.MONTH, month )
-        mCalendar.set(Calendar.DAY_OF_MONTH, day )
+    private val mDateDataSet = DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
+        mCalendar.set(Calendar.YEAR, year)
+        mCalendar.set(Calendar.MONTH, month)
+        mCalendar.set(Calendar.DAY_OF_MONTH, day)
         TimePickerDialog(
                 activity,
                 mTimeDataSet,
@@ -60,8 +60,8 @@ class AddExpenseActivity : AppCompatActivity() {
     }
 
     private val mTimeDataSet = TimePickerDialog.OnTimeSetListener { timePicker, hourOfDay, minute ->
-        mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay )
-        mCalendar.set(Calendar.MINUTE, minute )
+        mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        mCalendar.set(Calendar.MINUTE, minute)
         date.text = simpleDateFormat.format(mCalendar.time)
     }
 
@@ -81,8 +81,22 @@ class AddExpenseActivity : AppCompatActivity() {
     }
 
     fun addExpense(view: View) {
-        val categorySpinner = findViewById<Spinner>(R.id.category_spinner)
-        val message = categorySpinner.selectedItem
-        Toast.makeText(applicationContext,"Hello Javatpoint", Toast.LENGTH_SHORT).show()
+        val category = findViewById<Spinner>(R.id.category_spinner).selectedItem
+        val expenseAmount = findViewById<EditText>(R.id.expenseAmount).text.toString().toInt()
+        val date = this.date.text
+
+
+        dbOperations()
+//        Toast.makeText(applicationContext,"$categoryId", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun dbOperations() {
+        val dbService = DbService(applicationContext)
+
+//        dbService.saveNewCategory("Mieszkanie")
+        val categoryId = dbService.getCategoryId("Mieszkanie")
+
+        Toast.makeText(applicationContext, "$categoryId", Toast.LENGTH_SHORT).show()
+
     }
 }
