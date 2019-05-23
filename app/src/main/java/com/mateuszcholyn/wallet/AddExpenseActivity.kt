@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.*
+import com.mateuszcholyn.wallet.database.model.ExpenseDto
 import com.mateuszcholyn.wallet.database.service.DbService
 import java.text.SimpleDateFormat
 import java.util.*
@@ -81,13 +83,33 @@ class AddExpenseActivity : AppCompatActivity() {
     }
 
     fun addExpense(view: View) {
-        val category = findViewById<Spinner>(R.id.category_spinner).selectedItem
-        val expenseAmount = findViewById<EditText>(R.id.expenseAmount).text.toString().toInt()
-        val date = this.date.text
+        val dbService = DbService(applicationContext)
+
+        val category = findViewById<Spinner>(R.id.category_spinner).selectedItem as String
+        val expenseAmount = findViewById<EditText>(R.id.expenseAmount).text.toString().toDouble()
 
 
-        dbOperations()
-//        Toast.makeText(applicationContext,"$categoryId", Toast.LENGTH_SHORT).show()
+        val stringDate = this.date.text.toString()
+
+        val date = simpleDateFormat.parse(stringDate)
+        val cal = GregorianCalendar.getInstance()
+        cal.time = date
+
+        val longValue = ExpenseDto(
+                amount = expenseAmount,
+                category = category,
+                date = cal
+        ).let {
+            dbService.addExpense(it)
+        }
+
+//        dbOperations()
+        Toast
+                .makeText(applicationContext, "Id od expense $longValue", Toast.LENGTH_SHORT)
+                .show()
+
+        val intent = Intent(this, HistoryActivity::class.java)
+        startActivity(intent)
     }
 
     private fun dbOperations() {

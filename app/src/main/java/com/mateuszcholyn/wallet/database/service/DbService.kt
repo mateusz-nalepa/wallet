@@ -3,8 +3,8 @@ package com.mateuszcholyn.wallet.database.service
 import android.content.ContentValues
 import android.content.Context
 import android.provider.BaseColumns
-import com.mateuszcholyn.wallet.database.model.DatabaseHelper
-import com.mateuszcholyn.wallet.database.model.DatabaseSchema
+import com.mateuszcholyn.wallet.database.config.DatabaseSchema
+import com.mateuszcholyn.wallet.database.model.ExpenseDto
 
 class DbService(context: Context) {
 
@@ -17,28 +17,20 @@ class DbService(context: Context) {
     fun saveNewCategory(categoryName: String) {
         val db = dbHelper.writableDatabase
 
-// Create a new map of values, where column names are the keys
         val values = ContentValues().apply {
             put(DatabaseSchema.CategoryEntry.COLUMN_NAME_CATEGORY_NAME, categoryName)
         }
 
-// Insert the new row, returning the primary key value of the new row
         val newRowId = db?.insert(DatabaseSchema.CategoryEntry.TABLE_NAME, null, values)
     }
 
     fun getCategoryId(categoryName: String): Int {
         val db = dbHelper.readableDatabase
 
-// Define a projection that specifies which columns from the database
-// you will actually use after this query.
         val projection = arrayOf(BaseColumns._ID)
 
-// Filter results WHERE "title" = 'My Title'
         val selection = "${DatabaseSchema.CategoryEntry.COLUMN_NAME_CATEGORY_NAME} = ?"
         val selectionArgs = arrayOf(categoryName)
-
-// How you want the results sorted in the resulting Cursor
-//        val sortOrder = "${FeedEntry.COLUMN_NAME_SUBTITLE} DESC"
 
         val cursor = db.query(
                 DatabaseSchema.CategoryEntry.TABLE_NAME,   // The table to query
@@ -54,9 +46,23 @@ class DbService(context: Context) {
 
         val categoryId = cursor.getInt(0)
 
-        db.close()
+//        db.close()
 
         return categoryId
+    }
+
+    fun addExpense(expenseDto: ExpenseDto): Long {
+        val db = dbHelper.writableDatabase
+
+        val values = ContentValues().apply {
+            put(DatabaseSchema.ExpenseEntry.COLUMN_NAME_AMOUNT_VALUE, expenseDto.amount)
+            put(DatabaseSchema.ExpenseEntry.COLUMN_NAME_CATEGORY_ID, getCategoryId(expenseDto.category))
+            put(DatabaseSchema.ExpenseEntry.COLUMN_NAME_DATE, expenseDto.date.timeInMillis)
+        }
+
+// Insert the new row, returning the primary key value of the new row
+        val insert = db.insert(DatabaseSchema.ExpenseEntry.TABLE_NAME, null, values)
+        return insert
     }
 
 }
