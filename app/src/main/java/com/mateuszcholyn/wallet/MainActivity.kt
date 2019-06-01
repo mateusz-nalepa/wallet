@@ -12,6 +12,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import com.mateuszcholyn.wallet.activity.*
+import com.mateuszcholyn.wallet.category.activity.CategoryActivity
+import com.mateuszcholyn.wallet.expense.activity.AddExpenseActivity
+import com.mateuszcholyn.wallet.expense.activity.AverageExpenseActivity
+import com.mateuszcholyn.wallet.expense.activity.ExpenseHistoryActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 const val EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"
@@ -88,7 +93,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showHistoryActivity(item: MenuItem) {
-        val intent = Intent(this, HistoryActivity::class.java)
+        val intent = Intent(this, ExpenseHistoryActivity::class.java)
         startActivity(intent)
     }
 

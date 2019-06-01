@@ -1,13 +1,14 @@
-package com.mateuszcholyn.wallet
+package com.mateuszcholyn.wallet.expense.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.adapter.HistoryAdapter
 import com.mateuszcholyn.wallet.util.Tablica
 
-class HistoryActivity : AppCompatActivity() {
+class ExpenseHistoryActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>

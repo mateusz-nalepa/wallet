@@ -1,9 +1,10 @@
-package com.mateuszcholyn.wallet
+package com.mateuszcholyn.wallet.category.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.adapter.CategoryAdapter
 import com.mateuszcholyn.wallet.util.Tablica
 

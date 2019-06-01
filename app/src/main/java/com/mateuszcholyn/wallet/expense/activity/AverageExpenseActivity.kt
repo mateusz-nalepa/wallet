@@ -1,11 +1,11 @@
-package com.mateuszcholyn.wallet
+package com.mateuszcholyn.wallet.expense.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.adapter.AverageExpenseAdapter
-import com.mateuszcholyn.wallet.adapter.CategoryAdapter
 import com.mateuszcholyn.wallet.util.Tablica
 
 class AverageExpenseActivity : AppCompatActivity() {

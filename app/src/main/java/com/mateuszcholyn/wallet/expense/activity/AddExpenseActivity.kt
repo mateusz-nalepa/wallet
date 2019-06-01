@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet
+package com.mateuszcholyn.wallet.expense.activity
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -9,8 +9,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.*
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.database.model.ExpenseDto
 import com.mateuszcholyn.wallet.database.service.DbService
+import com.mateuszcholyn.wallet.expense.service.ExpenseService
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,6 +30,7 @@ class AddExpenseActivity : AppCompatActivity() {
         activity = this
         initCategorySpinner()
         initDateTimePicker()
+        dbOperations()
     }
 
     private fun initDateTimePicker() {
@@ -83,24 +86,21 @@ class AddExpenseActivity : AppCompatActivity() {
     }
 
     fun addExpense(view: View) {
-        val dbService = DbService(applicationContext)
+        val expenseService = ExpenseService(applicationContext)
 
         val category = findViewById<Spinner>(R.id.category_spinner).selectedItem as String
         val expenseAmount = findViewById<EditText>(R.id.expenseAmount).text.toString().toDouble()
-
-
-        val stringDate = this.date.text.toString()
-
-        val date = simpleDateFormat.parse(stringDate)
-        val cal = GregorianCalendar.getInstance()
-        cal.time = date
+        val description = findViewById<EditText>(R.id.description).text.toString().toString()
+        val date = dateAsGregorianCalendar()
 
         val longValue = ExpenseDto(
                 amount = expenseAmount,
                 category = category,
-                date = cal
+                date = date,
+                active = true,
+                description = description
         ).let {
-            dbService.addExpense(it)
+            expenseService.addExpense(it)
         }
 
 //        dbOperations()
@@ -108,14 +108,21 @@ class AddExpenseActivity : AppCompatActivity() {
                 .makeText(applicationContext, "Id od expense $longValue", Toast.LENGTH_SHORT)
                 .show()
 
-        val intent = Intent(this, HistoryActivity::class.java)
+        val intent = Intent(this, ExpenseHistoryActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun dateAsGregorianCalendar(): Calendar {
+        val stringDate = this.date.text.toString()
+        val date = simpleDateFormat.parse(stringDate)
+        val gregorianCalendar = GregorianCalendar.getInstance()
+        gregorianCalendar.time = date
+        return gregorianCalendar
     }
 
     private fun dbOperations() {
         val dbService = DbService(applicationContext)
 
-//        dbService.saveNewCategory("Mieszkanie")
         val categoryId = dbService.getCategoryId("Mieszkanie")
 
         Toast.makeText(applicationContext, "$categoryId", Toast.LENGTH_SHORT).show()

@@ -8,18 +8,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name=""
+        >
         <activity
-            android:name=".AverageExpenseActivity"
+            android:name=".expense.activity.AverageExpenseActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".HistoryActivity"
+            android:name=".expense.activity.ExpenseHistoryActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".CategoryActivity"
+            android:name=".category.activity.CategoryActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".AddExpenseActivity"
+            android:name=".expense.activity.AddExpenseActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
@@ -32,8 +34,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DisplayMessageActivity"
+            android:name=".activity.DisplayMessageActivity"
             android:parentActivityName=".MainActivity" />
     </application>
+
 
 </manifest>

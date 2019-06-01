@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.util
 
 
-class Tablica() {
+class Tablica {
     companion object {
 
         fun napisy() = arrayOf(
