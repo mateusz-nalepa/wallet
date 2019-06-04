@@ -3,9 +3,10 @@ package com.mateuszcholyn.wallet.category.db
 import android.content.ContentValues
 import android.content.Context
 import android.provider.BaseColumns
+import android.widget.Toast
 import com.mateuszcholyn.wallet.category.model.CategoryDto
-import com.mateuszcholyn.wallet.database.config.DatabaseHelper
-import com.mateuszcholyn.wallet.database.config.DatabaseSchema
+import com.mateuszcholyn.wallet.config.ApplicationContext
+import com.mateuszcholyn.wallet.database.*
 
 class CategoryExecutor(context: Context) {
 
@@ -14,11 +15,21 @@ class CategoryExecutor(context: Context) {
     private val readableDb = dbHelper.readableDatabase
 
     fun saveNewCategory(categoryDto: CategoryDto): CategoryDto {
+        if (checkIfStringExists(readableDb, CategoryEntry.TABLE_NAME, CategoryEntry.COLUMN_NAME_CATEGORY_NAME, categoryDto.name)) {
+            Toast
+                    .makeText(ApplicationContext.appContext, "Kategoria '${categoryDto.name}' już istnieje w bazie!", Toast.LENGTH_SHORT)
+                    .show()
+            return categoryDto.copy(
+                    id = getCategoryId(categoryDto.name)
+            )
+        }
         val values = ContentValues().apply {
-            put(DatabaseSchema.CategoryEntry.COLUMN_NAME_CATEGORY_NAME, categoryDto.name)
+            put(CategoryEntry.COLUMN_NAME_CATEGORY_NAME, categoryDto.name)
+            put(CategoryEntry.COLUMN_ACTIVE, ACTIVE)
+
         }
 
-        val categoryId = writableDb.insert(DatabaseSchema.CategoryEntry.TABLE_NAME, null, values)
+        val categoryId = writableDb.insertOrThrow(CategoryEntry.TABLE_NAME, null, values)
         categoryDto.id = categoryId
 
         return categoryDto
@@ -27,11 +38,11 @@ class CategoryExecutor(context: Context) {
     fun getCategoryId(categoryName: String): Long {
         val projection = arrayOf(BaseColumns._ID)
 
-        val selection = "${DatabaseSchema.CategoryEntry.COLUMN_NAME_CATEGORY_NAME} = ?"
+        val selection = "${CategoryEntry.COLUMN_NAME_CATEGORY_NAME} = ?"
         val selectionArgs = arrayOf(categoryName)
 
         val cursor = readableDb.query(
-                DatabaseSchema.CategoryEntry.TABLE_NAME,   // The table to query
+                CategoryEntry.TABLE_NAME,   // The table to query
                 projection,             // The array of columns to return (pass null to get all)
                 selection,              // The columns for the WHERE clause
                 selectionArgs,          // The values for the WHERE clause
@@ -45,6 +56,23 @@ class CategoryExecutor(context: Context) {
 
         cursor.close()
         return categoryId
+    }
+
+    fun getAll(): List<CategoryDto> {
+        val list = mutableListOf<CategoryDto>()
+        val cursor = readableDb.rawQuery("select * from ${CategoryEntry.TABLE_NAME} where ${CategoryEntry.COLUMN_ACTIVE} = 1", null)
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast) {
+                val id = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID))
+                val categoryName = cursor.getString(cursor.getColumnIndex(CategoryEntry.COLUMN_NAME_CATEGORY_NAME))
+                val active = activeToModel(cursor.getInt(cursor.getColumnIndex(CategoryEntry.COLUMN_ACTIVE)))
+
+                list.add(CategoryDto(id, active, categoryName))
+                cursor.moveToNext()
+            }
+        }
+        cursor.close()
+        return list
     }
 
 }

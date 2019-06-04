@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.adapter
+package com.mateuszcholyn.wallet.category.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.category.model.CategoryDto
 
 
-class CategoryAdapter(private val myDataset: Array<String>) :
+class CategoryAdapter(private val categories: List<CategoryDto>) :
         RecyclerView.Adapter<CategoryAdapter.MyViewHolder>() {
 
     class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -24,8 +25,8 @@ class CategoryAdapter(private val myDataset: Array<String>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.textView.text = myDataset[position]
+        holder.textView.text = categories[position].name
     }
 
-    override fun getItemCount() = myDataset.size
+    override fun getItemCount() = categories.size
 }

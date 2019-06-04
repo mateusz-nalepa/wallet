@@ -9,14 +9,19 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.*
+import com.github.salomonbrys.kodein.KodeinInjector
+import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
+import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.database.model.ExpenseDto
-import com.mateuszcholyn.wallet.database.service.DbService
+import com.mateuszcholyn.wallet.expense.model.ExpenseDto
 import com.mateuszcholyn.wallet.expense.service.ExpenseService
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddExpenseActivity : AppCompatActivity() {
+class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
+
+    override val injector: KodeinInjector = KodeinInjector()
+    private val expenseService: ExpenseService by instance()
 
     private val simpleDateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.getDefault())
     private lateinit var mCalendar: Calendar
@@ -26,11 +31,10 @@ class AddExpenseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_expense_activity)
-
+        initializeInjector()
         activity = this
         initCategorySpinner()
         initDateTimePicker()
-        dbOperations()
     }
 
     private fun initDateTimePicker() {
@@ -86,14 +90,13 @@ class AddExpenseActivity : AppCompatActivity() {
     }
 
     fun addExpense(view: View) {
-        val expenseService = ExpenseService(applicationContext)
 
         val category = findViewById<Spinner>(R.id.category_spinner).selectedItem as String
         val expenseAmount = findViewById<EditText>(R.id.expenseAmount).text.toString().toDouble()
         val description = findViewById<EditText>(R.id.description).text.toString().toString()
         val date = dateAsGregorianCalendar()
 
-        val longValue = ExpenseDto(
+        val savedExpenseDto = ExpenseDto(
                 amount = expenseAmount,
                 category = category,
                 date = date,
@@ -105,7 +108,7 @@ class AddExpenseActivity : AppCompatActivity() {
 
 //        dbOperations()
         Toast
-                .makeText(applicationContext, "Id od expense $longValue", Toast.LENGTH_SHORT)
+                .makeText(applicationContext, "Id od expense ${savedExpenseDto.id}", Toast.LENGTH_SHORT)
                 .show()
 
         val intent = Intent(this, ExpenseHistoryActivity::class.java)
@@ -120,12 +123,8 @@ class AddExpenseActivity : AppCompatActivity() {
         return gregorianCalendar
     }
 
-    private fun dbOperations() {
-        val dbService = DbService(applicationContext)
-
-        val categoryId = dbService.getCategoryId("Mieszkanie")
-
-        Toast.makeText(applicationContext, "$categoryId", Toast.LENGTH_SHORT).show()
-
+    override fun onDestroy() {
+        destroyInjector()
+        super.onDestroy()
     }
 }

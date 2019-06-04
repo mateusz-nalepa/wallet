@@ -1,17 +1,16 @@
 package com.mateuszcholyn.wallet.category.service
 
-import android.content.Context
 import com.mateuszcholyn.wallet.category.db.CategoryExecutor
 import com.mateuszcholyn.wallet.category.model.CategoryDto
 
-class Categoryservice(val context: Context) {
+class Categoryservice(private val categoryExecutor: CategoryExecutor) {
 
-    private val categoryExecutor: CategoryExecutor = CategoryExecutor(context)
-
-    fun saveNewCategory(categoryDto: CategoryDto): CategoryDto =
+    fun addNewCategory(categoryDto: CategoryDto) =
             categoryExecutor.saveNewCategory(categoryDto)
 
-    fun getCategoryId(categoryName: String): Long =
+    fun getCategoryId(categoryName: String) =
             categoryExecutor.getCategoryId(categoryName)
+
+    fun getAll() = categoryExecutor.getAll()
 
 }

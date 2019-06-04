@@ -12,7 +12,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
-import com.mateuszcholyn.wallet.activity.*
+import com.github.salomonbrys.kodein.KodeinInjector
+import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.mateuszcholyn.wallet.category.activity.CategoryActivity
 import com.mateuszcholyn.wallet.expense.activity.AddExpenseActivity
 import com.mateuszcholyn.wallet.expense.activity.AverageExpenseActivity
@@ -21,7 +22,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 const val EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AppCompatActivityInjector {
+
+    override val injector: KodeinInjector = KodeinInjector()
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initMainActivity()
+        initializeInjector()
     }
 
     @SuppressLint("RestrictedApi")
@@ -100,6 +104,11 @@ class MainActivity : AppCompatActivity() {
     fun showAverageExpenseActivity(item: MenuItem) {
         val intent = Intent(this, AverageExpenseActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun onDestroy() {
+        destroyInjector()
+        super.onDestroy()
     }
 
 }
