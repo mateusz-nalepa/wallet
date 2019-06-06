@@ -1,63 +1,185 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<!-- Parent Layout -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/whiteColor"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <!-- first Child Layout -->
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/average_expense_recycler_view"
+    <!-- create a Linear Layout with horizontal orientation and weightSum property -->
+    <LinearLayout
+        android:id="@+id/lastLayout"
         android:layout_width="match_parent"
-        android:layout_height="423dp"
-        android:layout_marginBottom="12dp"
-        android:fadeScrollbars="false"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/editText2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </android.support.v7.widget.RecyclerView>
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="41dp"
-        android:layout_marginEnd="28dp"
-        android:background="#FF00FF"
-        android:text="Nazwa kategorii"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText2"
-        app:layout_constraintEnd_toStartOf="@+id/editText2"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="19dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="nowa kategoria"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/average_expense_recycler_view" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="jakis glupi napis"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:textAlignment="center"
+        android:weightSum="2">
+
+        <!-- place one TextView and one EditText inside layout using weight property -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:text="Oblicz średni wydatek"
+            android:textColor="@color/blackColor" />
 
 
-</android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/firstLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <!-- place one TextView and one EditText inside layout using weight property -->
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.6"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Poczatek"
+            android:textColor="@color/blackColor" />
+
+        <EditText
+            android:id="@+id/average_begin_dateTimePicker"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.4"
+            android:background="@color/editTextBack"
+            android:hint="begin date"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/blackColor" />
+
+
+    </LinearLayout>
+    <!-- create a Linear Layout with horizontal orientation and weightSum property -->
+    <!-- second Child Layout -->
+
+    <LinearLayout
+        android:id="@+id/secondLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <!-- place one TextView and one EditText inside layout using weight property -->
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.6"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Koniec"
+            android:textColor="@color/blackColor" />
+
+        <EditText
+            android:id="@+id/average_end_dateTimePicker"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.4"
+            android:background="@color/editTextBack"
+            android:hint="end date"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/blackColor" />
+    </LinearLayout>
+    <!-- create a Linear Layout with horizontal orientation and weightSum property -->
+    <!-- third Child Layout -->
+
+    <LinearLayout
+        android:id="@+id/thirdLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <!-- place one TextView and one EditText inside layout using weight property -->
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.6"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Kategoria"
+            android:textColor="@color/blackColor" />
+
+        <Spinner
+            android:id="@+id/average_category_spinner"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.4"
+            android:background="@color/editTextBack"
+            android:hint="User Name"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/blackColor" />
+    </LinearLayout>
+    <!-- fourth Child Layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/greenColor"
+            android:text="Oblicz średnią kwotę"
+            android:onClick="calculateAverageAmount"
+            android:textColor="@color/blackColor" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lastLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:textAlignment="center"
+        android:weightSum="2">
+
+        <!-- place one TextView and one EditText inside layout using weight property -->
+
+        <TextView
+            android:id="@+id/averageAmount"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:textAlignment="center"
+            android:textSize="24dp"
+            android:text="Średni wydatek"
+            android:textColor="@color/blackColor" />
+
+
+    </LinearLayout>
+</LinearLayout>
