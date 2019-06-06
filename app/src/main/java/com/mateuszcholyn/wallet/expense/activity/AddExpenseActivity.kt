@@ -1,6 +1,5 @@
 package com.mateuszcholyn.wallet.expense.activity
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -16,6 +15,7 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.category.service.CategoryService
 import com.mateuszcholyn.wallet.expense.model.ExpenseDto
 import com.mateuszcholyn.wallet.expense.service.ExpenseService
+import com.mateuszcholyn.wallet.util.HourChooser
 import com.mateuszcholyn.wallet.util.dateAsGregorianCalendar
 import com.mateuszcholyn.wallet.util.simpleDateFormat
 import java.util.*
@@ -24,9 +24,9 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     override val injector: KodeinInjector = KodeinInjector()
     private val expenseService: ExpenseService by instance()
-    private val categoryservice: CategoryService by instance()
+    private val categoryService: CategoryService by instance()
 
-    private lateinit var mCalendar: Calendar
+    private var mCalendar: Calendar = Calendar.getInstance()
     private lateinit var activity: Activity
     private lateinit var date: TextView
 
@@ -42,45 +42,13 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
     private fun initDateTimePicker() {
         date = findViewById(R.id.dateTimePicker)
         date.text = simpleDateFormat.format(GregorianCalendar().time)
-        date.setOnClickListener(textListener)
+        HourChooser(mCalendar, activity, date)
     }
 
-    private val textListener = View.OnClickListener {
-        mCalendar = Calendar.getInstance()
-        DatePickerDialog(
-                activity,
-                mDateDataSet,
-                mCalendar.get(Calendar.YEAR),
-                mCalendar.get(Calendar.MONTH),
-                mCalendar.get(Calendar.HOUR_OF_DAY)
-        ).show()
-    }
-
-    private val mDateDataSet = DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
-        mCalendar.set(Calendar.YEAR, year)
-        mCalendar.set(Calendar.MONTH, month)
-        mCalendar.set(Calendar.DAY_OF_MONTH, day)
-        TimePickerDialog(
-                activity,
-                mTimeDataSet,
-                mCalendar.get(Calendar.HOUR_OF_DAY),
-                mCalendar.get(Calendar.MINUTE),
-                true
-        ).show()
-
-    }
-
-    private val mTimeDataSet = TimePickerDialog.OnTimeSetListener { timePicker, hourOfDay, minute ->
-        mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-        mCalendar.set(Calendar.MINUTE, minute)
-        date.text = simpleDateFormat.format(mCalendar.time)
-    }
-
-    @SuppressLint("ResourceType")
     private fun initCategorySpinner() {
 
         val spinner: Spinner = findViewById(R.id.category_spinner)
-        val lista = categoryservice.getAll().map { it.name }
+        val lista = categoryService.getAllNamesOnly()
 
         ArrayAdapter(
                 this,
@@ -119,7 +87,6 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     private fun validateCorrect(): Boolean {
         val expenseAmount = findViewById<EditText>(R.id.expenseAmount).text.toString()
-
         return expenseAmount == ""
     }
 

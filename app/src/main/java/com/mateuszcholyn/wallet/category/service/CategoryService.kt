@@ -11,6 +11,10 @@ class CategoryService(private val categoryExecutor: CategoryExecutor) {
     fun getCategoryId(categoryName: String) =
             categoryExecutor.getCategoryId(categoryName)
 
-    fun getAll() = categoryExecutor.getAll()
+    fun getAllNamesOnly() =
+            getAll().map { it.name }
+
+    fun getAll() =
+            categoryExecutor.getAll()
 
 }
