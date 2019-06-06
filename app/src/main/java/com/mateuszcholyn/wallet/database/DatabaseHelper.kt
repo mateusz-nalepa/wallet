@@ -3,7 +3,6 @@ package com.mateuszcholyn.wallet.database
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.provider.BaseColumns
 
 class DatabaseHelper(context: Context)
     : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -11,11 +10,11 @@ class DatabaseHelper(context: Context)
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(DatabaseSchema.SQL_CREATE_CATEGORY_TABLE)
         db.execSQL(DatabaseSchema.SQL_CREATE_EXPENSE_TABLE)
-        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${BaseColumns._ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (1, 'Mieszkanie', 1) ;")
-        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${BaseColumns._ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (2, 'Zakupy', 1) ;")
-        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${BaseColumns._ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (3, 'Jedzenie na mieście', 1) ;")
-        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${BaseColumns._ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (4, 'Paliwo', 1) ;")
-        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${BaseColumns._ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (5, 'Leki', 1) ;")
+        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (1, 'Mieszkanie', 1) ;")
+        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (2, 'Zakupy', 1) ;")
+        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (3, 'Jedzenie na mieście', 1) ;")
+        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (4, 'Paliwo', 1) ;")
+        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (5, 'Leki', 1) ;")
 
     }
 
@@ -30,7 +29,7 @@ class DatabaseHelper(context: Context)
 
     companion object {
         // If you change the database schema, you must increment the database version.
-        const val DATABASE_VERSION = 6
-        const val DATABASE_NAME = "expense.db"
+        const val DATABASE_VERSION = 1
+        const val DATABASE_NAME = "expense7.db"
     }
 }

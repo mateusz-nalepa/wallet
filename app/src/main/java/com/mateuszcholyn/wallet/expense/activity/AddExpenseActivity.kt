@@ -13,17 +13,19 @@ import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.category.service.CategoryService
 import com.mateuszcholyn.wallet.expense.model.ExpenseDto
 import com.mateuszcholyn.wallet.expense.service.ExpenseService
-import java.text.SimpleDateFormat
+import com.mateuszcholyn.wallet.util.dateAsGregorianCalendar
+import com.mateuszcholyn.wallet.util.simpleDateFormat
 import java.util.*
 
 class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     override val injector: KodeinInjector = KodeinInjector()
     private val expenseService: ExpenseService by instance()
+    private val categoryservice: CategoryService by instance()
 
-    private val simpleDateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.getDefault())
     private lateinit var mCalendar: Calendar
     private lateinit var activity: Activity
     private lateinit var date: TextView
@@ -78,11 +80,12 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
     private fun initCategorySpinner() {
 
         val spinner: Spinner = findViewById(R.id.category_spinner)
+        val lista = categoryservice.getAll().map { it.name }
 
-        ArrayAdapter.createFromResource(
+        ArrayAdapter(
                 this,
-                R.array.category_array,
-                android.R.layout.simple_spinner_item
+                android.R.layout.simple_spinner_item,
+                lista
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
@@ -91,12 +94,16 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     fun addExpense(view: View) {
 
+        if (validateCorrect()) {
+            Toast.makeText(applicationContext, "Kwota nie może być pusta!", Toast.LENGTH_SHORT).show()
+            return
+        }
         val category = findViewById<Spinner>(R.id.category_spinner).selectedItem as String
         val expenseAmount = findViewById<EditText>(R.id.expenseAmount).text.toString().toDouble()
-        val description = findViewById<EditText>(R.id.description).text.toString().toString()
-        val date = dateAsGregorianCalendar()
+        val description = findViewById<EditText>(R.id.description).text.toString()
+        val date = dateAsGregorianCalendar(date)
 
-        val savedExpenseDto = ExpenseDto(
+        ExpenseDto(
                 amount = expenseAmount,
                 category = category,
                 date = date,
@@ -106,22 +113,16 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
             expenseService.addExpense(it)
         }
 
-//        dbOperations()
-        Toast
-                .makeText(applicationContext, "Id od expense ${savedExpenseDto.id}", Toast.LENGTH_SHORT)
-                .show()
-
         val intent = Intent(this, ExpenseHistoryActivity::class.java)
         startActivity(intent)
     }
 
-    private fun dateAsGregorianCalendar(): Calendar {
-        val stringDate = this.date.text.toString()
-        val date = simpleDateFormat.parse(stringDate)
-        val gregorianCalendar = GregorianCalendar.getInstance()
-        gregorianCalendar.time = date
-        return gregorianCalendar
+    private fun validateCorrect(): Boolean {
+        val expenseAmount = findViewById<EditText>(R.id.expenseAmount).text.toString()
+
+        return expenseAmount == ""
     }
+
 
     override fun onDestroy() {
         destroyInjector()

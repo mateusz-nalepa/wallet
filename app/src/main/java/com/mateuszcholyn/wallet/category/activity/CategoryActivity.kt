@@ -7,23 +7,20 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.category.adapter.CategoryAdapter
 import com.mateuszcholyn.wallet.category.model.CategoryDto
-import com.mateuszcholyn.wallet.category.service.Categoryservice
-import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
-
+import com.mateuszcholyn.wallet.category.service.CategoryService
 
 
 class CategoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 
 
     override val injector: KodeinInjector = KodeinInjector()
-    private val categoryservice: Categoryservice by instance()
+    private val categoryService: CategoryService by instance()
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -38,7 +35,7 @@ class CategoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 
         recyclerView = findViewById(R.id.categories_recycler_view)
         viewManager = LinearLayoutManager(this)
-        viewAdapter = CategoryAdapter(categoryservice.getAll())
+        viewAdapter = CategoryAdapter(categoryService.getAll())
 
         recyclerView = recyclerView.apply {
             layoutManager = viewManager
@@ -47,8 +44,7 @@ class CategoryActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
     fun addCategory(view: View) {
-
-        categoryservice.addNewCategory(
+        categoryService.addNewCategory(
                 CategoryDto(
                         name = findViewById<EditText>(R.id.newCategoryName).text.toString()
                 )

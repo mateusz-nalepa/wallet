@@ -52,7 +52,6 @@
         android:layout_height="0dp"
         android:layout_marginBottom="28dp"
         android:ems="10"
-        android:inputType="numberDecimal"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/addExpenseButton"
         app:layout_constraintEnd_toEndOf="parent"

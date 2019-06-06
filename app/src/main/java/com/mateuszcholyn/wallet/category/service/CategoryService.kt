@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.category.service
 import com.mateuszcholyn.wallet.category.db.CategoryExecutor
 import com.mateuszcholyn.wallet.category.model.CategoryDto
 
-class Categoryservice(private val categoryExecutor: CategoryExecutor) {
+class CategoryService(private val categoryExecutor: CategoryExecutor) {
 
     fun addNewCategory(categoryDto: CategoryDto) =
             categoryExecutor.saveNewCategory(categoryDto)

@@ -2,7 +2,6 @@ package com.mateuszcholyn.wallet.category.db
 
 import android.content.ContentValues
 import android.content.Context
-import android.provider.BaseColumns
 import android.widget.Toast
 import com.mateuszcholyn.wallet.category.model.CategoryDto
 import com.mateuszcholyn.wallet.config.ApplicationContext
@@ -36,7 +35,7 @@ class CategoryExecutor(context: Context) {
     }
 
     fun getCategoryId(categoryName: String): Long {
-        val projection = arrayOf(BaseColumns._ID)
+        val projection = arrayOf(CategoryEntry.ID)
 
         val selection = "${CategoryEntry.COLUMN_NAME_CATEGORY_NAME} = ?"
         val selectionArgs = arrayOf(categoryName)
@@ -63,7 +62,7 @@ class CategoryExecutor(context: Context) {
         val cursor = readableDb.rawQuery("select * from ${CategoryEntry.TABLE_NAME} where ${CategoryEntry.COLUMN_ACTIVE} = 1", null)
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast) {
-                val id = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID))
+                val id = cursor.getLong(cursor.getColumnIndex(CategoryEntry.ID))
                 val categoryName = cursor.getString(cursor.getColumnIndex(CategoryEntry.COLUMN_NAME_CATEGORY_NAME))
                 val active = activeToModel(cursor.getInt(cursor.getColumnIndex(CategoryEntry.COLUMN_ACTIVE)))
 

@@ -8,7 +8,8 @@ import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.expense.adapter.HistoryAdapter
+import com.mateuszcholyn.wallet.expense.adapter.ExpenseHistoryAdapter
+import com.mateuszcholyn.wallet.expense.model.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.util.Tablica
 
@@ -28,7 +29,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 
         recyclerView = findViewById(R.id.histories_recycler_view)
         viewManager = LinearLayoutManager(this)
-        viewAdapter = HistoryAdapter(Tablica.napisy())
+        viewAdapter = ExpenseHistoryAdapter(expenseService.getAll(ExpenseSearchCriteria()))
 
         recyclerView = recyclerView.apply {
             layoutManager = viewManager
