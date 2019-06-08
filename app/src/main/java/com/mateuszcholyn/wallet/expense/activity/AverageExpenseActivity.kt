@@ -37,6 +37,7 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
         super.onCreate(savedInstanceState)
         initializeInjector()
         activity = this
+        title = "Oblicz średni wydatek"
         setContentView(R.layout.activity_average_expense)
         initCategorySpinner()
         initDateTimePickers()

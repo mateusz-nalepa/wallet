@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- Parent Layout -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,37 +8,7 @@
     android:background="@color/whiteColor"
     android:orientation="vertical"
     android:weightSum="10"
-
     tools:context=".MainActivity">
-    <!-- first Child Layout -->
-
-    <!-- create a Linear Layout with horizontal orientation and weightSum property -->
-
-    <LinearLayout
-        android:id="@+id/add_first_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:textAlignment="center"
-        android:weightSum="2">
-
-        <!-- place one TextView and one EditText inside layout using weight property -->
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:text="Kategorie"
-            android:textAlignment="center"
-            android:textColor="@color/blackColor"
-            android:textSize="30dp" />
-
-
-    </LinearLayout>
-
 
 
     <LinearLayout
@@ -50,9 +19,6 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
-        <!-- place one TextView and one EditText inside layout using weight property -->
-        <!--<TextView-->
-        <!--android:id="@+id/textView6"-->
         <TextView
             android:id="@+id/textView6"
             android:layout_width="0dp"
@@ -77,7 +43,6 @@
             android:singleLine="true"
             android:textColor="@color/blackColor" />
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -104,17 +69,13 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/categories_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fadeScrollbars="false"
-            android:scrollbars="vertical">
-            <!---->
-        </android.support.v7.widget.RecyclerView>
+            android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
-
 
 </LinearLayout>

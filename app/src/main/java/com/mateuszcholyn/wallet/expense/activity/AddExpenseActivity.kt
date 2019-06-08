@@ -34,6 +34,7 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_expense_activity)
         initializeInjector()
+        title = "Dodaj wydatek"
         activity = this
         initCategorySpinner()
         initDateTimePicker()

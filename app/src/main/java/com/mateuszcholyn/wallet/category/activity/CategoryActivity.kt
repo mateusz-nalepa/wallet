@@ -33,7 +33,7 @@ class CategoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         super.onCreate(savedInstanceState)
         initializeInjector()
         setContentView(R.layout.activity_categories)
-
+        title = "Kategorie"
         recyclerView = findViewById(R.id.categories_recycler_view)
         viewManager = LinearLayoutManager(this)
         viewAdapter = CategoryAdapter(this, this, categoryService, categoryService.getAll())

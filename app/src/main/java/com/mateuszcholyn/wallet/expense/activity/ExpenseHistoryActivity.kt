@@ -12,6 +12,7 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.expense.adapter.ExpenseHistoryAdapter
 import com.mateuszcholyn.wallet.expense.model.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.expense.service.ExpenseService
+import kotlinx.android.synthetic.main.activity_main.*
 
 class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 
@@ -26,7 +27,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         super.onCreate(savedInstanceState)
         initializeInjector()
         setContentView(R.layout.activity_history)
-
+        title = "Historia wydatków"
         recyclerView = findViewById(R.id.histories_recycler_view)
         viewManager = LinearLayoutManager(this)
         viewAdapter = ExpenseHistoryAdapter(expenseService.getAll(ExpenseSearchCriteria()))
