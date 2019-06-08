@@ -16,7 +16,6 @@ import com.mateuszcholyn.wallet.category.activity.REMOVE_CATEGORY_KEY
 import com.mateuszcholyn.wallet.category.model.CategoryDto
 import com.mateuszcholyn.wallet.category.service.CategoryService
 
-
 class CategoryAdapter(
         private val context: Context,
         private val activity: Activity,

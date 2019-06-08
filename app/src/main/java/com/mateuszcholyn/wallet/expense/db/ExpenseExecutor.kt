@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import com.mateuszcholyn.wallet.category.db.CategoryExecutor
 import com.mateuszcholyn.wallet.database.ACTIVE
-import com.mateuszcholyn.wallet.database.CategoryEntry
 import com.mateuszcholyn.wallet.database.DatabaseHelper
 import com.mateuszcholyn.wallet.database.ExpenseEntry
 import com.mateuszcholyn.wallet.expense.model.AverageSearchCriteria
@@ -68,5 +67,8 @@ class ExpenseExecutor(context: Context, private val categoryExecutor: CategoryEx
         return amount
 
     }
+
+    fun hardRemove(expenseId: Long) =
+            readableDb.delete(ExpenseEntry.TABLE_NAME, "${ExpenseEntry.ID} = $expenseId", null) > 0
 
 }

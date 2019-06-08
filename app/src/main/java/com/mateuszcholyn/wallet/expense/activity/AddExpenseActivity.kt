@@ -1,8 +1,6 @@
 package com.mateuszcholyn.wallet.expense.activity
 
 import android.app.Activity
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

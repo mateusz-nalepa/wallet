@@ -165,7 +165,8 @@
             android:background="@color/greenColor"
             android:text="Dodaj wydatek"
             android:onClick="addExpense"
-            android:textColor="@color/blackColor" />
+            android:textColor="@color/blackColor"
+            />
     </LinearLayout>
 
 </LinearLayout>
