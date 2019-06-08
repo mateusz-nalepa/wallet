@@ -11,7 +11,6 @@ import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
 
 //TODO zrób Datę w innym formacie
 //TODO zrób przeskakiwanie między kolejnymi elementami inaczej
-//TODO zrób edycję wydatku
 //TODO dodanie wydatku na głównym menu
 //TODO boczne menu!!
 //TODO wyszukiwanie wydatków ( nice to have ;) )

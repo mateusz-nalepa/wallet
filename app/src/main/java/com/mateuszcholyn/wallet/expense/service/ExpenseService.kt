@@ -20,4 +20,7 @@ class ExpenseService(private val expenseExecutor: ExpenseExecutor) {
     fun hardRemove(expenseId: Long) =
             expenseExecutor.hardRemove(expenseId)
 
+    fun updateExpense(expenseDto: ExpenseDto) =
+            expenseExecutor.updateExpense(expenseDto)
+
 }

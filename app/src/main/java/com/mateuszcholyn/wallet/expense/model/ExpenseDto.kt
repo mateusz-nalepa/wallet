@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.expense.model
 
+import java.io.Serializable
 import java.util.*
 
 data class ExpenseDto(
@@ -10,4 +11,4 @@ data class ExpenseDto(
         val category: String,
         val date: Calendar,
         val description: String
-)
+) : Serializable

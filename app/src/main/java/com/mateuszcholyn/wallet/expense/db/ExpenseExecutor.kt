@@ -65,10 +65,21 @@ class ExpenseExecutor(context: Context, private val categoryExecutor: CategoryEx
         cursor.close()
 
         return amount
-
     }
 
     fun hardRemove(expenseId: Long) =
             readableDb.delete(ExpenseEntry.TABLE_NAME, "${ExpenseEntry.ID} = $expenseId", null) > 0
+
+    fun updateExpense(expenseDto: ExpenseDto): ExpenseDto {
+        val cv = ContentValues()
+        cv.put(ExpenseEntry.ID, expenseDto.id)
+        cv.put(ExpenseEntry.COLUMN_AMOUNT, expenseDto.amount)
+        cv.put(ExpenseEntry.COLUMN_CATEGORY_ID, categoryExecutor.getCategoryId(expenseDto.category))
+        cv.put(ExpenseEntry.COLUMN_DATE, toDbDate(expenseDto.date))
+        cv.put(ExpenseEntry.COLUMN_DESCRIPTION, expenseDto.description)
+
+        writableDb.update(ExpenseEntry.TABLE_NAME, cv, "${ExpenseEntry.ID} = ${expenseDto.id}", null);
+        return expenseDto
+    }
 
 }

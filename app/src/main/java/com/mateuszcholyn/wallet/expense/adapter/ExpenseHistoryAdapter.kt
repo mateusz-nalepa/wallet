@@ -13,6 +13,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.expense.activity.AddExpenseActivity
+import com.mateuszcholyn.wallet.expense.activity.EDIT_EXPENSE
 import com.mateuszcholyn.wallet.expense.activity.ExpenseHistoryActivity
 import com.mateuszcholyn.wallet.expense.activity.REMOVE_EXPENSE_KEY
 import com.mateuszcholyn.wallet.expense.model.ExpenseDto
@@ -58,8 +60,16 @@ class ExpenseHistoryAdapter(
         holder.description.text = if (expenseDto.description == "") "brak opisu" else expenseDto.description
         holder.detailsLayout.visibility = View.GONE
         holder.showOrHideButton.setOnClickListener { showOrHideListener(holder.detailsLayout) }
+        holder.editButton.setOnClickListener { editExpense(expenseDto) }
         holder.removeButton.setOnClickListener { hardRemoveCategory(expenseDto.id) }
 
+    }
+
+    private fun editExpense(expenseDto: ExpenseDto) {
+        val intent = Intent(context, AddExpenseActivity::class.java).apply {
+            putExtra(EDIT_EXPENSE, expenseDto)
+        }
+        activity.startActivity(intent)
     }
 
     private fun showOrHideListener(detailsLayout: LinearLayout) {
