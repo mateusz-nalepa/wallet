@@ -7,7 +7,10 @@ import android.view.View
 import android.widget.TextView
 import java.util.*
 
-class HourChooser(private var mCalendar: Calendar, private var activity: Activity, private var date: TextView) {
+class HourChooser(
+        private var mCalendar: Calendar,
+        private var activity: Activity,
+        private var date: TextView) {
 
     private val textListener = View.OnClickListener {
         mCalendar = Calendar.getInstance()
@@ -16,8 +19,9 @@ class HourChooser(private var mCalendar: Calendar, private var activity: Activit
                 mDateDataSet,
                 mCalendar.get(Calendar.YEAR),
                 mCalendar.get(Calendar.MONTH),
-                mCalendar.get(Calendar.HOUR_OF_DAY)
-        ).show()
+                mCalendar.get(Calendar.DAY_OF_MONTH)
+        )
+                .show()
     }
 
     private val mDateDataSet = DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->

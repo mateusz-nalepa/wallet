@@ -4,7 +4,7 @@ import android.widget.TextView
 import java.text.SimpleDateFormat
 import java.util.*
 
-val simpleDateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.getDefault())
+val simpleDateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
 
 fun toDbDate(calendar: Calendar) =
         calendar.timeInMillis
@@ -22,4 +22,4 @@ fun dateAsGregorianCalendar(date: TextView): Calendar {
 }
 
 fun dateAsString(calendar: Calendar) =
-    simpleDateFormat.format(calendar.time)
+        simpleDateFormat.format(calendar.time)

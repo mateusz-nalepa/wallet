@@ -15,7 +15,6 @@ class DatabaseHelper(context: Context)
         db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (3, 'Jedzenie na mieście', 1) ;")
         db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (4, 'Paliwo', 1) ;")
         db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (5, 'Leki', 1) ;")
-
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -30,6 +29,6 @@ class DatabaseHelper(context: Context)
     companion object {
         // If you change the database schema, you must increment the database version.
         const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "expense5.db"
+        const val DATABASE_NAME = "expense6.db"
     }
 }
