@@ -4,6 +4,6 @@ import java.util.*
 
 data class ExpenseSearchCriteria(
         val categoryName : String? = null,
-        val startDate : Calendar? = null,
+        val beginDate : Calendar? = null,
         val endDate : Calendar? = null
 )

@@ -1,144 +1,195 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<!-- Parent Layout -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DisplayMessageActivity">
+    android:background="@color/whiteColor"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <!-- first Child Layout -->
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="Opis"
-        android:textAlignment="center"
-        android:textSize="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateTimePicker" />
+    <!-- create a Linear Layout with horizontal orientation and weightSum property -->
 
-    <Button
-        android:id="@+id/addExpenseButton"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginBottom="16dp"
-        android:onClick="addExpense"
-        android:text="@string/addExpense"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description" />
-
-    <Spinner
-        android:id="@+id/category_spinner"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="18dp"
-        android:textAlignment="center"
-        android:tooltipText="Choose category"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/textView5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <EditText
-        android:id="@+id/description"
-        android:layout_width="143dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="28dp"
-        android:ems="10"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/addExpenseButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-
-    <EditText
-        android:id="@+id/expenseAmount"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginEnd="63dp"
-        android:layout_marginBottom="29dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <TextView
-        android:id="@+id/dateTimePicker"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/add_first_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="11dp"
-        android:gravity="center|fill_vertical"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView7"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginBottom="7dp"
-        android:text="Wybierz kategorię"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
         android:textAlignment="center"
-        android:textSize="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/category_spinner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:weightSum="2">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="20dp"
-        android:text="Wybierz datę"
-        android:textAlignment="center"
-        android:textSize="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/dateTimePicker"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expenseAmount" />
+        <!-- place one TextView and one EditText inside layout using weight property -->
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="0dp"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:text="Dodaj wydatek"
+            android:textColor="@color/blackColor" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/add_second_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <!-- place one TextView and one EditText inside layout using weight property -->
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.6"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Kategoria"
+            android:textColor="@color/blackColor" />
+
+        <Spinner
+            android:id="@+id/category_spinner"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.4"
+            android:background="@color/editTextBack"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/blackColor" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/add_third_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <!-- place one TextView and one EditText inside layout using weight property -->
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.6"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Kwota (zł)"
+            android:textColor="@color/blackColor" />
+
+        <EditText
+            android:id="@+id/expenseAmount"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.4"
+            android:background="@color/editTextBack"
+            android:hint="kwota"
+            android:inputType="numberDecimal"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/blackColor" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/add_fourth_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <!-- place one TextView and one EditText inside layout using weight property -->
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.6"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Opis"
+            android:textColor="@color/blackColor" />
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.4"
+            android:background="@color/editTextBack"
+            android:hint="opis"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/blackColor" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/add_fifth_layout"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginBottom="78dp"
-        android:text="PLN"
-        android:textAlignment="center"
-        android:textSize="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/expenseAmount"
-        app:layout_constraintTop_toTopOf="@+id/textView5" />
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="23dp"
-        android:text="Wprowadź kwotę"
-        android:textAlignment="center"
-        android:textSize="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/expenseAmount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/category_spinner" />
+        <!-- place one TextView and one EditText inside layout using weight property -->
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.6"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Data"
+            android:textColor="@color/blackColor" />
+
+
+        <TextView
+            android:id="@+id/dateTimePicker"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.4"
+            android:background="@color/editTextBack"
+            android:hint="choose date"
+            android:gravity="center_vertical"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/blackColor" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/greenColor"
+            android:text="Dodaj wydatek"
+            android:onClick="addExpense"
+            android:textColor="@color/blackColor" />
+    </LinearLayout>
+
+</LinearLayout>

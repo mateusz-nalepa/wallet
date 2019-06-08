@@ -14,7 +14,7 @@ class CategoryExecutor(context: Context) {
     private val readableDb = dbHelper.readableDatabase
 
     fun saveNewCategory(categoryDto: CategoryDto): CategoryDto {
-        if (checkIfStringExists(readableDb, CategoryEntry.TABLE_NAME, CategoryEntry.COLUMN_NAME_CATEGORY_NAME, categoryDto.name)) {
+        if (checkIfStringExists(readableDb, CategoryEntry.TABLE_NAME, CategoryEntry.COLUMN_CATEGORY, categoryDto.name)) {
             Toast
                     .makeText(ApplicationContext.appContext, "Kategoria '${categoryDto.name}' już istnieje w bazie!", Toast.LENGTH_SHORT)
                     .show()
@@ -23,7 +23,7 @@ class CategoryExecutor(context: Context) {
             )
         }
         val values = ContentValues().apply {
-            put(CategoryEntry.COLUMN_NAME_CATEGORY_NAME, categoryDto.name)
+            put(CategoryEntry.COLUMN_CATEGORY, categoryDto.name)
             put(CategoryEntry.COLUMN_ACTIVE, ACTIVE)
 
         }
@@ -37,7 +37,7 @@ class CategoryExecutor(context: Context) {
     fun getCategoryId(categoryName: String): Long {
         val projection = arrayOf(CategoryEntry.ID)
 
-        val selection = "${CategoryEntry.COLUMN_NAME_CATEGORY_NAME} = ?"
+        val selection = "${CategoryEntry.COLUMN_CATEGORY} = ?"
         val selectionArgs = arrayOf(categoryName)
 
         val cursor = readableDb.query(
@@ -63,7 +63,7 @@ class CategoryExecutor(context: Context) {
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast) {
                 val id = cursor.getLong(cursor.getColumnIndex(CategoryEntry.ID))
-                val categoryName = cursor.getString(cursor.getColumnIndex(CategoryEntry.COLUMN_NAME_CATEGORY_NAME))
+                val categoryName = cursor.getString(cursor.getColumnIndex(CategoryEntry.COLUMN_CATEGORY))
                 val active = activeToModel(cursor.getInt(cursor.getColumnIndex(CategoryEntry.COLUMN_ACTIVE)))
 
                 list.add(CategoryDto(id, active, categoryName))

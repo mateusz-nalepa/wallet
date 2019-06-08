@@ -10,11 +10,11 @@ class DatabaseHelper(context: Context)
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(DatabaseSchema.SQL_CREATE_CATEGORY_TABLE)
         db.execSQL(DatabaseSchema.SQL_CREATE_EXPENSE_TABLE)
-        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (1, 'Mieszkanie', 1) ;")
-        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (2, 'Zakupy', 1) ;")
-        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (3, 'Jedzenie na mieście', 1) ;")
-        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (4, 'Paliwo', 1) ;")
-        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_NAME_CATEGORY_NAME}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (5, 'Leki', 1) ;")
+        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (1, 'Mieszkanie', 1) ;")
+        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (2, 'Zakupy', 1) ;")
+        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (3, 'Jedzenie na mieście', 1) ;")
+        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (4, 'Paliwo', 1) ;")
+        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (5, 'Leki', 1) ;")
 
     }
 

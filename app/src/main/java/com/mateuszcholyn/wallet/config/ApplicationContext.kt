@@ -9,6 +9,7 @@ import com.mateuszcholyn.wallet.expense.db.ExpenseExecutor
 import com.mateuszcholyn.wallet.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
 
+//TODO zrób Datę w innym formacie
 class ApplicationContext : Application(), KodeinAware {
 
     override fun onCreate() {

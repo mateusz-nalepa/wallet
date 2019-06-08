@@ -1,65 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<!-- Parent Layout -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/whiteColor"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <!-- first Child Layout -->
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/categories_recycler_view"
-        android:layout_width="411dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="15dp"
-        android:fadeScrollbars="false"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/newCategoryName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <!-- create a Linear Layout with horizontal orientation and weightSum property -->
 
-    </android.support.v7.widget.RecyclerView>
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="147dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="11dp"
-        android:text="Nazwa kategorii"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        android:background="#FF00FF"
-        app:layout_constraintBottom_toTopOf="@+id/addNewCategory"
-        app:layout_constraintEnd_toStartOf="@+id/newCategoryName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/newCategoryName" />
-
-    <EditText
-        android:id="@+id/newCategoryName"
-        android:layout_width="155dp"
-        android:layout_height="67dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="nowa kategoria"
-        app:layout_constraintBottom_toTopOf="@+id/addNewCategory"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/categories_recycler_view" />
-
-    <Button
-        android:id="@+id/addNewCategory"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/add_first_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="Dodaj kategorie"
-        android:onClick="addCategory"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textView6"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/newCategoryName" />
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:textAlignment="center"
+        android:weightSum="2">
+
+        <!-- place one TextView and one EditText inside layout using weight property -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:text="Kategorie"
+            android:textAlignment="center"
+            android:textColor="@color/blackColor"
+            android:textSize="30dp" />
 
 
-</android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/category_first_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/categories_recycler_view"
+            android:layout_width="411dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:fadeScrollbars="false"
+            android:scrollbars="vertical">
+            <!---->
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/category_fourth_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <!-- place one TextView and one EditText inside layout using weight property -->
+        <!--<TextView-->
+        <!--android:id="@+id/textView6"-->
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.6"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Kategoria"
+            android:textColor="@color/blackColor" />
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.4"
+            android:background="@color/editTextBack"
+            android:hint="nazwa kategorii"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/blackColor" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/greenColor"
+            android:onClick="addCategory"
+            android:text="Dodaj kategorię"
+            android:textColor="@color/blackColor" />
+    </LinearLayout>
+
+</LinearLayout>
+
+
+    <!--<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent">-->
+
+    <!--<android.support.v7.widget.RecyclerView--><!--android:id="@+id/categories_recycler_view"--><!--android:layout_width="411dp"--><!--android:layout_height="0dp"--><!--android:layout_marginBottom="15dp"--><!--android:fadeScrollbars="false"--><!--android:scrollbars="vertical"--><!--app:layout_constraintBottom_toTopOf="@+id/newCategoryName"--><!--app:layout_constraintStart_toStartOf="parent"--><!--app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--</android.support.v7.widget.RecyclerView>-->
+
+    <!--<TextView--><!--android:id="@+id/textView6"--><!--android:layout_width="147dp"--><!--android:layout_height="52dp"--><!--android:layout_marginStart="16dp"--><!--android:layout_marginTop="18dp"--><!--android:layout_marginEnd="11dp"--><!--android:text="Nazwa kategorii"--><!--android:textAlignment="center"--><!--android:textSize="20dp"--><!--android:background="#FF00FF"--><!--app:layout_constraintBottom_toTopOf="@+id/addNewCategory"--><!--app:layout_constraintEnd_toStartOf="@+id/newCategoryName"--><!--app:layout_constraintStart_toStartOf="parent"--><!--app:layout_constraintTop_toTopOf="@+id/newCategoryName" />-->
+
+    <!--<EditText--><!--android:id="@+id/newCategoryName"--><!--android:layout_width="155dp"--><!--android:layout_height="67dp"--><!--android:layout_marginEnd="16dp"--><!--android:layout_marginBottom="16dp"--><!--android:ems="10"--><!--android:inputType="textPersonName"--><!--android:text="nowa kategoria"--><!--app:layout_constraintBottom_toTopOf="@+id/addNewCategory"--><!--app:layout_constraintEnd_toEndOf="parent"--><!--app:layout_constraintStart_toEndOf="@+id/textView6"--><!--app:layout_constraintTop_toBottomOf="@+id/categories_recycler_view" />-->
+
+    <!--<Button--><!--android:id="@+id/addNewCategory"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_marginBottom="16dp"--><!--android:text="Dodaj kategorie"--><!--android:onClick="addCategory"--><!--app:layout_constraintBottom_toBottomOf="parent"--><!--app:layout_constraintEnd_toEndOf="@+id/textView6"--><!--app:layout_constraintStart_toEndOf="@+id/textView6"--><!--app:layout_constraintTop_toBottomOf="@+id/newCategoryName" />-->
+
+
+    <!--</android.support.constraint.ConstraintLayout>-->
 

@@ -52,12 +52,13 @@
             android:text="Poczatek"
             android:textColor="@color/blackColor" />
 
-        <EditText
+        <TextView
             android:id="@+id/average_begin_dateTimePicker"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_weight="1.4"
+            android:gravity="center_vertical"
             android:background="@color/editTextBack"
             android:hint="begin date"
             android:imeOptions="actionNext"
@@ -90,12 +91,13 @@
             android:text="Koniec"
             android:textColor="@color/blackColor" />
 
-        <EditText
+        <TextView
             android:id="@+id/average_end_dateTimePicker"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_weight="1.4"
+            android:gravity="center_vertical"
             android:background="@color/editTextBack"
             android:hint="end date"
             android:imeOptions="actionNext"
