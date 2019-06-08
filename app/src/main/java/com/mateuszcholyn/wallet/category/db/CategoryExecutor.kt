@@ -74,4 +74,9 @@ class CategoryExecutor(context: Context) {
         return list
     }
 
+    fun hardRemove(category: String): Boolean {
+        readableDb.delete(ExpenseEntry.TABLE_NAME, "${ExpenseEntry.COLUMN_CATEGORY_ID} = ${getCategoryId(category)}", null)
+        return readableDb.delete(CategoryEntry.TABLE_NAME, "${CategoryEntry.COLUMN_CATEGORY} = '$category'", null) > 0
+    }
+
 }

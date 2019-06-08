@@ -17,4 +17,7 @@ class CategoryService(private val categoryExecutor: CategoryExecutor) {
     fun getAll() =
             categoryExecutor.getAll()
 
+    fun hardRemove(category: String) =
+            categoryExecutor.hardRemove(category)
+
 }

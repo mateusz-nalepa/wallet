@@ -30,6 +30,6 @@ class DatabaseHelper(context: Context)
     companion object {
         // If you change the database schema, you must increment the database version.
         const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "expense7.db"
+        const val DATABASE_NAME = "expense5.db"
     }
 }
