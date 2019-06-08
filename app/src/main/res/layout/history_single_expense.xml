@@ -20,15 +20,27 @@
 
         <!-- place one TextView and one EditText inside layout using weight property -->
 
-        <!--android:layout_width="300dp"-->
-        <TextView
-            android:id="@+id/history_category_name"
+        <ImageView
+            android:id="@+id/history_show_or_hide"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.2"
             android:gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:text="Kategoria"
+            android:singleLine="true"
+            android:src="@drawable/navigation_burger"
+            android:textAlignment="textEnd"
+            android:textColor="@color/blackColor"
+            android:textSize="24dp" />
+
+        <TextView
+            android:id="@+id/history_short_category_name"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1.2"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Jedzenie na miescie"
             android:textColor="@color/blackColor"
             android:textSize="24dp" />
 
@@ -36,7 +48,7 @@
             android:id="@+id/history_expense_value"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_weight="0.8"
+            android:layout_weight="0.4"
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="value"
@@ -63,40 +75,138 @@
         android:id="@+id/secondLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:weightSum="2">
 
 
-        <TextView
-            android:id="@+id/history_description"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.8"
-            android:gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:text="opis"
-            android:textColor="@color/blackColor"
-            android:textSize="24dp" />
 
-        <TextView
-            android:id="@+id/history_date"
-            android:layout_width="0dp"
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/history_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+
+        <LinearLayout
+            android:id="@+id/history_fifth_layout"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1.2"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:text="data"
-            android:textAlignment="textEnd"
-            android:textColor="@color/blackColor"
-            android:textSize="24dp" />
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <!-- place one TextView and one EditText inside layout using weight property -->
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Kategoria"
+                android:textColor="@color/blackColor" />
+
+
+            <TextView
+                android:id="@+id/history_full_category_name"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1.5"
+                android:background="@color/editTextBack"
+                android:gravity="center_vertical"
+                android:hint="brak kategorii"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/blackColor" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/history_fifth_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <!-- place one TextView and one EditText inside layout using weight property -->
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Opis"
+                android:textColor="@color/blackColor" />
+
+
+            <TextView
+                android:id="@+id/history_description"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1.5"
+                android:background="@color/editTextBack"
+                android:gravity="center_vertical"
+                android:hint="brak opisu"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/blackColor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/history_six_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <!-- place one TextView and one EditText inside layout using weight property -->
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="Data"
+                android:textColor="@color/blackColor" />
+
+
+            <TextView
+                android:id="@+id/history_date"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1.5"
+                android:background="@color/editTextBack"
+                android:gravity="center_vertical"
+                android:hint="data"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="@color/blackColor" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
         android:weightSum="2">
 

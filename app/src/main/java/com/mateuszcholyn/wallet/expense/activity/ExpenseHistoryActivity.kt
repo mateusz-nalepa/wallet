@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
@@ -11,7 +12,6 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.expense.adapter.ExpenseHistoryAdapter
 import com.mateuszcholyn.wallet.expense.model.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.expense.service.ExpenseService
-import com.mateuszcholyn.wallet.util.Tablica
 
 class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 
@@ -35,6 +35,10 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
             layoutManager = viewManager
             adapter = viewAdapter
         }
+    }
+
+    fun showOrHideDetails(view: View) {
+        
     }
 
     override fun onDestroy() {

@@ -170,8 +170,6 @@
             android:paddingLeft="10dp"
             android:singleLine="true"
             android:textColor="@color/blackColor" />
-
-
     </LinearLayout>
 
 
