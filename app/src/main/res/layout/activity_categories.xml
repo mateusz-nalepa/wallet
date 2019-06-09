@@ -28,13 +28,15 @@
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:text="Kategoria"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:textColor="@color/blackColor" />
 
         <EditText
             android:id="@+id/newCategoryName"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="0dp"
             android:layout_weight="1.4"
             android:background="@color/editTextBack"
             android:hint="nazwa kategorii"
@@ -64,7 +66,7 @@
     <LinearLayout
         android:id="@+id/category_first_layout"
         android:layout_width="match_parent"
-        android:layout_height="337dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
         android:weightSum="2">

@@ -4,17 +4,22 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.KeyEvent
+import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.*
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.R.layout
 import com.mateuszcholyn.wallet.category.service.CategoryService
 import com.mateuszcholyn.wallet.expense.model.ExpenseDto
 import com.mateuszcholyn.wallet.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.util.*
 import java.util.*
+
 
 const val SUCCESSFUL_ADD = "SUCCESSFUL_ADD"
 const val SUCCESSFUL_EDIT = "SUCCESSFUL_EDIT"
@@ -38,7 +43,7 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.add_expense_activity)
+        setContentView(layout.add_expense_activity)
         initializeInjector()
         title = "Dodaj wydatek"
         activity = this
@@ -63,10 +68,21 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
     private fun initActivity() {
-
         mCategory = findViewById(R.id.category_spinner)
         mExpenseAmount = findViewById(R.id.expenseAmount)
         mDescription = findViewById(R.id.description)
+
+
+        mDescription.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(exampleView: TextView, actionId: Int, event: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_GO || event != null && event.keyCode == KEYCODE_ENTER) {
+                    date.performClick()
+                    return true
+                } else {
+                    return false
+                }
+            }
+        })
 
         editLayout = findViewById(R.id.layout_edit_expense)
         editLayout.visibility = View.GONE
@@ -105,8 +121,8 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     fun addExpense(view: View) {
 
-        if (validateCorrect()) {
-            Toast.makeText(applicationContext, "Kwota nie może być pusta!", Toast.LENGTH_SHORT).show()
+        if (validationIncorrect()) {
+            Toast.makeText(applicationContext, "Kwota jest niepoprawna!", Toast.LENGTH_LONG).show()
             return
         }
         val category = mCategory.selectedItem as String
@@ -131,14 +147,14 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
     fun editExpense(view: View) {
-        if (validateCorrect()) {
-            Toast.makeText(applicationContext, "Kwota nie może być pusta!", Toast.LENGTH_SHORT).show()
+        if (validationIncorrect()) {
+            Toast.makeText(applicationContext, "Kwota jest niepoprawna!", Toast.LENGTH_LONG).show()
             return
         }
-        val id = id.toString().toLong()
-        val category = findViewById<Spinner>(R.id.category_spinner).selectedItem as String
-        val expenseAmount = findViewById<EditText>(R.id.expenseAmount).text.toString().toDouble()
-        val description = findViewById<EditText>(R.id.description).text.toString()
+        val id = id.text.toString().toLong()
+        val category = mCategory.selectedItem as String
+        val expenseAmount = mExpenseAmount.text.toString().toDouble()
+        val description = mDescription.text.toString()
         val date = dateAsGregorianCalendar(date)
 
         ExpenseDto(
@@ -158,9 +174,9 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
         startActivity(intent)
     }
 
-    private fun validateCorrect(): Boolean {
+    private fun validationIncorrect(): Boolean {
         val expenseAmount = findViewById<EditText>(R.id.expenseAmount).text.toString()
-        return expenseAmount == ""
+        return expenseAmount == "" || expenseAmount.startsWith(".")
     }
 
     override fun onDestroy() {

@@ -7,11 +7,13 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.category.service.CategoryService
+import com.mateuszcholyn.wallet.config.ApplicationContext
 import com.mateuszcholyn.wallet.expense.model.AverageSearchCriteria
 import com.mateuszcholyn.wallet.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.util.HourChooser
@@ -76,6 +78,8 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
                 )
 
         averageAmount.text = expenseService.averageExpense(averageSearchCriteria).toString() + " zł"
+        Toast.makeText(ApplicationContext.appContext, "Kalkulacja zakończona", Toast.LENGTH_LONG).show()
+
     }
 
     private fun initCategorySpinner() {

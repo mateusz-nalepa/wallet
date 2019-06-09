@@ -40,7 +40,7 @@ class ExpenseHistoryAdapter(
         val detailsLayout = view.findViewById(R.id.history_details) as LinearLayout
         val editButton = view.findViewById(R.id.edit_expense) as Button
         val removeButton = view.findViewById(R.id.delete_expense) as Button
-
+        val shortLayout = view.findViewById(R.id.firstLayout) as LinearLayout
     }
 
 
@@ -60,6 +60,8 @@ class ExpenseHistoryAdapter(
         holder.description.text = if (expenseDto.description == "") "brak opisu" else expenseDto.description
         holder.detailsLayout.visibility = View.GONE
         holder.showOrHideButton.setOnClickListener { showOrHideListener(holder.detailsLayout) }
+        holder.shortLayout.setOnClickListener { showOrHideListener(holder.detailsLayout) }
+        holder.detailsLayout.setOnClickListener { showOrHideListener(holder.detailsLayout) }
         holder.editButton.setOnClickListener { editExpense(expenseDto) }
         holder.removeButton.setOnClickListener { hardRemoveCategory(expenseDto.id) }
 

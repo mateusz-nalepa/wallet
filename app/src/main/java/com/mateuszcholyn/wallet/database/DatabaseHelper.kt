@@ -10,10 +10,10 @@ class DatabaseHelper(context: Context)
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(DatabaseSchema.SQL_CREATE_CATEGORY_TABLE)
         db.execSQL(DatabaseSchema.SQL_CREATE_EXPENSE_TABLE)
-        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (1, 'Mieszkanie', 1) ;")
-        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (2, 'Zakupy', 1) ;")
-        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (3, 'Jedzenie na mieście', 1) ;")
-        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (4, 'Paliwo', 1) ;")
+        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (1, 'Zakupy', 1) ;")
+        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (2, 'Jedzenie na mieście', 1) ;")
+        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (3, 'Paliwo', 1) ;")
+        db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (4, 'Mieszkanie', 1) ;")
         db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (5, 'Leki', 1) ;")
     }
 
@@ -29,6 +29,6 @@ class DatabaseHelper(context: Context)
     companion object {
         // If you change the database schema, you must increment the database version.
         const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "expense6.db"
+        const val DATABASE_NAME = "expense11.db"
     }
 }

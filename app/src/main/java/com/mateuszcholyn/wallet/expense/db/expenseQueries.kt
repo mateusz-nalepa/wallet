@@ -30,10 +30,7 @@ fun prepareAverageSearchQuery(averageSearchCriteria: AverageSearchCriteria): Str
                 LEFT JOIN ${CategoryEntry.TABLE_NAME} ON
                 ${CategoryEntry.TABLE_NAME}.${CategoryEntry.ID} = ${ExpenseEntry.TABLE_NAME}.${ExpenseEntry.COLUMN_CATEGORY_ID}
                 where ${ExpenseEntry.TABLE_NAME}.${ExpenseEntry.COLUMN_ACTIVE} = 1
-
-                ${if (averageSearchCriteria.isAllCategories()) ""
-                    else " and ${CategoryEntry.COLUMN_CATEGORY} = '${averageSearchCriteria.categoryName}"}'
-
+                ${if (averageSearchCriteria.isAllCategories()) "" else " and ${CategoryEntry.COLUMN_CATEGORY} = '${averageSearchCriteria.categoryName}' "}
                 and ${ExpenseEntry.COLUMN_DATE} >= ${toDbDate(averageSearchCriteria.beginDate)}
                 and ${ExpenseEntry.COLUMN_DATE} <= ${toDbDate(averageSearchCriteria.endDate)}
                 ORDER BY ${ExpenseEntry.COLUMN_DATE} DESC
