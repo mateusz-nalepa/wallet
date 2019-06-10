@@ -19,6 +19,9 @@ fun prepareSearchQuery(expenseSearchCriteria: ExpenseSearchCriteria): String {
                 LEFT JOIN ${CategoryEntry.TABLE_NAME} ON
                 ${CategoryEntry.TABLE_NAME}.${CategoryEntry.ID} = ${ExpenseEntry.TABLE_NAME}.${ExpenseEntry.COLUMN_CATEGORY_ID}
                 where ${ExpenseEntry.TABLE_NAME}.${ExpenseEntry.COLUMN_ACTIVE} = 1
+                ${if (expenseSearchCriteria.isAllCategories()) "" else " and ${CategoryEntry.COLUMN_CATEGORY} = '${expenseSearchCriteria.categoryName}' "}
+                and ${ExpenseEntry.COLUMN_DATE} >= ${toDbDate(expenseSearchCriteria.beginDate)}
+                and ${ExpenseEntry.COLUMN_DATE} <= ${toDbDate(expenseSearchCriteria.endDate)}
                 ORDER BY ${ExpenseEntry.COLUMN_DATE} DESC
                 """.trimIndent()
 }

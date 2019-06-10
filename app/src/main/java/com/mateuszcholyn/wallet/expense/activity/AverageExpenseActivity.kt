@@ -78,7 +78,7 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
                 )
 
         averageAmount.text = expenseService.averageExpense(averageSearchCriteria).toString() + " zł"
-        Toast.makeText(ApplicationContext.appContext, "Kalkulacja zakończona", Toast.LENGTH_LONG).show()
+        Toast.makeText(ApplicationContext.appContext, "Kalkulacja zakończona", Toast.LENGTH_SHORT).show()
 
     }
 
@@ -89,8 +89,6 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
             add(ALL_CATEGORIES)
             addAll(categoryService.getAllNamesOnly())
         }
-
-
 
         ArrayAdapter(
                 this,

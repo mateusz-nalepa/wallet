@@ -122,7 +122,7 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
     fun addExpense(view: View) {
 
         if (validationIncorrect()) {
-            Toast.makeText(applicationContext, "Kwota jest niepoprawna!", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "Kwota jest niepoprawna!", Toast.LENGTH_SHORT).show()
             return
         }
         val category = mCategory.selectedItem as String
@@ -148,7 +148,7 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     fun editExpense(view: View) {
         if (validationIncorrect()) {
-            Toast.makeText(applicationContext, "Kwota jest niepoprawna!", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "Kwota jest niepoprawna!", Toast.LENGTH_SHORT).show()
             return
         }
         val id = id.text.toString().toLong()

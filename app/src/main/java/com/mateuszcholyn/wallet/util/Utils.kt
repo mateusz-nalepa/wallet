@@ -23,7 +23,7 @@ fun String.asShortCategoryName(): String {
 fun Intent.showIntentMessageIfPresent(messageKey: String) {
     val stringExtra = this.getStringExtra(messageKey)
     if (stringExtra != null) {
-        Toast.makeText(ApplicationContext.appContext, stringExtra, Toast.LENGTH_LONG).show()
+        Toast.makeText(ApplicationContext.appContext, stringExtra, Toast.LENGTH_SHORT).show()
     }
 }
 
