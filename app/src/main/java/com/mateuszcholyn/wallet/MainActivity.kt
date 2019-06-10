@@ -4,11 +4,9 @@ package com.mateuszcholyn.wallet
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
@@ -44,23 +42,10 @@ class MainActivity : AppCompatActivity(), AppCompatActivityInjector {
         toggle.syncState()
         supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
         setSupportActionBar(toolbar)
-        makeSnackBar()
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
 
-    private fun makeSnackBar() {
-        fab.setOnClickListener {
-            Snackbar.make(it, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null)
-                    .show()
-        }
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
@@ -86,22 +71,22 @@ class MainActivity : AppCompatActivity(), AppCompatActivityInjector {
         startActivity(intent)
     }
 
-    fun showAddExpenseActivity(item: MenuItem) {
+    fun showAddExpenseActivity(view: View) {
         val intent = Intent(this, AddExpenseActivity::class.java)
         startActivity(intent)
     }
 
-    fun showCategoryActivity(item: MenuItem) {
+    fun showCategoryActivity(view: View) {
         val intent = Intent(this, CategoryActivity::class.java)
         startActivity(intent)
     }
 
-    fun showHistoryActivity(item: MenuItem) {
+    fun showHistoryActivity(view: View) {
         val intent = Intent(this, ExpenseHistoryActivity::class.java)
         startActivity(intent)
     }
 
-    fun showAverageExpenseActivity(item: MenuItem) {
+    fun showAverageExpenseActivity(view: View) {
         val intent = Intent(this, AverageExpenseActivity::class.java)
         startActivity(intent)
     }
