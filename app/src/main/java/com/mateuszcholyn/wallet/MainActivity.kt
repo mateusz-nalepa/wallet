@@ -53,7 +53,6 @@ class MainActivity : AppCompatActivity(), AppCompatActivityInjector {
         // as you specify a parent activity in AndroidManifest.x ml.
         if (item.itemId == R.id.action_settings) {
             return true
-//            else -> super.onOptionsItemSelected(item)
         }
 
         if (toggle.onOptionsItemSelected(item)) {

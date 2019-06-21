@@ -37,8 +37,6 @@ dependencies {
 
     implementation "com.github.salomonbrys.kodein:kodein:$kodein"
     implementation "com.github.salomonbrys.kodein:kodein-android:$kodein"
-//    implementation "org.kodein.di:kodein-di-generic-jvm:$kodein"
-//    implementation "org.kodein.di:kodein-di-framework-android-support:$kodein"
     implementation 'com.android.support:gridlayout-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
 

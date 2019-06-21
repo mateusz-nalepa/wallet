@@ -15,9 +15,11 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.category.service.CategoryService
 import com.mateuszcholyn.wallet.config.ApplicationContext
 import com.mateuszcholyn.wallet.expense.model.AverageSearchCriteria
+import com.mateuszcholyn.wallet.expense.model.ExpenseDto
 import com.mateuszcholyn.wallet.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.util.HourChooser
 import com.mateuszcholyn.wallet.util.dateAsGregorianCalendar
+import com.mateuszcholyn.wallet.util.defaultSearchCriteria
 import com.mateuszcholyn.wallet.util.simpleDateFormat
 import java.util.*
 
@@ -34,6 +36,8 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
     private var mEndCalendar: Calendar = Calendar.getInstance()
     private lateinit var mBeginDate: TextView
     private lateinit var mEndDate: TextView
+    private lateinit var resultList: List<ExpenseDto>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +47,8 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
         setContentView(R.layout.activity_average_expense)
         initCategorySpinner()
         initDateTimePickers()
+        resultList = expenseService.getAll(defaultSearchCriteria())
+        calculate()
     }
 
     private fun initDateTimePickers() {
@@ -65,6 +71,11 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
     fun calculateAverageAmount(view: View) {
+        calculate()
+        Toast.makeText(ApplicationContext.appContext, "Kalkulacja zakończona", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun calculate() {
         val category = findViewById<Spinner>(R.id.average_category_spinner).selectedItem as String
         val beginDate = dateAsGregorianCalendar(mBeginDate)
         val endDate = dateAsGregorianCalendar(mEndDate)
@@ -78,8 +89,6 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
                 )
 
         averageAmount.text = expenseService.averageExpense(averageSearchCriteria).toString() + " zł"
-        Toast.makeText(ApplicationContext.appContext, "Kalkulacja zakończona", Toast.LENGTH_SHORT).show()
-
     }
 
     private fun initCategorySpinner() {

@@ -21,10 +21,7 @@ import com.mateuszcholyn.wallet.expense.adapter.ExpenseHistoryAdapter
 import com.mateuszcholyn.wallet.expense.model.ExpenseDto
 import com.mateuszcholyn.wallet.expense.model.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.expense.service.ExpenseService
-import com.mateuszcholyn.wallet.util.HourChooser
-import com.mateuszcholyn.wallet.util.dateAsGregorianCalendar
-import com.mateuszcholyn.wallet.util.showIntentMessageIfPresent
-import com.mateuszcholyn.wallet.util.simpleDateFormat
+import com.mateuszcholyn.wallet.util.*
 import java.util.*
 
 
@@ -90,20 +87,6 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         showIntentMessage()
     }
 
-    private fun defaultSearchCriteria(): ExpenseSearchCriteria {
-
-        val maxgc = GregorianCalendar()
-        maxgc.time = Date(java.lang.Long.MAX_VALUE)
-
-        val mingc = GregorianCalendar()
-        mingc.time = Date(java.lang.Long.MIN_VALUE)
-
-        return ExpenseSearchCriteria(
-                categoryName = ALL_CATEGORIES,
-                beginDate = mingc,
-                endDate = maxgc
-        )
-    }
 
 
     private fun initCategorySpinner() {
@@ -133,7 +116,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         mBeginDate = findViewById(R.id.history_begin_dateTimePicker)
         var gregorianCalendar: Calendar = GregorianCalendar()
         if (!isEmptyResultSize) {
-            gregorianCalendar = findEarliest()
+            gregorianCalendar = findEarliest(resultList)
         }
 
         mBeginDate.text = simpleDateFormat.format(gregorianCalendar.time)
@@ -144,7 +127,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         mEndDate = findViewById(R.id.history_end_dateTimePicker)
         var gregorianCalendar: Calendar = GregorianCalendar()
         if (!isEmptyResultSize) {
-            gregorianCalendar = findLatest()
+            gregorianCalendar = findLatest(resultList)
         }
 
         mEndDate.text = simpleDateFormat.format(gregorianCalendar.time)
@@ -176,19 +159,6 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         startActivity(intent)
     }
 
-    private fun findEarliest(): Calendar {
-        return resultList
-                .map { it.date }
-                .sorted()
-                .first()
-    }
-
-    private fun findLatest(): Calendar {
-        return resultList
-                .map { it.date }
-                .sortedDescending()
-                .first()
-    }
 
 
     override fun onDestroy() {

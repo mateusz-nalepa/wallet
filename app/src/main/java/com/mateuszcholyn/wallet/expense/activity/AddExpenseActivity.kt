@@ -176,7 +176,7 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     private fun validationIncorrect(): Boolean {
         val expenseAmount = findViewById<EditText>(R.id.expenseAmount).text.toString()
-        return expenseAmount == "" || expenseAmount.startsWith(".")
+        return expenseAmount == "" || expenseAmount.startsWith(".") || expenseAmount.startsWith("-")
     }
 
     override fun onDestroy() {
