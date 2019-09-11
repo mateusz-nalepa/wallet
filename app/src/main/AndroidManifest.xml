@@ -3,14 +3,14 @@
     package="com.mateuszcholyn.wallet">
 
     <application
+        android:name=".config.ApplicationContext"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".config.ApplicationContext"
-        >
+        android:theme="@style/AppTheme">
+        <activity android:name=".MoneySaverActivity"></activity>
         <activity
             android:name=".expense.activity.AverageExpenseActivity"
             android:parentActivityName=".MainActivity" />
@@ -37,6 +37,5 @@
             android:name=".DisplayMessageActivity"
             android:parentActivityName=".MainActivity" />
     </application>
-
 
 </manifest>

@@ -48,5 +48,4 @@ class HourChooser(
         date.setOnClickListener(textListener)
     }
 
-
 }

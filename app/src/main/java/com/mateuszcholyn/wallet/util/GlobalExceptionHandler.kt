@@ -12,9 +12,9 @@ class GlobalExceptionHandler(val context: Context) : Thread.UncaughtExceptionHan
         Thread.setDefaultUncaughtExceptionHandler(this)
     }
 
-    override fun uncaughtException(t: Thread, e: Throwable) {
+    override fun uncaughtException(t: Thread, ex: Throwable) {
         Toast
-                .makeText(ApplicationContext.appContext, e.message, Toast.LENGTH_SHORT)
+                .makeText(ApplicationContext.appContext, ex.message, Toast.LENGTH_SHORT)
                 .show()
     }
 }

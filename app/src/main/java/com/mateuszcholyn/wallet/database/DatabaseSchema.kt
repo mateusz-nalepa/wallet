@@ -19,7 +19,6 @@ object ExpenseEntry {
 }
 
 const val ACTIVE = "1"
-const val NON_ACTIVE = "0"
 
 object DatabaseSchema {
 
@@ -40,8 +39,6 @@ object DatabaseSchema {
                     " FOREIGN KEY(${ExpenseEntry.COLUMN_CATEGORY_ID}) " +
                     " REFERENCES ${CategoryEntry.TABLE_NAME}(${CategoryEntry.ID})); "
 
-
-//    const val SQL_CREATE_DATABASE = SQL_CREATE_CATEGORY_TABLE + SQL_CREATE_EXPENSE_TABLE
 
     const val SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS ${CategoryEntry.TABLE_NAME};  " +
