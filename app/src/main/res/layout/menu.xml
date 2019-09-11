@@ -78,7 +78,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_edit_expense"
+        android:id="@+id/layout_average_expense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -98,6 +98,31 @@
             android:background="@color/greenColor"
             android:onClick="showAverageExpenseActivity"
             android:text="@string/averageExpense"
+            android:textColor="@color/blackColor" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout_money_saver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-1"
+            android:visibility="gone" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/greenColor"
+            android:onClick="showMoneySaverActivity"
+            android:text="@string/moneySaver"
             android:textColor="@color/blackColor" />
     </LinearLayout>
 

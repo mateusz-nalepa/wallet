@@ -1,14 +1,14 @@
-package com.mateuszcholyn.wallet.expense.db
+package com.mateuszcholyn.wallet.domain.expense.db
 
 import android.content.ContentValues
 import android.content.Context
-import com.mateuszcholyn.wallet.category.db.CategoryExecutor
 import com.mateuszcholyn.wallet.database.ACTIVE
 import com.mateuszcholyn.wallet.database.DatabaseHelper
 import com.mateuszcholyn.wallet.database.ExpenseEntry
-import com.mateuszcholyn.wallet.expense.model.AverageSearchCriteria
-import com.mateuszcholyn.wallet.expense.model.ExpenseDto
-import com.mateuszcholyn.wallet.expense.model.ExpenseSearchCriteria
+import com.mateuszcholyn.wallet.domain.category.db.CategoryExecutor
+import com.mateuszcholyn.wallet.domain.expense.model.AverageSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
+import com.mateuszcholyn.wallet.domain.expense.model.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.util.fromDbDate
 import com.mateuszcholyn.wallet.util.toDbDate
 

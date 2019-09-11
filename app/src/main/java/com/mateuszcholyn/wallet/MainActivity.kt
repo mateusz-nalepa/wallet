@@ -12,10 +12,10 @@ import android.view.View
 import android.widget.EditText
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
-import com.mateuszcholyn.wallet.category.activity.CategoryActivity
-import com.mateuszcholyn.wallet.expense.activity.AddExpenseActivity
-import com.mateuszcholyn.wallet.expense.activity.AverageExpenseActivity
-import com.mateuszcholyn.wallet.expense.activity.ExpenseHistoryActivity
+import com.mateuszcholyn.wallet.domain.category.activity.CategoryActivity
+import com.mateuszcholyn.wallet.domain.expense.activity.AddExpenseActivity
+import com.mateuszcholyn.wallet.domain.expense.activity.AverageExpenseActivity
+import com.mateuszcholyn.wallet.domain.expense.activity.ExpenseHistoryActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 const val EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"
@@ -84,6 +84,11 @@ class MainActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
     fun showAverageExpenseActivity(view: View) {
+        val intent = Intent(this, AverageExpenseActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun showMoneySaverActivity(view: View) {
         val intent = Intent(this, AverageExpenseActivity::class.java)
         startActivity(intent)
     }

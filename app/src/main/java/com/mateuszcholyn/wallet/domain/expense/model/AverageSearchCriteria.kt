@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.expense.model
+package com.mateuszcholyn.wallet.domain.expense.model
 
 import java.util.*
 

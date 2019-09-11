@@ -10,6 +10,7 @@
     <string name="addExpense">Dodaj wydatek</string>
     <string name="categoryItemName">categoryItem</string>
     <string name="averageExpense">Sredni wydatek</string>
+    <string name="moneySaver">Oszczedzanie</string>
     <string-array name="category_array">
         <item>Mieszkanie</item>
         <item>Zakupy</item>

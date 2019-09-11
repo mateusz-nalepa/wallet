@@ -10,18 +10,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MoneySaverActivity"></activity>
+        <activity android:name=".domain.moneysaver.activity.MoneySaverActivity"></activity>
         <activity
-            android:name=".expense.activity.AverageExpenseActivity"
+            android:name="com.mateuszcholyn.wallet.domain.expense.activity.AverageExpenseActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".expense.activity.ExpenseHistoryActivity"
+            android:name="com.mateuszcholyn.wallet.domain.expense.activity.ExpenseHistoryActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".category.activity.CategoryActivity"
+            android:name="com.mateuszcholyn.wallet.domain.category.activity.CategoryActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".expense.activity.AddExpenseActivity"
+            android:name="com.mateuszcholyn.wallet.domain.expense.activity.AddExpenseActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"

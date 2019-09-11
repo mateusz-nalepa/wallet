@@ -1,9 +1,9 @@
-package com.mateuszcholyn.wallet.expense.service
+package com.mateuszcholyn.wallet.domain.expense.service
 
-import com.mateuszcholyn.wallet.expense.db.ExpenseExecutor
-import com.mateuszcholyn.wallet.expense.model.AverageSearchCriteria
-import com.mateuszcholyn.wallet.expense.model.ExpenseDto
-import com.mateuszcholyn.wallet.expense.model.ExpenseSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.db.ExpenseExecutor
+import com.mateuszcholyn.wallet.domain.expense.model.AverageSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
+import com.mateuszcholyn.wallet.domain.expense.model.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.util.asAmount
 
 class ExpenseService(private val expenseExecutor: ExpenseExecutor) {

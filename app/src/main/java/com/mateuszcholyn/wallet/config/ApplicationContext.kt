@@ -3,10 +3,10 @@ package com.mateuszcholyn.wallet.config
 import android.app.Application
 import android.content.Context
 import com.github.salomonbrys.kodein.*
-import com.mateuszcholyn.wallet.category.db.CategoryExecutor
-import com.mateuszcholyn.wallet.category.service.CategoryService
-import com.mateuszcholyn.wallet.expense.db.ExpenseExecutor
-import com.mateuszcholyn.wallet.expense.service.ExpenseService
+import com.mateuszcholyn.wallet.domain.category.db.CategoryExecutor
+import com.mateuszcholyn.wallet.domain.category.service.CategoryService
+import com.mateuszcholyn.wallet.domain.expense.db.ExpenseExecutor
+import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
 
 

@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.expense.activity
+package com.mateuszcholyn.wallet.domain.expense.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -15,12 +15,12 @@ import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.category.service.CategoryService
 import com.mateuszcholyn.wallet.config.ApplicationContext
-import com.mateuszcholyn.wallet.expense.adapter.ExpenseHistoryAdapter
-import com.mateuszcholyn.wallet.expense.model.ExpenseDto
-import com.mateuszcholyn.wallet.expense.model.ExpenseSearchCriteria
-import com.mateuszcholyn.wallet.expense.service.ExpenseService
+import com.mateuszcholyn.wallet.domain.category.service.CategoryService
+import com.mateuszcholyn.wallet.domain.expense.adapter.ExpenseHistoryAdapter
+import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
+import com.mateuszcholyn.wallet.domain.expense.model.ExpenseSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.util.*
 import java.util.*
 

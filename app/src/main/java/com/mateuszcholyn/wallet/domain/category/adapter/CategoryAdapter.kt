@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.category.adapter
+package com.mateuszcholyn.wallet.domain.category.adapter
 
 import android.app.Activity
 import android.content.Context
@@ -11,10 +11,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.category.activity.CategoryActivity
-import com.mateuszcholyn.wallet.category.activity.REMOVE_CATEGORY_KEY
-import com.mateuszcholyn.wallet.category.model.CategoryDto
-import com.mateuszcholyn.wallet.category.service.CategoryService
+import com.mateuszcholyn.wallet.domain.category.activity.CategoryActivity
+import com.mateuszcholyn.wallet.domain.category.activity.REMOVE_CATEGORY_KEY
+import com.mateuszcholyn.wallet.domain.category.model.CategoryDto
+import com.mateuszcholyn.wallet.domain.category.service.CategoryService
 
 class CategoryAdapter(
         private val context: Context,

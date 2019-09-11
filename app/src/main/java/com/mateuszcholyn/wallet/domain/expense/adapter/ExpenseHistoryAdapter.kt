@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.expense.adapter
+package com.mateuszcholyn.wallet.domain.expense.adapter
 
 import android.app.Activity
 import android.content.Context
@@ -13,12 +13,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.expense.activity.AddExpenseActivity
-import com.mateuszcholyn.wallet.expense.activity.EDIT_EXPENSE
-import com.mateuszcholyn.wallet.expense.activity.ExpenseHistoryActivity
-import com.mateuszcholyn.wallet.expense.activity.REMOVE_EXPENSE_KEY
-import com.mateuszcholyn.wallet.expense.model.ExpenseDto
-import com.mateuszcholyn.wallet.expense.service.ExpenseService
+import com.mateuszcholyn.wallet.domain.expense.activity.AddExpenseActivity
+import com.mateuszcholyn.wallet.domain.expense.activity.EDIT_EXPENSE
+import com.mateuszcholyn.wallet.domain.expense.activity.ExpenseHistoryActivity
+import com.mateuszcholyn.wallet.domain.expense.activity.REMOVE_EXPENSE_KEY
+import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
+import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.util.asShortCategoryName
 import com.mateuszcholyn.wallet.util.dateAsString
 

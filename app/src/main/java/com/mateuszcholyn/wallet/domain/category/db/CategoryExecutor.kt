@@ -1,11 +1,11 @@
-package com.mateuszcholyn.wallet.category.db
+package com.mateuszcholyn.wallet.domain.category.db
 
 import android.content.ContentValues
 import android.content.Context
 import android.widget.Toast
-import com.mateuszcholyn.wallet.category.model.CategoryDto
 import com.mateuszcholyn.wallet.config.ApplicationContext
 import com.mateuszcholyn.wallet.database.*
+import com.mateuszcholyn.wallet.domain.category.model.CategoryDto
 
 class CategoryExecutor(context: Context) {
 

@@ -1,6 +1,6 @@
-package com.mateuszcholyn.wallet.expense.model
+package com.mateuszcholyn.wallet.domain.expense.model
 
-import com.mateuszcholyn.wallet.expense.activity.ALL_CATEGORIES
+import com.mateuszcholyn.wallet.domain.expense.activity.ALL_CATEGORIES
 
 fun AverageSearchCriteria.isAllCategories() =
         isAllCategories(categoryName)

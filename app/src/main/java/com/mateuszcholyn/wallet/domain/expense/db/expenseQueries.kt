@@ -1,10 +1,10 @@
-package com.mateuszcholyn.wallet.expense.db
+package com.mateuszcholyn.wallet.domain.expense.db
 
 import com.mateuszcholyn.wallet.database.CategoryEntry
 import com.mateuszcholyn.wallet.database.ExpenseEntry
-import com.mateuszcholyn.wallet.expense.model.AverageSearchCriteria
-import com.mateuszcholyn.wallet.expense.model.ExpenseSearchCriteria
-import com.mateuszcholyn.wallet.expense.model.isAllCategories
+import com.mateuszcholyn.wallet.domain.expense.model.AverageSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.model.ExpenseSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.model.isAllCategories
 import com.mateuszcholyn.wallet.util.toDbDate
 
 fun prepareSearchQuery(expenseSearchCriteria: ExpenseSearchCriteria): String {

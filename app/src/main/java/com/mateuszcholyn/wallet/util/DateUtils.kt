@@ -1,9 +1,9 @@
 package com.mateuszcholyn.wallet.util
 
 import android.widget.TextView
-import com.mateuszcholyn.wallet.expense.activity.ALL_CATEGORIES
-import com.mateuszcholyn.wallet.expense.model.ExpenseDto
-import com.mateuszcholyn.wallet.expense.model.ExpenseSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.activity.ALL_CATEGORIES
+import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
+import com.mateuszcholyn.wallet.domain.expense.model.ExpenseSearchCriteria
 import java.text.SimpleDateFormat
 import java.util.*
 

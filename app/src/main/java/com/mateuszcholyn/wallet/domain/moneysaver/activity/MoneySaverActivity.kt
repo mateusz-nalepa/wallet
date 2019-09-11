@@ -1,7 +1,8 @@
-package com.mateuszcholyn.wallet
+package com.mateuszcholyn.wallet.domain.moneysaver.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.mateuszcholyn.wallet.R
 
 class MoneySaverActivity : AppCompatActivity() {
 

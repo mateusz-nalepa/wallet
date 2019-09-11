@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.category.model
+package com.mateuszcholyn.wallet.domain.category.model
 
 data class CategoryDto(
         var id: Long = -1,

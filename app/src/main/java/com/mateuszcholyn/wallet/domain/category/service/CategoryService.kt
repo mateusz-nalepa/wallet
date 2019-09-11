@@ -1,7 +1,7 @@
-package com.mateuszcholyn.wallet.category.service
+package com.mateuszcholyn.wallet.domain.category.service
 
-import com.mateuszcholyn.wallet.category.db.CategoryExecutor
-import com.mateuszcholyn.wallet.category.model.CategoryDto
+import com.mateuszcholyn.wallet.domain.category.db.CategoryExecutor
+import com.mateuszcholyn.wallet.domain.category.model.CategoryDto
 
 class CategoryService(private val categoryExecutor: CategoryExecutor) {
 

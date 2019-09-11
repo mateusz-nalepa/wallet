@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.category.activity
+package com.mateuszcholyn.wallet.domain.category.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,10 +12,10 @@ import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.category.adapter.CategoryAdapter
-import com.mateuszcholyn.wallet.category.model.CategoryDto
-import com.mateuszcholyn.wallet.category.service.CategoryService
 import com.mateuszcholyn.wallet.config.ApplicationContext
+import com.mateuszcholyn.wallet.domain.category.adapter.CategoryAdapter
+import com.mateuszcholyn.wallet.domain.category.model.CategoryDto
+import com.mateuszcholyn.wallet.domain.category.service.CategoryService
 
 const val REMOVE_CATEGORY_KEY = "REMOVE_CATEGORY_KEY"
 
