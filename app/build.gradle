@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 apply from: "$rootProjectDir/build_config/dependencies_version.gradle"
 
@@ -39,5 +40,9 @@ dependencies {
     implementation "com.github.salomonbrys.kodein:kodein-android:$kodein"
     implementation 'com.android.support:gridlayout-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'net.danlew:android.joda:2.10.2'
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    kapt "android.arch.persistence.room:compiler:1.1.1"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
 
 }

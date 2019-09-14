@@ -18,15 +18,11 @@ object ExpenseEntry {
     const val COLUMN_ACTIVE = "active"
 }
 
+
 const val ACTIVE = "1"
 
 object DatabaseSchema {
 
-    const val SQL_CREATE_CATEGORY_TABLE =
-            " CREATE TABLE IF NOT EXISTS ${CategoryEntry.TABLE_NAME} (" +
-                    "${CategoryEntry.ID} INTEGER PRIMARY KEY," +
-                    "${CategoryEntry.COLUMN_ACTIVE} INTEGER," +
-                    "${CategoryEntry.COLUMN_CATEGORY} TEXT UNIQUE); "
 
     const val SQL_CREATE_EXPENSE_TABLE =
             " CREATE TABLE IF NOT EXISTS ${ExpenseEntry.TABLE_NAME} (" +

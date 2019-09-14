@@ -8,7 +8,6 @@ class DatabaseHelper(context: Context)
     : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL(DatabaseSchema.SQL_CREATE_CATEGORY_TABLE)
         db.execSQL(DatabaseSchema.SQL_CREATE_EXPENSE_TABLE)
         db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (1, 'Zakupy', 1) ;")
         db.execSQL("INSERT INTO ${CategoryEntry.TABLE_NAME} (${CategoryEntry.ID}, ${CategoryEntry.COLUMN_CATEGORY}, ${CategoryEntry.COLUMN_ACTIVE}) VALUES (2, 'Jedzenie na mieście', 1) ;")
@@ -28,7 +27,7 @@ class DatabaseHelper(context: Context)
 
     companion object {
         // If you change the database schema, you must increment the database version.
-        const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 2
         const val DATABASE_NAME = "expense11.db"
     }
 }
