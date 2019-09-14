@@ -39,10 +39,10 @@ class CategoryAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val categoryName = categories[position].name
         holder.categoryName.text = categoryName
-        holder.removeButton.setOnClickListener { hardRemoveCategory(categoryName) }
+        holder.removeButton.setOnClickListener { removeCategory(categoryName) }
     }
 
-    private fun hardRemoveCategory(categoryName: String) {
+    private fun removeCategory(categoryName: String) {
         AlertDialog.Builder(context)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Usunięcie kategorii")
@@ -53,7 +53,7 @@ class CategoryAdapter(
     }
 
     private fun removePositiveAction(categoryName: String) {
-        if (categoryService.hardRemove(categoryName)) {
+        if (categoryService.remove(categoryName)) {
             val intent = Intent(context, CategoryActivity::class.java).apply {
                 putExtra(REMOVE_CATEGORY_KEY, "Pomyślnie usunięto kategorię ${categoryName}")
             }

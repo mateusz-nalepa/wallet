@@ -2,10 +2,13 @@ package com.mateuszcholyn.wallet.util
 
 import android.content.Intent
 import android.text.Editable
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import com.mateuszcholyn.wallet.config.ApplicationContext
 
-fun Double.asAmount() = run {
+fun Double.asPrinteableAmount() = run {
     "%.2f"
             .format(this)
             .replace(",", ".")
@@ -27,4 +30,22 @@ fun Intent.showIntentMessageIfPresent(messageKey: String) {
     }
 }
 
+
+fun EditText.toDouble(): Double {
+    return this.text.toString().toDouble()
+}
+
+fun EditText.textToString(): String {
+    return this.text.toString()
+}
+
+fun TextView.toLong(): Long {
+    return this.text.toString().toLong()
+}
+
+fun Spinner.selectedItemAsString(): String {
+    return this.selectedItem as String
+}
+
+fun Double.toEditable(): Editable = this.toString().toEditable()
 fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)

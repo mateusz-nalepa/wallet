@@ -20,7 +20,7 @@ import com.mateuszcholyn.wallet.domain.expense.activity.REMOVE_EXPENSE_KEY
 import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
 import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.util.asShortCategoryName
-import com.mateuszcholyn.wallet.util.dateAsString
+import com.mateuszcholyn.wallet.util.toTextForEditable
 
 
 class ExpenseHistoryAdapter(
@@ -53,10 +53,11 @@ class ExpenseHistoryAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val expenseDto = myDataset[position]
         val category = expenseDto.category
-        holder.shortCategoryName.text = category.asShortCategoryName()
-        holder.fullCategoryName.text = category
+        //FIX ME
+        holder.shortCategoryName.text = category.name.asShortCategoryName()
+        holder.fullCategoryName.text = category.name
         holder.expenseValue.text = expenseDto.amount.toString()
-        holder.date.text = dateAsString(expenseDto.date)
+        holder.date.text = expenseDto.date.toTextForEditable()
         holder.description.text = if (expenseDto.description == "") "brak opisu" else expenseDto.description
         holder.detailsLayout.visibility = View.GONE
         holder.showOrHideButton.setOnClickListener { showOrHideListener(holder.detailsLayout) }

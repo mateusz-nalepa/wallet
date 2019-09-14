@@ -88,7 +88,6 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
 
-
     private fun initCategorySpinner() {
 
         val spinner: Spinner = findViewById(R.id.history_category_spinner)
@@ -114,23 +113,23 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     private fun initBeginDateTimePicker(isEmptyResultSize: Boolean) {
         mBeginDate = findViewById(R.id.history_begin_dateTimePicker)
-        var gregorianCalendar: Calendar = GregorianCalendar()
+        var currentTime = currentCalendarAsString()
         if (!isEmptyResultSize) {
-            gregorianCalendar = findEarliest(resultList)
+            currentTime = findEarliest(resultList).toTextForEditable()
         }
 
-        mBeginDate.text = simpleDateFormat.format(gregorianCalendar.time)
+        mBeginDate.text = currentTime
         HourChooser(mBeginCalendar, activity, mBeginDate)
     }
 
     private fun initEndDateTimePicker(isEmptyResultSize: Boolean) {
         mEndDate = findViewById(R.id.history_end_dateTimePicker)
-        var gregorianCalendar: Calendar = GregorianCalendar()
+        var currentTime = currentCalendarAsString()
         if (!isEmptyResultSize) {
-            gregorianCalendar = findLatest(resultList)
+            currentTime = findLatest(resultList).toTextForEditable()
         }
 
-        mEndDate.text = simpleDateFormat.format(gregorianCalendar.time)
+        mEndDate.text = currentTime
         HourChooser(mEndCalendar, activity, mEndDate)
     }
 
@@ -143,14 +142,12 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
     fun showHistoryResults(view: View) {
 
         val category = findViewById<Spinner>(R.id.history_category_spinner).selectedItem as String
-        val beginDate = dateAsGregorianCalendar(mBeginDate)
-        val endDate = dateAsGregorianCalendar(mEndDate)
 
         val expenseSearchCriteria =
                 ExpenseSearchCriteria(
                         categoryName = if (category == ALL_CATEGORIES) ALL_CATEGORIES else category,
-                        beginDate = beginDate,
-                        endDate = endDate
+                        beginDate = mBeginDate.toLocalDateTime(),
+                        endDate = mEndDate.toLocalDateTime()
                 )
 
         val intent = Intent(this, ExpenseHistoryActivity::class.java).apply {
@@ -158,8 +155,6 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         }
         startActivity(intent)
     }
-
-
 
     override fun onDestroy() {
         super.onDestroy()

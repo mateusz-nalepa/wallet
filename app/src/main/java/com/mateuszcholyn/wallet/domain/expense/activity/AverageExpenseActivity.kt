@@ -18,9 +18,9 @@ import com.mateuszcholyn.wallet.domain.expense.model.AverageSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
 import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.util.HourChooser
-import com.mateuszcholyn.wallet.util.dateAsGregorianCalendar
 import com.mateuszcholyn.wallet.util.defaultSearchCriteria
 import com.mateuszcholyn.wallet.util.simpleDateFormat
+import com.mateuszcholyn.wallet.util.toLocalDateTime
 import java.util.*
 
 const val ALL_CATEGORIES = "Wszystkie"
@@ -77,15 +77,13 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     private fun calculate() {
         val category = findViewById<Spinner>(R.id.average_category_spinner).selectedItem as String
-        val beginDate = dateAsGregorianCalendar(mBeginDate)
-        val endDate = dateAsGregorianCalendar(mEndDate)
 
         val averageAmount = findViewById<TextView>(R.id.averageAmount)
         val averageSearchCriteria =
                 AverageSearchCriteria(
                         categoryName = if (category == ALL_CATEGORIES) ALL_CATEGORIES else category,
-                        beginDate = beginDate,
-                        endDate = endDate
+                        beginDate = mBeginDate.toLocalDateTime(),
+                        endDate = mEndDate.toLocalDateTime()
                 )
 
         averageAmount.text = expenseService.averageExpense(averageSearchCriteria).toString() + " zł"

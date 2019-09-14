@@ -72,7 +72,6 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
         mExpenseAmount = findViewById(R.id.expenseAmount)
         mDescription = findViewById(R.id.description)
 
-
         mDescription.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(exampleView: TextView, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_GO || event != null && event.keyCode == KEYCODE_ENTER) {
@@ -107,15 +106,15 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
         editLayout.visibility = View.VISIBLE
 
         id.text = expenseDto.id.toString()
-        mExpenseAmount.text = expenseDto.amount.toString().toEditable()
-        mCategory.setSelection(categories.indexOf(expenseDto.category))
-        date.text = dateAsString(expenseDto.date).toEditable()
+        mExpenseAmount.text = expenseDto.amount.toEditable()
+        mCategory.setSelection(categories.indexOf(expenseDto.category.name))
+        date.text = expenseDto.date.toEditable()
         mDescription.text = expenseDto.description.toEditable()
     }
 
     private fun initDateTimePicker() {
         date = findViewById(R.id.dateTimePicker)
-        date.text = simpleDateFormat.format(GregorianCalendar().time)
+        date.text = currentCalendarAsString()
         HourChooser(mCalendar, activity, date)
     }
 
@@ -125,17 +124,12 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
             Toast.makeText(applicationContext, "Kwota jest niepoprawna!", Toast.LENGTH_SHORT).show()
             return
         }
-        val category = mCategory.selectedItem as String
-        val expenseAmount = mExpenseAmount.text.toString().toDouble()
-        val description = mDescription.text.toString()
-        val date = dateAsGregorianCalendar(date)
 
         ExpenseDto(
-                amount = expenseAmount,
-                category = category,
-                date = date,
-                active = true,
-                description = description
+                amount = mExpenseAmount.toDouble(),
+                category = categoryService.getByName(mCategory.selectedItemAsString()),
+                date = date.toLocalDateTime(),
+                description = mDescription.textToString()
         ).let {
             expenseService.addExpense(it)
         }
@@ -151,19 +145,13 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
             Toast.makeText(applicationContext, "Kwota jest niepoprawna!", Toast.LENGTH_SHORT).show()
             return
         }
-        val id = id.text.toString().toLong()
-        val category = mCategory.selectedItem as String
-        val expenseAmount = mExpenseAmount.text.toString().toDouble()
-        val description = mDescription.text.toString()
-        val date = dateAsGregorianCalendar(date)
 
         ExpenseDto(
-                id = id,
-                amount = expenseAmount,
-                category = category,
-                date = date,
-                active = true,
-                description = description
+                id = id.toLong(),
+                amount = mExpenseAmount.toDouble(),
+                category = categoryService.getByName(mCategory.selectedItem as String),
+                date = date.toLocalDateTime(),
+                description = mDescription.textToString()
         ).let {
             expenseService.updateExpense(it)
         }

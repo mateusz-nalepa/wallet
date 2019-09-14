@@ -1,14 +1,15 @@
 package com.mateuszcholyn.wallet.domain.expense.model
 
+import com.mateuszcholyn.wallet.domain.category.model.CategoryDto
+import org.joda.time.LocalDateTime
 import java.io.Serializable
-import java.util.*
 
 data class ExpenseDto(
         var id: Long = -1,
-        val active: Boolean = true,
 
         val amount: Double,
-        val category: String,
-        val date: Calendar,
-        val description: String
+        val date: LocalDateTime,
+        val description: String,
+
+        val category: CategoryDto
 ) : Serializable

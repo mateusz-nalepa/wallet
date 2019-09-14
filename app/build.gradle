@@ -36,8 +36,15 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$test_runner"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_core"
 
+
+
+//    implementation group: 'org.kodein.di', name: 'kodein-di-generic-jvm', version: '6.3.3'
+//    implementation group: 'org.kodein.di', name: 'kodein-di-framework-android-support', version: '6.3.3'
     implementation "com.github.salomonbrys.kodein:kodein:$kodein"
     implementation "com.github.salomonbrys.kodein:kodein-android:$kodein"
+
+
+
     implementation 'com.android.support:gridlayout-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'net.danlew:android.joda:2.10.2'

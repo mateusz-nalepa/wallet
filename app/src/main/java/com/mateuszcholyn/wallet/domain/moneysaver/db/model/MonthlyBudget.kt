@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.database.model
+package com.mateuszcholyn.wallet.domain.moneysaver.db.model
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity

@@ -1,23 +1,36 @@
 package com.mateuszcholyn.wallet.domain.category.service
 
-import com.mateuszcholyn.wallet.domain.category.db.CategoryExecutor
+import com.mateuszcholyn.wallet.domain.category.db.CategoryDao
+import com.mateuszcholyn.wallet.domain.category.mapper.CategoryMapper
 import com.mateuszcholyn.wallet.domain.category.model.CategoryDto
 
-class CategoryService(private val categoryExecutor: CategoryExecutor) {
+class CategoryService(private val categoryDao: CategoryDao) {
 
-    fun addNewCategory(categoryDto: CategoryDto) =
-            categoryExecutor.saveNewCategory(categoryDto)
+    private val categoryMapper = CategoryMapper()
 
-    fun getCategoryId(categoryName: String) =
-            categoryExecutor.getCategoryId(categoryName)
+    fun getByName(category: String): CategoryDto {
+        return categoryDao.getCategoryByName(category).let {
+            categoryMapper.fromEntity(it)
+        }
+    }
 
-    fun getAllNamesOnly() =
+    fun add(categoryDto: CategoryDto): CategoryDto {
+        return categoryDao.add(categoryMapper.toEntity(categoryDto))
+                .let {
+                    categoryDto.id = it
+                    categoryDto
+                }
+    }
+
+    fun getAllNamesOnly(): List<String> =
             getAll().map { it.name }
 
-    fun getAll() =
-            categoryExecutor.getAll()
+    fun getAll(): List<CategoryDto> {
+        return categoryDao.getAll().map { categoryMapper.fromEntity(it) }
+    }
 
-    fun hardRemove(category: String) =
-            categoryExecutor.hardRemove(category)
+    fun remove(category: String): Boolean {
+        return categoryDao.remove(category) == 1
+    }
 
 }

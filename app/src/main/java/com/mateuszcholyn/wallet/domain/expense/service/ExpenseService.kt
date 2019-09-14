@@ -1,26 +1,44 @@
 package com.mateuszcholyn.wallet.domain.expense.service
 
-import com.mateuszcholyn.wallet.domain.expense.db.ExpenseExecutor
+import com.mateuszcholyn.wallet.domain.expense.db.ExpenseDao
+import com.mateuszcholyn.wallet.domain.expense.db.ExpenseQueriesHelper
+import com.mateuszcholyn.wallet.domain.expense.mapper.ExpenseMapper
 import com.mateuszcholyn.wallet.domain.expense.model.AverageSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
 import com.mateuszcholyn.wallet.domain.expense.model.ExpenseSearchCriteria
-import com.mateuszcholyn.wallet.util.asAmount
+import com.mateuszcholyn.wallet.util.asPrinteableAmount
 
-class ExpenseService(private val expenseExecutor: ExpenseExecutor) {
+class ExpenseService(private val expenseDao: ExpenseDao) {
 
-    fun addExpense(expenseDto: ExpenseDto): ExpenseDto =
-            expenseExecutor.addExpense(expenseDto)
+    private val expenseMapper = ExpenseMapper()
+    private val expenseQueriesHelper = ExpenseQueriesHelper()
 
-    fun getAll(expenseSearchCriteria: ExpenseSearchCriteria) =
-            expenseExecutor.getAll(expenseSearchCriteria)
+    fun addExpense(expenseDto: ExpenseDto): ExpenseDto {
+        return expenseDao.add(expenseMapper.toEntity(expenseDto))
+                .let {
+                    expenseDto.id = it
+                    expenseDto
+                }
+    }
 
-    fun averageExpense(averageSearchCriteria: AverageSearchCriteria) =
-            expenseExecutor.averageExpense(averageSearchCriteria).asAmount()
+    fun getAll(expenseSearchCriteria: ExpenseSearchCriteria): List<ExpenseDto> {
+        return expenseDao
+                .getAll(expenseQueriesHelper.prepareExpenseSearchQuery(expenseSearchCriteria))
+                .map { expenseMapper.fromEntity(it) }
+    }
 
-    fun hardRemove(expenseId: Long) =
-            expenseExecutor.hardRemove(expenseId)
+    fun averageExpense(averageSearchCriteria: AverageSearchCriteria): Double {
+        return expenseDao
+                .averageAmount(expenseQueriesHelper.prepareAverageSearchQuery(averageSearchCriteria))
+                .asPrinteableAmount()
+    }
 
-    fun updateExpense(expenseDto: ExpenseDto) =
-            expenseExecutor.updateExpense(expenseDto)
+    fun hardRemove(expenseId: Long): Boolean =
+            expenseDao.remove(expenseId) == 1
+
+    fun updateExpense(expenseDto: ExpenseDto): ExpenseDto {
+        expenseDao.update(expenseMapper.toEntity(expenseDto))
+        return expenseMapper.fromEntity(expenseDao.getExpenseWithCategory(expenseDto.id))
+    }
 
 }

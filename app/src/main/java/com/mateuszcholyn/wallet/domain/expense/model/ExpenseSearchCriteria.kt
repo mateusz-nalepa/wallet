@@ -1,10 +1,10 @@
 package com.mateuszcholyn.wallet.domain.expense.model
 
+import org.joda.time.LocalDateTime
 import java.io.Serializable
-import java.util.*
 
 data class ExpenseSearchCriteria(
         val categoryName: String,
-        val beginDate: Calendar,
-        val endDate: Calendar
+        val beginDate: LocalDateTime,
+        val endDate: LocalDateTime
 ) : Serializable

@@ -4,10 +4,9 @@ import android.app.Application
 import android.content.Context
 import com.github.salomonbrys.kodein.*
 import com.mateuszcholyn.wallet.database.AppDatabase
-import com.mateuszcholyn.wallet.database.DatabaseHelper
-import com.mateuszcholyn.wallet.domain.category.db.CategoryExecutor
+import com.mateuszcholyn.wallet.domain.category.db.CategoryDao
 import com.mateuszcholyn.wallet.domain.category.service.CategoryService
-import com.mateuszcholyn.wallet.domain.expense.db.ExpenseExecutor
+import com.mateuszcholyn.wallet.domain.expense.db.ExpenseDao
 import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.domain.moneysaver.service.MoneySaverService
 import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
@@ -25,14 +24,14 @@ class ApplicationContext : Application(), KodeinAware {
     }
 
     override val kodein by Kodein.lazy {
-        val dbHelper = DatabaseHelper(appContext)
+        val appDatabase = AppDatabase(appContext)
 
         //Category
-        bind<CategoryExecutor>() with provider { CategoryExecutor(appContext) }
+        bind<CategoryDao>() with provider { appDatabase.categoryDao() }
         bind<CategoryService>() with provider { CategoryService(instance()) }
 
         //Expense
-        bind<ExpenseExecutor>() with provider { ExpenseExecutor(appContext, instance()) }
+        bind<ExpenseDao>() with provider { appDatabase.expenseDao() }
         bind<ExpenseService>() with provider { ExpenseService(instance()) }
 
         //MoneySaver

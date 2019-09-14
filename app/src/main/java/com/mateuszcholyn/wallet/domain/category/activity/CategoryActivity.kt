@@ -7,15 +7,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.config.ApplicationContext
 import com.mateuszcholyn.wallet.domain.category.adapter.CategoryAdapter
 import com.mateuszcholyn.wallet.domain.category.model.CategoryDto
 import com.mateuszcholyn.wallet.domain.category.service.CategoryService
+import com.mateuszcholyn.wallet.util.showIntentMessageIfPresent
 
 const val REMOVE_CATEGORY_KEY = "REMOVE_CATEGORY_KEY"
 
@@ -43,20 +42,12 @@ class CategoryActivity : AppCompatActivity(), AppCompatActivityInjector {
             adapter = viewAdapter
         }
 
-        showIntentMessage()
-    }
-
-    private fun showIntentMessage() {
-        val stringExtra = intent.getStringExtra(REMOVE_CATEGORY_KEY)
-
-        if (stringExtra != null) {
-            Toast.makeText(ApplicationContext.appContext, stringExtra, Toast.LENGTH_SHORT).show()
-        }
+        intent.showIntentMessageIfPresent(REMOVE_CATEGORY_KEY)
     }
 
     fun addCategory(view: View) {
-        categoryService.addNewCategory(
-                CategoryDto(name = findViewById<EditText>(com.mateuszcholyn.wallet.R.id.newCategoryName).text.toString())
+        categoryService.add(
+                CategoryDto(name = findViewById<EditText>(R.id.newCategoryName).text.toString())
         )
         val intent = Intent(this, CategoryActivity::class.java)
         startActivity(intent)

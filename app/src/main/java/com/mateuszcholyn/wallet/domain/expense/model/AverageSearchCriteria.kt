@@ -1,10 +1,10 @@
 package com.mateuszcholyn.wallet.domain.expense.model
 
-import java.util.*
+import org.joda.time.LocalDateTime
 
 data class AverageSearchCriteria(
         val categoryName: String,
-        val beginDate: Calendar,
-        val endDate: Calendar
+        val beginDate: LocalDateTime,
+        val endDate: LocalDateTime
 )
 

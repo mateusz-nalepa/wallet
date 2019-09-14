@@ -16,6 +16,7 @@ import com.mateuszcholyn.wallet.domain.category.activity.CategoryActivity
 import com.mateuszcholyn.wallet.domain.expense.activity.AddExpenseActivity
 import com.mateuszcholyn.wallet.domain.expense.activity.AverageExpenseActivity
 import com.mateuszcholyn.wallet.domain.expense.activity.ExpenseHistoryActivity
+import com.mateuszcholyn.wallet.domain.moneysaver.activity.MoneySaverActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 const val EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"
@@ -89,7 +90,7 @@ class MainActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
     fun showMoneySaverActivity(view: View) {
-        val intent = Intent(this, AverageExpenseActivity::class.java)
+        val intent = Intent(this, MoneySaverActivity::class.java)
         startActivity(intent)
     }
 

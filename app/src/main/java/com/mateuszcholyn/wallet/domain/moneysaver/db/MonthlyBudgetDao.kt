@@ -1,9 +1,9 @@
-package com.mateuszcholyn.wallet.database.dao
+package com.mateuszcholyn.wallet.domain.moneysaver.db
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
-import com.mateuszcholyn.wallet.database.model.MonthlyBudget
+import com.mateuszcholyn.wallet.domain.moneysaver.db.model.MonthlyBudget
 
 @Dao
 interface MonthlyBudgetDao {

@@ -5,12 +5,12 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
-import com.mateuszcholyn.wallet.database.dao.CategoryDao
-import com.mateuszcholyn.wallet.database.dao.ExpenseDao
-import com.mateuszcholyn.wallet.database.dao.MonthlyBudgetDao
-import com.mateuszcholyn.wallet.database.model.Category
-import com.mateuszcholyn.wallet.database.model.Expense
-import com.mateuszcholyn.wallet.database.model.MonthlyBudget
+import com.mateuszcholyn.wallet.domain.category.db.CategoryDao
+import com.mateuszcholyn.wallet.domain.category.db.model.Category
+import com.mateuszcholyn.wallet.domain.expense.db.ExpenseDao
+import com.mateuszcholyn.wallet.domain.expense.db.model.Expense
+import com.mateuszcholyn.wallet.domain.moneysaver.db.MonthlyBudgetDao
+import com.mateuszcholyn.wallet.domain.moneysaver.db.model.MonthlyBudget
 
 
 @Database(
@@ -42,7 +42,10 @@ abstract class AppDatabase : RoomDatabase() {
                 Room.databaseBuilder(
                         context,
                         AppDatabase::class.java, "database.db"
-                ).build()
+                )
+                        //TODO this should be fixed!!
+                        .allowMainThreadQueries()
+                        .build()
     }
 
 }
