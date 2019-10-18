@@ -5,6 +5,7 @@ import android.arch.persistence.room.*
 import com.mateuszcholyn.wallet.domain.category.db.model.Category
 import com.mateuszcholyn.wallet.domain.expense.db.model.Expense
 import com.mateuszcholyn.wallet.domain.expense.db.model.ExpenseWithCategory
+import org.joda.time.LocalDateTime
 
 @Dao
 interface ExpenseDao {
@@ -20,6 +21,9 @@ interface ExpenseDao {
 
     @Query("delete from Expense where expense_id = :expenseId")
     fun remove(expenseId: Long): Int
+
+    @Query("SELECT sum(amount) FROM Expense where date >= :start and date <= :end")
+    fun moneySpentBetween(start: LocalDateTime, end: LocalDateTime): Double
 
     @RawQuery(observedEntities = [Expense::class, Category::class])
     fun averageAmount(query: SupportSQLiteQuery): Double

@@ -108,13 +108,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="1">
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-1"
-            android:visibility="gone" />
 
         <Button
             android:layout_width="match_parent"
@@ -125,5 +120,235 @@
             android:text="@string/moneySaver"
             android:textColor="@color/blackColor" />
     </LinearLayout>
+
+    <!--SPIRYTUS FOR KAROLAJN!-->
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/firstLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="2">-->
+
+        <!--&lt;!&ndash; place one TextView and one EditText inside layout using weight property &ndash;&gt;-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_weight="0.6"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:text="Mam"-->
+            <!--android:textColor="@color/blackColor" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/average_begin_dateTimePicker"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_weight="1.2"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:background="@color/editTextBack"-->
+            <!--android:imeOptions="actionNext"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:singleLine="true"-->
+            <!--android:textColor="@color/blackColor" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_weight="0.2"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:text="ml"-->
+            <!--android:textColor="@color/blackColor" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/firstLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="2">-->
+
+        <!--&lt;!&ndash; place one TextView and one EditText inside layout using weight property &ndash;&gt;-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_weight="0.6"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:text="Spirytusu"-->
+            <!--android:textColor="@color/blackColor" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/average_begin_dateTimePicker"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_weight="1.2"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:background="@color/editTextBack"-->
+            <!--android:imeOptions="actionNext"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:singleLine="true"-->
+            <!--android:textColor="@color/blackColor" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_weight="0.2"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:text="%"-->
+            <!--android:textColor="@color/blackColor" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/firstLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="2">-->
+
+        <!--&lt;!&ndash; place one TextView and one EditText inside layout using weight property &ndash;&gt;-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_weight="0.6"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:text="Chcę mieć"-->
+            <!--android:textColor="@color/blackColor" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/average_begin_dateTimePicker"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_weight="1.2"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:background="@color/editTextBack"-->
+            <!--android:hint=""-->
+            <!--android:imeOptions="actionNext"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:singleLine="true"-->
+            <!--android:textColor="@color/blackColor" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_weight="0.2"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:text="ml"-->
+            <!--android:textColor="@color/blackColor" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/firstLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="2">-->
+
+        <!--&lt;!&ndash; place one TextView and one EditText inside layout using weight property &ndash;&gt;-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_weight="0.6"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:text="Spirytusu"-->
+            <!--android:textColor="@color/blackColor" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/average_begin_dateTimePicker"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_weight="1.2"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:background="@color/editTextBack"-->
+            <!--android:imeOptions="actionNext"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:singleLine="true"-->
+            <!--android:textColor="@color/blackColor" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_weight="0.2"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:text="%"-->
+            <!--android:textColor="@color/blackColor" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/layout_money_saver"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="1">-->
+
+
+        <!--<Button-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@color/greenColor"-->
+            <!--android:onClick="showMoneySaverActivity"-->
+            <!--android:text="Policz"-->
+            <!--android:textColor="@color/blackColor" />-->
+    <!--</LinearLayout>-->
+
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/lastLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:textAlignment="center"-->
+        <!--android:weightSum="2">-->
+
+        <!--&lt;!&ndash; placMe one TextView and one EditText inside layout using weight property &ndash;&gt;-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/averageAmount"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textSize="24dp"-->
+            <!--android:text="Wymieszaj 500 ml wody z 300 ml spirytusu 40%."-->
+            <!--android:textColor="@color/blackColor" />-->
+
+
+    <!--</LinearLayout>-->
+
+
+
 
 </LinearLayout>

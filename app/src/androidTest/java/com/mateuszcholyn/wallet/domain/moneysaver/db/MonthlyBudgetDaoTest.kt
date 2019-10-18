@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.domain.moneysaver.db
 import android.support.test.runner.AndroidJUnit4
 import com.mateuszcholyn.wallet.database.DatabaseTestSpecification
 import com.mateuszcholyn.wallet.domain.moneysaver.db.model.MonthlyBudget
+import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,7 +24,7 @@ internal class MonthlyBudgetDaoTest : DatabaseTestSpecification() {
         val all = monthlyBudgetDao.getAll()
 
         //expect
-        all.isEmpty()
+        assertEquals(true, all.isEmpty())
     }
 
     @Test
@@ -32,10 +33,23 @@ internal class MonthlyBudgetDaoTest : DatabaseTestSpecification() {
         val budget = MonthlyBudget(budget = 300.0, year = 2019, month = 9)
 
         //when
-        val savedBudget = monthlyBudgetDao.insert(budget)
+        val savedBudgetId = monthlyBudgetDao.insert(budget)
 
         //then
-        savedBudget == 1L
+        assertEquals(1L, savedBudgetId)
+    }
+
+    @Test
+    fun shouldGetMonthlyBudget() {
+        //given
+        val budget = MonthlyBudget(budget = 300.0, year = 2019, month = 9)
+        monthlyBudgetDao.insert(budget)
+
+        //when
+        val savedBudget = monthlyBudgetDao.get(2019, 9)!!
+
+        //then
+        assertEquals(300.0, savedBudget.budget)
     }
 
 }

@@ -11,6 +11,9 @@ interface MonthlyBudgetDao {
     @Query("select * from MonthlyBudget")
     fun getAll(): List<MonthlyBudget>
 
+    @Query("select * from MonthlyBudget where year = :year and month = :month")
+    fun get(year: Int, month: Int): MonthlyBudget?
+
     @Insert
     fun insert(monthlyBudget: MonthlyBudget) : Long
 

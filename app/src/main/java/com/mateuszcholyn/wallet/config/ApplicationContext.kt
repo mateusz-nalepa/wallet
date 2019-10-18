@@ -8,6 +8,7 @@ import com.mateuszcholyn.wallet.domain.category.db.CategoryDao
 import com.mateuszcholyn.wallet.domain.category.service.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.db.ExpenseDao
 import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
+import com.mateuszcholyn.wallet.domain.moneysaver.db.MonthlyBudgetDao
 import com.mateuszcholyn.wallet.domain.moneysaver.service.MoneySaverService
 import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
 import net.danlew.android.joda.JodaTimeAndroid
@@ -35,7 +36,8 @@ class ApplicationContext : Application(), KodeinAware {
         bind<ExpenseService>() with provider { ExpenseService(instance()) }
 
         //MoneySaver
-        bind<MoneySaverService>() with provider { MoneySaverService() }
+        bind<MonthlyBudgetDao>() with provider { appDatabase.monthlyBudgetDao() }
+        bind<MoneySaverService>() with provider { MoneySaverService(instance(), instance()) }
     }
 
     companion object {

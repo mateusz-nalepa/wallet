@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.domain.moneysaver.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
@@ -8,6 +9,7 @@ import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.moneysaver.service.MoneySaverService
+import org.joda.time.LocalDateTime
 
 class MoneySaverActivity : AppCompatActivity(), AppCompatActivityInjector {
 
@@ -32,8 +34,14 @@ class MoneySaverActivity : AppCompatActivity(), AppCompatActivityInjector {
         savedMoney = findViewById(R.id.savedMoney)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initFieldsValues() {
-        var asd = moneySaverService.monthlyBudgetSummary()
+        val now = LocalDateTime.now()
+        moneySaverService.monthlyBudgetSummaryFor(now.year, now.monthOfYear).also {
+            monthlyBudget.text = it.monthlyBudget.toString() + " zł"
+            spentMoney.text = it.spentMoney.toString() + " zł"
+            savedMoney.text = it.savedMoney.toString() + " zł"
+        }
 
     }
 
