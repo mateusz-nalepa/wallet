@@ -29,9 +29,9 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:src="@drawable/navigation_burger"
-            android:textAlignment="textEnd"
             android:textColor="@color/blackColor"
             android:textSize="24dp" />
+<!--            android:textAlignment="textEnd"-->
 
         <TextView
             android:id="@+id/history_short_category_name"
@@ -52,10 +52,10 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="value"
-            android:textAlignment="textEnd"
             android:textColor="@color/blackColor"
             android:textSize="24dp" />
 
+<!--            android:textAlignment="textEnd"-->
         <TextView
             android:layout_width="0dp"
             android:layout_height="50dp"
@@ -93,7 +93,7 @@
 
 
         <LinearLayout
-            android:id="@+id/history_fifth_layout"
+            android:id="@+id/history_description_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="5dp"
