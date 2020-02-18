@@ -36,7 +36,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_vertical"
-            android:textAlignment="center"
             android:textSize="24dp"
             android:text="Miesięczny budżet"
             android:textColor="@color/blackColor" />
@@ -72,7 +71,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_vertical"
-            android:textAlignment="center"
             android:textSize="24dp"
             android:text="ile wydanych"
             android:textColor="@color/blackColor" />
@@ -108,7 +106,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_vertical"
-            android:textAlignment="center"
             android:textSize="24dp"
             android:text="ile zaoszczedzonych"
             android:textColor="@color/blackColor" />

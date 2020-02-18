@@ -145,7 +145,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
-        android:textAlignment="center"
         android:weightSum="2">
 
         <!-- place one TextView and one EditText inside layout using weight property -->
@@ -154,8 +153,7 @@
             android:id="@+id/averageAmount"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:textAlignment="center"
+            android:gravity="center_horizontal"
             android:textSize="24dp"
             android:text="Średni wydatek"
             android:textColor="@color/blackColor" />
