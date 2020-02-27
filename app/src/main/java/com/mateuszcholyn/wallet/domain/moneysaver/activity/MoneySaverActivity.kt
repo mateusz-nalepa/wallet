@@ -9,10 +9,12 @@ import android.os.Environment.*
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
+import android.widget.Toast
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.config.ApplicationContext
 import com.mateuszcholyn.wallet.domain.moneysaver.service.MoneySaverService
 import org.joda.time.LocalDateTime
 import java.io.File
@@ -85,11 +87,11 @@ class MoneySaverActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
     private fun nieDziala(ex: Throwable) {
-        print("wywalilo sie")
+        Toast.makeText(ApplicationContext.appContext, "Nie dziala: ${ex.message}", Toast.LENGTH_LONG).show()
     }
 
     private fun dziala() {
-        print("dziala jak nalezy")
+        Toast.makeText(ApplicationContext.appContext, "Dziala", Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroy() {
