@@ -6,22 +6,29 @@ import android.os.Environment.DIRECTORY_DOWNLOADS
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import com.mateuszcholyn.wallet.config.ApplicationContext.Companion.appContext
+import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
 import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import java.io.BufferedWriter
 import java.io.File
+import java.io.FileWriter
 
 private val walletPath = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).parent + File.separator + "Wallet"
 
-fun saveToFile(activity: Activity) {
+fun saveToFile(activity: Activity, expenses: List<ExpenseDto>) {
     if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
         return
     }
     verifyStoragePermissions(activity)
 
     val file = File(walletFilePath())
+    val fileWriter = FileWriter(file)
+
     runCatching {
-//        file.mkdirs()
         file.createNewFile()
-        file.writeText("asd")
+        fileWriter.write(prepareHeader())
+        expenses.forEach { fileWriter.write(prepareLine(it)) }
+        fileWriter.close()
     }
             .onFailure { nieDziala(it) }
             .onSuccess { dziala() }
@@ -30,14 +37,21 @@ fun saveToFile(activity: Activity) {
 
 private fun nieDziala(ex: Throwable) {
     Toast.makeText(
-            appContext, "Nie dziala: ${ex.message}", LENGTH_LONG).show()
+            appContext, "Błąd zapisu: ${ex.message}", LENGTH_LONG).show()
 }
 
 private fun dziala() {
     Toast.makeText(
-            appContext, "Dziala", LENGTH_LONG).show()
+            appContext, "Pomyślnie zapisano", LENGTH_LONG).show()
 }
 
 private fun walletFilePath(): String {
-    return "$walletPath${File.separator}wallet_${LocalDate.now()}.csv"
+    return "$walletPath${File.separator}wallet_${LocalDateTime.now()}.txt"
 }
+
+private fun prepareLine(exDto: ExpenseDto) =
+        "${exDto.id},${exDto.amount},${exDto.category.name},${exDto.date},${exDto.description}\n"
+
+
+private fun prepareHeader() =
+        "Id,Kwota,Kategoria,Data,Opis\n"

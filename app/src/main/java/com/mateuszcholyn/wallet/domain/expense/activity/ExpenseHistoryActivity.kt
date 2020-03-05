@@ -156,6 +156,19 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         startActivity(intent)
     }
 
+    fun exportHistoryResults(view: View) {
+        val category = findViewById<Spinner>(R.id.history_category_spinner).selectedItem as String
+
+        val expenseSearchCriteria =
+                ExpenseSearchCriteria(
+                        categoryName = if (category == ALL_CATEGORIES) ALL_CATEGORIES else category,
+                        beginDate = mBeginDate.toLocalDateTime(),
+                        endDate = mEndDate.toLocalDateTime()
+                )
+
+        saveToFile(this, expenseService.getAll(expenseSearchCriteria))
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         destroyInjector()

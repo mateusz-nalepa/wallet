@@ -105,6 +105,15 @@
             android:text="Pokaż wyniki"
             android:onClick="showHistoryResults"
             android:textColor="@color/blackColor" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/greenColor"
+            android:text="Eksportuj  dane"
+            android:onClick="exportHistoryResults"
+            android:textColor="@color/blackColor" />
     </LinearLayout>
 
     <LinearLayout
