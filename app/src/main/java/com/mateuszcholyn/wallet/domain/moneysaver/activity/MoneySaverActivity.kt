@@ -45,7 +45,7 @@ class MoneySaverActivity : AppCompatActivity(), AppCompatActivityInjector {
             savedMoney.text = it.savedMoney.toString() + " zł"
         }
 
-        saveToFile(this);
+        saveToFile(this)
     }
 
 
