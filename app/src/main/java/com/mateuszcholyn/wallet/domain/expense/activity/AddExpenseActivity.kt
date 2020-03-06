@@ -2,6 +2,7 @@ package com.mateuszcholyn.wallet.domain.expense.activity
 
 import android.app.Activity
 import android.content.Intent
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
@@ -14,6 +15,7 @@ import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.R.layout
+import com.mateuszcholyn.wallet.databinding.MenuButtonBinding
 import com.mateuszcholyn.wallet.domain.category.service.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
 import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
@@ -43,7 +45,7 @@ class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(layout.add_expense_activity)
+        DataBindingUtil.setContentView<MenuButtonBinding>(this, layout.add_expense_activity)
         initializeInjector()
         title = "Dodaj wydatek"
         activity = this
