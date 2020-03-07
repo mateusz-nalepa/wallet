@@ -1,13 +1,9 @@
 <resources>
-    <attr name="screen_name" format="string|reference"/>
-
-    <!-- define a bunch of constants you wanna use -->
-    <string name="screen_a" translatable="false">ScreenA</string>
-    <string name="screen_b" translatable="false">ScreeenB</string>
+    <attr name="customText" format="string|reference"/>
 
     <!-- now define which arguments your fragment is gonna have (can be more then one) -->
     <!-- the convention is "FragmentClassName_MembersInjector" -->
     <declare-styleable name="MyFragment_MembersInjector">
-        <attr name="screen_name"/>
+        <attr name="customText"/>
     </declare-styleable>
 </resources>

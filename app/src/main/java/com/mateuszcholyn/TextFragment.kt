@@ -12,28 +12,28 @@ import com.mateuszcholyn.wallet.R
 
 class TextFragment : Fragment() {
 
-    private var screenName: String? = null
+    private var customText: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.text_fragment, container, false)
         val textView = view.findViewById<TextView>(R.id.textFragmentId)
-        textView.text = screenName
+        textView.text = customText
         return view
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (screenName == null) {
-            screenName = arguments?.getString("screen_name")
+        if (customText == null) {
+            customText = arguments?.getString("customText")
         }
     }
 
     override fun onInflate(context: Context?, attrs: AttributeSet?, savedInstanceState: Bundle?) {
         super.onInflate(context, attrs, savedInstanceState)
-        if (context != null && attrs != null && screenName == null) {
+        if (context != null && attrs != null && customText == null) {
             val ta = context.obtainStyledAttributes(attrs, R.styleable.MyFragment_MembersInjector)
-            if (ta.hasValue(R.styleable.MyFragment_MembersInjector_screen_name)) {
-                screenName = ta.getString(R.styleable.MyFragment_MembersInjector_screen_name)
+            if (ta.hasValue(R.styleable.MyFragment_MembersInjector_customText)) {
+                customText = ta.getString(R.styleable.MyFragment_MembersInjector_customText)
             }
             ta.recycle()
         }

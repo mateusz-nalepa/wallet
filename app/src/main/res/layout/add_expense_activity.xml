@@ -23,25 +23,18 @@
 
             <!-- place one TextView and one EditText inside layout using weight property -->
 
-            <include
-                layout="@layout/menu_button"
-                app:myText='@{"Dupa kurwa"}' />
-            <!--        <TextView-->
-            <!--            android:layout_width="0dp"-->
-            <!--            android:layout_height="50dp"-->
-            <!--            android:layout_marginRight="10dp"-->
-            <!--            android:layout_weight="0.6"-->
-            <!--            android:gravity="center_vertical"-->
-            <!--            android:paddingLeft="10dp"-->
-            <!--            android:text="Kategoria"-->
-            <!--            android:textColor="@color/blackColor" />-->
+            <fragment
+                android:name="com.mateuszcholyn.TextFragment"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                app:customText="@string/category" />
 
             <Spinner
                 android:id="@+id/category_spinner"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1.4"
+                android:layout_weight="1.9"
                 android:background="@color/editTextBack"
                 android:imeOptions="actionNext"
                 android:paddingLeft="10dp"
@@ -57,31 +50,20 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-            <!-- place one TextView and one EditText inside layout using weight property -->
 
-<!--            <TextView-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:layout_marginRight="10dp"-->
-<!--                android:layout_weight="0.6"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:paddingLeft="10dp"-->
-<!--                android:text="Kwota (zł)"-->
-<!--                android:textColor="@color/blackColor" />-->
-            <fragment android:name="com.mateuszcholyn.TextFragment"
-                android:id="@+id/list"
-                app:screen_name="@string/screen_a"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+            <fragment
+                android:name="com.mateuszcholyn.TextFragment"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                app:customText="@string/app_name" />
 
 
             <EditText
                 android:id="@+id/expenseAmount"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1.4"
+                android:layout_weight="1.9"
                 android:background="@color/editTextBack"
                 android:hint="kwota"
                 android:imeOptions="actionNext"
@@ -103,15 +85,11 @@
 
             <!-- place one TextView and one EditText inside layout using weight property -->
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="0.6"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="Opis"
-                android:textColor="@color/blackColor" />
+            <fragment
+                android:name="com.mateuszcholyn.TextFragment"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                app:customText="@string/desc" />
 
             <EditText
                 android:id="@+id/description"
@@ -138,15 +116,11 @@
 
             <!-- place one TextView and one EditText inside layout using weight property -->
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="0.6"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="Data"
-                android:textColor="@color/blackColor" />
+            <fragment
+                android:name="com.mateuszcholyn.TextFragment"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                app:customText="@string/data" />
 
 
             <TextView
