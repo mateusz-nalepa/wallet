@@ -2,14 +2,14 @@ package com.mateuszcholyn.wallet.domain.expense.activity
 
 import android.app.Activity
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
@@ -26,7 +26,7 @@ import java.util.*
 const val SUCCESSFUL_ADD = "SUCCESSFUL_ADD"
 const val SUCCESSFUL_EDIT = "SUCCESSFUL_EDIT"
 
-class AddExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
+open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInjector {
 
     override val injector: KodeinInjector = KodeinInjector()
     private val expenseService: ExpenseService by instance()

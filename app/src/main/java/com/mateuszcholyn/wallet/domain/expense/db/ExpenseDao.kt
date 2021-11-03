@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.domain.expense.db
 
-import android.arch.persistence.db.SupportSQLiteQuery
-import android.arch.persistence.room.*
+import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.mateuszcholyn.wallet.domain.category.db.model.Category
 import com.mateuszcholyn.wallet.domain.expense.db.model.Expense
 import com.mateuszcholyn.wallet.domain.expense.db.model.ExpenseWithCategory

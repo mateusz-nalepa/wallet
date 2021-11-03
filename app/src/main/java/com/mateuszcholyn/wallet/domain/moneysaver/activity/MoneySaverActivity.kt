@@ -2,14 +2,13 @@ package com.mateuszcholyn.wallet.domain.moneysaver.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.moneysaver.service.MoneySaverService
-import com.mateuszcholyn.wallet.util.saveToFile
 import org.joda.time.LocalDateTime
 
 

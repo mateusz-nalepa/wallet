@@ -1,9 +1,9 @@
 ext {
-    build_gradle = '4.0.0-alpha09'
+    build_gradle = '7.0.3'
     kodein = "4.1.0"
-    kotlin = "1.3.21"
+    kotlin = "1.5.31"
     appcompat_v7 = "27.1.1"
-    constraint_layout = "1.1.3"
+    constraint_layout = "2.0.4"
     design = "27.1.1"
     junit = "4.12"
     test_runner = "1.0.2"

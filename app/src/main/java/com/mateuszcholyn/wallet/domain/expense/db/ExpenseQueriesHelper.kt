@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.domain.expense.db
 
-import android.arch.persistence.db.SimpleSQLiteQuery
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.mateuszcholyn.wallet.domain.expense.model.AverageSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.model.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.model.isAllCategories

@@ -4,16 +4,16 @@ package com.mateuszcholyn.wallet
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.mateuszcholyn.wallet.domain.category.activity.CategoryActivity
-import com.mateuszcholyn.wallet.domain.expense.activity.AddExpenseActivity
+import com.mateuszcholyn.wallet.domain.expense.activity.AddExpenseActivityBinding
 import com.mateuszcholyn.wallet.domain.expense.activity.AverageExpenseActivity
 import com.mateuszcholyn.wallet.domain.expense.activity.ExpenseHistoryActivity
 import com.mateuszcholyn.wallet.domain.moneysaver.activity.MoneySaverActivity
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
     fun showAddExpenseActivity(view: View) {
-        val intent = Intent(this, AddExpenseActivity::class.java)
+        val intent = Intent(this, AddExpenseActivityBinding::class.java)
         startActivity(intent)
     }
 

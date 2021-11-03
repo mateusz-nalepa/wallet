@@ -2,15 +2,15 @@ package com.mateuszcholyn
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.mateuszcholyn.wallet.R
 
-class TextFragment : Fragment() {
+open class TextFragment : Fragment() {
 
     private var customText: String? = null
 
@@ -21,16 +21,17 @@ class TextFragment : Fragment() {
         return view
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (customText == null) {
             customText = arguments?.getString("customText")
         }
     }
 
-    override fun onInflate(context: Context?, attrs: AttributeSet?, savedInstanceState: Bundle?) {
+
+    override fun onInflate(context: Context, attrs: AttributeSet, savedInstanceState: Bundle?) {
         super.onInflate(context, attrs, savedInstanceState)
-        if (context != null && attrs != null && customText == null) {
+        if (customText == null) {
             val ta = context.obtainStyledAttributes(attrs, R.styleable.MyFragment_MembersInjector)
             if (ta.hasValue(R.styleable.MyFragment_MembersInjector_customText)) {
                 customText = ta.getString(R.styleable.MyFragment_MembersInjector_customText)

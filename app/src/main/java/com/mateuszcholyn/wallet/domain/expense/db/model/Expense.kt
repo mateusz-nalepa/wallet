@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.domain.expense.db.model
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.mateuszcholyn.wallet.domain.category.db.model.Category
 import org.joda.time.LocalDateTime
 

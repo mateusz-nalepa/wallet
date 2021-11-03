@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.util
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
-import android.support.v4.app.ActivityCompat
+import androidx.core.app.ActivityCompat
 
 fun verifyStoragePermissions(activity: Activity) {
     // Check if we have write permission

@@ -1,10 +1,9 @@
 package com.mateuszcholyn.wallet.domain.expense.adapter
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,9 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.domain.expense.activity.AddExpenseActivity
+import com.mateuszcholyn.wallet.domain.expense.activity.AddExpenseActivityBinding
 import com.mateuszcholyn.wallet.domain.expense.activity.EDIT_EXPENSE
 import com.mateuszcholyn.wallet.domain.expense.activity.ExpenseHistoryActivity
 import com.mateuszcholyn.wallet.domain.expense.activity.REMOVE_EXPENSE_KEY
@@ -69,7 +69,7 @@ class ExpenseHistoryAdapter(
     }
 
     private fun editExpense(expenseDto: ExpenseDto) {
-        val intent = Intent(context, AddExpenseActivity::class.java).apply {
+        val intent = Intent(context, AddExpenseActivityBinding::class.java).apply {
             putExtra(EDIT_EXPENSE, expenseDto)
         }
         activity.startActivity(intent)

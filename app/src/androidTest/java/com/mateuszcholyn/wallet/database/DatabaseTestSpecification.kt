@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.database
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import com.mateuszcholyn.wallet.config.ApplicationContext
 import com.mateuszcholyn.wallet.database.AppDatabase
 import org.junit.After
