@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.domain.moneysaver.dto
+package com.mateuszcholyn.wallet.domain.moneysaver
 
 import java.io.Serializable
 

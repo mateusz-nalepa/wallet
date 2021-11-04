@@ -8,12 +8,14 @@ import com.mateuszcholyn.wallet.domain.category.CategoryRepository
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.domain.moneysaver.db.MonthlyBudgetDao
-import com.mateuszcholyn.wallet.domain.moneysaver.service.MoneySaverService
+import com.mateuszcholyn.wallet.domain.moneysaver.MoneySaverService
+import com.mateuszcholyn.wallet.domain.moneysaver.MonthlyBudgetRepository
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryDao
 import com.mateuszcholyn.wallet.infrastructure.category.SqLiteCategoryRepository
 import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseDao
 import com.mateuszcholyn.wallet.infrastructure.expense.SqLiteExpenseRepository
+import com.mateuszcholyn.wallet.infrastructure.moneysaver.MonthlyBudgetDao
+import com.mateuszcholyn.wallet.infrastructure.moneysaver.SqLiteMonthlyBudgetRepository
 import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
 import net.danlew.android.joda.JodaTimeAndroid
 
@@ -43,6 +45,7 @@ class ApplicationContext : Application(), KodeinAware {
 
         //MoneySaver
         bind<MonthlyBudgetDao>() with provider { appDatabase.monthlyBudgetDao() }
+        bind<MonthlyBudgetRepository>() with provider { SqLiteMonthlyBudgetRepository(instance()) }
         bind<MoneySaverService>() with provider { MoneySaverService(instance(), instance()) }
     }
 

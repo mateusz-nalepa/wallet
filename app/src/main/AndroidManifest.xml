@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".domain.moneysaver.activity.MoneySaverActivity"></activity>
+        <activity android:name=".view.moneysaver.MoneySaverActivity"></activity>
         <activity
             android:name="com.mateuszcholyn.wallet.view.expense.AverageExpenseActivity"
             android:parentActivityName=".MainActivity" />

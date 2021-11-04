@@ -5,17 +5,17 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.mateuszcholyn.wallet.domain.moneysaver.db.MonthlyBudgetDao
-import com.mateuszcholyn.wallet.domain.moneysaver.db.model.MonthlyBudget
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryDao
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
 import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseDao
 import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseEntity
+import com.mateuszcholyn.wallet.infrastructure.moneysaver.MonthlyBudgetDao
+import com.mateuszcholyn.wallet.infrastructure.moneysaver.MonthlyBudgetEntity
 
 
 @Database(
     entities = [
-        MonthlyBudget::class,
+        MonthlyBudgetEntity::class,
         CategoryEntity::class,
         ExpenseEntity::class],
     version = 2

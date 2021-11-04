@@ -1,16 +1,14 @@
-package com.mateuszcholyn.wallet.domain.moneysaver.service
+package com.mateuszcholyn.wallet.domain.moneysaver
 
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.domain.moneysaver.db.MonthlyBudgetDao
-import com.mateuszcholyn.wallet.domain.moneysaver.dto.MonthlyBudgetSummaryDto
 
 class MoneySaverService(
-    private val monthlyBudgetDao: MonthlyBudgetDao,
-    private val expenseService: ExpenseService
+    private val expenseService: ExpenseService,
+    private val monthlyBudgetRepository: MonthlyBudgetRepository
 ) {
 
     fun monthlyBudgetSummaryFor(year: Int, month: Int): MonthlyBudgetSummaryDto {
-        val budget = monthlyBudgetDao.get(year, month)?.budget ?: 0.0
+        val budget = monthlyBudgetRepository.get(year, month)?.budget ?: 0.0
         val spentMoney = expenseService.moneySpentIn(year, month)
         val savedMoney = budget - spentMoney
         return MonthlyBudgetSummaryDto(
@@ -21,3 +19,7 @@ class MoneySaverService(
     }
 
 }
+
+data class MonthlyBudget(
+    var budget: Double?,
+)
