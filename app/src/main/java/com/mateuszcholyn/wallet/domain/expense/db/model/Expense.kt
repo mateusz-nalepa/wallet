@@ -1,13 +1,13 @@
 package com.mateuszcholyn.wallet.domain.expense.db.model
 
 import androidx.room.*
-import com.mateuszcholyn.wallet.domain.category.db.model.Category
+import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
 import org.joda.time.LocalDateTime
 
 @Entity(
         tableName = "Expense",
         foreignKeys = [
-            ForeignKey(entity = Category::class,
+            ForeignKey(entity = CategoryEntity::class,
                     parentColumns = arrayOf("category_id"),
                     childColumns = arrayOf("fk_category_id"))
         ],

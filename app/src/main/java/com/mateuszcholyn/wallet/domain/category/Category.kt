@@ -1,8 +1,8 @@
-package com.mateuszcholyn.wallet.domain.category.model
+package com.mateuszcholyn.wallet.domain.category
 
 import java.io.Serializable
 
-data class CategoryDto(
+data class Category(
         var id: Long = -1,
         var name: String
 ) : Serializable

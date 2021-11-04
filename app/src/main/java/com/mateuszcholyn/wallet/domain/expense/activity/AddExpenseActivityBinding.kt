@@ -16,7 +16,7 @@ import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.R.layout
 import com.mateuszcholyn.wallet.databinding.MenuButtonBinding
-import com.mateuszcholyn.wallet.domain.category.service.CategoryService
+import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
 import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.util.*

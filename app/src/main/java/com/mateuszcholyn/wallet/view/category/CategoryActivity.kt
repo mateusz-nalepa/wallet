@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.domain.category.activity
+package com.mateuszcholyn.wallet.view.category
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,9 +11,8 @@ import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.domain.category.adapter.CategoryAdapter
-import com.mateuszcholyn.wallet.domain.category.model.CategoryDto
-import com.mateuszcholyn.wallet.domain.category.service.CategoryService
+import com.mateuszcholyn.wallet.domain.category.Category
+import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.util.showIntentMessageIfPresent
 
 const val REMOVE_CATEGORY_KEY = "REMOVE_CATEGORY_KEY"
@@ -47,7 +46,7 @@ class CategoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     fun addCategory(view: View) {
         categoryService.add(
-                CategoryDto(name = findViewById<EditText>(R.id.newCategoryName).text.toString())
+                Category(name = findViewById<EditText>(R.id.newCategoryName).text.toString())
         )
         val intent = Intent(this, CategoryActivity::class.java)
         startActivity(intent)

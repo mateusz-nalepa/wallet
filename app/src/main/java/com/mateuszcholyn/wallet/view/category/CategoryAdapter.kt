@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.domain.category.adapter
+package com.mateuszcholyn.wallet.view.category
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -11,16 +11,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.domain.category.activity.CategoryActivity
-import com.mateuszcholyn.wallet.domain.category.activity.REMOVE_CATEGORY_KEY
-import com.mateuszcholyn.wallet.domain.category.model.CategoryDto
-import com.mateuszcholyn.wallet.domain.category.service.CategoryService
+import com.mateuszcholyn.wallet.domain.category.Category
+import com.mateuszcholyn.wallet.domain.category.CategoryService
 
 class CategoryAdapter(
-        private val context: Context,
-        private val activity: Activity,
-        private val categoryService: CategoryService,
-        private val categories: List<CategoryDto>
+    private val context: Context,
+    private val activity: Activity,
+    private val categoryService: CategoryService,
+    private val categories: List<Category>
 ) :
         RecyclerView.Adapter<CategoryAdapter.MyViewHolder>() {
 
@@ -33,7 +31,7 @@ class CategoryAdapter(
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): MyViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.single_category, parent, false)
-        return CategoryAdapter.MyViewHolder(v as View)
+        return MyViewHolder(v as View)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {

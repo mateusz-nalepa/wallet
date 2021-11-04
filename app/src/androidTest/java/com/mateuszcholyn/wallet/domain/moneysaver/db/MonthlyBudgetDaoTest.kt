@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.domain.moneysaver.db
 
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mateuszcholyn.wallet.database.DatabaseTestSpecification
 import com.mateuszcholyn.wallet.domain.moneysaver.db.model.MonthlyBudget
 import junit.framework.Assert.assertEquals

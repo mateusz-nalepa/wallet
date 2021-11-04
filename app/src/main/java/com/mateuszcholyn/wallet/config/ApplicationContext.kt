@@ -4,12 +4,14 @@ import android.app.Application
 import android.content.Context
 import com.github.salomonbrys.kodein.*
 import com.mateuszcholyn.wallet.database.AppDatabase
-import com.mateuszcholyn.wallet.domain.category.db.CategoryDao
-import com.mateuszcholyn.wallet.domain.category.service.CategoryService
+import com.mateuszcholyn.wallet.domain.category.CategoryRepository
+import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.db.ExpenseDao
 import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.domain.moneysaver.db.MonthlyBudgetDao
 import com.mateuszcholyn.wallet.domain.moneysaver.service.MoneySaverService
+import com.mateuszcholyn.wallet.infrastructure.category.CategoryDao
+import com.mateuszcholyn.wallet.infrastructure.category.SqLiteCategoryRepository
 import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
 import net.danlew.android.joda.JodaTimeAndroid
 
@@ -29,6 +31,7 @@ class ApplicationContext : Application(), KodeinAware {
 
         //Category
         bind<CategoryDao>() with provider { appDatabase.categoryDao() }
+        bind<CategoryRepository>() with provider { SqLiteCategoryRepository(appDatabase.categoryDao()) }
         bind<CategoryService>() with provider { CategoryService(instance()) }
 
         //Expense

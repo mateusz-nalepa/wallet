@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.domain.expense.db.model
 
 import androidx.room.Embedded
-import com.mateuszcholyn.wallet.domain.category.db.model.Category
+import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
 
 data class ExpenseWithCategory(
 
@@ -9,5 +9,5 @@ data class ExpenseWithCategory(
         val expense: Expense,
 
         @Embedded
-        val category: Category
+        val categoryEntity: CategoryEntity
 )

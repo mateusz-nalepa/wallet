@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.domain.category.db.model
+package com.mateuszcholyn.wallet.infrastructure.category
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
         indices = [
             Index("name", unique = true),
             Index("category_id", unique = true)])
-data class Category(
+data class CategoryEntity(
 
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "category_id")

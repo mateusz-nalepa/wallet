@@ -20,7 +20,7 @@
             android:name="com.mateuszcholyn.wallet.domain.expense.activity.ExpenseHistoryActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name="com.mateuszcholyn.wallet.domain.category.activity.CategoryActivity"
+            android:name="com.mateuszcholyn.wallet.view.category.CategoryActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name="com.mateuszcholyn.wallet.domain.expense.activity.AddExpenseActivityBinding"

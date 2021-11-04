@@ -1,12 +1,12 @@
 package com.mateuszcholyn.wallet.domain.expense.db
 
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mateuszcholyn.wallet.database.DatabaseTestSpecification
-import com.mateuszcholyn.wallet.domain.category.db.CategoryDao
-import com.mateuszcholyn.wallet.domain.category.db.model.Category
 import com.mateuszcholyn.wallet.domain.expense.activity.ALL_CATEGORIES
 import com.mateuszcholyn.wallet.domain.expense.db.model.Expense
 import com.mateuszcholyn.wallet.domain.expense.model.AverageSearchCriteria
+import com.mateuszcholyn.wallet.infrastructure.category.CategoryDao
+import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
 import com.mateuszcholyn.wallet.util.maxDate
 import com.mateuszcholyn.wallet.util.minDate
 import junit.framework.Assert.assertEquals
@@ -31,13 +31,18 @@ internal class ExpenseDaoTest : DatabaseTestSpecification() {
     @Test
     fun shouldAddExpense() {
         //given
-        val expense = Expense(amount = 50.0, fkCategoryId = 1L, date = LocalDateTime(), description = "Hodorek")
+        val expense = Expense(
+            amount = 50.0,
+            fkCategoryId = 1L,
+            date = LocalDateTime(),
+            description = "Hodorek"
+        )
 
         //when
         val savedExpense = expenseDao.add(expense)
 
         //then
-        savedExpense == 1L
+        assertEquals(1L, savedExpense)
     }
 
     @Test
@@ -55,7 +60,7 @@ internal class ExpenseDaoTest : DatabaseTestSpecification() {
         val expenseWithCategory = expenseDao.getExpenseWithCategory(1L)
 
         //expect
-        expenseWithCategory.expense.expenseId == 1L
+        assertEquals(1L, expenseWithCategory.expense.expenseId)
     }
 
     @Test
@@ -91,14 +96,35 @@ internal class ExpenseDaoTest : DatabaseTestSpecification() {
     }
 
     private fun initCategory() {
-        categoryDao.add(Category(name = "One"))
-        categoryDao.add(Category(name = "Two"))
+        categoryDao.add(CategoryEntity(name = "One"))
+        categoryDao.add(CategoryEntity(name = "Two"))
     }
 
     private fun initExpense() {
-        expenseDao.add(Expense(amount = 1.0, fkCategoryId = 1L, date = dateIn2019September, description = "One"))
-        expenseDao.add(Expense(amount = 20.0, fkCategoryId = 1L, date = dateIn2019September, description = "Two"))
-        expenseDao.add(Expense(amount = 30.0, fkCategoryId = 2L, date = dateIn2019August, description = "Three"))
+        expenseDao.add(
+            Expense(
+                amount = 1.0,
+                fkCategoryId = 1L,
+                date = dateIn2019September,
+                description = "One"
+            )
+        )
+        expenseDao.add(
+            Expense(
+                amount = 20.0,
+                fkCategoryId = 1L,
+                date = dateIn2019September,
+                description = "Two"
+            )
+        )
+        expenseDao.add(
+            Expense(
+                amount = 30.0,
+                fkCategoryId = 2L,
+                date = dateIn2019August,
+                description = "Three"
+            )
+        )
     }
 
     companion object {

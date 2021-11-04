@@ -5,18 +5,18 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.mateuszcholyn.wallet.domain.category.db.CategoryDao
-import com.mateuszcholyn.wallet.domain.category.db.model.Category
 import com.mateuszcholyn.wallet.domain.expense.db.ExpenseDao
 import com.mateuszcholyn.wallet.domain.expense.db.model.Expense
 import com.mateuszcholyn.wallet.domain.moneysaver.db.MonthlyBudgetDao
 import com.mateuszcholyn.wallet.domain.moneysaver.db.model.MonthlyBudget
+import com.mateuszcholyn.wallet.infrastructure.category.CategoryDao
+import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
 
 
 @Database(
         entities = [
             MonthlyBudget::class,
-            Category::class,
+            CategoryEntity::class,
             Expense::class],
         version = 2)
 @TypeConverters(LocalDateTimeConverter::class)
