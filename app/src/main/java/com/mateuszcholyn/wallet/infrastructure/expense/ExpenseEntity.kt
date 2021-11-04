@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.domain.expense.db.model
+package com.mateuszcholyn.wallet.infrastructure.expense
 
 import androidx.room.*
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
@@ -15,7 +15,7 @@ import org.joda.time.LocalDateTime
             Index("expense_id", unique = true),
             Index("fk_category_id")
         ])
-data class Expense(
+data class ExpenseEntity(
 
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "expense_id")

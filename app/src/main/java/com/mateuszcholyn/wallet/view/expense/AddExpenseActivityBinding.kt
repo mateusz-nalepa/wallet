@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.domain.expense.activity
+package com.mateuszcholyn.wallet.view.expense
 
 import android.app.Activity
 import android.content.Intent
@@ -17,7 +17,7 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.R.layout
 import com.mateuszcholyn.wallet.databinding.MenuButtonBinding
 import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
+import com.mateuszcholyn.wallet.domain.expense.model.Expense
 import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.util.*
 import java.util.*
@@ -94,7 +94,7 @@ open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInj
         id = findViewById(R.id.expense_id)
 
         val expenseDto = intent.getSerializableExtra(EDIT_EXPENSE)
-        if (expenseDto != null && expenseDto is ExpenseDto) {
+        if (expenseDto != null && expenseDto is Expense) {
             initEditExpense(expenseDto)
 
         } else {
@@ -103,15 +103,15 @@ open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInj
         }
     }
 
-    private fun initEditExpense(expenseDto: ExpenseDto) {
+    private fun initEditExpense(expense: Expense) {
         title = "Edytuj wydatek"
         editLayout.visibility = View.VISIBLE
 
-        id.text = expenseDto.id.toString()
-        mExpenseAmount.text = expenseDto.amount.toEditable()
-        mCategory.setSelection(categories.indexOf(expenseDto.category.name))
-        date.text = expenseDto.date.toEditable()
-        mDescription.text = expenseDto.description.toEditable()
+        id.text = expense.id.toString()
+        mExpenseAmount.text = expense.amount.toEditable()
+        mCategory.setSelection(categories.indexOf(expense.category.name))
+        date.text = expense.date.toEditable()
+        mDescription.text = expense.description.toEditable()
     }
 
     private fun initDateTimePicker() {
@@ -127,7 +127,7 @@ open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInj
             return
         }
 
-        ExpenseDto(
+        Expense(
                 amount = mExpenseAmount.toDouble(),
                 category = categoryService.getByName(mCategory.selectedItemAsString()),
                 date = date.toLocalDateTime(),
@@ -148,7 +148,7 @@ open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInj
             return
         }
 
-        ExpenseDto(
+        Expense(
                 id = id.toLong(),
                 amount = mExpenseAmount.toDouble(),
                 category = categoryService.getByName(mCategory.selectedItem as String),

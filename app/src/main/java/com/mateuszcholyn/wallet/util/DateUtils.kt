@@ -2,9 +2,9 @@ package com.mateuszcholyn.wallet.util
 
 import android.text.Editable
 import android.widget.TextView
-import com.mateuszcholyn.wallet.domain.expense.activity.ALL_CATEGORIES
-import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
+import com.mateuszcholyn.wallet.domain.expense.model.Expense
 import com.mateuszcholyn.wallet.domain.expense.model.ExpenseSearchCriteria
+import com.mateuszcholyn.wallet.view.expense.ALL_CATEGORIES
 import org.joda.time.LocalDateTime
 import java.text.SimpleDateFormat
 import java.util.*
@@ -49,14 +49,14 @@ fun defaultSearchCriteria(): ExpenseSearchCriteria {
     )
 }
 
-fun findEarliest(resultList: List<ExpenseDto>): LocalDateTime {
+fun findEarliest(resultList: List<Expense>): LocalDateTime {
     return resultList
             .map { it.date }
             .sorted()
             .first()
 }
 
-fun findLatest(resultList: List<ExpenseDto>): LocalDateTime {
+fun findLatest(resultList: List<Expense>): LocalDateTime {
     return resultList
             .map { it.date }
             .sortedDescending()

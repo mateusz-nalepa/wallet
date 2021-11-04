@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.domain.expense.activity
+package com.mateuszcholyn.wallet.view.expense
 
 import android.app.Activity
 import android.os.Bundle
@@ -15,7 +15,7 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.config.ApplicationContext
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.model.AverageSearchCriteria
-import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
+import com.mateuszcholyn.wallet.domain.expense.model.Expense
 import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.util.HourChooser
 import com.mateuszcholyn.wallet.util.defaultSearchCriteria
@@ -36,7 +36,7 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
     private var mEndCalendar: Calendar = Calendar.getInstance()
     private lateinit var mBeginDate: TextView
     private lateinit var mEndDate: TextView
-    private lateinit var resultList: List<ExpenseDto>
+    private lateinit var resultList: List<Expense>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

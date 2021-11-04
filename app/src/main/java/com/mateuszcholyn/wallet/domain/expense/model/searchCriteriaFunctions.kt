@@ -1,12 +1,12 @@
 package com.mateuszcholyn.wallet.domain.expense.model
 
-import com.mateuszcholyn.wallet.domain.expense.activity.ALL_CATEGORIES
+import com.mateuszcholyn.wallet.view.expense.ALL_CATEGORIES
 
 fun AverageSearchCriteria.isAllCategories() =
-        isAllCategories(categoryName)
+    isAllCategories(categoryName)
 
 fun ExpenseSearchCriteria.isAllCategories() =
-        isAllCategories(categoryName)
+    isAllCategories(categoryName)
 
 fun isAllCategories(categoryName: String): Boolean =
-        ALL_CATEGORIES == categoryName
+    ALL_CATEGORIES == categoryName

@@ -1,9 +1,7 @@
-package com.mateuszcholyn.wallet.domain.expense.db
+package com.mateuszcholyn.wallet.infrastructure.expense
 
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
-import com.mateuszcholyn.wallet.domain.expense.db.model.Expense
-import com.mateuszcholyn.wallet.domain.expense.db.model.ExpenseWithCategory
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
 import org.joda.time.LocalDateTime
 
@@ -11,7 +9,7 @@ import org.joda.time.LocalDateTime
 interface ExpenseDao {
 
     @Query("select * from Expense")
-    fun getAll(): List<Expense>
+    fun getAll(): List<ExpenseEntity>
 
     @Query("""SELECT Expense.*, Category.*
                     FROM Expense
@@ -25,16 +23,16 @@ interface ExpenseDao {
     @Query("SELECT sum(amount) FROM Expense where date >= :start and date <= :end")
     fun moneySpentBetween(start: LocalDateTime, end: LocalDateTime): Double
 
-    @RawQuery(observedEntities = [Expense::class, CategoryEntity::class])
+    @RawQuery(observedEntities = [ExpenseEntity::class, CategoryEntity::class])
     fun averageAmount(query: SupportSQLiteQuery): Double
 
-    @RawQuery(observedEntities = [Expense::class, CategoryEntity::class])
+    @RawQuery(observedEntities = [ExpenseEntity::class, CategoryEntity::class])
     fun getAll(query: SupportSQLiteQuery): List<ExpenseWithCategory>
 
     @Insert
-    fun add(expense: Expense): Long
+    fun add(expenseEntity: ExpenseEntity): Long
 
     @Update
-    fun update(expense: Expense): Int
+    fun update(expenseEntity: ExpenseEntity): Int
 
 }

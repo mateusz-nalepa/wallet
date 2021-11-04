@@ -14,16 +14,16 @@
         android:theme="@style/AppTheme">
         <activity android:name=".domain.moneysaver.activity.MoneySaverActivity"></activity>
         <activity
-            android:name="com.mateuszcholyn.wallet.domain.expense.activity.AverageExpenseActivity"
+            android:name="com.mateuszcholyn.wallet.view.expense.AverageExpenseActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name="com.mateuszcholyn.wallet.domain.expense.activity.ExpenseHistoryActivity"
+            android:name="com.mateuszcholyn.wallet.view.expense.ExpenseHistoryActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name="com.mateuszcholyn.wallet.view.category.CategoryActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name="com.mateuszcholyn.wallet.domain.expense.activity.AddExpenseActivityBinding"
+            android:name="com.mateuszcholyn.wallet.view.expense.AddExpenseActivityBinding"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"

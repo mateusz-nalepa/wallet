@@ -4,12 +4,12 @@ import com.mateuszcholyn.wallet.domain.category.Category
 import org.joda.time.LocalDateTime
 import java.io.Serializable
 
-data class ExpenseDto(
-        var id: Long = -1,
+data class Expense(
+    var id: Long = -1,
 
-        val amount: Double,
-        val date: LocalDateTime,
-        val description: String,
+    val amount: Double,
+    val date: LocalDateTime,
+    val description: String,
 
-        val category: Category
+    val category: Category
 ) : Serializable

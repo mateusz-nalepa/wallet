@@ -12,11 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
-import com.mateuszcholyn.wallet.domain.expense.activity.AddExpenseActivityBinding
-import com.mateuszcholyn.wallet.domain.expense.activity.AverageExpenseActivity
-import com.mateuszcholyn.wallet.domain.expense.activity.ExpenseHistoryActivity
 import com.mateuszcholyn.wallet.domain.moneysaver.activity.MoneySaverActivity
 import com.mateuszcholyn.wallet.view.category.CategoryActivity
+import com.mateuszcholyn.wallet.view.expense.AddExpenseActivityBinding
+import com.mateuszcholyn.wallet.view.expense.AverageExpenseActivity
+import com.mateuszcholyn.wallet.view.expense.ExpenseHistoryActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 const val EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"

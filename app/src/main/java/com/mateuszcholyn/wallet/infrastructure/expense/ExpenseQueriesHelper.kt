@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.domain.expense.db
+package com.mateuszcholyn.wallet.infrastructure.expense
 
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.mateuszcholyn.wallet.domain.expense.model.AverageSearchCriteria

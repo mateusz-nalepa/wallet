@@ -2,13 +2,15 @@ package com.mateuszcholyn.wallet.domain.expense.db
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mateuszcholyn.wallet.database.DatabaseTestSpecification
-import com.mateuszcholyn.wallet.domain.expense.activity.ALL_CATEGORIES
-import com.mateuszcholyn.wallet.domain.expense.db.model.Expense
 import com.mateuszcholyn.wallet.domain.expense.model.AverageSearchCriteria
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryDao
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
+import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseDao
+import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseEntity
+import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseQueriesHelper
 import com.mateuszcholyn.wallet.util.maxDate
 import com.mateuszcholyn.wallet.util.minDate
+import com.mateuszcholyn.wallet.view.expense.ALL_CATEGORIES
 import junit.framework.Assert.assertEquals
 import org.joda.time.LocalDateTime
 import org.junit.Before
@@ -16,7 +18,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-internal class ExpenseDaoTest : DatabaseTestSpecification() {
+internal class ExpenseEntityDaoTest : DatabaseTestSpecification() {
 
     private lateinit var expenseDao: ExpenseDao
     private lateinit var categoryDao: CategoryDao
@@ -31,7 +33,7 @@ internal class ExpenseDaoTest : DatabaseTestSpecification() {
     @Test
     fun shouldAddExpense() {
         //given
-        val expense = Expense(
+        val expense = ExpenseEntity(
             amount = 50.0,
             fkCategoryId = 1L,
             date = LocalDateTime(),
@@ -60,7 +62,7 @@ internal class ExpenseDaoTest : DatabaseTestSpecification() {
         val expenseWithCategory = expenseDao.getExpenseWithCategory(1L)
 
         //expect
-        assertEquals(1L, expenseWithCategory.expense.expenseId)
+        assertEquals(1L, expenseWithCategory.expenseEntity.expenseId)
     }
 
     @Test
@@ -102,7 +104,7 @@ internal class ExpenseDaoTest : DatabaseTestSpecification() {
 
     private fun initExpense() {
         expenseDao.add(
-            Expense(
+            ExpenseEntity(
                 amount = 1.0,
                 fkCategoryId = 1L,
                 date = dateIn2019September,
@@ -110,7 +112,7 @@ internal class ExpenseDaoTest : DatabaseTestSpecification() {
             )
         )
         expenseDao.add(
-            Expense(
+            ExpenseEntity(
                 amount = 20.0,
                 fkCategoryId = 1L,
                 date = dateIn2019September,
@@ -118,7 +120,7 @@ internal class ExpenseDaoTest : DatabaseTestSpecification() {
             )
         )
         expenseDao.add(
-            Expense(
+            ExpenseEntity(
                 amount = 30.0,
                 fkCategoryId = 2L,
                 date = dateIn2019August,

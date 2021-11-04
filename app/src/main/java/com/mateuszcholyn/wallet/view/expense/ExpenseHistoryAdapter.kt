@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.domain.expense.adapter
+package com.mateuszcholyn.wallet.view.expense
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -13,11 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.domain.expense.activity.AddExpenseActivityBinding
-import com.mateuszcholyn.wallet.domain.expense.activity.EDIT_EXPENSE
-import com.mateuszcholyn.wallet.domain.expense.activity.ExpenseHistoryActivity
-import com.mateuszcholyn.wallet.domain.expense.activity.REMOVE_EXPENSE_KEY
-import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
+import com.mateuszcholyn.wallet.domain.expense.model.Expense
 import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
 import com.mateuszcholyn.wallet.util.asShortCategoryName
 import com.mateuszcholyn.wallet.util.toTextForEditable
@@ -27,7 +23,7 @@ class ExpenseHistoryAdapter(
         private val context: Context,
         private val activity: Activity,
         private val expenseService: ExpenseService,
-        private val myDataset: List<ExpenseDto>
+        private val myDataset: List<Expense>
 ) : RecyclerView.Adapter<ExpenseHistoryAdapter.MyViewHolder>() {
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -68,9 +64,9 @@ class ExpenseHistoryAdapter(
 
     }
 
-    private fun editExpense(expenseDto: ExpenseDto) {
+    private fun editExpense(expense: Expense) {
         val intent = Intent(context, AddExpenseActivityBinding::class.java).apply {
-            putExtra(EDIT_EXPENSE, expenseDto)
+            putExtra(EDIT_EXPENSE, expense)
         }
         activity.startActivity(intent)
     }

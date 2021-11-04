@@ -6,16 +6,14 @@ import android.os.Environment.DIRECTORY_DOWNLOADS
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import com.mateuszcholyn.wallet.config.ApplicationContext.Companion.appContext
-import com.mateuszcholyn.wallet.domain.expense.model.ExpenseDto
-import org.joda.time.LocalDate
+import com.mateuszcholyn.wallet.domain.expense.model.Expense
 import org.joda.time.LocalDateTime
-import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 
 private val walletPath = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).parent + File.separator + "Wallet"
 
-fun saveToFile(activity: Activity, expenses: List<ExpenseDto>) {
+fun saveToFile(activity: Activity, expens: List<Expense>) {
     if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
         return
     }
@@ -27,7 +25,7 @@ fun saveToFile(activity: Activity, expenses: List<ExpenseDto>) {
     runCatching {
         file.createNewFile()
         fileWriter.write(prepareHeader())
-        expenses.forEach { fileWriter.write(prepareLine(it)) }
+        expens.forEach { fileWriter.write(prepareLine(it)) }
         fileWriter.close()
     }
             .onFailure { nieDziala(it) }
@@ -49,8 +47,8 @@ private fun walletFilePath(): String {
     return "$walletPath${File.separator}wallet_${LocalDateTime.now()}.txt"
 }
 
-private fun prepareLine(exDto: ExpenseDto) =
-        "${exDto.id},${exDto.amount},${exDto.category.name},${exDto.date},${exDto.description}\n"
+private fun prepareLine(ex: Expense) =
+        "${ex.id},${ex.amount},${ex.category.name},${ex.date},${ex.description}\n"
 
 
 private fun prepareHeader() =
