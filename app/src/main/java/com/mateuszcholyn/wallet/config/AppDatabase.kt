@@ -41,12 +41,13 @@ abstract class AppDatabase : RoomDatabase() {
                 }
 
         private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(
-                context,
-                AppDatabase::class.java, "database.db"
-            )
-                //TODO this should be fixed!!
-                .allowMainThreadQueries()
+            Room
+                .databaseBuilder(
+                    context,
+                    AppDatabase::class.java,
+                    "database.db",
+                )
+                .allowMainThreadQueries() // TODO this should be fixed!!
                 .build()
     }
 
