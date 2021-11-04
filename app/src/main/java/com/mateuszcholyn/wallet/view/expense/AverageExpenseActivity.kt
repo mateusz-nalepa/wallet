@@ -14,9 +14,9 @@ import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.config.ApplicationContext
 import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.domain.expense.model.AverageSearchCriteria
-import com.mateuszcholyn.wallet.domain.expense.model.Expense
-import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
+import com.mateuszcholyn.wallet.domain.expense.AverageSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.Expense
+import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.HourChooser
 import com.mateuszcholyn.wallet.util.defaultSearchCriteria
 import com.mateuszcholyn.wallet.util.simpleDateFormat
@@ -72,7 +72,8 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     fun calculateAverageAmount(view: View) {
         calculate()
-        Toast.makeText(ApplicationContext.appContext, "Kalkulacja zakończona", Toast.LENGTH_SHORT).show()
+        Toast.makeText(ApplicationContext.appContext, "Kalkulacja zakończona", Toast.LENGTH_SHORT)
+            .show()
     }
 
     private fun calculate() {
@@ -80,11 +81,11 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
         val averageAmount = findViewById<TextView>(R.id.averageAmount)
         val averageSearchCriteria =
-                AverageSearchCriteria(
-                        categoryName = if (category == ALL_CATEGORIES) ALL_CATEGORIES else category,
-                        beginDate = mBeginDate.toLocalDateTime(),
-                        endDate = mEndDate.toLocalDateTime()
-                )
+            AverageSearchCriteria(
+                categoryName = if (category == ALL_CATEGORIES) ALL_CATEGORIES else category,
+                beginDate = mBeginDate.toLocalDateTime(),
+                endDate = mEndDate.toLocalDateTime()
+            )
 
         averageAmount.text = expenseService.averageExpense(averageSearchCriteria).toString() + " zł"
     }
@@ -98,9 +99,9 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
         }
 
         ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item,
-                allCategories
+            this,
+            android.R.layout.simple_spinner_item,
+            allCategories
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter

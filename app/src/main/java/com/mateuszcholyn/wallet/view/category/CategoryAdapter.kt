@@ -20,7 +20,7 @@ class CategoryAdapter(
     private val categoryService: CategoryService,
     private val categories: List<Category>
 ) :
-        RecyclerView.Adapter<CategoryAdapter.MyViewHolder>() {
+    RecyclerView.Adapter<CategoryAdapter.MyViewHolder>() {
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val categoryName = view.findViewById(R.id.cat_category_name) as TextView
@@ -28,8 +28,10 @@ class CategoryAdapter(
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): MyViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.single_category, parent, false)
         return MyViewHolder(v as View)
     }
@@ -42,12 +44,12 @@ class CategoryAdapter(
 
     private fun removeCategory(categoryName: String) {
         AlertDialog.Builder(context)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Usunięcie kategorii")
-                .setMessage("Jesteś pewny że chcesz usunąć kategorię? Spowoduje to również usunięcie wszystkich wydatków w danej kategorii!!")
-                .setPositiveButton("Tak") { dialog, which -> removePositiveAction(categoryName) }
-                .setNegativeButton("Nie", null)
-                .show()
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setTitle("Usunięcie kategorii")
+            .setMessage("Jesteś pewny że chcesz usunąć kategorię? Spowoduje to również usunięcie wszystkich wydatków w danej kategorii!!")
+            .setPositiveButton("Tak") { dialog, which -> removePositiveAction(categoryName) }
+            .setNegativeButton("Nie", null)
+            .show()
     }
 
     private fun removePositiveAction(categoryName: String) {

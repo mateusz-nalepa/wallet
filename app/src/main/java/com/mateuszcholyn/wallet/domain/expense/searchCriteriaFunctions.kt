@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.domain.expense.model
+package com.mateuszcholyn.wallet.domain.expense
 
 import com.mateuszcholyn.wallet.view.expense.ALL_CATEGORIES
 

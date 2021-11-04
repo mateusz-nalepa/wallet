@@ -17,8 +17,8 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.R.layout
 import com.mateuszcholyn.wallet.databinding.MenuButtonBinding
 import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.domain.expense.model.Expense
-import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
+import com.mateuszcholyn.wallet.domain.expense.Expense
+import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.*
 import java.util.*
 
@@ -60,9 +60,9 @@ open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInj
         categories = categoryService.getAllNamesOnly()
 
         ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item,
-                categories
+            this,
+            android.R.layout.simple_spinner_item,
+            categories
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
@@ -75,7 +75,11 @@ open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInj
         mDescription = findViewById(R.id.description)
 
         mDescription.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-            override fun onEditorAction(exampleView: TextView, actionId: Int, event: KeyEvent?): Boolean {
+            override fun onEditorAction(
+                exampleView: TextView,
+                actionId: Int,
+                event: KeyEvent?
+            ): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_GO || event != null && event.keyCode == KEYCODE_ENTER) {
                     date.performClick()
                     return true
@@ -128,10 +132,10 @@ open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInj
         }
 
         Expense(
-                amount = mExpenseAmount.toDouble(),
-                category = categoryService.getByName(mCategory.selectedItemAsString()),
-                date = date.toLocalDateTime(),
-                description = mDescription.textToString()
+            amount = mExpenseAmount.toDouble(),
+            category = categoryService.getByName(mCategory.selectedItemAsString()),
+            date = date.toLocalDateTime(),
+            description = mDescription.textToString()
         ).let {
             expenseService.addExpense(it)
         }
@@ -149,11 +153,11 @@ open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInj
         }
 
         Expense(
-                id = id.toLong(),
-                amount = mExpenseAmount.toDouble(),
-                category = categoryService.getByName(mCategory.selectedItem as String),
-                date = date.toLocalDateTime(),
-                description = mDescription.textToString()
+            id = id.toLong(),
+            amount = mExpenseAmount.toDouble(),
+            category = categoryService.getByName(mCategory.selectedItem as String),
+            date = date.toLocalDateTime(),
+            description = mDescription.textToString()
         ).let {
             expenseService.updateExpense(it)
         }

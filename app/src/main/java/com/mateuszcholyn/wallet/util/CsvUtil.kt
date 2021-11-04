@@ -6,12 +6,13 @@ import android.os.Environment.DIRECTORY_DOWNLOADS
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import com.mateuszcholyn.wallet.config.ApplicationContext.Companion.appContext
-import com.mateuszcholyn.wallet.domain.expense.model.Expense
+import com.mateuszcholyn.wallet.domain.expense.Expense
 import org.joda.time.LocalDateTime
 import java.io.File
 import java.io.FileWriter
 
-private val walletPath = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).parent + File.separator + "Wallet"
+private val walletPath =
+    Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).parent + File.separator + "Wallet"
 
 fun saveToFile(activity: Activity, expens: List<Expense>) {
     if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
@@ -28,19 +29,21 @@ fun saveToFile(activity: Activity, expens: List<Expense>) {
         expens.forEach { fileWriter.write(prepareLine(it)) }
         fileWriter.close()
     }
-            .onFailure { nieDziala(it) }
-            .onSuccess { dziala() }
+        .onFailure { nieDziala(it) }
+        .onSuccess { dziala() }
 }
 
 
 private fun nieDziala(ex: Throwable) {
     Toast.makeText(
-            appContext, "Błąd zapisu: ${ex.message}", LENGTH_LONG).show()
+        appContext, "Błąd zapisu: ${ex.message}", LENGTH_LONG
+    ).show()
 }
 
 private fun dziala() {
     Toast.makeText(
-            appContext, "Pomyślnie zapisano", LENGTH_LONG).show()
+        appContext, "Pomyślnie zapisano", LENGTH_LONG
+    ).show()
 }
 
 private fun walletFilePath(): String {
@@ -48,8 +51,8 @@ private fun walletFilePath(): String {
 }
 
 private fun prepareLine(ex: Expense) =
-        "${ex.id},${ex.amount},${ex.category.name},${ex.date},${ex.description}\n"
+    "${ex.id},${ex.amount},${ex.category.name},${ex.date},${ex.description}\n"
 
 
 private fun prepareHeader() =
-        "Id,Kwota,Kategoria,Data,Opis\n"
+    "Id,Kwota,Kategoria,Data,Opis\n"

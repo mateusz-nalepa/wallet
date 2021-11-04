@@ -1,8 +1,5 @@
-package com.mateuszcholyn.wallet.domain.expense.service
+package com.mateuszcholyn.wallet.domain.expense
 
-import com.mateuszcholyn.wallet.domain.expense.model.AverageSearchCriteria
-import com.mateuszcholyn.wallet.domain.expense.model.Expense
-import com.mateuszcholyn.wallet.domain.expense.model.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseWithCategory
 import org.joda.time.LocalDateTime
 

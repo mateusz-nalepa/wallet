@@ -2,7 +2,7 @@ package com.mateuszcholyn.wallet.domain.expense.db
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mateuszcholyn.wallet.database.DatabaseTestSpecification
-import com.mateuszcholyn.wallet.domain.expense.model.AverageSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.AverageSearchCriteria
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryDao
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
 import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseDao

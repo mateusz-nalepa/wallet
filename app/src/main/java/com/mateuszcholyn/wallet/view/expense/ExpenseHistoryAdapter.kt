@@ -13,17 +13,17 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.domain.expense.model.Expense
-import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
+import com.mateuszcholyn.wallet.domain.expense.Expense
+import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.asShortCategoryName
 import com.mateuszcholyn.wallet.util.toTextForEditable
 
 
 class ExpenseHistoryAdapter(
-        private val context: Context,
-        private val activity: Activity,
-        private val expenseService: ExpenseService,
-        private val myDataset: List<Expense>
+    private val context: Context,
+    private val activity: Activity,
+    private val expenseService: ExpenseService,
+    private val myDataset: List<Expense>
 ) : RecyclerView.Adapter<ExpenseHistoryAdapter.MyViewHolder>() {
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -40,9 +40,12 @@ class ExpenseHistoryAdapter(
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): MyViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.history_single_expense, parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): MyViewHolder {
+        val v = LayoutInflater.from(parent.context)
+            .inflate(R.layout.history_single_expense, parent, false)
         return MyViewHolder(v as View)
     }
 
@@ -54,7 +57,8 @@ class ExpenseHistoryAdapter(
         holder.fullCategoryName.text = category.name
         holder.expenseValue.text = expenseDto.amount.toString()
         holder.date.text = expenseDto.date.toTextForEditable()
-        holder.description.text = if (expenseDto.description == "") "brak opisu" else expenseDto.description
+        holder.description.text =
+            if (expenseDto.description == "") "brak opisu" else expenseDto.description
         holder.detailsLayout.visibility = View.GONE
         holder.showOrHideButton.setOnClickListener { showOrHideListener(holder.detailsLayout) }
         holder.shortLayout.setOnClickListener { showOrHideListener(holder.detailsLayout) }
@@ -81,12 +85,12 @@ class ExpenseHistoryAdapter(
 
     private fun hardRemoveCategory(expenseId: Long) {
         AlertDialog.Builder(context)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Usunięcie wydatku")
-                .setMessage("Jesteś pewny że chcesz usunąć wybrany wydatek?")
-                .setPositiveButton("Tak") { dialog, which -> removePositiveAction(expenseId) }
-                .setNegativeButton("Nie", null)
-                .show()
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setTitle("Usunięcie wydatku")
+            .setMessage("Jesteś pewny że chcesz usunąć wybrany wydatek?")
+            .setPositiveButton("Tak") { dialog, which -> removePositiveAction(expenseId) }
+            .setNegativeButton("Nie", null)
+            .show()
     }
 
     private fun removePositiveAction(expenseId: Long) {

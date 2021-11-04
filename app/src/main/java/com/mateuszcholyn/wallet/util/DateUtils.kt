@@ -2,8 +2,8 @@ package com.mateuszcholyn.wallet.util
 
 import android.text.Editable
 import android.widget.TextView
-import com.mateuszcholyn.wallet.domain.expense.model.Expense
-import com.mateuszcholyn.wallet.domain.expense.model.ExpenseSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.Expense
+import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.view.expense.ALL_CATEGORIES
 import org.joda.time.LocalDateTime
 import java.text.SimpleDateFormat
@@ -25,7 +25,7 @@ fun TextView.toLocalDateTime(): LocalDateTime {
 }
 
 fun dateAsString(calendar: Calendar) =
-        simpleDateFormat.format(calendar.time)
+    simpleDateFormat.format(calendar.time)
 
 
 fun LocalDateTime.toEditable(): Editable {
@@ -43,24 +43,24 @@ fun LocalDateTime.toTextForEditable(): String {
 
 fun defaultSearchCriteria(): ExpenseSearchCriteria {
     return ExpenseSearchCriteria(
-            categoryName = ALL_CATEGORIES,
-            beginDate = minDate,
-            endDate = maxDate
+        categoryName = ALL_CATEGORIES,
+        beginDate = minDate,
+        endDate = maxDate
     )
 }
 
 fun findEarliest(resultList: List<Expense>): LocalDateTime {
     return resultList
-            .map { it.date }
-            .sorted()
-            .first()
+        .map { it.date }
+        .sorted()
+        .first()
 }
 
 fun findLatest(resultList: List<Expense>): LocalDateTime {
     return resultList
-            .map { it.date }
-            .sortedDescending()
-            .first()
+        .map { it.date }
+        .sortedDescending()
+        .first()
 }
 
 

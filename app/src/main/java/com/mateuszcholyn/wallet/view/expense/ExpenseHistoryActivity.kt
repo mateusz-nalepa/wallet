@@ -17,9 +17,9 @@ import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.config.ApplicationContext
 import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.domain.expense.model.Expense
-import com.mateuszcholyn.wallet.domain.expense.model.ExpenseSearchCriteria
-import com.mateuszcholyn.wallet.domain.expense.service.ExpenseService
+import com.mateuszcholyn.wallet.domain.expense.Expense
+import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.*
 import java.util.*
 
@@ -59,7 +59,11 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         val defaultSearchCriteria = defaultSearchCriteria()
 
         if (expenseService.getAll(defaultSearchCriteria).isEmpty()) {
-            Toast.makeText(ApplicationContext.appContext, "Brak wydatków w bazie, dodaj jakiś wydatek", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                ApplicationContext.appContext,
+                "Brak wydatków w bazie, dodaj jakiś wydatek",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         var expenseSearchCriteria = intent.getSerializableExtra(SEARCHED)
@@ -71,9 +75,17 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         resultList = expenseService.getAll(expenseSearchCriteria as ExpenseSearchCriteria)
 
         if (resultList.isEmpty()) {
-            Toast.makeText(ApplicationContext.appContext, "Brak wydatków dla podanych kryteriów", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                ApplicationContext.appContext,
+                "Brak wydatków dla podanych kryteriów",
+                Toast.LENGTH_SHORT
+            ).show()
         } else {
-            Toast.makeText(ApplicationContext.appContext, "Wyniki dla podanych kryteriów", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                ApplicationContext.appContext,
+                "Wyniki dla podanych kryteriów",
+                Toast.LENGTH_SHORT
+            ).show()
         }
         initDateTimePickers(resultList.isEmpty())
         initCategorySpinner()
@@ -96,9 +108,9 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         }
 
         ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item,
-                allCategories
+            this,
+            android.R.layout.simple_spinner_item,
+            allCategories
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
@@ -143,11 +155,11 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         val category = findViewById<Spinner>(R.id.history_category_spinner).selectedItem as String
 
         val expenseSearchCriteria =
-                ExpenseSearchCriteria(
-                        categoryName = if (category == ALL_CATEGORIES) ALL_CATEGORIES else category,
-                        beginDate = mBeginDate.toLocalDateTime(),
-                        endDate = mEndDate.toLocalDateTime()
-                )
+            ExpenseSearchCriteria(
+                categoryName = if (category == ALL_CATEGORIES) ALL_CATEGORIES else category,
+                beginDate = mBeginDate.toLocalDateTime(),
+                endDate = mEndDate.toLocalDateTime()
+            )
 
         val intent = Intent(this, ExpenseHistoryActivity::class.java).apply {
             putExtra(SEARCHED, expenseSearchCriteria)
@@ -159,11 +171,11 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         val category = findViewById<Spinner>(R.id.history_category_spinner).selectedItem as String
 
         val expenseSearchCriteria =
-                ExpenseSearchCriteria(
-                        categoryName = if (category == ALL_CATEGORIES) ALL_CATEGORIES else category,
-                        beginDate = mBeginDate.toLocalDateTime(),
-                        endDate = mEndDate.toLocalDateTime()
-                )
+            ExpenseSearchCriteria(
+                categoryName = if (category == ALL_CATEGORIES) ALL_CATEGORIES else category,
+                beginDate = mBeginDate.toLocalDateTime(),
+                endDate = mEndDate.toLocalDateTime()
+            )
 
         saveToFile(this, expenseService.getAll(expenseSearchCriteria))
     }

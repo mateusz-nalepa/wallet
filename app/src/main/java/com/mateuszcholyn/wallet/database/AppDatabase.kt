@@ -14,11 +14,12 @@ import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseEntity
 
 
 @Database(
-        entities = [
-            MonthlyBudget::class,
-            CategoryEntity::class,
-            ExpenseEntity::class],
-        version = 2)
+    entities = [
+        MonthlyBudget::class,
+        CategoryEntity::class,
+        ExpenseEntity::class],
+    version = 2
+)
 @TypeConverters(LocalDateTimeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -32,20 +33,20 @@ abstract class AppDatabase : RoomDatabase() {
         private val LOCK = Any()
 
         operator fun invoke(context: Context) =
-                instance
-                        ?: synchronized(LOCK) {
-                            instance
-                                    ?: buildDatabase(context).also { instance = it }
-                        }
+            instance
+                ?: synchronized(LOCK) {
+                    instance
+                        ?: buildDatabase(context).also { instance = it }
+                }
 
         private fun buildDatabase(context: Context) =
-                Room.databaseBuilder(
-                        context,
-                        AppDatabase::class.java, "database.db"
-                )
-                        //TODO this should be fixed!!
-                        .allowMainThreadQueries()
-                        .build()
+            Room.databaseBuilder(
+                context,
+                AppDatabase::class.java, "database.db"
+            )
+                //TODO this should be fixed!!
+                .allowMainThreadQueries()
+                .build()
     }
 
 }

@@ -10,9 +10,9 @@ import com.mateuszcholyn.wallet.config.ApplicationContext
 
 fun Double.asPrinteableAmount() = run {
     "%.2f"
-            .format(this)
-            .replace(",", ".")
-            .toDouble()
+        .format(this)
+        .replace(",", ".")
+        .toDouble()
 }
 
 fun String.asShortCategoryName(): String {

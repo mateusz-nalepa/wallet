@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.domain.expense.model
+package com.mateuszcholyn.wallet.domain.expense
 
 import com.mateuszcholyn.wallet.domain.category.Category
 import org.joda.time.LocalDateTime

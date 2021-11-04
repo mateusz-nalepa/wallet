@@ -1,9 +1,9 @@
 package com.mateuszcholyn.wallet.infrastructure.expense
 
 import androidx.sqlite.db.SimpleSQLiteQuery
-import com.mateuszcholyn.wallet.domain.expense.model.AverageSearchCriteria
-import com.mateuszcholyn.wallet.domain.expense.model.ExpenseSearchCriteria
-import com.mateuszcholyn.wallet.domain.expense.model.isAllCategories
+import com.mateuszcholyn.wallet.domain.expense.AverageSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.isAllCategories
 import com.mateuszcholyn.wallet.util.toMillis
 
 class ExpenseQueriesHelper {

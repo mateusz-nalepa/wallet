@@ -11,10 +11,12 @@ interface ExpenseDao {
     @Query("select * from Expense")
     fun getAll(): List<ExpenseEntity>
 
-    @Query("""SELECT Expense.*, Category.*
+    @Query(
+        """SELECT Expense.*, Category.*
                     FROM Expense
                     INNER JOIN Category ON Expense.fk_category_id = Category.category_id
-                    WHERE Expense.expense_id = :expenseId""")
+                    WHERE Expense.expense_id = :expenseId"""
+    )
     fun getExpenseWithCategory(expenseId: Long): ExpenseWithCategory
 
     @Query("delete from Expense where expense_id = :expenseId")

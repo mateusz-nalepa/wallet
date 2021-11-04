@@ -6,7 +6,8 @@ import com.mateuszcholyn.wallet.config.ApplicationContext
 
 class GlobalExceptionHandler(val context: Context) : Thread.UncaughtExceptionHandler {
 
-    private var rootHandler: Thread.UncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler()
+    private var rootHandler: Thread.UncaughtExceptionHandler =
+        Thread.getDefaultUncaughtExceptionHandler()
 
     init {
         Thread.setDefaultUncaughtExceptionHandler(this)
@@ -14,7 +15,7 @@ class GlobalExceptionHandler(val context: Context) : Thread.UncaughtExceptionHan
 
     override fun uncaughtException(t: Thread, ex: Throwable) {
         Toast
-                .makeText(ApplicationContext.appContext, ex.message, Toast.LENGTH_LONG)
-                .show()
+            .makeText(ApplicationContext.appContext, ex.message, Toast.LENGTH_LONG)
+            .show()
     }
 }

@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.domain.expense.model
+package com.mateuszcholyn.wallet.domain.expense
 
 import org.joda.time.LocalDateTime
 import java.io.Serializable

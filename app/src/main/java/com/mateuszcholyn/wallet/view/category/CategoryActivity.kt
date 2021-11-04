@@ -46,7 +46,7 @@ class CategoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     fun addCategory(view: View) {
         categoryService.add(
-                Category(name = findViewById<EditText>(R.id.newCategoryName).text.toString())
+            Category(name = findViewById<EditText>(R.id.newCategoryName).text.toString())
         )
         val intent = Intent(this, CategoryActivity::class.java)
         startActivity(intent)
