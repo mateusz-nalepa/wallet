@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.database
 
 import androidx.room.Room
+import com.mateuszcholyn.wallet.config.AppDatabase
 import com.mateuszcholyn.wallet.config.ApplicationContext
-import com.mateuszcholyn.wallet.database.AppDatabase
 import org.junit.After
 import org.junit.Before
 import java.io.IOException

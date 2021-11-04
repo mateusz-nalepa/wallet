@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.database
+package com.mateuszcholyn.wallet.infrastructure.util
 
 import androidx.room.TypeConverter
 import com.mateuszcholyn.wallet.util.toLocalDateTime

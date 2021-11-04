@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:background="@color/whiteColor"
         android:orientation="vertical"
-        tools:context=".MainActivity">
+        tools:context=".view.MainActivity">
         <!-- first Child Layout -->
 
         <!-- create a Linear Layout with horizontal orientation and weightSum property -->
@@ -24,7 +24,7 @@
             <!-- place one TextView and one EditText inside layout using weight property -->
 
             <fragment
-                android:name="com.mateuszcholyn.TextFragment"
+                android:name="com.mateuszcholyn.wallet.view.TextFragment"
                 android:layout_width="130dp"
                 android:layout_height="match_parent"
                 app:customText="@string/category" />
@@ -52,7 +52,7 @@
 
 
             <fragment
-                android:name="com.mateuszcholyn.TextFragment"
+                android:name="com.mateuszcholyn.wallet.view.TextFragment"
                 android:layout_width="130dp"
                 android:layout_height="match_parent"
                 app:customText="@string/app_name" />
@@ -86,7 +86,7 @@
             <!-- place one TextView and one EditText inside layout using weight property -->
 
             <fragment
-                android:name="com.mateuszcholyn.TextFragment"
+                android:name="com.mateuszcholyn.wallet.view.TextFragment"
                 android:layout_width="130dp"
                 android:layout_height="match_parent"
                 app:customText="@string/desc" />
@@ -117,7 +117,7 @@
             <!-- place one TextView and one EditText inside layout using weight property -->
 
             <fragment
-                android:name="com.mateuszcholyn.TextFragment"
+                android:name="com.mateuszcholyn.wallet.view.TextFragment"
                 android:layout_width="130dp"
                 android:layout_height="match_parent"
                 app:customText="@string/data" />

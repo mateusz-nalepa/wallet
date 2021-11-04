@@ -1,4 +1,4 @@
-package com.mateuszcholyn
+package com.mateuszcholyn.wallet.view
 
 import android.content.Context
 import android.os.Bundle

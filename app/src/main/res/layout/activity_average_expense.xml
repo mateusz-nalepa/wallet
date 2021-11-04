@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/whiteColor"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
     <!-- first Child Layout -->
 
     <!-- create a Linear Layout with horizontal orientation and weightSum property -->

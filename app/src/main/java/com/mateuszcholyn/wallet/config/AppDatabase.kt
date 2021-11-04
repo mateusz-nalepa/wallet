@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.database
+package com.mateuszcholyn.wallet.config
 
 import android.content.Context
 import androidx.room.Database
@@ -11,6 +11,7 @@ import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseDao
 import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseEntity
 import com.mateuszcholyn.wallet.infrastructure.moneysaver.MonthlyBudgetDao
 import com.mateuszcholyn.wallet.infrastructure.moneysaver.MonthlyBudgetEntity
+import com.mateuszcholyn.wallet.infrastructure.util.LocalDateTimeConverter
 
 
 @Database(

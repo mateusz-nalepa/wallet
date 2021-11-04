@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet
+package com.mateuszcholyn.wallet.view
 
 
 import android.annotation.SuppressLint
@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.view.category.CategoryActivity
 import com.mateuszcholyn.wallet.view.expense.AddExpenseActivityBinding
 import com.mateuszcholyn.wallet.view.expense.AverageExpenseActivity

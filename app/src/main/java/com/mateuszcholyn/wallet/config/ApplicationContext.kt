@@ -3,7 +3,6 @@ package com.mateuszcholyn.wallet.config
 import android.app.Application
 import android.content.Context
 import com.github.salomonbrys.kodein.*
-import com.mateuszcholyn.wallet.database.AppDatabase
 import com.mateuszcholyn.wallet.domain.category.CategoryRepository
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository

@@ -6,7 +6,7 @@
     android:background="@color/whiteColor"
     android:orientation="vertical"
 
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
     <!-- first Child Layout -->
 
 

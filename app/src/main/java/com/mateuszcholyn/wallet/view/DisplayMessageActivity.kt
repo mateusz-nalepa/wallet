@@ -1,8 +1,9 @@
-package com.mateuszcholyn.wallet
+package com.mateuszcholyn.wallet.view
 
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.mateuszcholyn.wallet.R
 
 class DisplayMessageActivity : AppCompatActivity() {
 

@@ -15,18 +15,18 @@
         <activity android:name=".view.moneysaver.MoneySaverActivity"></activity>
         <activity
             android:name="com.mateuszcholyn.wallet.view.expense.AverageExpenseActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".view.MainActivity" />
         <activity
             android:name="com.mateuszcholyn.wallet.view.expense.ExpenseHistoryActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".view.MainActivity" />
         <activity
             android:name="com.mateuszcholyn.wallet.view.category.CategoryActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".view.MainActivity" />
         <activity
             android:name="com.mateuszcholyn.wallet.view.expense.AddExpenseActivityBinding"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".view.MainActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -36,8 +36,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DisplayMessageActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".view.DisplayMessageActivity"
+            android:parentActivityName=".view.MainActivity" />
 
     </application>
 
