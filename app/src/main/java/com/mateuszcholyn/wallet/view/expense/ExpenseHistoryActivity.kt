@@ -159,9 +159,10 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
                 endDate = mEndDate.toLocalDateTime()
             )
 
-        val intent = Intent(this, ExpenseHistoryActivity::class.java).apply {
-            putExtra(SEARCHED, expenseSearchCriteria)
-        }
+        val intent =
+            Intent(this, ExpenseHistoryActivity::class.java).apply {
+                putExtra(SEARCHED, expenseSearchCriteria)
+            }
         startActivity(intent)
     }
 
@@ -175,7 +176,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
                 endDate = mEndDate.toLocalDateTime()
             )
 
-        saveToFile(this, expenseService.getAll(expenseSearchCriteria))
+        saveToFile(applicationContext, this, expenseService.getAll(expenseSearchCriteria))
     }
 
     override fun onDestroy() {
