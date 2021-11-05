@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.domain.expense
 
 import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseWithCategory
-import org.joda.time.LocalDateTime
+import java.time.LocalDateTime
 
 interface ExpenseRepository {
 

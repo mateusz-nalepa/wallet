@@ -20,6 +20,7 @@ import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.*
+import java.time.LocalDateTime
 import java.util.*
 
 
@@ -121,7 +122,7 @@ open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInj
     private fun initDateTimePicker() {
         date = findViewById(R.id.dateTimePicker)
         date.text = currentCalendarAsString()
-        HourChooser(mCalendar, activity, date)
+        HourChooser(LocalDateTime.now(), activity, date)
     }
 
     fun addExpense(view: View) {

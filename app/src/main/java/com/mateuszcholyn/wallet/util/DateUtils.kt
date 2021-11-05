@@ -5,40 +5,26 @@ import android.widget.TextView
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.view.expense.ALL_CATEGORIES
-import org.joda.time.LocalDateTime
-import java.text.SimpleDateFormat
-import java.util.*
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
-val simpleDateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
+val simpleDateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 
 
-//TODO - refactor
-// from TextView -> Calendar -> LocalDateTime
-// to TextView -> LocalDateTime
 fun TextView.toLocalDateTime(): LocalDateTime {
-    val stringDate = this.text.toString()
-    val parsedDate = simpleDateFormat.parse(stringDate)
-    val gregorianCalendar = GregorianCalendar.getInstance()
-    gregorianCalendar.time = parsedDate
-
-    return LocalDateTime.fromCalendarFields(gregorianCalendar)
+    return LocalDateTime.parse(text.toString(), simpleDateFormat)
 }
-
-fun dateAsString(calendar: Calendar) =
-    simpleDateFormat.format(calendar.time)
 
 
 fun LocalDateTime.toEditable(): Editable {
-    val calendar = Calendar.getInstance()
-    calendar.time = this.toDate()
-    return simpleDateFormat.format(calendar.time).toEditable()
+    return simpleDateFormat.format(this).toEditable()
 }
 
 fun LocalDateTime.toTextForEditable(): String {
-    val gregorianCalendar = GregorianCalendar()
-    gregorianCalendar.time = this.toDate()
-
-    return simpleDateFormat.format(gregorianCalendar.time)
+    return simpleDateFormat.format(this)
 }
 
 fun defaultSearchCriteria(): ExpenseSearchCriteria {
@@ -65,16 +51,16 @@ fun findLatest(resultList: List<Expense>): LocalDateTime {
 
 
 fun Long.toLocalDateTime(): LocalDateTime {
-    return LocalDateTime(this)
+    return Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDateTime();
 }
 
 fun LocalDateTime.toMillis(): Long {
-    return this.toDateTime().millis
+    return this.toInstant(ZoneOffset.UTC).toEpochMilli()
 }
 
 fun currentCalendarAsString(): String {
-    return simpleDateFormat.format(GregorianCalendar().time)
+    return simpleDateFormat.format(LocalDateTime.now())
 }
 
-val minDate = LocalDateTime(1970, 1, 1, 1, 1, 1)
-val maxDate = LocalDateTime(3000, 12, 31, 23, 59, 59)
+val minDate: LocalDateTime = LocalDateTime.of(1970, 1, 1, 1, 1, 1)
+val maxDate: LocalDateTime = LocalDateTime.of(3000, 12, 31, 23, 59, 59)

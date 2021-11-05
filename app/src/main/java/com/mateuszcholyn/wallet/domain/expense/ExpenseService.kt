@@ -1,6 +1,8 @@
 package com.mateuszcholyn.wallet.domain.expense
 
-import org.joda.time.LocalDateTime
+import java.time.LocalDateTime
+import java.time.temporal.TemporalAdjusters.lastDayOfMonth
+
 
 class ExpenseService(
     private val expenseRepository: ExpenseRepository,
@@ -26,9 +28,9 @@ class ExpenseService(
     }
 
     fun moneySpentIn(year: Int, month: Int): Double {
-        val startRange = LocalDateTime(year, month, 1, 1, 1, 1)
-        val maximumDayForGivenMonth = startRange.dayOfMonth().maximumValue
-        val endRange = LocalDateTime(year, month, maximumDayForGivenMonth, 23, 59, 59)
+        val startRange = LocalDateTime.of(year, month, 1, 1, 1, 1)
+        val maximumDayForGivenMonth = startRange.with(lastDayOfMonth()).dayOfMonth
+        val endRange = LocalDateTime.of(year, month, maximumDayForGivenMonth, 23, 59, 59)
         return expenseRepository.moneySpentBetween(startRange, endRange)
     }
 

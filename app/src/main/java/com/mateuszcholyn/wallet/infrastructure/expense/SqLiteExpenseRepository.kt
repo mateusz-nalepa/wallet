@@ -6,7 +6,7 @@ import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.infrastructure.category.toDomain
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
-import org.joda.time.LocalDateTime
+import java.time.LocalDateTime
 
 class SqLiteExpenseRepository(
     private val expenseDao: ExpenseDao,

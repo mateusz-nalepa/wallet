@@ -21,7 +21,7 @@ import com.mateuszcholyn.wallet.util.HourChooser
 import com.mateuszcholyn.wallet.util.defaultSearchCriteria
 import com.mateuszcholyn.wallet.util.simpleDateFormat
 import com.mateuszcholyn.wallet.util.toLocalDateTime
-import java.util.*
+import java.time.LocalDateTime
 
 const val ALL_CATEGORIES = "Wszystkie"
 
@@ -32,8 +32,6 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
     private val categoryService: CategoryService by instance()
 
     private lateinit var activity: Activity
-    private var mBeginCalendar: Calendar = Calendar.getInstance()
-    private var mEndCalendar: Calendar = Calendar.getInstance()
     private lateinit var mBeginDate: TextView
     private lateinit var mEndDate: TextView
     private lateinit var resultList: List<Expense>
@@ -58,16 +56,14 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     private fun initBeginDateTimePicker() {
         mBeginDate = findViewById(R.id.average_begin_dateTimePicker)
-        val gregorianCalendar = GregorianCalendar()
-        gregorianCalendar.add(Calendar.DAY_OF_WEEK, -7)
-        mBeginDate.text = simpleDateFormat.format(gregorianCalendar.time)
-        HourChooser(mBeginCalendar, activity, mBeginDate)
+        HourChooser(LocalDateTime.now().minusDays(7), activity, mBeginDate)
     }
 
     private fun initEndDateTimePicker() {
         mEndDate = findViewById(R.id.average_end_dateTimePicker)
-        mEndDate.text = simpleDateFormat.format(GregorianCalendar().time)
-        HourChooser(mEndCalendar, activity, mEndDate)
+        val now = LocalDateTime.now()
+        mEndDate.text = simpleDateFormat.format(now)
+        HourChooser(now, activity, mEndDate)
     }
 
     fun calculateAverageAmount(view: View) {

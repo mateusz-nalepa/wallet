@@ -21,7 +21,7 @@ import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.*
-import java.util.*
+import java.time.LocalDateTime
 
 
 const val REMOVE_EXPENSE_KEY = "REMOVE_EXPENSE_KEY"
@@ -40,8 +40,6 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     private lateinit var activity: Activity
-    private var mBeginCalendar: Calendar = Calendar.getInstance()
-    private var mEndCalendar: Calendar = Calendar.getInstance()
     private lateinit var mBeginDate: TextView
     private lateinit var mEndDate: TextView
     private lateinit var resultList: List<Expense>
@@ -130,7 +128,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         }
 
         mBeginDate.text = currentTime
-        HourChooser(mBeginCalendar, activity, mBeginDate)
+        HourChooser(LocalDateTime.now(), activity, mBeginDate)
     }
 
     private fun initEndDateTimePicker(isEmptyResultSize: Boolean) {
@@ -141,7 +139,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         }
 
         mEndDate.text = currentTime
-        HourChooser(mEndCalendar, activity, mEndDate)
+        HourChooser(LocalDateTime.now(), activity, mEndDate)
     }
 
     private fun showIntentMessage() {

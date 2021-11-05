@@ -5,48 +5,51 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.view.View
 import android.widget.TextView
-import java.util.*
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 class HourChooser(
-    private var mCalendar: Calendar,
+    private var now: LocalDateTime,
     private var activity: Activity,
-    private var date: TextView
+    private var dateTextView: TextView
 ) {
 
+    private var time: LocalTime = LocalTime.now()
+    private var date: LocalDate = LocalDate.now()
+
     private val textListener = View.OnClickListener {
-        mCalendar = Calendar.getInstance()
         DatePickerDialog(
             activity,
             mDateDataSet,
-            mCalendar.get(Calendar.YEAR),
-            mCalendar.get(Calendar.MONTH),
-            mCalendar.get(Calendar.DAY_OF_MONTH)
+            now.year,
+            now.monthValue,
+            now.dayOfMonth
         )
             .show()
     }
 
     private val mDateDataSet = DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
-        mCalendar.set(Calendar.YEAR, year)
-        mCalendar.set(Calendar.MONTH, month)
-        mCalendar.set(Calendar.DAY_OF_MONTH, day)
+        date = LocalDate.of(year, month, day)
+
         TimePickerDialog(
             activity,
             mTimeDataSet,
-            mCalendar.get(Calendar.HOUR_OF_DAY),
-            mCalendar.get(Calendar.MINUTE),
+            now.hour,
+            now.minute,
             true
         ).show()
 
     }
 
     private val mTimeDataSet = TimePickerDialog.OnTimeSetListener { timePicker, hourOfDay, minute ->
-        mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-        mCalendar.set(Calendar.MINUTE, minute)
-        date.text = simpleDateFormat.format(mCalendar.time)
+        time = LocalTime.of(hourOfDay, minute)
+        val data = LocalDateTime.of(date, time)
+        dateTextView.text = simpleDateFormat.format(data)
     }
 
     init {
-        date.setOnClickListener(textListener)
+        dateTextView.setOnClickListener(textListener)
     }
 
 }

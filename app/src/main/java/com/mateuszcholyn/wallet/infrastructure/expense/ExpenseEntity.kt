@@ -2,7 +2,7 @@ package com.mateuszcholyn.wallet.infrastructure.expense
 
 import androidx.room.*
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
-import org.joda.time.LocalDateTime
+import java.time.LocalDateTime
 
 @Entity(
     tableName = "Expense",

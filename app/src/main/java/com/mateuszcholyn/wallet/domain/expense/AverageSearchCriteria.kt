@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.domain.expense
 
-import org.joda.time.LocalDateTime
+import java.time.LocalDateTime
+
 
 data class AverageSearchCriteria(
     val categoryName: String,

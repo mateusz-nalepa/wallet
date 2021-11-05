@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.domain.expense
 
 import com.mateuszcholyn.wallet.domain.category.Category
-import org.joda.time.LocalDateTime
 import java.io.Serializable
+import java.time.LocalDateTime
 
 data class Expense(
     var id: Long = -1,

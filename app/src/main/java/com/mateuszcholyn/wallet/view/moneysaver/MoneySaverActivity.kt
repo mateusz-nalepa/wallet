@@ -9,7 +9,7 @@ import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.moneysaver.MoneySaverService
-import org.joda.time.LocalDateTime
+import java.time.LocalDateTime
 
 
 class MoneySaverActivity : AppCompatActivity(), AppCompatActivityInjector {
@@ -38,7 +38,7 @@ class MoneySaverActivity : AppCompatActivity(), AppCompatActivityInjector {
     @SuppressLint("SetTextI18n")
     private fun initFieldsValues() {
         val now = LocalDateTime.now()
-        moneySaverService.monthlyBudgetSummaryFor(now.year, now.monthOfYear).also {
+        moneySaverService.monthlyBudgetSummaryFor(now.year, now.monthValue).also {
             monthlyBudget.text = it.monthlyBudget.toString() + " zł"
             spentMoney.text = it.spentMoney.toString() + " zł"
             savedMoney.text = it.savedMoney.toString() + " zł"

@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.domain.expense
 
-import org.joda.time.LocalDateTime
 import java.io.Serializable
+import java.time.LocalDateTime
 
 data class ExpenseSearchCriteria(
     val categoryName: String,

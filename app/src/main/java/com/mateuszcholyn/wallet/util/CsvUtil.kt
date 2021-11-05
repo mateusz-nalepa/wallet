@@ -7,9 +7,9 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import com.mateuszcholyn.wallet.config.ApplicationContext.Companion.appContext
 import com.mateuszcholyn.wallet.domain.expense.Expense
-import org.joda.time.LocalDateTime
 import java.io.File
 import java.io.FileWriter
+import java.time.LocalDateTime
 
 private val walletPath =
     Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).parent + File.separator + "Wallet"

@@ -16,7 +16,6 @@ import com.mateuszcholyn.wallet.infrastructure.expense.SqLiteExpenseRepository
 import com.mateuszcholyn.wallet.infrastructure.moneysaver.MonthlyBudgetDao
 import com.mateuszcholyn.wallet.infrastructure.moneysaver.SqLiteMonthlyBudgetRepository
 import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
-import net.danlew.android.joda.JodaTimeAndroid
 
 
 class ApplicationContext : Application(), KodeinAware {
@@ -24,7 +23,6 @@ class ApplicationContext : Application(), KodeinAware {
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
-        JodaTimeAndroid.init(this)
         AppDatabase(appContext)
         GlobalExceptionHandler(this)
     }
