@@ -16,9 +16,9 @@ import com.mateuszcholyn.wallet.config.ApplicationContext
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.AverageSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.Expense
+import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.HourChooser
-import com.mateuszcholyn.wallet.util.defaultSearchCriteria
 import com.mateuszcholyn.wallet.util.simpleDateFormat
 import com.mateuszcholyn.wallet.util.toLocalDateTime
 import java.time.LocalDateTime
@@ -45,7 +45,7 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
         setContentView(R.layout.activity_average_expense)
         initCategorySpinner()
         initDateTimePickers()
-        resultList = expenseService.getAll(defaultSearchCriteria())
+        resultList = expenseService.getAll(ExpenseSearchCriteria.defaultSearchCriteria())
         calculate()
     }
 
@@ -73,12 +73,14 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
     private fun calculate() {
-        val category = findViewById<Spinner>(R.id.average_category_spinner).selectedItem as String
+        val categoryName =
+            findViewById<Spinner>(R.id.average_category_spinner).selectedItem as String
 
         val averageAmount = findViewById<TextView>(R.id.averageAmount)
         val averageSearchCriteria =
             AverageSearchCriteria(
-                categoryName = if (category == ALL_CATEGORIES) ALL_CATEGORIES else category,
+                allCategories = categoryName == ALL_CATEGORIES,
+                categoryName = if (categoryName == ALL_CATEGORIES) null else categoryName,
                 beginDate = mBeginDate.toLocalDateTime(),
                 endDate = mEndDate.toLocalDateTime()
             )

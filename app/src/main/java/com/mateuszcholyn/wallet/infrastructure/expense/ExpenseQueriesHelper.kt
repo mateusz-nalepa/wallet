@@ -3,7 +3,6 @@ package com.mateuszcholyn.wallet.infrastructure.expense
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.mateuszcholyn.wallet.domain.expense.AverageSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
-import com.mateuszcholyn.wallet.domain.expense.isAllCategories
 import com.mateuszcholyn.wallet.util.toMillis
 
 class ExpenseQueriesHelper {
@@ -17,10 +16,10 @@ class ExpenseQueriesHelper {
                 and Expense.date <= ${averageSearchCriteria.endDate.toMillis()}
                 """.trimIndent()
 
-        return if (averageSearchCriteria.isAllCategories()) {
+        return if (averageSearchCriteria.allCategories) {
             SimpleSQLiteQuery(averageQuery)
         } else {
-            averageQuery += " and Category.name = '${averageSearchCriteria.categoryName}'"
+            averageQuery += " and Category.name = '${averageSearchCriteria.categoryName!!}'"
             SimpleSQLiteQuery(averageQuery)
         }
     }
@@ -34,10 +33,10 @@ class ExpenseQueriesHelper {
                 and Expense.date <= ${expenseSearchCriteria.endDate.toMillis()}
                 """.trimIndent()
 
-        return if (expenseSearchCriteria.isAllCategories()) {
+        return if (expenseSearchCriteria.allCategories) {
             SimpleSQLiteQuery(averageQuery)
         } else {
-            averageQuery += " and Category.name = '${expenseSearchCriteria.categoryName}'"
+            averageQuery += " and Category.name = '${expenseSearchCriteria.categoryName!!}'"
             SimpleSQLiteQuery(averageQuery)
         }
     }

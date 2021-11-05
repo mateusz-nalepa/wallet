@@ -54,7 +54,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         viewManager = LinearLayoutManager(this)
 
 
-        val defaultSearchCriteria = defaultSearchCriteria()
+        val defaultSearchCriteria = ExpenseSearchCriteria.defaultSearchCriteria()
 
         if (expenseService.getAll(defaultSearchCriteria).isEmpty()) {
             Toast.makeText(
@@ -149,15 +149,8 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
     fun showHistoryResults(view: View) {
-
         val category = findViewById<Spinner>(R.id.history_category_spinner).selectedItem as String
-
-        val expenseSearchCriteria =
-            ExpenseSearchCriteria(
-                categoryName = if (category == ALL_CATEGORIES) ALL_CATEGORIES else category,
-                beginDate = mBeginDate.toLocalDateTime(),
-                endDate = mEndDate.toLocalDateTime()
-            )
+        val expenseSearchCriteria = prepareExpenseSearchCriteria(category)
 
         val intent =
             Intent(this, ExpenseHistoryActivity::class.java).apply {
@@ -168,15 +161,17 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     fun exportHistoryResults(view: View) {
         val category = findViewById<Spinner>(R.id.history_category_spinner).selectedItem as String
-
-        val expenseSearchCriteria =
-            ExpenseSearchCriteria(
-                categoryName = if (category == ALL_CATEGORIES) ALL_CATEGORIES else category,
-                beginDate = mBeginDate.toLocalDateTime(),
-                endDate = mEndDate.toLocalDateTime()
-            )
-
+        val expenseSearchCriteria = prepareExpenseSearchCriteria(category)
         saveToFile(applicationContext, this, expenseService.getAll(expenseSearchCriteria))
+    }
+
+    private fun prepareExpenseSearchCriteria(categoryName: String): ExpenseSearchCriteria {
+        return ExpenseSearchCriteria(
+            allCategories = categoryName == ALL_CATEGORIES,
+            categoryName = if (categoryName == ALL_CATEGORIES) null else categoryName,
+            beginDate = mBeginDate.toLocalDateTime(),
+            endDate = mEndDate.toLocalDateTime()
+        )
     }
 
     override fun onDestroy() {

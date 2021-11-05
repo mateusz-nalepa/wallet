@@ -3,8 +3,6 @@ package com.mateuszcholyn.wallet.util
 import android.text.Editable
 import android.widget.TextView
 import com.mateuszcholyn.wallet.domain.expense.Expense
-import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
-import com.mateuszcholyn.wallet.view.expense.ALL_CATEGORIES
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -25,14 +23,6 @@ fun LocalDateTime.toEditable(): Editable {
 
 fun LocalDateTime.toTextForEditable(): String {
     return simpleDateFormat.format(this)
-}
-
-fun defaultSearchCriteria(): ExpenseSearchCriteria {
-    return ExpenseSearchCriteria(
-        categoryName = ALL_CATEGORIES,
-        beginDate = minDate,
-        endDate = maxDate
-    )
 }
 
 fun findEarliest(resultList: List<Expense>): LocalDateTime {
