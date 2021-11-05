@@ -16,7 +16,7 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.asShortCategoryName
-import com.mateuszcholyn.wallet.util.toTextForEditable
+import com.mateuszcholyn.wallet.util.toHumanText
 
 
 class ExpenseHistoryAdapter(
@@ -56,7 +56,7 @@ class ExpenseHistoryAdapter(
         holder.shortCategoryName.text = category.name.asShortCategoryName()
         holder.fullCategoryName.text = category.name
         holder.expenseValue.text = expenseDto.amount.toString()
-        holder.date.text = expenseDto.date.toTextForEditable()
+        holder.date.text = expenseDto.date.toHumanText()
         holder.description.text =
             if (expenseDto.description == "") "brak opisu" else expenseDto.description
         holder.detailsLayout.visibility = View.GONE

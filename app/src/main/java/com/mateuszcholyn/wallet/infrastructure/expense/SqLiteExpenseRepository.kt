@@ -1,6 +1,5 @@
 package com.mateuszcholyn.wallet.infrastructure.expense
 
-import com.mateuszcholyn.wallet.domain.expense.AverageSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
@@ -36,9 +35,9 @@ class SqLiteExpenseRepository(
         return expenseDao.moneySpentBetween(start, end)
     }
 
-    override fun averageAmount(averageSearchCriteria: AverageSearchCriteria): Double {
+    override fun averageAmount(expenseSearchCriteria: ExpenseSearchCriteria): Double {
         return expenseDao
-            .averageAmount(expenseQueriesHelper.prepareAverageSearchQuery(averageSearchCriteria))
+            .averageAmount(expenseQueriesHelper.prepareAverageSearchQuery(expenseSearchCriteria))
             .asPrinteableAmount()
     }
 

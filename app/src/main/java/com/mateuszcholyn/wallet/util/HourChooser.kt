@@ -44,8 +44,7 @@ class HourChooser(
 
     private val mTimeDataSet = TimePickerDialog.OnTimeSetListener { timePicker, hourOfDay, minute ->
         time = LocalTime.of(hourOfDay, minute)
-        val data = LocalDateTime.of(date, time)
-        dateTextView.text = simpleDateFormat.format(data)
+        dateTextView.text = LocalDateTime.of(date, time).toHumanText()
     }
 
     init {

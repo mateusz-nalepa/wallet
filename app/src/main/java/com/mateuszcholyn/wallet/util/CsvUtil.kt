@@ -53,11 +53,11 @@ private fun dziala() {
 }
 
 private fun walletFilePath(walletPath: String): String {
-    return "$walletPath${File.separator}wallet_${simpleDateFormat.format(LocalDateTime.now())}.txt"
+    return "$walletPath${File.separator}wallet_${LocalDateTime.now().toHumanText()}.txt"
 }
 
 private fun prepareLine(ex: Expense) =
-    "${ex.id},${ex.amount},${ex.category.name},${simpleDateFormat.format(ex.date)},${ex.description}\n"
+    "${ex.id},${ex.amount},${ex.category.name},${ex.date.toHumanText()},${ex.description}\n"
 
 
 private fun prepareHeader() =

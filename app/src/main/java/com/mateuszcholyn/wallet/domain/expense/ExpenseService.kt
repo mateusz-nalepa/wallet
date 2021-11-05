@@ -16,8 +16,8 @@ class ExpenseService(
         return expenseRepository.getAll(expenseSearchCriteria)
     }
 
-    fun averageExpense(averageSearchCriteria: AverageSearchCriteria): Double {
-        return expenseRepository.averageAmount(averageSearchCriteria)
+    fun averageExpense(expenseSearchCriteria: ExpenseSearchCriteria): Double {
+        return expenseRepository.averageAmount(expenseSearchCriteria)
     }
 
     fun hardRemove(expenseId: Long): Boolean =

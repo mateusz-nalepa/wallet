@@ -9,19 +9,17 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-val simpleDateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
-
+private val simpleDateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 
 fun TextView.toLocalDateTime(): LocalDateTime {
     return LocalDateTime.parse(text.toString(), simpleDateFormat)
 }
 
-
 fun LocalDateTime.toEditable(): Editable {
     return simpleDateFormat.format(this).toEditable()
 }
 
-fun LocalDateTime.toTextForEditable(): String {
+fun LocalDateTime.toHumanText(): String {
     return simpleDateFormat.format(this)
 }
 
