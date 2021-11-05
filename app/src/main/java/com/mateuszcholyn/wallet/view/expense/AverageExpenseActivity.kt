@@ -19,8 +19,8 @@ import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.HourChooser
-import com.mateuszcholyn.wallet.util.simpleDateFormat
 import com.mateuszcholyn.wallet.util.toLocalDateTime
+import com.mateuszcholyn.wallet.util.toTextForEditable
 import java.time.LocalDateTime
 
 const val ALL_CATEGORIES = "Wszystkie"
@@ -56,13 +56,15 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     private fun initBeginDateTimePicker() {
         mBeginDate = findViewById(R.id.average_begin_dateTimePicker)
-        HourChooser(LocalDateTime.now().minusDays(7), activity, mBeginDate)
+        val oneWeekAgo = LocalDateTime.now().minusDays(7)
+        mBeginDate.text = oneWeekAgo.toTextForEditable()
+        HourChooser(oneWeekAgo, activity, mBeginDate)
     }
 
     private fun initEndDateTimePicker() {
         mEndDate = findViewById(R.id.average_end_dateTimePicker)
         val now = LocalDateTime.now()
-        mEndDate.text = simpleDateFormat.format(now)
+        mEndDate.text = now.toTextForEditable()
         HourChooser(now, activity, mEndDate)
     }
 
