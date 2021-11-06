@@ -53,10 +53,23 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         recyclerView = findViewById(R.id.histories_recycler_view)
         viewManager = LinearLayoutManager(this)
 
+        resultList = handleSearchResults()
+        initDateTimePickers(resultList.isEmpty())
+        initCategorySpinner()
 
-        val defaultSearchCriteria = ExpenseSearchCriteria.defaultSearchCriteria()
+        viewAdapter = ExpenseHistoryAdapter(this, this, expenseService, resultList)
+        recyclerView = recyclerView.apply {
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
+        showIntentMessage()
+    }
 
-        if (expenseService.getAll(defaultSearchCriteria).isEmpty()) {
+    private fun handleResultsWhenNoExpenseIsAdded(): List<Expense> {
+
+        val expenses = expenseService.getAll(ExpenseSearchCriteria.defaultSearchCriteria())
+
+        if (expenses.isEmpty()) {
             Toast.makeText(
                 ApplicationContext.appContext,
                 "Brak wydatków w bazie, dodaj jakiś wydatek",
@@ -64,15 +77,17 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
             ).show()
         }
 
-        var expenseSearchCriteria = intent.getSerializableExtra(SEARCHED)
-        if (expenseSearchCriteria == null) {
-            expenseSearchCriteria = defaultSearchCriteria
-        }
+        return expenses
+    }
 
+    private fun handleSearchResults(): List<Expense> {
+        val expenseSearchCriteria =
+            intent.getSerializableExtra(SEARCHED)
+                ?: return handleResultsWhenNoExpenseIsAdded()
 
-        resultList = expenseService.getAll(expenseSearchCriteria as ExpenseSearchCriteria)
+        val resultXD = expenseService.getAll(expenseSearchCriteria as ExpenseSearchCriteria)
 
-        if (resultList.isEmpty()) {
+        if (resultXD.isEmpty()) {
             Toast.makeText(
                 ApplicationContext.appContext,
                 "Brak wydatków dla podanych kryteriów",
@@ -85,17 +100,9 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
                 Toast.LENGTH_SHORT
             ).show()
         }
-        initDateTimePickers(resultList.isEmpty())
-        initCategorySpinner()
 
-        viewAdapter = ExpenseHistoryAdapter(this, this, expenseService, resultList)
-        recyclerView = recyclerView.apply {
-            layoutManager = viewManager
-            adapter = viewAdapter
-        }
-        showIntentMessage()
+        return resultXD
     }
-
 
     private fun initCategorySpinner() {
 

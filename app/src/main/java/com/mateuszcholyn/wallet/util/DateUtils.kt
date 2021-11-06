@@ -23,19 +23,15 @@ fun LocalDateTime.toHumanText(): String {
     return simpleDateFormat.format(this)
 }
 
-fun findEarliest(resultList: List<Expense>): LocalDateTime {
-    return resultList
+fun findEarliest(resultList: List<Expense>): LocalDateTime =
+    resultList
         .map { it.date }
-        .sorted()
-        .first()
-}
+        .minOrNull()!!
 
-fun findLatest(resultList: List<Expense>): LocalDateTime {
-    return resultList
+fun findLatest(resultList: List<Expense>): LocalDateTime =
+    resultList
         .map { it.date }
-        .sortedDescending()
-        .first()
-}
+        .maxOrNull()!!
 
 
 fun Long.toLocalDateTime(): LocalDateTime {
