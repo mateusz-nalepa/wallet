@@ -3,8 +3,10 @@ package com.mateuszcholyn.wallet.view.expense
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
-import android.widget.*
-import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +20,8 @@ import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.*
+import com.mateuszcholyn.wallet.view.QuickRange
+import com.mateuszcholyn.wallet.view.QuickRangeSelectedListener
 import java.time.LocalDateTime
 
 
@@ -175,61 +179,4 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         super.onDestroy()
         destroyInjector()
     }
-}
-
-
-class QuickRangeSelectedListener(
-    private var mBeginDate: TextView,
-    private var mEndDate: TextView,
-) : OnItemSelectedListener {
-
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        QuickRange.modifyBasedOnPosition(position, mBeginDate, mEndDate)
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
-    }
-}
-
-
-object QuickRange {
-
-    private val quickRanges = mapOf(
-        0 to "Ostatni tydzień",
-        1 to "Ostatni Miesiąc",
-        2 to "Ostatnie 3 Miesiące",
-        3 to "Wszystkie wydatki",
-    )
-
-    fun quickRangesNames(): List<String> =
-        quickRanges.values.toList()
-
-    fun modifyBasedOnPosition(position: Int, mBeginDate: TextView, mEndDate: TextView) {
-        when (position) {
-            0 -> {
-                mBeginDate.text = LocalDateTime.now().minusDays(7).toHumanText()
-                mEndDate.text = currentDateAsString()
-            }
-            1 -> {
-                mBeginDate.text = LocalDateTime.now().minusMonths(1).toHumanText()
-                mEndDate.text = currentDateAsString()
-            }
-            2 -> {
-                mBeginDate.text = LocalDateTime.now().minusMonths(3).toHumanText()
-                mEndDate.text = currentDateAsString()
-            }
-            3 -> {
-                mBeginDate.text = minDate.toHumanText()
-                mEndDate.text = maxDate.toHumanText()
-            }
-        }
-    }
-
-    fun setDefaultDates(mBeginDate: TextView, mEndDate: TextView) {
-        mBeginDate.text = LocalDateTime.now().minusDays(7).toHumanText()
-        mEndDate.text = currentDateAsString()
-    }
-
 }
