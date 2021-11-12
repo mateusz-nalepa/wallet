@@ -58,7 +58,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         showIntentMessage()
     }
 
-    private fun handleResults() {
+    private fun updateListOnScreen() {
         viewAdapter = ExpenseHistoryAdapter(this, this, expenseService, resultList)
         recyclerView = recyclerView.apply {
             layoutManager = viewManager
@@ -83,7 +83,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
                 }
             }
             .also { resultList = it }
-            .also { handleResults() }
+            .also { updateListOnScreen() }
 
     }
 
@@ -148,7 +148,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
     private fun handleSearchResults(expenseSearchCriteria: ExpenseSearchCriteria) {
         resultList = expenseService.getAll(expenseSearchCriteria)
 
-        handleResults()
+        updateListOnScreen()
 
         if (resultList.isEmpty()) {
             Toast.makeText(
