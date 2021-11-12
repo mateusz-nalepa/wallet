@@ -123,12 +123,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     private fun initQuickRangeSpinner() {
         val spinner: Spinner = findViewById(R.id.history_quick_range_spinner)
-        val allQuickRanges = listOf(
-            "Ostatni tydzień",
-            "Ten tydzień",
-            "Ostatni Miesiąc",
-            "Ten Miesiąc",
-        )
+        val allQuickRanges = QuickRange.quickRangesNames()
 
         ArrayAdapter(
             this,
@@ -139,7 +134,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
             spinner.adapter = adapter
         }
 
-        spinner.onItemSelectedListener = QuickRangeSelectedListener()
+        spinner.onItemSelectedListener = QuickRangeSelectedListener(mBeginDate, mEndDate)
     }
 
 
@@ -150,7 +145,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     private fun initBeginDateTimePicker(isEmptyResultSize: Boolean) {
         mBeginDate = findViewById(R.id.history_begin_dateTimePicker)
-        var currentTime = currentCalendarAsString()
+        var currentTime = currentDateAsString()
         if (!isEmptyResultSize) {
             currentTime = findEarliest(resultList).toHumanText()
         }
@@ -161,7 +156,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     private fun initEndDateTimePicker(isEmptyResultSize: Boolean) {
         mEndDate = findViewById(R.id.history_end_dateTimePicker)
-        var currentTime = currentCalendarAsString()
+        var currentTime = currentDateAsString()
         if (!isEmptyResultSize) {
             currentTime = findLatest(resultList).toHumanText()
         }
@@ -200,18 +195,43 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 }
 
 
-class QuickRangeSelectedListener : OnItemSelectedListener {
+class QuickRangeSelectedListener(
+    private var mBeginDate: TextView,
+    private var mEndDate: TextView,
+) : OnItemSelectedListener {
+
+
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        Toast
-            .makeText(
-                ApplicationContext.appContext,
-                "Wybrales cos na pozycji $position",
-                Toast.LENGTH_SHORT
-            )
-            .show()
+        QuickRange.modifyBasedOnPosition(position, mBeginDate, mEndDate)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
         TODO("Not yet implemented")
     }
+}
+
+
+object QuickRange {
+
+    private val quickRanges = mapOf(
+        0 to "Ostatni tydzień",
+        1 to "Ostatni Miesiąc",
+    )
+
+    fun quickRangesNames(): List<String> =
+        quickRanges.values.toList()
+
+    fun modifyBasedOnPosition(position: Int, mBeginDate: TextView, mEndDate: TextView) {
+        when (position) {
+            0 -> {
+                mBeginDate.text = LocalDateTime.now().minusDays(7).toHumanText()
+                mEndDate.text = currentDateAsString()
+            }
+            1 -> {
+                mBeginDate.text = LocalDateTime.now().minusMonths(1).toHumanText()
+                mEndDate.text = currentDateAsString()
+            }
+        }
+    }
+
 }

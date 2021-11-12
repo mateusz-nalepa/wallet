@@ -121,7 +121,7 @@ open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInj
 
     private fun initDateTimePicker() {
         date = findViewById(R.id.dateTimePicker)
-        date.text = currentCalendarAsString()
+        date.text = currentDateAsString()
         DateTimeChooser(LocalDateTime.now(), activity, date)
     }
 

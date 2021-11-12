@@ -42,7 +42,7 @@ fun LocalDateTime.toMillis(): Long {
     return this.toInstant(ZoneOffset.UTC).toEpochMilli()
 }
 
-fun currentCalendarAsString(): String {
+fun currentDateAsString(): String {
     return simpleDateFormat.format(LocalDateTime.now())
 }
 
