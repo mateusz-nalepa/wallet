@@ -4,10 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -56,6 +54,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         resultList = handleSearchResults()
         initDateTimePickers(resultList.isEmpty())
         initCategorySpinner()
+        initQuickRangeSpinner()
 
         viewAdapter = ExpenseHistoryAdapter(this, this, expenseService, resultList)
         recyclerView = recyclerView.apply {
@@ -122,6 +121,28 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         }
     }
 
+    private fun initQuickRangeSpinner() {
+        val spinner: Spinner = findViewById(R.id.history_quick_range_spinner)
+        val allQuickRanges = listOf(
+            "Ostatni tydzień",
+            "Ten tydzień",
+            "Ostatni Miesiąc",
+            "Ten Miesiąc",
+        )
+
+        ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            allQuickRanges
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+
+        spinner.onItemSelectedListener = QuickRangeSelectedListener()
+    }
+
+
     private fun initDateTimePickers(isEmptyResultSize: Boolean) {
         initBeginDateTimePicker(isEmptyResultSize)
         initEndDateTimePicker(isEmptyResultSize)
@@ -175,5 +196,22 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
     override fun onDestroy() {
         super.onDestroy()
         destroyInjector()
+    }
+}
+
+
+class QuickRangeSelectedListener : OnItemSelectedListener {
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        Toast
+            .makeText(
+                ApplicationContext.appContext,
+                "Wybrales cos na pozycji $position",
+                Toast.LENGTH_SHORT
+            )
+            .show()
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+        TODO("Not yet implemented")
     }
 }
