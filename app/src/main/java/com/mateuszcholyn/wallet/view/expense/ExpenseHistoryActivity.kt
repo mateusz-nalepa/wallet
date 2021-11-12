@@ -135,7 +135,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         }
 
         mBeginDate.text = currentTime
-        HourChooser(LocalDateTime.now(), activity, mBeginDate)
+        DateTimeChooser(LocalDateTime.now(), activity, mBeginDate)
     }
 
     private fun initEndDateTimePicker(isEmptyResultSize: Boolean) {
@@ -146,7 +146,7 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         }
 
         mEndDate.text = currentTime
-        HourChooser(LocalDateTime.now(), activity, mEndDate)
+        DateTimeChooser(LocalDateTime.now(), activity, mEndDate)
     }
 
     private fun showIntentMessage() {

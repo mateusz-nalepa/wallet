@@ -9,7 +9,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-class HourChooser(
+class DateTimeChooser(
     private var now: LocalDateTime,
     private var activity: Activity,
     private var dateTextView: TextView

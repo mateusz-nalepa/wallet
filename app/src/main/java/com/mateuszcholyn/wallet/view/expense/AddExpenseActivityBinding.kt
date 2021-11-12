@@ -122,7 +122,7 @@ open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInj
     private fun initDateTimePicker() {
         date = findViewById(R.id.dateTimePicker)
         date.text = currentCalendarAsString()
-        HourChooser(LocalDateTime.now(), activity, date)
+        DateTimeChooser(LocalDateTime.now(), activity, date)
     }
 
     fun addExpense(view: View) {

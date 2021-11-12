@@ -18,7 +18,7 @@ import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.util.HourChooser
+import com.mateuszcholyn.wallet.util.DateTimeChooser
 import com.mateuszcholyn.wallet.util.toHumanText
 import java.time.LocalDateTime
 
@@ -57,14 +57,14 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
         mBeginDate = findViewById(R.id.average_begin_dateTimePicker)
         val oneWeekAgo = LocalDateTime.now().minusDays(7)
         mBeginDate.text = oneWeekAgo.toHumanText()
-        HourChooser(oneWeekAgo, activity, mBeginDate)
+        DateTimeChooser(oneWeekAgo, activity, mBeginDate)
     }
 
     private fun initEndDateTimePicker() {
         mEndDate = findViewById(R.id.average_end_dateTimePicker)
         val now = LocalDateTime.now()
         mEndDate.text = now.toHumanText()
-        HourChooser(now, activity, mEndDate)
+        DateTimeChooser(now, activity, mEndDate)
     }
 
     fun calculateAverageAmount(view: View) {
