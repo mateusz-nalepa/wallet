@@ -23,7 +23,7 @@ class DateTimeChooser(
             activity,
             mDateDataSet,
             now.year,
-            now.monthValue - 1,
+            now.monthValue,
             now.dayOfMonth
         )
             .show()
