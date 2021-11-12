@@ -21,6 +21,18 @@ data class ExpenseSearchCriteria(
                 endDate = maxDate
             )
         }
+
+        fun defaultSearchCriteria(beginDate: LocalDateTime,
+                                  endDate: LocalDateTime,
+        ): ExpenseSearchCriteria {
+            return ExpenseSearchCriteria(
+                allCategories = true,
+                categoryName = null,
+                beginDate = beginDate,
+                endDate = endDate
+            )
+        }
+
     }
 
 }

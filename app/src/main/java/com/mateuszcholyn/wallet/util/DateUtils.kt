@@ -42,6 +42,14 @@ fun LocalDateTime.toMillis(): Long {
     return this.toInstant(ZoneOffset.UTC).toEpochMilli()
 }
 
+fun oneWeekAgo(): LocalDateTime {
+    return LocalDateTime.now().minusDays(7)
+}
+
+fun oneWeekAgoAsString(): String {
+    return simpleDateFormat.format(oneWeekAgo())
+}
+
 fun currentDateAsString(): String {
     return simpleDateFormat.format(LocalDateTime.now())
 }

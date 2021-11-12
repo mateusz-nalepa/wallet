@@ -1,7 +1,6 @@
 package com.mateuszcholyn.wallet.view.expense
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.*
@@ -24,7 +23,6 @@ import java.time.LocalDateTime
 
 const val REMOVE_EXPENSE_KEY = "REMOVE_EXPENSE_KEY"
 const val EDIT_EXPENSE = "EDIT_EXPENSE"
-const val SEARCHED = "SEARCHED"
 
 
 class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
@@ -51,56 +49,42 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         recyclerView = findViewById(R.id.histories_recycler_view)
         viewManager = LinearLayoutManager(this)
 
-        resultList = handleSearchResults()
-        initDateTimePickers(resultList.isEmpty())
+        initDateTimePickers()
+        handleResultsWhenOpeningActivity()
+
         initCategorySpinner()
         initQuickRangeSpinner()
 
+        showIntentMessage()
+    }
+
+    private fun handleResults() {
         viewAdapter = ExpenseHistoryAdapter(this, this, expenseService, resultList)
         recyclerView = recyclerView.apply {
             layoutManager = viewManager
             adapter = viewAdapter
         }
-        showIntentMessage()
     }
 
-    private fun handleResultsWhenNoExpenseIsAdded(): List<Expense> {
+    private fun handleResultsWhenOpeningActivity() {
+        ExpenseSearchCriteria
+            .defaultSearchCriteria(
+                beginDate = mBeginDate.toLocalDateTime(),
+                endDate = mEndDate.toLocalDateTime()
+            )
+            .let { expenseService.getAll(it) }
+            .also {
+                if (it.isEmpty()) {
+                    Toast.makeText(
+                        ApplicationContext.appContext,
+                        "Brak wydatków w bazie, dodaj jakiś wydatek",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            .also { resultList = it }
+            .also { handleResults() }
 
-        val expenses = expenseService.getAll(ExpenseSearchCriteria.defaultSearchCriteria())
-
-        if (expenses.isEmpty()) {
-            Toast.makeText(
-                ApplicationContext.appContext,
-                "Brak wydatków w bazie, dodaj jakiś wydatek",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        return expenses
-    }
-
-    private fun handleSearchResults(): List<Expense> {
-        val expenseSearchCriteria =
-            intent.getSerializableExtra(SEARCHED)
-                ?: return handleResultsWhenNoExpenseIsAdded()
-
-        val resultXD = expenseService.getAll(expenseSearchCriteria as ExpenseSearchCriteria)
-
-        if (resultXD.isEmpty()) {
-            Toast.makeText(
-                ApplicationContext.appContext,
-                "Brak wydatków dla podanych kryteriów",
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            Toast.makeText(
-                ApplicationContext.appContext,
-                "Wyniki dla podanych kryteriów",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        return resultXD
     }
 
     private fun initCategorySpinner() {
@@ -138,31 +122,14 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
 
-    private fun initDateTimePickers(isEmptyResultSize: Boolean) {
-        initBeginDateTimePicker(isEmptyResultSize)
-        initEndDateTimePicker(isEmptyResultSize)
-    }
-
-    private fun initBeginDateTimePicker(isEmptyResultSize: Boolean) {
+    private fun initDateTimePickers() {
         mBeginDate = findViewById(R.id.history_begin_dateTimePicker)
-        var currentTime = currentDateAsString()
-        if (!isEmptyResultSize) {
-            currentTime = findEarliest(resultList).toHumanText()
-        }
-
-        mBeginDate.text = currentTime
-        DateTimeChooser(LocalDateTime.now(), activity, mBeginDate)
-    }
-
-    private fun initEndDateTimePicker(isEmptyResultSize: Boolean) {
         mEndDate = findViewById(R.id.history_end_dateTimePicker)
-        var currentTime = currentDateAsString()
-        if (!isEmptyResultSize) {
-            currentTime = findLatest(resultList).toHumanText()
-        }
 
-        mEndDate.text = currentTime
+        DateTimeChooser(oneWeekAgo(), activity, mBeginDate)
         DateTimeChooser(LocalDateTime.now(), activity, mEndDate)
+
+        QuickRange.setDefaultDates(mBeginDate, mEndDate)
     }
 
     private fun showIntentMessage() {
@@ -175,11 +142,27 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         val category = findViewById<Spinner>(R.id.history_category_spinner).selectedItem as String
         val expenseSearchCriteria = prepareExpenseSearchCriteria(category, mBeginDate, mEndDate)
 
-        val intent =
-            Intent(this, ExpenseHistoryActivity::class.java).apply {
-                putExtra(SEARCHED, expenseSearchCriteria)
-            }
-        startActivity(intent)
+        handleSearchResults(expenseSearchCriteria)
+    }
+
+    private fun handleSearchResults(expenseSearchCriteria: ExpenseSearchCriteria) {
+        resultList = expenseService.getAll(expenseSearchCriteria)
+
+        handleResults()
+
+        if (resultList.isEmpty()) {
+            Toast.makeText(
+                ApplicationContext.appContext,
+                "Brak wydatków dla podanych kryteriów",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            Toast.makeText(
+                ApplicationContext.appContext,
+                "Wyniki dla podanych kryteriów",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     fun exportHistoryResults(view: View) {
@@ -216,6 +199,8 @@ object QuickRange {
     private val quickRanges = mapOf(
         0 to "Ostatni tydzień",
         1 to "Ostatni Miesiąc",
+        2 to "Ostatnie 3 Miesiące",
+        3 to "Wszystkie wydatki",
     )
 
     fun quickRangesNames(): List<String> =
@@ -231,7 +216,20 @@ object QuickRange {
                 mBeginDate.text = LocalDateTime.now().minusMonths(1).toHumanText()
                 mEndDate.text = currentDateAsString()
             }
+            2 -> {
+                mBeginDate.text = LocalDateTime.now().minusMonths(3).toHumanText()
+                mEndDate.text = currentDateAsString()
+            }
+            3 -> {
+                mBeginDate.text = minDate.toHumanText()
+                mEndDate.text = maxDate.toHumanText()
+            }
         }
+    }
+
+    fun setDefaultDates(mBeginDate: TextView, mEndDate: TextView) {
+        mBeginDate.text = LocalDateTime.now().minusDays(7).toHumanText()
+        mEndDate.text = currentDateAsString()
     }
 
 }
