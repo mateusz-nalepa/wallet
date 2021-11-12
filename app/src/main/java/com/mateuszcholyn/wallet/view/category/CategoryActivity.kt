@@ -34,7 +34,7 @@ class CategoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         title = "Kategorie"
         recyclerView = findViewById(R.id.categories_recycler_view)
         viewManager = LinearLayoutManager(this)
-        viewAdapter = CategoryAdapter(this, this, categoryService, categoryService.getAll())
+        viewAdapter = CategoryAdapter(this, this, categoryService, categoryService.getAllOrderByUsageDesc())
 
         recyclerView = recyclerView.apply {
             layoutManager = viewManager

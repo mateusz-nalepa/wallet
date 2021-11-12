@@ -6,9 +6,12 @@ import com.mateuszcholyn.wallet.domain.category.CategoryRepository
 class SqLiteCategoryRepository(
     private val categoryDao: CategoryDao,
 ) : CategoryRepository {
-    override fun getAll(): List<Category> {
+
+    private val categoryQueriesHelper = CategoryQueriesHelper()
+
+    override fun getAllOrderByUsageDesc(): List<Category> {
         return categoryDao
-            .getAll()
+            .getAllOrderByUsageDesc(categoryQueriesHelper.getAllOrderByUsageDesc())
             .map { it.toDomain() }
     }
 

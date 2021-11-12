@@ -11,10 +11,10 @@ class CategoryService(private val categoryRepository: CategoryRepository) {
     }
 
     fun getAllNamesOnly(): List<String> =
-        getAll().map { it.name }
+        getAllOrderByUsageDesc().map { it.name }
 
-    fun getAll(): List<Category> {
-        return categoryRepository.getAll()
+    fun getAllOrderByUsageDesc(): List<Category> {
+        return categoryRepository.getAllOrderByUsageDesc()
     }
 
     fun remove(category: String): Boolean {
