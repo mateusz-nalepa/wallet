@@ -32,12 +32,13 @@ class ExpenseQueriesHelper {
                 and Expense.date <= ${expenseSearchCriteria.endDate.toMillis()}
                 """.trimIndent()
 
-        return if (expenseSearchCriteria.allCategories) {
-            SimpleSQLiteQuery(averageQuery)
-        } else {
-            averageQuery += " and Category.name = '${expenseSearchCriteria.categoryName!!}'"
-            SimpleSQLiteQuery(averageQuery)
+        if (!expenseSearchCriteria.allCategories) {
+            averageQuery += " and Category.name = '${expenseSearchCriteria.categoryName!!}' \n "
         }
+
+        averageQuery += " ORDER BY Expense.date desc"
+
+        return SimpleSQLiteQuery(averageQuery)
     }
 
 }
