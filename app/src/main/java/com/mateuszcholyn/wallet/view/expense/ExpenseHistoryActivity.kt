@@ -1,6 +1,5 @@
 package com.mateuszcholyn.wallet.view.expense
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.widget.Spinner
@@ -40,7 +39,6 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    private lateinit var activity: Activity
     private lateinit var mBeginDate: TextView
     private lateinit var mEndDate: TextView
     private lateinit var resultList: List<Expense>
@@ -48,36 +46,38 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initializeInjector()
-        activity = this
         setContentView(R.layout.activity_history)
         title = "Historia wydatków"
         recyclerView = findViewById(R.id.histories_recycler_view)
         viewManager = LinearLayoutManager(this)
 
         initDateTimePickers()
-        handleResultsWhenOpeningActivity()
-
-        initCategorySpinner()
-        initQuickRangeSpinner()
-
+        showResultsForDefaultSearchCriteria()
+        initSpinners()
         showIntentMessage()
     }
 
-    private fun updateListOnScreen(newResultList: List<Expense>) {
-        resultList = newResultList
-        viewAdapter = ExpenseHistoryAdapter(this, this, expenseService, resultList)
-        recyclerView = recyclerView.apply {
-            layoutManager = viewManager
-            adapter = viewAdapter
-        }
+    private fun initDateTimePickers() {
+        mBeginDate = findViewById(R.id.history_begin_dateTimePicker)
+        mEndDate = findViewById(R.id.history_end_dateTimePicker)
+
+        DateTimeChooser(oneWeekAgo(), this, mBeginDate)
+        DateTimeChooser(LocalDateTime.now(), this, mEndDate)
+
+        QuickRange.setDefaultDates(mBeginDate, mEndDate)
     }
 
-    private fun handleResultsWhenOpeningActivity() {
+    private fun showResultsForDefaultSearchCriteria() {
         ExpenseSearchCriteria
             .defaultSearchCriteria(mBeginDate.toLocalDateTime(), mEndDate.toLocalDateTime())
             .let { expenseService.getAll(it) }
             .onEmpty { showShortText("Brak wydatków w bazie, dodaj jakiś wydatek") }
             .also { updateListOnScreen(it) }
+    }
+
+    private fun initSpinners() {
+        initCategorySpinner()
+        initQuickRangeSpinner()
     }
 
     private fun initCategorySpinner() {
@@ -90,16 +90,6 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         spinner.onItemSelectedListener = QuickRangeSelectedListener(mBeginDate, mEndDate)
     }
 
-    private fun initDateTimePickers() {
-        mBeginDate = findViewById(R.id.history_begin_dateTimePicker)
-        mEndDate = findViewById(R.id.history_end_dateTimePicker)
-
-        DateTimeChooser(oneWeekAgo(), activity, mBeginDate)
-        DateTimeChooser(LocalDateTime.now(), activity, mEndDate)
-
-        QuickRange.setDefaultDates(mBeginDate, mEndDate)
-    }
-
     private fun showIntentMessage() {
         intent.showIntentMessageIfPresent(REMOVE_EXPENSE_KEY)
         intent.showIntentMessageIfPresent(SUCCESSFUL_ADD)
@@ -107,24 +97,30 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
     fun showHistoryResults(view: View) {
-        val category = findViewById<Spinner>(R.id.history_category_spinner).selectedItem as String
-        val expenseSearchCriteria = prepareExpenseSearchCriteria(category, mBeginDate, mEndDate)
-
-        handleSearchResults(expenseSearchCriteria)
-    }
-
-    private fun handleSearchResults(expenseSearchCriteria: ExpenseSearchCriteria) {
-        expenseService.getAll(expenseSearchCriteria)
+        expenseService.getAll(getActualSearchCriteria())
             .onEmpty { showShortText("Brak wydatków dla podanych kryteriów") }
             .onNotEmpty { showShortText("Wyniki dla podanych kryteriów") }
             .also { updateListOnScreen(it) }
     }
 
     fun exportHistoryResults(view: View) {
-        val category = findViewById<Spinner>(R.id.history_category_spinner).selectedItem as String
-        val expenseSearchCriteria = prepareExpenseSearchCriteria(category, mBeginDate, mEndDate)
-        saveToFile(applicationContext, this, expenseService.getAll(expenseSearchCriteria))
+        saveToFile(applicationContext, this, expenseService.getAll(getActualSearchCriteria()))
     }
+
+    private fun getActualSearchCriteria(): ExpenseSearchCriteria {
+        val category = findViewById<Spinner>(R.id.history_category_spinner).selectedItem as String
+        return prepareExpenseSearchCriteria(category, mBeginDate, mEndDate)
+    }
+
+    private fun updateListOnScreen(newResultList: List<Expense>) {
+        resultList = newResultList
+        viewAdapter = ExpenseHistoryAdapter(this, this, expenseService, resultList)
+        recyclerView = recyclerView.apply {
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
