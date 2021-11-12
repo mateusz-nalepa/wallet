@@ -16,8 +16,8 @@ fun Double.asPrinteableAmount() = run {
 }
 
 fun String.asShortCategoryName(): String {
-    return if (this.length > 14) {
-        this.substring(0, 11) + " ..."
+    return if (this.length > 12) {
+        this.substring(0, 9) + " ..."
     } else {
         this
     }
