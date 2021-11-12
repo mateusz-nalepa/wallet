@@ -3,10 +3,8 @@ package com.mateuszcholyn.wallet.view.expense
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,14 +12,17 @@ import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.config.ApplicationContext
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
+import com.mateuszcholyn.wallet.onEmpty
+import com.mateuszcholyn.wallet.onNotEmpty
 import com.mateuszcholyn.wallet.util.*
 import com.mateuszcholyn.wallet.view.QuickRange
 import com.mateuszcholyn.wallet.view.QuickRangeSelectedListener
+import com.mateuszcholyn.wallet.view.initSpinner
+import com.mateuszcholyn.wallet.view.showShortText
 import java.time.LocalDateTime
 
 
@@ -62,7 +63,8 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         showIntentMessage()
     }
 
-    private fun updateListOnScreen() {
+    private fun updateListOnScreen(newResultList: List<Expense>) {
+        resultList = newResultList
         viewAdapter = ExpenseHistoryAdapter(this, this, expenseService, resultList)
         recyclerView = recyclerView.apply {
             layoutManager = viewManager
@@ -72,59 +74,21 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     private fun handleResultsWhenOpeningActivity() {
         ExpenseSearchCriteria
-            .defaultSearchCriteria(
-                beginDate = mBeginDate.toLocalDateTime(),
-                endDate = mEndDate.toLocalDateTime()
-            )
+            .defaultSearchCriteria(mBeginDate.toLocalDateTime(), mEndDate.toLocalDateTime())
             .let { expenseService.getAll(it) }
-            .also {
-                if (it.isEmpty()) {
-                    Toast.makeText(
-                        ApplicationContext.appContext,
-                        "Brak wydatków w bazie, dodaj jakiś wydatek",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-            .also { resultList = it }
-            .also { updateListOnScreen() }
-
+            .onEmpty { showShortText("Brak wydatków w bazie, dodaj jakiś wydatek") }
+            .also { updateListOnScreen(it) }
     }
 
     private fun initCategorySpinner() {
-
-        val spinner: Spinner = findViewById(R.id.history_category_spinner)
-        val allCategories = mutableListOf<String>().apply {
-            add(ALL_CATEGORIES)
-            addAll(categoryService.getAllNamesOnly())
-        }
-
-        ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            allCategories
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }
+        val allCategories = listOf(ALL_CATEGORIES) + categoryService.getAllNamesOnly()
+        initSpinner(R.id.history_category_spinner, allCategories)
     }
 
     private fun initQuickRangeSpinner() {
-        val spinner: Spinner = findViewById(R.id.history_quick_range_spinner)
-        val allQuickRanges = QuickRange.quickRangesNames()
-
-        ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            allQuickRanges
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }
-
+        val spinner = initSpinner(R.id.history_quick_range_spinner, QuickRange.quickRangesNames())
         spinner.onItemSelectedListener = QuickRangeSelectedListener(mBeginDate, mEndDate)
     }
-
 
     private fun initDateTimePickers() {
         mBeginDate = findViewById(R.id.history_begin_dateTimePicker)
@@ -150,23 +114,10 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
     private fun handleSearchResults(expenseSearchCriteria: ExpenseSearchCriteria) {
-        resultList = expenseService.getAll(expenseSearchCriteria)
-
-        updateListOnScreen()
-
-        if (resultList.isEmpty()) {
-            Toast.makeText(
-                ApplicationContext.appContext,
-                "Brak wydatków dla podanych kryteriów",
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            Toast.makeText(
-                ApplicationContext.appContext,
-                "Wyniki dla podanych kryteriów",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        expenseService.getAll(expenseSearchCriteria)
+            .onEmpty { showShortText("Brak wydatków dla podanych kryteriów") }
+            .onNotEmpty { showShortText("Wyniki dla podanych kryteriów") }
+            .also { updateListOnScreen(it) }
     }
 
     fun exportHistoryResults(view: View) {
