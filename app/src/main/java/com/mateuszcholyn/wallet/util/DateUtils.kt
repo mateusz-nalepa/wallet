@@ -2,7 +2,6 @@ package com.mateuszcholyn.wallet.util
 
 import android.text.Editable
 import android.widget.TextView
-import com.mateuszcholyn.wallet.domain.expense.Expense
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -22,17 +21,6 @@ fun LocalDateTime.toEditable(): Editable {
 fun LocalDateTime.toHumanText(): String {
     return simpleDateFormat.format(this)
 }
-
-fun findEarliest(resultList: List<Expense>): LocalDateTime =
-    resultList
-        .map { it.date }
-        .minOrNull()!!
-
-fun findLatest(resultList: List<Expense>): LocalDateTime =
-    resultList
-        .map { it.date }
-        .maxOrNull()!!
-
 
 fun Long.toLocalDateTime(): LocalDateTime {
     return Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDateTime();
