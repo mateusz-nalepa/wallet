@@ -9,7 +9,6 @@ interface ExpenseRepository {
     fun getExpenseWithCategory(expenseId: Long): ExpenseWithCategory
     fun remove(expenseId: Long): Boolean
     fun moneySpentBetween(start: LocalDateTime, end: LocalDateTime): Double
-    fun averageAmount(expenseSearchCriteria: ExpenseSearchCriteria): Double
     fun getAll(expenseSearchCriteria: ExpenseSearchCriteria): List<Expense>
     fun add(expense: Expense): Expense
     fun update(expense: Expense): Expense

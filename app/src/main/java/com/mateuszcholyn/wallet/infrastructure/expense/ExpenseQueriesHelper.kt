@@ -6,26 +6,11 @@ import com.mateuszcholyn.wallet.util.toMillis
 
 class ExpenseQueriesHelper {
 
-    fun prepareAverageSearchQuery(expenseSearchCriteria: ExpenseSearchCriteria): SimpleSQLiteQuery {
-        return prepareExpenseSearchQueryXDDD(
-            selectClausal = "select avg (Expense.amount) ",
-            expenseSearchCriteria = expenseSearchCriteria,
-        )
-    }
-
-    fun prepareExpenseSearchQuery(expenseSearchCriteria: ExpenseSearchCriteria): SimpleSQLiteQuery {
-        return prepareExpenseSearchQueryXDDD(
-            selectClausal = "select Expense.*, Category.* ",
-            expenseSearchCriteria = expenseSearchCriteria,
-        )
-    }
-
-    private fun prepareExpenseSearchQueryXDDD(
-        selectClausal: String,
-        expenseSearchCriteria: ExpenseSearchCriteria
+    fun prepareExpenseSearchQuery(
+        expenseSearchCriteria: ExpenseSearchCriteria,
     ): SimpleSQLiteQuery {
         var averageQuery = """
-                $selectClausal
+                select Expense.*, Category.* 
                 from Expense
                 LEFT JOIN Category ON Category.category_id = Expense.fk_category_id
                 where Expense.date >= ${expenseSearchCriteria.beginDate.toMillis()}

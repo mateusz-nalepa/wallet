@@ -34,11 +34,6 @@ class SqLiteExpenseRepository(
         return expenseDao.moneySpentBetween(start, end)
     }
 
-    override fun averageAmount(expenseSearchCriteria: ExpenseSearchCriteria): Double {
-        return expenseDao
-            .averageAmount(expenseQueriesHelper.prepareAverageSearchQuery(expenseSearchCriteria))
-    }
-
     override fun add(expense: Expense): Expense {
         return expense
             .toEntity()
