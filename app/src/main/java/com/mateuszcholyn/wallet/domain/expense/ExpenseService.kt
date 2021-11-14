@@ -17,7 +17,7 @@ class ExpenseService(
         return expenseRepository.getAll(expenseSearchCriteria)
     }
 
-    fun averageExpense(expenseSearchCriteria: ExpenseSearchCriteria): Double {
+    fun averageExpense(expenseSearchCriteria: ExpenseSearchCriteria): AverageExpenseResult {
 
         var days =
             Duration.between(expenseSearchCriteria.beginDate, expenseSearchCriteria.endDate)
@@ -31,7 +31,12 @@ class ExpenseService(
 
         val sum = all.map { it.amount }.sum()
 
-        return sum / days
+
+        return AverageExpenseResult(
+            wholeAmount = sum,
+            days = days.toInt(),
+            averageAmount = sum / days
+        )
     }
 
     fun hardRemove(expenseId: Long): Boolean =
@@ -49,3 +54,9 @@ class ExpenseService(
     }
 
 }
+
+data class AverageExpenseResult(
+    val wholeAmount: Double,
+    val days: Int,
+    val averageAmount: Double,
+)

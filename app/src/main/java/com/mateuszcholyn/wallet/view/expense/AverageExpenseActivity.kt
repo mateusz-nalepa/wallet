@@ -72,10 +72,17 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
         val categoryName =
             findViewById<Spinner>(R.id.average_category_spinner).selectedItem as String
 
+        val wholeAmount = findViewById<TextView>(R.id.wholeAmount)
+        val daysAmount = findViewById<TextView>(R.id.daysAmount)
         val averageAmount = findViewById<TextView>(R.id.averageAmount)
+
         val expenseSearchCriteria = prepareExpenseSearchCriteria(categoryName, mBeginDate, mEndDate)
-        averageAmount.text =
-            "${expenseService.averageExpense(expenseSearchCriteria).asPrinteableAmount()} zł"
+
+        val result = expenseService.averageExpense(expenseSearchCriteria)
+
+        wholeAmount.text = "Ilość: ${result.wholeAmount.asPrinteableAmount()} zł"
+        daysAmount.text = "Dni: ${result.days}"
+        averageAmount.text = "Średnio ${result.averageAmount.asPrinteableAmount()} zł"
     }
 
     private fun initSpinners() {

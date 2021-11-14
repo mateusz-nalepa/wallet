@@ -123,6 +123,45 @@
 
 
     <LinearLayout
+        android:id="@+id/lastMinusTwoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/wholeAmount"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_horizontal"
+            android:text="suma wydatków"
+            android:textColor="@color/blackColor"
+            android:textSize="24dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lastMinusOneLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/daysAmount"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_horizontal"
+            android:text="suma wydatków"
+            android:textColor="@color/blackColor"
+            android:textSize="24dp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:id="@+id/lastLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -138,7 +177,6 @@
             android:text="Średni wydatek"
             android:textColor="@color/blackColor"
             android:textSize="24dp" />
-
 
     </LinearLayout>
 </LinearLayout>
