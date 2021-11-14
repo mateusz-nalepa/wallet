@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -19,7 +18,11 @@ import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.DateTimeChooser
-import com.mateuszcholyn.wallet.util.toHumanText
+import com.mateuszcholyn.wallet.util.asPrinteableAmount
+import com.mateuszcholyn.wallet.util.oneWeekAgo
+import com.mateuszcholyn.wallet.view.QuickRange
+import com.mateuszcholyn.wallet.view.QuickRangeSelectedListener
+import com.mateuszcholyn.wallet.view.initSpinner
 import java.time.LocalDateTime
 
 const val ALL_CATEGORIES = "Wszystkie"
@@ -42,29 +45,20 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
         activity = this
         title = "Oblicz średni wydatek"
         setContentView(R.layout.activity_average_expense)
-        initCategorySpinner()
         initDateTimePickers()
+        initSpinners()
         resultList = expenseService.getAll(ExpenseSearchCriteria.defaultSearchCriteria())
         calculate()
     }
 
     private fun initDateTimePickers() {
-        initBeginDateTimePicker()
-        initEndDateTimePicker()
-    }
+        mBeginDate = findViewById(R.id.average_beginDateTimePicker)
+        mEndDate = findViewById(R.id.average_endDateTimePicker)
 
-    private fun initBeginDateTimePicker() {
-        mBeginDate = findViewById(R.id.average_begin_dateTimePicker)
-        val oneWeekAgo = LocalDateTime.now().minusDays(7)
-        mBeginDate.text = oneWeekAgo.toHumanText()
-        DateTimeChooser(oneWeekAgo, activity, mBeginDate)
-    }
+        DateTimeChooser(oneWeekAgo(), this, mBeginDate)
+        DateTimeChooser(LocalDateTime.now(), this, mEndDate)
 
-    private fun initEndDateTimePicker() {
-        mEndDate = findViewById(R.id.average_end_dateTimePicker)
-        val now = LocalDateTime.now()
-        mEndDate.text = now.toHumanText()
-        DateTimeChooser(now, activity, mEndDate)
+        QuickRange.setDefaultDates(mBeginDate, mEndDate)
     }
 
     fun calculateAverageAmount(view: View) {
@@ -80,19 +74,23 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
         val averageAmount = findViewById<TextView>(R.id.averageAmount)
         val expenseSearchCriteria = prepareExpenseSearchCriteria(categoryName, mBeginDate, mEndDate)
-        averageAmount.text = "${expenseService.averageExpense(expenseSearchCriteria)} zł"
+        averageAmount.text =
+            "${expenseService.averageExpense(expenseSearchCriteria).asPrinteableAmount()} zł"
+    }
+
+    private fun initSpinners() {
+        initCategorySpinner()
+        initQuickRangeSpinner()
     }
 
     private fun initCategorySpinner() {
-        val spinner: Spinner = findViewById(R.id.average_category_spinner)
-        ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            listOf(ALL_CATEGORIES) + categoryService.getAllNamesOnly()
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }
+        val allCategories = listOf(ALL_CATEGORIES) + categoryService.getAllNamesOnly()
+        initSpinner(R.id.average_category_spinner, allCategories)
+    }
+
+    private fun initQuickRangeSpinner() {
+        val spinner = initSpinner(R.id.average_quick_range_spinner, QuickRange.quickRangesNames())
+        spinner.onItemSelectedListener = QuickRangeSelectedListener(mBeginDate, mEndDate)
     }
 
     override fun onDestroy() {

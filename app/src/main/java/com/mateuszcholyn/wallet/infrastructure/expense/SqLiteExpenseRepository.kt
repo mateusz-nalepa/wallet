@@ -4,7 +4,6 @@ import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.infrastructure.category.toDomain
-import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import java.time.LocalDateTime
 
 class SqLiteExpenseRepository(
@@ -38,7 +37,6 @@ class SqLiteExpenseRepository(
     override fun averageAmount(expenseSearchCriteria: ExpenseSearchCriteria): Double {
         return expenseDao
             .averageAmount(expenseQueriesHelper.prepareAverageSearchQuery(expenseSearchCriteria))
-            .asPrinteableAmount()
     }
 
     override fun add(expense: Expense): Expense {

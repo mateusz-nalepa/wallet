@@ -6,95 +6,13 @@
     android:background="@color/whiteColor"
     android:orientation="vertical"
     tools:context=".view.MainActivity">
-    <!-- first Child Layout -->
-
-    <!-- create a Linear Layout with horizontal orientation and weightSum property -->
 
     <LinearLayout
-        android:id="@+id/firstLayout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <!-- place one TextView and one EditText inside layout using weight property -->
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="0.6"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:text="Poczatek"
-            android:textColor="@color/blackColor" />
-
-        <TextView
-            android:id="@+id/average_begin_dateTimePicker"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1.4"
-            android:gravity="center_vertical"
-            android:background="@color/editTextBack"
-            android:hint="begin date"
-            android:imeOptions="actionNext"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textColor="@color/blackColor" />
-
-
-    </LinearLayout>
-    <!-- create a Linear Layout with horizontal orientation and weightSum property -->
-    <!-- second Child Layout -->
-
-    <LinearLayout
-        android:id="@+id/secondLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
         android:weightSum="2">
-
-        <!-- place one TextView and one EditText inside layout using weight property -->
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="0.6"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:text="Koniec"
-            android:textColor="@color/blackColor" />
-
-        <TextView
-            android:id="@+id/average_end_dateTimePicker"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1.4"
-            android:gravity="center_vertical"
-            android:background="@color/editTextBack"
-            android:hint="end date"
-            android:imeOptions="actionNext"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textColor="@color/blackColor" />
-    </LinearLayout>
-    <!-- create a Linear Layout with horizontal orientation and weightSum property -->
-    <!-- third Child Layout -->
-
-    <LinearLayout
-        android:id="@+id/thirdLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <!-- place one TextView and one EditText inside layout using weight property -->
 
         <TextView
             android:layout_width="0dp"
@@ -119,7 +37,72 @@
             android:singleLine="true"
             android:textColor="@color/blackColor" />
     </LinearLayout>
-    <!-- fourth Child Layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Spinner
+            android:id="@+id/average_quick_range_spinner"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="2"
+            android:background="@color/editTextBack"
+            android:hint="User Name"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/blackColor" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/firstLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <!-- place one TextView and one EditText inside layout using weight property -->
+
+
+        <TextView
+            android:id="@+id/average_beginDateTimePicker"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/editTextBack"
+            android:gravity="center_vertical"
+            android:hint="begin date"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/blackColor" />
+
+        <TextView
+            android:id="@+id/average_endDateTimePicker"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/editTextBack"
+            android:gravity="center_vertical"
+            android:hint="end date"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/blackColor" />
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -133,8 +116,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/greenColor"
-            android:text="Oblicz średnią kwotę"
             android:onClick="calculateAverageAmount"
+            android:text="Oblicz średnią kwotę"
             android:textColor="@color/blackColor" />
     </LinearLayout>
 
@@ -147,16 +130,14 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
-        <!-- place one TextView and one EditText inside layout using weight property -->
-
         <TextView
             android:id="@+id/averageAmount"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_horizontal"
-            android:textSize="24dp"
             android:text="Średni wydatek"
-            android:textColor="@color/blackColor" />
+            android:textColor="@color/blackColor"
+            android:textSize="24dp" />
 
 
     </LinearLayout>
