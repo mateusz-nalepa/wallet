@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.domain.expense
 
+import java.time.Duration
 import java.time.LocalDateTime
 import java.time.temporal.TemporalAdjusters.lastDayOfMonth
 
@@ -17,7 +18,20 @@ class ExpenseService(
     }
 
     fun averageExpense(expenseSearchCriteria: ExpenseSearchCriteria): Double {
-        return expenseRepository.averageAmount(expenseSearchCriteria)
+
+        var days =
+            Duration.between(expenseSearchCriteria.beginDate, expenseSearchCriteria.endDate)
+                .toDays()
+
+        if (days == 0L) {
+            days += 1 // have no idea why XD
+        }
+
+        val all = expenseRepository.getAll(expenseSearchCriteria)
+
+        val sum = all.map { it.amount }.sum()
+
+        return sum / days
     }
 
     fun hardRemove(expenseId: Long): Boolean =
