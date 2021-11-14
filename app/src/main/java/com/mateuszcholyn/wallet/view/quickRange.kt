@@ -28,62 +28,100 @@ class QuickRangeSelectedListener(
 
 object QuickRange {
 
-    private val quickRanges = mapOf(
-        0 to "Dzisiaj",
-        1 to "Wczoraj",
-        2 to "Przedwczoraj",
-        3 to "Ostatni tydzień",
-        4 to "Ostatni Miesiąc",
-        5 to "Ostatnie 3 Miesiące",
-        6 to "Wszystkie wydatki",
-    )
-
-    fun quickRangesNames(): List<String> =
-        quickRanges.values.toList()
-
-    fun modifyBasedOnPosition(position: Int, mBeginDate: TextView, mEndDate: TextView) {
-        when (position) {
-            0 -> { // dzisiaj
+    private val quickRangesList = listOf(
+        QuickRangeData(
+            position = 0,
+            name = "Dzisiaj",
+            modifyDatesFunction = { mBeginDate, mEndDate ->
                 val dayBeginning = LocalDateTime.of(LocalDate.now(), LocalTime.MIN)
                 mBeginDate.text = dayBeginning.toHumanText()
                 mEndDate.text = currentDateAsString()
-            }
-            1 -> { // wczoraj
-                val yesterDayBeginning = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MIN)
+            },
+            isDefault = true,
+        ),
+        QuickRangeData(
+            position = 1,
+            name = "Wczoraj",
+            modifyDatesFunction = { mBeginDate, mEndDate ->
+                val yesterDayBeginning =
+                    LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MIN)
                 val yesterDayEnd = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MAX)
 
                 mBeginDate.text = yesterDayBeginning.toHumanText()
                 mEndDate.text = yesterDayEnd.toHumanText()
             }
-            2 -> { // przedwczoraj
-                val yesterDayBeginning = LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.MIN)
+        ),
+        QuickRangeData(
+            position = 2,
+            name = "Przedwczoraj",
+            modifyDatesFunction = { mBeginDate, mEndDate ->
+                val yesterDayBeginning =
+                    LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.MIN)
                 val yesterDayEnd = LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.MAX)
 
                 mBeginDate.text = yesterDayBeginning.toHumanText()
                 mEndDate.text = yesterDayEnd.toHumanText()
             }
-            3 -> { // ostatni tydzien
-                mBeginDate.text =  LocalDateTime.now().minusDays(7).toHumanText()
+        ),
+        QuickRangeData(
+            position = 3,
+            name = "Ostatni tydzień",
+            modifyDatesFunction = { mBeginDate, mEndDate ->
+                mBeginDate.text = LocalDateTime.now().minusDays(7).toHumanText()
                 mEndDate.text = currentDateAsString()
-            }
-            4 -> {
+            },
+        ),
+        QuickRangeData(
+            position = 4,
+            name = "Ostatni Miesiąc",
+            modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.text = LocalDateTime.now().minusMonths(1).toHumanText()
                 mEndDate.text = currentDateAsString()
             }
-            5 -> {
+        ),
+        QuickRangeData(
+            position = 5,
+            name = "Ostatnie 3 Miesiące",
+            modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.text = LocalDateTime.now().minusMonths(3).toHumanText()
                 mEndDate.text = currentDateAsString()
             }
-            6 -> {
+        ),
+        QuickRangeData(
+            position = 6,
+            name = "Wszystkie wydatki",
+            modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.text = minDate.toHumanText()
                 mEndDate.text = maxDate.toHumanText()
             }
+        )
+    )
+
+
+    fun quickRangesNames(): List<String> =
+        quickRangesList.map { it.name }
+
+    fun modifyBasedOnPosition(position: Int, mBeginDate: TextView, mEndDate: TextView) {
+        val quickRangeData = requireNotNull(quickRangesList.find { it.position == position }) {
+            "Quick Range Data for given position $position not found"
         }
+
+        quickRangeData.modifyDatesFunction.invoke(mBeginDate, mEndDate)
     }
 
     fun setDefaultDates(mBeginDate: TextView, mEndDate: TextView) {
-        mBeginDate.text = LocalDateTime.now().minusDays(7).toHumanText()
-        mEndDate.text = currentDateAsString()
+        val quickRangeData = requireNotNull(quickRangesList.find { it.isDefault }) {
+            "Quick Range Data with default not found"
+        }
+
+        quickRangeData.modifyDatesFunction.invoke(mBeginDate, mEndDate)
     }
 
 }
+
+class QuickRangeData(
+    val position: Int,
+    val name: String,
+    val modifyDatesFunction: (mBeginDate: TextView, mEndDate: TextView) -> Unit,
+    val isDefault: Boolean = false,
+)
