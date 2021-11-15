@@ -33,6 +33,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -54,9 +58,8 @@ dependencies {
     compileOnly 'com.android.databinding:viewbinding:7.0.3'
 
 
-    implementation "com.github.salomonbrys.kodein:kodein:$kodein"
-    implementation "com.github.salomonbrys.kodein:kodein-android:$kodein"
-
+    implementation 'org.kodein.di:kodein-di:7.9.0'
+    implementation 'org.kodein.di:kodein-di-framework-android-x:7.9.0'
 
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'

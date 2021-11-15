@@ -8,9 +8,6 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.github.salomonbrys.kodein.KodeinInjector
-import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
-import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.config.ApplicationContext
 import com.mateuszcholyn.wallet.domain.category.CategoryService
@@ -23,13 +20,16 @@ import com.mateuszcholyn.wallet.util.oneWeekAgo
 import com.mateuszcholyn.wallet.view.QuickRange
 import com.mateuszcholyn.wallet.view.QuickRangeSelectedListener
 import com.mateuszcholyn.wallet.view.initSpinner
+import org.kodein.di.DIAware
+import org.kodein.di.android.closestDI
+import org.kodein.di.instance
 import java.time.LocalDateTime
 
 const val ALL_CATEGORIES = "Wszystkie"
 
-class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
+class AverageExpenseActivity : AppCompatActivity(), DIAware {
 
-    override val injector: KodeinInjector = KodeinInjector()
+    override val di by closestDI()
     private val expenseService: ExpenseService by instance()
     private val categoryService: CategoryService by instance()
 
@@ -41,7 +41,6 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initializeInjector()
         activity = this
         title = "Oblicz średni wydatek"
         setContentView(R.layout.activity_average_expense)
@@ -98,10 +97,5 @@ class AverageExpenseActivity : AppCompatActivity(), AppCompatActivityInjector {
     private fun initQuickRangeSpinner() {
         val spinner = initSpinner(R.id.average_quick_range_spinner, QuickRange.quickRangesNames())
         spinner.onItemSelectedListener = QuickRangeSelectedListener(mBeginDate, mEndDate)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        destroyInjector()
     }
 }

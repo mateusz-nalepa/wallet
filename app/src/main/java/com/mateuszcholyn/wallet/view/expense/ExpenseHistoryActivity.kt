@@ -7,9 +7,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.github.salomonbrys.kodein.KodeinInjector
-import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
-import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
@@ -22,6 +19,9 @@ import com.mateuszcholyn.wallet.view.QuickRange
 import com.mateuszcholyn.wallet.view.QuickRangeSelectedListener
 import com.mateuszcholyn.wallet.view.initSpinner
 import com.mateuszcholyn.wallet.view.showShortText
+import org.kodein.di.DIAware
+import org.kodein.di.android.closestDI
+import org.kodein.di.instance
 import java.time.LocalDateTime
 
 
@@ -29,9 +29,10 @@ const val REMOVE_EXPENSE_KEY = "REMOVE_EXPENSE_KEY"
 const val EDIT_EXPENSE = "EDIT_EXPENSE"
 
 
-class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
+class ExpenseHistoryActivity : AppCompatActivity(), DIAware {
 
-    override val injector: KodeinInjector = KodeinInjector()
+    override val di by closestDI()
+
     private val expenseService: ExpenseService by instance()
     private val categoryService: CategoryService by instance()
 
@@ -45,7 +46,6 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initializeInjector()
         setContentView(R.layout.activity_history)
         title = "Historia wydatków"
         recyclerView = findViewById(R.id.histories_recycler_view)
@@ -121,9 +121,4 @@ class ExpenseHistoryActivity : AppCompatActivity(), AppCompatActivityInjector {
         }
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-        destroyInjector()
-    }
 }

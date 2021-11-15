@@ -10,9 +10,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.github.salomonbrys.kodein.KodeinInjector
-import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
-import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.R.layout
 import com.mateuszcholyn.wallet.databinding.MenuButtonBinding
@@ -20,6 +17,9 @@ import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.*
+import org.kodein.di.DIAware
+import org.kodein.di.android.closestDI
+import org.kodein.di.instance
 import java.time.LocalDateTime
 import java.util.*
 
@@ -27,9 +27,9 @@ import java.util.*
 const val SUCCESSFUL_ADD = "SUCCESSFUL_ADD"
 const val SUCCESSFUL_EDIT = "SUCCESSFUL_EDIT"
 
-open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInjector {
+open class AddExpenseActivityBinding : AppCompatActivity(), DIAware {
 
-    override val injector: KodeinInjector = KodeinInjector()
+    override val di by closestDI()
     private val expenseService: ExpenseService by instance()
     private val categoryService: CategoryService by instance()
 
@@ -47,7 +47,6 @@ open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInj
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         DataBindingUtil.setContentView<MenuButtonBinding>(this, layout.add_expense_activity)
-        initializeInjector()
         title = "Dodaj wydatek"
         activity = this
         initCategorySpinner()
@@ -172,10 +171,5 @@ open class AddExpenseActivityBinding : AppCompatActivity(), AppCompatActivityInj
     private fun validationIncorrect(): Boolean {
         val expenseAmount = findViewById<EditText>(R.id.expenseAmount).text.toString()
         return expenseAmount == "" || expenseAmount.startsWith(".") || expenseAmount.startsWith("-")
-    }
-
-    override fun onDestroy() {
-        destroyInjector()
-        super.onDestroy()
     }
 }

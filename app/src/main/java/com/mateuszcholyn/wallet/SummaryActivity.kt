@@ -4,17 +4,17 @@ import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.github.salomonbrys.kodein.KodeinInjector
-import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
+import org.kodein.di.DIAware
+import org.kodein.di.android.closestDI
 
 
-class SummaryActivity : AppCompatActivity(), AppCompatActivityInjector {
+class SummaryActivity : AppCompatActivity(), DIAware {
 
-    override val injector: KodeinInjector = KodeinInjector()
+    override val di by closestDI()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initializeInjector()
 
         val textArray = arrayOf("One", "Two", "Three", "Four")
         val linearLayout = LinearLayout(this)
@@ -26,10 +26,5 @@ class SummaryActivity : AppCompatActivity(), AppCompatActivityInjector {
             linearLayout.addView(textView)
         }
 
-    }
-
-    override fun onDestroy() {
-        destroyInjector()
-        super.onDestroy()
     }
 }

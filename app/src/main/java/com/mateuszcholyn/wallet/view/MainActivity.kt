@@ -10,8 +10,6 @@ import android.widget.EditText
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import com.github.salomonbrys.kodein.KodeinInjector
-import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.SimpleNavigation
 import com.mateuszcholyn.wallet.SummaryActivity
@@ -21,12 +19,14 @@ import com.mateuszcholyn.wallet.view.expense.AverageExpenseActivity
 import com.mateuszcholyn.wallet.view.expense.ExpenseHistoryActivity
 import com.mateuszcholyn.wallet.view.moneysaver.MoneySaverActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import org.kodein.di.DIAware
+import org.kodein.di.android.closestDI
 
 const val EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"
 
-class MainActivity : AppCompatActivity(), AppCompatActivityInjector {
+class MainActivity : AppCompatActivity(), DIAware {
 
-    override val injector: KodeinInjector = KodeinInjector()
+    override val di by closestDI()
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity(), AppCompatActivityInjector {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initMainActivity()
-        initializeInjector()
     }
 
     @SuppressLint("RestrictedApi")
@@ -105,11 +104,6 @@ class MainActivity : AppCompatActivity(), AppCompatActivityInjector {
     fun showMoneySaverActivity(view: View) {
         val intent = Intent(this, MoneySaverActivity::class.java)
         startActivity(intent)
-    }
-
-    override fun onDestroy() {
-        destroyInjector()
-        super.onDestroy()
     }
 
 }

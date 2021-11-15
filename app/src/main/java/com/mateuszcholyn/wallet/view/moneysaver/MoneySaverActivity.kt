@@ -4,17 +4,18 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.github.salomonbrys.kodein.KodeinInjector
-import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
-import com.github.salomonbrys.kodein.instance
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.moneysaver.MoneySaverService
+import org.kodein.di.DIAware
+import org.kodein.di.android.closestDI
+import org.kodein.di.instance
 import java.time.LocalDateTime
 
 
-class MoneySaverActivity : AppCompatActivity(), AppCompatActivityInjector {
+class MoneySaverActivity : AppCompatActivity(), DIAware {
 
-    override val injector: KodeinInjector = KodeinInjector()
+    override val di by closestDI()
+
     private val moneySaverService: MoneySaverService by instance()
     private lateinit var monthlyBudget: TextView
     private lateinit var spentMoney: TextView
@@ -28,7 +29,6 @@ class MoneySaverActivity : AppCompatActivity(), AppCompatActivityInjector {
     }
 
     private fun initActivity() {
-        initializeInjector()
         setContentView(R.layout.activity_money_saver)
         monthlyBudget = findViewById(R.id.monthlyBudget)
         spentMoney = findViewById(R.id.spentMoney)
@@ -45,9 +45,4 @@ class MoneySaverActivity : AppCompatActivity(), AppCompatActivityInjector {
         }
     }
 
-
-    override fun onDestroy() {
-        destroyInjector()
-        super.onDestroy()
-    }
 }

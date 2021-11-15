@@ -2,7 +2,6 @@ package com.mateuszcholyn.wallet.config
 
 import android.app.Application
 import android.content.Context
-import com.github.salomonbrys.kodein.*
 import com.mateuszcholyn.wallet.domain.category.CategoryRepository
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
@@ -16,9 +15,10 @@ import com.mateuszcholyn.wallet.infrastructure.expense.SqLiteExpenseRepository
 import com.mateuszcholyn.wallet.infrastructure.moneysaver.MonthlyBudgetDao
 import com.mateuszcholyn.wallet.infrastructure.moneysaver.SqLiteMonthlyBudgetRepository
 import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
+import org.kodein.di.*
 
 
-class ApplicationContext : Application(), KodeinAware {
+class ApplicationContext : Application(), DIAware {
 
     override fun onCreate() {
         super.onCreate()
@@ -27,7 +27,7 @@ class ApplicationContext : Application(), KodeinAware {
         GlobalExceptionHandler(this)
     }
 
-    override val kodein by Kodein.lazy {
+    override val di by DI.lazy {
         val appDatabase = AppDatabase(appContext)
 
         //Category
