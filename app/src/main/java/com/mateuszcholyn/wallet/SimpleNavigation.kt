@@ -1,9 +1,7 @@
 package com.mateuszcholyn.wallet
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -14,7 +12,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.mateuszcholyn.wallet.databinding.ActivitySimpleNavigationBinding
-import com.mateuszcholyn.wallet.view.expense.AddExpenseActivityBinding
 
 class SimpleNavigation : AppCompatActivity() {
 
@@ -40,7 +37,10 @@ class SimpleNavigation : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_home,
+                R.id.nav_gallery,
+                R.id.nav_slideshow,
+                R.id.nav_add_expense,
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -58,8 +58,8 @@ class SimpleNavigation : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    fun showAddExpenseActivity(view: View) {
-        val intent = Intent(this, AddExpenseActivityBinding::class.java)
-        startActivity(intent)
-    }
+//    fun showAddExpenseActivity(view: View) {
+//        val intent = Intent(this, AddExpenseActivityBinding::class.java)
+//        startActivity(intent)
+//    }
 }
