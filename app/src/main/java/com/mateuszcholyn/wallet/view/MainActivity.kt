@@ -13,6 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.android.AppCompatActivityInjector
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.SummaryActivity
 import com.mateuszcholyn.wallet.view.category.CategoryActivity
 import com.mateuszcholyn.wallet.view.expense.AddExpenseActivityBinding
 import com.mateuszcholyn.wallet.view.expense.AverageExpenseActivity
@@ -67,6 +68,11 @@ class MainActivity : AppCompatActivity(), AppCompatActivityInjector {
         val intent = Intent(this, DisplayMessageActivity::class.java).apply {
             putExtra(EXTRA_MESSAGE, message)
         }
+        startActivity(intent)
+    }
+
+    fun showSummaryActivity(view: View) {
+        val intent = Intent(this, SummaryActivity::class.java)
         startActivity(intent)
     }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mateuszcholyn.wallet">
+
     <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -12,18 +13,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.moneysaver.MoneySaverActivity"></activity>
         <activity
-            android:name="com.mateuszcholyn.wallet.view.expense.AverageExpenseActivity"
+            android:name=".SummaryActivity"
+            android:exported="false" />
+        <activity android:name=".view.moneysaver.MoneySaverActivity" />
+        <activity
+            android:name=".view.expense.AverageExpenseActivity"
             android:parentActivityName=".view.MainActivity" />
         <activity
-            android:name="com.mateuszcholyn.wallet.view.expense.ExpenseHistoryActivity"
+            android:name=".view.expense.ExpenseHistoryActivity"
             android:parentActivityName=".view.MainActivity" />
         <activity
-            android:name="com.mateuszcholyn.wallet.view.category.CategoryActivity"
+            android:name=".view.category.CategoryActivity"
             android:parentActivityName=".view.MainActivity" />
         <activity
-            android:name="com.mateuszcholyn.wallet.view.expense.AddExpenseActivityBinding"
+            android:name=".view.expense.AddExpenseActivityBinding"
             android:parentActivityName=".view.MainActivity" />
         <activity
             android:name=".view.MainActivity"
@@ -38,8 +42,6 @@
         <activity
             android:name=".view.DisplayMessageActivity"
             android:parentActivityName=".view.MainActivity" />
-
     </application>
-
 
 </manifest>
