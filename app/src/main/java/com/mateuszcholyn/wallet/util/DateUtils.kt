@@ -4,7 +4,6 @@ import android.text.Editable
 import android.widget.TextView
 import java.time.Instant
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
@@ -23,7 +22,7 @@ fun LocalDateTime.toHumanText(): String {
 }
 
 fun Long.toLocalDateTime(): LocalDateTime {
-    return Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDateTime();
+    return Instant.ofEpochMilli(this).atZone(ZoneOffset.UTC).toLocalDateTime();
 }
 
 fun LocalDateTime.toMillis(): Long {
