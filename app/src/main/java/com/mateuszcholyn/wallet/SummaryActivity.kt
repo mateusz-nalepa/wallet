@@ -16,8 +16,6 @@ class SummaryActivity : AppCompatActivity(), AppCompatActivityInjector {
         super.onCreate(savedInstanceState)
         initializeInjector()
 
-//        setContentView(R.layout.activity_summary)
-
         val textArray = arrayOf("One", "Two", "Three", "Four")
         val linearLayout = LinearLayout(this)
         setContentView(linearLayout)
