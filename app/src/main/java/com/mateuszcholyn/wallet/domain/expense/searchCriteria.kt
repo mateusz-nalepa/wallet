@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 
 data class ExpenseSearchCriteria(
     val allCategories: Boolean,
-    val categoryName: String?,
+    val categoryName: String? = null,
     val beginDate: LocalDateTime,
     val endDate: LocalDateTime
 ) : Serializable {
