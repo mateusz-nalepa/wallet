@@ -46,7 +46,7 @@ class AddExpenseFragment : Fragment(), DIAware {
             )
 
         val wCiaguOstatniegoTygodnia = """
-            W ciagu ostatnich 7 dni wydales: ${result.wholeAmount.asPrinteableAmount()} zł, 
+            XD W ciagu ostatnich 7 dni wydales: ${result.wholeAmount.asPrinteableAmount()} zł, 
             czyli srednio na dzien: ${result.averageAmount.asPrinteableAmount()} zł
         """.trimIndent()
 
