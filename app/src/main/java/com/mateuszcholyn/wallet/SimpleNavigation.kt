@@ -12,8 +12,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.mateuszcholyn.wallet.databinding.ActivitySimpleNavigationBinding
+import org.kodein.di.DIAware
+import org.kodein.di.android.closestDI
 
-class SimpleNavigation : AppCompatActivity() {
+class SimpleNavigation : AppCompatActivity(), DIAware {
+
+    override val di by closestDI()
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivitySimpleNavigationBinding
@@ -33,8 +37,8 @@ class SimpleNavigation : AppCompatActivity() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_simple_navigation)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+//         Passing each menu ID as a set of Ids because each
+//         menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home,
