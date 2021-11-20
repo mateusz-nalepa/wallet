@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.mateuszcholyn.wallet.ui.addoreditexpense.AddOrEditExpenseViewModel" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="@android:color/holo_blue_light"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+
+            <Spinner
+                android:id="@+id/add_or_edit_expense_category_spinner"
+                style="@style/Widget.AppCompat.Spinner.DropDown"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="2.0"
+                android:entries="@{viewModel.categoryList}"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
+                android:spinnerMode="dropdown"
+                android:text="Category"
+                android:textColor="@color/blackColor" />
+        </LinearLayout>
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/firstLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="70dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:weightSum="2">-->
+
+<!--            &lt;!&ndash; place one TextView and one EditText inside layout using weight property &ndash;&gt;-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/summary_beginDateTimePicker"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="@color/editTextBack"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:hint="begin date"-->
+<!--                android:imeOptions="actionNext"-->
+<!--                android:paddingLeft="10dp"-->
+<!--                android:singleLine="true"-->
+<!--                android:text="@{viewModel.beginDate}"-->
+<!--                android:textColor="@color/blackColor" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/summary_endDateTimePicker"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="@color/editTextBack"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:hint="end date"-->
+<!--                android:imeOptions="actionNext"-->
+<!--                android:paddingLeft="10dp"-->
+<!--                android:singleLine="true"-->
+<!--                android:text="@{viewModel.endDate}"-->
+<!--                android:textColor="@color/blackColor" />-->
+<!--        </LinearLayout>-->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="140dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@color/greenColor"
+                android:onClick="@{ () -> viewModel.addOrEditExpense()}"
+                android:text="Dodaj wydatek"
+                android:textColor="@color/blackColor" />
+        </LinearLayout>
+
+
+        <!--    <TextView-->
+        <!--        android:layout_width="wrap_content"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:text="Mesage Fragment"-->
+        <!--        android:textSize="30sp"-->
+        <!--        android:layout_centerInParent="true"/>-->
+
+    </RelativeLayout>
+
+</layout>

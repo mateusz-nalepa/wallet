@@ -7,6 +7,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_add_or_edit_expense"
+            android:icon="@drawable/ic_summary"
+            android:title="Add Expense" />
+        <item
             android:id="@+id/nav_message"
             android:icon="@drawable/ic_summary"
             android:title="Message" />

@@ -55,6 +55,7 @@ class SimpleNavigation : AppCompatActivity(), DIAware, OnNavigationItemSelectedL
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.nav_add_or_edit_expense -> switchToAddOrEditExpense()
             R.id.nav_message -> switchToMessageFragment()
             R.id.nav_chat -> switchToChatFragment()
             R.id.nav_share -> showShortText("Share")
