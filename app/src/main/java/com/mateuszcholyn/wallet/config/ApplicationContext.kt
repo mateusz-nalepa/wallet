@@ -18,6 +18,7 @@ import com.mateuszcholyn.wallet.infrastructure.expense.SqLiteExpenseRepository
 import com.mateuszcholyn.wallet.infrastructure.moneysaver.MonthlyBudgetDao
 import com.mateuszcholyn.wallet.infrastructure.moneysaver.SqLiteMonthlyBudgetRepository
 import com.mateuszcholyn.wallet.ui.addexpense.SummaryViewModel
+import com.mateuszcholyn.wallet.ui.chat.ChatViewModel
 import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
 import org.kodein.di.DI
 import org.kodein.di.DIAware
@@ -56,7 +57,14 @@ class ApplicationContext : Application(), DIAware {
 
 //        ViewModelFactory
         bindViewModel<SummaryViewModel>() with provider { SummaryViewModel() }
+        bindViewModel<ChatViewModel>() with provider { ChatViewModel() }
 //        bindViewModel<SummaryViewModel>() with provider { SummaryViewModel(instance()) }
+
+
+        //        ViewModelFactory
+//        bindViewModel<SummaryViewModel>() with provider { SummaryViewModel(instance()) }
+//        bind<ViewModelProvider.Factory>() with singleton { CustomViewModelFactory(directDI) }
+
         bind<ViewModelProvider.Factory>() with singleton { CustomViewModelFactory(directDI) }
     }
 

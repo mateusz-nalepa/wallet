@@ -6,8 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.mateuszcholyn.wallet.databinding.FragmentChatBinding
+import com.mateuszcholyn.wallet.fragmentViewModel
+import org.kodein.di.DIAware
+import org.kodein.di.android.x.closestDI
 
-class ChatFragment : Fragment() {
+class ChatFragment : Fragment(), DIAware {
+
+    override val di by closestDI()
+    private val chatViewModel: ChatViewModel by fragmentViewModel()
 
     private var bindingNullable: FragmentChatBinding? = null
 
@@ -21,7 +27,7 @@ class ChatFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         bindingNullable = FragmentChatBinding.inflate(inflater, container, false)
-//        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this
         return binding.root
     }
 
@@ -32,21 +38,15 @@ class ChatFragment : Fragment() {
     }
 
     private fun initOnClickListeners() {
-        binding.chatButton.setOnClickListener { setRandomValue() }
+        binding.chatButton.setOnClickListener { chatViewModel.setActualValue() }
     }
 
     private fun observeViewModel() {
-        setRandomValue()
-    //        summaryViewModel.textSummaryLiveData.observe(viewLifecycleOwner, { newText ->
-//            val textView: TextView = binding.chatId
-//            textView.text = newText
-//        })
+        chatViewModel.setActualValue()
+        chatViewModel.textChatLiveData.observe(viewLifecycleOwner, { newText ->
+            binding.chatId.text = newText
+        })
     }
-
-    private fun setRandomValue() {
-        binding.chatId.text = (1..100).random().toString()
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -1,30 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.mateuszcholyn.wallet.ui.chat.ChatViewModel" />
+    </data>
 
 
-    android:background="@android:color/holo_blue_bright">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
 
+        android:background="@android:color/holo_blue_bright">
 
-    <TextView
-        android:id="@+id/chatId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chat Fragment"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
 
-    <Button
-        android:id="@+id/chatButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Randomize"
-        app:layout_constraintTop_toBottomOf="@id/chatId"
-        app:layout_constraintBottom_toBottomOf="@id/chatId"
-        app:layout_constraintStart_toStartOf="@id/chatId"
-        app:layout_constraintEnd_toEndOf="@id/chatId" />
+        <!--        HAVE NO IDEA WHY THIS NOT WORKS XD-->
+        <!--        android:text="@{viewModel.textChatLiveData}"-->
+        <TextView
+            android:id="@+id/chatId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@{viewModel.textChatLiveData}"
+            android:textSize="30sp" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/chatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Randomize"
+            app:layout_constraintBottom_toBottomOf="@id/chatId"
+            app:layout_constraintEnd_toEndOf="@id/chatId"
+            app:layout_constraintStart_toStartOf="@id/chatId"
+            app:layout_constraintTop_toBottomOf="@id/chatId" />
+
+    </RelativeLayout>
+
+</layout>
