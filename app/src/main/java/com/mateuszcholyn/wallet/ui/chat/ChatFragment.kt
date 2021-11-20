@@ -28,19 +28,23 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
-//        initOnClickListeners()
+        initOnClickListeners()
     }
 
-//    private fun initOnClickListeners() {
-//        binding.summaryButton.setOnClickListener { summaryViewModel.setActualValue() }
-//    }
+    private fun initOnClickListeners() {
+        binding.chatButton.setOnClickListener { setRandomValue() }
+    }
 
     private fun observeViewModel() {
-        binding.chatId.text = (1..100).random().toString()
+        setRandomValue()
     //        summaryViewModel.textSummaryLiveData.observe(viewLifecycleOwner, { newText ->
 //            val textView: TextView = binding.chatId
 //            textView.text = newText
 //        })
+    }
+
+    private fun setRandomValue() {
+        binding.chatId.text = (1..100).random().toString()
     }
 
 
