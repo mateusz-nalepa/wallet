@@ -8,8 +8,6 @@ import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.util.oneWeekAgo
 import java.time.LocalDateTime
 
-//class SummaryViewModel(private val expenseService: ExpenseService) : ViewModel() {
-
 class ChatViewModel(private val expenseService: ExpenseService) : ViewModel() {
     val textChatLiveData = MutableLiveData<String>()
 
@@ -18,12 +16,10 @@ class ChatViewModel(private val expenseService: ExpenseService) : ViewModel() {
     }
 
     fun setActualValue() {
-        textChatLiveData.value = getText()
+        textChatLiveData.value = calculate()
     }
 
-    private fun getText() = getTextXD()
-
-    private fun getTextXD(): String {
+    private fun calculate(): String {
         val result =
             expenseService.averageExpense(
                 ExpenseSearchCriteria(
