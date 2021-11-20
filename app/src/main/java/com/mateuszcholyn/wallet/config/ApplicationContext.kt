@@ -57,7 +57,7 @@ class ApplicationContext : Application(), DIAware {
 
 //        ViewModelFactory
         bindViewModel<SummaryViewModel>() with provider { SummaryViewModel() }
-        bindViewModel<ChatViewModel>() with provider { ChatViewModel() }
+        bindViewModel<ChatViewModel>() with provider { ChatViewModel(instance()) }
 //        bindViewModel<SummaryViewModel>() with provider { SummaryViewModel(instance()) }
 
 
