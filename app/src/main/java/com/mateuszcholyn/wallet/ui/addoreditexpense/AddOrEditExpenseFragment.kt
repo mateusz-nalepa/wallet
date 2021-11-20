@@ -14,7 +14,9 @@ import org.kodein.di.DIAware
 import org.kodein.di.android.x.closestDI
 import java.time.LocalDateTime
 
-class AddOrEditExpenseFragment : Fragment(), DIAware {
+class AddOrEditExpenseFragment(
+    private val onExpenseAddedAction: () -> Unit
+) : Fragment(), DIAware {
     override val di: DI by closestDI()
     private val addOrEditExpenseViewModel: AddOrEditExpenseViewModel by fragmentViewModel()
 
@@ -36,6 +38,11 @@ class AddOrEditExpenseFragment : Fragment(), DIAware {
         initCategorySpinner()
         initDateTimePickers()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        addOrEditExpenseViewModel.onExpenseAddedAction = onExpenseAddedAction
     }
 
     private fun initCategorySpinner() {

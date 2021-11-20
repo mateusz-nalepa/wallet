@@ -9,7 +9,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
-import com.mateuszcholyn.wallet.view.showShortText
 import org.kodein.di.DIAware
 import org.kodein.di.android.closestDI
 
@@ -23,7 +22,7 @@ class SimpleNavigation : AppCompatActivity(), DIAware, OnNavigationItemSelectedL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_simple_navigation)
         toggle()
-        switchToMessageFragment()
+        switchToSummaryFragment()
         navigationState(savedInstanceState)
     }
 
@@ -54,13 +53,7 @@ class SimpleNavigation : AppCompatActivity(), DIAware, OnNavigationItemSelectedL
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.nav_add_or_edit_expense -> switchToAddOrEditExpense()
-            R.id.nav_message -> switchToMessageFragment()
-            R.id.nav_chat -> switchToChatFragment()
-            R.id.nav_share -> showShortText("Share")
-            R.id.nav_send -> showShortText("Send")
-        }
+        handleNavigation(item)
 
         drawer.closeDrawer(GravityCompat.START)
         return true

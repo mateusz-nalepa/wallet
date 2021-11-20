@@ -1,19 +1,34 @@
 package com.mateuszcholyn.wallet
 
+import android.view.MenuItem
 import com.mateuszcholyn.wallet.ui.addoreditexpense.AddOrEditExpenseFragment
 import com.mateuszcholyn.wallet.ui.chat.ChatFragment
 import com.mateuszcholyn.wallet.ui.message.SummaryFragment
+import com.mateuszcholyn.wallet.view.showShortText
+
+fun SimpleNavigation.handleNavigation(item: MenuItem) {
+    when (item.itemId) {
+        R.id.nav_add_or_edit_expense -> switchToAddOrEditExpense()
+        R.id.nav_message -> switchToSummaryFragment()
+        R.id.nav_chat -> switchToChatFragment()
+        R.id.nav_share -> showShortText("Share")
+        R.id.nav_send -> showShortText("Send")
+    }
+}
+
 
 fun SimpleNavigation.switchToAddOrEditExpense() {
     title = "Add Or Edit Expense"
 
     supportFragmentManager
         .beginTransaction()
-        .replace(R.id.fragment_container, AddOrEditExpenseFragment())
+        .replace(R.id.fragment_container, AddOrEditExpenseFragment {
+            switchToSummaryFragment()
+        })
         .commit()
 }
 
-fun SimpleNavigation.switchToMessageFragment() {
+fun SimpleNavigation.switchToSummaryFragment() {
     title = "Summary Fragment"
 
     supportFragmentManager
