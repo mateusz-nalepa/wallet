@@ -14,7 +14,7 @@ class DateTimeChooserV2(
     private var now: LocalDateTime,
     private var context: Context,
     private var dateLiveData: MutableLiveData<String>,
-    private dateTextView: TextView
+    dateTextView: TextView
 ) {
 
     private var time: LocalTime = LocalTime.now()
