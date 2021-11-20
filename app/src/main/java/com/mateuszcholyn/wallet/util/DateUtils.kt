@@ -14,6 +14,10 @@ fun TextView.toLocalDateTime(): LocalDateTime {
     return LocalDateTime.parse(text.toString(), simpleDateFormat)
 }
 
+fun String.toLocalDateTime(): LocalDateTime {
+    return LocalDateTime.parse(this, simpleDateFormat)
+}
+
 fun LocalDateTime.toEditable(): Editable {
     return simpleDateFormat.format(this).toEditable()
 }

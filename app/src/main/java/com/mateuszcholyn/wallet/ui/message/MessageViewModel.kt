@@ -7,9 +7,10 @@ import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.util.atStartOfTheDay
-import com.mateuszcholyn.wallet.util.oneWeekAgo
 import com.mateuszcholyn.wallet.util.toHumanText
+import com.mateuszcholyn.wallet.util.toLocalDateTime
 import com.mateuszcholyn.wallet.view.QuickRangeV2
+import com.mateuszcholyn.wallet.view.expense.ALL_CATEGORIES
 import java.time.LocalDateTime
 
 class MessageViewModel(
@@ -22,37 +23,50 @@ class MessageViewModel(
     var actualCategoryPosition: Int = 0
     var beginDate = MutableLiveData<String>()
     var endDate = MutableLiveData<String>()
+    var summaryResultText = MutableLiveData<String>()
 
     init {
         beginDate.value = LocalDateTime.now().atStartOfTheDay().toHumanText()
         endDate.value = LocalDateTime.now().toHumanText()
-        categoryList.value = categoryService.getAllOrderByUsageDesc().map { it.name }
+        categoryList.value =
+            listOf(ALL_CATEGORIES) + categoryService.getAllOrderByUsageDesc().map { it.name }
         quickRangeEntries.value = QuickRangeV2.quickRangesNames()
-    }
 
+        calculateAverageAmount()
+    }
 
     fun calculateAverageAmount() {
         println("Button clicked!")
         println("Actual category position: $actualCategoryPosition")
         println("Actual beginDate: ${beginDate.value}")
         println("Actual endDate: ${endDate.value}")
+        summaryResultText.value = calculate()
     }
 
     private fun calculate(): String {
         val result =
             expenseService.averageExpense(
                 ExpenseSearchCriteria(
-                    allCategories = true,
-                    beginDate = oneWeekAgo(),
-                    endDate = LocalDateTime.now()
+                    allCategories = isAllCategories(),
+                    categoryName = if (getActualCategoryName() == ALL_CATEGORIES) null else getActualCategoryName(),
+                    beginDate = beginDate.value!!.toLocalDateTime(),
+                    endDate = endDate.value!!.toLocalDateTime()
                 )
             )
 
         return """
             ${(1..100).random()}
-            XD W ciagu ostatnich 7 dni wydales: ${result.wholeAmount.asPrinteableAmount()} zł,
+            W ciagu ostatnich ${result.days} dni wydales: ${result.wholeAmount.asPrinteableAmount()} zł,
             czyli srednio na dzien: ${result.averageAmount.asPrinteableAmount()} zł
         """.trimIndent()
+    }
+
+    private fun isAllCategories(): Boolean {
+        return getActualCategoryName() == ALL_CATEGORIES
+    }
+
+    private fun getActualCategoryName(): String {
+        return categoryList.value!![actualCategoryPosition]
     }
 
 }

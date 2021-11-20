@@ -40,7 +40,6 @@ inline fun <reified VM : ViewModel, T> T.fragmentViewModel(): Lazy<VM> where T :
 }
 
 inline fun <reified VM : ViewModel> DI.Builder.bindViewModel(overrides: Boolean? = null): DI.Builder.TypeBinder<VM> {
-    println("Hej koleda koleda....")
     return bind<VM>(VM::class.java.simpleName, overrides)
 }
 
