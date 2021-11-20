@@ -18,6 +18,7 @@ class MessageViewModel(
     ) : ViewModel() {
     val textChatLiveData = MutableLiveData<String>()
     val categoryList = MutableLiveData<List<String>>()
+    val quickRangeEntries = MutableLiveData<List<String>>()
     var actualCategoryPosition: Int = 0
     var beginDate = MutableLiveData<String>()
     var endDate = MutableLiveData<String>()
@@ -27,6 +28,7 @@ class MessageViewModel(
         categoryList()
         beginDate.value = LocalDateTime.now().atStartOfTheDay().toHumanText()
         endDate.value = LocalDateTime.now().toHumanText()
+        quickRangeEntries.value = listOf("1", "2", "3")
     }
 
 
