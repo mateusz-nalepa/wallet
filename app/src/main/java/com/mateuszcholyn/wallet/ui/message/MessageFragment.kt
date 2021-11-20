@@ -10,6 +10,8 @@ import com.mateuszcholyn.wallet.databinding.FragmentMessageBinding
 import com.mateuszcholyn.wallet.fragmentViewModel
 import com.mateuszcholyn.wallet.util.DateTimeChooserV2
 import com.mateuszcholyn.wallet.util.atStartOfTheDay
+import com.mateuszcholyn.wallet.view.QuickRangeSelectedListenerV2
+import com.mateuszcholyn.wallet.view.QuickRangeV2
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.closestDI
 import java.time.LocalDateTime
@@ -70,7 +72,13 @@ class MessageFragment : Fragment(), DIAware {
             binding.summaryEndDateTimePicker
         )
 
-//        QuickRange.setDefaultDates(mBeginDate, mEndDate)
+        binding.summaryQuickRangeSpinner.onItemSelectedListener =
+            QuickRangeSelectedListenerV2(
+                messageViewModel.beginDate,
+                messageViewModel.endDate
+            )
+
+        QuickRangeV2.setDefaultDates(messageViewModel.beginDate, messageViewModel.endDate)
     }
 
 

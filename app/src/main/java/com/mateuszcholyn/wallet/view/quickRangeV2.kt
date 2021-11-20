@@ -2,7 +2,7 @@ package com.mateuszcholyn.wallet.view
 
 import android.view.View
 import android.widget.AdapterView
-import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import com.mateuszcholyn.wallet.util.currentDateAsString
 import com.mateuszcholyn.wallet.util.maxDate
 import com.mateuszcholyn.wallet.util.minDate
@@ -12,8 +12,8 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 class QuickRangeSelectedListenerV2(
-    private var mBeginDate: TextView,
-    private var mEndDate: TextView,
+    private var mBeginDate: MutableLiveData<String>,
+    private var mEndDate: MutableLiveData<String>,
 ) : AdapterView.OnItemSelectedListener {
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -34,8 +34,8 @@ object QuickRangeV2 {
             name = "Dzisiaj",
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 val dayBeginning = LocalDateTime.of(LocalDate.now(), LocalTime.MIN)
-                mBeginDate.text = dayBeginning.toHumanText()
-                mEndDate.text = currentDateAsString()
+                mBeginDate.value = dayBeginning.toHumanText()
+                mEndDate.value = currentDateAsString()
             },
             isDefault = true,
         ),
@@ -47,8 +47,8 @@ object QuickRangeV2 {
                     LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MIN)
                 val yesterDayEnd = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MAX)
 
-                mBeginDate.text = yesterDayBeginning.toHumanText()
-                mEndDate.text = yesterDayEnd.toHumanText()
+                mBeginDate.value = yesterDayBeginning.toHumanText()
+                mEndDate.value = yesterDayEnd.toHumanText()
             }
         ),
         QuickRangeDataV2(
@@ -59,40 +59,40 @@ object QuickRangeV2 {
                     LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.MIN)
                 val yesterDayEnd = LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.MAX)
 
-                mBeginDate.text = yesterDayBeginning.toHumanText()
-                mEndDate.text = yesterDayEnd.toHumanText()
+                mBeginDate.value = yesterDayBeginning.toHumanText()
+                mEndDate.value = yesterDayEnd.toHumanText()
             }
         ),
         QuickRangeDataV2(
             position = 3,
             name = "Ostatni tydzień",
             modifyDatesFunction = { mBeginDate, mEndDate ->
-                mBeginDate.text = LocalDateTime.now().minusDays(7).toHumanText()
-                mEndDate.text = currentDateAsString()
+                mBeginDate.value = LocalDateTime.now().minusDays(7).toHumanText()
+                mEndDate.value = currentDateAsString()
             },
         ),
         QuickRangeDataV2(
             position = 4,
             name = "Ostatni Miesiąc",
             modifyDatesFunction = { mBeginDate, mEndDate ->
-                mBeginDate.text = LocalDateTime.now().minusMonths(1).toHumanText()
-                mEndDate.text = currentDateAsString()
+                mBeginDate.value = LocalDateTime.now().minusMonths(1).toHumanText()
+                mEndDate.value = currentDateAsString()
             }
         ),
         QuickRangeDataV2(
             position = 5,
             name = "Ostatnie 3 Miesiące",
             modifyDatesFunction = { mBeginDate, mEndDate ->
-                mBeginDate.text = LocalDateTime.now().minusMonths(3).toHumanText()
-                mEndDate.text = currentDateAsString()
+                mBeginDate.value = LocalDateTime.now().minusMonths(3).toHumanText()
+                mEndDate.value = currentDateAsString()
             }
         ),
         QuickRangeDataV2(
             position = 6,
             name = "Wszystkie wydatki",
             modifyDatesFunction = { mBeginDate, mEndDate ->
-                mBeginDate.text = minDate.toHumanText()
-                mEndDate.text = maxDate.toHumanText()
+                mBeginDate.value = minDate.toHumanText()
+                mEndDate.value = maxDate.toHumanText()
             }
         )
     )
@@ -101,7 +101,11 @@ object QuickRangeV2 {
     fun quickRangesNames(): List<String> =
         quickRangesList.map { it.name }
 
-    fun modifyBasedOnPosition(position: Int, mBeginDate: TextView, mEndDate: TextView) {
+    fun modifyBasedOnPosition(
+        position: Int,
+        mBeginDate: MutableLiveData<String>,
+        mEndDate: MutableLiveData<String>
+    ) {
         val quickRangeData = requireNotNull(quickRangesList.find { it.position == position }) {
             "Quick Range Data for given position $position not found"
         }
@@ -109,7 +113,7 @@ object QuickRangeV2 {
         quickRangeData.modifyDatesFunction.invoke(mBeginDate, mEndDate)
     }
 
-    fun setDefaultDates(mBeginDate: TextView, mEndDate: TextView) {
+    fun setDefaultDates(mBeginDate: MutableLiveData<String>, mEndDate: MutableLiveData<String>) {
         val quickRangeData = requireNotNull(quickRangesList.find { it.isDefault }) {
             "Quick Range Data with default not found"
         }
@@ -122,6 +126,6 @@ object QuickRangeV2 {
 class QuickRangeDataV2(
     val position: Int,
     val name: String,
-    val modifyDatesFunction: (mBeginDate: TextView, mEndDate: TextView) -> Unit,
+    val modifyDatesFunction: (mBeginDate: MutableLiveData<String>, mEndDate: MutableLiveData<String>) -> Unit,
     val isDefault: Boolean = false,
 )

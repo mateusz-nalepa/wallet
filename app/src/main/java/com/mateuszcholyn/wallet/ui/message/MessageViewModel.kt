@@ -9,6 +9,7 @@ import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.util.atStartOfTheDay
 import com.mateuszcholyn.wallet.util.oneWeekAgo
 import com.mateuszcholyn.wallet.util.toHumanText
+import com.mateuszcholyn.wallet.view.QuickRangeV2
 import java.time.LocalDateTime
 
 class MessageViewModel(
@@ -16,7 +17,6 @@ class MessageViewModel(
     private val expenseService: ExpenseService,
 
     ) : ViewModel() {
-    val textChatLiveData = MutableLiveData<String>()
     val categoryList = MutableLiveData<List<String>>()
     val quickRangeEntries = MutableLiveData<List<String>>()
     var actualCategoryPosition: Int = 0
@@ -24,21 +24,12 @@ class MessageViewModel(
     var endDate = MutableLiveData<String>()
 
     init {
-        setActualValue()
-        categoryList()
         beginDate.value = LocalDateTime.now().atStartOfTheDay().toHumanText()
         endDate.value = LocalDateTime.now().toHumanText()
-        quickRangeEntries.value = listOf("1", "2", "3")
-    }
-
-
-    fun categoryList() {
         categoryList.value = categoryService.getAllOrderByUsageDesc().map { it.name }
+        quickRangeEntries.value = QuickRangeV2.quickRangesNames()
     }
 
-    fun setActualValue() {
-        textChatLiveData.value = calculate()
-    }
 
     fun calculateAverageAmount() {
         println("Button clicked!")
@@ -63,6 +54,5 @@ class MessageViewModel(
             czyli srednio na dzien: ${result.averageAmount.asPrinteableAmount()} zł
         """.trimIndent()
     }
-
 
 }
