@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet
 
 import android.view.MenuItem
+import androidx.fragment.app.FragmentTransaction
 import com.mateuszcholyn.wallet.ui.addoreditexpense.AddOrEditExpenseFragment
 import com.mateuszcholyn.wallet.ui.chat.ChatFragment
 import com.mateuszcholyn.wallet.ui.message.SummaryFragment
@@ -17,7 +18,7 @@ fun SimpleNavigation.handleNavigation(item: MenuItem) {
 }
 
 
-fun SimpleNavigation.switchToAddOrEditExpense() {
+fun SimpleNavigation.switchToAddOrEditExpense(withBackStack: Boolean = false) {
     title = "Add Or Edit Expense"
 
     supportFragmentManager
@@ -25,15 +26,24 @@ fun SimpleNavigation.switchToAddOrEditExpense() {
         .replace(R.id.fragment_container, AddOrEditExpenseFragment {
             switchToSummaryFragment()
         })
+        .withBackStack(withBackStack)
         .commit()
 }
+
+fun FragmentTransaction.withBackStack(withBackStack: Boolean): FragmentTransaction =
+    when (withBackStack) {
+        true -> this.addToBackStack("XDDD")
+        false -> this
+    }
 
 fun SimpleNavigation.switchToSummaryFragment() {
     title = "Summary Fragment"
 
     supportFragmentManager
         .beginTransaction()
-        .replace(R.id.fragment_container, SummaryFragment())
+        .replace(R.id.fragment_container, SummaryFragment {
+            switchToAddOrEditExpense(withBackStack = true)
+        })
         .commit()
 }
 

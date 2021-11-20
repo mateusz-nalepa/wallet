@@ -24,6 +24,7 @@ class SummaryViewModel(
     var beginDate = MutableLiveData<String>()
     var endDate = MutableLiveData<String>()
     var summaryResultText = MutableLiveData<String>()
+    var showAddExpenseFragmentFunction: () -> Unit = {}
 
     init {
         beginDate.value = LocalDateTime.now().atStartOfTheDay().toHumanText()
@@ -61,6 +62,10 @@ class SummaryViewModel(
 
     private fun getActualCategoryName(): String {
         return categoryList.value!![actualCategoryPosition]
+    }
+
+    fun showAddExpenseFragment() {
+        showAddExpenseFragmentFunction.invoke()
     }
 
 }

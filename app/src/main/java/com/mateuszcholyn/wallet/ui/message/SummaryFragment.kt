@@ -16,7 +16,9 @@ import org.kodein.di.DIAware
 import org.kodein.di.android.x.closestDI
 import java.time.LocalDateTime
 
-class SummaryFragment : Fragment(), DIAware {
+class SummaryFragment(
+    private val showAddExpenseFragmentFunction: () -> Unit
+) : Fragment(), DIAware {
 
     override val di by closestDI()
     private val summaryViewModel: SummaryViewModel by fragmentViewModel()
@@ -39,6 +41,11 @@ class SummaryFragment : Fragment(), DIAware {
         initCategorySpinner()
         initDateTimePickers()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        summaryViewModel.showAddExpenseFragmentFunction = showAddExpenseFragmentFunction
     }
 
     private fun initCategorySpinner() {

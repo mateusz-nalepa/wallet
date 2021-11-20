@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -9,12 +10,11 @@
             type="com.mateuszcholyn.wallet.ui.message.SummaryViewModel" />
     </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:background="@android:color/holo_blue_light"
-        >
+        android:background="@android:color/holo_blue_light">
 
 
         <LinearLayout
@@ -23,7 +23,6 @@
             android:layout_marginTop="5dp"
             android:orientation="horizontal"
             android:weightSum="2">
-
 
 
             <Spinner
@@ -61,11 +60,10 @@
                 android:imeOptions="actionNext"
                 android:singleLine="true"
                 android:spinnerMode="dropdown"
-                android:textColor="@color/blackColor"
-
                 android:text="Quick Range"
-                android:theme="@style/ThemeOverlay.AppCompat.Light"
-                />
+
+                android:textColor="@color/blackColor"
+                android:theme="@style/ThemeOverlay.AppCompat.Light" />
         </LinearLayout>
 
         <LinearLayout
@@ -140,20 +138,36 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@{viewModel.summaryResultText}"
-                android:textStyle="bold"
-                android:hint="14 zł / 2d = 7zł/d"
                 android:gravity="center"
-                android:textSize="20sp" />
+                android:hint="14 zł / 2d = 7zł/d"
+                android:text="@{viewModel.summaryResultText}"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <!--    <TextView-->
-        <!--        android:layout_width="wrap_content"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:text="Mesage Fragment"-->
-        <!--        android:textSize="30sp"-->
-        <!--        android:layout_centerInParent="true"/>-->
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_expense_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|bottom"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Dodaj wydatek"
+                android:onClick="@{ () -> viewModel.showAddExpenseFragment()}"
+                android:src="@drawable/ic_add_expense_fab_24"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                app:fabCustomSize="72dp" />
+
+        </FrameLayout>
 
     </RelativeLayout>
+
 
 </layout>
