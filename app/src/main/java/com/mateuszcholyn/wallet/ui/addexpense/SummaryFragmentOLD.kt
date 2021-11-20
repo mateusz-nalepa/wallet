@@ -12,9 +12,9 @@ import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.closestDI
 
-class SummaryFragment : Fragment(), DIAware {
+class SummaryFragmentOLD : Fragment(), DIAware {
     override val di: DI by closestDI()
-    private val summaryViewModel: SummaryViewModel by activityScopedFragmentViewModel()
+    private val summaryViewModelOLD: SummaryViewModelOLD by activityScopedFragmentViewModel()
 
     private var bindingNullable: FragmentSummaryBinding? = null
 
@@ -39,11 +39,11 @@ class SummaryFragment : Fragment(), DIAware {
     }
 
     private fun initOnClickListeners() {
-        binding.summaryButton.setOnClickListener { summaryViewModel.setActualValue() }
+        binding.summaryButton.setOnClickListener { summaryViewModelOLD.setActualValue() }
     }
 
     private fun observeViewModel() {
-        summaryViewModel.textSummaryLiveData.observe(viewLifecycleOwner, { newText ->
+        summaryViewModelOLD.textSummaryLiveData.observe(viewLifecycleOwner, { newText ->
             val textView: TextView = binding.summaryText
             textView.text = newText
         })

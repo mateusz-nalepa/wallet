@@ -25,7 +25,7 @@ import org.kodein.di.android.closestDI
 import org.kodein.di.instance
 import java.time.LocalDateTime
 
-const val ALL_CATEGORIES = "Wszystkie"
+const val ALL_CATEGORIES = "Wszystkie kategorie"
 
 class AverageExpenseActivity : AppCompatActivity(), DIAware {
 
@@ -69,7 +69,7 @@ class AverageExpenseActivity : AppCompatActivity(), DIAware {
     @SuppressLint("SetTextI18n")
     private fun calculate() {
         val categoryName =
-            findViewById<Spinner>(R.id.average_category_spinner).selectedItem as String
+            findViewById<Spinner>(R.id.summary_category_spinner).selectedItem as String
 
         val wholeAmount = findViewById<TextView>(R.id.wholeAmount)
         val daysAmount = findViewById<TextView>(R.id.daysAmount)
@@ -91,7 +91,7 @@ class AverageExpenseActivity : AppCompatActivity(), DIAware {
 
     private fun initCategorySpinner() {
         val allCategories = listOf(ALL_CATEGORIES) + categoryService.getAllNamesOnly()
-        initSpinner(R.id.average_category_spinner, allCategories)
+        initSpinner(R.id.summary_category_spinner, allCategories)
     }
 
     private fun initQuickRangeSpinner() {

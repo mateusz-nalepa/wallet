@@ -13,7 +13,7 @@ import com.mateuszcholyn.wallet.view.QuickRangeV2
 import com.mateuszcholyn.wallet.view.expense.ALL_CATEGORIES
 import java.time.LocalDateTime
 
-class MessageViewModel(
+class SummaryViewModel(
     private val categoryService: CategoryService,
     private val expenseService: ExpenseService,
 
@@ -36,10 +36,6 @@ class MessageViewModel(
     }
 
     fun calculateAverageAmount() {
-        println("Button clicked!")
-        println("Actual category position: $actualCategoryPosition")
-        println("Actual beginDate: ${beginDate.value}")
-        println("Actual endDate: ${endDate.value}")
         summaryResultText.value = calculate()
     }
 
@@ -55,9 +51,7 @@ class MessageViewModel(
             )
 
         return """
-            ${(1..100).random()}
-            W ciagu ostatnich ${result.days} dni wydales: ${result.wholeAmount.asPrinteableAmount()} zł,
-            czyli srednio na dzien: ${result.averageAmount.asPrinteableAmount()} zł
+            ${result.wholeAmount.asPrinteableAmount()} zł / ${result.days} d = ${result.averageAmount.asPrinteableAmount()} zł/d
         """.trimIndent()
     }
 

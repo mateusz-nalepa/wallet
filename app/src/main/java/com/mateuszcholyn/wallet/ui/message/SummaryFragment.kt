@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
-import com.mateuszcholyn.wallet.databinding.FragmentMessageBinding
+import com.mateuszcholyn.wallet.databinding.FragmentSummaryV2Binding
 import com.mateuszcholyn.wallet.fragmentViewModel
 import com.mateuszcholyn.wallet.util.DateTimeChooserV2
 import com.mateuszcholyn.wallet.util.atStartOfTheDay
@@ -16,12 +16,12 @@ import org.kodein.di.DIAware
 import org.kodein.di.android.x.closestDI
 import java.time.LocalDateTime
 
-class MessageFragment : Fragment(), DIAware {
+class SummaryFragment : Fragment(), DIAware {
 
     override val di by closestDI()
-    private val messageViewModel: MessageViewModel by fragmentViewModel()
+    private val summaryViewModel: SummaryViewModel by fragmentViewModel()
 
-    private var bindingNullable: FragmentMessageBinding? = null
+    private var bindingNullable: FragmentSummaryV2Binding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -32,8 +32,8 @@ class MessageFragment : Fragment(), DIAware {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        bindingNullable = FragmentMessageBinding.inflate(inflater, container, false)
-        binding.viewModel = messageViewModel
+        bindingNullable = FragmentSummaryV2Binding.inflate(inflater, container, false)
+        binding.viewModel = summaryViewModel
         binding.lifecycleOwner = this
         binding.executePendingBindings()
         initCategorySpinner()
@@ -42,7 +42,7 @@ class MessageFragment : Fragment(), DIAware {
     }
 
     private fun initCategorySpinner() {
-        binding.averageCategorySpinner.onItemSelectedListener =
+        binding.summaryCategorySpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
 
@@ -52,7 +52,7 @@ class MessageFragment : Fragment(), DIAware {
                     position: Int,
                     id: Long
                 ) {
-                    messageViewModel.actualCategoryPosition = position
+                    summaryViewModel.actualCategoryPosition = position
                 }
             }
     }
@@ -61,24 +61,24 @@ class MessageFragment : Fragment(), DIAware {
         DateTimeChooserV2(
             LocalDateTime.now().atStartOfTheDay(),
             requireContext(),
-            messageViewModel.beginDate,
+            summaryViewModel.beginDate,
             binding.summaryBeginDateTimePicker
         )
 
         DateTimeChooserV2(
             LocalDateTime.now(),
             requireContext(),
-            messageViewModel.endDate,
+            summaryViewModel.endDate,
             binding.summaryEndDateTimePicker
         )
 
         binding.summaryQuickRangeSpinner.onItemSelectedListener =
             QuickRangeSelectedListenerV2(
-                messageViewModel.beginDate,
-                messageViewModel.endDate
+                summaryViewModel.beginDate,
+                summaryViewModel.endDate
             )
 
-        QuickRangeV2.setDefaultDates(messageViewModel.beginDate, messageViewModel.endDate)
+        QuickRangeV2.setDefaultDates(summaryViewModel.beginDate, summaryViewModel.endDate)
     }
 
 

@@ -6,14 +6,15 @@
 
         <variable
             name="viewModel"
-            type="com.mateuszcholyn.wallet.ui.message.MessageViewModel" />
+            type="com.mateuszcholyn.wallet.ui.message.SummaryViewModel" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:background="@android:color/holo_blue_light">
+        android:background="@android:color/holo_blue_light"
+        >
 
 
         <LinearLayout
@@ -23,30 +24,21 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="0.6"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="Kategoria"
-                android:textColor="@color/blackColor"
-                android:textSize="20dp" />
+
 
             <Spinner
-                android:id="@+id/average_category_spinner"
+                android:id="@+id/summary_category_spinner"
+                style="@style/Widget.AppCompat.Spinner.DropDown"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1.4"
-                android:background="@color/editTextBack"
+                android:layout_marginRight="10dp"
+                android:layout_weight="2.0"
                 android:entries="@{viewModel.categoryList}"
-
-                android:hint="User Name"
                 android:imeOptions="actionNext"
-                android:paddingLeft="10dp"
                 android:singleLine="true"
+                android:spinnerMode="dropdown"
+                android:text="Category"
                 android:textColor="@color/blackColor" />
         </LinearLayout>
 
@@ -59,17 +51,21 @@
 
             <Spinner
                 android:id="@+id/summary_quick_range_spinner"
+                style="@style/Widget.AppCompat.Spinner.DropDown"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="2"
-                android:background="@color/editTextBack"
+                android:layout_marginRight="10dp"
+                android:layout_weight="2.0"
                 android:entries="@{viewModel.quickRangeEntries}"
-                android:hint="User Name"
                 android:imeOptions="actionNext"
-                android:paddingLeft="10dp"
                 android:singleLine="true"
-                android:textColor="@color/blackColor" />
+                android:spinnerMode="dropdown"
+                android:textColor="@color/blackColor"
+
+                android:text="Quick Range"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -141,12 +137,14 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.summaryResultText}"
-                    android:textSize="30sp"
-                    android:layout_centerInParent="true"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@{viewModel.summaryResultText}"
+                android:textStyle="bold"
+                android:hint="14 zł / 2d = 7zł/d"
+                android:gravity="center"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <!--    <TextView-->

@@ -1,14 +1,14 @@
 package com.mateuszcholyn.wallet
 
 import com.mateuszcholyn.wallet.ui.chat.ChatFragment
-import com.mateuszcholyn.wallet.ui.message.MessageFragment
+import com.mateuszcholyn.wallet.ui.message.SummaryFragment
 
 fun SimpleNavigation.switchToMessageFragment() {
     title = "Summary Fragment"
 
     supportFragmentManager
         .beginTransaction()
-        .replace(R.id.fragment_container, MessageFragment())
+        .replace(R.id.fragment_container, SummaryFragment())
         .commit()
 }
 

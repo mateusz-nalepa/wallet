@@ -25,7 +25,7 @@
             android:textColor="@color/blackColor" />
 
         <Spinner
-            android:id="@+id/average_category_spinner"
+            android:id="@+id/summary_category_spinner"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"

@@ -8,7 +8,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_message"
-            android:icon="@drawable/ic_message"
+            android:icon="@drawable/ic_summary"
             android:title="Message" />
         <item
             android:id="@+id/nav_chat"
@@ -21,11 +21,11 @@
         <menu>
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_message"
+                android:icon="@drawable/ic_summary"
                 android:title="Share" />
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/ic_message"
+                android:icon="@drawable/ic_summary"
                 android:title="Send" />
         </menu>
     </item>

@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 //class SummaryViewModel(private val expenseService: ExpenseService) : ViewModel() {
-class SummaryViewModel() : ViewModel() {
+class SummaryViewModelOLD : ViewModel() {
     val textSummaryLiveData = MutableLiveData<String>()
 
     init {
