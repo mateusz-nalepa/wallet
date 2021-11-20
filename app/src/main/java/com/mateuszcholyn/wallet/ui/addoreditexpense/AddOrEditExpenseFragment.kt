@@ -8,9 +8,11 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import com.mateuszcholyn.wallet.databinding.FragmentAddOrEditExpenseBinding
 import com.mateuszcholyn.wallet.fragmentViewModel
+import com.mateuszcholyn.wallet.util.DateTimeChooserV2
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.closestDI
+import java.time.LocalDateTime
 
 class AddOrEditExpenseFragment : Fragment(), DIAware {
     override val di: DI by closestDI()
@@ -32,6 +34,7 @@ class AddOrEditExpenseFragment : Fragment(), DIAware {
         binding.lifecycleOwner = this
         binding.executePendingBindings()
         initCategorySpinner()
+        initDateTimePickers()
         return binding.root
     }
 
@@ -49,6 +52,15 @@ class AddOrEditExpenseFragment : Fragment(), DIAware {
                     addOrEditExpenseViewModel.actualCategoryPosition = position
                 }
             }
+    }
+
+    private fun initDateTimePickers() {
+        DateTimeChooserV2(
+            LocalDateTime.now(),
+            requireContext(),
+            addOrEditExpenseViewModel.date,
+            binding.addOrEditExpenseDate
+        )
     }
 
 
