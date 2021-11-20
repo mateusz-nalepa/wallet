@@ -27,25 +27,10 @@ class ChatFragment : Fragment(), DIAware {
         savedInstanceState: Bundle?
     ): View {
         bindingNullable = FragmentChatBinding.inflate(inflater, container, false)
+        binding.viewModel = chatViewModel
         binding.lifecycleOwner = this
+        binding.executePendingBindings()
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
-        initOnClickListeners()
-    }
-
-    private fun initOnClickListeners() {
-        binding.chatButton.setOnClickListener { chatViewModel.setActualValue() }
-    }
-
-    private fun observeViewModel() {
-        chatViewModel.setActualValue()
-        chatViewModel.textChatLiveData.observe(viewLifecycleOwner, { newText ->
-            binding.chatId.text = newText
-        })
     }
 
     override fun onDestroyView() {
