@@ -4,7 +4,7 @@ import com.mateuszcholyn.wallet.ui.chat.ChatFragment
 import com.mateuszcholyn.wallet.ui.message.MessageFragment
 
 fun SimpleNavigation.switchToMessageFragment() {
-    title = "Message Fragment"
+    title = "Summary Fragment"
 
     supportFragmentManager
         .beginTransaction()

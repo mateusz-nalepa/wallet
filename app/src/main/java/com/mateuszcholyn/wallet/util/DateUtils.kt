@@ -4,6 +4,7 @@ import android.text.Editable
 import android.widget.TextView
 import java.time.Instant
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
@@ -31,6 +32,10 @@ fun LocalDateTime.toMillis(): Long {
 
 fun oneWeekAgo(): LocalDateTime {
     return LocalDateTime.now().minusDays(7)
+}
+
+fun LocalDateTime.atStartOfTheDay(): LocalDateTime {
+    return LocalDateTime.of(this.toLocalDate(), LocalTime.MIN)
 }
 
 fun oneWeekAgoAsString(): String {
