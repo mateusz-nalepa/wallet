@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.ui.addoreditexpense
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mateuszcholyn.wallet.domain.category.CategoryService
+import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.toHumanText
 import com.mateuszcholyn.wallet.util.toLocalDateTime
@@ -38,6 +39,14 @@ class AddOrEditExpenseViewModel(
             return
         }
 
+        val expense =
+            Expense(
+                amount = amount.value!!.toDouble(),
+                category = categoryService.getByName(getActualCategoryName()),
+                date = date.value!!.toLocalDateTime(),
+                description = description.value ?: ""
+            )
+        expenseService.addExpense(expense)
         onExpenseAddedAction.invoke()
     }
 
