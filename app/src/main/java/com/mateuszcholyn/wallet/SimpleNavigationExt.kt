@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet
 import android.view.MenuItem
 import androidx.fragment.app.FragmentTransaction
 import com.mateuszcholyn.wallet.ui.addoreditexpense.AddOrEditExpenseFragment
+import com.mateuszcholyn.wallet.ui.category.CategoryFragment
 import com.mateuszcholyn.wallet.ui.chat.ChatFragment
 import com.mateuszcholyn.wallet.ui.message.SummaryFragment
 import com.mateuszcholyn.wallet.view.showShortText
@@ -11,6 +12,7 @@ fun SimpleNavigation.handleNavigation(item: MenuItem) {
     when (item.itemId) {
         R.id.nav_add_or_edit_expense -> switchToAddOrEditExpense()
         R.id.nav_message -> switchToSummaryFragment()
+        R.id.nav_category -> switchToCategoryFragment()
         R.id.nav_chat -> switchToChatFragment()
         R.id.nav_share -> showShortText("Share")
         R.id.nav_send -> showShortText("Send")
@@ -46,6 +48,16 @@ fun SimpleNavigation.switchToSummaryFragment() {
         })
         .commit()
 }
+
+fun SimpleNavigation.switchToCategoryFragment() {
+    title = "Category Fragment"
+
+    supportFragmentManager
+        .beginTransaction()
+        .replace(R.id.fragment_container, CategoryFragment())
+        .commit()
+}
+
 
 fun SimpleNavigation.switchToChatFragment() {
     title = "Chat Fragment"
