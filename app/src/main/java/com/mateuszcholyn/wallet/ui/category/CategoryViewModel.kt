@@ -5,11 +5,20 @@ import androidx.lifecycle.ViewModel
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 
 class CategoryViewModel(
-    private val categoryService: CategoryService,
+    val categoryService: CategoryService,
 
     ) : ViewModel() {
 
+    val categoryList = MutableLiveData<List<SingleCategoryV2Model>>()
     var categoryName = MutableLiveData<String>()
+
+    init {
+        categoryList.value = listOf(
+            SingleCategoryV2Model("1"),
+            SingleCategoryV2Model("2"),
+            SingleCategoryV2Model("3"),
+        )
+    }
 
     fun addCategory() {
         println("Add category clicked!")

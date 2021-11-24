@@ -67,22 +67,22 @@
                 android:textColor="@color/blackColor" />
         </LinearLayout>
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/category_first_layout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:weightSum="2">-->
+        <LinearLayout
+            android:id="@+id/category_first_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="150dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/categories_recycler_view"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:fadeScrollbars="false"-->
-<!--                android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categories_recycler_view_v2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fadeScrollbars="false"
+                android:scrollbars="vertical" />
 
-<!--        </LinearLayout>-->
+        </LinearLayout>
 
 
     </RelativeLayout>
