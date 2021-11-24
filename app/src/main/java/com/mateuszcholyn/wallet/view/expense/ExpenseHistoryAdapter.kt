@@ -102,6 +102,5 @@ class ExpenseHistoryAdapter(
         }
     }
 
-
     override fun getItemCount() = myDataset.size
 }

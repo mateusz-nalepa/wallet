@@ -15,9 +15,12 @@ import java.time.LocalDateTime
 
 class SummaryViewModel(
     private val categoryService: CategoryService,
-    private val expenseService: ExpenseService,
+    val expenseService: ExpenseService,
 
     ) : ViewModel() {
+
+    val expenses = MutableLiveData<List<SummaryAdapterModel>>()
+
     val categoryList = MutableLiveData<List<String>>()
     val quickRangeEntries = MutableLiveData<List<String>>()
     var actualCategoryPosition: Int = 0
@@ -33,27 +36,44 @@ class SummaryViewModel(
             listOf(ALL_CATEGORIES) + categoryService.getAllOrderByUsageDesc().map { it.name }
         quickRangeEntries.value = QuickRangeV2.quickRangesNames()
 
-        calculateAverageAmount()
+        showSummary()
     }
 
-    fun calculateAverageAmount() {
-        summaryResultText.value = calculate()
+    fun showSummary() {
+        showAverageAmount()
+        showHistory()
     }
 
-    private fun calculate(): String {
-        val result =
-            expenseService.averageExpense(
-                ExpenseSearchCriteria(
-                    allCategories = isAllCategories(),
-                    categoryName = if (getActualCategoryName() == ALL_CATEGORIES) null else getActualCategoryName(),
-                    beginDate = beginDate.value!!.toLocalDateTime(),
-                    endDate = endDate.value!!.toLocalDateTime()
-                )
-            )
+    private fun showAverageAmount() {
+        val result = expenseService.averageExpense(getExpenseSearchCriteria())
 
-        return """
+        summaryResultText.value =
+            """
             ${result.wholeAmount.asPrinteableAmount()} zł / ${result.days} d = ${result.averageAmount.asPrinteableAmount()} zł/d
         """.trimIndent()
+    }
+
+    private fun showHistory() {
+        expenses.value =
+            expenseService
+                .getAll(getExpenseSearchCriteria())
+                .map {
+                    SummaryAdapterModel(
+                        it.description,
+                        it.date.toHumanText(),
+                        it.amount.asPrinteableAmount().toString(),
+                        it.category.name
+                    )
+                }
+    }
+
+    private fun getExpenseSearchCriteria(): ExpenseSearchCriteria {
+        return ExpenseSearchCriteria(
+            allCategories = isAllCategories(),
+            categoryName = if (getActualCategoryName() == ALL_CATEGORIES) null else getActualCategoryName(),
+            beginDate = beginDate.value!!.toLocalDateTime(),
+            endDate = endDate.value!!.toLocalDateTime()
+        )
     }
 
     private fun isAllCategories(): Boolean {

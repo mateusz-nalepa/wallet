@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mateuszcholyn.wallet.databinding.FragmentSummaryV2Binding
 import com.mateuszcholyn.wallet.fragmentViewModel
 import com.mateuszcholyn.wallet.util.DateTimeChooserV2
 import com.mateuszcholyn.wallet.util.atStartOfTheDay
 import com.mateuszcholyn.wallet.view.QuickRangeSelectedListenerV2
 import com.mateuszcholyn.wallet.view.QuickRangeV2
+import kotlinx.android.synthetic.main.fragment_summary_v2.*
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.closestDI
 import java.time.LocalDateTime
@@ -46,6 +48,14 @@ class SummaryFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         summaryViewModel.showAddExpenseFragmentFunction = showAddExpenseFragmentFunction
+
+        binding.viewModel!!.expenses.observe(viewLifecycleOwner, { newExpenses ->
+            summary_recycler_view.also {
+                it.layoutManager = LinearLayoutManager(requireContext())
+                it.setHasFixedSize(true)
+                it.adapter = SummaryAdapter(binding.viewModel!!.expenseService, newExpenses)
+            }
+        })
     }
 
     private fun initCategorySpinner() {

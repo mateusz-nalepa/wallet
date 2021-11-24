@@ -123,8 +123,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:background="@color/greenColor"
-                android:onClick="@{ () -> viewModel.calculateAverageAmount()}"
-                android:text="Oblicz średnią kwotę"
+                android:onClick="@{ () -> viewModel.showSummary()}"
+                android:text="Pokaż podsumowanie"
                 android:textColor="@color/blackColor" />
         </LinearLayout>
 
@@ -143,6 +143,22 @@
                 android:text="@{viewModel.summaryResultText}"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="350dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/summary_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fadeScrollbars="false"
+                android:scrollbars="vertical" />
+
         </LinearLayout>
 
 
