@@ -9,6 +9,10 @@ class ExpenseService(
     private val expenseRepository: ExpenseRepository,
 ) {
 
+    fun getById(expenseId: Long): Expense {
+        return expenseRepository.getById(expenseId)
+    }
+
     fun addExpense(expense: Expense): Expense {
         return expenseRepository.add(expense)
     }

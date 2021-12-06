@@ -63,7 +63,7 @@ class SummaryViewModel(
                         it.description,
                         it.date.toHumanText(),
                         it.amount.asPrinteableAmount().toString(),
-                        it.category.name
+                        it.category.name,
                     )
                 }
     }

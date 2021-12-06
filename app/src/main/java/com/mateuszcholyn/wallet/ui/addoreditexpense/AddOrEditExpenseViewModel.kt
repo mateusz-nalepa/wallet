@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
+import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.util.toHumanText
 import com.mateuszcholyn.wallet.util.toLocalDateTime
 import com.mateuszcholyn.wallet.view.showShortText
@@ -15,6 +16,7 @@ class AddOrEditExpenseViewModel(
     private val categoryService: CategoryService,
 ) : ViewModel() {
 
+    var actualExpenseId: Long? = null
     var onExpenseAddedAction: () -> Unit = {}
 
     val categoryList = MutableLiveData<List<String>>()
@@ -39,15 +41,28 @@ class AddOrEditExpenseViewModel(
             return
         }
 
-        val expense =
-            Expense(
-                amount = amount.value!!.toDouble(),
-                category = categoryService.getByName(getActualCategoryName()),
-                date = date.value!!.toLocalDateTime(),
-                description = description.value ?: ""
-            )
-        expenseService.addExpense(expense)
-        onExpenseAddedAction.invoke()
+        if (actualExpenseId != null) {
+            val expense =
+                Expense(
+                    id = actualExpenseId!!,
+                    amount = amount.value!!.toDouble(),
+                    category = categoryService.getByName(getActualCategoryName()),
+                    date = date.value!!.toLocalDateTime(),
+                    description = description.value ?: ""
+                )
+            expenseService.updateExpense(expense)
+            onExpenseAddedAction.invoke()
+        } else {
+            val expense =
+                Expense(
+                    amount = amount.value!!.toDouble(),
+                    category = categoryService.getByName(getActualCategoryName()),
+                    date = date.value!!.toLocalDateTime(),
+                    description = description.value ?: ""
+                )
+            expenseService.addExpense(expense)
+            onExpenseAddedAction.invoke()
+        }
     }
 
     private fun getActualCategoryName(): String {
@@ -57,6 +72,15 @@ class AddOrEditExpenseViewModel(
     private fun validationIncorrect(): Boolean {
         val amountString = amount.value ?: ""
         return amountString == "" || amountString.startsWith(".") || amountString.startsWith("-")
+    }
+
+    fun fillUsingActualExpense(expenseToBeEdited: Expense) {
+        description.value = expenseToBeEdited.description
+        amount.value = expenseToBeEdited.amount.asPrinteableAmount().toString()
+        date.value = expenseToBeEdited.date.toHumanText()
+
+        actualCategoryPosition = categoryList.value?.indexOf(expenseToBeEdited.category.name)!!
+        actualExpenseId = expenseToBeEdited.id
     }
 
 }

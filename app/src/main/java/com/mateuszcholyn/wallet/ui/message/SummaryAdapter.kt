@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mateuszcholyn.wallet.databinding.RecyclerviewSingleExpenseBinding
+import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.view.showShortText
 
@@ -21,6 +22,7 @@ class SummaryAdapter(
     val expenseService: ExpenseService,
     private val expenses: List<SummaryAdapterModel>,
     private val refreshScreenFunction: () -> Unit,
+    private val showEditExpenseFragmentFunction: (Expense) -> Unit = {}
 
     ) :
     RecyclerView.Adapter<SummaryAdapter.SummaryViewHolder>() {
@@ -49,10 +51,11 @@ class SummaryAdapter(
         val expense = expenses[position]
 
         holder.recyclerviewSingleExpenseBinding.viewModel = expense
+        holder.recyclerviewSingleExpenseBinding.editExpense.setOnClickListener {
+            openEditExpenseFragment(expense.id)
+        }
         holder.recyclerviewSingleExpenseBinding.deleteExpense.setOnClickListener {
-            hardRemoveExpense(
-                expense.id
-            )
+            hardRemoveExpense(expense.id)
         }
     }
 
@@ -73,6 +76,10 @@ class SummaryAdapter(
             showShortText("removeExpense $expenseId")
             refreshScreenFunction.invoke()
         }
+    }
+
+    private fun openEditExpenseFragment(expenseId: Long) {
+        showEditExpenseFragmentFunction.invoke(expenseService.getById(expenseId))
     }
 
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import com.mateuszcholyn.wallet.databinding.FragmentAddOrEditExpenseBinding
+import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.fragmentViewModel
 import com.mateuszcholyn.wallet.util.DateTimeChooserV2
 import org.kodein.di.DI
@@ -15,7 +16,8 @@ import org.kodein.di.android.x.closestDI
 import java.time.LocalDateTime
 
 class AddOrEditExpenseFragment(
-    private val onExpenseAddedAction: () -> Unit
+    private val onExpenseAddedAction: () -> Unit,
+    private val expenseToBeEdited: Expense?,
 ) : Fragment(), DIAware {
     override val di: DI by closestDI()
     private val addOrEditExpenseViewModel: AddOrEditExpenseViewModel by fragmentViewModel()
@@ -37,6 +39,12 @@ class AddOrEditExpenseFragment(
         binding.executePendingBindings()
         initCategorySpinner()
         initDateTimePickers()
+
+        if (expenseToBeEdited != null) {
+            addOrEditExpenseViewModel.fillUsingActualExpense(expenseToBeEdited)
+            binding.addOrEditExpenseCategorySpinner.setSelection(addOrEditExpenseViewModel.actualCategoryPosition)
+        }
+
         return binding.root
     }
 

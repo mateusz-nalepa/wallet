@@ -12,6 +12,12 @@ class SqLiteExpenseRepository(
 
     private val expenseQueriesHelper = ExpenseQueriesHelper()
 
+    override fun getById(expenseId: Long): Expense {
+        return expenseDao
+            .getExpenseWithCategory(expenseId)
+            .toDomain()
+    }
+
     override fun getAll(): List<Expense> {
         TODO("Not yet implemented")
     }

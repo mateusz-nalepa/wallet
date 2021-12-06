@@ -2,6 +2,7 @@ package com.mateuszcholyn.wallet
 
 import android.view.MenuItem
 import androidx.fragment.app.FragmentTransaction
+import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.ui.addoreditexpense.AddOrEditExpenseFragment
 import com.mateuszcholyn.wallet.ui.category.CategoryFragment
 import com.mateuszcholyn.wallet.ui.chat.ChatFragment
@@ -20,14 +21,21 @@ fun SimpleNavigation.handleNavigation(item: MenuItem) {
 }
 
 
-fun SimpleNavigation.switchToAddOrEditExpense(withBackStack: Boolean = false) {
+fun SimpleNavigation.switchToAddOrEditExpense(
+    withBackStack: Boolean = false,
+    expense: Expense? = null
+) {
     title = "Add Or Edit Expense"
 
     supportFragmentManager
         .beginTransaction()
-        .replace(R.id.fragment_container, AddOrEditExpenseFragment {
-            switchToSummaryFragment()
-        })
+        .replace(
+            R.id.fragment_container,
+            AddOrEditExpenseFragment(
+                onExpenseAddedAction = { switchToSummaryFragment() },
+                expenseToBeEdited = expense
+            )
+        )
         .withBackStack(withBackStack)
         .commit()
 }
@@ -43,9 +51,14 @@ fun SimpleNavigation.switchToSummaryFragment() {
 
     supportFragmentManager
         .beginTransaction()
-        .replace(R.id.fragment_container, SummaryFragment {
-            switchToAddOrEditExpense(withBackStack = true)
-        })
+        .replace(R.id.fragment_container, SummaryFragment(
+            showAddExpenseFragmentFunction = {
+                switchToAddOrEditExpense(withBackStack = true, null)
+            },
+            showEditExpenseFragmentFunction = { actualExpense ->
+                switchToAddOrEditExpense(withBackStack = true, expense = actualExpense)
+            }
+        ))
         .commit()
 }
 

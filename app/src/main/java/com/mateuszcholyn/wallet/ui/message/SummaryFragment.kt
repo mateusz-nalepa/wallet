@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mateuszcholyn.wallet.databinding.FragmentSummaryV2Binding
+import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.fragmentViewModel
 import com.mateuszcholyn.wallet.util.DateTimeChooserV2
 import com.mateuszcholyn.wallet.util.atStartOfTheDay
@@ -19,7 +20,8 @@ import org.kodein.di.android.x.closestDI
 import java.time.LocalDateTime
 
 class SummaryFragment(
-    private val showAddExpenseFragmentFunction: () -> Unit
+    private val showAddExpenseFragmentFunction: () -> Unit,
+    private val showEditExpenseFragmentFunction: (Expense) -> Unit,
 ) : Fragment(), DIAware {
 
     override val di by closestDI()
@@ -56,7 +58,8 @@ class SummaryFragment(
                 it.adapter = SummaryAdapter(
                     expenseService = binding.viewModel!!.expenseService,
                     expenses = newExpenses,
-                    refreshScreenFunction =  { binding.viewModel!!.showSummary() }
+                    refreshScreenFunction =  { binding.viewModel!!.showSummary() },
+                    showEditExpenseFragmentFunction = showEditExpenseFragmentFunction,
                 )
             }
         })
