@@ -12,7 +12,6 @@ import com.google.android.material.navigation.NavigationView.OnNavigationItemSel
 import org.kodein.di.DIAware
 import org.kodein.di.android.closestDI
 
-//MainActivity
 class MainActivity : AppCompatActivity(), DIAware, OnNavigationItemSelectedListener {
 
     lateinit var drawer: DrawerLayout

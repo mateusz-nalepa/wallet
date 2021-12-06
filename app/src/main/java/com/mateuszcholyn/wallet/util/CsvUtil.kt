@@ -12,6 +12,7 @@ import java.io.File
 import java.io.FileWriter
 import java.time.LocalDateTime
 
+@Suppress("unused")
 fun saveToFile(ctx: Context, activity: Activity, expens: List<Expense>) {
     if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
         return

@@ -1,6 +1,5 @@
 package com.mateuszcholyn.wallet.util
 
-import android.text.Editable
 import android.widget.TextView
 import java.time.Instant
 import java.time.LocalDateTime
@@ -16,10 +15,6 @@ fun TextView.toLocalDateTime(): LocalDateTime {
 
 fun String.toLocalDateTime(): LocalDateTime {
     return LocalDateTime.parse(this, simpleDateFormat)
-}
-
-fun LocalDateTime.toEditable(): Editable {
-    return simpleDateFormat.format(this).toEditable()
 }
 
 fun LocalDateTime.toHumanText(): String {
@@ -40,10 +35,6 @@ fun oneWeekAgo(): LocalDateTime {
 
 fun LocalDateTime.atStartOfTheDay(): LocalDateTime {
     return LocalDateTime.of(this.toLocalDate(), LocalTime.MIN)
-}
-
-fun oneWeekAgoAsString(): String {
-    return simpleDateFormat.format(oneWeekAgo())
 }
 
 fun currentDateAsString(): String {
