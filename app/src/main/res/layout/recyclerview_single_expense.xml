@@ -172,38 +172,40 @@
                     android:textColor="@color/blackColor" />
             </LinearLayout>
 
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="10dp"-->
-            <!--                android:layout_marginBottom="5dp"-->
-            <!--                android:orientation="horizontal"-->
-            <!--                android:weightSum="2">-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-            <!--                <Button-->
-            <!--                    android:id="@+id/edit_expense"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginLeft="20dp"-->
-            <!--                    android:layout_marginRight="10dp"-->
-            <!--                    android:layout_weight="1"-->
-            <!--                    android:background="@color/greenColor"-->
-            <!--                    android:onClick="@{ () -> viewModel.editExpense()}"-->
-            <!--                    android:text="Edytuj"-->
-            <!--                    android:textColor="@color/blackColor" />-->
+                <Button
+                    android:id="@+id/edit_expense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/greenColor"
+                    android:text="Edytuj"
+                    android:textColor="@color/blackColor" />
 
-            <!--                <Button-->
-            <!--                    android:id="@+id/delete_expense"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginLeft="10dp"-->
-            <!--                    android:layout_marginRight="20dp"-->
-            <!--                    android:layout_weight="1"-->
-            <!--                    android:background="@color/redColor"-->
-            <!--                    android:onClick="@{ () -> viewModel.removeExpense()}"-->
-            <!--                    android:text="Usuń"-->
-            <!--                    android:textColor="@color/blackColor" />-->
-            <!--            </LinearLayout>-->
+<!--                    android:onClick="@{ () -> viewModel.editExpense()}"-->
+<!--                android:onClick="@{ () -> viewModel.removeExpense()}"-->
+
+                <Button
+                    android:id="@+id/delete_expense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:background="@color/redColor"
+                    android:text="Usuń"
+                    android:textColor="@color/blackColor" />
+
+            </LinearLayout>
 
 
         </LinearLayout>

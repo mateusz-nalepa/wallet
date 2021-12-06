@@ -59,6 +59,7 @@ class SummaryViewModel(
                 .getAll(getExpenseSearchCriteria())
                 .map {
                     SummaryAdapterModel(
+                        it.id,
                         it.description,
                         it.date.toHumanText(),
                         it.amount.asPrinteableAmount().toString(),

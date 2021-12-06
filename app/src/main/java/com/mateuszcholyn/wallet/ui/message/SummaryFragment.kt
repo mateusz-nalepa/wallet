@@ -53,7 +53,11 @@ class SummaryFragment(
             summary_recycler_view.also {
                 it.layoutManager = LinearLayoutManager(requireContext())
                 it.setHasFixedSize(true)
-                it.adapter = SummaryAdapter(binding.viewModel!!.expenseService, newExpenses)
+                it.adapter = SummaryAdapter(
+                    expenseService = binding.viewModel!!.expenseService,
+                    expenses = newExpenses,
+                    refreshScreenFunction =  { binding.viewModel!!.showSummary() }
+                )
             }
         })
     }
