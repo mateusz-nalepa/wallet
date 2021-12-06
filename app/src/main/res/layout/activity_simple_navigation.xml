@@ -33,20 +33,6 @@
 
     </LinearLayout>
 
-    <!--    <include-->
-    <!--        android:id="@+id/app_bar_simple_navigation"-->
-    <!--        layout="@layout/app_bar_simple_navigation"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent" />-->
-
-    <!--    <com.google.android.material.navigation.NavigationView-->
-    <!--        android:id="@+id/nav_view"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:layout_gravity="start"-->
-    <!--        android:fitsSystemWindows="true"-->
-    <!--        app:headerLayout="@layout/nav_header_simple_navigation"-->
-    <!--        app:menu="@menu/activity_main_drawer" />-->
 
 
     <com.google.android.material.navigation.NavigationView

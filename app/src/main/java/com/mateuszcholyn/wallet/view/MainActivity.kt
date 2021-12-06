@@ -12,9 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.SimpleNavigation
-import com.mateuszcholyn.wallet.SummaryActivity
-import com.mateuszcholyn.wallet.view.expense.AddExpenseActivityBinding
-import com.mateuszcholyn.wallet.view.expense.ExpenseHistoryActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.kodein.di.DIAware
 import org.kodein.di.android.closestDI
@@ -70,21 +67,6 @@ class MainActivity : AppCompatActivity(), DIAware {
 
     fun showSimpleNavigation(view: View) {
         val intent = Intent(this, SimpleNavigation::class.java)
-        startActivity(intent)
-    }
-
-    fun showSummaryActivity(view: View) {
-        val intent = Intent(this, SummaryActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun showAddExpenseActivity(view: View) {
-        val intent = Intent(this, AddExpenseActivityBinding::class.java)
-        startActivity(intent)
-    }
-
-    fun showHistoryActivity(view: View) {
-        val intent = Intent(this, ExpenseHistoryActivity::class.java)
         startActivity(intent)
     }
 

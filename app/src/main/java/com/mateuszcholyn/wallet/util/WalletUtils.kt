@@ -8,6 +8,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.mateuszcholyn.wallet.config.ApplicationContext
 
+const val ALL_CATEGORIES = "Wszystkie kategorie"
+
 fun Double.asPrinteableAmount() = run {
     "%.2f"
         .format(this)

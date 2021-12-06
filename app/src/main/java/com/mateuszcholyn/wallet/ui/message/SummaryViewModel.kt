@@ -5,12 +5,12 @@ import androidx.lifecycle.ViewModel
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
+import com.mateuszcholyn.wallet.util.ALL_CATEGORIES
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.util.atStartOfTheDay
 import com.mateuszcholyn.wallet.util.toHumanText
 import com.mateuszcholyn.wallet.util.toLocalDateTime
 import com.mateuszcholyn.wallet.view.QuickRangeV2
-import com.mateuszcholyn.wallet.view.expense.ALL_CATEGORIES
 import java.time.LocalDateTime
 
 class SummaryViewModel(
