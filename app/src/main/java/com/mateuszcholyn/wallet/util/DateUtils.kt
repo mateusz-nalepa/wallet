@@ -2,6 +2,7 @@ package com.mateuszcholyn.wallet.util
 
 import android.widget.TextView
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
@@ -36,6 +37,11 @@ fun oneWeekAgo(): LocalDateTime {
 fun LocalDateTime.atStartOfTheDay(): LocalDateTime {
     return LocalDateTime.of(this.toLocalDate(), LocalTime.MIN)
 }
+
+fun LocalDateTime.atStartOfTheMonth(): LocalDateTime {
+    return LocalDateTime.of(LocalDate.of(this.year, this.monthValue, 1), LocalTime.MIN)
+}
+
 
 fun currentDateAsString(): String {
     return simpleDateFormat.format(LocalDateTime.now())

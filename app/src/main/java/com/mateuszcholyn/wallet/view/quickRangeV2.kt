@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.view
 import android.view.View
 import android.widget.AdapterView
 import androidx.lifecycle.MutableLiveData
+import com.mateuszcholyn.wallet.util.atStartOfTheMonth
 import com.mateuszcholyn.wallet.util.currentDateAsString
 import com.mateuszcholyn.wallet.util.maxDate
 import com.mateuszcholyn.wallet.util.minDate
@@ -73,6 +74,14 @@ object QuickRangeV2 {
         ),
         QuickRangeDataV2(
             position = 4,
+            name = "Ten Miesiąc",
+            modifyDatesFunction = { mBeginDate, mEndDate ->
+                mBeginDate.value = LocalDateTime.now().atStartOfTheMonth().toHumanText()
+                mEndDate.value = currentDateAsString()
+            }
+        ),
+        QuickRangeDataV2(
+            position = 5,
             name = "Ostatni Miesiąc",
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.value = LocalDateTime.now().minusMonths(1).toHumanText()
@@ -80,7 +89,7 @@ object QuickRangeV2 {
             }
         ),
         QuickRangeDataV2(
-            position = 5,
+            position = 6,
             name = "Ostatnie 3 Miesiące",
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.value = LocalDateTime.now().minusMonths(3).toHumanText()
@@ -88,7 +97,7 @@ object QuickRangeV2 {
             }
         ),
         QuickRangeDataV2(
-            position = 6,
+            position = 7,
             name = "Wszystkie wydatki",
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.value = minDate.toHumanText()
