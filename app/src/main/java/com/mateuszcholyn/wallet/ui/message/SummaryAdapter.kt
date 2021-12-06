@@ -3,7 +3,9 @@ package com.mateuszcholyn.wallet.ui.message
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.mateuszcholyn.wallet.databinding.RecyclerviewSingleExpenseBinding
 import com.mateuszcholyn.wallet.domain.expense.Expense
@@ -57,6 +59,14 @@ class SummaryAdapter(
         holder.recyclerviewSingleExpenseBinding.deleteExpense.setOnClickListener {
             hardRemoveExpense(expense.id)
         }
+        holder.recyclerviewSingleExpenseBinding.summaryExpenseShortDetails.setOnClickListener {
+            showOrHideListener(holder.recyclerviewSingleExpenseBinding.summaryExpenseFullDetails)
+        }
+
+        holder.recyclerviewSingleExpenseBinding.summaryExpenseFullDetails.visibility = View.GONE
+        holder.recyclerviewSingleExpenseBinding.summaryExpenseFullDetails.setOnClickListener {
+            showOrHideListener(holder.recyclerviewSingleExpenseBinding.summaryExpenseFullDetails)
+        }
     }
 
     override fun getItemCount() = expenses.size
@@ -80,6 +90,14 @@ class SummaryAdapter(
 
     private fun openEditExpenseFragment(expenseId: Long) {
         showEditExpenseFragmentFunction.invoke(expenseService.getById(expenseId))
+    }
+
+    private fun showOrHideListener(detailsLayout: LinearLayout) {
+        if (detailsLayout.visibility == View.GONE) {
+            detailsLayout.visibility = View.VISIBLE
+        } else {
+            detailsLayout.visibility = View.GONE
+        }
     }
 
 }
