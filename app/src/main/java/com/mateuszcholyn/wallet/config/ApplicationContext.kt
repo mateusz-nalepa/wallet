@@ -19,8 +19,8 @@ import com.mateuszcholyn.wallet.infrastructure.moneysaver.MonthlyBudgetDao
 import com.mateuszcholyn.wallet.infrastructure.moneysaver.SqLiteMonthlyBudgetRepository
 import com.mateuszcholyn.wallet.ui.addoreditexpense.AddOrEditExpenseViewModel
 import com.mateuszcholyn.wallet.ui.category.CategoryViewModel
-import com.mateuszcholyn.wallet.ui.chat.ChatViewModel
-import com.mateuszcholyn.wallet.ui.message.SummaryViewModel
+import com.mateuszcholyn.wallet.ui.dummy.ChatViewModel
+import com.mateuszcholyn.wallet.ui.summary.SummaryViewModel
 import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
 import org.kodein.di.DI
 import org.kodein.di.DIAware

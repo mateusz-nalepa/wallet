@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.ui.chat
+package com.mateuszcholyn.wallet.ui.dummy
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

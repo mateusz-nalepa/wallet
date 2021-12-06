@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.mateuszcholyn.wallet.ui.message.SummaryViewModel" />
+            type="com.mateuszcholyn.wallet.ui.summary.SummaryViewModel" />
     </data>
 
     <RelativeLayout

@@ -5,8 +5,8 @@ import androidx.fragment.app.FragmentTransaction
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.ui.addoreditexpense.AddOrEditExpenseFragment
 import com.mateuszcholyn.wallet.ui.category.CategoryFragment
-import com.mateuszcholyn.wallet.ui.chat.ChatFragment
-import com.mateuszcholyn.wallet.ui.message.SummaryFragment
+import com.mateuszcholyn.wallet.ui.dummy.ChatFragment
+import com.mateuszcholyn.wallet.ui.summary.SummaryFragment
 import com.mateuszcholyn.wallet.view.showShortText
 
 fun MainActivity.handleNavigation(item: MenuItem) {

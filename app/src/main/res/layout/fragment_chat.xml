@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.mateuszcholyn.wallet.ui.chat.ChatViewModel" />
+            type="com.mateuszcholyn.wallet.ui.dummy.ChatViewModel" />
     </data>
 
 

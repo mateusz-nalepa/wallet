@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.ui.chat
+package com.mateuszcholyn.wallet.ui.dummy
 
 import android.os.Bundle
 import android.view.LayoutInflater

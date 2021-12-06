@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.ui.message
+package com.mateuszcholyn.wallet.ui.summary
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

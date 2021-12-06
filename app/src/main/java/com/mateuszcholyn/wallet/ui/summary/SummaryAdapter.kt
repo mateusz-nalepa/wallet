@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.ui.message
+package com.mateuszcholyn.wallet.ui.summary
 
 import android.app.AlertDialog
 import android.content.Context
@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mateuszcholyn.wallet.databinding.RecyclerviewSingleExpenseBinding
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.view.showShortText
 
 data class SummaryAdapterModel(
     val id: Long,
@@ -83,7 +82,6 @@ class SummaryAdapter(
 
     private fun removePositiveAction(expenseId: Long) {
         if (expenseService.hardRemove(expenseId)) {
-            showShortText("removeExpense $expenseId")
             refreshScreenFunction.invoke()
         }
     }
