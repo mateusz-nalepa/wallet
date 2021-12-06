@@ -27,6 +27,7 @@ class SummaryViewModel(
     var beginDate = MutableLiveData<String>()
     var endDate = MutableLiveData<String>()
     var summaryResultText = MutableLiveData<String>()
+    var numberOfExpenses = MutableLiveData<String>()
     var showAddExpenseFragmentFunction: () -> Unit = {}
 
     init {
@@ -57,6 +58,7 @@ class SummaryViewModel(
         expenses.value =
             expenseService
                 .getAll(getExpenseSearchCriteria())
+                .also { numberOfExpenses.value = "Ilość wydatków: ${it.size}" }
                 .map {
                     SummaryAdapterModel(
                         it.id,
