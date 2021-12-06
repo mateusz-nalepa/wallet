@@ -9,7 +9,7 @@ import com.mateuszcholyn.wallet.ui.chat.ChatFragment
 import com.mateuszcholyn.wallet.ui.message.SummaryFragment
 import com.mateuszcholyn.wallet.view.showShortText
 
-fun SimpleNavigation.handleNavigation(item: MenuItem) {
+fun MainActivity.handleNavigation(item: MenuItem) {
     when (item.itemId) {
         R.id.nav_add_or_edit_expense -> switchToAddOrEditExpense()
         R.id.nav_message -> switchToSummaryFragment()
@@ -21,7 +21,7 @@ fun SimpleNavigation.handleNavigation(item: MenuItem) {
 }
 
 
-fun SimpleNavigation.switchToAddOrEditExpense(
+fun MainActivity.switchToAddOrEditExpense(
     withBackStack: Boolean = false,
     expense: Expense? = null
 ) {
@@ -46,7 +46,7 @@ fun FragmentTransaction.withBackStack(withBackStack: Boolean): FragmentTransacti
         false -> this
     }
 
-fun SimpleNavigation.switchToSummaryFragment() {
+fun MainActivity.switchToSummaryFragment() {
     title = "Summary Fragment"
 
     supportFragmentManager
@@ -62,7 +62,7 @@ fun SimpleNavigation.switchToSummaryFragment() {
         .commit()
 }
 
-fun SimpleNavigation.switchToCategoryFragment() {
+fun MainActivity.switchToCategoryFragment() {
     title = "Category Fragment"
 
     supportFragmentManager
@@ -72,7 +72,7 @@ fun SimpleNavigation.switchToCategoryFragment() {
 }
 
 
-fun SimpleNavigation.switchToChatFragment() {
+fun MainActivity.switchToChatFragment() {
     title = "Chat Fragment"
 
     supportFragmentManager

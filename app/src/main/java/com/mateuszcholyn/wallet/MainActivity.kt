@@ -12,7 +12,8 @@ import com.google.android.material.navigation.NavigationView.OnNavigationItemSel
 import org.kodein.di.DIAware
 import org.kodein.di.android.closestDI
 
-class SimpleNavigation : AppCompatActivity(), DIAware, OnNavigationItemSelectedListener {
+//MainActivity
+class MainActivity : AppCompatActivity(), DIAware, OnNavigationItemSelectedListener {
 
     lateinit var drawer: DrawerLayout
 
@@ -20,7 +21,7 @@ class SimpleNavigation : AppCompatActivity(), DIAware, OnNavigationItemSelectedL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_simple_navigation)
+        setContentView(R.layout.activity_main)
         toggle()
         switchToSummaryFragment()
         navigationState(savedInstanceState)

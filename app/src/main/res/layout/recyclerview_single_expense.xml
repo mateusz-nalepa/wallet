@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/holo_blue_light"
         android:orientation="vertical"
-        tools:context=".view.MainActivity">
+        tools:context=".MainActivity">
         <!-- first Child Layout -->
 
         <!-- create a Linear Layout with horizontal orientation and weightSum property -->

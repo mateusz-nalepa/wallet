@@ -16,7 +16,7 @@
         android:background="@color/whiteColor"
         android:orientation="vertical"
 
-        tools:context=".view.MainActivity">
+        tools:context=".MainActivity">
 
         <LinearLayout
             android:id="@+id/secondLayout"
