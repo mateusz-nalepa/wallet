@@ -131,7 +131,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="280dp"
+            android:layout_marginTop="270dp"
             android:orientation="horizontal"
             android:weightSum="2">
 
@@ -148,7 +148,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="315dp"
+            android:layout_marginTop="305dp"
             android:orientation="horizontal"
             android:weightSum="2">
 
@@ -160,13 +160,49 @@
                 android:text="@{viewModel.numberOfExpenses}"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add_expense_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|bottom"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="Dodaj wydatek"
+                    android:onClick="@{ () -> viewModel.showAddExpenseFragment()}"
+                    android:src="@drawable/ic_add_expense_fab_24"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                    app:fabCustomSize="72dp" />
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="337dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="5px"
+                android:layout_weight="2"
+                android:background="@color/greenColor"
+                android:textColor="@color/whiteColor" />
         </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="350dp"
+            android:layout_marginTop="340dp"
             android:orientation="horizontal"
             android:weightSum="2">
 
@@ -179,27 +215,6 @@
 
         </LinearLayout>
 
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/add_expense_fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|bottom"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:contentDescription="Dodaj wydatek"
-                android:onClick="@{ () -> viewModel.showAddExpenseFragment()}"
-                android:src="@drawable/ic_add_expense_fab_24"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark"
-                app:fabCustomSize="72dp" />
-
-        </FrameLayout>
 
     </RelativeLayout>
 

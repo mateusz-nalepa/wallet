@@ -31,7 +31,6 @@ object QuickRangeV2 {
 
     private val quickRangesList = listOf(
         QuickRangeDataV2(
-            position = 0,
             name = "Dzisiaj",
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 val dayBeginning = LocalDateTime.of(LocalDate.now(), LocalTime.MIN)
@@ -41,7 +40,6 @@ object QuickRangeV2 {
             isDefault = true,
         ),
         QuickRangeDataV2(
-            position = 1,
             name = "Wczoraj",
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 val yesterDayBeginning =
@@ -53,7 +51,6 @@ object QuickRangeV2 {
             }
         ),
         QuickRangeDataV2(
-            position = 2,
             name = "Przedwczoraj",
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 val yesterDayBeginning =
@@ -65,7 +62,6 @@ object QuickRangeV2 {
             }
         ),
         QuickRangeDataV2(
-            position = 3,
             name = "Ostatni tydzień",
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.value = LocalDateTime.now().minusDays(7).toHumanText()
@@ -73,7 +69,6 @@ object QuickRangeV2 {
             },
         ),
         QuickRangeDataV2(
-            position = 4,
             name = "Ten Miesiąc",
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.value = LocalDateTime.now().atStartOfTheMonth().toHumanText()
@@ -81,7 +76,6 @@ object QuickRangeV2 {
             }
         ),
         QuickRangeDataV2(
-            position = 5,
             name = "Ostatni Miesiąc",
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.value = LocalDateTime.now().minusMonths(1).toHumanText()
@@ -89,7 +83,6 @@ object QuickRangeV2 {
             }
         ),
         QuickRangeDataV2(
-            position = 6,
             name = "Ostatnie 3 Miesiące",
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.value = LocalDateTime.now().minusMonths(3).toHumanText()
@@ -97,7 +90,6 @@ object QuickRangeV2 {
             }
         ),
         QuickRangeDataV2(
-            position = 7,
             name = "Wszystkie wydatki",
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.value = minDate.toHumanText()
@@ -115,10 +107,7 @@ object QuickRangeV2 {
         mBeginDate: MutableLiveData<String>,
         mEndDate: MutableLiveData<String>
     ) {
-        val quickRangeData = requireNotNull(quickRangesList.find { it.position == position }) {
-            "Quick Range Data for given position $position not found"
-        }
-
+        val quickRangeData = quickRangesList[position]
         quickRangeData.modifyDatesFunction.invoke(mBeginDate, mEndDate)
     }
 
@@ -133,7 +122,6 @@ object QuickRangeV2 {
 }
 
 class QuickRangeDataV2(
-    val position: Int,
     val name: String,
     val modifyDatesFunction: (mBeginDate: MutableLiveData<String>, mEndDate: MutableLiveData<String>) -> Unit,
     val isDefault: Boolean = false,
