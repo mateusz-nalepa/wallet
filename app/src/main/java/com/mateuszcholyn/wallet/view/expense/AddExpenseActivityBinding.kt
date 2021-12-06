@@ -7,7 +7,12 @@ import android.view.KeyEvent
 import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.mateuszcholyn.wallet.R
@@ -16,7 +21,14 @@ import com.mateuszcholyn.wallet.databinding.MenuButtonBinding
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.util.*
+import com.mateuszcholyn.wallet.util.DateTimeChooser
+import com.mateuszcholyn.wallet.util.currentDateAsString
+import com.mateuszcholyn.wallet.util.selectedItemAsString
+import com.mateuszcholyn.wallet.util.textToString
+import com.mateuszcholyn.wallet.util.toDouble
+import com.mateuszcholyn.wallet.util.toEditable
+import com.mateuszcholyn.wallet.util.toLocalDateTime
+import com.mateuszcholyn.wallet.util.toLong
 import org.kodein.di.DIAware
 import org.kodein.di.android.closestDI
 import org.kodein.di.instance
@@ -26,6 +38,8 @@ import java.util.*
 
 const val SUCCESSFUL_ADD = "SUCCESSFUL_ADD"
 const val SUCCESSFUL_EDIT = "SUCCESSFUL_EDIT"
+const val ALL_CATEGORIES = "Wszystkie kategorie"
+
 
 open class AddExpenseActivityBinding : AppCompatActivity(), DIAware {
 

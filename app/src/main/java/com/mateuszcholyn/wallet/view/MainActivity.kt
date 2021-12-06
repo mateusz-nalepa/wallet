@@ -14,7 +14,6 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.SimpleNavigation
 import com.mateuszcholyn.wallet.SummaryActivity
 import com.mateuszcholyn.wallet.view.expense.AddExpenseActivityBinding
-import com.mateuszcholyn.wallet.view.expense.AverageExpenseActivity
 import com.mateuszcholyn.wallet.view.expense.ExpenseHistoryActivity
 import com.mateuszcholyn.wallet.view.moneysaver.MoneySaverActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -87,11 +86,6 @@ class MainActivity : AppCompatActivity(), DIAware {
 
     fun showHistoryActivity(view: View) {
         val intent = Intent(this, ExpenseHistoryActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun showAverageExpenseActivity(view: View) {
-        val intent = Intent(this, AverageExpenseActivity::class.java)
         startActivity(intent)
     }
 
