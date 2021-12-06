@@ -13,7 +13,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.SimpleNavigation
 import com.mateuszcholyn.wallet.SummaryActivity
-import com.mateuszcholyn.wallet.view.category.CategoryActivity
 import com.mateuszcholyn.wallet.view.expense.AddExpenseActivityBinding
 import com.mateuszcholyn.wallet.view.expense.AverageExpenseActivity
 import com.mateuszcholyn.wallet.view.expense.ExpenseHistoryActivity
@@ -83,11 +82,6 @@ class MainActivity : AppCompatActivity(), DIAware {
 
     fun showAddExpenseActivity(view: View) {
         val intent = Intent(this, AddExpenseActivityBinding::class.java)
-        startActivity(intent)
-    }
-
-    fun showCategoryActivity(view: View) {
-        val intent = Intent(this, CategoryActivity::class.java)
         startActivity(intent)
     }
 
