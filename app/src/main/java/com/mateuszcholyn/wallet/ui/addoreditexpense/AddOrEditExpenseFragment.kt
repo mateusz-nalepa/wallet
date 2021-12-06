@@ -41,6 +41,7 @@ class AddOrEditExpenseFragment(
         initDateTimePickers()
 
         if (expenseToBeEdited != null) {
+            binding.addOrEditExpenseLabel.text = "Edytuj wydatek"
             addOrEditExpenseViewModel.fillUsingActualExpense(expenseToBeEdited)
             binding.addOrEditExpenseCategorySpinner.setSelection(addOrEditExpenseViewModel.actualCategoryPosition)
         }
