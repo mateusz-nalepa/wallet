@@ -9,7 +9,10 @@ import com.mateuszcholyn.wallet.util.oneWeekAgo
 import java.time.LocalDateTime
 
 class ChatViewModel(private val expenseService: ExpenseService) : ViewModel() {
-    val textChatLiveData = MutableLiveData<String>()
+    private val textChatLiveData = MutableLiveData<String>()
+
+    val textChat: String
+        get() = textChatLiveData.value!!
 
     init {
         setActualValue()
@@ -21,13 +24,13 @@ class ChatViewModel(private val expenseService: ExpenseService) : ViewModel() {
 
     private fun calculate(): String {
         val result =
-            expenseService.averageExpense(
-                ExpenseSearchCriteria(
-                    allCategories = true,
-                    beginDate = oneWeekAgo(),
-                    endDate = LocalDateTime.now()
+                expenseService.averageExpense(
+                        ExpenseSearchCriteria(
+                                allCategories = true,
+                                beginDate = oneWeekAgo(),
+                                endDate = LocalDateTime.now()
+                        )
                 )
-            )
 
         return """
             ${(1..100).random()}
