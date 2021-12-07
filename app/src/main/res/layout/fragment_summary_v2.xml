@@ -161,26 +161,6 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/add_expense_fab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|bottom"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:contentDescription="Dodaj wydatek"
-                    android:onClick="@{ () -> viewModel.showAddExpenseFragment()}"
-                    android:src="@drawable/ic_add_expense_fab_24"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark"
-                    app:fabCustomSize="72dp" />
-
-            </FrameLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -215,6 +195,27 @@
 
         </LinearLayout>
 
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_expense_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|bottom"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Dodaj wydatek"
+                android:onClick="@{ () -> viewModel.showAddExpenseFragment()}"
+                android:src="@drawable/ic_add_expense_fab_24"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                app:fabCustomSize="72dp" />
+
+        </FrameLayout>
 
     </RelativeLayout>
 
