@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity(), DIAware, OnNavigationItemSelectedListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        useScaffold()
         setContentView(R.layout.activity_main)
         toggle()
         switchToSummaryFragment()
