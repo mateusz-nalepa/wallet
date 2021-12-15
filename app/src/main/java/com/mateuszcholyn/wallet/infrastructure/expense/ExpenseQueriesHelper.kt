@@ -7,7 +7,7 @@ import com.mateuszcholyn.wallet.util.toMillis
 class ExpenseQueriesHelper {
 
     fun prepareExpenseSearchQuery(
-        expenseSearchCriteria: ExpenseSearchCriteria,
+            expenseSearchCriteria: ExpenseSearchCriteria,
     ): SimpleSQLiteQuery {
         var averageQuery = """
                 select Expense.*, Category.* 
@@ -23,9 +23,12 @@ class ExpenseQueriesHelper {
             averageQuery += " and Category.name = '${expenseSearchCriteria.categoryName!!}' \n "
         }
 
-        averageQuery += " ORDER BY Expense.date desc"
+        averageQuery += " ORDER BY ${expenseSearchCriteria.resolveSort()}"
 
         return SimpleSQLiteQuery(averageQuery)
     }
+
+    private fun ExpenseSearchCriteria.resolveSort(): String =
+            "Expense.${sort.field.name.lowercase()} ${sort.type.name.lowercase()}"
 
 }
