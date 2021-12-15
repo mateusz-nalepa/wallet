@@ -43,6 +43,7 @@ class SummaryFragment(
         binding.lifecycleOwner = this
         binding.executePendingBindings()
         initCategorySpinner()
+        initSortingSpinner()
         initDateTimePickers()
         return binding.root
     }
@@ -80,6 +81,23 @@ class SummaryFragment(
                 }
             }
     }
+
+    private fun initSortingSpinner() {
+        binding.summarySortingSpinner.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+                    override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                    ) {
+                        summaryViewModel.actualSortPosition = position
+                    }
+                }
+    }
+
 
     private fun initDateTimePickers() {
         DateTimeChooserV2(

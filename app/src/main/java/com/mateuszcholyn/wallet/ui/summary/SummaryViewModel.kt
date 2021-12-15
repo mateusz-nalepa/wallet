@@ -10,6 +10,14 @@ import com.mateuszcholyn.wallet.view.QuickRangeV2
 import java.time.LocalDateTime
 
 
+val sortingTypes = listOf(
+        "data: od najmłodszych",
+        "data: od najstarszych",
+        "cena: od najwyższej",
+        "cena: od najwyższej",
+)
+
+
 class SummaryViewModel(
         private val categoryService: CategoryService,
         val expenseService: ExpenseService,
@@ -21,6 +29,10 @@ class SummaryViewModel(
     val categoryList = MutableLiveData<List<String>>()
     val quickRangeEntries = MutableLiveData<List<String>>()
     var actualCategoryPosition: Int = 0
+
+    val sortingList = MutableLiveData<List<String>>()
+    var actualSortPosition: Int = 0
+
     var beginDate = MutableLiveData<String>()
     var endDate = MutableLiveData<String>()
 
@@ -36,6 +48,9 @@ class SummaryViewModel(
         endDate.value = LocalDateTime.now().toHumanText()
         categoryList.value =
                 listOf(ALL_CATEGORIES) + categoryService.getAllOrderByUsageDesc().map { it.name }
+
+        sortingList.value = sortingTypes
+
         quickRangeEntries.value = QuickRangeV2.quickRangesNames()
 
         showSummary()
@@ -87,8 +102,7 @@ class SummaryViewModel(
                     endAmount.value!!.toDouble()
                 }
 
-        println("from: $fromAmount")
-        println("to: $toAmount")
+        println("sortingType: ${sortingTypes[actualSortPosition]}")
 
         return ExpenseSearchCriteria(
                 allCategories = isAllCategories(),
