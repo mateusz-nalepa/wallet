@@ -13,11 +13,12 @@ import com.mateuszcholyn.wallet.util.toLocalDateTime
 import com.mateuszcholyn.wallet.view.QuickRangeV2
 import java.time.LocalDateTime
 
-class SummaryViewModel(
-    private val categoryService: CategoryService,
-    val expenseService: ExpenseService,
 
-    ) : ViewModel() {
+class SummaryViewModel(
+        private val categoryService: CategoryService,
+        val expenseService: ExpenseService,
+
+        ) : ViewModel() {
 
     val expenses = MutableLiveData<List<SummaryAdapterModel>>()
 
@@ -34,7 +35,7 @@ class SummaryViewModel(
         beginDate.value = LocalDateTime.now().atStartOfTheDay().toHumanText()
         endDate.value = LocalDateTime.now().toHumanText()
         categoryList.value =
-            listOf(ALL_CATEGORIES) + categoryService.getAllOrderByUsageDesc().map { it.name }
+                listOf(ALL_CATEGORIES) + categoryService.getAllOrderByUsageDesc().map { it.name }
         quickRangeEntries.value = QuickRangeV2.quickRangesNames()
 
         showSummary()
@@ -49,33 +50,33 @@ class SummaryViewModel(
         val result = expenseService.averageExpense(getExpenseSearchCriteria())
 
         summaryResultText.value =
-            """
+                """
             ${result.wholeAmount.asPrinteableAmount()} zł / ${result.days} d = ${result.averageAmount.asPrinteableAmount()} zł/d
         """.trimIndent()
     }
 
     private fun showHistory() {
         expenses.value =
-            expenseService
-                .getAll(getExpenseSearchCriteria())
-                .also { numberOfExpenses.value = "Ilość wydatków: ${it.size}" }
-                .map {
-                    SummaryAdapterModel(
-                        it.id,
-                        it.description,
-                        it.date.toHumanText(),
-                        it.amount.asPrinteableAmount().toString(),
-                        it.category.name,
-                    )
-                }
+                expenseService
+                        .getAll(getExpenseSearchCriteria())
+                        .also { numberOfExpenses.value = "Ilość wydatków: ${it.size}" }
+                        .map {
+                            SummaryAdapterModel(
+                                    it.id,
+                                    it.description,
+                                    it.date.toHumanText(),
+                                    it.amount.asPrinteableAmount().toString(),
+                                    it.category.name,
+                            )
+                        }
     }
 
     private fun getExpenseSearchCriteria(): ExpenseSearchCriteria {
         return ExpenseSearchCriteria(
-            allCategories = isAllCategories(),
-            categoryName = if (getActualCategoryName() == ALL_CATEGORIES) null else getActualCategoryName(),
-            beginDate = beginDate.value!!.toLocalDateTime(),
-            endDate = endDate.value!!.toLocalDateTime()
+                allCategories = isAllCategories(),
+                categoryName = if (getActualCategoryName() == ALL_CATEGORIES) null else getActualCategoryName(),
+                beginDate = beginDate.value!!.toLocalDateTime(),
+                endDate = endDate.value!!.toLocalDateTime()
         )
     }
 
