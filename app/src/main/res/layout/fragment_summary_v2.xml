@@ -18,6 +18,7 @@
 
 
         <LinearLayout
+            android:id="@+id/summary_layout_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -42,9 +43,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/summary_layout_quickRange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_below="@id/summary_layout_category"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:weightSum="2">
 
@@ -67,15 +70,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/firstLayout"
+            android:id="@+id/summary_layout_dates"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
+            android:layout_below="@id/summary_layout_quickRange"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
+
             android:weightSum="2">
-
-            <!-- place one TextView and one EditText inside layout using weight property -->
-
 
             <TextView
                 android:id="@+id/summary_beginDateTimePicker"
@@ -112,9 +114,11 @@
 
 
         <LinearLayout
+            android:id="@+id/summary_layout_show_summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="180dp"
+            android:layout_below="@id/summary_layout_dates"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:weightSum="2">
 
@@ -129,9 +133,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/summary_layout_average_expense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="235dp"
+            android:layout_below="@id/summary_layout_show_summary"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:weightSum="2">
 
@@ -146,10 +152,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/summary_layout_number_of_expenses"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="270dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
+            android:layout_below="@id/summary_layout_average_expense"
             android:weightSum="2">
 
             <TextView
@@ -164,15 +172,17 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/summary_layout_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="307dp"
+            android:layout_marginTop="3dp"
             android:orientation="horizontal"
+            android:layout_below="@id/summary_layout_number_of_expenses"
             android:weightSum="2">
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="5px"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
                 android:layout_weight="2"
                 android:background="@color/greenColor"
                 android:textColor="@color/whiteColor" />
@@ -180,10 +190,12 @@
 
 
         <LinearLayout
+            android:id="@+id/summary_fragment_results"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="310dp"
+            android:layout_marginTop="1dp"
             android:orientation="horizontal"
+            android:layout_below="@id/summary_layout_line"
             android:weightSum="2">
 
             <androidx.recyclerview.widget.RecyclerView
