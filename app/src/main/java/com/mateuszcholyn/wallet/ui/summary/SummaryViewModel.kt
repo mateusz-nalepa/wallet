@@ -76,7 +76,9 @@ class SummaryViewModel(
                 allCategories = isAllCategories(),
                 categoryName = if (getActualCategoryName() == ALL_CATEGORIES) null else getActualCategoryName(),
                 beginDate = beginDate.value!!.toLocalDateTime(),
-                endDate = endDate.value!!.toLocalDateTime()
+                endDate = endDate.value!!.toLocalDateTime(),
+                fromAmount = fromAmount,
+                toAmount = toAmount,
         )
     }
 

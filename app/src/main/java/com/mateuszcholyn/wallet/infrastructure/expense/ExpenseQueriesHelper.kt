@@ -15,6 +15,8 @@ class ExpenseQueriesHelper {
                 LEFT JOIN Category ON Category.category_id = Expense.fk_category_id
                 where Expense.date >= ${expenseSearchCriteria.beginDate.toMillis()}
                 and Expense.date <= ${expenseSearchCriteria.endDate.toMillis()}
+                and Expense.amount >= ${expenseSearchCriteria.fromAmount}
+                and Expense.amount <= ${expenseSearchCriteria.toAmount}
                 """.trimIndent()
 
         if (!expenseSearchCriteria.allCategories) {

@@ -28,7 +28,9 @@ class ChatViewModel(private val expenseService: ExpenseService) : ViewModel() {
                         ExpenseSearchCriteria(
                                 allCategories = true,
                                 beginDate = oneWeekAgo(),
-                                endDate = LocalDateTime.now()
+                                endDate = LocalDateTime.now(),
+                                fromAmount = Int.MIN_VALUE.toDouble(),
+                                toAmount = Int.MAX_VALUE.toDouble(),
                         )
                 )
 
