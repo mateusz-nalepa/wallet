@@ -45,6 +45,7 @@ class SummaryFragment(
         initCategorySpinner()
         initSortingSpinner()
         initDateTimePickers()
+        initShowOrHideFilters()
         return binding.root
     }
 
@@ -121,6 +122,21 @@ class SummaryFragment(
             )
 
         QuickRangeV2.setDefaultDates(summaryViewModel.beginDate, summaryViewModel.endDate)
+    }
+
+    private fun initShowOrHideFilters() {
+        binding.summaryLayoutFilters.visibility =  View.GONE
+        binding.summaryShowOrHideFilters.setOnClickListener { handleClickOnShowOrHideFilters() }
+    }
+
+    private fun handleClickOnShowOrHideFilters() {
+        if (binding.summaryShowOrHideFilters.text == "Pokaż filtry") {
+            binding.summaryShowOrHideFilters.text = "Ukryj Filtry"
+            binding.summaryLayoutFilters.visibility =  View.VISIBLE
+        } else {
+            binding.summaryShowOrHideFilters.text = "Pokaż filtry"
+            binding.summaryLayoutFilters.visibility =  View.GONE
+        }
     }
 
 
