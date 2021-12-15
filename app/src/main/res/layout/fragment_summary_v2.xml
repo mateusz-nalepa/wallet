@@ -112,12 +112,55 @@
                 android:textColor="@color/blackColor" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/summary_layout_amounts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/summary_layout_dates"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+
+            android:weightSum="2">
+
+            <EditText
+                android:id="@+id/summary_fromAmount"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@color/editTextBack"
+                android:gravity="center_vertical"
+                android:hint="cena od"
+                android:inputType="numberDecimal"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:text="@={viewModel.beginAmount}"
+                android:textColor="@color/blackColor" />
+
+            <EditText
+                android:id="@+id/summary_toAmount"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@color/editTextBack"
+                android:gravity="center_vertical"
+                android:hint="cena do"
+                android:inputType="numberDecimal"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:text="@={viewModel.endAmount}"
+                android:textColor="@color/blackColor" />
+        </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/summary_layout_show_summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/summary_layout_dates"
+            android:layout_below="@id/summary_layout_amounts"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:weightSum="2">

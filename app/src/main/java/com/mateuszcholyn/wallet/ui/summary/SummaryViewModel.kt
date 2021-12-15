@@ -5,11 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.util.ALL_CATEGORIES
-import com.mateuszcholyn.wallet.util.asPrinteableAmount
-import com.mateuszcholyn.wallet.util.atStartOfTheDay
-import com.mateuszcholyn.wallet.util.toHumanText
-import com.mateuszcholyn.wallet.util.toLocalDateTime
+import com.mateuszcholyn.wallet.util.*
 import com.mateuszcholyn.wallet.view.QuickRangeV2
 import java.time.LocalDateTime
 
@@ -27,6 +23,10 @@ class SummaryViewModel(
     var actualCategoryPosition: Int = 0
     var beginDate = MutableLiveData<String>()
     var endDate = MutableLiveData<String>()
+
+    var beginAmount = MutableLiveData<String>()
+    var endAmount = MutableLiveData<String>()
+
     var summaryResultText = MutableLiveData<String>()
     var numberOfExpenses = MutableLiveData<String>()
     var showAddExpenseFragmentFunction: () -> Unit = {}
@@ -72,6 +72,24 @@ class SummaryViewModel(
     }
 
     private fun getExpenseSearchCriteria(): ExpenseSearchCriteria {
+
+        val fromAmount =
+                if (beginAmount.value == null || beginAmount.value == "") {
+                    Int.MIN_VALUE.toDouble()
+                } else {
+                    beginAmount.value!!.toDouble()
+                }
+
+        val toAmount =
+                if (endAmount.value == null || endAmount.value == "") {
+                    Int.MAX_VALUE.toDouble()
+                } else {
+                    endAmount.value!!.toDouble()
+                }
+
+        println("from: $fromAmount")
+        println("to: $toAmount")
+
         return ExpenseSearchCriteria(
                 allCategories = isAllCategories(),
                 categoryName = if (getActualCategoryName() == ALL_CATEGORIES) null else getActualCategoryName(),
