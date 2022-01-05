@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/STUDIA/Magisterka/Semestr_2/TO/Wallet/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/STUDIA/Magisterka/Semestr_2/TO/Wallet/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.1" />
         <entry key="..\:/STUDIA/Magisterka/Semestr_2/TO/Wallet/app/src/main/res/drawable/ic_message.xml" value="0.1" />
+        <entry key="..\:/STUDIA/Magisterka/Semestr_2/TO/Wallet/app/src/main/res/drawable/logo.xml" value="0.105078125" />
         <entry key="..\:/STUDIA/Magisterka/Semestr_2/TO/Wallet/app/src/main/res/drawable/navigation_burger.xml" value="0.178125" />
         <entry key="..\:/STUDIA/Magisterka/Semestr_2/TO/Wallet/app/src/main/res/layout/activity_average_expense.xml" value="0.107421875" />
         <entry key="..\:/STUDIA/Magisterka/Semestr_2/TO/Wallet/app/src/main/res/layout/activity_categories.xml" value="0.1" />

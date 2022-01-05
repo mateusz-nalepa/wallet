@@ -12,6 +12,16 @@ import com.google.android.material.navigation.NavigationView.OnNavigationItemSel
 import org.kodein.di.DIAware
 import org.kodein.di.android.closestDI
 
+//class MainActivity : AppCompatActivity() {
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContent {
+//            MainScreen()
+//        }
+//    }
+//}
+
+
 class MainActivity : AppCompatActivity(), DIAware, OnNavigationItemSelectedListener {
 
     lateinit var drawer: DrawerLayout
@@ -20,7 +30,6 @@ class MainActivity : AppCompatActivity(), DIAware, OnNavigationItemSelectedListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        useScaffold()
         setContentView(R.layout.activity_main)
         toggle()
         switchToSummaryFragment()
@@ -34,10 +43,10 @@ class MainActivity : AppCompatActivity(), DIAware, OnNavigationItemSelectedListe
         drawer = findViewById(R.id.drawer_layout)
 
         val toggle =
-            ActionBarDrawerToggle(
-                this, drawer, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close
-            )
+                ActionBarDrawerToggle(
+                        this, drawer, toolbar,
+                        R.string.navigation_drawer_open, R.string.navigation_drawer_close
+                )
 
         drawer.addDrawerListener(toggle)
 
