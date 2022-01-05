@@ -8,21 +8,33 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import org.kodein.di.DIAware
 import org.kodein.di.android.closestDI
+
 
 //class MainActivity : AppCompatActivity() {
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
+//
 //        setContent {
-//            MainScreen()
+//            MaterialTheme {
+//                ProvideWindowInsets {
+//                    val systemUiController = rememberSystemUiController()
+//                    val darkIcons = MaterialTheme.colors.isLight
+//                    SideEffect {
+//                        systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = darkIcons)
+//                    }
+//                    MainScreen()
+//
+//                }
+//            }
+//
 //        }
 //    }
 //}
 
 
-class MainActivity : AppCompatActivity(), DIAware, OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), DIAware, NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var drawer: DrawerLayout
 
