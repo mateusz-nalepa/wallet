@@ -69,6 +69,7 @@ fun HomeScreen() {
             items(categoryList) { categoryModel ->
                 ListItem(
                         text = { Text(categoryModel.name) },
+                        secondaryText = { Text("Ilość wydatków: TBD") },
                         trailing = {
                             IconButton(
                                     onClick = {
