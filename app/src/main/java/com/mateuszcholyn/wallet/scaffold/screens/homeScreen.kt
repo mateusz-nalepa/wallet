@@ -8,13 +8,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
+import com.mateuszcholyn.wallet.scaffold.util.observeAsMutableState
 import com.mateuszcholyn.wallet.ui.category.CategoryViewModel
 import com.mateuszcholyn.wallet.view.showShortText
 import kotlinx.coroutines.launch
@@ -30,7 +28,7 @@ fun HomeScreen() {
     var categoryNameText by remember { categoryName }
 
     val categoryListState = categoryViewModel.categoryList.observeAsMutableState(initial = emptyList())
-    var categoryList by remember { categoryListState }
+    val categoryList by remember { categoryListState }
 
     Column {
         Row(
@@ -42,9 +40,9 @@ fun HomeScreen() {
                     onValueChange = { categoryNameText = it },
                     label = { Text("Nazwa nowej kategorii") },
                     modifier = defaultModifier,
+                    singleLine = true,
             )
         }
-
         Row(modifier = defaultModifier) {
             Button(
                     onClick = {
@@ -57,7 +55,6 @@ fun HomeScreen() {
                 Text("Dodaj kategorię")
             }
         }
-
         LazyColumn(
                 modifier =
                 Modifier
@@ -92,55 +89,6 @@ fun HomeScreen() {
             }
 
         }
-
-
-//        Column(
-//                modifier =
-//                Modifier
-//                        .fillMaxWidth()
-//                        .padding(horizontal = 8.dp),
-//
-//                ) {
-//            Text("Kategorie")
-//            Divider()
-//            ListItem(
-//                    text = { Text("1") },
-//                    trailing = {
-//                        IconButton(
-//                                onClick = {
-//                                    showShortText("Trwa usuwanie")
-//                                }
-//                        ) {
-//                            Icon(
-//                                    Icons.Filled.Delete,
-//                                    contentDescription = null,
-//                                    modifier = Modifier.size(32.dp),
-//
-//                                    )
-//                        }
-//
-//                    }
-//            )
-//            Divider()
-//            ListItem(
-//                    text = { Text("2") },
-//                    trailing = {
-//                        IconButton(
-//                                onClick = {
-//                                    showShortText("Trwa usuwanie")
-//                                }
-//                        ) {
-//                            Icon(
-//                                    Icons.Filled.Delete,
-//                                    contentDescription = null,
-//                                    modifier = Modifier.size(32.dp),
-//
-//                                    )
-//                        }
-//
-//                    }
-//            )
-//        }
     }
 }
 
@@ -151,14 +99,3 @@ fun HomeScreenPreview() {
     HomeScreen()
 }
 
-@Composable
-fun <R, T : R> MutableLiveData<T>.observeAsMutableState(initial: R): MutableState<R> {
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val state = remember { mutableStateOf(initial) }
-    DisposableEffect(this, lifecycleOwner) {
-        val observer = Observer<T> { state.value = it }
-        observe(lifecycleOwner, observer)
-        onDispose { removeObserver(observer) }
-    }
-    return state
-}
