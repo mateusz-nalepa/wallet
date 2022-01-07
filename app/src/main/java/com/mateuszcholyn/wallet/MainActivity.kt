@@ -8,7 +8,9 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.mateuszcholyn.wallet.config.ApplicationContext
 import com.mateuszcholyn.wallet.scaffold.MainScreen
+import org.kodein.di.compose.withDI
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,14 +18,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            MaterialTheme {
-                ProvideWindowInsets {
-                    val systemUiController = rememberSystemUiController()
-                    val darkIcons = MaterialTheme.colors.isLight
-                    SideEffect {
-                        systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = darkIcons)
+            withDI(di = ApplicationContext.appDi) {
+                MaterialTheme {
+                    ProvideWindowInsets {
+                        val systemUiController = rememberSystemUiController()
+                        val darkIcons = MaterialTheme.colors.isLight
+                        SideEffect {
+                            systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = darkIcons)
+                        }
+                        MainScreen()
                     }
-                    MainScreen()
                 }
             }
 

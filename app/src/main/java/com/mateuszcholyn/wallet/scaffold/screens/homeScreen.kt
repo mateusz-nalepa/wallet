@@ -9,14 +9,17 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.view.showShortText
+import org.kodein.di.compose.rememberInstance
 
 @Composable
 fun HomeScreen() {
 
-    var text by remember { mutableStateOf("Hello") }
+    val categoryService: CategoryService by rememberInstance()
+    var text by remember { mutableStateOf(categoryService.getAllNamesOnly().first()) }
     var text2 by remember { mutableStateOf("Hello") }
 
     Column {

@@ -22,12 +22,7 @@ import com.mateuszcholyn.wallet.ui.category.CategoryViewModel
 import com.mateuszcholyn.wallet.ui.dummy.ChatViewModel
 import com.mateuszcholyn.wallet.ui.summary.SummaryViewModel
 import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
-import org.kodein.di.DI
-import org.kodein.di.DIAware
-import org.kodein.di.bind
-import org.kodein.di.instance
-import org.kodein.di.provider
-import org.kodein.di.singleton
+import org.kodein.di.*
 
 
 class ApplicationContext : Application(), DIAware {
@@ -37,6 +32,7 @@ class ApplicationContext : Application(), DIAware {
         appContext = applicationContext
         AppDatabase(appContext)
         GlobalExceptionHandler(this)
+        appDi = di
     }
 
     override val di by DI.lazy {
@@ -70,6 +66,9 @@ class ApplicationContext : Application(), DIAware {
 
     companion object {
         lateinit var appContext: Context
+            private set
+
+        lateinit var appDi: DI
             private set
     }
 }
