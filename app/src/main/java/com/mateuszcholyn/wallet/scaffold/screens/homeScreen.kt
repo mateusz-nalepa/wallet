@@ -55,6 +55,12 @@ fun HomeScreen() {
                 Text("Dodaj kategorię")
             }
         }
+        Row(modifier = defaultModifier) {
+            Text("Kategorie")
+        }
+        Row(modifier = defaultModifier) {
+            Divider()
+        }
         LazyColumn(
                 modifier =
                 Modifier
@@ -62,10 +68,6 @@ fun HomeScreen() {
                         .padding(horizontal = 4.dp),
 
                 ) {
-            item {
-                Text("Kategorie")
-                Divider()
-            }
             items(categoryList) { categoryModel ->
                 ListItem(
                         text = { Text(categoryModel.name) },
