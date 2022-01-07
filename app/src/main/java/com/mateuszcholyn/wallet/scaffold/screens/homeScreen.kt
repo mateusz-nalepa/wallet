@@ -20,7 +20,7 @@ import org.kodein.di.compose.rememberInstance
 
 @ExperimentalMaterialApi
 @Composable
-fun HomeScreen() {
+fun NewCategoryScreen() {
     val categoryViewModel: CategoryViewModel by rememberInstance()
     val scope = rememberCoroutineScope()
 
@@ -98,7 +98,7 @@ fun HomeScreen() {
 @ExperimentalMaterialApi
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview() {
-    HomeScreen()
+fun NewCategoryScreenPreview() {
+    NewCategoryScreen()
 }
 

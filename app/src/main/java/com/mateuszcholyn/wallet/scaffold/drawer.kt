@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun Drawer(scope: CoroutineScope, scaffoldState: ScaffoldState, navController: NavController) {
     val items = listOf(
-            NavDrawerItem.Home,
+            NavDrawerItem.Category,
             NavDrawerItem.Music,
             NavDrawerItem.Movies,
             NavDrawerItem.Books,
