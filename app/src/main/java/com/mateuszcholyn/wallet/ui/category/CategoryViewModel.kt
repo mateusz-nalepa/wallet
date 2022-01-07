@@ -27,7 +27,9 @@ class CategoryViewModel(
         if (text == null || text == "") {
             showShortText("Blad walidacji XD")
         } else {
-            showShortText("Dodaje kategorie: $text")
+            categoryService.add(Category(name = text))
+            showShortText("Dodano kateogirę: $text")
+            setActualCategories()
         }
     }
 

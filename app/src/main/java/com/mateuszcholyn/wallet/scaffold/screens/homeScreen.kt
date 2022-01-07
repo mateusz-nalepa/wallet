@@ -1,6 +1,8 @@
 package com.mateuszcholyn.wallet.scaffold.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -21,12 +23,14 @@ import org.kodein.di.compose.rememberInstance
 @ExperimentalMaterialApi
 @Composable
 fun HomeScreen() {
-
     val categoryViewModel: CategoryViewModel by rememberInstance()
-
-    val xd = categoryViewModel.categoryName.observeAsMutableState(initial = "")
-    var text by remember { xd }
     val scope = rememberCoroutineScope()
+
+    val categoryName = categoryViewModel.categoryName.observeAsMutableState(initial = "")
+    var categoryNameText by remember { categoryName }
+
+    val categoryListState = categoryViewModel.categoryList.observeAsMutableState(initial = emptyList())
+    var categoryList by remember { categoryListState }
 
     Column {
         Row(
@@ -34,8 +38,8 @@ fun HomeScreen() {
         ) {
 
             OutlinedTextField(
-                    value = text,
-                    onValueChange = { text = it },
+                    value = categoryNameText,
+                    onValueChange = { categoryNameText = it },
                     label = { Text("Nazwa nowej kategorii") },
                     modifier = defaultModifier,
             )
@@ -45,7 +49,7 @@ fun HomeScreen() {
             Button(
                     onClick = {
                         scope.launch {
-                            categoryViewModel.addCategoryXDDD(text)
+                            categoryViewModel.addCategoryXDDD(categoryNameText)
                         }
                     },
                     modifier = defaultButtonModifier,
@@ -54,53 +58,89 @@ fun HomeScreen() {
             }
         }
 
-        Column(
+        LazyColumn(
                 modifier =
                 Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 8.dp),
+                        .padding(horizontal = 4.dp),
 
                 ) {
-            Text("Kategorie")
-            Divider()
-            ListItem(
-                    text = { Text("1") },
-                    trailing = {
-                        IconButton(
-                                onClick = {
-                                    showShortText("Trwa usuwanie")
-                                }
-                        ) {
-                            Icon(
-                                    Icons.Filled.Delete,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(32.dp),
+            item {
+                Text("Kategorie")
+                Divider()
+            }
+            items(categoryList) { categoryModel ->
+                ListItem(
+                        text = { Text(categoryModel.name) },
+                        trailing = {
+                            IconButton(
+                                    onClick = {
+                                        showShortText("NOT IMPLEMENTED YET")
+                                    }
+                            ) {
+                                Icon(
+                                        Icons.Filled.Delete,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(32.dp),
 
-                                    )
+                                        )
+                            }
+
                         }
+                )
+                Divider()
+            }
 
-                    }
-            )
-            Divider()
-            ListItem(
-                    text = { Text("2") },
-                    trailing = {
-                        IconButton(
-                                onClick = {
-                                    showShortText("Trwa usuwanie")
-                                }
-                        ) {
-                            Icon(
-                                    Icons.Filled.Delete,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(32.dp),
-
-                                    )
-                        }
-
-                    }
-            )
         }
+
+
+//        Column(
+//                modifier =
+//                Modifier
+//                        .fillMaxWidth()
+//                        .padding(horizontal = 8.dp),
+//
+//                ) {
+//            Text("Kategorie")
+//            Divider()
+//            ListItem(
+//                    text = { Text("1") },
+//                    trailing = {
+//                        IconButton(
+//                                onClick = {
+//                                    showShortText("Trwa usuwanie")
+//                                }
+//                        ) {
+//                            Icon(
+//                                    Icons.Filled.Delete,
+//                                    contentDescription = null,
+//                                    modifier = Modifier.size(32.dp),
+//
+//                                    )
+//                        }
+//
+//                    }
+//            )
+//            Divider()
+//            ListItem(
+//                    text = { Text("2") },
+//                    trailing = {
+//                        IconButton(
+//                                onClick = {
+//                                    showShortText("Trwa usuwanie")
+//                                }
+//                        ) {
+//                            Icon(
+//                                    Icons.Filled.Delete,
+//                                    contentDescription = null,
+//                                    modifier = Modifier.size(32.dp),
+//
+//                                    )
+//                        }
+//
+//                    }
+//            )
+//        }
     }
 }
 
