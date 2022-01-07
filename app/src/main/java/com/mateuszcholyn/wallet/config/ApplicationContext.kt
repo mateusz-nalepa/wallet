@@ -60,6 +60,8 @@ class ApplicationContext : Application(), DIAware {
         }
         bindViewModel<SummaryViewModel>() with provider { SummaryViewModel(instance(), instance()) }
         bindViewModel<CategoryViewModel>() with provider { CategoryViewModel(instance()) }
+        bind<CategoryViewModel>() with provider { CategoryViewModel(instance()) }
+
 
         bind<ViewModelProvider.Factory>() with singleton { CustomViewModelFactory(directDI) }
     }

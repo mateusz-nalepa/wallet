@@ -4,11 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryService
+import com.mateuszcholyn.wallet.view.showShortText
 
 class CategoryViewModel(
-    val categoryService: CategoryService,
+        val categoryService: CategoryService,
 
-    ) : ViewModel() {
+        ) : ViewModel() {
 
     val categoryList = MutableLiveData<List<SingleCategoryV2Model>>()
     var categoryName = MutableLiveData<String>()
@@ -22,12 +23,20 @@ class CategoryViewModel(
         setActualCategories()
     }
 
+    fun addCategoryXDDD(text: String?) {
+        if (text == null || text == "") {
+            showShortText("Blad walidacji XD")
+        } else {
+            showShortText("Dodaje kategorie: $text")
+        }
+    }
+
 
     private fun setActualCategories() {
         categoryList.value =
-            categoryService
-                .getAllOrderByUsageDesc()
-                .map { SingleCategoryV2Model(it.name) }
+                categoryService
+                        .getAllOrderByUsageDesc()
+                        .map { SingleCategoryV2Model(it.name) }
     }
 
 }

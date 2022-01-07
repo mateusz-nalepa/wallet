@@ -1,26 +1,32 @@
 package com.mateuszcholyn.wallet.scaffold.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
-import com.mateuszcholyn.wallet.domain.category.CategoryService
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
+import com.mateuszcholyn.wallet.ui.category.CategoryViewModel
 import com.mateuszcholyn.wallet.view.showShortText
+import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
 
+@ExperimentalMaterialApi
 @Composable
 fun HomeScreen() {
 
-    val categoryService: CategoryService by rememberInstance()
-    var text by remember { mutableStateOf(categoryService.getAllNamesOnly().first()) }
-    var text2 by remember { mutableStateOf("Hello") }
+    val categoryViewModel: CategoryViewModel by rememberInstance()
+
+    val xd = categoryViewModel.categoryName.observeAsMutableState(initial = "")
+    var text by remember { xd }
+    val scope = rememberCoroutineScope()
 
     Column {
         Row(
@@ -30,75 +36,89 @@ fun HomeScreen() {
             OutlinedTextField(
                     value = text,
                     onValueChange = { text = it },
-                    label = { Text("Label") },
+                    label = { Text("Nazwa nowej kategorii") },
                     modifier = defaultModifier,
-            )
-        }
-
-        Row(
-                modifier = defaultModifier,
-        ) {
-
-            OutlinedTextField(
-                    value = text2,
-                    onValueChange = { text2 = it },
-                    label = { Text("Label2") },
-                    modifier = defaultModifier,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-
             )
         }
 
         Row(modifier = defaultModifier) {
             Button(
                     onClick = {
-                        showShortText("CLICKED XD")
+                        scope.launch {
+                            categoryViewModel.addCategoryXDDD(text)
+                        }
                     },
                     modifier = defaultButtonModifier,
-
-                    ) {
-                Text("Button")
+            ) {
+                Text("Dodaj kategorię")
             }
         }
+
+        Column(
+                modifier =
+                Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+
+                ) {
+            Text("Kategorie")
+            Divider()
+            ListItem(
+                    text = { Text("1") },
+                    trailing = {
+                        IconButton(
+                                onClick = {
+                                    showShortText("Trwa usuwanie")
+                                }
+                        ) {
+                            Icon(
+                                    Icons.Filled.Delete,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(32.dp),
+
+                                    )
+                        }
+
+                    }
+            )
+            Divider()
+            ListItem(
+                    text = { Text("2") },
+                    trailing = {
+                        IconButton(
+                                onClick = {
+                                    showShortText("Trwa usuwanie")
+                                }
+                        ) {
+                            Icon(
+                                    Icons.Filled.Delete,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(32.dp),
+
+                                    )
+                        }
+
+                    }
+            )
+        }
     }
-
-
-//    Button(
-//            onClick = {
-//                      showShortText("XDDDDDD")
-//            },
-//            // Uses ButtonDefaults.ContentPadding by default
-//    ) {
-//        // Inner content including an icon and a text label
-//        Icon(
-//                Icons.Filled.Favorite,
-//                contentDescription = "Favorite",
-//                modifier = Modifier.size(ButtonDefaults.IconSize)
-//        )
-//        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-//        Text("Like")
-//    }
-
-
-//    Column(
-//            modifier = Modifier
-//                    .fillMaxSize()
-//                    .background(colorResource(id = R.color.colorPrimaryDark))
-//                    .wrapContentSize(Alignment.Center)
-//    ) {
-//        Text(
-//                text = "Home View",
-//                fontWeight = FontWeight.Bold,
-//                color = Color.White,
-//                modifier = Modifier.align(Alignment.CenterHorizontally),
-//                textAlign = TextAlign.Center,
-//                fontSize = 25.sp
-//        )
-//    }
 }
 
+@ExperimentalMaterialApi
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
     HomeScreen()
+}
+
+@Composable
+fun <R, T : R> MutableLiveData<T>.observeAsMutableState(initial: R): MutableState<R> {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val state = remember { mutableStateOf(initial) }
+    DisposableEffect(this, lifecycleOwner) {
+        val observer = Observer<T> { state.value = it }
+        observe(lifecycleOwner, observer)
+        onDispose { removeObserver(observer) }
+    }
+    return state
 }
