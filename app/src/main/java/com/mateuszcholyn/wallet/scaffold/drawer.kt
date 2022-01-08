@@ -27,7 +27,7 @@ fun Drawer(scope: CoroutineScope, scaffoldState: ScaffoldState, navController: N
     val items = listOf(
             NavDrawerItem.Category,
             NavDrawerItem.AddOrEditExpense,
-            NavDrawerItem.Movies,
+            NavDrawerItem.SummaryScreen,
             NavDrawerItem.Books,
             NavDrawerItem.Profile,
             NavDrawerItem.Settings
