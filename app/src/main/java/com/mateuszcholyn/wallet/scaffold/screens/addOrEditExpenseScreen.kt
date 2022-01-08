@@ -33,7 +33,7 @@ fun NewAddOrEditExpenseScreen() {
 
 
     var expanded by remember { mutableStateOf(false) }
-    var selectedCategory by remember { mutableStateOf(options[0]) }
+    var selectedCategory by remember { mutableStateOf(options.first()) }
     var amount by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
 
@@ -149,6 +149,8 @@ fun NewAddOrEditExpenseScreen() {
         }
     }
 }
+
+
 
 @ExperimentalMaterialApi
 @Preview(showBackground = true)

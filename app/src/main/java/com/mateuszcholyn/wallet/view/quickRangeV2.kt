@@ -3,11 +3,7 @@ package com.mateuszcholyn.wallet.view
 import android.view.View
 import android.widget.AdapterView
 import androidx.lifecycle.MutableLiveData
-import com.mateuszcholyn.wallet.util.atStartOfTheMonth
-import com.mateuszcholyn.wallet.util.currentDateAsString
-import com.mateuszcholyn.wallet.util.maxDate
-import com.mateuszcholyn.wallet.util.minDate
-import com.mateuszcholyn.wallet.util.toHumanText
+import com.mateuszcholyn.wallet.util.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -32,6 +28,8 @@ object QuickRangeV2 {
     private val quickRangesList = listOf(
         QuickRangeDataV2(
             name = "Dzisiaj",
+                beginDate = LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
+                endDate = LocalDateTime.now(),
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 val dayBeginning = LocalDateTime.of(LocalDate.now(), LocalTime.MIN)
                 mBeginDate.value = dayBeginning.toHumanText()
@@ -41,6 +39,8 @@ object QuickRangeV2 {
         ),
         QuickRangeDataV2(
             name = "Wczoraj",
+                beginDate = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MIN),
+                endDate = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MAX),
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 val yesterDayBeginning =
                     LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MIN)
@@ -52,6 +52,8 @@ object QuickRangeV2 {
         ),
         QuickRangeDataV2(
             name = "Przedwczoraj",
+                beginDate = LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.MIN),
+                endDate = LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.MAX),
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 val yesterDayBeginning =
                     LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.MIN)
@@ -63,6 +65,8 @@ object QuickRangeV2 {
         ),
         QuickRangeDataV2(
             name = "Ostatni tydzień",
+                beginDate = LocalDateTime.now().minusDays(7),
+                endDate = LocalDateTime.now(),
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.value = LocalDateTime.now().minusDays(7).toHumanText()
                 mEndDate.value = currentDateAsString()
@@ -70,6 +74,8 @@ object QuickRangeV2 {
         ),
         QuickRangeDataV2(
             name = "Ten Miesiąc",
+                beginDate = LocalDateTime.now().atStartOfTheMonth(),
+                endDate = LocalDateTime.now(),
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.value = LocalDateTime.now().atStartOfTheMonth().toHumanText()
                 mEndDate.value = currentDateAsString()
@@ -77,6 +83,8 @@ object QuickRangeV2 {
         ),
         QuickRangeDataV2(
             name = "Ostatni Miesiąc",
+                beginDate = LocalDateTime.now().minusMonths(1),
+                endDate = LocalDateTime.now(),
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.value = LocalDateTime.now().minusMonths(1).toHumanText()
                 mEndDate.value = currentDateAsString()
@@ -84,12 +92,16 @@ object QuickRangeV2 {
         ),
         QuickRangeDataV2(
             name = "Ostatnie 3 Miesiące",
+                beginDate = LocalDateTime.now().minusMonths(3),
+                endDate = LocalDateTime.now(),
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.value = LocalDateTime.now().minusMonths(3).toHumanText()
                 mEndDate.value = currentDateAsString()
             }
         ),
         QuickRangeDataV2(
+                beginDate = minDate,
+                endDate = maxDate,
             name = "Wszystkie wydatki",
             modifyDatesFunction = { mBeginDate, mEndDate ->
                 mBeginDate.value = minDate.toHumanText()
@@ -101,6 +113,9 @@ object QuickRangeV2 {
 
     fun quickRangesNames(): List<String> =
         quickRangesList.map { it.name }
+
+    fun quickRanges(): List<QuickRangeDataV2> =
+            quickRangesList
 
     fun modifyBasedOnPosition(
         position: Int,
@@ -124,5 +139,7 @@ object QuickRangeV2 {
 class QuickRangeDataV2(
     val name: String,
     val modifyDatesFunction: (mBeginDate: MutableLiveData<String>, mEndDate: MutableLiveData<String>) -> Unit,
+    val beginDate: LocalDateTime,
+    val endDate: LocalDateTime,
     val isDefault: Boolean = false,
 )
