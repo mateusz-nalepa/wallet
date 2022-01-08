@@ -2,7 +2,7 @@ package com.mateuszcholyn.wallet.scaffold.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -18,14 +18,12 @@ import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.ui.summary.SortingData
 import com.mateuszcholyn.wallet.util.ALL_CATEGORIES
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.view.QuickRangeV2
 import com.mateuszcholyn.wallet.view.showShortText
-import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
 
 @ExperimentalMaterialApi
@@ -57,6 +55,7 @@ fun NewSummaryScreen() {
     // results
     var expensesList by remember { mutableStateOf(listOf<Expense>()) }
     var numberOfExpenses by remember { mutableStateOf("Ilość wydatków: 0") }
+    var summaryResultText by remember { mutableStateOf("0 zł / 1 d = 0 zł/d") }
 
     fun getExpenseSearchCriteria(): ExpenseSearchCriteria {
         println("allCategories: ${selectedCategory.isAllCategories()}")
@@ -73,6 +72,15 @@ fun NewSummaryScreen() {
                 endDate = selectedQuickRangeData.endDate,
                 sort = selectedSort.sort,
         )
+    }
+
+    fun showAverageAmount() {
+        val result = expenseService.averageExpense(getExpenseSearchCriteria())
+
+        summaryResultText =
+                """
+            ${result.wholeAmount.asPrinteableAmount()} zł / ${result.days} d = ${result.averageAmount.asPrinteableAmount()} zł/d
+        """.trimIndent()
     }
 
     fun showHistory() {
@@ -92,6 +100,7 @@ fun NewSummaryScreen() {
     }
 
     showHistory()
+    showAverageAmount()
 
     Column(modifier = defaultModifier) {
         ExposedDropdownMenuBox(
@@ -229,20 +238,18 @@ fun NewSummaryScreen() {
         }
 
         //////////////////////////////////////////////////////////////////////////
-
-        Row(modifier = defaultModifier) {
-            Button(
-                    onClick = {
-                        scope.launch {
-                            showHistory()
-                        }
-                    },
-                    modifier = defaultButtonModifier,
-            ) {
-                Text("Pokaż Podsumowanie")
-            }
+        Row(
+                modifier = defaultModifier,
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                    textAlign = TextAlign.Center,
+                    text = summaryResultText,
+                    modifier = defaultModifier,
+                    fontSize = 20.sp,
+            )
         }
-
         Row(
                 modifier = defaultModifier,
                 verticalAlignment = Alignment.CenterVertically,
@@ -271,7 +278,7 @@ fun NewSummaryScreen() {
                         .padding(horizontal = 4.dp),
 
                 ) {
-            items(items = expensesList) { expense ->
+            itemsIndexed(items = expensesList) { id, expense  ->
                 ListItem(
                         icon = {
                             IconButton(onClick = { showShortText("NOT IMPLEMENTED YET") }) {
@@ -283,7 +290,7 @@ fun NewSummaryScreen() {
                             }
 
                         },
-                        text = { Text(expense.category.name) },
+                        text = { Text("${id + 1}. ${expense.category.name}") },
                         trailing = { Text(expense.amount.asPrinteableAmount().toString()) }
                 )
                 Divider()
