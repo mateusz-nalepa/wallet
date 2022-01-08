@@ -112,4 +112,6 @@ dependencies {
 
     implementation "androidx.compose.runtime:runtime-livedata:1.0.5"
 
+    implementation "io.github.vanpra.compose-material-dialogs:datetime:0.6.2"
+
 }

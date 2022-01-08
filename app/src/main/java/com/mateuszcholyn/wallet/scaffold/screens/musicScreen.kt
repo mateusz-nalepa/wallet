@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.scaffold.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.text.KeyboardOptions
@@ -12,8 +13,11 @@ import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.ui.addoreditexpense.AddOrEditExpenseViewModel
+import com.mateuszcholyn.wallet.util.toHumanText
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
+import java.time.LocalDateTime
 
 
 @ExperimentalMaterialApi
@@ -32,6 +36,15 @@ fun NewAddOrEditExpenseScreen() {
     var selectedCategory by remember { mutableStateOf(options[0]) }
     var amount by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
+
+    val datePickerDialogState = rememberMaterialDialogState()
+    var dateText by remember { mutableStateOf(LocalDateTime.now().toHumanText()) }
+
+    ComposeDateTimePicker(
+            dialogState = datePickerDialogState,
+            value = dateText,
+            onValueChange = { dateText = it },
+    )
 
 
     Column(modifier = defaultModifier) {
@@ -71,7 +84,8 @@ fun NewAddOrEditExpenseScreen() {
                                 expanded = false
                             }
                     ) {
-                        Text(text = selectionOption.name,
+                        Text(
+                                text = selectionOption.name,
                                 modifier = defaultModifier,
                         )
                     }
@@ -102,15 +116,30 @@ fun NewAddOrEditExpenseScreen() {
                     modifier = defaultModifier,
                     maxLines = 5,
 
+                    )
+        }
+        Row(
+                modifier = defaultModifier,
+        ) {
+
+            OutlinedTextField(
+                    value = dateText,
+                    onValueChange = { dateText = it },
+                    label = { Text("Data") },
+                    modifier = defaultModifier.clickable {
+                        datePickerDialogState.show()
+                    },
+                    enabled = false,
             )
         }
         Row(modifier = defaultModifier) {
             Button(
                     onClick = {
                         scope.launch {
-                            println(selectedCategory)
-                            println(amount)
-                            println(description)
+                            println("KATEGORIA: $selectedCategory")
+                            println("amount: $amount")
+                            println("description: $description")
+                            println("dateText: $dateText")
                         }
                     },
                     modifier = defaultButtonModifier,
@@ -118,9 +147,6 @@ fun NewAddOrEditExpenseScreen() {
                 Text("Dodaj wydatek")
             }
         }
-
-
-
     }
 }
 
