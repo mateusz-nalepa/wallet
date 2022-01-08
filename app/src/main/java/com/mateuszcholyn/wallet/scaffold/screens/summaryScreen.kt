@@ -7,9 +7,12 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
@@ -53,6 +56,7 @@ fun NewSummaryScreen() {
 
     // results
     var expensesList by remember { mutableStateOf(listOf<Expense>()) }
+    var numberOfExpenses by remember { mutableStateOf("Ilość wydatków: 0") }
 
     fun getExpenseSearchCriteria(): ExpenseSearchCriteria {
         println("allCategories: ${selectedCategory.isAllCategories()}")
@@ -75,7 +79,7 @@ fun NewSummaryScreen() {
         expensesList =
                 expenseService
                         .getAll(getExpenseSearchCriteria())
-//                        .also { numberOfExpenses.value = "Ilość wydatków: ${it.size}" }
+                        .also { numberOfExpenses = "Ilość wydatków: ${it.size}" }
 //                        .map {
 //                            SummaryAdapterModel(
 //                                    it.id,
@@ -239,6 +243,21 @@ fun NewSummaryScreen() {
             }
         }
 
+        Row(
+                modifier = defaultModifier,
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                    textAlign = TextAlign.Center,
+                    text = numberOfExpenses,
+                    modifier = defaultModifier,
+                    fontSize = 20.sp,
+            )
+        }
+        Row(modifier = defaultModifier) {
+            Divider()
+        }
         Row(modifier = defaultModifier) {
             Text("Wydatki")
         }
