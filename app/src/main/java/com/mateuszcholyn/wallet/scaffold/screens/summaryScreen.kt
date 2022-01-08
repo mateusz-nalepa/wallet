@@ -1,17 +1,27 @@
 package com.mateuszcholyn.wallet.scaffold.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryService
+import com.mateuszcholyn.wallet.domain.expense.Expense
+import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.ui.summary.SortingData
 import com.mateuszcholyn.wallet.util.ALL_CATEGORIES
+import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.view.QuickRangeV2
+import com.mateuszcholyn.wallet.view.showShortText
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
 
@@ -23,6 +33,9 @@ fun NewSummaryScreen() {
     var categoriesExpanded by remember { mutableStateOf(false) }
 
     val categoryService: CategoryService by rememberInstance()
+    val expenseService: ExpenseService by rememberInstance()
+
+
     val availableCategories =
             listOf(Category(name = ALL_CATEGORIES)) + categoryService.getAllOrderByUsageDesc()
     var selectedCategory by remember { mutableStateOf(availableCategories.first()) }
@@ -37,6 +50,44 @@ fun NewSummaryScreen() {
     var sortingExpanded by remember { mutableStateOf(false) }
     val availableSortElements = SortingData.sortingListBetter
     var selectedSort by remember { mutableStateOf(availableSortElements.first()) }
+
+    // results
+    var expensesList by remember { mutableStateOf(listOf<Expense>()) }
+
+    fun getExpenseSearchCriteria(): ExpenseSearchCriteria {
+        println("allCategories: ${selectedCategory.isAllCategories()}")
+        println("categoryName: ${selectedCategory.actualCategoryName()}")
+        println("beginDate: ${selectedQuickRangeData.beginDate}")
+        println("endDate: ${selectedQuickRangeData.endDate}")
+        println("sort: $selectedSort")
+
+
+        return ExpenseSearchCriteria(
+                allCategories = selectedCategory.isAllCategories(),
+                categoryName = selectedCategory.actualCategoryName(),
+                beginDate = selectedQuickRangeData.beginDate,
+                endDate = selectedQuickRangeData.endDate,
+                sort = selectedSort.sort,
+        )
+    }
+
+    fun showHistory() {
+        expensesList =
+                expenseService
+                        .getAll(getExpenseSearchCriteria())
+//                        .also { numberOfExpenses.value = "Ilość wydatków: ${it.size}" }
+//                        .map {
+//                            SummaryAdapterModel(
+//                                    it.id,
+//                                    it.description,
+//                                    it.date.toHumanText(),
+//                                    it.amount.asPrinteableAmount().toString(),
+//                                    it.category.name,
+//                            )
+//                        }
+    }
+
+    showHistory()
 
     Column(modifier = defaultModifier) {
         ExposedDropdownMenuBox(
@@ -179,21 +230,7 @@ fun NewSummaryScreen() {
             Button(
                     onClick = {
                         scope.launch {
-//                            ExpenseSearchCriteria(
-//                                    allCategories = isAllCategories(),
-//                                    categoryName = if (getActualCategoryName() == ALL_CATEGORIES) null else getActualCategoryName(),
-//                                    beginDate = beginDate.value!!.toLocalDateTime(),
-//                                    endDate = endDate.value!!.toLocalDateTime(),
-//                                    fromAmount = fromAmount,
-//                                    toAmount = toAmount,
-//                                    sort = SortingData.getSortByIndexName(actualSortPosition),
-//                            )
-
-                            println("allCategories: ${selectedCategory.isAllCategories()}")
-                            println("categoryName: ${selectedCategory.actualCategoryName()}")
-                            println("beginDate: ${selectedQuickRangeData.beginDate}")
-                            println("endDate: ${selectedQuickRangeData.endDate}")
-                            println("sort: $selectedSort")
+                            showHistory()
                         }
                     },
                     modifier = defaultButtonModifier,
@@ -202,6 +239,37 @@ fun NewSummaryScreen() {
             }
         }
 
+        Row(modifier = defaultModifier) {
+            Text("Wydatki")
+        }
+        Row(modifier = defaultModifier) {
+            Divider()
+        }
+        LazyColumn(
+                modifier =
+                Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 4.dp),
+
+                ) {
+            items(items = expensesList) { expense ->
+                ListItem(
+                        icon = {
+                            IconButton(onClick = { showShortText("NOT IMPLEMENTED YET") }) {
+                                Icon(
+                                        Icons.Filled.Menu,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(32.dp),
+                                )
+                            }
+
+                        },
+                        text = { Text(expense.category.name) },
+                        trailing = { Text(expense.amount.asPrinteableAmount().toString()) }
+                )
+                Divider()
+            }
+        }
     }
 
 }
@@ -214,9 +282,8 @@ fun NewSummaryScreenPreview() {
 }
 
 
-
-fun Category.isAllCategories() : Boolean =
+fun Category.isAllCategories(): Boolean =
         name == ALL_CATEGORIES
 
-fun Category.actualCategoryName() : String? =
+fun Category.actualCategoryName(): String? =
         if (isAllCategories()) null else name

@@ -8,8 +8,8 @@ data class ExpenseSearchCriteria(
         val categoryName: String? = null,
         val beginDate: LocalDateTime,
         val endDate: LocalDateTime,
-        val fromAmount: Double,
-        val toAmount: Double,
+        val fromAmount: Double = Double.MIN_VALUE,
+        val toAmount: Double = Double.MAX_VALUE,
         val sort: Sort = Sort(Sort.Field.DATE, Sort.Type.DESC),
 ) : Serializable
 
