@@ -11,6 +11,7 @@ import com.mateuszcholyn.wallet.view.showShortText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@ExperimentalMaterialApi
 @Composable
 fun MainScreen() {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
@@ -34,6 +35,7 @@ fun MainScreen() {
     // }
 }
 
+@ExperimentalMaterialApi
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {

@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 fun Drawer(scope: CoroutineScope, scaffoldState: ScaffoldState, navController: NavController) {
     val items = listOf(
             NavDrawerItem.Category,
-            NavDrawerItem.Music,
+            NavDrawerItem.AddOrEditExpense,
             NavDrawerItem.Movies,
             NavDrawerItem.Books,
             NavDrawerItem.Profile,

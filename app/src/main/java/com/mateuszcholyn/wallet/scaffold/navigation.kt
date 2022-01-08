@@ -10,7 +10,7 @@ import com.mateuszcholyn.wallet.scaffold.screens.*
 
 sealed class NavDrawerItem(var route: String, var icon: Int, var title: String) {
     object Category : NavDrawerItem("category", R.drawable.ic_home, "Category")
-    object Music : NavDrawerItem("music", R.drawable.ic_music, "Music")
+    object AddOrEditExpense : NavDrawerItem("addOrEditExpense", R.drawable.ic_music, "AddOrEditExpense")
     object Movies : NavDrawerItem("movies", R.drawable.ic_movie, "Movies")
     object Books : NavDrawerItem("books", R.drawable.ic_book, "Books")
     object Profile : NavDrawerItem("profile", R.drawable.ic_profile, "Profile")
@@ -20,12 +20,12 @@ sealed class NavDrawerItem(var route: String, var icon: Int, var title: String) 
 @ExperimentalMaterialApi
 @Composable
 fun Navigation(navController: NavHostController) {
-    NavHost(navController, startDestination = NavDrawerItem.Category.route) {
+    NavHost(navController, startDestination = NavDrawerItem.AddOrEditExpense.route) {
         composable(NavDrawerItem.Category.route) {
             NewCategoryScreen()
         }
-        composable(NavDrawerItem.Music.route) {
-            MusicScreen()
+        composable(NavDrawerItem.AddOrEditExpense.route) {
+            NewAddOrEditExpenseScreen()
         }
         composable(NavDrawerItem.Movies.route) {
             MoviesScreen()
