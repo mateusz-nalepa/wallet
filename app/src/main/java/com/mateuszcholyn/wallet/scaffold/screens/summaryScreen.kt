@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.scaffold.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -10,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -65,20 +67,18 @@ fun NewSummaryScreen(navController: NavHostController) {
     var numberOfExpenses by remember { mutableStateOf("Ilość wydatków: 0") }
     var summaryResultText by remember { mutableStateOf("0 zł / 1 d = 0 zł/d") }
 
+    var amountRangeStart by remember { mutableStateOf("0") }
+    var amountRangeEnd by remember { mutableStateOf(Int.MAX_VALUE.toString()) }
+
     fun getExpenseSearchCriteria(): ExpenseSearchCriteria {
-        println("allCategories: ${selectedCategory.isAllCategories()}")
-        println("categoryName: ${selectedCategory.actualCategoryName()}")
-        println("beginDate: ${selectedQuickRangeData.beginDate}")
-        println("endDate: ${selectedQuickRangeData.endDate}")
-        println("sort: $selectedSort")
-
-
         return ExpenseSearchCriteria(
                 allCategories = selectedCategory.isAllCategories(),
                 categoryName = selectedCategory.actualCategoryName(),
                 beginDate = selectedQuickRangeData.beginDate,
                 endDate = selectedQuickRangeData.endDate,
                 sort = selectedSort.sort,
+                fromAmount = amountRangeStart.toDoubleOrDefaultZero(),
+                toAmount = amountRangeEnd.toDoubleOrDefaultZero(),
         )
     }
 
@@ -213,7 +213,7 @@ fun NewSummaryScreen(navController: NavHostController) {
                     readOnly = true,
                     value = selectedSort.name,
                     onValueChange = { },
-                    label = { Text("Zakres") },
+                    label = { Text("Sortowanie") },
                     trailingIcon = {
                         ExposedDropdownMenuDefaults.TrailingIcon(
                                 expanded = sortingExpanded
@@ -244,7 +244,24 @@ fun NewSummaryScreen(navController: NavHostController) {
                 }
             }
         }
-
+        Row(modifier = defaultModifier) {
+            OutlinedTextField(
+                    value = amountRangeStart,
+                    onValueChange = { amountRangeStart = it },
+                    label = { Text("Od zł") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = defaultModifier.weight(1f),
+                    singleLine = true,
+            )
+            OutlinedTextField(
+                    value = amountRangeEnd,
+                    onValueChange = { amountRangeEnd = it },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    label = { Text("Do zł") },
+                    modifier = defaultModifier.weight(1f),
+                    singleLine = true,
+            )
+        }
         //////////////////////////////////////////////////////////////////////////
         Row(
                 modifier = defaultModifier,
@@ -385,3 +402,8 @@ fun Category.actualCategoryName(): String? =
 
 fun Expense.descriptionOrDefault(): String =
         if (description == "") "Brak opisu" else description
+
+
+fun String.toDoubleOrDefaultZero(): Double =
+        kotlin.runCatching { this.toDouble() }
+                .getOrDefault(0.0)
