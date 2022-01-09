@@ -2,10 +2,12 @@ package com.mateuszcholyn.wallet.scaffold
 
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.R
 import kotlinx.coroutines.CoroutineScope
@@ -44,6 +46,13 @@ fun MainScreenPreview() {
 
 @Composable
 fun FloatingButton(scope: CoroutineScope, navController: NavHostController) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    if (currentRoute != null && currentRoute.contains(NavDrawerItem.AddOrEditExpense.routeWithoutId())) {
+        return
+    }
+
     FloatingActionButton(onClick = {
         scope.launch {
             navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithoutId()) {
