@@ -335,11 +335,20 @@ fun NewSummaryScreen() {
                             ) {
                                 Text("Edytuj")
                             }
+                            val openDialog = remember { mutableStateOf(false) }
+                            YesOrNoDialog(
+                                    openDialog = openDialog,
+                                    onConfirm = {
+                                        scope.launch {
+                                            expenseService.hardRemove(expenseId = expense.id)
+                                            showHistory()
+                                            detailsAreVisible = false
+                                        }
+                                    }
+                            )
                             Button(
                                     onClick = {
-                                        scope.launch {
-                                            showShortText("Usuń")
-                                        }
+                                        openDialog.value = true
                                     },
                                     modifier = defaultButtonModifier.weight(1f),
                                     colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red)) {
@@ -364,6 +373,48 @@ fun NewSummaryScreenPreview() {
     NewSummaryScreen()
 }
 
+
+@Composable
+fun YesOrNoDialog(openDialog: MutableState<Boolean>, onConfirm: () -> Unit) {
+    if (openDialog.value) {
+        AlertDialog(
+                onDismissRequest = {
+                    openDialog.value = false
+                },
+                title = {
+                    Text(text = "Na pewno usunąć wydatek?")
+                },
+                buttons = {
+                    Row(
+                            modifier = Modifier.padding(all = 8.dp),
+                            horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = { openDialog.value = false }
+                        ) {
+                            Text("Anuluj")
+                        }
+                    }
+                    Row(
+                            modifier = Modifier.padding(all = 8.dp),
+                            horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = {
+                                    openDialog.value = false
+                                    onConfirm.invoke()
+                                }
+                        ) {
+                            Text("Usuń")
+                        }
+                    }
+
+                }
+        )
+    }
+}
 
 fun Category.isAllCategories(): Boolean =
         name == ALL_CATEGORIES
