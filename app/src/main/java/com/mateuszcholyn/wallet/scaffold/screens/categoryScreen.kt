@@ -15,14 +15,12 @@ import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.view.showShortText
-import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
 
 @ExperimentalMaterialApi
 @Composable
 fun NewCategoryScreen() {
     val categoryService: CategoryService by rememberInstance()
-    val scope = rememberCoroutineScope()
 
     var categoryNameText by remember { mutableStateOf("") }
 
@@ -50,17 +48,16 @@ fun NewCategoryScreen() {
         Row(modifier = defaultModifier) {
             Button(
                     onClick = {
-                        scope.launch {
-                            categoryService.add(Category(name = categoryNameText))
-                            refreshCategoryList()
-                        }
+                        categoryService.add(Category(name = categoryNameText))
+                        categoryNameText = ""
+                        refreshCategoryList()
                     },
                     modifier = defaultButtonModifier,
             ) {
                 Text("Dodaj kategorię")
             }
         }
-        Row(modifier = defaultModifier) {
+        Row(modifier = defaultModifier, horizontalArrangement = Arrangement.SpaceBetween) {
             Text(text = "Kategorie", modifier = defaultModifier.weight(1f))
             Text(text = "Ilość: ${categoryListOptions.size}", modifier = defaultModifier.weight(1f))
         }

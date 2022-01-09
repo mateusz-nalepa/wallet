@@ -33,13 +33,11 @@ import com.mateuszcholyn.wallet.util.ALL_CATEGORIES
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.util.toHumanText
 import com.mateuszcholyn.wallet.view.QuickRangeV2
-import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
 
 @ExperimentalMaterialApi
 @Composable
 fun NewSummaryScreen(navController: NavHostController) {
-    val scope = rememberCoroutineScope()
 
     var categoriesExpanded by remember { mutableStateOf(false) }
 
@@ -64,7 +62,6 @@ fun NewSummaryScreen(navController: NavHostController) {
 
     // results
     var expensesList by remember { mutableStateOf(listOf<Expense>()) }
-    var numberOfExpenses by remember { mutableStateOf("Ilość wydatków: 0") }
     var summaryResultText by remember { mutableStateOf("0 zł / 1 d = 0 zł/d") }
 
     var amountRangeStart by remember { mutableStateOf("0") }
@@ -92,19 +89,7 @@ fun NewSummaryScreen(navController: NavHostController) {
     }
 
     fun showHistory() {
-        expensesList =
-                expenseService
-                        .getAll(getExpenseSearchCriteria())
-                        .also { numberOfExpenses = "Ilość wydatków: ${it.size}" }
-//                        .map {
-//                            SummaryAdapterModel(
-//                                    it.id,
-//                                    it.description,
-//                                    it.date.toHumanText(),
-//                                    it.amount.asPrinteableAmount().toString(),
-//                                    it.category.name,
-//                            )
-//                        }
+        expensesList = expenseService.getAll(getExpenseSearchCriteria())
     }
 
     showHistory()
@@ -275,23 +260,12 @@ fun NewSummaryScreen(navController: NavHostController) {
                     fontSize = 20.sp,
             )
         }
-        Row(
-                modifier = defaultModifier,
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-        ) {
-            Text(
-                    textAlign = TextAlign.Center,
-                    text = numberOfExpenses,
-                    modifier = defaultModifier,
-                    fontSize = 20.sp,
-            )
-        }
         Row(modifier = defaultModifier) {
             Divider()
         }
-        Row(modifier = defaultModifier) {
-            Text("Wydatki")
+        Row(modifier = defaultModifier, horizontalArrangement = Arrangement.SpaceBetween) {
+            Text(text = "Wydatki", modifier = defaultModifier.weight(1f))
+            Text(text = "Ilość: ${expensesList.size}", modifier = defaultModifier.weight(1f))
         }
         Row(modifier = defaultModifier) {
             Divider()
@@ -348,9 +322,7 @@ fun NewSummaryScreen(navController: NavHostController) {
                         Row(modifier = defaultModifier) {
                             Button(
                                     onClick = {
-                                        scope.launch {
                                             navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithId(expenseId = expense.id))
-                                        }
                                     },
                                     modifier = defaultButtonModifier.weight(1f),
                             ) {
@@ -360,11 +332,10 @@ fun NewSummaryScreen(navController: NavHostController) {
                             YesOrNoDialog(
                                     openDialog = openDialog,
                                     onConfirm = {
-                                        scope.launch {
                                             expenseService.hardRemove(expenseId = expense.id)
                                             showHistory()
                                             detailsAreVisible = false
-                                        }
+
                                     }
                             )
                             Button(

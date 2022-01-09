@@ -22,7 +22,6 @@ import com.mateuszcholyn.wallet.util.toHumanText
 import com.mateuszcholyn.wallet.util.toLocalDateTime
 import com.mateuszcholyn.wallet.view.showShortText
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
-import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
 import java.time.LocalDateTime
 
@@ -34,10 +33,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
     val expenseService: ExpenseService by rememberInstance()
     val categoryService: CategoryService by rememberInstance()
 
-    val scope = rememberCoroutineScope()
-
     val options = categoryService.getAllOrderByUsageDesc()
-
 
     var expanded by remember { mutableStateOf(false) }
     val datePickerDialogState = rememberMaterialDialogState()
@@ -144,28 +140,26 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
         Row(modifier = defaultModifier) {
             Button(
                     onClick = {
-                        scope.launch {
-                            if (actualExpenseId != -1L) {
-                                showShortText("updateExpense: $actualExpenseId")
-                                expenseService.updateExpense(Expense(
-                                        id = actualExpenseId,
-                                        amount = amount.toDouble(),
-                                        description = description,
-                                        category = selectedCategory,
-                                        date = dateText.toLocalDateTime(),
+                        if (actualExpenseId != -1L) {
+                            showShortText("updateExpense: $actualExpenseId")
+                            expenseService.updateExpense(Expense(
+                                    id = actualExpenseId,
+                                    amount = amount.toDouble(),
+                                    description = description,
+                                    category = selectedCategory,
+                                    date = dateText.toLocalDateTime(),
 
-                                        ))
-                            } else {
-                                showShortText("addNewExpense")
-                                expenseService.addExpense(Expense(
-                                        amount = amount.toDouble(),
-                                        description = description,
-                                        category = selectedCategory,
-                                        date = dateText.toLocalDateTime(),
+                                    ))
+                        } else {
+                            showShortText("addNewExpense")
+                            expenseService.addExpense(Expense(
+                                    amount = amount.toDouble(),
+                                    description = description,
+                                    category = selectedCategory,
+                                    date = dateText.toLocalDateTime(),
 
-                                        ))
+                                    ))
 
-                            }
                         }
                         navController.navigate(NavDrawerItem.SummaryScreen.route)
                     },
