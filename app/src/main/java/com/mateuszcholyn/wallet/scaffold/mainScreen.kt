@@ -1,11 +1,14 @@
 package com.mateuszcholyn.wallet.scaffold
 
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -53,26 +56,29 @@ fun FloatingButton(scope: CoroutineScope, navController: NavHostController) {
         return
     }
 
-    FloatingActionButton(onClick = {
-        scope.launch {
-            navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithoutId()) {
-                // Pop up to the start destination of the graph to
-                // avoid building up a large stack of destinations
-                // on the back stack as users select items
-                navController.graph.startDestinationRoute?.let { route ->
-                    popUpTo(route) {
-                        saveState = true
+    ExtendedFloatingActionButton(
+            icon = { Icon(Icons.Filled.ShoppingCart, "") },
+            text = { Text("Dodaj wydatek") },
+            onClick = {
+                scope.launch {
+                    navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithoutId()) {
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        // on the back stack as users select items
+                        navController.graph.startDestinationRoute?.let { route ->
+                            popUpTo(route) {
+                                saveState = true
+                            }
+                        }
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
+                        launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
+                        restoreState = true
                     }
-                }
-                // Avoid multiple copies of the same destination when
-                // reselecting the same item
-                launchSingleTop = true
-                // Restore state when reselecting a previously selected item
-                restoreState = true
-            }
 
-        }
-    }) {
-        Text("+")
-    }
+                }
+            },
+            elevation = FloatingActionButtonDefaults.elevation(8.dp)
+    )
 }
