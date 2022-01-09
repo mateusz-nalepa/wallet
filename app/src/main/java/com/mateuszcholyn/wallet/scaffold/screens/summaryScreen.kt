@@ -393,27 +393,24 @@ fun YesOrNoDialog(openDialog: MutableState<Boolean>, onConfirm: () -> Unit) {
                             horizontalArrangement = Arrangement.Center
                     ) {
                         Button(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { openDialog.value = false }
+                                modifier = defaultModifier.weight(1f),
+                                onClick = { openDialog.value = false },
+                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green),
                         ) {
                             Text("Anuluj")
                         }
-                    }
-                    Row(
-                            modifier = Modifier.padding(all = 8.dp),
-                            horizontalArrangement = Arrangement.Center
-                    ) {
                         Button(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = defaultModifier.weight(1f),
                                 onClick = {
                                     openDialog.value = false
                                     onConfirm.invoke()
-                                }
+                                },
+                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
                         ) {
                             Text("Usuń")
                         }
-                    }
 
+                    }
                 }
         )
     }
