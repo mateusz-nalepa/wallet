@@ -23,6 +23,7 @@ import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.scaffold.NavDrawerItem
 import com.mateuszcholyn.wallet.scaffold.routeWithId
+import com.mateuszcholyn.wallet.scaffold.util.YesOrNoDialog
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.ui.summary.SortingData
@@ -374,46 +375,6 @@ fun NewSummaryScreen(navController: NavHostController) {
 @Composable
 fun NewSummaryScreenPreview() {
     NewSummaryScreen(rememberNavController())
-}
-
-
-@Composable
-fun YesOrNoDialog(openDialog: MutableState<Boolean>, onConfirm: () -> Unit) {
-    if (openDialog.value) {
-        AlertDialog(
-                onDismissRequest = {
-                    openDialog.value = false
-                },
-                title = {
-                    Text(text = "Na pewno usunąć wydatek?")
-                },
-                buttons = {
-                    Row(
-                            modifier = Modifier.padding(all = 8.dp),
-                            horizontalArrangement = Arrangement.Center
-                    ) {
-                        Button(
-                                modifier = defaultModifier.weight(1f),
-                                onClick = { openDialog.value = false },
-                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green),
-                        ) {
-                            Text("Anuluj")
-                        }
-                        Button(
-                                modifier = defaultModifier.weight(1f),
-                                onClick = {
-                                    openDialog.value = false
-                                    onConfirm.invoke()
-                                },
-                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
-                        ) {
-                            Text("Usuń")
-                        }
-
-                    }
-                }
-        )
-    }
 }
 
 fun Category.isAllCategories(): Boolean =
