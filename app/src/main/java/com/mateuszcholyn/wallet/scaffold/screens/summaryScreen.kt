@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.scaffold.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -11,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -66,6 +68,8 @@ fun NewSummaryScreen(navController: NavHostController) {
 
     var amountRangeStart by remember { mutableStateOf("0") }
     var amountRangeEnd by remember { mutableStateOf(Int.MAX_VALUE.toString()) }
+
+    var advancedFiltersExpanded by remember { mutableStateOf(false) }
 
     fun getExpenseSearchCriteria(): ExpenseSearchCriteria {
         return ExpenseSearchCriteria(
@@ -186,66 +190,78 @@ fun NewSummaryScreen(navController: NavHostController) {
 
 
         //////////////////////////////////////////////////////////////////////////
-        ExposedDropdownMenuBox(
-                modifier = defaultModifier,
-                expanded = sortingExpanded,
-                onExpandedChange = {
-                    sortingExpanded = !sortingExpanded
-                }
-        ) {
-            TextField(
-                    modifier = defaultModifier,
-                    readOnly = true,
-                    value = selectedSort.name,
-                    onValueChange = { },
-                    label = { Text("Sortowanie") },
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(
-                                expanded = sortingExpanded
-                        )
+
+
+        Row(modifier = defaultModifier, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+            ClickableText(
+                    text = if (advancedFiltersExpanded) AnnotatedString("Ukryj filtry") else AnnotatedString("Pokaż filtry"),
+                    onClick = {
+                        advancedFiltersExpanded = !advancedFiltersExpanded
                     },
-                    colors = ExposedDropdownMenuDefaults.textFieldColors()
             )
-            ExposedDropdownMenu(
+        }
+        if (advancedFiltersExpanded) {
+            ExposedDropdownMenuBox(
                     modifier = defaultModifier,
                     expanded = sortingExpanded,
-                    onDismissRequest = {
-                        sortingExpanded = false
+                    onExpandedChange = {
+                        sortingExpanded = !sortingExpanded
                     }
             ) {
-                availableSortElements.forEach { sortElement ->
-                    DropdownMenuItem(
-                            modifier = defaultModifier,
-                            onClick = {
-                                selectedSort = sortElement
-                                sortingExpanded = false
-                            }
-                    ) {
-                        Text(
-                                text = sortElement.name,
+                TextField(
+                        modifier = defaultModifier,
+                        readOnly = true,
+                        value = selectedSort.name,
+                        onValueChange = { },
+                        label = { Text("Sortowanie") },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                    expanded = sortingExpanded
+                            )
+                        },
+                        colors = ExposedDropdownMenuDefaults.textFieldColors()
+                )
+                ExposedDropdownMenu(
+                        modifier = defaultModifier,
+                        expanded = sortingExpanded,
+                        onDismissRequest = {
+                            sortingExpanded = false
+                        }
+                ) {
+                    availableSortElements.forEach { sortElement ->
+                        DropdownMenuItem(
                                 modifier = defaultModifier,
-                        )
+                                onClick = {
+                                    selectedSort = sortElement
+                                    sortingExpanded = false
+                                }
+                        ) {
+                            Text(
+                                    text = sortElement.name,
+                                    modifier = defaultModifier,
+                            )
+                        }
                     }
                 }
             }
-        }
-        Row(modifier = defaultModifier) {
-            OutlinedTextField(
-                    value = amountRangeStart,
-                    onValueChange = { amountRangeStart = it },
-                    label = { Text("Od zł") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    modifier = defaultModifier.weight(1f),
-                    singleLine = true,
-            )
-            OutlinedTextField(
-                    value = amountRangeEnd,
-                    onValueChange = { amountRangeEnd = it },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    label = { Text("Do zł") },
-                    modifier = defaultModifier.weight(1f),
-                    singleLine = true,
-            )
+            Row(modifier = defaultModifier) {
+                OutlinedTextField(
+                        value = amountRangeStart,
+                        onValueChange = { amountRangeStart = it },
+                        label = { Text("Od zł") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        modifier = defaultModifier.weight(1f),
+                        singleLine = true,
+                )
+                OutlinedTextField(
+                        value = amountRangeEnd,
+                        onValueChange = { amountRangeEnd = it },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        label = { Text("Do zł") },
+                        modifier = defaultModifier.weight(1f),
+                        singleLine = true,
+                )
+            }
         }
         //////////////////////////////////////////////////////////////////////////
         Row(
@@ -322,7 +338,7 @@ fun NewSummaryScreen(navController: NavHostController) {
                         Row(modifier = defaultModifier) {
                             Button(
                                     onClick = {
-                                            navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithId(expenseId = expense.id))
+                                        navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithId(expenseId = expense.id))
                                     },
                                     modifier = defaultButtonModifier.weight(1f),
                             ) {
@@ -332,9 +348,9 @@ fun NewSummaryScreen(navController: NavHostController) {
                             YesOrNoDialog(
                                     openDialog = openDialog,
                                     onConfirm = {
-                                            expenseService.hardRemove(expenseId = expense.id)
-                                            showHistory()
-                                            detailsAreVisible = false
+                                        expenseService.hardRemove(expenseId = expense.id)
+                                        showHistory()
+                                        detailsAreVisible = false
 
                                     }
                             )
