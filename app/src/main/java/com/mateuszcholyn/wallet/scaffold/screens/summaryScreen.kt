@@ -14,11 +14,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
+import com.mateuszcholyn.wallet.scaffold.NavDrawerItem
+import com.mateuszcholyn.wallet.scaffold.routeWithId
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.ui.summary.SortingData
@@ -26,13 +30,12 @@ import com.mateuszcholyn.wallet.util.ALL_CATEGORIES
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.util.toHumanText
 import com.mateuszcholyn.wallet.view.QuickRangeV2
-import com.mateuszcholyn.wallet.view.showShortText
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
 
 @ExperimentalMaterialApi
 @Composable
-fun NewSummaryScreen() {
+fun NewSummaryScreen(navController: NavHostController) {
     val scope = rememberCoroutineScope()
 
     var categoriesExpanded by remember { mutableStateOf(false) }
@@ -328,7 +331,7 @@ fun NewSummaryScreen() {
                             Button(
                                     onClick = {
                                         scope.launch {
-                                            showShortText("Edytuj")
+                                            navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithId(expenseId = expense.id))
                                         }
                                     },
                                     modifier = defaultButtonModifier.weight(1f),
@@ -370,7 +373,7 @@ fun NewSummaryScreen() {
 @Preview(showBackground = true)
 @Composable
 fun NewSummaryScreenPreview() {
-    NewSummaryScreen()
+    NewSummaryScreen(rememberNavController())
 }
 
 

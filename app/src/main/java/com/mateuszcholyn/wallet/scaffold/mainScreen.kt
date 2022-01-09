@@ -46,7 +46,7 @@ fun MainScreenPreview() {
 fun FloatingButton(scope: CoroutineScope, navController: NavHostController) {
     FloatingActionButton(onClick = {
         scope.launch {
-            navController.navigate(NavDrawerItem.AddOrEditExpense.route) {
+            navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithoutId()) {
                 // Pop up to the start destination of the graph to
                 // avoid building up a large stack of destinations
                 // on the back stack as users select items

@@ -16,8 +16,10 @@ import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.scaffold.NavDrawerItem
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
+import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.util.toHumanText
 import com.mateuszcholyn.wallet.util.toLocalDateTime
+import com.mateuszcholyn.wallet.view.showShortText
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
@@ -26,7 +28,8 @@ import java.time.LocalDateTime
 
 @ExperimentalMaterialApi
 @Composable
-fun NewAddOrEditExpenseScreen(navController: NavHostController) {
+fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId: Long) {
+    showShortText("expenseIdToBeEdited: $actualExpenseId")
 
     val expenseService: ExpenseService by rememberInstance()
     val categoryService: CategoryService by rememberInstance()
@@ -37,12 +40,14 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController) {
 
 
     var expanded by remember { mutableStateOf(false) }
-    var selectedCategory by remember { mutableStateOf(options.first()) }
-    var amount by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-
     val datePickerDialogState = rememberMaterialDialogState()
-    var dateText by remember { mutableStateOf(LocalDateTime.now().toHumanText()) }
+
+    val expenseOrNull = if (actualExpenseId.isDummy()) null else expenseService.getById(actualExpenseId)
+
+    var selectedCategory by remember { mutableStateOf(if (actualExpenseId.isDummy()) options.first() else expenseOrNull!!.category ) }
+    var amount by remember { mutableStateOf(if (actualExpenseId.isDummy()) "" else expenseOrNull!!.amount.asPrinteableAmount().toString()) }
+    var description by remember { mutableStateOf(if (actualExpenseId.isDummy()) "" else expenseOrNull!!.description ) }
+    var dateText by remember { mutableStateOf(if (actualExpenseId.isDummy()) LocalDateTime.now().toHumanText() else expenseOrNull!!.date.toHumanText()) }
 
     ComposeDateTimePicker(
             dialogState = datePickerDialogState,
@@ -140,25 +145,41 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController) {
             Button(
                     onClick = {
                         scope.launch {
-                            expenseService.addExpense(Expense(
-                                    amount = amount.toDouble(),
-                                    description = description,
-                                    category = selectedCategory,
-                                    date = dateText.toLocalDateTime(),
+                            if (actualExpenseId != -1L) {
+                                showShortText("updateExpense: $actualExpenseId")
+                                expenseService.updateExpense(Expense(
+                                        id = actualExpenseId,
+                                        amount = amount.toDouble(),
+                                        description = description,
+                                        category = selectedCategory,
+                                        date = dateText.toLocalDateTime(),
 
-                            ))
+                                        ))
+                            } else {
+                                showShortText("addNewExpense")
+                                expenseService.addExpense(Expense(
+                                        amount = amount.toDouble(),
+                                        description = description,
+                                        category = selectedCategory,
+                                        date = dateText.toLocalDateTime(),
 
-                            navController.navigate(NavDrawerItem.SummaryScreen.route)
+                                        ))
+
+                            }
                         }
+                        navController.navigate(NavDrawerItem.SummaryScreen.route)
                     },
                     modifier = defaultButtonModifier,
             ) {
-                Text("Dodaj wydatek")
+                if (actualExpenseId != -1L) {
+                    Text("Edytuj wydatek")
+                } else {
+                    Text("Dodaj wydatek")
+                }
             }
         }
     }
 }
-
 
 
 @ExperimentalMaterialApi
@@ -167,5 +188,9 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController) {
 fun NewAddOrEditExpenseScreenPreview() {
     val navController = rememberNavController()
 
-    NewAddOrEditExpenseScreen(navController = navController)
+    NewAddOrEditExpenseScreen(navController = navController, 5)
 }
+
+
+fun Long.isDummy(): Boolean =
+        this == -1L
