@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,12 +19,15 @@ import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
+import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.ui.summary.SortingData
 import com.mateuszcholyn.wallet.util.ALL_CATEGORIES
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
+import com.mateuszcholyn.wallet.util.toHumanText
 import com.mateuszcholyn.wallet.view.QuickRangeV2
 import com.mateuszcholyn.wallet.view.showShortText
+import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
 
 @ExperimentalMaterialApi
@@ -278,10 +282,13 @@ fun NewSummaryScreen() {
                         .padding(horizontal = 4.dp),
 
                 ) {
-            itemsIndexed(items = expensesList) { id, expense  ->
+            itemsIndexed(items = expensesList) { id, expense ->
+                var detailsAreVisible by remember { mutableStateOf(false) }
                 ListItem(
                         icon = {
-                            IconButton(onClick = { showShortText("NOT IMPLEMENTED YET") }) {
+                            IconButton(onClick = {
+                                detailsAreVisible = !detailsAreVisible
+                            }) {
                                 Icon(
                                         Icons.Filled.Menu,
                                         contentDescription = null,
@@ -293,6 +300,56 @@ fun NewSummaryScreen() {
                         text = { Text("${id + 1}. ${expense.category.name}") },
                         trailing = { Text(expense.amount.asPrinteableAmount().toString()) }
                 )
+
+                if (detailsAreVisible) {
+                    Column(modifier = defaultModifier) {
+                        Row(modifier = defaultModifier) {
+                            OutlinedTextField(
+                                    value = expense.descriptionOrDefault(),
+                                    onValueChange = {},
+                                    label = { Text("Opis") },
+                                    modifier = defaultModifier,
+                                    singleLine = true,
+                                    readOnly = true,
+                            )
+                        }
+                        Row(modifier = defaultModifier) {
+                            OutlinedTextField(
+                                    value = expense.date.toHumanText(),
+                                    onValueChange = {},
+                                    label = { Text("Data") },
+                                    modifier = defaultModifier,
+                                    singleLine = true,
+                                    readOnly = true,
+
+                                    )
+                        }
+                        Row(modifier = defaultModifier) {
+                            Button(
+                                    onClick = {
+                                        scope.launch {
+                                            showShortText("Edytuj")
+                                        }
+                                    },
+                                    modifier = defaultButtonModifier.weight(1f),
+                            ) {
+                                Text("Edytuj")
+                            }
+                            Button(
+                                    onClick = {
+                                        scope.launch {
+                                            showShortText("Usuń")
+                                        }
+                                    },
+                                    modifier = defaultButtonModifier.weight(1f),
+                                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red)) {
+                                Text("Usuń")
+                            }
+
+                        }
+                    }
+                }
+
                 Divider()
             }
         }
@@ -313,3 +370,6 @@ fun Category.isAllCategories(): Boolean =
 
 fun Category.actualCategoryName(): String? =
         if (isAllCategories()) null else name
+
+fun Expense.descriptionOrDefault(): String =
+        if (description == "") "Brak opisu" else description
