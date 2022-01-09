@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.R
 
 @Composable
-fun BooksScreen() {
+fun DummyScreen() {
     Column(
             modifier = Modifier
                     .fillMaxSize()
@@ -25,7 +25,7 @@ fun BooksScreen() {
                     .wrapContentSize(Alignment.Center)
     ) {
         Text(
-                text = "Books View",
+                text = "Dummy View",
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -37,6 +37,6 @@ fun BooksScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun BooksScreenPreview() {
-    BooksScreen()
+fun DummyScreenPreview() {
+    DummyScreen()
 }

@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold.screens
+package com.mateuszcholyn.wallet.scaffold.util
 
 import androidx.compose.runtime.Composable
 import com.mateuszcholyn.wallet.util.toHumanText

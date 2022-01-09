@@ -10,10 +10,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mateuszcholyn.wallet.domain.category.Category
+import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
-import com.mateuszcholyn.wallet.scaffold.util.observeAsMutableState
-import com.mateuszcholyn.wallet.ui.category.CategoryViewModel
 import com.mateuszcholyn.wallet.view.showShortText
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
@@ -21,14 +21,18 @@ import org.kodein.di.compose.rememberInstance
 @ExperimentalMaterialApi
 @Composable
 fun NewCategoryScreen() {
-    val categoryViewModel: CategoryViewModel by rememberInstance()
+    val categoryService: CategoryService by rememberInstance()
     val scope = rememberCoroutineScope()
 
-    val categoryName = categoryViewModel.categoryName.observeAsMutableState(initial = "")
-    var categoryNameText by remember { categoryName }
+    var categoryNameText by remember { mutableStateOf("") }
 
-    val categoryListState = categoryViewModel.categoryList.observeAsMutableState(initial = emptyList())
-    val categoryList by remember { categoryListState }
+    var categoryListOptions by remember { mutableStateOf(listOf<Category>()) }
+
+    fun refreshCategoryList() {
+        categoryListOptions = categoryService.getAllOrderByUsageDesc()
+    }
+
+    refreshCategoryList()
 
     Column {
         Row(
@@ -47,7 +51,8 @@ fun NewCategoryScreen() {
             Button(
                     onClick = {
                         scope.launch {
-                            categoryViewModel.addCategoryXDDD(categoryNameText)
+                            categoryService.add(Category(name = categoryNameText))
+                            refreshCategoryList()
                         }
                     },
                     modifier = defaultButtonModifier,
@@ -56,7 +61,8 @@ fun NewCategoryScreen() {
             }
         }
         Row(modifier = defaultModifier) {
-            Text("Kategorie")
+            Text(text = "Kategorie", modifier = defaultModifier.weight(1f))
+            Text(text = "Ilość: ${categoryListOptions.size}", modifier = defaultModifier.weight(1f))
         }
         Row(modifier = defaultModifier) {
             Divider()
@@ -68,7 +74,7 @@ fun NewCategoryScreen() {
                         .padding(horizontal = 4.dp),
 
                 ) {
-            items(categoryList) { categoryModel ->
+            items(categoryListOptions) { categoryModel ->
                 ListItem(
                         text = { Text(categoryModel.name) },
                         secondaryText = { Text("Ilość wydatków: TBD") },

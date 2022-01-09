@@ -28,9 +28,7 @@ fun Drawer(scope: CoroutineScope, scaffoldState: ScaffoldState, navController: N
             NavDrawerItem.Category,
             NavDrawerItem.AddOrEditExpense,
             NavDrawerItem.SummaryScreen,
-            NavDrawerItem.Books,
-            NavDrawerItem.Profile,
-            NavDrawerItem.Settings
+            NavDrawerItem.Dummy,
     )
     Column {
         // Header
