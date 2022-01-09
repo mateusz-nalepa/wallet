@@ -25,7 +25,7 @@ fun Navigation(navController: NavHostController) {
             NewCategoryScreen()
         }
         composable(NavDrawerItem.AddOrEditExpense.route) {
-            NewAddOrEditExpenseScreen()
+            NewAddOrEditExpenseScreen(navController = navController)
         }
         composable(NavDrawerItem.SummaryScreen.route) {
             NewSummaryScreen()

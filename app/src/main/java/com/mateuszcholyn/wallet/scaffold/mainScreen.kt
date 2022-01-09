@@ -5,9 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.view.showShortText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -28,7 +28,7 @@ fun MainScreen() {
                 Drawer(scope = scope, scaffoldState = scaffoldState, navController = navController)
             },
             floatingActionButtonPosition = FabPosition.Center,
-            floatingActionButton = { FloatingButton(scope = scope) },
+            floatingActionButton = { FloatingButton(scope = scope, navController = navController) },
     ) {
         Navigation(navController = navController)
     }
@@ -43,10 +43,25 @@ fun MainScreenPreview() {
 }
 
 @Composable
-fun FloatingButton(scope: CoroutineScope) {
+fun FloatingButton(scope: CoroutineScope, navController: NavHostController) {
     FloatingActionButton(onClick = {
         scope.launch {
-            showShortText("Robię XDDDDDDDD")
+            navController.navigate(NavDrawerItem.AddOrEditExpense.route) {
+                // Pop up to the start destination of the graph to
+                // avoid building up a large stack of destinations
+                // on the back stack as users select items
+                navController.graph.startDestinationRoute?.let { route ->
+                    popUpTo(route) {
+                        saveState = true
+                    }
+                }
+                // Avoid multiple copies of the same destination when
+                // reselecting the same item
+                launchSingleTop = true
+                // Restore state when reselecting a previously selected item
+                restoreState = true
+            }
+
         }
     }) {
         Text("+")

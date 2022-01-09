@@ -8,12 +8,16 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.domain.category.CategoryService
+import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
+import com.mateuszcholyn.wallet.scaffold.NavDrawerItem
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
-import com.mateuszcholyn.wallet.ui.addoreditexpense.AddOrEditExpenseViewModel
 import com.mateuszcholyn.wallet.util.toHumanText
+import com.mateuszcholyn.wallet.util.toLocalDateTime
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
@@ -22,8 +26,8 @@ import java.time.LocalDateTime
 
 @ExperimentalMaterialApi
 @Composable
-fun NewAddOrEditExpenseScreen() {
-    val addOrEditExpenseViewModel: AddOrEditExpenseViewModel by rememberInstance()
+fun NewAddOrEditExpenseScreen(navController: NavHostController) {
+
     val expenseService: ExpenseService by rememberInstance()
     val categoryService: CategoryService by rememberInstance()
 
@@ -136,10 +140,15 @@ fun NewAddOrEditExpenseScreen() {
             Button(
                     onClick = {
                         scope.launch {
-                            println("KATEGORIA: $selectedCategory")
-                            println("amount: $amount")
-                            println("description: $description")
-                            println("dateText: $dateText")
+                            expenseService.addExpense(Expense(
+                                    amount = amount.toDouble(),
+                                    description = description,
+                                    category = selectedCategory,
+                                    date = dateText.toLocalDateTime(),
+
+                            ))
+
+                            navController.navigate(NavDrawerItem.SummaryScreen.route)
                         }
                     },
                     modifier = defaultButtonModifier,
@@ -156,5 +165,7 @@ fun NewAddOrEditExpenseScreen() {
 @Preview(showBackground = true)
 @Composable
 fun NewAddOrEditExpenseScreenPreview() {
-    NewAddOrEditExpenseScreen()
+    val navController = rememberNavController()
+
+    NewAddOrEditExpenseScreen(navController = navController)
 }
