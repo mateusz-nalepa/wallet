@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.config
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import com.mateuszcholyn.wallet.domain.category.CategoryRepository
@@ -53,6 +54,8 @@ class ApplicationContext : Application(), DIAware {
 
         lateinit var appDi: DI
             private set
+
+        lateinit var appActivity: Activity
     }
 }
 

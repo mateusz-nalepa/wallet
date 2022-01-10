@@ -15,9 +15,36 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.config.ApplicationContext
+import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.ExpenseService
+import com.mateuszcholyn.wallet.util.maxDate
+import com.mateuszcholyn.wallet.util.minDate
+import com.mateuszcholyn.wallet.util.saveToFile
+import com.mateuszcholyn.wallet.view.showShortText
+import org.kodein.di.compose.rememberInstance
 
 @Composable
 fun DummyScreen() {
+    val expenseService: ExpenseService by rememberInstance()
+
+    val allExpenses =
+            expenseService.getAll(
+                    ExpenseSearchCriteria(
+                            allCategories = true,
+                            beginDate = minDate,
+                            endDate = maxDate,
+                    )
+            )
+
+    saveToFile(
+            ctx = ApplicationContext.appContext,
+            activity = ApplicationContext.appActivity,
+            expenses = allExpenses
+    )
+
+    showShortText("XD")
+
     Column(
             modifier = Modifier
                     .fillMaxSize()

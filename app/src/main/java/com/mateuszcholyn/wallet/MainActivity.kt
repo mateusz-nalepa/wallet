@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        ApplicationContext.appActivity = this
+
         setContent {
             withDI(di = ApplicationContext.appDi) {
                 MaterialTheme {

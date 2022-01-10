@@ -68,6 +68,9 @@ dependencies {
 
     compileOnly 'com.android.databinding:viewbinding:7.0.3'
 
+    implementation "com.fasterxml.jackson.core:jackson-core:2.13.1"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.13.1"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.1"
 
     implementation 'org.kodein.di:kodein-di:7.9.0'
     implementation 'org.kodein.di:kodein-di-framework-android-x:7.9.0'
