@@ -17,6 +17,10 @@ class CategoryService(private val categoryRepository: CategoryRepository) {
         return categoryRepository.getAllOrderByUsageDesc()
     }
 
+    fun getAllWithDetailsOrderByUsageDesc(): List<CategoryDetails> {
+        return categoryRepository.getAllWithDetailsOrderByUsageDesc()
+    }
+
     fun remove(category: String): Boolean {
         return categoryRepository.remove(category)
     }

@@ -11,3 +11,13 @@ data class ExpenseWithCategory(
     @Embedded
     val categoryEntity: CategoryEntity
 )
+
+data class CategoryWithExpense(
+
+        @Embedded
+        val categoryEntity: CategoryEntity,
+
+        @Embedded
+        val expenseEntity: ExpenseEntity? = null,
+
+)

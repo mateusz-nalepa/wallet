@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.domain.category.Category
+import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
@@ -24,10 +25,10 @@ fun NewCategoryScreen() {
 
     var categoryNameText by remember { mutableStateOf("") }
 
-    var categoryListOptions by remember { mutableStateOf(listOf<Category>()) }
+    var categoryListOptions by remember { mutableStateOf(listOf<CategoryDetails>()) }
 
     fun refreshCategoryList() {
-        categoryListOptions = categoryService.getAllOrderByUsageDesc()
+        categoryListOptions = categoryService.getAllWithDetailsOrderByUsageDesc()
     }
 
     refreshCategoryList()
@@ -71,10 +72,10 @@ fun NewCategoryScreen() {
                         .padding(horizontal = 4.dp),
 
                 ) {
-            items(categoryListOptions) { categoryModel ->
+            items(categoryListOptions) { categoryDetails ->
                 ListItem(
-                        text = { Text(categoryModel.name) },
-                        secondaryText = { Text("Ilość wydatków: TBD") },
+                        text = { Text(categoryDetails.name) },
+                        secondaryText = { Text("Ilość wydatków: ${categoryDetails.numberOfExpenses}") },
                         trailing = {
                             IconButton(
                                     onClick = {
