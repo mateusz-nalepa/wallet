@@ -29,8 +29,8 @@ class SqLiteCategoryRepository(
                 .let { it.toDomain() }
     }
 
-    override fun remove(name: String): Boolean {
-        return categoryDao.remove(name) == 1
+    override fun remove(categoryId: Long): Boolean {
+        return categoryDao.remove(categoryId) == 1
     }
 
     override fun add(category: Category): Category {

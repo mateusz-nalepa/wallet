@@ -79,7 +79,13 @@ fun NewCategoryScreen() {
                         trailing = {
                             IconButton(
                                     onClick = {
-                                        showShortText("NOT IMPLEMENTED YET")
+                                        if (categoryDetails.numberOfExpenses == 0L) {
+                                            categoryService.remove(categoryDetails.id)
+                                            refreshCategoryList()
+                                            showShortText("Usunięto kategorię: ${categoryDetails.name}")
+                                        } else {
+                                            showShortText("Nie możesz tego zrobić")
+                                        }
                                     }
                             ) {
                                 Icon(

@@ -21,8 +21,8 @@ class CategoryService(private val categoryRepository: CategoryRepository) {
         return categoryRepository.getAllWithDetailsOrderByUsageDesc()
     }
 
-    fun remove(category: String): Boolean {
-        return categoryRepository.remove(category)
+    fun remove(categoryId: Long): Boolean {
+        return categoryRepository.remove(categoryId)
     }
 
 }
