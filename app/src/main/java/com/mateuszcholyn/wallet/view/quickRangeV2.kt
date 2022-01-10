@@ -14,8 +14,7 @@ object QuickRangeV2 {
             QuickRangeDataV2(
                     name = "Dzisiaj",
                     beginDate = LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
-                    endDate = LocalDateTime.now(),
-                    isDefault = true,
+                    endDate = LocalDateTime.now().plusHours(1),
             ),
             QuickRangeDataV2(
                     name = "Wczoraj",
@@ -64,5 +63,4 @@ class QuickRangeDataV2(
         val name: String,
         val beginDate: LocalDateTime,
         val endDate: LocalDateTime,
-        val isDefault: Boolean = false,
 )
