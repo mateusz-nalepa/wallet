@@ -2,9 +2,6 @@ package com.mateuszcholyn.wallet.config
 
 import android.app.Application
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
-import com.mateuszcholyn.wallet.CustomViewModelFactory
-import com.mateuszcholyn.wallet.bindViewModel
 import com.mateuszcholyn.wallet.domain.category.CategoryRepository
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
@@ -17,10 +14,6 @@ import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseDao
 import com.mateuszcholyn.wallet.infrastructure.expense.SqLiteExpenseRepository
 import com.mateuszcholyn.wallet.infrastructure.moneysaver.MonthlyBudgetDao
 import com.mateuszcholyn.wallet.infrastructure.moneysaver.SqLiteMonthlyBudgetRepository
-import com.mateuszcholyn.wallet.ui.addoreditexpense.AddOrEditExpenseViewModel
-import com.mateuszcholyn.wallet.ui.category.CategoryViewModel
-import com.mateuszcholyn.wallet.ui.dummy.ChatViewModel
-import com.mateuszcholyn.wallet.ui.summary.SummaryViewModel
 import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
 import org.kodein.di.*
 
@@ -52,18 +45,6 @@ class ApplicationContext : Application(), DIAware {
         bind<MonthlyBudgetDao>() with provider { appDatabase.monthlyBudgetDao() }
         bind<MonthlyBudgetRepository>() with provider { SqLiteMonthlyBudgetRepository(instance()) }
         bind<MoneySaverService>() with provider { MoneySaverService(instance(), instance()) }
-
-//        ViewModelFactory
-        bindViewModel<ChatViewModel>() with provider { ChatViewModel(instance()) }
-        bindViewModel<AddOrEditExpenseViewModel>() with provider {
-            AddOrEditExpenseViewModel(instance(), instance())
-        }
-        bindViewModel<SummaryViewModel>() with provider { SummaryViewModel(instance(), instance()) }
-        bindViewModel<CategoryViewModel>() with provider { CategoryViewModel(instance()) }
-        bind<CategoryViewModel>() with provider { CategoryViewModel(instance()) }
-
-
-        bind<ViewModelProvider.Factory>() with singleton { CustomViewModelFactory(directDI) }
     }
 
     companion object {

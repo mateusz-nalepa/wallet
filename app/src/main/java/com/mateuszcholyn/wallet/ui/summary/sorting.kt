@@ -28,13 +28,8 @@ object SortingData {
             ),
     )
 
-    val sortingList: List<String>
-        get() = sortingElements.map { it.name }
 
     val sortingListBetter: List<SortElement>
         get() = sortingElements
-
-    fun getSortByIndexName(index: Int): Sort =
-            sortingElements[index].sort
 
 }

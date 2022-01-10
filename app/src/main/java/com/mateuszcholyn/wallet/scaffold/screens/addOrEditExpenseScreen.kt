@@ -20,7 +20,6 @@ import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.util.toHumanText
 import com.mateuszcholyn.wallet.util.toLocalDateTime
-import com.mateuszcholyn.wallet.view.showShortText
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import org.kodein.di.compose.rememberInstance
 import java.time.LocalDateTime
@@ -141,7 +140,6 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
             Button(
                     onClick = {
                         if (actualExpenseId != -1L) {
-                            showShortText("updateExpense: $actualExpenseId")
                             expenseService.updateExpense(Expense(
                                     id = actualExpenseId,
                                     amount = amount.toDouble(),
@@ -151,7 +149,6 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
 
                                     ))
                         } else {
-                            showShortText("addNewExpense")
                             expenseService.addExpense(Expense(
                                     amount = amount.toDouble(),
                                     description = description,
