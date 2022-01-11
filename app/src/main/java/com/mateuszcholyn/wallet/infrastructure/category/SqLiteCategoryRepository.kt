@@ -4,7 +4,6 @@ import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryRepository
 import com.mateuszcholyn.wallet.infrastructure.expense.CategoryWithExpense
-import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseWithCategory
 
 class SqLiteCategoryRepository(
         private val categoryDao: CategoryDao,
@@ -22,11 +21,6 @@ class SqLiteCategoryRepository(
         return categoryDao
                 .getAllDataFromDb()
                 .toCategoriesDetails()
-    }
-
-    override fun getCategoryByName(name: String): Category {
-        return categoryDao.getCategoryByName(name)
-                .let { it.toDomain() }
     }
 
     override fun remove(categoryId: Long): Boolean {
@@ -51,14 +45,6 @@ fun CategoryEntity.toDomain(): Category =
                 id = categoryId!!,
                 name = name!!
         )
-
-fun ExpenseWithCategory.toCategoryDetails(): CategoryDetails {
-    return CategoryDetails(
-            id = 5,
-            name = "5",
-            numberOfExpenses = 4,
-    )
-}
 
 fun List<CategoryWithExpense>.toCategoriesDetails(): List<CategoryDetails> =
         groupBy { it.categoryEntity.name }

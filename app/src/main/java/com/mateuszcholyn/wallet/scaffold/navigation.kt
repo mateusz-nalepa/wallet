@@ -32,8 +32,9 @@ fun Navigation(navController: NavHostController) {
         composable(
                 route = NavDrawerItem.AddOrEditExpense.route,
                 arguments = listOf(navArgument("expenseId") { defaultValue = "-1" }),
-        ) {backStackEntry ->
-            NewAddOrEditExpenseScreen(navController = navController, backStackEntry.arguments?.getString("expenseId")?.toLong() ?: -1)
+        ) { backStackEntry ->
+            NewAddOrEditExpenseScreen(navController = navController, backStackEntry.arguments?.getString("expenseId")?.toLong()
+                    ?: -1)
         }
         composable(NavDrawerItem.Category.route) {
             NewCategoryScreen()

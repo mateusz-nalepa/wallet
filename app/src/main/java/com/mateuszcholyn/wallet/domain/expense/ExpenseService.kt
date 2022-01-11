@@ -1,12 +1,10 @@
 package com.mateuszcholyn.wallet.domain.expense
 
 import java.time.Duration
-import java.time.LocalDateTime
-import java.time.temporal.TemporalAdjusters.lastDayOfMonth
 
 
 class ExpenseService(
-    private val expenseRepository: ExpenseRepository,
+        private val expenseRepository: ExpenseRepository,
 ) {
 
     fun getById(expenseId: Long): Expense {
@@ -24,8 +22,8 @@ class ExpenseService(
     fun averageExpense(expenseSearchCriteria: ExpenseSearchCriteria): AverageExpenseResult {
 
         var days =
-            Duration.between(expenseSearchCriteria.beginDate, expenseSearchCriteria.endDate)
-                .toDays()
+                Duration.between(expenseSearchCriteria.beginDate, expenseSearchCriteria.endDate)
+                        .toDays()
 
         if (days == 0L) {
             days += 1 // have no idea why XD
@@ -37,30 +35,23 @@ class ExpenseService(
 
 
         return AverageExpenseResult(
-            wholeAmount = sum,
-            days = days.toInt(),
-            averageAmount = sum / days
+                wholeAmount = sum,
+                days = days.toInt(),
+                averageAmount = sum / days
         )
     }
 
     fun hardRemove(expenseId: Long): Boolean =
-        expenseRepository.remove(expenseId)
+            expenseRepository.remove(expenseId)
 
     fun updateExpense(expense: Expense): Expense {
         return expenseRepository.update(expense)
     }
 
-    fun moneySpentIn(year: Int, month: Int): Double {
-        val startRange = LocalDateTime.of(year, month, 1, 1, 1, 1)
-        val maximumDayForGivenMonth = startRange.with(lastDayOfMonth()).dayOfMonth
-        val endRange = LocalDateTime.of(year, month, maximumDayForGivenMonth, 23, 59, 59)
-        return expenseRepository.moneySpentBetween(startRange, endRange)
-    }
-
 }
 
 data class AverageExpenseResult(
-    val wholeAmount: Double,
-    val days: Int,
-    val averageAmount: Double,
+        val wholeAmount: Double,
+        val days: Int,
+        val averageAmount: Double,
 )

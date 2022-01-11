@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.view
 
+import com.mateuszcholyn.wallet.util.atStartOfTheDay
 import com.mateuszcholyn.wallet.util.atStartOfTheMonth
 import com.mateuszcholyn.wallet.util.maxDate
 import com.mateuszcholyn.wallet.util.minDate
@@ -18,7 +19,7 @@ object QuickRangeV2 {
             ),
             QuickRangeDataV2(
                     name = "Wczoraj",
-                    beginDate = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MIN),
+                    beginDate = LocalDateTime.now().minusDays(1).atStartOfTheDay(),
                     endDate = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MAX),
             ),
             QuickRangeDataV2(

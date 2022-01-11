@@ -5,11 +5,11 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class Expense(
-    var id: Long = -1,
+        var id: Long = -1,
 
-    val amount: Double,
-    val date: LocalDateTime,
-    val description: String,
+        val amount: Double,
+        val date: LocalDateTime,
+        val description: String,
 
-    val category: Category
+        val category: Category
 ) : Serializable

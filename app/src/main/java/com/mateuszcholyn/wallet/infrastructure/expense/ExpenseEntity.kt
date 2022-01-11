@@ -5,35 +5,35 @@ import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
 import java.time.LocalDateTime
 
 @Entity(
-    tableName = "Expense",
-    foreignKeys = [
-        ForeignKey(
-            entity = CategoryEntity::class,
-            parentColumns = arrayOf("category_id"),
-            childColumns = arrayOf("fk_category_id")
-        )
-    ],
-    indices = [
-        Index("expense_id", unique = true),
-        Index("fk_category_id")
-    ]
+        tableName = "Expense",
+        foreignKeys = [
+            ForeignKey(
+                    entity = CategoryEntity::class,
+                    parentColumns = arrayOf("category_id"),
+                    childColumns = arrayOf("fk_category_id")
+            )
+        ],
+        indices = [
+            Index("expense_id", unique = true),
+            Index("fk_category_id")
+        ]
 )
 data class ExpenseEntity(
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "expense_id")
-    val expenseId: Long? = null,
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "expense_id")
+        val expenseId: Long? = null,
 
-    @ColumnInfo(name = "amount")
-    var amount: Double?,
+        @ColumnInfo(name = "amount")
+        var amount: Double?,
 
-    @ColumnInfo(name = "description")
-    var description: String?,
+        @ColumnInfo(name = "description")
+        var description: String?,
 
-    @ColumnInfo(name = "date")
-    var date: LocalDateTime?,
+        @ColumnInfo(name = "date")
+        var date: LocalDateTime?,
 
-    @ColumnInfo(name = "fk_category_id")
-    var fkCategoryId: Long?
+        @ColumnInfo(name = "fk_category_id")
+        var fkCategoryId: Long?
 
 )

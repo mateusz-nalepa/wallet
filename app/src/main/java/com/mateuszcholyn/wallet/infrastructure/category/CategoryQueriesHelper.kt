@@ -16,19 +16,4 @@ class CategoryQueriesHelper {
         return SimpleSQLiteQuery(query)
     }
 
-    fun getAllWithDetailsOrderByUsageDesc(): SimpleSQLiteQuery {
-        val query = """
-                select  
-                    Category.category_id as categoryId, 
-                    Category.name as categoryName, 
-                    count(Category.name) as numberOfExpenses
-                from Category
-                LEFT JOIN Expense ON Category.category_id = Expense.fk_category_id
-                GROUP BY Category.name
-                ORDER BY count(Category.name) desc
-                """.trimIndent()
-
-        return SimpleSQLiteQuery(query)
-    }
-
 }

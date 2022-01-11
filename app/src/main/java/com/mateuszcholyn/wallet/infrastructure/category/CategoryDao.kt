@@ -21,9 +21,6 @@ interface CategoryDao {
     )
     fun getAllDataFromDb(): List<CategoryWithExpense>
 
-    @Query("select * from Category where name = :name")
-    fun getCategoryByName(name: String): CategoryEntity
-
     @Query("delete from Category where category_id = :categoryId")
     fun remove(categoryId: Long): Int
 

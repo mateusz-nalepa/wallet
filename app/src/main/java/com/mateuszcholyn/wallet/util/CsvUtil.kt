@@ -68,7 +68,6 @@ private fun String.toFile(): File {
 }
 
 
-
 private fun prepareSaveModel(ex: Expense): SaveModel =
         SaveModel(
                 expenseId = ex.id,
