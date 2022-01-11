@@ -4,10 +4,9 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.*
+import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mateuszcholyn.wallet.domain.category.Category
@@ -18,6 +17,7 @@ import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
+import com.mateuszcholyn.wallet.infrastructure.category.CategoryIdWithNumberOfExpenses
 import com.mateuszcholyn.wallet.scaffold.MainScreen
 import org.junit.Rule
 import org.junit.Test
@@ -37,8 +37,9 @@ class CategoryScreenTest {
     @Test
     fun myFirstTest() {
         // Start the app
+        val categoryRepository = TestCategoryRepository()
         composeTestRule.setContent {
-            withDI(di = TestDI) {
+            withDI(di = createDi(categoryRepository)) {
                 MaterialTheme {
                     ProvideWindowInsets {
                         val systemUiController = rememberSystemUiController()
@@ -54,43 +55,86 @@ class CategoryScreenTest {
 
         }
 
-        composeTestRule.onNodeWithText("Continue").performClick()
+        composeTestRule.goToCategoryScreen()
 
-        composeTestRule.onNodeWithText("Welcome").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("NewCategoryTextField").performTextInput("XDDD")
+        composeTestRule.onNodeWithTag("AddNewCategoryButton").performClick()
+
+        assert(categoryRepository.getAllOrderByUsageDesc().size == 1)
+        composeTestRule.onNodeWithTag("CategoryItem#1").assertExists()
+        composeTestRule.onRoot().captureToImage()
+
+
     }
 
 }
 
+private fun ComposeContentTestRule.goToCategoryScreen() {
+    this.onRoot().performTouchInput { swipeRight() }
+    this.onNodeWithText("Category").performClick()
+}
 
-val TestDI by DI.lazy {
-    bind<CategoryRepository>() with provider { TestCategoryRepository() }
-    bind<CategoryService>() with provider { CategoryService(instance()) }
+fun createDi(categoryRepository: CategoryRepository): DI {
+    val testDI by DI.lazy {
+        bind<CategoryRepository>() with provider { categoryRepository }
+        bind<CategoryService>() with provider { CategoryService(instance()) }
 
-    //Expense
-    bind<ExpenseRepository>() with provider { TestExpenseRepository() }
-    bind<ExpenseService>() with provider { ExpenseService(instance()) }
+        //Expense
+        bind<ExpenseRepository>() with provider { TestExpenseRepository() }
+        bind<ExpenseService>() with provider { ExpenseService(instance()) }
+    }
+    return testDI
 }
 
 
 class TestCategoryRepository : CategoryRepository {
-    override fun getAllOrderByUsageDesc(): List<Category> {
-        return emptyList()
-    }
+    private val storage = mutableMapOf<Long, Category>()
+    private val idGenerator = IdGenerator()
 
-    override fun getAllWithDetailsOrderByUsageDesc(): List<CategoryDetails> {
-        return emptyList()
-    }
+    override fun getAllOrderByUsageDesc(): List<Category> =
+            getAllWithDetailsOrderByUsageDesc()
+                    .map { it.toCategory() }
+
+
+    override fun getAllWithDetailsOrderByUsageDesc(): List<CategoryDetails> =
+            storage.values
+                    .toList()
+                    .groupBy { it.name }
+                    .mapValues {
+                        CategoryIdWithNumberOfExpenses(
+                                categoryId = it.value.first().id,
+                                numberOfExpenses = it.value.size.toLong(),
+                        )
+                    }
+                    .toList()
+                    .map {
+                        CategoryDetails(
+                                id = it.second.categoryId,
+                                name = it.first,
+                                numberOfExpenses = it.second.numberOfExpenses,
+                        )
+                    }
+                    .sortedByDescending { it.numberOfExpenses }
 
     override fun remove(categoryId: Long): Boolean {
+        storage.remove(categoryId)
         return true
     }
 
     override fun add(category: Category): Category {
-        return randomCategory()
+        val categoryId = idGenerator.nextNumber()
+        val addedCategory = category.copy(id = categoryId)
+
+        storage[categoryId] = addedCategory
+
+        return addedCategory
     }
 }
 
 class TestExpenseRepository : ExpenseRepository {
+    private val storage = mutableMapOf<Long, Category>()
+    private val idGenerator = IdGenerator()
+
     override fun remove(expenseId: Long): Boolean {
         return true
     }
@@ -128,3 +172,18 @@ fun randomCategory(): Category {
             name = "Test",
     )
 }
+
+class IdGenerator {
+    var init = 1L
+
+    fun nextNumber(): Long {
+        return init.also { init++ }
+    }
+
+}
+
+private fun CategoryDetails.toCategory(): Category =
+        Category(
+                id = id,
+                name = name,
+        )

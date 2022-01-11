@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.domain.category.Category
@@ -42,7 +43,7 @@ fun NewCategoryScreen() {
                     value = categoryNameText,
                     onValueChange = { categoryNameText = it },
                     label = { Text("Nazwa nowej kategorii") },
-                    modifier = defaultModifier,
+                    modifier = defaultModifier.testTag("NewCategoryTextField"),
                     singleLine = true,
             )
         }
@@ -53,7 +54,7 @@ fun NewCategoryScreen() {
                         categoryNameText = ""
                         refreshCategoryList()
                     },
-                    modifier = defaultButtonModifier,
+                    modifier = defaultButtonModifier.testTag("AddNewCategoryButton"),
             ) {
                 Text("Dodaj kategorię")
             }
@@ -74,6 +75,7 @@ fun NewCategoryScreen() {
                 ) {
             items(categoryListOptions) { categoryDetails ->
                 ListItem(
+                        modifier = Modifier.testTag("CategoryItem#${categoryDetails.id}"),
                         text = { Text(categoryDetails.name) },
                         secondaryText = { Text("Ilość wydatków: ${categoryDetails.numberOfExpenses}") },
                         trailing = {
