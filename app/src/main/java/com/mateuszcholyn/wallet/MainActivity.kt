@@ -15,7 +15,7 @@ import org.kodein.di.compose.withDI
 
 
 class MainActivity : AppCompatActivity() {
-    @ExperimentalMaterialApi
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

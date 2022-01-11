@@ -37,7 +37,7 @@ import com.mateuszcholyn.wallet.util.toHumanText
 import com.mateuszcholyn.wallet.view.QuickRangeV2
 import org.kodein.di.compose.rememberInstance
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NewSummaryScreen(navController: NavHostController) {
 
@@ -374,7 +374,7 @@ fun NewSummaryScreen(navController: NavHostController) {
 
 }
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Preview(showBackground = true)
 @Composable
 fun NewSummaryScreenPreview() {

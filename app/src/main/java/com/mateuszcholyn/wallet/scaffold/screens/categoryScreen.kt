@@ -18,7 +18,7 @@ import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.view.showShortText
 import org.kodein.di.compose.rememberInstance
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NewCategoryScreen() {
     val categoryService: CategoryService by rememberInstance()
@@ -105,7 +105,7 @@ fun NewCategoryScreen() {
     }
 }
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Preview(showBackground = true)
 @Composable
 fun NewCategoryScreenPreview() {

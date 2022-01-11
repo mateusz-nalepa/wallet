@@ -25,7 +25,7 @@ import org.kodein.di.compose.rememberInstance
 import java.time.LocalDateTime
 
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId: Long) {
 
@@ -173,7 +173,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
 }
 
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Preview(showBackground = true)
 @Composable
 fun NewAddOrEditExpenseScreenPreview() {

@@ -33,7 +33,7 @@ class CategoryScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    @ExperimentalMaterialApi
+    @OptIn(ExperimentalMaterialApi::class)
     @Test
     fun myFirstTest() {
         // Start the app
