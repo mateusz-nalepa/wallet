@@ -43,17 +43,17 @@ internal class CategoryEntityDaoTest : DatabaseTestSpecification() {
         categoryDao.add(category)
     }
 
-    @Test
-    fun shouldDeleteCategory() {
-        //given
-        val category = CategoryEntity(name = "All")
-        categoryDao.add(category)
-
-        //when
-        val removed = categoryDao.remove("All")
-
-        //then
-        assertEquals(1, removed)
-    }
+//    @Test
+//    fun shouldDeleteCategory() {
+//        //given
+//        val category = CategoryEntity(name = "All")
+//        categoryDao.add(category)
+//
+//        //when
+//        val removed = categoryDao.remove("All")
+//
+//        //then
+//        assertEquals(1, removed)
+//    }
 
 }

@@ -2,19 +2,11 @@ package com.mateuszcholyn.wallet.domain.moneysaver.db
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mateuszcholyn.wallet.database.DatabaseTestSpecification
-import com.mateuszcholyn.wallet.infrastructure.moneysaver.MonthlyBudgetDao
-import org.junit.Before
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 internal class MonthlyBudgetEntityDaoTest : DatabaseTestSpecification() {
 
-    private lateinit var monthlyBudgetDao: MonthlyBudgetDao
-
-    @Before
-    fun setUp() {
-        monthlyBudgetDao = db.monthlyBudgetDao()
-    }
 
 //    @Test
 //    fun shouldFetchAllMonthlyBudgets() {
