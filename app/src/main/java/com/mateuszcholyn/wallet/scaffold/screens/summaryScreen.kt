@@ -264,7 +264,7 @@ fun NewSummaryScreen(navController: NavHostController) {
                         TextField(
                                 modifier = defaultModifier,
                                 readOnly = true,
-                                value = selectedGroupElement.name,
+                                value = selectedGroupElement.groupType,
                                 onValueChange = { },
                                 enabled = isGroupingEnabled,
                                 label = { Text("Grupowanie") },
@@ -291,7 +291,7 @@ fun NewSummaryScreen(navController: NavHostController) {
                                         }
                                 ) {
                                     Text(
-                                            text = groupElement.name,
+                                            text = groupElement.groupType,
                                             modifier = defaultModifier,
                                     )
                                 }
@@ -346,6 +346,7 @@ fun NewSummaryScreen(navController: NavHostController) {
                     navController = navController,
                     refreshFunction = { showHistory() },
                     expensesListGrouped = expensesListGrouped,
+                    groupNameFunction = selectedGroupElement.groupFunctionName,
             )
         } else {
             ExpensesList(

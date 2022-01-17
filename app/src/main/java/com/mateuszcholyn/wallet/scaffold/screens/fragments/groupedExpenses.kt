@@ -19,12 +19,13 @@ fun GroupedExpenses(
         navController: NavHostController,
         refreshFunction: () -> Unit,
         expensesListGrouped: Map<String, List<Expense>>,
+        groupNameFunction: (Expense) -> String,
 ) {
     LazyColumn(modifier = defaultModifier) {
-        expensesListGrouped.forEach { (group, expensesInGroup) ->
+        expensesListGrouped.forEach { (_, expensesInGroup) ->
             stickyHeader {
                 Row(modifier = defaultModifier, horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(text = group, modifier = defaultModifier.weight(1f))
+                    Text(text = groupNameFunction.invoke(expensesInGroup.first()), modifier = defaultModifier.weight(1f))
                     Text(text = expensesInGroup.sumExpensesAmount().asPrinteableAmount(), modifier = defaultModifier.weight(1f))
                 }
             }

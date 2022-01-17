@@ -4,6 +4,7 @@ import java.time.*
 import java.time.format.DateTimeFormatter
 
 private val simpleDateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+private val textDateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
 
 fun String.toLocalDateTime(): LocalDateTime {
     return LocalDateTime.parse(this, simpleDateFormat)
@@ -11,6 +12,10 @@ fun String.toLocalDateTime(): LocalDateTime {
 
 fun LocalDateTime.toHumanText(): String {
     return simpleDateFormat.format(this)
+}
+
+fun LocalDateTime.toHumanDateText(): String {
+    return textDateFormat.format(this)
 }
 
 fun Long.toLocalDateTime(): LocalDateTime {
