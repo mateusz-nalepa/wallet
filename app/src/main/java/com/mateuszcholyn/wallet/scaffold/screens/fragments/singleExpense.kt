@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold.screens
+package com.mateuszcholyn.wallet.scaffold.screens.fragments
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +15,7 @@ import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.scaffold.NavDrawerItem
 import com.mateuszcholyn.wallet.scaffold.routeWithId
+import com.mateuszcholyn.wallet.scaffold.screens.descriptionOrDefault
 import com.mateuszcholyn.wallet.scaffold.util.YesOrNoDialog
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier

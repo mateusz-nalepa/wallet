@@ -4,13 +4,12 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,8 +17,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.domain.expense.*
+import com.mateuszcholyn.wallet.domain.expense.AverageExpenseResult
+import com.mateuszcholyn.wallet.domain.expense.Expense
+import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
+import com.mateuszcholyn.wallet.domain.expense.ExpenseService
+import com.mateuszcholyn.wallet.scaffold.screens.fragments.ExpensesList
+import com.mateuszcholyn.wallet.scaffold.screens.fragments.GroupedExpenses
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
+import com.mateuszcholyn.wallet.ui.summary.GroupingData
 import com.mateuszcholyn.wallet.ui.summary.SortingData
 import com.mateuszcholyn.wallet.util.ALL_CATEGORIES
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
@@ -51,6 +56,12 @@ fun NewSummaryScreen(navController: NavHostController) {
     var sortingExpanded by remember { mutableStateOf(false) }
     val availableSortElements = SortingData.sortingListBetter
     var selectedSort by remember { mutableStateOf(availableSortElements.first()) }
+//    Grouping TYPE
+    /////////////////////////////////////
+    var groupingExpanded by remember { mutableStateOf(false) }
+    val availableGroupElements = GroupingData.groupingListBetter
+    var selectedGroupElement by remember { mutableStateOf(availableGroupElements.first()) }
+    var isGroupingEnabled by remember { mutableStateOf(false) }
 
     // results
     var expensesList by remember { mutableStateOf(listOf<Expense>()) }
@@ -83,7 +94,7 @@ fun NewSummaryScreen(navController: NavHostController) {
     fun showHistory() {
         expensesList = expenseService.getAll(getExpenseSearchCriteria())
 
-        expensesListGrouped = expensesList.groupBy { it.category.name }
+        expensesListGrouped = expensesList.groupBy(selectedGroupElement.groupFunction)
     }
 
     showHistory()
@@ -189,6 +200,9 @@ fun NewSummaryScreen(navController: NavHostController) {
                         advancedFiltersExpanded = !advancedFiltersExpanded
                     },
             )
+            Checkbox(checked = advancedFiltersExpanded, onCheckedChange = {
+                advancedFiltersExpanded = !advancedFiltersExpanded
+            })
         }
         if (advancedFiltersExpanded) {
             ExposedDropdownMenuBox(
@@ -234,6 +248,68 @@ fun NewSummaryScreen(navController: NavHostController) {
                     }
                 }
             }
+
+
+            ////##########################################################
+            Row(modifier = defaultModifier, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+
+                Row(modifier = Modifier.weight(4f)) {
+                    ExposedDropdownMenuBox(
+                            modifier = defaultModifier,
+                            expanded = groupingExpanded,
+                            onExpandedChange = {
+                                groupingExpanded = !groupingExpanded
+                            }
+                    ) {
+                        TextField(
+                                modifier = defaultModifier,
+                                readOnly = true,
+                                value = selectedGroupElement.name,
+                                onValueChange = { },
+                                enabled = isGroupingEnabled,
+                                label = { Text("Grupowanie") },
+                                trailingIcon = {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(
+                                            expanded = groupingExpanded
+                                    )
+                                },
+                                colors = ExposedDropdownMenuDefaults.textFieldColors()
+                        )
+                        ExposedDropdownMenu(
+                                modifier = defaultModifier,
+                                expanded = groupingExpanded,
+                                onDismissRequest = {
+                                    groupingExpanded = false
+                                }
+                        ) {
+                            availableGroupElements.forEach { groupElement ->
+                                DropdownMenuItem(
+                                        modifier = defaultModifier,
+                                        onClick = {
+                                            selectedGroupElement = groupElement
+                                            groupingExpanded = false
+                                        }
+                                ) {
+                                    Text(
+                                            text = groupElement.name,
+                                            modifier = defaultModifier,
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Row(modifier = Modifier.weight(3f), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(checked = isGroupingEnabled, onCheckedChange = {
+                        isGroupingEnabled = !isGroupingEnabled
+                    })
+                    Text(text = "Grupuj")
+                }
+            }
+
+            ////##########################################################
+
             Row(modifier = defaultModifier) {
                 OutlinedTextField(
                         value = amountRangeStart,
@@ -264,23 +340,19 @@ fun NewSummaryScreen(navController: NavHostController) {
         Row(modifier = defaultModifier) {
             Divider()
         }
-        LazyColumn(modifier = defaultModifier) {
-            expensesListGrouped.forEach { (group, expensesInGroup) ->
-                stickyHeader {
-                    Row(modifier = defaultModifier, horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(text = group, modifier = defaultModifier.weight(1f))
-                        Text(text = expensesInGroup.sumExpensesAmount().asPrinteableAmount(), modifier = defaultModifier.weight(1f))
-                    }
-                }
-                itemsIndexed(items = expensesInGroup) { id, expense ->
-                    ShowExpense(
-                            id = id,
-                            expense = expense,
-                            navController = navController,
-                            refreshFunction = { showHistory() }
-                    )
-                }
-            }
+
+        if (isGroupingEnabled) {
+            GroupedExpenses(
+                    navController = navController,
+                    refreshFunction = { showHistory() },
+                    expensesListGrouped = expensesListGrouped,
+            )
+        } else {
+            ExpensesList(
+                    navController = navController,
+                    refreshFunction = { showHistory() },
+                    expensesList = expensesList,
+            )
         }
     }
 
