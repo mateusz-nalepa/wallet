@@ -2,6 +2,7 @@ package com.mateuszcholyn.wallet.scaffold.screens.fragments
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -49,7 +50,7 @@ fun ShowExpense(
             },
             text = { Text("${id + 1}. ${expense.category.name}") },
             trailing = { Text(expense.amount.asPrinteableAmount()) },
-            modifier = defaultModifier,
+            modifier = defaultModifier.padding(0.dp),
     )
 
     if (detailsAreVisible) {

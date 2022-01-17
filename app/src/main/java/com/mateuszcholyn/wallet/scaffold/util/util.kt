@@ -11,10 +11,6 @@ val defaultModifier =
                 .padding(4.dp)
                 .fillMaxWidth()
 
-val defaultModifierWithoutPadding =
-        Modifier
-                .fillMaxWidth()
-
 val defaultButtonModifier =
         Modifier
                 .padding(4.dp)
