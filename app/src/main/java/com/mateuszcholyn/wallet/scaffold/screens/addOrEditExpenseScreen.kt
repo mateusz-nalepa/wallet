@@ -3,7 +3,9 @@ package com.mateuszcholyn.wallet.scaffold.screens
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.text.input.KeyboardType
@@ -49,9 +51,9 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
             value = dateText,
             onValueChange = { dateText = it },
     )
+    val state = rememberScrollState()
 
-
-    Column(modifier = defaultModifier) {
+    Column(modifier = defaultModifier.verticalScroll(state)) {
 // We want to react on tap/press on TextField to show menu
         ExposedDropdownMenuBox(
                 modifier = defaultModifier,
