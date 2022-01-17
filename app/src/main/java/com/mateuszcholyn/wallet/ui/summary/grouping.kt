@@ -19,11 +19,6 @@ object GroupingData {
                     groupFunction = { it.date.truncatedTo(ChronoUnit.DAYS).toString() },
             ),
             GroupElement(
-                    groupType = "wg. kategorii",
-                    groupFunctionName = { it.category.name },
-                    groupFunction = { it.category.name },
-            ),
-            GroupElement(
                     groupType = "wg. roku",
                     groupFunctionName = { it.date.year.toString() },
                     groupFunction = { it.date.year.toString() },
