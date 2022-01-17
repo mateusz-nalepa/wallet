@@ -1,42 +1,32 @@
 package com.mateuszcholyn.wallet.scaffold.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.domain.expense.Expense
-import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
-import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.scaffold.NavDrawerItem
-import com.mateuszcholyn.wallet.scaffold.routeWithId
-import com.mateuszcholyn.wallet.scaffold.util.YesOrNoDialog
-import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
+import com.mateuszcholyn.wallet.domain.expense.*
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.ui.summary.SortingData
 import com.mateuszcholyn.wallet.util.ALL_CATEGORIES
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
-import com.mateuszcholyn.wallet.util.toHumanText
 import com.mateuszcholyn.wallet.view.QuickRangeV2
 import org.kodein.di.compose.rememberInstance
 
+@ExperimentalFoundationApi
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NewSummaryScreen(navController: NavHostController) {
@@ -64,6 +54,9 @@ fun NewSummaryScreen(navController: NavHostController) {
 
     // results
     var expensesList by remember { mutableStateOf(listOf<Expense>()) }
+
+    var expensesListGrouped by remember { mutableStateOf(mapOf<String, List<Expense>>()) }
+
     var summaryResultText by remember { mutableStateOf("0 zł / 1 d = 0 zł/d") }
 
     var amountRangeStart by remember { mutableStateOf("0") }
@@ -84,16 +77,13 @@ fun NewSummaryScreen(navController: NavHostController) {
     }
 
     fun showAverageAmount() {
-        val result = expenseService.averageExpense(getExpenseSearchCriteria())
-
-        summaryResultText =
-                """
-            ${result.wholeAmount.asPrinteableAmount()} zł / ${result.days} d = ${result.averageAmount.asPrinteableAmount()} zł/d
-        """.trimIndent()
+        summaryResultText = expenseService.averageExpense(getExpenseSearchCriteria()).asTextSummary()
     }
 
     fun showHistory() {
         expensesList = expenseService.getAll(getExpenseSearchCriteria())
+
+        expensesListGrouped = expensesList.groupBy { it.category.name }
     }
 
     showHistory()
@@ -264,116 +254,39 @@ fun NewSummaryScreen(navController: NavHostController) {
             }
         }
         //////////////////////////////////////////////////////////////////////////
-        Row(
-                modifier = defaultModifier,
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-        ) {
-            Text(
-                    textAlign = TextAlign.Center,
-                    text = summaryResultText,
-                    modifier = defaultModifier,
-                    fontSize = 20.sp,
-            )
-        }
         Row(modifier = defaultModifier) {
             Divider()
         }
         Row(modifier = defaultModifier, horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(text = "Wydatki", modifier = defaultModifier.weight(1f))
             Text(text = "Ilość: ${expensesList.size}", modifier = defaultModifier.weight(1f))
+            Text(text = summaryResultText, modifier = defaultModifier.weight(2f))
         }
         Row(modifier = defaultModifier) {
             Divider()
         }
-        LazyColumn(
-                modifier =
-                Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 4.dp),
-
-                ) {
-            itemsIndexed(items = expensesList) { id, expense ->
-                var detailsAreVisible by remember { mutableStateOf(false) }
-                ListItem(
-                        icon = {
-                            IconButton(onClick = {
-                                detailsAreVisible = !detailsAreVisible
-                            }) {
-                                Icon(
-                                        Icons.Filled.Menu,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(32.dp),
-                                )
-                            }
-
-                        },
-                        text = { Text("${id + 1}. ${expense.category.name}") },
-                        trailing = { Text(expense.amount.asPrinteableAmount().toString()) }
-                )
-
-                if (detailsAreVisible) {
-                    Column(modifier = defaultModifier) {
-                        Row(modifier = defaultModifier) {
-                            OutlinedTextField(
-                                    value = expense.descriptionOrDefault(),
-                                    onValueChange = {},
-                                    label = { Text("Opis") },
-                                    modifier = defaultModifier,
-                                    singleLine = true,
-                                    readOnly = true,
-                            )
-                        }
-                        Row(modifier = defaultModifier) {
-                            OutlinedTextField(
-                                    value = expense.date.toHumanText(),
-                                    onValueChange = {},
-                                    label = { Text("Data") },
-                                    modifier = defaultModifier,
-                                    singleLine = true,
-                                    readOnly = true,
-
-                                    )
-                        }
-                        Row(modifier = defaultModifier) {
-                            Button(
-                                    onClick = {
-                                        navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithId(expenseId = expense.id))
-                                    },
-                                    modifier = defaultButtonModifier.weight(1f),
-                            ) {
-                                Text("Edytuj")
-                            }
-                            val openDialog = remember { mutableStateOf(false) }
-                            YesOrNoDialog(
-                                    openDialog = openDialog,
-                                    onConfirm = {
-                                        expenseService.hardRemove(expenseId = expense.id)
-                                        showHistory()
-                                        detailsAreVisible = false
-
-                                    }
-                            )
-                            Button(
-                                    onClick = {
-                                        openDialog.value = true
-                                    },
-                                    modifier = defaultButtonModifier.weight(1f),
-                                    colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red)) {
-                                Text("Usuń")
-                            }
-
-                        }
+        LazyColumn(modifier = defaultModifier) {
+            expensesListGrouped.forEach { (group, expensesInGroup) ->
+                stickyHeader {
+                    Row(modifier = defaultModifier, horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(text = group, modifier = defaultModifier.weight(1f))
+                        Text(text = expensesInGroup.sumExpensesAmount().asPrinteableAmount(), modifier = defaultModifier.weight(1f))
                     }
                 }
-
-                Divider()
+                itemsIndexed(items = expensesInGroup) { id, expense ->
+                    ShowExpense(
+                            id = id,
+                            expense = expense,
+                            navController = navController,
+                            refreshFunction = { showHistory() }
+                    )
+                }
             }
         }
     }
 
 }
 
+@ExperimentalFoundationApi
 @OptIn(ExperimentalMaterialApi::class)
 @Preview(showBackground = true)
 @Composable
@@ -394,3 +307,6 @@ fun Expense.descriptionOrDefault(): String =
 fun String.toDoubleOrDefaultZero(): Double =
         kotlin.runCatching { this.toDouble() }
                 .getOrDefault(0.0)
+
+fun AverageExpenseResult.asTextSummary(): String =
+        "${wholeAmount.asPrinteableAmount()} / $days d = ${averageAmount.asPrinteableAmount()}/d"

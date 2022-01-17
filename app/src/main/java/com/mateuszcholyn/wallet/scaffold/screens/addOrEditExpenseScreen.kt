@@ -40,7 +40,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
     val expenseOrNull = if (actualExpenseId.isDummy()) null else expenseService.getById(actualExpenseId)
 
     var selectedCategory by remember { mutableStateOf(if (actualExpenseId.isDummy()) options.first() else expenseOrNull!!.category) }
-    var amount by remember { mutableStateOf(if (actualExpenseId.isDummy()) "" else expenseOrNull!!.amount.asPrinteableAmount().toString()) }
+    var amount by remember { mutableStateOf(if (actualExpenseId.isDummy()) "" else expenseOrNull!!.amount.asPrinteableAmount()) }
     var description by remember { mutableStateOf(if (actualExpenseId.isDummy()) "" else expenseOrNull!!.description) }
     var dateText by remember { mutableStateOf(if (actualExpenseId.isDummy()) LocalDateTime.now().toHumanText() else expenseOrNull!!.date.toHumanText()) }
 

@@ -31,7 +31,7 @@ class ExpenseService(
 
         val all = expenseRepository.getAll(expenseSearchCriteria)
 
-        val sum = all.map { it.amount }.sum()
+        val sum = all.sumExpensesAmount()
 
 
         return AverageExpenseResult(
@@ -55,3 +55,6 @@ data class AverageExpenseResult(
         val days: Int,
         val averageAmount: Double,
 )
+
+fun List<Expense>.sumExpensesAmount(): Double =
+        this.map { it.amount }.sum()
