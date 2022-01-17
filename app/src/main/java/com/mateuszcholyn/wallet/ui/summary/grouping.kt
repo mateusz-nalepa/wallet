@@ -14,14 +14,14 @@ object GroupingData {
 
     private val groupingElements = listOf(
             GroupElement(
-                    groupType = "wg. kategorii",
-                    groupFunctionName = { it.category.name },
-                    groupFunction = { it.category.name },
-            ),
-            GroupElement(
                     groupType = "wg. dnia",
                     groupFunctionName = { it.date.truncatedTo(ChronoUnit.DAYS).toHumanDateText() },
                     groupFunction = { it.date.truncatedTo(ChronoUnit.DAYS).toString() },
+            ),
+            GroupElement(
+                    groupType = "wg. kategorii",
+                    groupFunctionName = { it.category.name },
+                    groupFunction = { it.category.name },
             ),
             GroupElement(
                     groupType = "wg. roku",
