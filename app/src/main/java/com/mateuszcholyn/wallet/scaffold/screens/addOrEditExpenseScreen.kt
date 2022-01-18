@@ -60,10 +60,10 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
 
     val datePickerDialogState = rememberMaterialDialogState()
 
-    val expenseOrNull = if (actualExpenseId.isDummy()) null else expenseService.getById(actualExpenseId)
+    val expenseOrNull = if (actualExpenseId.isNonEditable()) null else expenseService.getById(actualExpenseId)
 
-    var selectedCategory by remember { mutableStateOf(if (actualExpenseId.isDummy()) options.first() else expenseOrNull!!.category.toCategoryViewModel()) }
-    var amount by remember { mutableStateOf(if (actualExpenseId.isDummy()) "" else expenseOrNull!!.amount.asPrinteableAmount()) }
+    var selectedCategory by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) options.first() else expenseOrNull!!.category.toCategoryViewModel()) }
+    var amount by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) "" else expenseOrNull!!.amount.asPrinteableAmount()) }
 
 //    val isAmountInValid by derivedStateOf {
 //        amount.isBlank() || amount.startsWith("-")
@@ -71,8 +71,8 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
 
     var isAmountInValid by remember { mutableStateOf(false) }
 
-    var description by remember { mutableStateOf(if (actualExpenseId.isDummy()) "" else expenseOrNull!!.description) }
-    var dateText by remember { mutableStateOf(if (actualExpenseId.isDummy()) LocalDateTime.now().toHumanText() else expenseOrNull!!.date.toHumanText()) }
+    var description by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) "" else expenseOrNull!!.description) }
+    var dateText by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) LocalDateTime.now().toHumanText() else expenseOrNull!!.date.toHumanText()) }
 
     ComposeDateTimePicker(
             dialogState = datePickerDialogState,
@@ -160,8 +160,11 @@ fun NewAddOrEditExpenseScreenPreview() {
 }
 
 
-fun Long.isDummy(): Boolean =
+fun Long.isNonEditable(): Boolean =
         this == -1L
+
+fun Long.isEditable(): Boolean =
+        !isNonEditable()
 
 fun String.isAmountInValid(): Boolean =
         this.isBlank() || this.startsWith("-") || this.cannotConvertToDouble()
