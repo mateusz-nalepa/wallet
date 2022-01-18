@@ -11,10 +11,6 @@ class ExpenseService(
         return expenseRepository.getById(expenseId)
     }
 
-    fun addExpense(expense: Expense): Expense {
-        return expenseRepository.add(expense)
-    }
-
     fun getAll(expenseSearchCriteria: ExpenseSearchCriteria): List<Expense> {
         return expenseRepository.getAll(expenseSearchCriteria)
     }
@@ -44,8 +40,19 @@ class ExpenseService(
     fun hardRemove(expenseId: Long): Boolean =
             expenseRepository.remove(expenseId)
 
-    fun updateExpense(expense: Expense): Expense {
+    fun saveExpense(expense: Expense): Expense =
+            if (expense.id != -1L) {
+                updateExpense(expense)
+            } else {
+                addExpense(expense)
+            }
+
+    private fun updateExpense(expense: Expense): Expense {
         return expenseRepository.update(expense)
+    }
+
+    private fun addExpense(expense: Expense): Expense {
+        return expenseRepository.add(expense)
     }
 
 }

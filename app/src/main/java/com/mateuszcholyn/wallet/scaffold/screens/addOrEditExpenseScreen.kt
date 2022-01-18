@@ -101,15 +101,13 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
         Row(
                 modifier = defaultModifier,
         ) {
-
             OutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
                     label = { Text("Opis") },
                     modifier = defaultModifier,
                     maxLines = 5,
-
-                    )
+            )
         }
         Row(
                 modifier = defaultModifier,
@@ -128,25 +126,15 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
         Row(modifier = defaultModifier) {
             Button(
                     onClick = {
-                        if (actualExpenseId != -1L) {
-                            expenseService.updateExpense(Expense(
-                                    id = actualExpenseId,
-                                    amount = amount.toDouble(),
-                                    description = description,
-                                    category = selectedCategory.toCategory(),
-                                    date = dateText.toLocalDateTime(),
+                        expenseService.saveExpense(
+                                Expense(
+                                        id = actualExpenseId,
+                                        amount = amount.toDouble(),
+                                        description = description,
+                                        category = selectedCategory.toCategory(),
+                                        date = dateText.toLocalDateTime(),
 
-                                    ))
-                        } else {
-                            expenseService.addExpense(Expense(
-                                    amount = amount.toDouble(),
-                                    description = description,
-                                    category = selectedCategory.toCategory(),
-                                    date = dateText.toLocalDateTime(),
-
-                                    ))
-
-                        }
+                                        ))
                         navController.navigate(NavDrawerItem.SummaryScreen.route)
                     },
                     modifier = defaultButtonModifier,
@@ -179,9 +167,9 @@ fun String.isAmountInValid(): Boolean =
         this.isBlank() || this.startsWith("-") || this.cannotConvertToDouble()
 
 fun String.cannotConvertToDouble(): Boolean =
-    !kotlin
-            .runCatching {
-                this.toDouble()
-                true
-            }
-            .getOrDefault(false)
+        !kotlin
+                .runCatching {
+                    this.toDouble()
+                    true
+                }
+                .getOrDefault(false)
