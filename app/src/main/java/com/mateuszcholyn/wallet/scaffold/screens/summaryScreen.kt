@@ -44,7 +44,7 @@ fun NewSummaryScreen(navController: NavHostController) {
 
 
     val availableCategories =
-            listOf(Category(name = ALL_CATEGORIES)) + categoryService.getAllOrderByUsageDesc()
+            listOf(Category(name = ALL_CATEGORIES).toCategoryViewModel()) + categoryService.getAllOrderByUsageDesc().map { it.toCategoryViewModel() }
     var selectedCategory by remember { mutableStateOf(availableCategories.first()) }
 
     // QUICK RANGE
@@ -102,49 +102,15 @@ fun NewSummaryScreen(navController: NavHostController) {
     showAverageAmount()
 
     Column(modifier = defaultModifier) {
-        ExposedDropdownMenuBox(
-                modifier = defaultModifier,
-                expanded = categoriesExpanded,
-                onExpandedChange = {
-                    categoriesExpanded = !categoriesExpanded
-                }
-        ) {
-            TextField(
-                    modifier = defaultModifier,
-                    readOnly = true,
-                    value = selectedCategory.name,
-                    onValueChange = { },
-                    label = { Text("Kategoria") },
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(
-                                expanded = categoriesExpanded
-                        )
-                    },
-                    colors = ExposedDropdownMenuDefaults.textFieldColors()
-            )
-            ExposedDropdownMenu(
-                    modifier = defaultModifier,
-                    expanded = categoriesExpanded,
-                    onDismissRequest = {
-                        categoriesExpanded = false
-                    }
-            ) {
-                availableCategories.forEach { category ->
-                    DropdownMenuItem(
-                            modifier = defaultModifier,
-                            onClick = {
-                                selectedCategory = category
-                                categoriesExpanded = false
-                            }
-                    ) {
-                        Text(
-                                text = category.name,
-                                modifier = defaultModifier,
-                        )
-                    }
-                }
-            }
-        }
+
+        WalletDropdown(
+                dropdownName = "Kategoria",
+                selectedElement = selectedCategory,
+                availableElements = availableCategories,
+                onItemSelected = {
+                    selectedCategory = it
+                },
+        )
 
         WalletDropdown(
                 dropdownName = "Zakres",
@@ -256,10 +222,10 @@ fun NewSummaryScreenPreview() {
     NewSummaryScreen(rememberNavController())
 }
 
-fun Category.isAllCategories(): Boolean =
+fun CategoryViewModel.isAllCategories(): Boolean =
         name == ALL_CATEGORIES
 
-fun Category.actualCategoryName(): String? =
+fun CategoryViewModel.actualCategoryName(): String? =
         if (isAllCategories()) null else name
 
 fun Expense.descriptionOrDefault(): String =

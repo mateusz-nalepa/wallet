@@ -17,10 +17,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.scaffold.NavDrawerItem
+import com.mateuszcholyn.wallet.scaffold.screens.fragments.DropdownElement
+import com.mateuszcholyn.wallet.scaffold.screens.fragments.WalletDropdown
 import com.mateuszcholyn.wallet.scaffold.util.ComposeDateTimePicker
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
@@ -31,6 +34,23 @@ import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import org.kodein.di.compose.rememberInstance
 import java.time.LocalDateTime
 
+data class CategoryViewModel(
+        override val name: String,
+        val id: Long,
+) : DropdownElement
+
+
+fun Category.toCategoryViewModel(): CategoryViewModel =
+        CategoryViewModel(
+                id = id,
+                name = name,
+        )
+
+fun CategoryViewModel.toCategory(): Category =
+        Category(
+                id = id,
+                name = name,
+        )
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -39,14 +59,14 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
     val expenseService: ExpenseService by rememberInstance()
     val categoryService: CategoryService by rememberInstance()
 
-    val options = categoryService.getAllOrderByUsageDesc()
+    val options = categoryService.getAllOrderByUsageDesc().map { it.toCategoryViewModel() }
 
     var expanded by remember { mutableStateOf(false) }
     val datePickerDialogState = rememberMaterialDialogState()
 
     val expenseOrNull = if (actualExpenseId.isDummy()) null else expenseService.getById(actualExpenseId)
 
-    var selectedCategory by remember { mutableStateOf(if (actualExpenseId.isDummy()) options.first() else expenseOrNull!!.category) }
+    var selectedCategory by remember { mutableStateOf(if (actualExpenseId.isDummy()) options.first() else expenseOrNull!!.category.toCategoryViewModel()) }
     var amount by remember { mutableStateOf(if (actualExpenseId.isDummy()) "" else expenseOrNull!!.amount.asPrinteableAmount()) }
 
 //    val isAmountInValid by derivedStateOf {
@@ -66,53 +86,15 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
     val state = rememberScrollState()
 
     Column(modifier = defaultModifier.verticalScroll(state)) {
-// We want to react on tap/press on TextField to show menu
-        ExposedDropdownMenuBox(
-                modifier = defaultModifier,
-                expanded = expanded,
-                onExpandedChange = {
-                    expanded = !expanded
-                }
-        ) {
-            TextField(
-                    modifier = defaultModifier,
-                    readOnly = true,
-                    value = selectedCategory.name,
-                    onValueChange = { },
-                    label = { Text("Kategoria") },
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(
-                                expanded = expanded
-                        )
-                    },
-                    colors = ExposedDropdownMenuDefaults.textFieldColors()
-            )
-            ExposedDropdownMenu(
-                    modifier = defaultModifier,
-                    expanded = expanded,
-                    onDismissRequest = {
-                        expanded = false
-                    }
-            ) {
-                options.forEach { selectionOption ->
-                    DropdownMenuItem(
-                            modifier = defaultModifier,
-                            onClick = {
-                                selectedCategory = selectionOption
-                                expanded = false
-                            }
-                    ) {
-                        Text(
-                                text = selectionOption.name,
-                                modifier = defaultModifier,
-                        )
-                    }
-                }
-            }
-        }
-        Row(
-                modifier = defaultModifier,
-        ) {
+        WalletDropdown(
+                dropdownName = "Kategoria",
+                selectedElement = selectedCategory,
+                availableElements = options,
+                onItemSelected = {
+                    selectedCategory = it
+                },
+        )
+        Row(modifier = defaultModifier) {
             Column {
                 OutlinedTextField(
                         value = amount,
@@ -176,7 +158,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
                                     id = actualExpenseId,
                                     amount = amount.toDouble(),
                                     description = description,
-                                    category = selectedCategory,
+                                    category = selectedCategory.toCategory(),
                                     date = dateText.toLocalDateTime(),
 
                                     ))
@@ -184,7 +166,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
                             expenseService.addExpense(Expense(
                                     amount = amount.toDouble(),
                                     description = description,
-                                    category = selectedCategory,
+                                    category = selectedCategory.toCategory(),
                                     date = dateText.toLocalDateTime(),
 
                                     ))
