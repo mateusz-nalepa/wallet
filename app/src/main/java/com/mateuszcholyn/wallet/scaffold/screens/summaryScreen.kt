@@ -36,9 +36,6 @@ import org.kodein.di.compose.rememberInstance
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NewSummaryScreen(navController: NavHostController) {
-
-    var categoriesExpanded by remember { mutableStateOf(false) }
-
     val categoryService: CategoryService by rememberInstance()
     val expenseService: ExpenseService by rememberInstance()
 
@@ -48,18 +45,15 @@ fun NewSummaryScreen(navController: NavHostController) {
     var selectedCategory by remember { mutableStateOf(availableCategories.first()) }
 
     // QUICK RANGE
-    var quickDataRangeExpanded by remember { mutableStateOf(false) }
     val availableQuickRangeDataV2 = QuickRangeV2.quickRanges()
     var selectedQuickRangeData by remember { mutableStateOf(availableQuickRangeDataV2.first()) }
 
 //    SORTING TYPE
     /////////////////////////////////////
-    var sortingExpanded by remember { mutableStateOf(false) }
     val availableSortElements = SortingData.sortingListBetter
     var selectedSort by remember { mutableStateOf(availableSortElements.first()) }
 //    Grouping TYPE
     /////////////////////////////////////
-    var groupingExpanded by remember { mutableStateOf(false) }
     val availableGroupElements = GroupingData.groupingListBetter
     var selectedGroupElement by remember { mutableStateOf(availableGroupElements.first()) }
     var isGroupingEnabled by remember { mutableStateOf(false) }
@@ -184,17 +178,12 @@ fun NewSummaryScreen(navController: NavHostController) {
                 )
             }
         }
-        //////////////////////////////////////////////////////////////////////////
-        Row(modifier = defaultModifier) {
-            Divider()
-        }
+        Divider()
         Row(modifier = defaultModifier, horizontalArrangement = Arrangement.SpaceBetween) {
             Text(text = "Ilość: ${expensesList.size}", modifier = defaultModifier.weight(1f))
             Text(text = summaryResultText, modifier = defaultModifier.weight(2f))
         }
-        Row(modifier = defaultModifier) {
-            Divider()
-        }
+        Divider()
 
         if (isGroupingEnabled) {
             GroupedExpenses(

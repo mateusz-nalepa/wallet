@@ -61,7 +61,6 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
 
     val options = categoryService.getAllOrderByUsageDesc().map { it.toCategoryViewModel() }
 
-    var expanded by remember { mutableStateOf(false) }
     val datePickerDialogState = rememberMaterialDialogState()
 
     val expenseOrNull = if (actualExpenseId.isDummy()) null else expenseService.getById(actualExpenseId)
