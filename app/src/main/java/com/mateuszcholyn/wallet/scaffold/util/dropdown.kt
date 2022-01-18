@@ -1,8 +1,7 @@
-package com.mateuszcholyn.wallet.scaffold.screens.fragments
+package com.mateuszcholyn.wallet.scaffold.util
 
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 
 
 interface DropdownElement {

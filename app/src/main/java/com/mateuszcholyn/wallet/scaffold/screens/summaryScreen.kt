@@ -23,7 +23,7 @@ import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.scaffold.screens.fragments.ExpensesList
 import com.mateuszcholyn.wallet.scaffold.screens.fragments.GroupedExpenses
-import com.mateuszcholyn.wallet.scaffold.screens.fragments.WalletDropdown
+import com.mateuszcholyn.wallet.scaffold.util.WalletDropdown
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.ui.summary.GroupingData
 import com.mateuszcholyn.wallet.ui.summary.SortingData

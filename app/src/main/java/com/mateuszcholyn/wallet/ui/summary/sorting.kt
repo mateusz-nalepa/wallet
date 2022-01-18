@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.ui.summary
 
 import com.mateuszcholyn.wallet.domain.expense.Sort
-import com.mateuszcholyn.wallet.scaffold.screens.fragments.DropdownElement
+import com.mateuszcholyn.wallet.scaffold.util.DropdownElement
 
 data class SortElement(
         override val name: String,

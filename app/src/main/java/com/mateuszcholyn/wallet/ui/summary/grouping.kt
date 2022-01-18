@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.ui.summary
 
 import com.mateuszcholyn.wallet.domain.expense.Expense
-import com.mateuszcholyn.wallet.scaffold.screens.fragments.DropdownElement
+import com.mateuszcholyn.wallet.scaffold.util.DropdownElement
 import com.mateuszcholyn.wallet.util.toHumanDateText
 import java.time.temporal.ChronoUnit
 
