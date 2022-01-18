@@ -17,7 +17,11 @@ import java.time.LocalDateTime
 
 fun previewDi(): DI {
     val previewDi by DI.lazy {
-        bind<CategoryRepository>() with provider { PreviewCategoryRepository() }
+        bind<CategoryRepository>() with provider {
+            PreviewCategoryRepository().apply {
+                add(dummyCategory())
+            }
+        }
         bind<CategoryService>() with provider { CategoryService(instance()) }
 
         //Expense
@@ -85,32 +89,32 @@ class PreviewExpenseRepository : ExpenseRepository {
     }
 
     override fun add(expense: Expense): Expense {
-        return previewRandomExpense()
+        return dummyExpense()
     }
 
     override fun update(expense: Expense): Expense {
-        return previewRandomExpense()
+        return dummyExpense()
     }
 
     override fun getById(expenseId: Long): Expense {
-        return previewRandomExpense()
+        return dummyExpense()
     }
 
 }
 
-fun previewRandomExpense(): Expense =
+fun dummyExpense(): Expense =
         Expense(
                 id = 1L,
                 amount = 5.0,
                 date = LocalDateTime.now(),
-                description = "XD",
-                category = randomCategory(),
+                description = "dummyDescription",
+                category = dummyCategory(),
         )
 
-fun randomCategory(): Category {
+fun dummyCategory(): Category {
     return Category(
             id = 1L,
-            name = "Test",
+            name = "Category Name",
     )
 }
 

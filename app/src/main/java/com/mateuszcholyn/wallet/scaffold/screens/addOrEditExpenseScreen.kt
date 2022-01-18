@@ -20,10 +20,12 @@ import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.scaffold.NavDrawerItem
 import com.mateuszcholyn.wallet.scaffold.util.*
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
+import com.mateuszcholyn.wallet.util.previewDi
 import com.mateuszcholyn.wallet.util.toHumanText
 import com.mateuszcholyn.wallet.util.toLocalDateTime
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import org.kodein.di.compose.rememberInstance
+import org.kodein.di.compose.withDI
 import java.time.LocalDateTime
 
 data class CategoryViewModel(
@@ -149,9 +151,9 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
 @Preview(showBackground = true)
 @Composable
 fun NewAddOrEditExpenseScreenPreview() {
-    val navController = rememberNavController()
-
-    NewAddOrEditExpenseScreen(navController = navController, 5)
+    withDI(di = previewDi()) {
+        NewAddOrEditExpenseScreen(navController = rememberNavController(), 1L)
+    }
 }
 
 
