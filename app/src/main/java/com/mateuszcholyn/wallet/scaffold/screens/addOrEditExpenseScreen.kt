@@ -150,7 +150,16 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
 @OptIn(ExperimentalMaterialApi::class)
 @Preview(showBackground = true)
 @Composable
-fun NewAddOrEditExpenseScreenPreview() {
+fun NewAddOrEditExpenseScreenPreviewForAddExpense() {
+    withDI(di = previewDi()) {
+        NewAddOrEditExpenseScreen(navController = rememberNavController(), -1L)
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Preview(showBackground = true)
+@Composable
+fun NewAddOrEditExpenseScreenPreviewForUpdateExpense() {
     withDI(di = previewDi()) {
         NewAddOrEditExpenseScreen(navController = rememberNavController(), 1L)
     }
