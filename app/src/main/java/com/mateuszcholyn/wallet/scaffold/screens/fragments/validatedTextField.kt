@@ -20,16 +20,16 @@ fun ValidatedTextField(
         value: String,
         onValueChange: (String) -> Unit,
         valueInvalidText: String = "Niepoprawna wartość",
-        isValueValidFunction: (String) -> Boolean,
+        isValueInValidFunction: (String) -> Boolean,
 ) {
 
-    var isValueValid by remember { mutableStateOf(false) }
+    var isValueInValid by remember { mutableStateOf(false) }
 
     Column {
         OutlinedTextField(
                 value = value,
                 onValueChange = {
-                    isValueValid = isValueValidFunction(it)
+                    isValueInValid = isValueInValidFunction(it)
                     onValueChange.invoke(it)
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -37,13 +37,13 @@ fun ValidatedTextField(
                 modifier = defaultModifier,
                 singleLine = true,
                 trailingIcon = {
-                    if (isValueValid) {
+                    if (isValueInValid) {
                         Icon(Icons.Filled.Error, "error")
                     }
                 },
-                isError = isValueValid,
+                isError = isValueInValid,
         )
-        if (isValueValid) {
+        if (isValueInValid) {
             Text(
                     text = valueInvalidText,
                     color = MaterialTheme.colors.error,

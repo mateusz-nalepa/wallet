@@ -94,7 +94,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
             ValidatedTextField(
                     value = amount,
                     onValueChange = { amount = it },
-                    isValueValidFunction = { it.isAmountInValid() },
+                    isValueInValidFunction = { it.isAmountInValid() },
                     valueInvalidText = "Niepoprawna kwota",
             )
         }
@@ -176,4 +176,12 @@ fun Long.isDummy(): Boolean =
         this == -1L
 
 fun String.isAmountInValid(): Boolean =
-        this.isBlank() || this.startsWith("-")
+        this.isBlank() || this.startsWith("-") || this.cannotConvertToDouble()
+
+fun String.cannotConvertToDouble(): Boolean =
+    !kotlin
+            .runCatching {
+                this.toDouble()
+                true
+            }
+            .getOrDefault(false)
