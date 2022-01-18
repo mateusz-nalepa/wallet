@@ -3,18 +3,14 @@ package com.mateuszcholyn.wallet.scaffold.screens
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.Button
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.domain.category.Category
@@ -23,6 +19,7 @@ import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.scaffold.NavDrawerItem
 import com.mateuszcholyn.wallet.scaffold.screens.fragments.DropdownElement
+import com.mateuszcholyn.wallet.scaffold.screens.fragments.ValidatedTextField
 import com.mateuszcholyn.wallet.scaffold.screens.fragments.WalletDropdown
 import com.mateuszcholyn.wallet.scaffold.util.ComposeDateTimePicker
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
@@ -94,33 +91,12 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
                 },
         )
         Row(modifier = defaultModifier) {
-            Column {
-                OutlinedTextField(
-                        value = amount,
-                        onValueChange = {
-                            isAmountInValid = it.isAmountInValid()
-                            amount = it
-                        },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        label = { Text("Kwota") },
-                        modifier = defaultModifier,
-                        singleLine = true,
-                        trailingIcon = {
-                            if (isAmountInValid) {
-                                Icon(Icons.Filled.Error, "error")
-                            }
-                        },
-                        isError = isAmountInValid,
-                )
-                if (isAmountInValid) {
-                    Text(
-                            text = "Niepoprawna kwota",
-                            color = MaterialTheme.colors.error,
-                            style = MaterialTheme.typography.caption,
-                            modifier = Modifier.padding(start = 16.dp)
-                    )
-                }
-            }
+            ValidatedTextField(
+                    value = amount,
+                    onValueChange = { amount = it },
+                    isValueValidFunction = { it.isAmountInValid() },
+                    valueInvalidText = "Niepoprawna kwota",
+            )
         }
         Row(
                 modifier = defaultModifier,
