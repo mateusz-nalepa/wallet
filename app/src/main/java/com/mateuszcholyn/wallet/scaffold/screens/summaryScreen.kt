@@ -23,6 +23,7 @@ import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.scaffold.screens.fragments.ExpensesList
 import com.mateuszcholyn.wallet.scaffold.screens.fragments.GroupedExpenses
+import com.mateuszcholyn.wallet.scaffold.screens.fragments.WalletDropdown
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.ui.summary.GroupingData
 import com.mateuszcholyn.wallet.ui.summary.SortingData
@@ -205,50 +206,12 @@ fun NewSummaryScreen(navController: NavHostController) {
             })
         }
         if (advancedFiltersExpanded) {
-            ExposedDropdownMenuBox(
-                    modifier = defaultModifier,
-                    expanded = sortingExpanded,
-                    onExpandedChange = {
-                        sortingExpanded = !sortingExpanded
-                    }
-            ) {
-                TextField(
-                        modifier = defaultModifier,
-                        readOnly = true,
-                        value = selectedSort.name,
-                        onValueChange = { },
-                        label = { Text("Sortowanie") },
-                        trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(
-                                    expanded = sortingExpanded
-                            )
-                        },
-                        colors = ExposedDropdownMenuDefaults.textFieldColors()
-                )
-                ExposedDropdownMenu(
-                        modifier = defaultModifier,
-                        expanded = sortingExpanded,
-                        onDismissRequest = {
-                            sortingExpanded = false
-                        }
-                ) {
-                    availableSortElements.forEach { sortElement ->
-                        DropdownMenuItem(
-                                modifier = defaultModifier,
-                                onClick = {
-                                    selectedSort = sortElement
-                                    sortingExpanded = false
-                                }
-                        ) {
-                            Text(
-                                    text = sortElement.name,
-                                    modifier = defaultModifier,
-                            )
-                        }
-                    }
-                }
-            }
-
+            WalletDropdown(
+                    dropdownName = "Sortowanie",
+                    selectedElement = selectedSort,
+                    onItemSelected = { selectedSort = it },
+                    availableElements = availableSortElements,
+            )
 
             ////##########################################################
             Row(modifier = defaultModifier, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {

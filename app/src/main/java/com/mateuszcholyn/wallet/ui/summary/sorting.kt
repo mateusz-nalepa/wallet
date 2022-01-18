@@ -1,11 +1,12 @@
 package com.mateuszcholyn.wallet.ui.summary
 
 import com.mateuszcholyn.wallet.domain.expense.Sort
+import com.mateuszcholyn.wallet.scaffold.screens.fragments.DropdownElement
 
 data class SortElement(
-        val name: String,
+        override val name: String,
         val sort: Sort,
-)
+) : DropdownElement
 
 object SortingData {
 
