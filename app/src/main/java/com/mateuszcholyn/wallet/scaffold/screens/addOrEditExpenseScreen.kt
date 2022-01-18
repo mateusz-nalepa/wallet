@@ -3,13 +3,18 @@ package com.mateuszcholyn.wallet.scaffold.screens
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.domain.category.CategoryService
@@ -43,6 +48,13 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
 
     var selectedCategory by remember { mutableStateOf(if (actualExpenseId.isDummy()) options.first() else expenseOrNull!!.category) }
     var amount by remember { mutableStateOf(if (actualExpenseId.isDummy()) "" else expenseOrNull!!.amount.asPrinteableAmount()) }
+
+//    val isAmountInValid by derivedStateOf {
+//        amount.isBlank() || amount.startsWith("-")
+//    }
+
+    var isAmountInValid by remember { mutableStateOf(false) }
+
     var description by remember { mutableStateOf(if (actualExpenseId.isDummy()) "" else expenseOrNull!!.description) }
     var dateText by remember { mutableStateOf(if (actualExpenseId.isDummy()) LocalDateTime.now().toHumanText() else expenseOrNull!!.date.toHumanText()) }
 
@@ -101,15 +113,33 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
         Row(
                 modifier = defaultModifier,
         ) {
-
-            OutlinedTextField(
-                    value = amount,
-                    onValueChange = { amount = it },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    label = { Text("Kwota") },
-                    modifier = defaultModifier,
-                    singleLine = true,
-            )
+            Column {
+                OutlinedTextField(
+                        value = amount,
+                        onValueChange = {
+                            isAmountInValid = it.isAmountInValid()
+                            amount = it
+                        },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        label = { Text("Kwota") },
+                        modifier = defaultModifier,
+                        singleLine = true,
+                        trailingIcon = {
+                            if (isAmountInValid) {
+                                Icon(Icons.Filled.Error, "error")
+                            }
+                        },
+                        isError = isAmountInValid,
+                )
+                if (isAmountInValid) {
+                    Text(
+                            text = "Niepoprawna kwota",
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 16.dp)
+                    )
+                }
+            }
         }
         Row(
                 modifier = defaultModifier,
@@ -187,3 +217,6 @@ fun NewAddOrEditExpenseScreenPreview() {
 
 fun Long.isDummy(): Boolean =
         this == -1L
+
+fun String.isAmountInValid(): Boolean =
+        this.isBlank() || this.startsWith("-")

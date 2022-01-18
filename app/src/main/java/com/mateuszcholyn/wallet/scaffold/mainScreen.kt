@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.scaffold
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -16,6 +17,7 @@ import com.mateuszcholyn.wallet.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@ExperimentalFoundationApi
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainScreen() {
@@ -40,6 +42,7 @@ fun MainScreen() {
     // }
 }
 
+@ExperimentalFoundationApi
 @OptIn(ExperimentalMaterialApi::class)
 @Preview(showBackground = true)
 @Composable

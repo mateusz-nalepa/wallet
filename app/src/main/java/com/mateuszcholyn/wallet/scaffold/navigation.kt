@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.scaffold
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -25,6 +26,7 @@ fun NavDrawerItem.AddOrEditExpense.routeWithoutId(): String =
 fun NavDrawerItem.AddOrEditExpense.routeWithId(expenseId: Long): String =
         "addOrEditExpense?expenseId=$expenseId"
 
+@ExperimentalFoundationApi
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Navigation(navController: NavHostController) {
