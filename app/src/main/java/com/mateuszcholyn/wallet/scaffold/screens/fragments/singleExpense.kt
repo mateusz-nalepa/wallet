@@ -1,17 +1,16 @@
 package com.mateuszcholyn.wallet.scaffold.screens.fragments
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.domain.category.Category
@@ -21,7 +20,6 @@ import com.mateuszcholyn.wallet.scaffold.NavDrawerItem
 import com.mateuszcholyn.wallet.scaffold.routeWithId
 import com.mateuszcholyn.wallet.scaffold.screens.descriptionOrDefault
 import com.mateuszcholyn.wallet.scaffold.util.YesOrNoDialog
-import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.util.previewDi
@@ -56,67 +54,90 @@ fun ShowExpense(
 
             },
             text = { Text("${id + 1}. ${expense.category.name}") },
-            trailing = { Text(expense.amount.asPrinteableAmount()) },
-            modifier = defaultModifier.padding(0.dp),
+            trailing = {
+                Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(text = expense.amount.asPrinteableAmount(), fontSize = 16.sp)
+                    Icon(
+                            Icons.Filled.Paid,
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp),
+                    )
+                }
+
+            },
+            modifier = defaultModifier.clickable {
+                detailsAreVisible = !detailsAreVisible
+            },
     )
 
     if (detailsAreVisible) {
-        Column(modifier = defaultModifier) {
-            Row(modifier = defaultModifier) {
-                OutlinedTextField(
-                        value = expense.descriptionOrDefault(),
-                        onValueChange = {},
-                        label = { Text("Opis") },
-                        modifier = defaultModifier,
-                        singleLine = true,
-                        readOnly = true,
+        Column {
+            Row(modifier = defaultModifier.padding(bottom = 0.dp)) {
+                Icon(
+                        Icons.Filled.Description,
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp),
                 )
+                Text(text = expense.descriptionOrDefault())
             }
-            Row(modifier = defaultModifier) {
-                OutlinedTextField(
-                        value = expense.date.toHumanText(),
-                        onValueChange = {},
-                        label = { Text("Data") },
-                        modifier = defaultModifier,
-                        singleLine = true,
-                        readOnly = true,
+            Row(
+                    modifier = defaultModifier.padding(bottom = 0.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+            ) {
 
+                Row(horizontalArrangement = Arrangement.Start) {
+                    Icon(
+                            Icons.Filled.Event,
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp),
+                    )
+                    Text(text = expense.date.toHumanText())
+                }
+
+                Row(horizontalArrangement = Arrangement.End) {
+                    IconButton(
+                            onClick = {
+                                navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithId(expenseId = expense.id))
+                            }
+                    ) {
+                        Icon(
+                                Icons.Filled.Edit,
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp),
                         )
-            }
-            Row(modifier = defaultModifier) {
-                Button(
-                        onClick = {
-                            navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithId(expenseId = expense.id))
-                        },
-                        modifier = defaultButtonModifier.weight(1f),
-                ) {
-                    Text("Edytuj")
-                }
-                val openDialog = remember { mutableStateOf(false) }
-                YesOrNoDialog(
-                        openDialog = openDialog,
-                        onConfirm = {
-                            expenseService.hardRemove(expenseId = expense.id)
-                            refreshFunction()
-                            detailsAreVisible = false
+                    }
+                    val openDialog = remember { mutableStateOf(false) }
+                    YesOrNoDialog(
+                            openDialog = openDialog,
+                            onConfirm = {
+                                expenseService.hardRemove(expenseId = expense.id)
+                                refreshFunction()
+                                detailsAreVisible = false
 
-                        }
-                )
-                Button(
-                        onClick = {
-                            openDialog.value = true
-                        },
-                        modifier = defaultButtonModifier.weight(1f),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red)) {
-                    Text("Usuń")
+                            }
+                    )
+                    IconButton(
+                            onClick = {
+                                openDialog.value = true
+                            }
+                    ) {
+                        Icon(
+                                Icons.Filled.DeleteForever,
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp),
+                        )
+                    }
                 }
+
 
             }
         }
     }
-
     Divider()
-
 }
 
 
@@ -124,23 +145,25 @@ fun ShowExpense(
 @Composable
 fun ShowExpensePreview() {
     withDI(di = previewDi()) {
-        Column {
-            ShowExpense(
-                    id = 1,
-                    expense = Expense(
-                            id = 1L,
-                            amount = 5.0,
-                            date = LocalDateTime.now(),
-                            description = "Opis do Wydatku",
-                            category = Category(
-                                    id = 1L,
-                                    name = "XD",
-                            ),
-                    ),
-                    navController = rememberNavController(),
-                    refreshFunction = {},
-                    initialDetailsAreVisible = true,
-            )
+        MaterialTheme {
+            Column {
+                ShowExpense(
+                        id = 1,
+                        expense = Expense(
+                                id = 1L,
+                                amount = 5.0,
+                                date = LocalDateTime.now(),
+                                description = "Opis do WydasdatkuOpis do WydatkuOpis do Wydatku\nOpis do WydatkuOpis do WydatkuOpis do Wydatku\n",
+                                category = Category(
+                                        id = 1L,
+                                        name = "XD",
+                                ),
+                        ),
+                        navController = rememberNavController(),
+                        refreshFunction = {},
+                        initialDetailsAreVisible = true,
+                )
+            }
         }
     }
 }
