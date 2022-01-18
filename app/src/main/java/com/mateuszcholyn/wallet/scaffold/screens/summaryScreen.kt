@@ -146,53 +146,14 @@ fun NewSummaryScreen(navController: NavHostController) {
             }
         }
 
-        ExposedDropdownMenuBox(
-                modifier = defaultModifier,
-                expanded = quickDataRangeExpanded,
-                onExpandedChange = {
-                    quickDataRangeExpanded = !quickDataRangeExpanded
-                }
-        ) {
-            TextField(
-                    modifier = defaultModifier,
-                    readOnly = true,
-                    value = selectedQuickRangeData.name,
-                    onValueChange = { },
-                    label = { Text("Zakres") },
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(
-                                expanded = quickDataRangeExpanded
-                        )
-                    },
-                    colors = ExposedDropdownMenuDefaults.textFieldColors()
-            )
-            ExposedDropdownMenu(
-                    modifier = defaultModifier,
-                    expanded = quickDataRangeExpanded,
-                    onDismissRequest = {
-                        quickDataRangeExpanded = false
-                    }
-            ) {
-                availableQuickRangeDataV2.forEach { quickRange ->
-                    DropdownMenuItem(
-                            modifier = defaultModifier,
-                            onClick = {
-                                selectedQuickRangeData = quickRange
-                                quickDataRangeExpanded = false
-                            }
-                    ) {
-                        Text(
-                                text = quickRange.name,
-                                modifier = defaultModifier,
-                        )
-                    }
-                }
-            }
-        }
-
-
-        //////////////////////////////////////////////////////////////////////////
-
+        WalletDropdown(
+                dropdownName = "Zakres",
+                selectedElement = selectedQuickRangeData,
+                availableElements = availableQuickRangeDataV2,
+                onItemSelected = {
+                    selectedQuickRangeData = it
+                },
+        )
 
         Row(modifier = defaultModifier, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
             ClickableText(
@@ -217,50 +178,15 @@ fun NewSummaryScreen(navController: NavHostController) {
             Row(modifier = defaultModifier, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
 
                 Row(modifier = Modifier.weight(4f)) {
-                    ExposedDropdownMenuBox(
-                            modifier = defaultModifier,
-                            expanded = groupingExpanded,
-                            onExpandedChange = {
-                                groupingExpanded = !groupingExpanded
-                            }
-                    ) {
-                        TextField(
-                                modifier = defaultModifier,
-                                readOnly = true,
-                                value = selectedGroupElement.groupType,
-                                onValueChange = { },
-                                enabled = isGroupingEnabled,
-                                label = { Text("Grupowanie") },
-                                trailingIcon = {
-                                    ExposedDropdownMenuDefaults.TrailingIcon(
-                                            expanded = groupingExpanded
-                                    )
-                                },
-                                colors = ExposedDropdownMenuDefaults.textFieldColors()
-                        )
-                        ExposedDropdownMenu(
-                                modifier = defaultModifier,
-                                expanded = groupingExpanded,
-                                onDismissRequest = {
-                                    groupingExpanded = false
-                                }
-                        ) {
-                            availableGroupElements.forEach { groupElement ->
-                                DropdownMenuItem(
-                                        modifier = defaultModifier,
-                                        onClick = {
-                                            selectedGroupElement = groupElement
-                                            groupingExpanded = false
-                                        }
-                                ) {
-                                    Text(
-                                            text = groupElement.groupType,
-                                            modifier = defaultModifier,
-                                    )
-                                }
-                            }
-                        }
-                    }
+                    WalletDropdown(
+                            dropdownName = "Grupowanie",
+                            selectedElement = selectedGroupElement,
+                            availableElements = availableGroupElements,
+                            onItemSelected = {
+                                selectedGroupElement = it
+                            },
+                            isEnabled = isGroupingEnabled,
+                    )
                 }
 
                 Row(modifier = Modifier.weight(3f), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {

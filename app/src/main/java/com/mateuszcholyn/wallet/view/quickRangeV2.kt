@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.view
 
+import com.mateuszcholyn.wallet.scaffold.screens.fragments.DropdownElement
 import com.mateuszcholyn.wallet.util.atStartOfTheDay
 import com.mateuszcholyn.wallet.util.atStartOfTheMonth
 import com.mateuszcholyn.wallet.util.maxDate
@@ -61,7 +62,7 @@ object QuickRangeV2 {
 }
 
 class QuickRangeDataV2(
-        val name: String,
+        override val name: String,
         val beginDate: LocalDateTime,
         val endDate: LocalDateTime,
-)
+) : DropdownElement

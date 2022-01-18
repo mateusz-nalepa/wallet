@@ -16,6 +16,7 @@ fun <T> WalletDropdown(
         selectedElement: T,
         availableElements: List<T>,
         onItemSelected: (T) -> Unit,
+        isEnabled: Boolean = true,
 ) where T : DropdownElement {
     var dropdownExpanded by remember { mutableStateOf(false) }
 
@@ -37,7 +38,8 @@ fun <T> WalletDropdown(
                             expanded = dropdownExpanded
                     )
                 },
-                colors = ExposedDropdownMenuDefaults.textFieldColors()
+                colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                enabled = isEnabled,
         )
         ExposedDropdownMenu(
                 modifier = defaultModifier,
