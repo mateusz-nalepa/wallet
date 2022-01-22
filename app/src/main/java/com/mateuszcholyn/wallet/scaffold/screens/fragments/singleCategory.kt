@@ -4,10 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DeleteForever
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -28,10 +25,14 @@ fun SingleCategory(
         categoryDetails: CategoryDetails,
         refreshCategoryListFunction: () -> Unit,
         initialDetailsAreVisible: Boolean = false,
+        initialEditCategoryNameIsVisible: Boolean = false,
 ) {
     val categoryService: CategoryService by rememberInstance()
-
     var detailsAreVisible by remember { mutableStateOf(initialDetailsAreVisible) }
+    var editedCategoryNameText by remember { mutableStateOf(categoryDetails.name) }
+    var isCategoryNameInvalid by remember { mutableStateOf(false) }
+
+    var editCategoryNameIsVisible by remember { mutableStateOf(initialEditCategoryNameIsVisible) }
 
     ListItem(
             modifier =
@@ -44,34 +45,19 @@ fun SingleCategory(
             text = { Text(categoryDetails.name) },
             secondaryText = { Text("Ilość wydatków: ${categoryDetails.numberOfExpenses}") },
             trailing = {
-                IconButton(
-                        onClick = {
-//                            if (categoryDetails.numberOfExpenses == 0L) {
-//                                categoryService.remove(categoryDetails.id)
-//                                refreshCategoryListFunction()
-//                                showShortText("Usunięto kategorię: ${categoryDetails.name}")
-//                            } else {
-//                                showShortText("Nie możesz tego zrobić")
-//                            }
-                        }
-                ) {
-                    if (detailsAreVisible) {
-                        Icon(
-                                Icons.Filled.ExpandLess,
-                                contentDescription = null,
-                                modifier = Modifier.size(32.dp),
-                        )
-                    } else {
-                        Icon(
-                                Icons.Filled.ExpandMore,
-                                contentDescription = null,
-                                modifier = Modifier.size(32.dp),
-                        )
-                    }
-
-
+                if (detailsAreVisible) {
+                    Icon(
+                            Icons.Filled.ExpandLess,
+                            contentDescription = null,
+                            modifier = Modifier.size(32.dp),
+                    )
+                } else {
+                    Icon(
+                            Icons.Filled.ExpandMore,
+                            contentDescription = null,
+                            modifier = Modifier.size(32.dp),
+                    )
                 }
-
             }
     )
 
@@ -80,7 +66,7 @@ fun SingleCategory(
         Row(modifier = defaultModifier.padding(top = 0.dp), horizontalArrangement = Arrangement.End) {
             IconButton(
                     onClick = {
-                        showShortText("EDYCJA!!!")
+                        editCategoryNameIsVisible = !editCategoryNameIsVisible
                     }
             ) {
                 Icon(
@@ -104,15 +90,54 @@ fun SingleCategory(
                     }
             )
             IconButton(
-                    onClick = {
-                        openDialog.value = true
-                    }
+                    onClick = { openDialog.value = true }
             ) {
                 Icon(
                         Icons.Filled.DeleteForever,
                         contentDescription = null,
                         modifier = Modifier.size(24.dp),
                 )
+            }
+        }
+        if (editCategoryNameIsVisible) {
+           Column {
+                OutlinedTextField(
+                        value = editedCategoryNameText,
+                        onValueChange = {
+                            isCategoryNameInvalid = it.isCategoryNameInvalid()
+                            editedCategoryNameText = it
+                        },
+                        label = { Text("Kategoria") },
+                        modifier = defaultModifier,
+                        singleLine = true,
+                        isError = isCategoryNameInvalid,
+                        trailingIcon = {
+                            if (isCategoryNameInvalid) {
+                                Icon(Icons.Filled.Error, "error")
+                            } else {
+                                IconButton(
+                                        onClick = {
+                                            showShortText("Zaktualizowano!")
+                                            editCategoryNameIsVisible = false
+                                            detailsAreVisible = false
+                                            refreshCategoryListFunction()
+                                        }
+                                ) {
+                                    Icon(Icons.Filled.Forward, "update")
+
+                                }
+                            }
+                        },
+                )
+                if (isCategoryNameInvalid) {
+                    Text(
+                            text = "Niepoprawna wartość",
+                            color = MaterialTheme.colors.error,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(start = 16.dp)
+                    )
+                }
+
             }
         }
     }
@@ -123,6 +148,8 @@ fun SingleCategory(
 
 }
 
+fun String.isCategoryNameInvalid(): Boolean =
+        this.isBlank()
 
 @ExperimentalMaterialApi
 @Preview(showBackground = true)
@@ -140,6 +167,7 @@ fun SingleCategoryPreview() {
                         ),
                         refreshCategoryListFunction = {},
                         initialDetailsAreVisible = true,
+                        initialEditCategoryNameIsVisible = true,
                 )
             }
         }
