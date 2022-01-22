@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -14,9 +12,9 @@ import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
+import com.mateuszcholyn.wallet.scaffold.screens.fragments.SingleCategory
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
-import com.mateuszcholyn.wallet.view.showShortText
 import org.kodein.di.compose.rememberInstance
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -74,33 +72,10 @@ fun NewCategoryScreen() {
 
                 ) {
             items(categoryListOptions) { categoryDetails ->
-                ListItem(
-                        modifier = Modifier.testTag("CategoryItem#${categoryDetails.id}"),
-                        text = { Text(categoryDetails.name) },
-                        secondaryText = { Text("Ilość wydatków: ${categoryDetails.numberOfExpenses}") },
-                        trailing = {
-                            IconButton(
-                                    onClick = {
-                                        if (categoryDetails.numberOfExpenses == 0L) {
-                                            categoryService.remove(categoryDetails.id)
-                                            refreshCategoryList()
-                                            showShortText("Usunięto kategorię: ${categoryDetails.name}")
-                                        } else {
-                                            showShortText("Nie możesz tego zrobić")
-                                        }
-                                    }
-                            ) {
-                                Icon(
-                                        Icons.Filled.Delete,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(32.dp),
-
-                                        )
-                            }
-
-                        }
+                SingleCategory(
+                        categoryDetails = categoryDetails,
+                        refreshCategoryListFunction = { refreshCategoryList() },
                 )
-                Divider()
             }
 
         }

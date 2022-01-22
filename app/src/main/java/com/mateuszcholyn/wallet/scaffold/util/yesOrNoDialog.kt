@@ -17,14 +17,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun YesOrNoDialog(openDialog: MutableState<Boolean>, onConfirm: () -> Unit) {
+fun YesOrNoDialog(
+        openDialog: MutableState<Boolean>,
+        onConfirm: () -> Unit,
+        message: String = "Na pewno usunąć wydatek?"
+        ) {
     if (openDialog.value) {
         AlertDialog(
                 onDismissRequest = {
                     openDialog.value = false
                 },
                 title = {
-                    Text(text = "Na pewno usunąć wydatek?")
+                    Text(text = message)
                 },
                 buttons = {
                     Row(

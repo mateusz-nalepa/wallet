@@ -41,18 +41,6 @@ fun ShowExpense(
 
     var detailsAreVisible by remember { mutableStateOf(initialDetailsAreVisible) }
     ListItem(
-            icon = {
-                IconButton(onClick = {
-                    detailsAreVisible = !detailsAreVisible
-                }) {
-                    Icon(
-                            Icons.Filled.Menu,
-                            contentDescription = null,
-                            modifier = Modifier.size(32.dp),
-                    )
-                }
-
-            },
             text = { Text("${id + 1}. ${expense.category.name}") },
             trailing = {
                 Row(
