@@ -73,7 +73,7 @@ fun NewSummaryScreen(navController: NavHostController) {
     fun getExpenseSearchCriteria(): ExpenseSearchCriteria {
         return ExpenseSearchCriteria(
                 allCategories = selectedCategory.isAllCategories(),
-                categoryName = selectedCategory.actualCategoryName(),
+                categoryId = selectedCategory.actualCategoryId(),
                 beginDate = selectedQuickRangeData.beginDate,
                 endDate = selectedQuickRangeData.endDate,
                 sort = selectedSort.sort,
@@ -214,8 +214,8 @@ fun NewSummaryScreenPreview() {
 fun CategoryViewModel.isAllCategories(): Boolean =
         name == ALL_CATEGORIES
 
-fun CategoryViewModel.actualCategoryName(): String? =
-        if (isAllCategories()) null else name
+fun CategoryViewModel.actualCategoryId(): Long? =
+        if (isAllCategories()) null else id
 
 fun Expense.descriptionOrDefault(): String =
         if (description == "") "Brak opisu" else description

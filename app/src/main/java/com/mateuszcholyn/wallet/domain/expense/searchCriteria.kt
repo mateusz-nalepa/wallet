@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 data class ExpenseSearchCriteria(
         val allCategories: Boolean,
-        val categoryName: String? = null,
+        val categoryId: Long? = null,
         val beginDate: LocalDateTime,
         val endDate: LocalDateTime,
         val fromAmount: Double = Double.MIN_VALUE,

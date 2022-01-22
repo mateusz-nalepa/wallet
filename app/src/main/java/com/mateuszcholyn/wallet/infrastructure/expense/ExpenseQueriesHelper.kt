@@ -20,7 +20,7 @@ class ExpenseQueriesHelper {
                 """.trimIndent()
 
         if (!expenseSearchCriteria.allCategories) {
-            averageQuery += " and Category.name = '${expenseSearchCriteria.categoryName!!}' \n "
+            averageQuery += " and Category.category_id = '${expenseSearchCriteria.categoryId!!}' \n "
         }
 
         averageQuery += " ORDER BY ${expenseSearchCriteria.resolveSort()}"
