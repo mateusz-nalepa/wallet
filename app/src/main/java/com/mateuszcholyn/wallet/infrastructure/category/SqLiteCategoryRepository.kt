@@ -33,10 +33,19 @@ class SqLiteCategoryRepository(
                 .let { category.copy(id = it) }
     }
 
+    override fun update(category: Category): Category {
+        category
+                .toEntity()
+                .let { categoryDao.update(it) }
+
+        return category
+    }
+
 }
 
 fun Category.toEntity(): CategoryEntity =
         CategoryEntity(
+                categoryId = id,
                 name = name
         )
 

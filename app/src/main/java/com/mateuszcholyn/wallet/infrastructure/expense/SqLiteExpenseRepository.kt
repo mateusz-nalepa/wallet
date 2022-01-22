@@ -40,7 +40,8 @@ class SqLiteExpenseRepository(
                 .toEntity()
                 .let { expenseDao.update(it) }
 
-        return expenseDao.getExpenseWithCategory(expense.id)
+        return expenseDao
+                .getExpenseWithCategory(expense.id)
                 .toDomain()
     }
 }

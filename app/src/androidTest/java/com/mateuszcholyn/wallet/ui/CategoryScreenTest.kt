@@ -129,6 +129,12 @@ class TestCategoryRepository : CategoryRepository {
 
         return addedCategory
     }
+
+    override fun update(category: Category): Category {
+        storage[category.id] = category
+
+        return category
+    }
 }
 
 class TestExpenseRepository : ExpenseRepository {

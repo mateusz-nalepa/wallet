@@ -74,6 +74,10 @@ class PreviewCategoryRepository : CategoryRepository {
 
         return addedCategory
     }
+
+    override fun update(category: Category): Category {
+        return category
+    }
 }
 
 class PreviewExpenseRepository : ExpenseRepository {

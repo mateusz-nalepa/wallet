@@ -6,5 +6,6 @@ interface CategoryRepository {
     fun getAllWithDetailsOrderByUsageDesc(): List<CategoryDetails>
     fun remove(categoryId: Long): Boolean
     fun add(category: Category): Category
+    fun update(category: Category): Category
 
 }

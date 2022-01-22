@@ -1,9 +1,6 @@
 package com.mateuszcholyn.wallet.infrastructure.category
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.RawQuery
+import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.mateuszcholyn.wallet.infrastructure.expense.CategoryWithExpense
 import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseEntity
@@ -26,5 +23,8 @@ interface CategoryDao {
 
     @Insert
     fun add(categoryEntity: CategoryEntity): Long
+
+    @Update
+    fun update(categoryEntity: CategoryEntity): Int
 
 }

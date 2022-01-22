@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.scaffold.util.YesOrNoDialog
@@ -100,7 +101,7 @@ fun SingleCategory(
             }
         }
         if (editCategoryNameIsVisible) {
-           Column {
+            Column {
                 OutlinedTextField(
                         value = editedCategoryNameText,
                         onValueChange = {
@@ -117,14 +118,15 @@ fun SingleCategory(
                             } else {
                                 IconButton(
                                         onClick = {
-                                            showShortText("Zaktualizowano!")
+                                            categoryService.updateCategory(
+                                                    categoryDetails.toCategory(editedCategoryNameText)
+                                            )
                                             editCategoryNameIsVisible = false
                                             detailsAreVisible = false
                                             refreshCategoryListFunction()
                                         }
                                 ) {
                                     Icon(Icons.Filled.Forward, "update")
-
                                 }
                             }
                         },
@@ -173,3 +175,10 @@ fun SingleCategoryPreview() {
         }
     }
 }
+
+
+fun CategoryDetails.toCategory(newName: String): Category =
+        Category(
+                id = id,
+                name = newName,
+        )

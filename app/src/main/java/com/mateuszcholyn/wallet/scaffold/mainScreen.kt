@@ -34,11 +34,11 @@ fun MainScreen() {
             drawerContent = {
                 Drawer(scope = scope, scaffoldState = scaffoldState, navController = navController)
             },
-//            floatingActionButtonPosition = FabPosition.Center,
-//            floatingActionButton = { FloatingButton(scope = scope, navController = navController) },
-            bottomBar = {
-                BottomBar(navController = navController)
-            }
+            floatingActionButtonPosition = FabPosition.Center,
+            floatingActionButton = { FloatingButton(scope = scope, navController = navController) },
+//            bottomBar = {
+//                BottomBar(navController = navController)
+//            }
     ) {
         Navigation(navController = navController)
     }
