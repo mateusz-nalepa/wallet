@@ -67,6 +67,17 @@ fun SingleCategory(
         Row(modifier = defaultModifier.padding(top = 0.dp), horizontalArrangement = Arrangement.End) {
             IconButton(
                     onClick = {
+                        showShortText("NOT IMPLEMENTED!")
+                    }
+            ) {
+                Icon(
+                        Icons.Filled.PresentToAll,
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp),
+                )
+            }
+            IconButton(
+                    onClick = {
                         editCategoryNameIsVisible = !editCategoryNameIsVisible
                     }
             ) {
@@ -126,7 +137,7 @@ fun SingleCategory(
                                             refreshCategoryListFunction()
                                         }
                                 ) {
-                                    Icon(Icons.Filled.Forward, "update")
+                                    Icon(Icons.Filled.Done, "update")
                                 }
                             }
                         },
