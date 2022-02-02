@@ -130,7 +130,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
                         expenseService.saveExpense(
                                 Expense(
                                         id = actualExpenseId,
-                                        amount = amount.toDouble(),
+                                        amount = amount.toBigDecimal(),
                                         description = description,
                                         category = selectedCategory.toCategory(),
                                         date = dateText.toLocalDateTime(),

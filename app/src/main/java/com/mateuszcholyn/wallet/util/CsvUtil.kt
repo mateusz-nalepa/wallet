@@ -11,6 +11,7 @@ import com.mateuszcholyn.wallet.config.ApplicationContext.Companion.appContext
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import java.io.File
 import java.io.FileWriter
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 
@@ -92,7 +93,7 @@ private fun File.toFileWriter(): FileWriter {
 
 data class SaveModel(
         val expenseId: Long,
-        val amount: Double,
+        val amount: BigDecimal,
         val categoryName: String,
         val date: String,
         val description: String,

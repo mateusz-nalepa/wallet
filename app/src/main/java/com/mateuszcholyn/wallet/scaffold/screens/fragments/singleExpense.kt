@@ -26,6 +26,7 @@ import com.mateuszcholyn.wallet.util.previewDi
 import com.mateuszcholyn.wallet.util.toHumanText
 import org.kodein.di.compose.rememberInstance
 import org.kodein.di.compose.withDI
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -139,7 +140,7 @@ fun ShowExpensePreview() {
                         id = 1,
                         expense = Expense(
                                 id = 1L,
-                                amount = 5.0,
+                                amount = BigDecimal("5"),
                                 date = LocalDateTime.now(),
                                 description = "Opis do WydasdatkuOpis do WydatkuOpis do Wydatku\nOpis do WydatkuOpis do WydatkuOpis do Wydatku\n",
                                 category = Category(

@@ -13,6 +13,7 @@ import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
 import org.kodein.di.provider
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 fun previewDi(): DI {
@@ -109,7 +110,7 @@ class PreviewExpenseRepository : ExpenseRepository {
 fun dummyExpense(): Expense =
         Expense(
                 id = 1L,
-                amount = 5.0,
+                amount = BigDecimal("5"),
                 date = LocalDateTime.now(),
                 description = "dummyDescription",
                 category = dummyCategory(),
