@@ -85,18 +85,16 @@ fun NewSummaryScreen(navController: NavHostController) {
         )
     }
 
-    fun showAverageAmount() {
-        summaryResultText = expenseService.averageExpense(getExpenseSearchCriteria()).asTextSummary()
-    }
+    fun refreshScreen() {
+        val summaryResult = expenseService.getSummary(getExpenseSearchCriteria())
 
-    fun showHistory() {
-        expensesList = expenseService.getAll(getExpenseSearchCriteria())
-
+        expensesList = summaryResult.expenses
         expensesListGrouped = expensesList.groupBy(selectedGroupElement.groupFunction)
+
+        summaryResultText = summaryResult.averageExpenseResult.asTextSummary()
     }
 
-    showHistory()
-    showAverageAmount()
+    refreshScreen()
 
     Column(modifier = defaultModifier) {
 
@@ -193,14 +191,14 @@ fun NewSummaryScreen(navController: NavHostController) {
         if (isGroupingEnabled) {
             GroupedExpenses(
                     navController = navController,
-                    refreshFunction = { showHistory() },
+                    refreshFunction = { refreshScreen() },
                     expensesListGrouped = expensesListGrouped,
                     groupNameFunction = selectedGroupElement.groupFunctionName,
             )
         } else {
             ExpensesList(
                     navController = navController,
-                    refreshFunction = { showHistory() },
+                    refreshFunction = { refreshScreen() },
                     expensesList = expensesList,
             )
         }

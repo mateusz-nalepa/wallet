@@ -5,6 +5,10 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.Duration
 
+data class SummaryResult(
+        val expenses: List<Expense>,
+        val averageExpenseResult: AverageExpenseResult,
+)
 
 class ExpenseService(
         private val expenseRepository: ExpenseRepository,
@@ -14,11 +18,20 @@ class ExpenseService(
         return expenseRepository.getById(expenseId)
     }
 
-    fun getAll(expenseSearchCriteria: ExpenseSearchCriteria): List<Expense> {
-        return expenseRepository.getAll(expenseSearchCriteria)
+    fun getSummary(expenseSearchCriteria: ExpenseSearchCriteria): SummaryResult {
+        val expenses = expenseRepository.getAll(expenseSearchCriteria)
+
+        return SummaryResult(
+                expenses = expenses,
+                averageExpenseResult = averageExpense(expenses, expenseSearchCriteria),
+        )
     }
 
-    fun averageExpense(expenseSearchCriteria: ExpenseSearchCriteria): AverageExpenseResult {
+    private fun averageExpense(
+            expenses: List<Expense>,
+            expenseSearchCriteria: ExpenseSearchCriteria,
+    ): AverageExpenseResult {
+        val sum = expenses.sumExpensesAmount()
 
         var days =
                 Duration.between(expenseSearchCriteria.beginDate, expenseSearchCriteria.endDate)
@@ -28,15 +41,10 @@ class ExpenseService(
             days += 1 // have no idea why XD
         }
 
-        val all = expenseRepository.getAll(expenseSearchCriteria)
-
-        val sum = all.sumExpensesAmount()
-
-
         return AverageExpenseResult(
                 wholeAmount = sum,
                 days = days.toInt(),
-                averageAmount = sum.divide(days.toBigDecimal(),  2, RoundingMode.HALF_UP)
+                averageAmount = sum.divide(days.toBigDecimal(), 2, RoundingMode.HALF_UP)
         )
     }
 
