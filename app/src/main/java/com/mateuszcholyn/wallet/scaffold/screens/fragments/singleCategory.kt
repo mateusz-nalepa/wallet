@@ -98,7 +98,7 @@ fun SingleCategory(
                             refreshCategoryListFunction()
                             showShortText("Usunięto kategorię: ${categoryDetails.name}")
                         } else {
-                            showShortText("Nie możesz tego zrobić")
+                            showShortText("Nie możesz usunąć kategorii w której są wydatki")
                         }
                     }
             )
