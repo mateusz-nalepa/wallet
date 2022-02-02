@@ -32,6 +32,10 @@ fun NewCategoryScreen() {
     var categoryListOptions by remember { mutableStateOf(listOf<CategoryDetails>()) }
     var categoryNamesOnly by remember { mutableStateOf(listOf<String>()) }
 
+    val isFormValid by derivedStateOf {
+        !categoryIsInvalid(categoryNameText, categoryNamesOnly)
+    }
+
     fun refreshCategoryList() {
         categoryListOptions = categoryService.getAllWithDetailsOrderByUsageDesc()
         categoryNamesOnly = categoryListOptions.map { it.name }
@@ -53,6 +57,7 @@ fun NewCategoryScreen() {
                     modifier = defaultModifier.testTag("NewCategoryTextField"),
             )
             Button(
+                    enabled = isFormValid,
                     onClick = {
                         categoryService.add(Category(name = categoryNameText))
                         categoryNameText = ""
