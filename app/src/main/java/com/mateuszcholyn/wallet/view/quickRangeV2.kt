@@ -9,6 +9,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
+const val ALL_EXPENSES = "Wszystkie wydatki"
 
 object QuickRangeV2 {
 
@@ -51,7 +52,7 @@ object QuickRangeV2 {
             QuickRangeDataV2(
                     beginDate = minDate,
                     endDate = maxDate,
-                    name = "Wszystkie wydatki",
+                    name = ALL_EXPENSES,
             )
     )
 
@@ -66,3 +67,6 @@ class QuickRangeDataV2(
         val beginDate: LocalDateTime,
         val endDate: LocalDateTime,
 ) : DropdownElement
+
+fun QuickRangeDataV2.isAllExpenses(): Boolean =
+        name == ALL_EXPENSES

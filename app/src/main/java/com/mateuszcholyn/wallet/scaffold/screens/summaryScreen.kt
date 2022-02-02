@@ -32,6 +32,7 @@ import com.mateuszcholyn.wallet.ui.summary.SortingData
 import com.mateuszcholyn.wallet.util.ALL_CATEGORIES
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.view.QuickRangeV2
+import com.mateuszcholyn.wallet.view.isAllExpenses
 import org.kodein.di.compose.rememberInstance
 
 
@@ -80,6 +81,7 @@ fun NewSummaryScreen(navController: NavHostController) {
                 beginDate = selectedQuickRangeData.beginDate,
                 endDate = selectedQuickRangeData.endDate,
                 sort = selectedSort.sort,
+                isAllExpenses = selectedQuickRangeData.isAllExpenses(),
                 fromAmount = amountRangeStart.toDoubleOrDefaultZero(),
                 toAmount = amountRangeEnd.toDoubleOrDefaultZero(),
         )

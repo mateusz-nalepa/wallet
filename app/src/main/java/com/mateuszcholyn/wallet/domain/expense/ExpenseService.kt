@@ -4,6 +4,7 @@ import com.mateuszcholyn.wallet.scaffold.screens.isEditable
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.Duration
+import java.time.LocalDateTime
 
 data class SummaryResult(
         val expenses: List<Expense>,
@@ -33,9 +34,21 @@ class ExpenseService(
     ): AverageExpenseResult {
         val sum = expenses.sumExpensesAmount()
 
+
         var days =
-                Duration.between(expenseSearchCriteria.beginDate, expenseSearchCriteria.endDate)
-                        .toDays()
+                if (expenseSearchCriteria.isAllExpenses) {
+                    if (expenses.isEmpty()) {
+                        expenseSearchCriteria.toNumberOfDays()
+                    }
+
+                    val minimum = expenses.minOfOrNull { it.date }
+                    val maximum = LocalDateTime.now()
+
+                    Duration.between(minimum, maximum)
+                            .toDays()
+                } else {
+                    expenseSearchCriteria.toNumberOfDays()
+                }
 
         if (days == 0L) {
             days += 1 // have no idea why XD
@@ -76,3 +89,8 @@ data class AverageExpenseResult(
 
 fun List<Expense>.sumExpensesAmount(): BigDecimal =
         this.map { it.amount }.reduce { acc, bigDecimal -> acc.add(bigDecimal) }
+
+
+private fun ExpenseSearchCriteria.toNumberOfDays(): Long =
+        Duration.between(this.beginDate, this.endDate)
+                .toDays()
