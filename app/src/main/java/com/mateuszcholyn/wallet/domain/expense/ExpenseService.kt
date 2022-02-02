@@ -38,14 +38,16 @@ class ExpenseService(
         var days =
                 if (expenseSearchCriteria.isAllExpenses) {
                     if (expenses.isEmpty()) {
-                        expenseSearchCriteria.toNumberOfDays()
+                        0
+                    } else {
+                        val minimum = expenses.minOfOrNull { it.date }
+                        val maximum = LocalDateTime.now()
+
+                        Duration.between(minimum, maximum)
+                                .toDays()
                     }
 
-                    val minimum = expenses.minOfOrNull { it.date }
-                    val maximum = LocalDateTime.now()
 
-                    Duration.between(minimum, maximum)
-                            .toDays()
                 } else {
                     expenseSearchCriteria.toNumberOfDays()
                 }
