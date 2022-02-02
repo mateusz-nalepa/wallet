@@ -79,9 +79,9 @@ fun FloatingButton(scope: CoroutineScope, navController: NavHostController) {
                         }
                         // Avoid multiple copies of the same destination when
                         // reselecting the same item
-                        launchSingleTop = true
+//                        launchSingleTop = true
                         // Restore state when reselecting a previously selected item
-                        restoreState = true
+//                        restoreState = true
                     }
 
                 }
