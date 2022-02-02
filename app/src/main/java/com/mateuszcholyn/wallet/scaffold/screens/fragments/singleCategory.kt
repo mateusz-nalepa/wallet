@@ -21,6 +21,7 @@ import com.mateuszcholyn.wallet.view.showShortText
 import org.kodein.di.compose.rememberInstance
 import org.kodein.di.compose.withDI
 
+
 @ExperimentalMaterialApi
 @Composable
 fun SingleCategory(
@@ -32,7 +33,6 @@ fun SingleCategory(
 ) {
     val categoryService: CategoryService by rememberInstance()
     var detailsAreVisible by remember { mutableStateOf(initialDetailsAreVisible) }
-    var editedCategoryNameText by remember { mutableStateOf(categoryDetails.name) }
 
     var editCategoryNameIsVisible by remember { mutableStateOf(initialEditCategoryNameIsVisible) }
 
@@ -135,6 +135,7 @@ fun SingleCategory(
     Divider()
 
 }
+
 
 @ExperimentalMaterialApi
 @Preview(showBackground = true)

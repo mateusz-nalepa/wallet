@@ -17,6 +17,7 @@ import com.mateuszcholyn.wallet.domain.expense.sumExpensesAmount
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
 
+
 @ExperimentalFoundationApi
 @Composable
 fun GroupedExpenses(
@@ -28,7 +29,9 @@ fun GroupedExpenses(
     LazyColumn(modifier = defaultModifier) {
         expensesListGrouped.forEach { (_, expensesInGroup) ->
             stickyHeader {
-                Row(modifier = defaultModifier.background(Color.LightGray).padding(0.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                Row(modifier = defaultModifier
+                        .background(Color.LightGray)
+                        .padding(0.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                     Text(text = groupNameFunction.invoke(expensesInGroup.first()), modifier = defaultModifier.weight(1f))
                     Text(text = expensesInGroup.sumExpensesAmount().asPrinteableAmount(), modifier = defaultModifier.weight(1f))
                 }

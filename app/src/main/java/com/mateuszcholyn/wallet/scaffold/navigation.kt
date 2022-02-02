@@ -26,8 +26,9 @@ fun NavDrawerItem.AddOrEditExpense.routeWithoutId(): String =
 fun NavDrawerItem.AddOrEditExpense.routeWithId(expenseId: Long): String =
         "addOrEditExpense?expenseId=$expenseId"
 
+
 @ExperimentalFoundationApi
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 @Composable
 fun Navigation(navController: NavHostController) {
     NavHost(navController, startDestination = NavDrawerItem.SummaryScreen.route) {

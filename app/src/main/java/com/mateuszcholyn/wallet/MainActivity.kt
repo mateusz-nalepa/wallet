@@ -15,9 +15,10 @@ import com.mateuszcholyn.wallet.scaffold.MainScreen
 import org.kodein.di.compose.withDI
 
 
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
 class MainActivity : AppCompatActivity() {
-    @ExperimentalFoundationApi
-    @OptIn(ExperimentalMaterialApi::class)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

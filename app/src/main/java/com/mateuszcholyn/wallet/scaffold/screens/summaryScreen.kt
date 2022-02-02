@@ -32,8 +32,9 @@ import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.view.QuickRangeV2
 import org.kodein.di.compose.rememberInstance
 
+
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NewSummaryScreen(navController: NavHostController) {
     val categoryService: CategoryService by rememberInstance()
@@ -202,6 +203,7 @@ fun NewSummaryScreen(navController: NavHostController) {
     }
 
 }
+
 
 @ExperimentalFoundationApi
 @OptIn(ExperimentalMaterialApi::class)

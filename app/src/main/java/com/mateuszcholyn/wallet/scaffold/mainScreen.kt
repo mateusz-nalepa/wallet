@@ -18,7 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 @Composable
 fun MainScreen() {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
@@ -45,8 +45,9 @@ fun MainScreen() {
     // }
 }
 
+
 @ExperimentalFoundationApi
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
