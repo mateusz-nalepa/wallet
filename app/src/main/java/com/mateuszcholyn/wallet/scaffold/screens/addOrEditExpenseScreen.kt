@@ -1,8 +1,7 @@
 package com.mateuszcholyn.wallet.scaffold.screens
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -11,8 +10,10 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.domain.category.Category
@@ -48,20 +49,46 @@ fun CategoryViewModel.toCategory(): Category =
                 name = name,
         )
 
+@Composable
+fun NoCategoryPresentInfo(
+        navController: NavHostController,
+) {
+    Column(
+            modifier = defaultModifier
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text("Aby dodać wydatek, musisz wpierw dodać kategorię")
+        Button(
+                onClick = { navController.navigate(NavDrawerItem.Category.route) },
+                modifier = defaultButtonModifier,
+        ) {
+            Text(text = "Dodaj pierwszą kategorię")
+        }
+    }
+}
+
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId: Long) {
-
     val expenseService: ExpenseService by rememberInstance()
     val categoryService: CategoryService by rememberInstance()
 
-    val options = categoryService.getAllOrderByUsageDesc().map { it.toCategoryViewModel() }
+    val categoryNameOptions = categoryService.getAllOrderByUsageDesc().map { it.toCategoryViewModel() }
+
+    if (categoryNameOptions.isEmpty()) {
+        NoCategoryPresentInfo(navController)
+        return
+    }
 
     val datePickerDialogState = rememberMaterialDialogState()
 
     val expenseOrNull = if (actualExpenseId.isNonEditable()) null else expenseService.getById(actualExpenseId)
 
-    var selectedCategory by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) options.first() else expenseOrNull!!.category.toCategoryViewModel()) }
+    var selectedCategory by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) categoryNameOptions.first() else expenseOrNull!!.category.toCategoryViewModel()) }
     var amount by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) "" else expenseOrNull!!.amount.asFormattedAmount().toString()) }
 
     var description by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) "" else expenseOrNull!!.description) }
@@ -83,7 +110,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
         WalletDropdown(
                 dropdownName = "Kategoria",
                 selectedElement = selectedCategory,
-                availableElements = options,
+                availableElements = categoryNameOptions,
                 onItemSelected = {
                     selectedCategory = it
                 },
