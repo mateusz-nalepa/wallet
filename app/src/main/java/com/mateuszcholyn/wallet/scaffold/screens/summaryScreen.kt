@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -13,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.domain.category.Category
@@ -180,8 +182,10 @@ fun NewSummaryScreen(navController: NavHostController) {
             }
         }
         Divider()
-        Row(modifier = defaultModifier, horizontalArrangement = Arrangement.SpaceBetween) {
+        Row(modifier = defaultModifier.padding(bottom = 0.dp)) {
             Text(text = "Ilość: ${expensesList.size}", modifier = defaultModifier.weight(1f))
+        }
+        Row(modifier = defaultModifier.padding(top = 0.dp)) {
             Text(text = summaryResultText, modifier = defaultModifier.weight(2f))
         }
         Divider()
