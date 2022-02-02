@@ -1,7 +1,5 @@
 package com.mateuszcholyn.wallet.domain.category
 
-import com.mateuszcholyn.wallet.domain.expense.Expense
-
 class CategoryService(
         private val categoryRepository: CategoryRepository,
 ) {

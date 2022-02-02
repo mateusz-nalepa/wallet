@@ -13,7 +13,9 @@ import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.scaffold.util.*
+import com.mateuszcholyn.wallet.scaffold.util.CategoryForm
+import com.mateuszcholyn.wallet.scaffold.util.YesOrNoDialog
+import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.util.previewDi
 import com.mateuszcholyn.wallet.view.showShortText
 import org.kodein.di.compose.rememberInstance
@@ -111,31 +113,20 @@ fun SingleCategory(
             }
         }
         if (editCategoryNameIsVisible) {
-            Column {
-                ValidatedTextField(
-                        textFieldLabel = "Nowa nazwa kategorii",
-                        value = editedCategoryNameText,
-                        onValueChange = { editedCategoryNameText = it },
-                        isValueInValidFunction = {
-                            categoryIsInvalid(it, categoryNamesOnly)
-                        },
-                        valueInvalidText = "Nieprawidłowa wartość",
-                        modifier = defaultModifier.testTag("NewCategoryTextField"),
-                )
-                Button(
-                        onClick = {
-                            categoryService.updateCategory(
-                                    categoryDetails.toCategory(editedCategoryNameText)
-                            )
-                            editCategoryNameIsVisible = false
-                            detailsAreVisible = false
-                            refreshCategoryListFunction()
-                        },
-                        modifier = defaultButtonModifier.testTag("AddNewCategoryButton"),
-                ) {
-                    Text("Aktualizuj")
-                }
-            }
+            CategoryForm(
+                    textFieldLabel = "Nowa nazwa kategorii",
+                    buttonLabel = "Aktualizuj",
+                    initialCategoryName = categoryDetails.name,
+                    categoryNamesOnly = categoryNamesOnly,
+                    onFormSubmit = { actualCategory ->
+                        categoryService.updateCategory(
+                                categoryDetails.toCategory(actualCategory)
+                        )
+                        editCategoryNameIsVisible = false
+                        detailsAreVisible = false
+                        refreshCategoryListFunction()
+                    }
+            )
         }
     }
 

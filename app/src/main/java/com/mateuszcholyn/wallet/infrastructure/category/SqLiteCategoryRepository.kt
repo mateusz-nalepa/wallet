@@ -28,14 +28,15 @@ class SqLiteCategoryRepository(
     }
 
     override fun add(category: Category): Category {
-        return category.toEntity()
+        return category
+                .toEntityAdd()
                 .let { categoryDao.add(it) }
                 .let { category.copy(id = it) }
     }
 
     override fun update(category: Category): Category {
         category
-                .toEntity()
+                .toEntityUpdate()
                 .let { categoryDao.update(it) }
 
         return category
@@ -43,9 +44,15 @@ class SqLiteCategoryRepository(
 
 }
 
-fun Category.toEntity(): CategoryEntity =
+fun Category.toEntityUpdate(): CategoryEntity =
         CategoryEntity(
                 categoryId = id,
+                name = name
+        )
+
+fun Category.toEntityAdd(): CategoryEntity =
+        CategoryEntity(
+                categoryId = null,
                 name = name
         )
 

@@ -1,28 +1,45 @@
 package com.mateuszcholyn.wallet.scaffold.util
 
-//@Composable
-//fun CategoryNameWithButton() {
-//    Column(modifier = defaultModifier) {
-//        ValidatedTextField(
-//                textFieldLabel = "Nazwa nowej kategorii",
-//                value = categoryNameText,
-//                onValueChange = { categoryNameText = it },
-//                isValueInValidFunction = {
-//                    categoryIsInvalid(it, categoryNamesOnly)
-//                },
-//                valueInvalidText = "Nieprawidłowa wartość",
-//                modifier = defaultModifier.testTag("NewCategoryTextField"),
-//        )
-//        Button(
-//                enabled = isFormValid,
-//                onClick = {
-//                    categoryService.add(Category(name = categoryNameText))
-//                    categoryNameText = ""
-//                    refreshCategoryList()
-//                },
-//                modifier = defaultButtonModifier.testTag("AddNewCategoryButton"),
-//        ) {
-//            Text("Dodaj kategorię")
-//        }
-//    }
-//}
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.runtime.*
+
+@Composable
+fun CategoryForm(
+        textFieldLabel: String,
+        buttonLabel: String,
+        initialCategoryName: String = "",
+        categoryNamesOnly: List<String> = emptyList(),
+        onFormSubmit: (String) -> Unit,
+) {
+
+    var categoryNameText by remember { mutableStateOf(initialCategoryName) }
+
+    val isFormValid by derivedStateOf {
+        !categoryIsInvalid(categoryNameText, categoryNamesOnly)
+    }
+
+    Column(modifier = defaultModifier) {
+        ValidatedTextField(
+                textFieldLabel = textFieldLabel,
+                value = categoryNameText,
+                onValueChange = { categoryNameText = it },
+                isValueInValidFunction = {
+                    categoryIsInvalid(it, categoryNamesOnly)
+                },
+                valueInvalidText = "Nieprawidłowa wartość",
+                modifier = defaultModifier,
+        )
+        Button(
+                enabled = isFormValid,
+                onClick = {
+                    onFormSubmit.invoke(categoryNameText)
+                    categoryNameText = ""
+                },
+                modifier = defaultButtonModifier,
+        ) {
+            Text(buttonLabel)
+        }
+    }
+}
