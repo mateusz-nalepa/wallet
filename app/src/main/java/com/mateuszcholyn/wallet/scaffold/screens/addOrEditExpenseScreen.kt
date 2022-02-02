@@ -21,7 +21,7 @@ import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.scaffold.NavDrawerItem
 import com.mateuszcholyn.wallet.scaffold.util.*
-import com.mateuszcholyn.wallet.util.asPrinteableAmount
+import com.mateuszcholyn.wallet.util.asFormattedAmount
 import com.mateuszcholyn.wallet.util.previewDi
 import com.mateuszcholyn.wallet.util.toHumanText
 import com.mateuszcholyn.wallet.util.toLocalDateTime
@@ -62,16 +62,15 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
     val expenseOrNull = if (actualExpenseId.isNonEditable()) null else expenseService.getById(actualExpenseId)
 
     var selectedCategory by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) options.first() else expenseOrNull!!.category.toCategoryViewModel()) }
-    var amount by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) "" else expenseOrNull!!.amount.asPrinteableAmount()) }
-
-//    val isAmountInValid by derivedStateOf {
-//        amount.isBlank() || amount.startsWith("-")
-//    }
-
-    var isAmountInValid by remember { mutableStateOf(false) }
+    var amount by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) "" else expenseOrNull!!.amount.asFormattedAmount().toString()) }
 
     var description by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) "" else expenseOrNull!!.description) }
     var dateText by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) LocalDateTime.now().toHumanText() else expenseOrNull!!.date.toHumanText()) }
+
+
+    val isFormValid by derivedStateOf {
+        !amount.isAmountInValid()
+    }
 
     ComposeDateTimePicker(
             dialogState = datePickerDialogState,
@@ -126,6 +125,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
         }
         Row(modifier = defaultModifier) {
             Button(
+                    enabled = isFormValid,
                     onClick = {
                         expenseService.saveExpense(
                                 Expense(
