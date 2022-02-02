@@ -14,6 +14,7 @@ import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.scaffold.util.YesOrNoDialog
+import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import com.mateuszcholyn.wallet.util.previewDi
 import com.mateuszcholyn.wallet.view.showShortText
@@ -126,19 +127,6 @@ fun SingleCategory(
                         trailingIcon = {
                             if (isCategoryNameInvalid) {
                                 Icon(Icons.Filled.Error, "error")
-                            } else {
-                                IconButton(
-                                        onClick = {
-                                            categoryService.updateCategory(
-                                                    categoryDetails.toCategory(editedCategoryNameText)
-                                            )
-                                            editCategoryNameIsVisible = false
-                                            detailsAreVisible = false
-                                            refreshCategoryListFunction()
-                                        }
-                                ) {
-                                    Icon(Icons.Filled.Done, "update")
-                                }
                             }
                         },
                 )
@@ -150,7 +138,19 @@ fun SingleCategory(
                             modifier = Modifier.padding(start = 16.dp)
                     )
                 }
-
+                Button(
+                        onClick = {
+                            categoryService.updateCategory(
+                                    categoryDetails.toCategory(editedCategoryNameText)
+                            )
+                            editCategoryNameIsVisible = false
+                            detailsAreVisible = false
+                            refreshCategoryListFunction()
+                        },
+                        modifier = defaultButtonModifier.testTag("AddNewCategoryButton"),
+                ) {
+                    Text("Aktualizuj")
+                }
             }
         }
     }

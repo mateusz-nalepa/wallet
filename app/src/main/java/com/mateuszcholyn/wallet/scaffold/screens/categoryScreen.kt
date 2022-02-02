@@ -33,10 +33,9 @@ fun NewCategoryScreen() {
     refreshCategoryList()
 
     Column {
-        Row(
-                modifier = defaultModifier,
-        ) {
 
+
+        Column(modifier = defaultModifier) {
             OutlinedTextField(
                     value = categoryNameText,
                     onValueChange = { categoryNameText = it },
@@ -44,8 +43,7 @@ fun NewCategoryScreen() {
                     modifier = defaultModifier.testTag("NewCategoryTextField"),
                     singleLine = true,
             )
-        }
-        Row(modifier = defaultModifier) {
+
             Button(
                     onClick = {
                         categoryService.add(Category(name = categoryNameText))
@@ -57,6 +55,8 @@ fun NewCategoryScreen() {
                 Text("Dodaj kategorię")
             }
         }
+
+
         Row(modifier = defaultModifier, horizontalArrangement = Arrangement.SpaceBetween) {
             Text(text = "Kategorie", modifier = defaultModifier.weight(1f))
             Text(text = "Ilość: ${categoryListOptions.size}", modifier = defaultModifier.weight(1f))
