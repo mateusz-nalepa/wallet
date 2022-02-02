@@ -3,7 +3,10 @@ package com.mateuszcholyn.wallet.scaffold.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -13,6 +16,8 @@ import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.scaffold.screens.fragments.SingleCategory
+import com.mateuszcholyn.wallet.scaffold.util.ValidatedTextField
+import com.mateuszcholyn.wallet.scaffold.util.categoryIsInvalid
 import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
 import org.kodein.di.compose.rememberInstance
@@ -25,25 +30,28 @@ fun NewCategoryScreen() {
     var categoryNameText by remember { mutableStateOf("") }
 
     var categoryListOptions by remember { mutableStateOf(listOf<CategoryDetails>()) }
+    var categoryNamesOnly by remember { mutableStateOf(listOf<String>()) }
 
     fun refreshCategoryList() {
         categoryListOptions = categoryService.getAllWithDetailsOrderByUsageDesc()
+        categoryNamesOnly = categoryListOptions.map { it.name }
     }
 
     refreshCategoryList()
 
     Column {
 
-
         Column(modifier = defaultModifier) {
-            OutlinedTextField(
+            ValidatedTextField(
+                    textFieldLabel = "Nazwa nowej kategorii",
                     value = categoryNameText,
                     onValueChange = { categoryNameText = it },
-                    label = { Text("Nazwa nowej kategorii") },
+                    isValueInValidFunction = {
+                        categoryIsInvalid(it, categoryNamesOnly)
+                    },
+                    valueInvalidText = "Nieprawidłowa wartość",
                     modifier = defaultModifier.testTag("NewCategoryTextField"),
-                    singleLine = true,
             )
-
             Button(
                     onClick = {
                         categoryService.add(Category(name = categoryNameText))
@@ -75,6 +83,7 @@ fun NewCategoryScreen() {
                 SingleCategory(
                         categoryDetails = categoryDetails,
                         refreshCategoryListFunction = { refreshCategoryList() },
+                        categoryNamesOnly = categoryNamesOnly,
                 )
             }
 

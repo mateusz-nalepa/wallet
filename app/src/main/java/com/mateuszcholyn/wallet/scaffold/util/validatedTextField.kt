@@ -16,10 +16,13 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ValidatedTextField(
+        textFieldLabel: String = "Kwota",
         value: String,
         onValueChange: (String) -> Unit,
         valueInvalidText: String = "Niepoprawna wartość",
         isValueInValidFunction: (String) -> Boolean,
+        keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        modifier: Modifier = defaultModifier,
 ) {
 
     var isValueInValid by remember { mutableStateOf(false) }
@@ -31,9 +34,9 @@ fun ValidatedTextField(
                     isValueInValid = isValueInValidFunction(it)
                     onValueChange.invoke(it)
                 },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                label = { Text("Kwota") },
-                modifier = defaultModifier,
+                keyboardOptions = keyboardOptions,
+                label = { Text(textFieldLabel) },
+                modifier = modifier,
                 singleLine = true,
                 trailingIcon = {
                     if (isValueInValid) {

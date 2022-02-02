@@ -4,12 +4,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -89,10 +91,12 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
         )
         Row(modifier = defaultModifier) {
             ValidatedTextField(
+                    textFieldLabel = "Kwota",
                     value = amount,
                     onValueChange = { amount = it },
                     isValueInValidFunction = { it.isAmountInValid() },
                     valueInvalidText = "Niepoprawna kwota",
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
         }
         Row(

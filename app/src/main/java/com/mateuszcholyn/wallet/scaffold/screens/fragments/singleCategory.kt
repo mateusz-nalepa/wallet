@@ -13,9 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.scaffold.util.YesOrNoDialog
-import com.mateuszcholyn.wallet.scaffold.util.defaultButtonModifier
-import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
+import com.mateuszcholyn.wallet.scaffold.util.*
 import com.mateuszcholyn.wallet.util.previewDi
 import com.mateuszcholyn.wallet.view.showShortText
 import org.kodein.di.compose.rememberInstance
@@ -28,11 +26,11 @@ fun SingleCategory(
         refreshCategoryListFunction: () -> Unit,
         initialDetailsAreVisible: Boolean = false,
         initialEditCategoryNameIsVisible: Boolean = false,
+        categoryNamesOnly: List<String> = emptyList(),
 ) {
     val categoryService: CategoryService by rememberInstance()
     var detailsAreVisible by remember { mutableStateOf(initialDetailsAreVisible) }
     var editedCategoryNameText by remember { mutableStateOf(categoryDetails.name) }
-    var isCategoryNameInvalid by remember { mutableStateOf(false) }
 
     var editCategoryNameIsVisible by remember { mutableStateOf(initialEditCategoryNameIsVisible) }
 
@@ -114,30 +112,16 @@ fun SingleCategory(
         }
         if (editCategoryNameIsVisible) {
             Column {
-                OutlinedTextField(
+                ValidatedTextField(
+                        textFieldLabel = "Nowa nazwa kategorii",
                         value = editedCategoryNameText,
-                        onValueChange = {
-                            isCategoryNameInvalid = it.isCategoryNameInvalid()
-                            editedCategoryNameText = it
+                        onValueChange = { editedCategoryNameText = it },
+                        isValueInValidFunction = {
+                            categoryIsInvalid(it, categoryNamesOnly)
                         },
-                        label = { Text("Kategoria") },
-                        modifier = defaultModifier,
-                        singleLine = true,
-                        isError = isCategoryNameInvalid,
-                        trailingIcon = {
-                            if (isCategoryNameInvalid) {
-                                Icon(Icons.Filled.Error, "error")
-                            }
-                        },
+                        valueInvalidText = "Nieprawidłowa wartość",
+                        modifier = defaultModifier.testTag("NewCategoryTextField"),
                 )
-                if (isCategoryNameInvalid) {
-                    Text(
-                            text = "Niepoprawna wartość",
-                            color = MaterialTheme.colors.error,
-                            style = MaterialTheme.typography.caption,
-                            modifier = Modifier.padding(start = 16.dp)
-                    )
-                }
                 Button(
                         onClick = {
                             categoryService.updateCategory(
@@ -160,9 +144,6 @@ fun SingleCategory(
     Divider()
 
 }
-
-fun String.isCategoryNameInvalid(): Boolean =
-        this.isBlank()
 
 @ExperimentalMaterialApi
 @Preview(showBackground = true)
