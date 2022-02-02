@@ -88,7 +88,11 @@ data class AverageExpenseResult(
 )
 
 fun List<Expense>.sumExpensesAmount(): BigDecimal =
+    if (this.isNotEmpty()) {
         this.map { it.amount }.reduce { acc, bigDecimal -> acc.add(bigDecimal) }
+    } else {
+        BigDecimal.ZERO
+    }
 
 
 private fun ExpenseSearchCriteria.toNumberOfDays(): Long =
