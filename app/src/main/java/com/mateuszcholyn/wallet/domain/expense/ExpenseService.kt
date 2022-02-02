@@ -1,6 +1,8 @@
 package com.mateuszcholyn.wallet.domain.expense
 
 import com.mateuszcholyn.wallet.scaffold.screens.isEditable
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.time.Duration
 
 
@@ -34,7 +36,7 @@ class ExpenseService(
         return AverageExpenseResult(
                 wholeAmount = sum,
                 days = days.toInt(),
-                averageAmount = sum / days
+                averageAmount = sum.divide(days.toBigDecimal(),  2, RoundingMode.HALF_UP)
         )
     }
 
@@ -59,10 +61,10 @@ class ExpenseService(
 }
 
 data class AverageExpenseResult(
-        val wholeAmount: Double,
+        val wholeAmount: BigDecimal,
         val days: Int,
-        val averageAmount: Double,
+        val averageAmount: BigDecimal,
 )
 
-fun List<Expense>.sumExpensesAmount(): Double =
-        this.map { it.amount }.sum()
+fun List<Expense>.sumExpensesAmount(): BigDecimal =
+        this.map { it.amount }.reduce { acc, bigDecimal -> acc.add(bigDecimal) }

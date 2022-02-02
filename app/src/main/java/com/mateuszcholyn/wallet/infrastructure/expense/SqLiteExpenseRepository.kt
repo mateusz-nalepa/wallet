@@ -50,7 +50,7 @@ fun Expense.toEntity(): ExpenseEntity {
     val id = id
     return ExpenseEntity(
             expenseId = if (id != -1L) id else null,
-            amount = amount,
+            amount = amount.toDouble(),
             description = description,
             date = date,
             fkCategoryId = category.id
@@ -62,7 +62,7 @@ fun ExpenseWithCategory.toDomain(): Expense {
     val category = this.categoryEntity
     return Expense(
             id = expense.expenseId!!,
-            amount = expense.amount!!,
+            amount = expense.amount!!.toString().toBigDecimal(),
             description = expense.description!!,
             date = expense.date!!,
             category = category.toDomain()
