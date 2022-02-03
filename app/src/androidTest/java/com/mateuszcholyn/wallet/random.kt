@@ -26,7 +26,7 @@ fun randomNewExpense(
         category: Category,
 ): Expense =
         Expense(
-                amount = BigDecimal.valueOf(5),
+                amount = BigDecimal("5.0"),
                 date = LocalDateTime.now(),
                 description = randomDescription(),
                 category = category,

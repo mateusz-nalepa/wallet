@@ -27,4 +27,16 @@ interface ExpenseDao {
     @Update
     fun update(expenseEntity: ExpenseEntity): Int
 
+
+    @Query("""SELECT count(Expense.expense_id)
+                    FROM Expense"""
+    )
+    fun count(): Int
+
+    @Query(
+            """SELECT Expense.*
+                    FROM Expense"""
+    )
+    fun getAll(): List<ExpenseEntity>
+
 }
