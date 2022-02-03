@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold.util
+package com.mateuszcholyn.wallet.ui.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -15,13 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mateuszcholyn.wallet.ui.util.defaultModifier
 
 @Composable
 fun YesOrNoDialog(
         openDialog: MutableState<Boolean>,
         onConfirm: () -> Unit,
         message: String = "Na pewno usunąć wydatek?"
-        ) {
+) {
     if (openDialog.value) {
         AlertDialog(
                 onDismissRequest = {

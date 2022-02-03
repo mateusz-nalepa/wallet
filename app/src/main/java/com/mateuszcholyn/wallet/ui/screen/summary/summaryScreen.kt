@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold.screens
+package com.mateuszcholyn.wallet.ui.screen.summary
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -17,18 +17,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.AverageExpenseResult
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.scaffold.screens.fragments.ExpensesList
-import com.mateuszcholyn.wallet.scaffold.screens.fragments.GroupedExpenses
-import com.mateuszcholyn.wallet.scaffold.util.WalletDropdown
-import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
-import com.mateuszcholyn.wallet.ui.summary.GroupingData
-import com.mateuszcholyn.wallet.ui.summary.SortingData
+import com.mateuszcholyn.wallet.ui.dropdown.GroupingData
+import com.mateuszcholyn.wallet.ui.dropdown.SortingData
+import com.mateuszcholyn.wallet.ui.dropdown.WalletDropdown
+import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.CategoryViewModel
+import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.toCategoryViewModel
+import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.ALL_CATEGORIES
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.view.QuickRangeV2
@@ -45,7 +44,7 @@ fun NewSummaryScreen(navController: NavHostController) {
 
 
     val availableCategories =
-            listOf(Category(name = ALL_CATEGORIES).toCategoryViewModel()) + categoryService.getAllOrderByUsageDesc().map { it.toCategoryViewModel() }
+            listOf(CategoryViewModel(name = ALL_CATEGORIES)) + categoryService.getAllOrderByUsageDesc().map { it.toCategoryViewModel() }
     var selectedCategory by remember { mutableStateOf(availableCategories.first()) }
 
     // QUICK RANGE

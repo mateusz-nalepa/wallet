@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold.util
+package com.mateuszcholyn.wallet.ui.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.mateuszcholyn.wallet.ui.util.defaultModifier
 
 @Composable
 fun ValidatedTextField(

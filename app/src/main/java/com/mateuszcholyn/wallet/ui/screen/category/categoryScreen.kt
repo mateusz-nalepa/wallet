@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold.screens
+package com.mateuszcholyn.wallet.ui.screen.category
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,9 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.scaffold.screens.fragments.SingleCategory
-import com.mateuszcholyn.wallet.scaffold.util.CategoryForm
-import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
+import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import org.kodein.di.compose.rememberInstance
 
 @OptIn(ExperimentalMaterialApi::class)

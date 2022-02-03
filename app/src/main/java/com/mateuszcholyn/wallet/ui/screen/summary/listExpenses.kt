@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold.screens.fragments
+package com.mateuszcholyn.wallet.ui.screen.summary
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

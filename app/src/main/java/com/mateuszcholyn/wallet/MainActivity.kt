@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mateuszcholyn.wallet.config.ApplicationContext
-import com.mateuszcholyn.wallet.scaffold.MainScreen
+import com.mateuszcholyn.wallet.ui.skeleton.MainScreen
 import org.kodein.di.compose.withDI
 
 

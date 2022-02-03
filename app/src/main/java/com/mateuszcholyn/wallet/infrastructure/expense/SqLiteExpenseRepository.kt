@@ -46,16 +46,14 @@ class SqLiteExpenseRepository(
     }
 }
 
-fun Expense.toEntity(): ExpenseEntity {
-    val id = id
-    return ExpenseEntity(
-            expenseId = if (id != -1L) id else null,
-            amount = amount.toDouble(),
-            description = description,
-            date = date,
-            fkCategoryId = category.id
-    )
-}
+fun Expense.toEntity(): ExpenseEntity =
+        ExpenseEntity(
+                expenseId = id,
+                amount = amount.toDouble(),
+                description = description,
+                date = date,
+                fkCategoryId = category.id
+        )
 
 fun ExpenseWithCategory.toDomain(): Expense {
     val expense = this.expenseEntity

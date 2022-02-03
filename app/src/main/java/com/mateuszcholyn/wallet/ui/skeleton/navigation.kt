@@ -1,17 +1,18 @@
-package com.mateuszcholyn.wallet.scaffold
+package com.mateuszcholyn.wallet.ui.skeleton
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.scaffold.screens.DummyScreen
-import com.mateuszcholyn.wallet.scaffold.screens.NewAddOrEditExpenseScreen
-import com.mateuszcholyn.wallet.scaffold.screens.NewCategoryScreen
-import com.mateuszcholyn.wallet.scaffold.screens.NewSummaryScreen
+import com.mateuszcholyn.wallet.ui.screen.DummyScreen
+import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.NewAddOrEditExpenseScreen
+import com.mateuszcholyn.wallet.ui.screen.category.NewCategoryScreen
+import com.mateuszcholyn.wallet.ui.screen.summary.NewSummaryScreen
 
 sealed class NavDrawerItem(var route: String, var icon: Int, var title: String) {
     object Category : NavDrawerItem("category", R.drawable.ic_home, "Category")
@@ -34,10 +35,13 @@ fun Navigation(navController: NavHostController) {
     NavHost(navController, startDestination = NavDrawerItem.SummaryScreen.route) {
         composable(
                 route = NavDrawerItem.AddOrEditExpense.route,
-                arguments = listOf(navArgument("expenseId") { defaultValue = "-1" }),
+                arguments = listOf(navArgument("expenseId") {
+                    nullable = true
+                    defaultValue = null
+                    type = NavType.StringType
+                }),
         ) { backStackEntry ->
-            NewAddOrEditExpenseScreen(navController = navController, backStackEntry.arguments?.getString("expenseId")?.toLong()
-                    ?: -1)
+            NewAddOrEditExpenseScreen(navController = navController, backStackEntry.arguments?.getString("expenseId"))
         }
         composable(NavDrawerItem.Category.route) {
             NewCategoryScreen()

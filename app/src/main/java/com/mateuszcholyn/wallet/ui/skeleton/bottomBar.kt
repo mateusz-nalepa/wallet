@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold
+package com.mateuszcholyn.wallet.ui.skeleton
 
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem

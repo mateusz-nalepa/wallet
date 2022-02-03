@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.view
 
-import com.mateuszcholyn.wallet.scaffold.util.DropdownElement
+import com.mateuszcholyn.wallet.ui.dropdown.DropdownElement
 import com.mateuszcholyn.wallet.util.atStartOfTheDay
 import com.mateuszcholyn.wallet.util.atStartOfTheMonth
 import com.mateuszcholyn.wallet.util.maxDate

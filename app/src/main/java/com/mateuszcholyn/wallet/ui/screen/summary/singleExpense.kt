@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold.screens.fragments
+package com.mateuszcholyn.wallet.ui.screen.summary
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,11 +16,10 @@ import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.scaffold.NavDrawerItem
-import com.mateuszcholyn.wallet.scaffold.routeWithId
-import com.mateuszcholyn.wallet.scaffold.screens.descriptionOrDefault
-import com.mateuszcholyn.wallet.scaffold.util.YesOrNoDialog
-import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
+import com.mateuszcholyn.wallet.ui.composables.YesOrNoDialog
+import com.mateuszcholyn.wallet.ui.skeleton.NavDrawerItem
+import com.mateuszcholyn.wallet.ui.skeleton.routeWithId
+import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
 import com.mateuszcholyn.wallet.util.previewDi
 import com.mateuszcholyn.wallet.util.toHumanText

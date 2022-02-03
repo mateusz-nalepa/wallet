@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold.util
+package com.mateuszcholyn.wallet.ui.util
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height

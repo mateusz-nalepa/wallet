@@ -1,9 +1,12 @@
-package com.mateuszcholyn.wallet.scaffold.util
+package com.mateuszcholyn.wallet.ui.screen.category
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import com.mateuszcholyn.wallet.ui.composables.ValidatedTextField
+import com.mateuszcholyn.wallet.ui.util.defaultButtonModifier
+import com.mateuszcholyn.wallet.ui.util.defaultModifier
 
 @Composable
 fun CategoryForm(
@@ -42,4 +45,8 @@ fun CategoryForm(
             Text(buttonLabel)
         }
     }
+}
+
+fun categoryIsInvalid(category: String, categories: List<String>): Boolean {
+    return category.isBlank() || category in categories
 }

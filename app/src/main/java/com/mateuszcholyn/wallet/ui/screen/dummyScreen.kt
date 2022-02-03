@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold.screens
+package com.mateuszcholyn.wallet.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

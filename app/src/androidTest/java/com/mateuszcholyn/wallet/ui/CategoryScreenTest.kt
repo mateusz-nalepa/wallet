@@ -19,7 +19,7 @@ import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryIdWithNumberOfExpenses
-import com.mateuszcholyn.wallet.scaffold.MainScreen
+import com.mateuszcholyn.wallet.ui.skeleton.MainScreen
 import org.junit.Rule
 import org.junit.Test
 import org.kodein.di.DI

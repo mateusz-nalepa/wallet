@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold
+package com.mateuszcholyn.wallet.ui.skeleton
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

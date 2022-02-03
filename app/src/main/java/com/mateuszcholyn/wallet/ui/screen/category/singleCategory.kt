@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold.screens.fragments
+package com.mateuszcholyn.wallet.ui.screen.category
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,9 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.scaffold.util.CategoryForm
-import com.mateuszcholyn.wallet.scaffold.util.YesOrNoDialog
-import com.mateuszcholyn.wallet.scaffold.util.defaultModifier
+import com.mateuszcholyn.wallet.ui.composables.YesOrNoDialog
+import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.previewDi
 import com.mateuszcholyn.wallet.view.showShortText
 import org.kodein.di.compose.rememberInstance

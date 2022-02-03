@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold.screens
+package com.mateuszcholyn.wallet.ui.screen.addoreditexpense
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,8 +20,13 @@ import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.scaffold.NavDrawerItem
-import com.mateuszcholyn.wallet.scaffold.util.*
+import com.mateuszcholyn.wallet.ui.composables.ComposeDateTimePicker
+import com.mateuszcholyn.wallet.ui.composables.ValidatedTextField
+import com.mateuszcholyn.wallet.ui.dropdown.DropdownElement
+import com.mateuszcholyn.wallet.ui.dropdown.WalletDropdown
+import com.mateuszcholyn.wallet.ui.skeleton.NavDrawerItem
+import com.mateuszcholyn.wallet.ui.util.defaultButtonModifier
+import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.asFormattedAmount
 import com.mateuszcholyn.wallet.util.previewDi
 import com.mateuszcholyn.wallet.util.toHumanText
@@ -33,13 +38,13 @@ import java.time.LocalDateTime
 
 data class CategoryViewModel(
         override val name: String,
-        val id: Long,
+        val id: Long? = null,
 ) : DropdownElement
 
 
 fun Category.toCategoryViewModel(): CategoryViewModel =
         CategoryViewModel(
-                id = requireNotNull(id) { "Category with name $name should have id" },
+                id = id,
                 name = name,
         )
 
@@ -73,7 +78,9 @@ fun NoCategoryPresentInfo(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId: Long) {
+fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseIdXD: String? = null) {
+    val actualExpenseId = actualExpenseIdXD?.toLong()
+
     val expenseService: ExpenseService by rememberInstance()
     val categoryService: CategoryService by rememberInstance()
 
@@ -86,13 +93,13 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
 
     val datePickerDialogState = rememberMaterialDialogState()
 
-    val expenseOrNull = if (actualExpenseId.isNonEditable()) null else expenseService.getById(actualExpenseId)
+    val expenseOrNull = if (actualExpenseId == null) null else expenseService.getById(actualExpenseId)
 
-    var selectedCategory by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) categoryNameOptions.first() else expenseOrNull!!.category.toCategoryViewModel()) }
-    var amount by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) "" else expenseOrNull!!.amount.asFormattedAmount().toString()) }
+    var selectedCategory by remember { mutableStateOf(if (actualExpenseId == null) categoryNameOptions.first() else expenseOrNull!!.category.toCategoryViewModel()) }
+    var amount by remember { mutableStateOf(if (actualExpenseId == null) "" else expenseOrNull!!.amount.asFormattedAmount().toString()) }
 
-    var description by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) "" else expenseOrNull!!.description) }
-    var dateText by remember { mutableStateOf(if (actualExpenseId.isNonEditable()) LocalDateTime.now().toHumanText() else expenseOrNull!!.date.toHumanText()) }
+    var description by remember { mutableStateOf(if (actualExpenseId == null) "" else expenseOrNull!!.description) }
+    var dateText by remember { mutableStateOf(if (actualExpenseId == null) LocalDateTime.now().toHumanText() else expenseOrNull!!.date.toHumanText()) }
 
 
     val isFormValid by derivedStateOf {
@@ -183,25 +190,18 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseId:
 @Composable
 fun NewAddOrEditExpenseScreenPreviewForAddExpense() {
     withDI(di = previewDi()) {
-        NewAddOrEditExpenseScreen(navController = rememberNavController(), -1L)
+        NewAddOrEditExpenseScreen(navController = rememberNavController(), null)
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
-@Preview(showBackground = true)
-@Composable
-fun NewAddOrEditExpenseScreenPreviewForUpdateExpense() {
-    withDI(di = previewDi()) {
-        NewAddOrEditExpenseScreen(navController = rememberNavController(), 1L)
-    }
-}
-
-
-fun Long.isNonEditable(): Boolean =
-        this == -1L
-
-fun Long.isEditable(): Boolean =
-        !isNonEditable()
+//@OptIn(ExperimentalMaterialApi::class)
+//@Preview(showBackground = true)
+//@Composable
+//fun NewAddOrEditExpenseScreenPreviewForUpdateExpense() {
+//    withDI(di = previewDi()) {
+//        NewAddOrEditExpenseScreen(navController = rememberNavController(), 1L)
+//    }
+//}
 
 fun String.isAmountInValid(): Boolean =
         this.isBlank() || this.startsWith("-") || this.cannotConvertToDouble()

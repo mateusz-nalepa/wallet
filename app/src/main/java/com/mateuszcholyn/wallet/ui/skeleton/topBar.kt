@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.scaffold
+package com.mateuszcholyn.wallet.ui.skeleton
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
