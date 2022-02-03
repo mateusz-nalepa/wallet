@@ -1,24 +1,24 @@
 package com.mateuszcholyn.wallet.ui.screen.category
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.ui.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
-import com.mateuszcholyn.wallet.util.previewDi
 import com.mateuszcholyn.wallet.view.showShortText
 import org.kodein.di.compose.rememberInstance
-import org.kodein.di.compose.withDI
 
 
 @ExperimentalMaterialApi
@@ -136,28 +136,28 @@ fun SingleCategory(
 }
 
 
-@ExperimentalMaterialApi
-@Preview(showBackground = true)
-@Composable
-fun SingleCategoryPreview() {
-    withDI(di = previewDi()) {
-        MaterialTheme {
-            Column {
-                SingleCategory(
-                        categoryDetails =
-                        CategoryDetails(
-                                id = 1,
-                                name = "Zakupy",
-                                numberOfExpenses = 14,
-                        ),
-                        refreshCategoryListFunction = {},
-                        initialDetailsAreVisible = true,
-                        initialEditCategoryNameIsVisible = true,
-                )
-            }
-        }
-    }
-}
+//@ExperimentalMaterialApi
+//@Preview(showBackground = true)
+//@Composable
+//fun SingleCategoryPreview() {
+//    withDI(di = previewDi()) {
+//        MaterialTheme {
+//            Column {
+//                SingleCategory(
+//                        categoryDetails =
+//                        CategoryDetails(
+//                                id = 1,
+//                                name = "Zakupy",
+//                                numberOfExpenses = 14,
+//                        ),
+//                        refreshCategoryListFunction = {},
+//                        initialDetailsAreVisible = true,
+//                        initialEditCategoryNameIsVisible = true,
+//                )
+//            }
+//        }
+//    }
+//}
 
 
 fun CategoryDetails.toCategory(newName: String): Category =

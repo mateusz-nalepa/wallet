@@ -3,6 +3,8 @@ package com.mateuszcholyn.wallet.config
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import com.mateuszcholyn.wallet.domain.DemoAppEnabledProvider
+import com.mateuszcholyn.wallet.domain.DemoModeDisabled
 import com.mateuszcholyn.wallet.domain.category.CategoryRepository
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
@@ -27,6 +29,9 @@ class ApplicationContext : Application(), DIAware {
 
     override val di by DI.lazy {
         val appDatabase = AppDatabase(appContext)
+
+        //Demo Mode
+        bind<DemoAppEnabledProvider>() with provider { DemoModeDisabled }
 
         //Category
         bind<CategoryDao>() with provider { appDatabase.categoryDao() }

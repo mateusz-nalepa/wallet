@@ -12,12 +12,14 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.ui.screen.DummyScreen
 import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.NewAddOrEditExpenseScreen
 import com.mateuszcholyn.wallet.ui.screen.category.NewCategoryScreen
+import com.mateuszcholyn.wallet.ui.screen.settings.SettingsScreen
 import com.mateuszcholyn.wallet.ui.screen.summary.NewSummaryScreen
 
 sealed class NavDrawerItem(var route: String, var icon: Int, var title: String) {
     object Category : NavDrawerItem("category", R.drawable.ic_home, "Category")
     object AddOrEditExpense : NavDrawerItem("addOrEditExpense?expenseId={expenseId}", R.drawable.ic_music, "AddOrEditExpense")
     object SummaryScreen : NavDrawerItem("summary", R.drawable.ic_movie, "Summary")
+    object Settings : NavDrawerItem("settings", R.drawable.ic_book, "Settings")
     object Dummy : NavDrawerItem("dummy", R.drawable.ic_book, "Dummy")
 }
 
@@ -48,6 +50,9 @@ fun Navigation(navController: NavHostController) {
         }
         composable(NavDrawerItem.SummaryScreen.route) {
             NewSummaryScreen(navController = navController)
+        }
+        composable(NavDrawerItem.Settings.route) {
+            SettingsScreen()
         }
         composable(NavDrawerItem.Dummy.route) {
             DummyScreen()

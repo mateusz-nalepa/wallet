@@ -1,5 +1,7 @@
 package com.mateuszcholyn.wallet.util
 
+import com.mateuszcholyn.wallet.domain.DemoAppEnabledProvider
+import com.mateuszcholyn.wallet.domain.DemoModeEnabled
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryRepository
@@ -13,29 +15,27 @@ import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
 import org.kodein.di.provider
-import java.math.BigDecimal
-import java.time.LocalDateTime
 
-fun previewDi(): DI {
-    val previewDi by DI.lazy {
-        bind<CategoryRepository>() with provider {
-            PreviewCategoryRepository().apply {
-                add(dummyCategory())
-            }
-        }
+fun simpleDi(): DI {
+    val testDI by DI.lazy {
+        //Demo Mode
+        bind<DemoAppEnabledProvider>() with provider { DemoModeEnabled }
+
+        //Category
+        bind<CategoryRepository>() with provider { SimpleCategoryRepository() }
         bind<CategoryService>() with provider { CategoryService(instance()) }
 
         //Expense
-        bind<ExpenseRepository>() with provider { PreviewExpenseRepository() }
+        bind<ExpenseRepository>() with provider { SimpleExpenseRepository() }
         bind<ExpenseService>() with provider { ExpenseService(instance()) }
     }
-    return previewDi
+    return testDI
 }
 
 
-class PreviewCategoryRepository : CategoryRepository {
+class SimpleCategoryRepository : CategoryRepository {
     private val storage = mutableMapOf<Long, Category>()
-    private val idGenerator = PreviewIdGenerator()
+    private val idGenerator = IdGenerator()
 
     override fun getAllOrderByUsageDesc(): List<Category> =
             getAllWithDetailsOrderByUsageDesc()
@@ -49,7 +49,7 @@ class PreviewCategoryRepository : CategoryRepository {
                     .mapValues {
                         CategoryIdWithNumberOfExpenses(
                                 categoryId = it.value.first().id
-                                        ?: throw IllegalStateException("Category should have id"),
+                                        ?: throw IllegalStateException("Id should not be null"),
                                 numberOfExpenses = it.value.size.toLong(),
                         )
                     }
@@ -78,53 +78,47 @@ class PreviewCategoryRepository : CategoryRepository {
     }
 
     override fun update(category: Category): Category {
+        storage[category.id!!] = category
+
         return category
     }
 }
 
-class PreviewExpenseRepository : ExpenseRepository {
-    private val storage = mutableMapOf<Long, Category>()
-    private val idGenerator = PreviewIdGenerator()
+class SimpleExpenseRepository : ExpenseRepository {
+    private val storage = mutableMapOf<Long, Expense>()
+    private val idGenerator = IdGenerator()
 
     override fun remove(expenseId: Long): Boolean {
+        storage.remove(expenseId)
         return true
     }
 
     override fun getAll(expenseSearchCriteria: ExpenseSearchCriteria): List<Expense> {
-        return emptyList()
+        return storage.values.toList()
     }
 
     override fun add(expense: Expense): Expense {
-        return dummyExpense()
+        val expenseId = idGenerator.nextNumber()
+        val addedExpense = expense.copy(id = expenseId)
+
+        storage[expenseId] = addedExpense
+
+        return addedExpense
     }
 
     override fun update(expense: Expense): Expense {
-        return dummyExpense()
+        storage[expense.id!!] = expense
+
+        return expense
     }
 
     override fun getById(expenseId: Long): Expense {
-        return dummyExpense()
+        return storage[expenseId]!!
     }
 
 }
 
-fun dummyExpense(): Expense =
-        Expense(
-                id = 1L,
-                amount = BigDecimal("5"),
-                date = LocalDateTime.now(),
-                description = "dummyDescription",
-                category = dummyCategory(),
-        )
-
-fun dummyCategory(): Category {
-    return Category(
-            id = 1L,
-            name = "Category Name",
-    )
-}
-
-class PreviewIdGenerator {
+class IdGenerator {
     var init = 1L
 
     fun nextNumber(): Long {

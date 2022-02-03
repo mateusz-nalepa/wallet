@@ -64,7 +64,7 @@ private fun Context.walletFilePath(): String {
     return "$appPath${File.separator}wallet_${LocalDateTime.now().toHumanText()}.json"
 }
 
-private fun String.toFile(): File {
+fun String.toFile(): File {
     return File(this)
 }
 
@@ -78,7 +78,7 @@ private fun prepareSaveModel(ex: Expense): SaveModel =
                 description = ex.description,
         )
 
-private fun File.createNewIfNotExists(): File {
+fun File.createNewIfNotExists(): File {
 
     if (!this.exists()) {
         this.createNewFile()

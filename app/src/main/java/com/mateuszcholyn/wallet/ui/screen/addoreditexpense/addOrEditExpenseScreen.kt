@@ -12,10 +12,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
@@ -28,12 +26,10 @@ import com.mateuszcholyn.wallet.ui.skeleton.NavDrawerItem
 import com.mateuszcholyn.wallet.ui.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.asFormattedAmount
-import com.mateuszcholyn.wallet.util.previewDi
 import com.mateuszcholyn.wallet.util.toHumanText
 import com.mateuszcholyn.wallet.util.toLocalDateTime
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import org.kodein.di.compose.rememberInstance
-import org.kodein.di.compose.withDI
 import java.time.LocalDateTime
 
 data class CategoryViewModel(
@@ -185,14 +181,14 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseIdX
 }
 
 
-@OptIn(ExperimentalMaterialApi::class)
-@Preview(showBackground = true)
-@Composable
-fun NewAddOrEditExpenseScreenPreviewForAddExpense() {
-    withDI(di = previewDi()) {
-        NewAddOrEditExpenseScreen(navController = rememberNavController(), null)
-    }
-}
+//@OptIn(ExperimentalMaterialApi::class)
+//@Preview(showBackground = true)
+//@Composable
+//fun NewAddOrEditExpenseScreenPreviewForAddExpense() {
+//    withDI(di = previewDi()) {
+//        NewAddOrEditExpenseScreen(navController = rememberNavController(), null)
+//    }
+//}
 
 //@OptIn(ExperimentalMaterialApi::class)
 //@Preview(showBackground = true)
