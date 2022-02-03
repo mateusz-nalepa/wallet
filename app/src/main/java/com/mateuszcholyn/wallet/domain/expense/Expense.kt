@@ -6,11 +6,15 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 
 data class Expense(
-        var id: Long = -1,
+        var id: Long? = null,
 
         val amount: BigDecimal,
         val date: LocalDateTime,
         val description: String,
 
         val category: Category
-) : Serializable
+) : Serializable {
+
+    fun idOrThrow(): Long =
+            id ?: throw IllegalStateException()
+}

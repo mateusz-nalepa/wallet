@@ -41,7 +41,7 @@ class SqLiteExpenseRepository(
                 .let { expenseDao.update(it) }
 
         return expenseDao
-                .getExpenseWithCategory(expense.id)
+                .getExpenseWithCategory(expense.idOrThrow())
                 .toDomain()
     }
 }

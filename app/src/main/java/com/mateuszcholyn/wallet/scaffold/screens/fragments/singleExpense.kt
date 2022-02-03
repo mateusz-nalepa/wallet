@@ -90,7 +90,7 @@ fun ShowExpense(
                 Row(horizontalArrangement = Arrangement.End) {
                     IconButton(
                             onClick = {
-                                navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithId(expenseId = expense.id))
+                                navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithId(expenseId = expense.idOrThrow()))
                             }
                     ) {
                         Icon(
@@ -103,7 +103,7 @@ fun ShowExpense(
                     YesOrNoDialog(
                             openDialog = openDialog,
                             onConfirm = {
-                                expenseService.hardRemove(expenseId = expense.id)
+                                expenseService.hardRemove(expenseId = expense.idOrThrow())
                                 refreshFunction()
                                 detailsAreVisible = false
 

@@ -71,7 +71,7 @@ private fun String.toFile(): File {
 
 private fun prepareSaveModel(ex: Expense): SaveModel =
         SaveModel(
-                expenseId = ex.id,
+                expenseId = ex.idOrThrow(),
                 amount = ex.amount,
                 categoryName = ex.category.name,
                 date = ex.date.toHumanText(),

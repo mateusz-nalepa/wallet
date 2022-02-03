@@ -4,27 +4,15 @@ import android.database.sqlite.SQLiteConstraintException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mateuszcholyn.wallet.database.DatabaseTestSpecification
 import com.mateuszcholyn.wallet.domain.category.Category
-import com.mateuszcholyn.wallet.domain.category.CategoryRepository
-import com.mateuszcholyn.wallet.infrastructure.category.CategoryDao
-import com.mateuszcholyn.wallet.infrastructure.category.SqLiteCategoryRepository
 import com.mateuszcholyn.wallet.randomNewCategory
+import com.mateuszcholyn.wallet.randomNewExpense
 import com.mateuszcholyn.wallet.randomString
 import junit.framework.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 internal class CategoryEntityDaoTest : DatabaseTestSpecification() {
-
-    private lateinit var categoryRepository: CategoryRepository
-    private lateinit var categoryDao: CategoryDao
-
-    @Before
-    fun setUp() {
-        categoryDao = db.categoryDao()
-        categoryRepository = SqLiteCategoryRepository(categoryDao)
-    }
 
     @Test
     fun shouldAddCategory() {
@@ -86,6 +74,22 @@ internal class CategoryEntityDaoTest : DatabaseTestSpecification() {
 
         //then
         assertEquals(true, isRemoved)
+    }
+
+    @Test
+    fun shouldReturnAllCategoryDetails() {
+        //given
+        val categoryWithOneExpense = categoryRepository.add(randomNewCategory())
+        val categoryWithZeroExpense = categoryRepository.add(randomNewCategory())
+
+        expenseRepository.add(randomNewExpense(categoryWithOneExpense))
+
+        //when
+        val categoryDetails = categoryRepository.getAllWithDetailsOrderByUsageDesc()
+
+        //then
+        assertEquals(1L, categoryDetails.find { it.id == categoryWithOneExpense.id }!!.numberOfExpenses)
+        assertEquals(0L, categoryDetails.find { it.id == categoryWithZeroExpense.id }!!.numberOfExpenses)
     }
 
 }

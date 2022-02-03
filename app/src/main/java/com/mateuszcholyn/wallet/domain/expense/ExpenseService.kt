@@ -1,6 +1,5 @@
 package com.mateuszcholyn.wallet.domain.expense
 
-import com.mateuszcholyn.wallet.scaffold.screens.isEditable
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.Duration
@@ -67,7 +66,7 @@ class ExpenseService(
             expenseRepository.remove(expenseId)
 
     fun saveExpense(expense: Expense): Expense =
-            if (expense.id.isEditable()) {
+            if (expense.id != null) {
                 updateExpense(expense)
             } else {
                 addExpense(expense)
