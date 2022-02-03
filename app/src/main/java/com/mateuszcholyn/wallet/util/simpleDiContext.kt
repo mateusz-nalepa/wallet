@@ -15,18 +15,39 @@ import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
 import org.kodein.di.provider
+import java.math.BigDecimal
+import java.time.LocalDateTime
 
-fun simpleDi(): DI {
+
+class SimpleDiScope {
+    val categoryRepository: CategoryRepository = SimpleCategoryRepository()
+    val expenseRepository: ExpenseRepository = SimpleExpenseRepository()
+}
+
+
+fun simpleDi(initScope: SimpleDiScope.() -> Unit): DI {
+
+    val diScope = SimpleDiScope().apply(initScope)
+
+    val firstCategory = diScope.categoryRepository.add(Category(name = "Test Category 1"))
+
+    diScope.expenseRepository.add(Expense(amount = BigDecimal("15.0"), date = LocalDateTime.now().minusHours(1), category = firstCategory, description = "expense 1"))
+
+    val secondCategory = diScope.categoryRepository.add(Category(name = "Test Category 2"))
+    diScope.expenseRepository.add(Expense(amount = BigDecimal("20.0"), date = LocalDateTime.now().minusHours(2), category = secondCategory, description = "expense 2"))
+    diScope.expenseRepository.add(Expense(amount = BigDecimal("33.0"), date = LocalDateTime.now().minusHours(3), category = secondCategory, description = "expense 3"))
+
+
     val testDI by DI.lazy {
         //Demo Mode
         bind<DemoAppEnabledProvider>() with provider { DemoModeEnabled }
 
         //Category
-        bind<CategoryRepository>() with provider { SimpleCategoryRepository() }
+        bind<CategoryRepository>() with provider { diScope.categoryRepository }
         bind<CategoryService>() with provider { CategoryService(instance()) }
 
         //Expense
-        bind<ExpenseRepository>() with provider { SimpleExpenseRepository() }
+        bind<ExpenseRepository>() with provider { diScope.expenseRepository }
         bind<ExpenseService>() with provider { ExpenseService(instance()) }
     }
     return testDI

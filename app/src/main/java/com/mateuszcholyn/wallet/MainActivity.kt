@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                 )
 
         return if (isDemoMode) {
-            simpleDi()
+            simpleDi {}
         } else {
             ApplicationContext.appDi
         }
