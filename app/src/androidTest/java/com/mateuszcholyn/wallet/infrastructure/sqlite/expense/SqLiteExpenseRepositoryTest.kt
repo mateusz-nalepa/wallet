@@ -1,11 +1,11 @@
-package com.mateuszcholyn.wallet.domain.expense.db
+package com.mateuszcholyn.wallet.infrastructure.sqlite.expense
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.mateuszcholyn.wallet.database.DatabaseTestSpecification
+import com.mateuszcholyn.wallet.infrastructure.DatabaseTestSpecification
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-internal class ExpenseEntityDaoTest : DatabaseTestSpecification() {
+internal class SqLiteExpenseRepositoryTest : DatabaseTestSpecification() {
 //
 //    private lateinit var expenseDao: ExpenseDao
 //    private lateinit var categoryDao: CategoryDao

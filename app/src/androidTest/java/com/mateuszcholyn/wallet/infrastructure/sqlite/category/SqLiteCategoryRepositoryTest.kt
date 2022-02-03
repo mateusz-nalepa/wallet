@@ -1,9 +1,9 @@
-package com.mateuszcholyn.wallet.domain.category.db
+package com.mateuszcholyn.wallet.infrastructure.sqlite.category
 
 import android.database.sqlite.SQLiteConstraintException
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.mateuszcholyn.wallet.database.DatabaseTestSpecification
 import com.mateuszcholyn.wallet.domain.category.Category
+import com.mateuszcholyn.wallet.infrastructure.DatabaseTestSpecification
 import com.mateuszcholyn.wallet.infrastructure.category.toEntityUpdate
 import com.mateuszcholyn.wallet.randomNewCategory
 import com.mateuszcholyn.wallet.randomNewExpense
@@ -13,7 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-internal class CategoryEntityDaoTest : DatabaseTestSpecification() {
+internal class SqLiteCategoryRepositoryTest : DatabaseTestSpecification() {
 
     @Test
     fun shouldAddCategory() {

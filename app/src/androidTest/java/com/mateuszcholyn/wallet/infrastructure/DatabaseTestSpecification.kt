@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.database
+package com.mateuszcholyn.wallet.infrastructure
 
 import android.content.Context
 import androidx.room.Room
