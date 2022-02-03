@@ -39,7 +39,7 @@ data class CategoryViewModel(
 
 fun Category.toCategoryViewModel(): CategoryViewModel =
         CategoryViewModel(
-                id = id,
+                id = requireNotNull(id) { "Category with name $name should have id" },
                 name = name,
         )
 

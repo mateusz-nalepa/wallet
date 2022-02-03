@@ -11,6 +11,17 @@ interface CategoryDao {
     @RawQuery(observedEntities = [ExpenseEntity::class, CategoryEntity::class])
     fun getAllOrderByUsageDesc(query: SupportSQLiteQuery): List<CategoryEntity>
 
+    @Query("""SELECT count(Category.name)
+                    FROM Category"""
+    )
+    fun count(): Int
+
+    @Query(
+            """SELECT Category.*
+                    FROM Category"""
+    )
+    fun getAll(): List<CategoryEntity>
+
     @Query(
             """SELECT Category.*, Expense.*
                     FROM Category

@@ -48,7 +48,8 @@ class PreviewCategoryRepository : CategoryRepository {
                     .groupBy { it.name }
                     .mapValues {
                         CategoryIdWithNumberOfExpenses(
-                                categoryId = it.value.first().id,
+                                categoryId = it.value.first().id
+                                        ?: throw IllegalStateException("Category should have id"),
                                 numberOfExpenses = it.value.size.toLong(),
                         )
                     }

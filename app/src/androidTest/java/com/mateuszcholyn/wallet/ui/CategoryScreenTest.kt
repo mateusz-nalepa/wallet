@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.SideEffect
@@ -26,14 +27,16 @@ import org.kodein.di.bind
 import org.kodein.di.compose.withDI
 import org.kodein.di.instance
 import org.kodein.di.provider
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 class CategoryScreenTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    @OptIn(ExperimentalMaterialApi::class)
     @Test
     fun myFirstTest() {
         // Start the app
@@ -102,7 +105,8 @@ class TestCategoryRepository : CategoryRepository {
                     .groupBy { it.name }
                     .mapValues {
                         CategoryIdWithNumberOfExpenses(
-                                categoryId = it.value.first().id,
+                                categoryId = it.value.first().id
+                                        ?: throw IllegalStateException("Id should not be null"),
                                 numberOfExpenses = it.value.size.toLong(),
                         )
                     }
@@ -131,7 +135,7 @@ class TestCategoryRepository : CategoryRepository {
     }
 
     override fun update(category: Category): Category {
-        storage[category.id] = category
+        storage[category.id!!] = category
 
         return category
     }
@@ -166,7 +170,7 @@ class TestExpenseRepository : ExpenseRepository {
 fun randomExpense(): Expense =
         Expense(
                 id = 1L,
-                amount = 5.0,
+                amount = BigDecimal("5"),
                 date = LocalDateTime.now(),
                 description = "XD",
                 category = randomCategory(),

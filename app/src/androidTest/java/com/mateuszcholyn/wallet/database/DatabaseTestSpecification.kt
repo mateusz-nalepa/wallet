@@ -1,8 +1,9 @@
 package com.mateuszcholyn.wallet.database
 
+import android.content.Context
 import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import com.mateuszcholyn.wallet.config.AppDatabase
-import com.mateuszcholyn.wallet.config.ApplicationContext
 import org.junit.After
 import org.junit.Before
 import java.io.IOException
@@ -13,7 +14,7 @@ internal open class DatabaseTestSpecification {
 
     @Before
     fun before() {
-        val context = ApplicationContext.appContext
+        val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
     }
 
