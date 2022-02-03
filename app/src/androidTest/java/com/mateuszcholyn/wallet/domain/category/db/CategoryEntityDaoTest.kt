@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteConstraintException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mateuszcholyn.wallet.database.DatabaseTestSpecification
 import com.mateuszcholyn.wallet.domain.category.Category
+import com.mateuszcholyn.wallet.infrastructure.category.toEntityUpdate
 import com.mateuszcholyn.wallet.randomNewCategory
 import com.mateuszcholyn.wallet.randomNewExpense
 import com.mateuszcholyn.wallet.randomString
@@ -62,6 +63,18 @@ internal class CategoryEntityDaoTest : DatabaseTestSpecification() {
 
         //then
         assertEquals(newCategoryName, updatedCategory.name)
+    }
+
+    @Test
+    fun shouldNotUpdateCategoryIfIdIsNotPresent() {
+        //given
+        val category = categoryRepository.add(randomNewCategory())
+
+        //when
+        val updatedCategoriesSize = categoryDao.update(category.copy(id = 666L).toEntityUpdate())
+
+        //then
+        assertEquals(0, updatedCategoriesSize)
     }
 
     @Test
