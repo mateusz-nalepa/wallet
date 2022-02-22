@@ -170,7 +170,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseIdX
                     },
                     modifier = defaultButtonModifier,
             ) {
-                if (actualExpenseId != -1L) {
+                if (actualExpenseId != null) {
                     Text("Edytuj wydatek")
                 } else {
                     Text("Dodaj wydatek")
