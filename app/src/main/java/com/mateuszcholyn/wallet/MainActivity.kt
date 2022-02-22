@@ -6,13 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mateuszcholyn.wallet.config.ApplicationContext
 import com.mateuszcholyn.wallet.ui.skeleton.MainScreen
+import com.mateuszcholyn.wallet.util.ThemeProperties
 import com.mateuszcholyn.wallet.util.isInDemoMode
+import com.mateuszcholyn.wallet.util.resolveTheme
 import com.mateuszcholyn.wallet.util.simpleDi
 import org.kodein.di.DI
 import org.kodein.di.compose.withDI
@@ -29,12 +32,17 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             withDI(di = resolveDi()) {
-                MaterialTheme {
+
+                val darkThemeProperties = resolveTheme()
+
+                MaterialTheme(colors = darkThemeProperties.colors) {
                     ProvideWindowInsets {
                         val systemUiController = rememberSystemUiController()
-                        val darkIcons = MaterialTheme.colors.isLight
                         SideEffect {
-                            systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = darkIcons)
+                            systemUiController.setSystemBarsColor(
+                                    color = Color.Transparent,
+                                    darkIcons = darkThemeProperties.shouldUseDarkTheme,
+                            )
                         }
                         MainScreen()
                     }
@@ -57,4 +65,11 @@ class MainActivity : AppCompatActivity() {
             ApplicationContext.appDi
         }
     }
+
+    @Composable
+    private fun resolveTheme(): ThemeProperties =
+            resolveTheme(
+                    ctx = ApplicationContext.appContext,
+                    activity = this,
+            )
 }
