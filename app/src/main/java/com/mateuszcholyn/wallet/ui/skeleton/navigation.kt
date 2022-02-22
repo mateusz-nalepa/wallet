@@ -14,6 +14,7 @@ import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.NewAddOrEditExpenseSc
 import com.mateuszcholyn.wallet.ui.screen.category.NewCategoryScreen
 import com.mateuszcholyn.wallet.ui.screen.settings.SettingsScreen
 import com.mateuszcholyn.wallet.ui.screen.summary.NewSummaryScreen
+import com.mateuszcholyn.wallet.util.ThemeProperties
 
 sealed class NavDrawerItem(var route: String, var icon: Int, var title: String) {
     object Category : NavDrawerItem("category", R.drawable.ic_home, "Category")
@@ -33,7 +34,10 @@ fun NavDrawerItem.AddOrEditExpense.routeWithId(expenseId: Long): String =
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun Navigation(navController: NavHostController) {
+fun Navigation(
+        navController: NavHostController,
+        themeProperties: ThemeProperties,
+) {
     NavHost(navController, startDestination = NavDrawerItem.SummaryScreen.route) {
         composable(
                 route = NavDrawerItem.AddOrEditExpense.route,
@@ -52,7 +56,7 @@ fun Navigation(navController: NavHostController) {
             NewSummaryScreen(navController = navController)
         }
         composable(NavDrawerItem.Settings.route) {
-            SettingsScreen()
+            SettingsScreen(themeProperties)
         }
         composable(NavDrawerItem.Dummy.route) {
             DummyScreen()

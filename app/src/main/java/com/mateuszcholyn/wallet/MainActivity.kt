@@ -33,18 +33,18 @@ class MainActivity : AppCompatActivity() {
         setContent {
             withDI(di = resolveDi()) {
 
-                val darkThemeProperties = resolveTheme()
+                val themeProperties = resolveTheme()
 
-                MaterialTheme(colors = darkThemeProperties.colors) {
+                MaterialTheme(colors = themeProperties.colors) {
                     ProvideWindowInsets {
                         val systemUiController = rememberSystemUiController()
                         SideEffect {
                             systemUiController.setSystemBarsColor(
                                     color = Color.Transparent,
-                                    darkIcons = darkThemeProperties.shouldUseDarkTheme,
+                                    darkIcons = themeProperties.shouldUseDarkTheme,
                             )
                         }
-                        MainScreen()
+                        MainScreen(themeProperties = themeProperties)
                     }
                 }
             }

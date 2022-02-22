@@ -8,11 +8,13 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.util.Resolver
+import com.mateuszcholyn.wallet.util.ThemeProperties
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun MainScreen() {
+fun MainScreen(themeProperties: ThemeProperties) {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val scope = rememberCoroutineScope()
     val navController = rememberNavController()
@@ -29,7 +31,10 @@ fun MainScreen() {
             floatingActionButtonPosition = FabPosition.Center,
             floatingActionButton = { FloatingButton(scope = scope, navController = navController) },
     ) {
-        Navigation(navController = navController)
+        Navigation(
+                navController = navController,
+                themeProperties = themeProperties,
+        )
     }
 }
 
@@ -39,5 +44,5 @@ fun MainScreen() {
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
-    MainScreen()
+    MainScreen(ThemeProperties(lightColors(), false, Resolver.LIGHT))
 }
