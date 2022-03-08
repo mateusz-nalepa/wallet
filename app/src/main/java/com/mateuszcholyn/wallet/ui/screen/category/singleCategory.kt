@@ -11,7 +11,9 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
@@ -44,7 +46,7 @@ fun SingleCategory(
                     },
 
             text = { Text(categoryDetails.name) },
-            secondaryText = { Text("Ilość wydatków: ${categoryDetails.numberOfExpenses}") },
+            secondaryText = { Text(stringResource(R.string.amountOfExpenses) +" ${categoryDetails.numberOfExpenses}") },
             trailing = {
                 if (detailsAreVisible) {
                     Icon(
@@ -63,11 +65,12 @@ fun SingleCategory(
     )
 
     if (detailsAreVisible) {
-
+        val notImplementedText = stringResource(R.string.notImplemented)
         Row(modifier = defaultModifier.padding(top = 0.dp), horizontalArrangement = Arrangement.End) {
             IconButton(
                     onClick = {
-                        showShortText("NOT IMPLEMENTED!")
+
+                        showShortText(notImplementedText)
                     }
             ) {
                 Icon(
@@ -88,16 +91,18 @@ fun SingleCategory(
                 )
             }
             val openDialog = remember { mutableStateOf(false) }
+            val categoryRemovedText = stringResource(R.string.categoryRemoved)
+            val cannotRemoveCategoryWithExpensesText = stringResource(R.string.cannotRemoveCategoryWithExpenses)
             YesOrNoDialog(
-                    message = "Na pewno usunąć kategorię?",
+                    message = stringResource(R.string.reallyHardRemoveCategory),
                     openDialog = openDialog,
                     onConfirm = {
                         if (categoryDetails.numberOfExpenses == 0L) {
                             categoryService.remove(categoryDetails.id)
                             refreshCategoryListFunction()
-                            showShortText("Usunięto kategorię: ${categoryDetails.name}")
+                            showShortText( categoryRemovedText +" ${categoryDetails.name}")
                         } else {
-                            showShortText("Nie możesz usunąć kategorii w której są wydatki")
+                            showShortText(cannotRemoveCategoryWithExpensesText)
                         }
                     }
             )
@@ -113,8 +118,8 @@ fun SingleCategory(
         }
         if (editCategoryNameIsVisible) {
             CategoryForm(
-                    textFieldLabel = "Nowa nazwa kategorii",
-                    buttonLabel = "Aktualizuj",
+                    textFieldLabel = stringResource(R.string.updatedCategoryName),
+                    buttonLabel = stringResource(R.string.update),
                     initialCategoryName = categoryDetails.name,
                     categoryNamesOnly = categoryNamesOnly,
                     onFormSubmit = { actualCategory ->

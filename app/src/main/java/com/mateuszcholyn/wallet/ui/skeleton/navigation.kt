@@ -16,6 +16,7 @@ import com.mateuszcholyn.wallet.ui.screen.settings.SettingsScreen
 import com.mateuszcholyn.wallet.ui.screen.summary.NewSummaryScreen
 import com.mateuszcholyn.wallet.util.ThemeProperties
 
+// TODO: translate - how to get context?
 sealed class NavDrawerItem(var route: String, var icon: Int, var title: String) {
     object Category : NavDrawerItem("category", R.drawable.ic_home, "Category")
     object AddOrEditExpense : NavDrawerItem("addOrEditExpense?expenseId={expenseId}", R.drawable.ic_music, "AddOrEditExpense")

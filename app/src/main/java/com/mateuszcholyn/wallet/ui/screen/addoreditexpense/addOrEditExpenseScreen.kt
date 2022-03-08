@@ -11,9 +11,11 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.Expense
@@ -61,12 +63,12 @@ fun NoCategoryPresentInfo(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("Aby dodać wydatek, musisz wpierw dodać kategorię")
+        Text(stringResource(R.string.categoryRequiredToAddExpense))
         Button(
                 onClick = { navController.navigate(NavDrawerItem.Category.route) },
                 modifier = defaultButtonModifier,
         ) {
-            Text(text = "Dodaj pierwszą kategorię")
+            Text(text = stringResource(R.string.addFirstCategory))
         }
     }
 }
@@ -111,7 +113,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseIdX
 
     Column(modifier = defaultModifier.verticalScroll(state)) {
         WalletDropdown(
-                dropdownName = "Kategoria",
+                dropdownName = stringResource(R.string.category),
                 selectedElement = selectedCategory,
                 availableElements = categoryNameOptions,
                 onItemSelected = {
@@ -120,11 +122,11 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseIdX
         )
         Row(modifier = defaultModifier) {
             ValidatedTextField(
-                    textFieldLabel = "Kwota",
+                    textFieldLabel = stringResource(R.string.amount),
                     value = amount,
                     onValueChange = { amount = it },
                     isValueInValidFunction = { it.isAmountInValid() },
-                    valueInvalidText = "Niepoprawna kwota",
+                    valueInvalidText = stringResource(R.string.incorrectAmount),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
         }
@@ -134,7 +136,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseIdX
             OutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
-                    label = { Text("Opis") },
+                    label = { Text(stringResource(R.string.description)) },
                     modifier = defaultModifier,
                     maxLines = 5,
             )
@@ -146,7 +148,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseIdX
             OutlinedTextField(
                     value = dateText,
                     onValueChange = { dateText = it },
-                    label = { Text("Data") },
+                    label = { Text(stringResource(R.string.date)) },
                     modifier = defaultModifier.clickable {
                         datePickerDialogState.show()
                     },
@@ -171,9 +173,9 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseIdX
                     modifier = defaultButtonModifier,
             ) {
                 if (actualExpenseId != null) {
-                    Text("Edytuj wydatek")
+                    Text(stringResource(R.string.editExpense))
                 } else {
-                    Text("Dodaj wydatek")
+                    Text(stringResource(R.string.addExpense))
                 }
             }
         }

@@ -8,9 +8,11 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.ui.composables.YesOrNoDialog
@@ -62,7 +64,7 @@ fun ShowExpense(
                         contentDescription = null,
                         modifier = Modifier.size(24.dp),
                 )
-                Text(text = expense.descriptionOrDefault())
+                Text(text = expense.descriptionOrDefault(stringResource(R.string.noDescription)))
             }
             Row(
                     modifier = defaultModifier.padding(bottom = 0.dp),

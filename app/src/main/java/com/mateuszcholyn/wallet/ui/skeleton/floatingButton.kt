@@ -8,9 +8,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.mateuszcholyn.wallet.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -25,7 +27,7 @@ fun FloatingButton(scope: CoroutineScope, navController: NavHostController) {
 
     ExtendedFloatingActionButton(
             icon = { Icon(Icons.Filled.ShoppingCart, "") },
-            text = { Text("Dodaj wydatek") },
+            text = { Text(stringResource(R.string.addExpense)) },
             onClick = {
                 scope.launch {
                     navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithoutId()) {

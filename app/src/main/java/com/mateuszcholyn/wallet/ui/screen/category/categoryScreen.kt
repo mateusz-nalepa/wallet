@@ -8,8 +8,10 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
@@ -33,8 +35,8 @@ fun NewCategoryScreen() {
 
     Column {
         CategoryForm(
-                textFieldLabel = "Nazwa nowej kategorii",
-                buttonLabel = "Dodaj kategorię",
+                textFieldLabel = stringResource(R.string.newCategoryName),
+                buttonLabel = stringResource(R.string.addCategory),
                 initialCategoryName = "",
                 categoryNamesOnly = categoryNamesOnly,
                 onFormSubmit = { actualCategory ->
@@ -44,8 +46,8 @@ fun NewCategoryScreen() {
         )
 
         Row(modifier = defaultModifier, horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(text = "Kategorie", modifier = defaultModifier.weight(1f))
-            Text(text = "Ilość: ${categoryListOptions.size}", modifier = defaultModifier.weight(1f))
+            Text(text = stringResource(R.string.categories), modifier = defaultModifier.weight(1f))
+            Text(text = stringResource(R.string.quantity) + " ${categoryListOptions.size}", modifier = defaultModifier.weight(1f))
         }
         Row(modifier = defaultModifier) {
             Divider()

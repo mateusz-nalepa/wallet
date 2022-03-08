@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringResource
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.ui.composables.ValidatedTextField
 import com.mateuszcholyn.wallet.ui.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
@@ -31,7 +33,7 @@ fun CategoryForm(
                 isValueInValidFunction = {
                     categoryIsInvalid(it, categoryNamesOnly)
                 },
-                valueInvalidText = "Nieprawidłowa wartość",
+                valueInvalidText = stringResource(R.string.incorrectValue),
                 modifier = defaultModifier,
         )
         Button(

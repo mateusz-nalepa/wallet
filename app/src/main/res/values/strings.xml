@@ -11,6 +11,7 @@
     <string name="kwota">Kwota</string>
     <string name="category">Kategoria</string>
     <string name="addExpense">Dodaj wydatek</string>
+    <string name="editExpense">Edytuj wydatek</string>
     <string name="categoryItemName">categoryItem</string>
     <string name="averageExpense">Sredni wydatek</string>
     <string name="moneySaver">Oszczedzanie</string>
@@ -35,5 +36,40 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="darkTheme">Ciemny Motyw</string>
+    <string name="lightTheme">Jasny Motyw</string>
+    <string name="useSystemTheme">Użyj systemowego motywu</string>
+    <string name="theme">Motyw</string>
+    <string name="useGivenTheme">Zastosuj dany motyw</string>
+    <string name="newExpense">Nowy wydatek</string>
+    <string name="dummyView">Dummy View</string>
+    <string name="quantity">Ilość:</string>
+    <string name="group">Group</string>
+    <string name="grouping">Grupowanie</string>
+    <string name="Sorting">Sortowanie</string>
+    <string name="hideFilters">Ukryj filtry</string>
+    <string name="showFilters">Pokaż filtry</string>
+    <string name="range">Zakres</string>
+    <string name="defaultSummaryResultText">0 zł / 1 d = 0 zł/d</string>
+    <string name="amountFrom">Od zł</string>
+    <string name="amountTo">Do zł</string>
+    <string name="noDescription">Brak opisu</string>
+    <string name="amountOfExpenses">Ilość wydatków:</string>
+    <string name="notImplemented">NOT IMPLEMENTED!</string>
+    <string name="reallyHardRemoveCategory">Na pewno usunąć kategorię?</string>
+    <string name="categoryRemoved">\"Usunięto kategorię: \"</string>
+    <string name="cannotRemoveCategoryWithExpenses">Nie możesz usunąć kategorii w której są wydatki</string>
+    <string name="updatedCategoryName">Nowa nazwa kategorii</string>
+    <string name="update">Aktualizuj</string>
+    <string name="incorrectValue">Nieprawidłowa wartość</string>
+    <string name="newCategoryName">Nazwa nowej kategorii</string>
+    <string name="addCategory">Dodaj kategorię</string>
+    <string name="categories">Kategorie</string>
+    <string name="addFirstCategory">Dodaj pierwszą kategorię</string>
+    <string name="categoryRequiredToAddExpense">Aby dodać wydatek, musisz wpierw dodać kategorię</string>
+    <string name="amount">Kwota</string>
+    <string name="incorrectAmount">Niepoprawna kwota</string>
+    <string name="description">Opis</string>
+    <string name="date">Data</string>
 
 </resources>

@@ -11,12 +11,14 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.AverageExpenseResult
 import com.mateuszcholyn.wallet.domain.expense.Expense
@@ -66,9 +68,11 @@ fun NewSummaryScreen(navController: NavHostController) {
 
     var expensesListGrouped by remember { mutableStateOf(mapOf<String, List<Expense>>()) }
 
-    var summaryResultText by remember { mutableStateOf("0 zł / 1 d = 0 zł/d") }
+    val defaultSummaryResultText = stringResource(R.string.defaultSummaryResultText)
 
-    var amountRangeStart by remember { mutableStateOf("0") }
+    var summaryResultText by remember { mutableStateOf(defaultSummaryResultText) }
+
+    var amountRangeStart by remember { mutableStateOf(0.toString()) }
     var amountRangeEnd by remember { mutableStateOf(Int.MAX_VALUE.toString()) }
 
     var advancedFiltersExpanded by remember { mutableStateOf(false) }
@@ -100,7 +104,7 @@ fun NewSummaryScreen(navController: NavHostController) {
     Column(modifier = defaultModifier) {
 
         WalletDropdown(
-                dropdownName = "Kategoria",
+                dropdownName = stringResource(R.string.category),
                 selectedElement = selectedCategory,
                 availableElements = availableCategories,
                 onItemSelected = {
@@ -109,7 +113,7 @@ fun NewSummaryScreen(navController: NavHostController) {
         )
 
         WalletDropdown(
-                dropdownName = "Zakres",
+                dropdownName = stringResource(R.string.range),
                 selectedElement = selectedQuickRangeData,
                 availableElements = availableQuickRangeDataV2,
                 onItemSelected = {
@@ -119,7 +123,7 @@ fun NewSummaryScreen(navController: NavHostController) {
 
         Row(modifier = defaultModifier, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
             ClickableText(
-                    text = if (advancedFiltersExpanded) AnnotatedString("Ukryj filtry") else AnnotatedString("Pokaż filtry"),
+                    text = if (advancedFiltersExpanded) AnnotatedString(stringResource(R.string.hideFilters)) else AnnotatedString(stringResource(R.string.showFilters)),
                     onClick = {
                         advancedFiltersExpanded = !advancedFiltersExpanded
                     },
@@ -130,7 +134,7 @@ fun NewSummaryScreen(navController: NavHostController) {
         }
         if (advancedFiltersExpanded) {
             WalletDropdown(
-                    dropdownName = "Sortowanie",
+                    dropdownName = stringResource(R.string.Sorting),
                     selectedElement = selectedSort,
                     onItemSelected = { selectedSort = it },
                     availableElements = availableSortElements,
@@ -141,7 +145,7 @@ fun NewSummaryScreen(navController: NavHostController) {
 
                 Row(modifier = Modifier.weight(4f)) {
                     WalletDropdown(
-                            dropdownName = "Grupowanie",
+                            dropdownName = stringResource(R.string.grouping),
                             selectedElement = selectedGroupElement,
                             availableElements = availableGroupElements,
                             onItemSelected = {
@@ -155,7 +159,7 @@ fun NewSummaryScreen(navController: NavHostController) {
                     Checkbox(checked = isGroupingEnabled, onCheckedChange = {
                         isGroupingEnabled = !isGroupingEnabled
                     })
-                    Text(text = "Grupuj")
+                    Text(text = stringResource(R.string.group))
                 }
             }
 
@@ -165,7 +169,7 @@ fun NewSummaryScreen(navController: NavHostController) {
                 OutlinedTextField(
                         value = amountRangeStart,
                         onValueChange = { amountRangeStart = it },
-                        label = { Text("Od zł") },
+                        label = { Text(stringResource(R.string.amountFrom)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = defaultModifier.weight(1f),
                         singleLine = true,
@@ -174,7 +178,7 @@ fun NewSummaryScreen(navController: NavHostController) {
                         value = amountRangeEnd,
                         onValueChange = { amountRangeEnd = it },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        label = { Text("Do zł") },
+                        label = { Text(stringResource(R.string.amountTo)) },
                         modifier = defaultModifier.weight(1f),
                         singleLine = true,
                 )
@@ -182,7 +186,7 @@ fun NewSummaryScreen(navController: NavHostController) {
         }
         Divider()
         Row(modifier = defaultModifier.padding(bottom = 0.dp)) {
-            Text(text = "Ilość: ${expensesList.size}", modifier = defaultModifier.weight(1f))
+            Text(text = stringResource(R.string.quantity) +  " ${expensesList.size}", modifier = defaultModifier.weight(1f))
         }
         Row(modifier = defaultModifier.padding(top = 0.dp)) {
             Text(text = summaryResultText, modifier = defaultModifier.weight(2f))
@@ -222,8 +226,8 @@ fun CategoryViewModel.isAllCategories(): Boolean =
 fun CategoryViewModel.actualCategoryId(): Long? =
         if (isAllCategories()) null else id
 
-fun Expense.descriptionOrDefault(): String =
-        if (description == "") "Brak opisu" else description
+fun Expense.descriptionOrDefault(defaultDescription: String): String =
+        if (description == "") defaultDescription else description
 
 
 fun String.toDoubleOrDefaultZero(): Double =

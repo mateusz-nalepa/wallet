@@ -7,7 +7,9 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import com.jakewharton.processphoenix.ProcessPhoenix
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.DemoAppEnabledProvider
 import com.mateuszcholyn.wallet.ui.dropdown.DropdownElement
 import com.mateuszcholyn.wallet.ui.dropdown.WalletDropdown
@@ -33,16 +35,16 @@ fun SettingsScreen(themeProperties: ThemeProperties) {
     val availableThemes =
             listOf(
                     ThemeDropdownElement(
-                            name = "Użyj systemowego motywu",
+                            name = stringResource(R.string.useSystemTheme),
                             resolver = Resolver.SYSTEM,
                     ),
                     ThemeDropdownElement(
-                            name = "Jasny Motyw",
+                            name = stringResource(R.string.lightTheme),
                             resolver = Resolver.LIGHT,
 
                             ),
                     ThemeDropdownElement(
-                            name = "Ciemny Motyw",
+                            name = stringResource(R.string.darkTheme),
                             resolver = Resolver.DARK,
                     ))
 
@@ -50,7 +52,7 @@ fun SettingsScreen(themeProperties: ThemeProperties) {
 
     Column(modifier = defaultModifier) {
         WalletDropdown(
-                dropdownName = "Motyw",
+                dropdownName = stringResource(R.string.theme),
                 selectedElement = selectedTheme,
                 availableElements = availableThemes,
                 onItemSelected = {
@@ -64,7 +66,7 @@ fun SettingsScreen(themeProperties: ThemeProperties) {
                 },
                 modifier = defaultButtonModifier,
         ) {
-            Text(text = "Zastosuj dany motyw")
+            Text(text = stringResource(R.string.useGivenTheme))
         }
         Divider()
         Divider()

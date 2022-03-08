@@ -7,9 +7,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.mateuszcholyn.wallet.R
 import kotlinx.coroutines.launch
 
 @Composable
@@ -31,7 +33,7 @@ fun BottomBar(
                 icon = {
                     Icon(imageVector = Icons.Filled.ShoppingCart, "")
                 },
-                label = { Text(text = "Nowy wydatek") },
+                label = { Text(text = stringResource(R.string.newExpense)) },
                 selected = (selectedIndex.value == 0),
                 onClick = {
                     scope.launch {
