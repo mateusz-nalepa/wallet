@@ -31,10 +31,11 @@ import com.mateuszcholyn.wallet.ui.dropdown.sortingElements
 import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.CategoryViewModel
 import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.toCategoryViewModel
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
-import com.mateuszcholyn.wallet.util.ALL_CATEGORIES
-import com.mateuszcholyn.wallet.util.asPrinteableAmount
+import com.mateuszcholyn.wallet.util.asPrintableAmount
+import com.mateuszcholyn.wallet.util.toDoubleOrDefaultZero
 import org.kodein.di.compose.rememberInstance
 
+const val ALL_CATEGORIES = "Wszystkie kategorie"
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
@@ -45,7 +46,7 @@ fun NewSummaryScreen(navController: NavHostController) {
 
 
     val availableCategories =
-            listOf(CategoryViewModel(name = ALL_CATEGORIES)) + categoryService.getAllOrderByUsageDesc().map { it.toCategoryViewModel() }
+            listOf(CategoryViewModel(name = ALL_CATEGORIES, isAllCategories = true)) + categoryService.getAllOrderByUsageDesc().map { it.toCategoryViewModel() }
     var selectedCategory by remember { mutableStateOf(availableCategories.first()) }
 
     // QUICK RANGE
@@ -78,7 +79,7 @@ fun NewSummaryScreen(navController: NavHostController) {
 
     fun getExpenseSearchCriteria(): ExpenseSearchCriteria {
         return ExpenseSearchCriteria(
-                allCategories = selectedCategory.isAllCategories(),
+                allCategories = selectedCategory.isAllCategories,
                 categoryId = selectedCategory.actualCategoryId(),
                 beginDate = selectedQuickRangeData.beginDate,
                 endDate = selectedQuickRangeData.endDate,
@@ -219,19 +220,11 @@ fun NewSummaryScreenPreview() {
     NewSummaryScreen(rememberNavController())
 }
 
-fun CategoryViewModel.isAllCategories(): Boolean =
-        name == ALL_CATEGORIES
-
 fun CategoryViewModel.actualCategoryId(): Long? =
-        if (isAllCategories()) null else id
+        if (isAllCategories) null else id
 
 fun Expense.descriptionOrDefault(defaultDescription: String): String =
         if (description == "") defaultDescription else description
 
-
-fun String.toDoubleOrDefaultZero(): Double =
-        kotlin.runCatching { this.toDouble() }
-                .getOrDefault(0.0)
-
 fun AverageExpenseResult.asTextSummary(): String =
-        "${wholeAmount.asPrinteableAmount()} / $days d = ${averageAmount.asPrinteableAmount()}/d"
+        "${wholeAmount.asPrintableAmount()} / $days d = ${averageAmount.asPrintableAmount()}/d"

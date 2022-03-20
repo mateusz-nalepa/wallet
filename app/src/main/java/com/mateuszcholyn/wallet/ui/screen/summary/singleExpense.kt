@@ -19,7 +19,7 @@ import com.mateuszcholyn.wallet.ui.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.ui.skeleton.NavDrawerItem
 import com.mateuszcholyn.wallet.ui.skeleton.routeWithId
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
-import com.mateuszcholyn.wallet.util.asPrinteableAmount
+import com.mateuszcholyn.wallet.util.asPrintableAmount
 import com.mateuszcholyn.wallet.util.dateutils.toHumanText
 import org.kodein.di.compose.rememberInstance
 
@@ -42,7 +42,7 @@ fun ShowExpense(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(text = expense.amount.asPrinteableAmount(), fontSize = 16.sp)
+                    Text(text = expense.amount.asPrintableAmount(), fontSize = 16.sp)
                     Icon(
                             Icons.Filled.Paid,
                             contentDescription = null,

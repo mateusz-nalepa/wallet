@@ -15,7 +15,7 @@ import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.sumExpensesAmount
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
-import com.mateuszcholyn.wallet.util.asPrinteableAmount
+import com.mateuszcholyn.wallet.util.asPrintableAmount
 
 
 @ExperimentalFoundationApi
@@ -33,7 +33,7 @@ fun GroupedExpenses(
                         .background(Color.LightGray)
                         .padding(0.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                     Text(text = groupNameFunction.invoke(expensesInGroup.first()), modifier = defaultModifier.weight(1f))
-                    Text(text = expensesInGroup.sumExpensesAmount().asPrinteableAmount(), modifier = defaultModifier.weight(1f))
+                    Text(text = expensesInGroup.sumExpensesAmount().asPrintableAmount(), modifier = defaultModifier.weight(1f))
                 }
             }
             itemsIndexed(items = expensesInGroup) { id, expense ->

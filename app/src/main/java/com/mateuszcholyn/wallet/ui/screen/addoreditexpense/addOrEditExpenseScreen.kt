@@ -37,6 +37,7 @@ import java.time.LocalDateTime
 data class CategoryViewModel(
         override val name: String,
         val id: Long? = null,
+        val isAllCategories: Boolean = false,
 ) : DropdownElement
 
 
