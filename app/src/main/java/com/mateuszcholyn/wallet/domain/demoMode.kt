@@ -1,14 +1,14 @@
 package com.mateuszcholyn.wallet.domain
 
+import android.app.Activity
 import android.content.Context
-import com.mateuszcholyn.wallet.config.WalletApplication
 import com.mateuszcholyn.wallet.util.disableDemoMode
 import com.mateuszcholyn.wallet.util.enableDemoMode
 
 interface DemoAppEnabledProvider {
 
     fun isDemoModeEnabled(): Boolean
-    fun changeContext(context: Context)
+    fun changeContext(context: Context, activity: Activity)
     fun buttonText(): String
 
 }
@@ -18,10 +18,10 @@ object DemoModeEnabled : DemoAppEnabledProvider {
         return true
     }
 
-    override fun changeContext(context: Context) {
+    override fun changeContext(context: Context, activity: Activity) {
         disableDemoMode(
                 ctx = context,
-                activity = WalletApplication.appActivity,
+                activity = activity,
         )
     }
 
@@ -35,10 +35,10 @@ object DemoModeDisabled : DemoAppEnabledProvider {
         return false
     }
 
-    override fun changeContext(context: Context) {
+    override fun changeContext(context: Context, activity: Activity) {
         enableDemoMode(
                 ctx = context,
-                activity = WalletApplication.appActivity,
+                activity = activity,
         )
     }
 

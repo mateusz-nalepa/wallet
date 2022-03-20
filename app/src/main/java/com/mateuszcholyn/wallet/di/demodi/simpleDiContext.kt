@@ -1,5 +1,7 @@
 package com.mateuszcholyn.wallet.di.demodi
 
+import android.app.Activity
+import com.mateuszcholyn.wallet.di.ActivityProvider
 import com.mateuszcholyn.wallet.domain.DemoAppEnabledProvider
 import com.mateuszcholyn.wallet.domain.DemoModeEnabled
 import com.mateuszcholyn.wallet.domain.category.Category
@@ -25,7 +27,10 @@ class SimpleDiScope {
 }
 
 
-fun simpleDi(initScope: SimpleDiScope.() -> Unit): DI {
+fun simpleDi(
+        activity: Activity,
+        initScope: SimpleDiScope.() -> Unit,
+): DI {
 
     val diScope = SimpleDiScope().apply(initScope)
 
@@ -49,6 +54,9 @@ fun simpleDi(initScope: SimpleDiScope.() -> Unit): DI {
         //Expense
         bind<ExpenseRepository>() with provider { diScope.expenseRepository }
         bind<ExpenseService>() with provider { ExpenseService(instance()) }
+
+        //
+        bind<ActivityProvider>() with provider { ActivityProvider(activity) }
     }
     return testDI
 }

@@ -17,8 +17,8 @@ fun resolveDi(activity: Activity): DI {
             )
 
     return if (isDemoMode) {
-        simpleDi {}
+        simpleDi(activity) {}
     } else {
-        createDependencyContext(currentAppContext())
+        createDependencyContext(activity, currentAppContext())
     }
 }

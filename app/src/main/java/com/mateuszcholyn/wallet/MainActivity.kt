@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.mateuszcholyn.wallet.config.WalletApplication
 import com.mateuszcholyn.wallet.di.resolveDi
 import com.mateuszcholyn.wallet.ui.skeleton.MainScreen
 import com.mateuszcholyn.wallet.util.ThemeProperties
@@ -27,8 +26,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        WalletApplication.appActivity = this
 
         setContent {
             withDI(di = resolveDi(this)) {

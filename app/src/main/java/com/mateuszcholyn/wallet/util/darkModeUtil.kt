@@ -8,16 +8,19 @@ import androidx.compose.material.Colors
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-import com.mateuszcholyn.wallet.config.WalletApplication
 import java.io.File
 
 
-fun enableGivenTheme(ctx: Context, resolver: Resolver) {
+fun enableGivenTheme(
+        ctx: Context,
+        activity: Activity,
+        resolver: Resolver,
+) {
     if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
         return
     }
 
-    verifyStoragePermissions(WalletApplication.appActivity)
+    verifyStoragePermissions(activity)
 
     try {
         ctx
