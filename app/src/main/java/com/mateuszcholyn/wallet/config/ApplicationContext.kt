@@ -2,7 +2,6 @@ package com.mateuszcholyn.wallet.config
 
 import android.app.Activity
 import android.app.Application
-import android.content.Context
 import com.mateuszcholyn.wallet.domain.DemoAppEnabledProvider
 import com.mateuszcholyn.wallet.domain.DemoModeDisabled
 import com.mateuszcholyn.wallet.domain.category.CategoryRepository
@@ -21,14 +20,13 @@ class ApplicationContext : Application(), DIAware {
 
     override fun onCreate() {
         super.onCreate()
-        appContext = applicationContext
-        AppDatabase(appContext)
+        AppDatabase(this)
         GlobalExceptionHandler(this)
         appDi = di
     }
 
     override val di by DI.lazy {
-        val appDatabase = AppDatabase(appContext)
+        val appDatabase = AppDatabase(this@ApplicationContext)
 
         //Demo Mode
         bind<DemoAppEnabledProvider>() with provider { DemoModeDisabled }
@@ -45,9 +43,6 @@ class ApplicationContext : Application(), DIAware {
     }
 
     companion object {
-        lateinit var appContext: Context
-            private set
-
         lateinit var appDi: DI
             private set
 

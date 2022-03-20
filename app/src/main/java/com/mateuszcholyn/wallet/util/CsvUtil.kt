@@ -4,11 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.os.Environment
 import android.os.Environment.DIRECTORY_DOWNLOADS
-import android.widget.Toast
-import android.widget.Toast.LENGTH_LONG
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.mateuszcholyn.wallet.config.ApplicationContext.Companion.appContext
 import com.mateuszcholyn.wallet.domain.expense.Expense
+import com.mateuszcholyn.wallet.ui.util.showLongText
 import java.io.File
 import java.io.FileWriter
 import java.math.BigDecimal
@@ -39,24 +37,20 @@ fun saveToFile(ctx: Context, activity: Activity, expenses: List<Expense>) {
                                     .let { objectMapper.writeValueAsString(it) }
 
                     fileWriter.write(expensesAsJson)
-                    fileSaved()
+                    fileSaved(ctx)
                 }
     } catch (t: Throwable) {
-        fileNotSaved(t)
+        fileNotSaved(ctx, t)
     }
 }
 
 
-private fun fileNotSaved(ex: Throwable) {
-    Toast.makeText(
-            appContext, "Błąd zapisu: ${ex.message}", LENGTH_LONG
-    ).show()
+private fun fileNotSaved(appContext: Context, ex: Throwable) {
+    showLongText(appContext, "Błąd zapisu: ${ex.message}")
 }
 
-private fun fileSaved() {
-    Toast.makeText(
-            appContext, "Pomyślnie zapisano", LENGTH_LONG
-    ).show()
+private fun fileSaved(appContext: Context) {
+    showLongText(appContext, "Pomyślnie zapisano")
 }
 
 private fun Context.walletFilePath(): String {

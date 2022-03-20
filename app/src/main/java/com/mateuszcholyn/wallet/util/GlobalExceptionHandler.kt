@@ -2,7 +2,6 @@ package com.mateuszcholyn.wallet.util
 
 import android.content.Context
 import android.widget.Toast
-import com.mateuszcholyn.wallet.config.ApplicationContext
 
 class GlobalExceptionHandler(val context: Context) : Thread.UncaughtExceptionHandler {
 
@@ -18,7 +17,7 @@ class GlobalExceptionHandler(val context: Context) : Thread.UncaughtExceptionHan
         ex.printStackTrace()
 
         Toast
-                .makeText(ApplicationContext.appContext, ex.message, Toast.LENGTH_LONG)
+                .makeText(context, ex.message, Toast.LENGTH_LONG)
                 .show()
     }
 }

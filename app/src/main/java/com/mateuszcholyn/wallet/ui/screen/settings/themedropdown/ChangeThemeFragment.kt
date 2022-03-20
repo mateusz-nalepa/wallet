@@ -32,7 +32,7 @@ fun ChangeThemeFragment(themeProperties: ThemeProperties) {
     )
     Button(
             onClick = {
-                enableGivenTheme(selectedTheme.resolver)
+                enableGivenTheme(currentContext, selectedTheme.resolver)
                 ProcessPhoenix.triggerRebirth(currentContext)
             },
             modifier = defaultButtonModifier,

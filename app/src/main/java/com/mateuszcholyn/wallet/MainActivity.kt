@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mateuszcholyn.wallet.config.ApplicationContext
@@ -52,10 +54,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @Composable
     private fun resolveDi(): DI {
         val isDemoMode =
                 isInDemoMode(
-                        ctx = ApplicationContext.appContext,
+                        ctx = currentAppContext(),
                         activity = this,
                 )
 
@@ -69,7 +72,13 @@ class MainActivity : AppCompatActivity() {
     @Composable
     private fun resolveTheme(): ThemeProperties =
             resolveTheme(
-                    ctx = ApplicationContext.appContext,
+                    ctx = currentAppContext(),
                     activity = this,
             )
+}
+
+
+@Composable
+fun currentAppContext(): Context {
+    return LocalContext.current
 }

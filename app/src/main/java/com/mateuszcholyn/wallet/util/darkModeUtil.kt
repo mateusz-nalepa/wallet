@@ -12,14 +12,12 @@ import com.mateuszcholyn.wallet.config.ApplicationContext
 import java.io.File
 
 
-fun enableGivenTheme(resolver: Resolver) {
+fun enableGivenTheme(ctx: Context, resolver: Resolver) {
     if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
         return
     }
 
     verifyStoragePermissions(ApplicationContext.appActivity)
-
-    val ctx = ApplicationContext.appContext
 
     try {
         ctx
