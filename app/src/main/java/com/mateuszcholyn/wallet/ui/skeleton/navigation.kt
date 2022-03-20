@@ -14,7 +14,7 @@ import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.NewAddOrEditExpenseSc
 import com.mateuszcholyn.wallet.ui.screen.category.NewCategoryScreen
 import com.mateuszcholyn.wallet.ui.screen.settings.SettingsScreen
 import com.mateuszcholyn.wallet.ui.screen.summary.NewSummaryScreen
-import com.mateuszcholyn.wallet.util.ThemeProperties
+import com.mateuszcholyn.wallet.util.darkmode.ThemeProperties
 
 // TODO: translate - how to get context?
 sealed class NavDrawerItem(var route: String, var icon: Int, var title: String) {

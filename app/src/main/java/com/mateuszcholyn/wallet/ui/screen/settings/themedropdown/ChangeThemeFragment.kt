@@ -11,8 +11,8 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.di.ActivityProvider
 import com.mateuszcholyn.wallet.ui.dropdown.WalletDropdown
 import com.mateuszcholyn.wallet.ui.util.defaultButtonModifier
-import com.mateuszcholyn.wallet.util.ThemeProperties
-import com.mateuszcholyn.wallet.util.enableGivenTheme
+import com.mateuszcholyn.wallet.util.darkmode.ThemeProperties
+import com.mateuszcholyn.wallet.util.darkmode.enableGivenTheme
 import org.kodein.di.compose.rememberInstance
 
 

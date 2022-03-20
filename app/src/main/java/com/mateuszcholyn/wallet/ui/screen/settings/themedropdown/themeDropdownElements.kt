@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.ui.dropdown.DropdownElement
-import com.mateuszcholyn.wallet.util.Resolver
+import com.mateuszcholyn.wallet.util.darkmode.Resolver
 
 data class ThemeDropdownElement(
         override val name: String,

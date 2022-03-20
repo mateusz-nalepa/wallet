@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.ui.composables
 
 import androidx.compose.runtime.Composable
-import com.mateuszcholyn.wallet.util.toHumanText
-import com.mateuszcholyn.wallet.util.toLocalDateTime
+import com.mateuszcholyn.wallet.util.dateutils.toHumanText
+import com.mateuszcholyn.wallet.util.dateutils.toLocalDateTime
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.datetime.date.datepicker

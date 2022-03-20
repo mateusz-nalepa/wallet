@@ -15,8 +15,8 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mateuszcholyn.wallet.di.resolveDi
 import com.mateuszcholyn.wallet.ui.skeleton.MainScreen
-import com.mateuszcholyn.wallet.util.ThemeProperties
-import com.mateuszcholyn.wallet.util.resolveTheme
+import com.mateuszcholyn.wallet.util.darkmode.ThemeProperties
+import com.mateuszcholyn.wallet.util.darkmode.resolveTheme
 import org.kodein.di.compose.withDI
 
 

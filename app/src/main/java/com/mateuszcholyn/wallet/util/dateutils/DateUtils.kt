@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.util
+package com.mateuszcholyn.wallet.util.dateutils
 
 import java.time.*
 import java.time.format.DateTimeFormatter

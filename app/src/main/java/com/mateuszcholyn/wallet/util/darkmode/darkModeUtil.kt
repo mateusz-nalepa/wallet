@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.util
+package com.mateuszcholyn.wallet.util.darkmode
 
 import android.app.Activity
 import android.content.Context
@@ -8,6 +8,9 @@ import androidx.compose.material.Colors
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import com.mateuszcholyn.wallet.util.createNewIfNotExists
+import com.mateuszcholyn.wallet.util.toFile
+import com.mateuszcholyn.wallet.util.verifyStoragePermissions
 import java.io.File
 
 

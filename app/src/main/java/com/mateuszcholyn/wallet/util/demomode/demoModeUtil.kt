@@ -1,8 +1,11 @@
-package com.mateuszcholyn.wallet.util
+package com.mateuszcholyn.wallet.util.demomode
 
 import android.app.Activity
 import android.content.Context
 import android.os.Environment
+import com.mateuszcholyn.wallet.util.createNewIfNotExists
+import com.mateuszcholyn.wallet.util.toFile
+import com.mateuszcholyn.wallet.util.verifyStoragePermissions
 import java.io.File
 
 

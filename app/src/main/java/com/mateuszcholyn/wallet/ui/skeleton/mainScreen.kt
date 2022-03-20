@@ -8,8 +8,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.util.Resolver
-import com.mateuszcholyn.wallet.util.ThemeProperties
+import com.mateuszcholyn.wallet.util.darkmode.Resolver
+import com.mateuszcholyn.wallet.util.darkmode.ThemeProperties
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.expense.Expense
-import com.mateuszcholyn.wallet.util.toHumanDateText
+import com.mateuszcholyn.wallet.util.dateutils.toHumanDateText
 import java.time.temporal.ChronoUnit
 
 data class GroupElement(

@@ -20,7 +20,7 @@ import com.mateuszcholyn.wallet.ui.skeleton.NavDrawerItem
 import com.mateuszcholyn.wallet.ui.skeleton.routeWithId
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
-import com.mateuszcholyn.wallet.util.toHumanText
+import com.mateuszcholyn.wallet.util.dateutils.toHumanText
 import org.kodein.di.compose.rememberInstance
 
 @OptIn(ExperimentalMaterialApi::class)

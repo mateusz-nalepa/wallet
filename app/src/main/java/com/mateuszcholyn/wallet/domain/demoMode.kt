@@ -2,8 +2,8 @@ package com.mateuszcholyn.wallet.domain
 
 import android.app.Activity
 import android.content.Context
-import com.mateuszcholyn.wallet.util.disableDemoMode
-import com.mateuszcholyn.wallet.util.enableDemoMode
+import com.mateuszcholyn.wallet.util.demomode.disableDemoMode
+import com.mateuszcholyn.wallet.util.demomode.enableDemoMode
 
 interface DemoAppEnabledProvider {
 

@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.infrastructure.util
 
 import androidx.room.TypeConverter
-import com.mateuszcholyn.wallet.util.toLocalDateTime
-import com.mateuszcholyn.wallet.util.toMillis
+import com.mateuszcholyn.wallet.util.dateutils.toLocalDateTime
+import com.mateuszcholyn.wallet.util.dateutils.toMillis
 import java.time.LocalDateTime
 
 

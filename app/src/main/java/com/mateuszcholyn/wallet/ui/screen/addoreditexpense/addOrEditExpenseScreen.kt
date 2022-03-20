@@ -28,8 +28,8 @@ import com.mateuszcholyn.wallet.ui.skeleton.NavDrawerItem
 import com.mateuszcholyn.wallet.ui.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.asFormattedAmount
-import com.mateuszcholyn.wallet.util.toHumanText
-import com.mateuszcholyn.wallet.util.toLocalDateTime
+import com.mateuszcholyn.wallet.util.dateutils.toHumanText
+import com.mateuszcholyn.wallet.util.dateutils.toLocalDateTime
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import org.kodein.di.compose.rememberInstance
 import java.time.LocalDateTime

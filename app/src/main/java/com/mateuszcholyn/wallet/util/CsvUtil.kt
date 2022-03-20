@@ -7,6 +7,7 @@ import android.os.Environment.DIRECTORY_DOWNLOADS
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.ui.util.showLongText
+import com.mateuszcholyn.wallet.util.dateutils.toHumanText
 import java.io.File
 import java.io.FileWriter
 import java.math.BigDecimal

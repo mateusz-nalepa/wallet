@@ -3,10 +3,10 @@ package com.mateuszcholyn.wallet.ui.dropdown
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.util.atStartOfTheDay
-import com.mateuszcholyn.wallet.util.atStartOfTheMonth
-import com.mateuszcholyn.wallet.util.maxDate
-import com.mateuszcholyn.wallet.util.minDate
+import com.mateuszcholyn.wallet.util.dateutils.atStartOfTheDay
+import com.mateuszcholyn.wallet.util.dateutils.atStartOfTheMonth
+import com.mateuszcholyn.wallet.util.dateutils.maxDate
+import com.mateuszcholyn.wallet.util.dateutils.minDate
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime

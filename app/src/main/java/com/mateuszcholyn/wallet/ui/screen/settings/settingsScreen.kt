@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import com.mateuszcholyn.wallet.ui.screen.settings.demomode.DemoModeFragment
 import com.mateuszcholyn.wallet.ui.screen.settings.themedropdown.ChangeThemeFragment
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
-import com.mateuszcholyn.wallet.util.ThemeProperties
+import com.mateuszcholyn.wallet.util.darkmode.ThemeProperties
 
 
 @Composable
