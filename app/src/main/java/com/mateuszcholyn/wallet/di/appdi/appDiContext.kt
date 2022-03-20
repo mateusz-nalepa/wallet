@@ -1,7 +1,7 @@
-package com.mateuszcholyn.wallet.config
+package com.mateuszcholyn.wallet.di.appdi
 
-import android.app.Activity
-import android.app.Application
+import android.content.Context
+import com.mateuszcholyn.wallet.config.AppDatabase
 import com.mateuszcholyn.wallet.domain.DemoAppEnabledProvider
 import com.mateuszcholyn.wallet.domain.DemoModeDisabled
 import com.mateuszcholyn.wallet.domain.category.CategoryRepository
@@ -12,21 +12,15 @@ import com.mateuszcholyn.wallet.infrastructure.category.CategoryDao
 import com.mateuszcholyn.wallet.infrastructure.category.SqLiteCategoryRepository
 import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseDao
 import com.mateuszcholyn.wallet.infrastructure.expense.SqLiteExpenseRepository
-import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
-import org.kodein.di.*
+import org.kodein.di.DI
+import org.kodein.di.bind
+import org.kodein.di.instance
+import org.kodein.di.provider
 
 
-class ApplicationContext : Application(), DIAware {
-
-    override fun onCreate() {
-        super.onCreate()
-        AppDatabase(this)
-        GlobalExceptionHandler(this)
-        appDi = di
-    }
-
-    override val di by DI.lazy {
-        val appDatabase = AppDatabase(this@ApplicationContext)
+fun createDependencyContext(applicationContext: Context): DI {
+    return DI {
+        val appDatabase = AppDatabase(applicationContext)
 
         //Demo Mode
         bind<DemoAppEnabledProvider>() with provider { DemoModeDisabled }
@@ -42,11 +36,4 @@ class ApplicationContext : Application(), DIAware {
         bind<ExpenseService>() with provider { ExpenseService(instance()) }
     }
 
-    companion object {
-        lateinit var appDi: DI
-            private set
-
-        lateinit var appActivity: Activity
-    }
 }
-

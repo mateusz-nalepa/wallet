@@ -13,13 +13,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.mateuszcholyn.wallet.config.ApplicationContext
+import com.mateuszcholyn.wallet.config.WalletApplication
+import com.mateuszcholyn.wallet.di.resolveDi
 import com.mateuszcholyn.wallet.ui.skeleton.MainScreen
 import com.mateuszcholyn.wallet.util.ThemeProperties
-import com.mateuszcholyn.wallet.util.isInDemoMode
 import com.mateuszcholyn.wallet.util.resolveTheme
-import com.mateuszcholyn.wallet.util.simpleDi
-import org.kodein.di.DI
 import org.kodein.di.compose.withDI
 
 
@@ -30,10 +28,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        ApplicationContext.appActivity = this
+        WalletApplication.appActivity = this
 
         setContent {
-            withDI(di = resolveDi()) {
+            withDI(di = resolveDi(this)) {
 
                 val themeProperties = resolveTheme()
 
@@ -50,24 +48,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
         }
     }
 
-    @Composable
-    private fun resolveDi(): DI {
-        val isDemoMode =
-                isInDemoMode(
-                        ctx = currentAppContext(),
-                        activity = this,
-                )
-
-        return if (isDemoMode) {
-            simpleDi {}
-        } else {
-            ApplicationContext.appDi
-        }
-    }
 
     @Composable
     private fun resolveTheme(): ThemeProperties =

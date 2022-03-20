@@ -8,7 +8,7 @@ import androidx.compose.material.Colors
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
-import com.mateuszcholyn.wallet.config.ApplicationContext
+import com.mateuszcholyn.wallet.config.WalletApplication
 import java.io.File
 
 
@@ -17,7 +17,7 @@ fun enableGivenTheme(ctx: Context, resolver: Resolver) {
         return
     }
 
-    verifyStoragePermissions(ApplicationContext.appActivity)
+    verifyStoragePermissions(WalletApplication.appActivity)
 
     try {
         ctx

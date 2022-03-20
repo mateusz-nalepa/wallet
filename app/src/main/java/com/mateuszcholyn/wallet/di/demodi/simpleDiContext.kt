@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.util
+package com.mateuszcholyn.wallet.di.demodi
 
 import com.mateuszcholyn.wallet.domain.DemoAppEnabledProvider
 import com.mateuszcholyn.wallet.domain.DemoModeEnabled
