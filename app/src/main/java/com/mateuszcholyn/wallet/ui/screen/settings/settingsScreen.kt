@@ -61,7 +61,7 @@ fun SettingsScreen(themeProperties: ThemeProperties) {
         Divider()
         Button(
                 onClick = {
-                    demoAppEnabledProvider.changeContext()
+                    demoAppEnabledProvider.changeContext(currentContext)
                     ProcessPhoenix.triggerRebirth(currentContext)
                 },
                 modifier = defaultButtonModifier,
