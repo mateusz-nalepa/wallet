@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.view
+package com.mateuszcholyn.wallet.ui.util
 
 import android.widget.Toast
 import com.mateuszcholyn.wallet.config.ApplicationContext

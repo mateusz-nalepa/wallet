@@ -24,16 +24,15 @@ import com.mateuszcholyn.wallet.domain.expense.AverageExpenseResult
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.ui.dropdown.GroupingData
-import com.mateuszcholyn.wallet.ui.dropdown.SortingData
 import com.mateuszcholyn.wallet.ui.dropdown.WalletDropdown
+import com.mateuszcholyn.wallet.ui.dropdown.groupingDataXD
+import com.mateuszcholyn.wallet.ui.dropdown.quickRanges
+import com.mateuszcholyn.wallet.ui.dropdown.sortingElements
 import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.CategoryViewModel
 import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.toCategoryViewModel
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.ALL_CATEGORIES
 import com.mateuszcholyn.wallet.util.asPrinteableAmount
-import com.mateuszcholyn.wallet.view.QuickRangeV2
-import com.mateuszcholyn.wallet.view.isAllExpenses
 import org.kodein.di.compose.rememberInstance
 
 
@@ -50,16 +49,16 @@ fun NewSummaryScreen(navController: NavHostController) {
     var selectedCategory by remember { mutableStateOf(availableCategories.first()) }
 
     // QUICK RANGE
-    val availableQuickRangeDataV2 = QuickRangeV2.quickRanges()
+    val availableQuickRangeDataV2 = quickRanges()
     var selectedQuickRangeData by remember { mutableStateOf(availableQuickRangeDataV2.first()) }
 
 //    SORTING TYPE
     /////////////////////////////////////
-    val availableSortElements = SortingData.sortingListBetter
+    val availableSortElements = sortingElements()
     var selectedSort by remember { mutableStateOf(availableSortElements.first()) }
 //    Grouping TYPE
     /////////////////////////////////////
-    val availableGroupElements = GroupingData.groupingListBetter
+    val availableGroupElements = groupingDataXD()
     var selectedGroupElement by remember { mutableStateOf(availableGroupElements.first()) }
     var isGroupingEnabled by remember { mutableStateOf(false) }
 
@@ -84,7 +83,7 @@ fun NewSummaryScreen(navController: NavHostController) {
                 beginDate = selectedQuickRangeData.beginDate,
                 endDate = selectedQuickRangeData.endDate,
                 sort = selectedSort.sort,
-                isAllExpenses = selectedQuickRangeData.isAllExpenses(),
+                isAllExpenses = selectedQuickRangeData.isAllExpenses,
                 fromAmount = amountRangeStart.toDoubleOrDefaultZero(),
                 toAmount = amountRangeEnd.toDoubleOrDefaultZero(),
         )
@@ -186,7 +185,7 @@ fun NewSummaryScreen(navController: NavHostController) {
         }
         Divider()
         Row(modifier = defaultModifier.padding(bottom = 0.dp)) {
-            Text(text = stringResource(R.string.quantity) +  " ${expensesList.size}", modifier = defaultModifier.weight(1f))
+            Text(text = stringResource(R.string.quantity) + " ${expensesList.size}", modifier = defaultModifier.weight(1f))
         }
         Row(modifier = defaultModifier.padding(top = 0.dp)) {
             Text(text = summaryResultText, modifier = defaultModifier.weight(2f))

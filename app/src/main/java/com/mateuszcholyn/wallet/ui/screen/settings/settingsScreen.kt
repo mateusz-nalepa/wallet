@@ -32,21 +32,7 @@ fun SettingsScreen(themeProperties: ThemeProperties) {
     val currentContext = LocalContext.current
     val demoAppEnabledProvider: DemoAppEnabledProvider by rememberInstance()
 
-    val availableThemes =
-            listOf(
-                    ThemeDropdownElement(
-                            name = stringResource(R.string.useSystemTheme),
-                            resolver = Resolver.SYSTEM,
-                    ),
-                    ThemeDropdownElement(
-                            name = stringResource(R.string.lightTheme),
-                            resolver = Resolver.LIGHT,
-
-                            ),
-                    ThemeDropdownElement(
-                            name = stringResource(R.string.darkTheme),
-                            resolver = Resolver.DARK,
-                    ))
+    val availableThemes = themeDropdownElements()
 
     var selectedTheme by remember { mutableStateOf(availableThemes.find { it.resolver == themeProperties.resolver }!!) }
 

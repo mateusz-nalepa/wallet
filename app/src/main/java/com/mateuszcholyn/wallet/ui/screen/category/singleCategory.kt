@@ -19,7 +19,7 @@ import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.ui.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
-import com.mateuszcholyn.wallet.view.showShortText
+import com.mateuszcholyn.wallet.ui.util.showShortText
 import org.kodein.di.compose.rememberInstance
 
 
@@ -69,7 +69,6 @@ fun SingleCategory(
         Row(modifier = defaultModifier.padding(top = 0.dp), horizontalArrangement = Arrangement.End) {
             IconButton(
                     onClick = {
-
                         showShortText(notImplementedText)
                     }
             ) {

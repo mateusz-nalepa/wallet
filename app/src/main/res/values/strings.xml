@@ -71,5 +71,19 @@
     <string name="incorrectAmount">Niepoprawna kwota</string>
     <string name="description">Opis</string>
     <string name="date">Data</string>
+    <string name="wgdnia">wg. dnia</string>
+    <string name="wgroku">wg. roku</string>
+    <string name="dataOdNajmlodszych">data: od najmłodszych</string>
+    <string name="dataOdNajstarszych">data: od najstarszych</string>
+    <string name="cenaOdNajwyzszej">cena: od najwyższej</string>
+    <string name="cenaOdNajnizszej">cena: od najniższej</string>
+    <string name="today">Dzisiaj</string>
+    <string name="yesterday">Wczoraj</string>
+    <string name="lastWeek">Ostatni tydzień</string>
+    <string name="dayBeforeYesterday">Przedwczoraj</string>
+    <string name="thisMonth">Ten Miesiąc</string>
+    <string name="lastMonth">Ostatni Miesiąc</string>
+    <string name="lastThreeMonths">Ostatnie 3 Miesiące</string>
+    <string name="allExpenses">Wszystkie wydatki</string>
 
 </resources>

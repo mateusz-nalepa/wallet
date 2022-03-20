@@ -1,5 +1,8 @@
 package com.mateuszcholyn.wallet.ui.dropdown
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.util.toHumanDateText
 import java.time.temporal.ChronoUnit
@@ -10,22 +13,19 @@ data class GroupElement(
         val groupFunction: (Expense) -> String,
 ) : DropdownElement
 
-object GroupingData {
-
-    private val groupingElements = listOf(
+@Composable
+fun groupingDataXD(): List<GroupElement> {
+    return listOf(
             GroupElement(
-                    name = "wg. dnia",
+                    name = stringResource(R.string.wgdnia),
                     groupFunctionName = { it.date.truncatedTo(ChronoUnit.DAYS).toHumanDateText() },
                     groupFunction = { it.date.truncatedTo(ChronoUnit.DAYS).toString() },
             ),
             GroupElement(
-                    name = "wg. roku",
+                    name = stringResource(R.string.wgroku),
                     groupFunctionName = { it.date.year.toString() },
                     groupFunction = { it.date.year.toString() },
             ),
     )
-
-    val groupingListBetter: List<GroupElement>
-        get() = groupingElements
 }
 
