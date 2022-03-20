@@ -1,11 +1,11 @@
 package com.mateuszcholyn.wallet.ui.util
 
+import android.content.Context
 import android.widget.Toast
-import com.mateuszcholyn.wallet.config.ApplicationContext
 
-fun showShortText(text: String) {
+fun showShortText(context: Context, text: String) {
     Toast.makeText(
-            ApplicationContext.appContext,
+            context,
             text,
             Toast.LENGTH_SHORT
     ).show()

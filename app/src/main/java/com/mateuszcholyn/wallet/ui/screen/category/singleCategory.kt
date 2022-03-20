@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -32,6 +33,8 @@ fun SingleCategory(
         initialEditCategoryNameIsVisible: Boolean = false,
         categoryNamesOnly: List<String> = emptyList(),
 ) {
+    val currentContext = LocalContext.current
+
     val categoryService: CategoryService by rememberInstance()
     var detailsAreVisible by remember { mutableStateOf(initialDetailsAreVisible) }
 
@@ -46,7 +49,7 @@ fun SingleCategory(
                     },
 
             text = { Text(categoryDetails.name) },
-            secondaryText = { Text(stringResource(R.string.amountOfExpenses) +" ${categoryDetails.numberOfExpenses}") },
+            secondaryText = { Text(stringResource(R.string.amountOfExpenses) + " ${categoryDetails.numberOfExpenses}") },
             trailing = {
                 if (detailsAreVisible) {
                     Icon(
@@ -69,7 +72,7 @@ fun SingleCategory(
         Row(modifier = defaultModifier.padding(top = 0.dp), horizontalArrangement = Arrangement.End) {
             IconButton(
                     onClick = {
-                        showShortText(notImplementedText)
+                        showShortText(currentContext, notImplementedText)
                     }
             ) {
                 Icon(
@@ -99,9 +102,9 @@ fun SingleCategory(
                         if (categoryDetails.numberOfExpenses == 0L) {
                             categoryService.remove(categoryDetails.id)
                             refreshCategoryListFunction()
-                            showShortText( categoryRemovedText +" ${categoryDetails.name}")
+                            showShortText(currentContext, categoryRemovedText + " ${categoryDetails.name}")
                         } else {
-                            showShortText(cannotRemoveCategoryWithExpensesText)
+                            showShortText(currentContext, cannotRemoveCategoryWithExpensesText)
                         }
                     }
             )
