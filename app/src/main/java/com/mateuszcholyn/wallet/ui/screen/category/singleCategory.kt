@@ -14,9 +14,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
+import com.mateuszcholyn.wallet.domain.category.ExistingCategory
 import com.mateuszcholyn.wallet.ui.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.ui.util.showShortText
@@ -167,8 +167,8 @@ fun SingleCategory(
 //}
 
 
-fun CategoryDetails.toCategory(newName: String): Category =
-        Category(
+fun CategoryDetails.toCategory(newName: String): ExistingCategory =
+        ExistingCategory(
                 id = id,
                 name = newName,
         )

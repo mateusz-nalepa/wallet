@@ -6,3 +6,9 @@ data class Category(
         var id: Long? = null,
         var name: String
 ) : Serializable
+
+
+data class ExistingCategory(
+        var id: Long,
+        var name: String
+) : Serializable

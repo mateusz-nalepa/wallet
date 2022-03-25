@@ -4,15 +4,11 @@ import android.app.Activity
 import com.mateuszcholyn.wallet.di.ActivityProvider
 import com.mateuszcholyn.wallet.domain.DemoAppEnabledProvider
 import com.mateuszcholyn.wallet.domain.DemoModeEnabled
-import com.mateuszcholyn.wallet.domain.category.Category
-import com.mateuszcholyn.wallet.domain.category.CategoryDetails
-import com.mateuszcholyn.wallet.domain.category.CategoryRepository
-import com.mateuszcholyn.wallet.domain.category.CategoryService
+import com.mateuszcholyn.wallet.domain.category.*
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.infrastructure.category.CategoryIdWithNumberOfExpenses
 import org.kodein.di.DI
 import org.kodein.di.bind
 import org.kodein.di.instance
@@ -22,8 +18,8 @@ import java.time.LocalDateTime
 
 
 class SimpleDiScope {
-    val categoryRepository: CategoryRepository = SimpleCategoryRepository()
-    val expenseRepository: ExpenseRepository = SimpleExpenseRepository()
+    val expenseRepository = SimpleExpenseRepository()
+    val categoryRepository: CategoryRepository = SimpleCategoryRepository(expenseRepository)
 }
 
 
@@ -62,54 +58,47 @@ fun simpleDi(
 }
 
 
-class SimpleCategoryRepository : CategoryRepository {
-    private val storage = mutableMapOf<Long, Category>()
+class SimpleCategoryRepository(
+        private val expenseRepository: SimpleExpenseRepository,
+) : CategoryRepository {
+    private val storage = mutableMapOf<Long, ExistingCategory>()
     private val idGenerator = IdGenerator()
-
-    override fun getAllOrderByUsageDesc(): List<Category> =
-            getAllWithDetailsOrderByUsageDesc()
-                    .map { it.toCategory() }
-
-
-    override fun getAllWithDetailsOrderByUsageDesc(): List<CategoryDetails> =
-            storage.values
-                    .toList()
-                    .groupBy { it.name }
-                    .mapValues {
-                        CategoryIdWithNumberOfExpenses(
-                                categoryId = it.value.first().id
-                                        ?: throw IllegalStateException("Id should not be null"),
-                                numberOfExpenses = it.value.size.toLong(),
-                        )
-                    }
-                    .toList()
-                    .map {
-                        CategoryDetails(
-                                id = it.second.categoryId,
-                                name = it.first,
-                                numberOfExpenses = it.second.numberOfExpenses,
-                        )
-                    }
-                    .sortedByDescending { it.numberOfExpenses }
 
     override fun remove(categoryId: Long): Boolean {
         storage.remove(categoryId)
         return true
     }
 
-    override fun add(category: Category): Category {
+    override fun add(category: Category): ExistingCategory {
         val categoryId = idGenerator.nextNumber()
-        val addedCategory = category.copy(id = categoryId)
+
+        val addedCategory =
+                ExistingCategory(
+                        id = categoryId,
+                        name = category.name,
+                )
 
         storage[categoryId] = addedCategory
 
         return addedCategory
     }
 
-    override fun update(category: Category): Category {
-        storage[category.id!!] = category
+    override fun update(category: ExistingCategory): ExistingCategory {
+        storage[category.id] = category
 
         return category
+    }
+
+    override fun getAllCategoriesWithExpenses(): List<CategoryWithExpenses> {
+        return storage.values
+                .map { category ->
+                    CategoryWithExpenses(
+                            category = category,
+                            expenses = expenseRepository.getAll().filter { expense ->
+                                expense.category.id == category.id
+                            }
+                    )
+                }
     }
 }
 
@@ -123,6 +112,10 @@ class SimpleExpenseRepository : ExpenseRepository {
     }
 
     override fun getAll(expenseSearchCriteria: ExpenseSearchCriteria): List<Expense> {
+        return storage.values.toList()
+    }
+
+    fun getAll(): List<Expense> {
         return storage.values.toList()
     }
 
@@ -155,9 +148,3 @@ class IdGenerator {
     }
 
 }
-
-private fun CategoryDetails.toCategory(): Category =
-        Category(
-                id = id,
-                name = name,
-        )

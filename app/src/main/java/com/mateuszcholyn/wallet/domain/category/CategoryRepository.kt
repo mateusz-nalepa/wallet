@@ -1,11 +1,17 @@
 package com.mateuszcholyn.wallet.domain.category
 
+import com.mateuszcholyn.wallet.domain.expense.Expense
+
 interface CategoryRepository {
 
-    fun getAllOrderByUsageDesc(): List<Category>
-    fun getAllWithDetailsOrderByUsageDesc(): List<CategoryDetails>
     fun remove(categoryId: Long): Boolean
-    fun add(category: Category): Category
-    fun update(category: Category): Category
+    fun add(category: Category): ExistingCategory
+    fun update(category: ExistingCategory): ExistingCategory
+    fun getAllCategoriesWithExpenses(): List<CategoryWithExpenses>
 
 }
+
+data class CategoryWithExpenses(
+        val category: ExistingCategory,
+        val expenses: List<Expense>,
+)

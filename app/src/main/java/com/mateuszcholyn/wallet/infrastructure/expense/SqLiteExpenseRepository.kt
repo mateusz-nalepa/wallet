@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.infrastructure.expense
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
+import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
 import com.mateuszcholyn.wallet.infrastructure.category.toDomain
 
 class SqLiteExpenseRepository(
@@ -64,5 +65,15 @@ fun ExpenseWithCategory.toDomain(): Expense {
             description = expense.description!!,
             date = expense.date!!,
             category = category.toDomain()
+    )
+}
+
+fun ExpenseEntity.toDomain(categoryEntity: CategoryEntity): Expense {
+    return Expense(
+            id = this.expenseId!!,
+            amount = this.amount!!.toString().toBigDecimal(),
+            description = this.description!!,
+            date = this.date!!,
+            category = categoryEntity.toDomain()
     )
 }

@@ -4,20 +4,18 @@ class CategoryService(
         private val categoryRepository: CategoryRepository,
 ) {
 
-    fun add(category: Category): Category {
+    fun add(category: Category): ExistingCategory {
         return categoryRepository.add(category)
     }
 
-    fun updateCategory(category: Category): Category {
+    fun updateCategory(category: ExistingCategory): ExistingCategory {
         return categoryRepository.update(category)
     }
 
-    fun getAllOrderByUsageDesc(): List<Category> {
-        return categoryRepository.getAllOrderByUsageDesc()
-    }
-
     fun getAllWithDetailsOrderByUsageDesc(): List<CategoryDetails> {
-        return categoryRepository.getAllWithDetailsOrderByUsageDesc()
+        return categoryRepository
+                .getAllCategoriesWithExpenses()
+                .orderByCategoryUsageDesc()
     }
 
     fun remove(categoryId: Long): Boolean {
@@ -25,3 +23,28 @@ class CategoryService(
     }
 
 }
+
+fun List<CategoryWithExpenses>.orderByCategoryUsageDesc(): List<CategoryDetails> =
+        this
+                .groupBy { it.category.name }
+                .mapValues { categoryNameWithListOfExpenses ->
+                    CategoryIdWithNumberOfExpenses(
+                            categoryId = categoryNameWithListOfExpenses.value.firstOrNull()?.category?.id
+                                    ?: throw IllegalStateException("Id should not be null"),
+                            numberOfExpenses = categoryNameWithListOfExpenses.value.first().expenses.size.toLong(),
+                    )
+                }
+                .toList()
+                .map {
+                    CategoryDetails(
+                            id = it.second.categoryId,
+                            name = it.first,
+                            numberOfExpenses = it.second.numberOfExpenses,
+                    )
+                }
+                .sortedByDescending { it.numberOfExpenses }
+
+data class CategoryIdWithNumberOfExpenses(
+        val categoryId: Long,
+        val numberOfExpenses: Long,
+)

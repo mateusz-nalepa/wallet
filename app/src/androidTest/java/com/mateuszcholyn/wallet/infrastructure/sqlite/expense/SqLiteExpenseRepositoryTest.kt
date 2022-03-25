@@ -1,13 +1,11 @@
 package com.mateuszcholyn.wallet.infrastructure.sqlite.expense
 
-import android.database.sqlite.SQLiteConstraintException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.infrastructure.DatabaseTestSpecification
 import com.mateuszcholyn.wallet.randomDescription
 import com.mateuszcholyn.wallet.randomNewCategory
 import com.mateuszcholyn.wallet.randomNewExpense
-import com.mateuszcholyn.wallet.ui.randomCategory
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,25 +39,11 @@ internal class SqLiteExpenseRepositoryTest : DatabaseTestSpecification() {
         }
 
         //then
-        val expensesEntities = expenseDao.getAll()
+        val expensesEntities = categoryDao.getAllCategoriesWithExpenses()
         assertEquals(numberOfExpenses, expensesEntities.size)
-        expensesEntities.forEach {
-            assertEquals(it.fkCategoryId, it.fkCategoryId)
+        expensesEntities.forEach { categoryWithExpense ->
+            assertEquals(categoryWithExpense.expenseEntity!!.fkCategoryId, categoryWithExpense.categoryEntity.categoryId)
         }
-    }
-
-    @Test(expected = SQLiteConstraintException::class)
-    fun shouldNotAddExpenseForNonExistingCategoryId() {
-        //given
-        val categoryNotPresentInDb = randomCategory()
-        val expense = randomNewExpense(categoryNotPresentInDb)
-
-        //when
-        val addedExpense = expenseRepository.add(expense)
-
-        //then
-        addedExpense equalsToIgnoringId expense
-        assert(addedExpense.id != null)
     }
 
     @Test

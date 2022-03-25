@@ -1,40 +1,29 @@
 package com.mateuszcholyn.wallet.infrastructure.category
 
 import com.mateuszcholyn.wallet.domain.category.Category
-import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryRepository
-import com.mateuszcholyn.wallet.infrastructure.expense.CategoryWithExpense
+import com.mateuszcholyn.wallet.domain.category.CategoryWithExpenses
+import com.mateuszcholyn.wallet.domain.category.ExistingCategory
+import com.mateuszcholyn.wallet.domain.expense.Expense
+import com.mateuszcholyn.wallet.infrastructure.expense.toDomain
 
 class SqLiteCategoryRepository(
         private val categoryDao: CategoryDao,
 ) : CategoryRepository {
 
-    private val categoryQueriesHelper = CategoryQueriesHelper()
-
-    override fun getAllOrderByUsageDesc(): List<Category> {
-        return categoryDao
-                .getAllOrderByUsageDesc(categoryQueriesHelper.getAllOrderByUsageDesc())
-                .map { it.toDomain() }
-    }
-
-    override fun getAllWithDetailsOrderByUsageDesc(): List<CategoryDetails> {
-        return categoryDao
-                .getAllDataFromDb()
-                .toCategoriesDetails()
-    }
-
     override fun remove(categoryId: Long): Boolean {
         return categoryDao.remove(categoryId) == 1
     }
 
-    override fun add(category: Category): Category {
+    override fun add(category: Category): ExistingCategory {
         return category
                 .toEntityAdd()
                 .let { categoryDao.add(it) }
                 .let { category.copy(id = it) }
+                .toDomain()
     }
 
-    override fun update(category: Category): Category {
+    override fun update(category: ExistingCategory): ExistingCategory {
         category
                 .toEntityUpdate()
                 .let { categoryDao.update(it) }
@@ -42,9 +31,25 @@ class SqLiteCategoryRepository(
         return category
     }
 
+    override fun getAllCategoriesWithExpenses(): List<CategoryWithExpenses> {
+        return categoryDao.getAllCategoriesWithExpenses()
+                .groupBy { it.categoryEntity }
+                .map {
+                    CategoryWithExpenses(
+                            category = it.key.toDomain(),
+                            expenses = it.value.toExpenses(it.key)
+                    )
+                }
+    }
+
 }
 
-fun Category.toEntityUpdate(): CategoryEntity =
+fun List<CategoryWithExpense>.toExpenses(categoryEntity: CategoryEntity): List<Expense> =
+        this
+                .filter { it.expenseEntity != null }
+                .map { it.expenseEntity!!.toDomain(categoryEntity) }
+
+fun ExistingCategory.toEntityUpdate(): CategoryEntity =
         CategoryEntity(
                 categoryId = id,
                 name = name
@@ -56,33 +61,15 @@ fun Category.toEntityAdd(): CategoryEntity =
                 name = name
         )
 
-fun CategoryEntity.toDomain(): Category =
-        Category(
+fun CategoryEntity.toDomain(): ExistingCategory =
+        ExistingCategory(
                 id = categoryId!!,
                 name = name!!
         )
 
-fun List<CategoryWithExpense>.toCategoriesDetails(): List<CategoryDetails> =
-        groupBy { it.categoryEntity.name }
-                .mapValues {
-                    CategoryIdWithNumberOfExpenses(
-                            categoryId = it.value.first().categoryEntity.categoryId!!,
-                            numberOfExpenses = it.value.filter { itt -> itt.expenseEntity != null }.size.toLong(),
-                    )
-                }
-                .mapKeys { it.key!! }
-                .toList()
-                .map {
-                    CategoryDetails(
-                            id = it.second.categoryId,
-                            name = it.first,
-                            numberOfExpenses = it.second.numberOfExpenses,
-                    )
-                }
-                .sortedByDescending { it.numberOfExpenses }
 
-
-data class CategoryIdWithNumberOfExpenses(
-        val categoryId: Long,
-        val numberOfExpenses: Long,
-)
+fun Category.toDomain(): ExistingCategory =
+        ExistingCategory(
+                id = id!!,
+                name = name
+        )

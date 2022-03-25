@@ -45,7 +45,7 @@ fun NewSummaryScreen(navController: NavHostController) {
 
 
     val availableCategories =
-            listOf(CategoryViewModel(name = stringResource(R.string.summaryScreen_allCategories), isAllCategories = true)) + categoryService.getAllOrderByUsageDesc().map { it.toCategoryViewModel() }
+            listOf(CategoryViewModel(name = stringResource(R.string.summaryScreen_allCategories), isAllCategories = true)) + categoryService.getAllWithDetailsOrderByUsageDesc().map { it.toCategoryViewModel() }
     var selectedCategory by remember { mutableStateOf(availableCategories.first()) }
 
     // QUICK RANGE

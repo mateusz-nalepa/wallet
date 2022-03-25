@@ -16,8 +16,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.domain.category.Category
+import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
+import com.mateuszcholyn.wallet.domain.category.ExistingCategory
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.ui.composables.ComposeDateTimePicker
@@ -42,15 +43,21 @@ data class CategoryViewModel(
 ) : DropdownElement
 
 
-fun Category.toCategoryViewModel(): CategoryViewModel =
+fun CategoryDetails.toCategoryViewModel(): CategoryViewModel =
         CategoryViewModel(
                 id = id,
                 name = name,
         )
 
-fun CategoryViewModel.toCategory(): Category =
-        Category(
+fun ExistingCategory.toCategoryViewModel(): CategoryViewModel =
+        CategoryViewModel(
                 id = id,
+                name = name,
+        )
+
+fun CategoryViewModel.toExistingCategory(): ExistingCategory =
+        ExistingCategory(
+                id = id!!,
                 name = name,
         )
 
@@ -84,7 +91,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseIdX
     val expenseService: ExpenseService by rememberInstance()
     val categoryService: CategoryService by rememberInstance()
 
-    val categoryNameOptions = categoryService.getAllOrderByUsageDesc().map { it.toCategoryViewModel() }
+    val categoryNameOptions = categoryService.getAllWithDetailsOrderByUsageDesc().map { it.toCategoryViewModel() }
 
     if (categoryNameOptions.isEmpty()) {
         NoCategoryPresentInfo(navController)
@@ -166,7 +173,7 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseIdX
                                         id = actualExpenseId,
                                         amount = amount.toBigDecimal(),
                                         description = description,
-                                        category = selectedCategory.toCategory(),
+                                        category = selectedCategory.toExistingCategory(),
                                         date = dateText.toLocalDateTime(),
 
                                         ))

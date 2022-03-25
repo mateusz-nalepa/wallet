@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.infrastructure.sqlite.category
 import android.database.sqlite.SQLiteConstraintException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mateuszcholyn.wallet.domain.category.Category
+import com.mateuszcholyn.wallet.domain.category.ExistingCategory
 import com.mateuszcholyn.wallet.infrastructure.DatabaseTestSpecification
 import com.mateuszcholyn.wallet.infrastructure.category.toEntityUpdate
 import com.mateuszcholyn.wallet.randomNewCategory
@@ -25,7 +26,6 @@ internal class SqLiteCategoryRepositoryTest : DatabaseTestSpecification() {
 
         //then
         addedCategory equalsToIgnoringId category
-        assert(addedCategory.id != null)
     }
 
     @Test
@@ -83,7 +83,7 @@ internal class SqLiteCategoryRepositoryTest : DatabaseTestSpecification() {
         val category = categoryRepository.add(randomNewCategory())
 
         //when
-        val isRemoved = categoryRepository.remove(category.id!!)
+        val isRemoved = categoryRepository.remove(category.id)
 
         //then
         assertEquals(true, isRemoved)
@@ -98,16 +98,16 @@ internal class SqLiteCategoryRepositoryTest : DatabaseTestSpecification() {
         expenseRepository.add(randomNewExpense(categoryWithOneExpense))
 
         //when
-        val categoryDetails = categoryRepository.getAllWithDetailsOrderByUsageDesc()
+        val categoryDetails = categoryRepository.getAllCategoriesWithExpenses()
 
         //then
-        assertEquals(1L, categoryDetails.find { it.id == categoryWithOneExpense.id }!!.numberOfExpenses)
-        assertEquals(0L, categoryDetails.find { it.id == categoryWithZeroExpense.id }!!.numberOfExpenses)
+        assertEquals(1, categoryDetails.find { it.category.id == categoryWithOneExpense.id }!!.expenses.size)
+        assertEquals(0, categoryDetails.find { it.category.id == categoryWithZeroExpense.id }!!.expenses.size)
     }
 
 }
 
 
-infix fun Category.equalsToIgnoringId(that: Category) {
+infix fun ExistingCategory.equalsToIgnoringId(that: Category) {
     assertEquals(this.name, that.name)
 }

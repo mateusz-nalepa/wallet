@@ -34,6 +34,7 @@ data class ExpenseEntity(
         var date: LocalDateTime?,
 
         @ColumnInfo(name = "fk_category_id")
+        // FIXME: should not be null
         var fkCategoryId: Long?
 
 )

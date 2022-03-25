@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet
 
 import com.mateuszcholyn.wallet.domain.category.Category
+import com.mateuszcholyn.wallet.domain.category.ExistingCategory
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -17,11 +18,11 @@ fun randomNewCategory(): Category =
         )
 
 fun randomNewExpense(
-        category: Category,
+        existingCategory: ExistingCategory,
 ): Expense =
         Expense(
                 amount = BigDecimal("5.0"),
                 date = LocalDateTime.now(),
                 description = randomDescription(),
-                category = category,
+                category = existingCategory,
         )

@@ -33,10 +33,13 @@ interface ExpenseDao {
     )
     fun count(): Int
 
-    @Query(
-            """SELECT Expense.*
-                    FROM Expense"""
-    )
-    fun getAll(): List<ExpenseEntity>
-
 }
+
+data class ExpenseWithCategory(
+
+        @Embedded
+        val expenseEntity: ExpenseEntity,
+
+        @Embedded
+        val categoryEntity: CategoryEntity
+)
