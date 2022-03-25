@@ -27,6 +27,7 @@ import com.mateuszcholyn.wallet.ui.dropdown.WalletDropdown
 import com.mateuszcholyn.wallet.ui.skeleton.NavDrawerItem
 import com.mateuszcholyn.wallet.ui.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
+import com.mateuszcholyn.wallet.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.util.asFormattedAmount
 import com.mateuszcholyn.wallet.util.dateutils.toHumanText
 import com.mateuszcholyn.wallet.util.dateutils.toLocalDateTime
@@ -95,9 +96,9 @@ fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseIdX
     val expenseOrNull = if (actualExpenseId == null) null else expenseService.getById(actualExpenseId)
 
     var selectedCategory by remember { mutableStateOf(if (actualExpenseId == null) categoryNameOptions.first() else expenseOrNull!!.category.toCategoryViewModel()) }
-    var amount by remember { mutableStateOf(if (actualExpenseId == null) "" else expenseOrNull!!.amount.asFormattedAmount().toString()) }
+    var amount by remember { mutableStateOf(if (actualExpenseId == null) EMPTY_STRING else expenseOrNull!!.amount.asFormattedAmount().toString()) }
 
-    var description by remember { mutableStateOf(if (actualExpenseId == null) "" else expenseOrNull!!.description) }
+    var description by remember { mutableStateOf(if (actualExpenseId == null) EMPTY_STRING else expenseOrNull!!.description) }
     var dateText by remember { mutableStateOf(if (actualExpenseId == null) LocalDateTime.now().toHumanText() else expenseOrNull!!.date.toHumanText()) }
 
 

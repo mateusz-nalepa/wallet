@@ -31,11 +31,10 @@ import com.mateuszcholyn.wallet.ui.dropdown.sortingElements
 import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.CategoryViewModel
 import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.toCategoryViewModel
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
+import com.mateuszcholyn.wallet.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.util.asPrintableAmount
 import com.mateuszcholyn.wallet.util.toDoubleOrDefaultZero
 import org.kodein.di.compose.rememberInstance
-
-const val ALL_CATEGORIES = "Wszystkie kategorie"
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
@@ -46,7 +45,7 @@ fun NewSummaryScreen(navController: NavHostController) {
 
 
     val availableCategories =
-            listOf(CategoryViewModel(name = ALL_CATEGORIES, isAllCategories = true)) + categoryService.getAllOrderByUsageDesc().map { it.toCategoryViewModel() }
+            listOf(CategoryViewModel(name = stringResource(R.string.summaryScreen_allCategories), isAllCategories = true)) + categoryService.getAllOrderByUsageDesc().map { it.toCategoryViewModel() }
     var selectedCategory by remember { mutableStateOf(availableCategories.first()) }
 
     // QUICK RANGE
@@ -224,7 +223,7 @@ fun CategoryViewModel.actualCategoryId(): Long? =
         if (isAllCategories) null else id
 
 fun Expense.descriptionOrDefault(defaultDescription: String): String =
-        if (description == "") defaultDescription else description
+        if (description == EMPTY_STRING) defaultDescription else description
 
 fun AverageExpenseResult.asTextSummary(): String =
         "${wholeAmount.asPrintableAmount()} / $days d = ${averageAmount.asPrintableAmount()}/d"

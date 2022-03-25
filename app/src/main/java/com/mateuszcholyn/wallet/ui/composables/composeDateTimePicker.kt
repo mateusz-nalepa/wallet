@@ -1,6 +1,8 @@
 package com.mateuszcholyn.wallet.ui.composables
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.util.dateutils.toHumanText
 import com.mateuszcholyn.wallet.util.dateutils.toLocalDateTime
 import com.vanpra.composematerialdialogs.MaterialDialog
@@ -23,15 +25,13 @@ fun ComposeDateTimePicker(
 
     MaterialDialog(
             dialogState = timePickerDialogState,
-            buttons =
-            {
-                positiveButton("Ok")
-                negativeButton("Cancel")
+            buttons = {
+                positiveButton(stringResource(R.string.datePickerOk))
+                negativeButton(stringResource(R.string.datePickerCancel))
             }
     )
     {
         timepicker(is24HourClock = true) { newTime ->
-            println("Wybrales taka godzine: $newTime")
 
             LocalDateTime
                     .of(newDate, newTime)
@@ -43,13 +43,12 @@ fun ComposeDateTimePicker(
     MaterialDialog(
             dialogState = dialogState,
             buttons = {
-                positiveButton("Ok")
-                negativeButton("Cancel")
+                positiveButton(stringResource(R.string.datePickerOk))
+                negativeButton(stringResource(R.string.datePickerCancel))
             },
     )
     {
         datepicker { date ->
-            println("Wybrales taka date: $date")
             newDate = date
             timePickerDialogState.show()
         }

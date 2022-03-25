@@ -13,15 +13,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 
 @Composable
 fun YesOrNoDialog(
         openDialog: MutableState<Boolean>,
         onConfirm: () -> Unit,
-        message: String = "Na pewno usunąć wydatek?"
+        message: String = stringResource(R.string.areYouReadyToRemoveExpense)
 ) {
     if (openDialog.value) {
         AlertDialog(
@@ -41,7 +43,7 @@ fun YesOrNoDialog(
                                 onClick = { openDialog.value = false },
                                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green),
                         ) {
-                            Text("Anuluj")
+                            Text(stringResource(R.string.yesOrNoCancel))
                         }
                         Button(
                                 modifier = defaultModifier.weight(1f),
@@ -51,9 +53,8 @@ fun YesOrNoDialog(
                                 },
                                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
                         ) {
-                            Text("Potwierdź")
+                            Text(stringResource(R.string.yesOrNoConfirm))
                         }
-
                     }
                 }
         )

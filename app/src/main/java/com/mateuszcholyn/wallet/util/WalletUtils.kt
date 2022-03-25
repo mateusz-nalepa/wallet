@@ -2,6 +2,8 @@ package com.mateuszcholyn.wallet.util
 
 import java.math.BigDecimal
 
+const val EMPTY_STRING = ""
+
 fun BigDecimal.asFormattedAmount(): BigDecimal =
         this.setScale(2, BigDecimal.ROUND_HALF_UP)
 

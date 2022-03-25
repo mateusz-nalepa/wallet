@@ -16,6 +16,7 @@ import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
+import com.mateuszcholyn.wallet.util.EMPTY_STRING
 import org.kodein.di.compose.rememberInstance
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -37,7 +38,7 @@ fun NewCategoryScreen() {
         CategoryForm(
                 textFieldLabel = stringResource(R.string.newCategoryName),
                 buttonLabel = stringResource(R.string.addCategory),
-                initialCategoryName = "",
+                initialCategoryName = EMPTY_STRING,
                 categoryNamesOnly = categoryNamesOnly,
                 onFormSubmit = { actualCategory ->
                     categoryService.add(Category(name = actualCategory))

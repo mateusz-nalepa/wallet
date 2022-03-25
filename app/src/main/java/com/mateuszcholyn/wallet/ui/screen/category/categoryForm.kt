@@ -9,12 +9,13 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.ui.composables.ValidatedTextField
 import com.mateuszcholyn.wallet.ui.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
+import com.mateuszcholyn.wallet.util.EMPTY_STRING
 
 @Composable
 fun CategoryForm(
         textFieldLabel: String,
         buttonLabel: String,
-        initialCategoryName: String = "",
+        initialCategoryName: String = EMPTY_STRING,
         categoryNamesOnly: List<String> = emptyList(),
         onFormSubmit: (String) -> Unit,
 ) {
@@ -40,7 +41,7 @@ fun CategoryForm(
                 enabled = isFormValid,
                 onClick = {
                     onFormSubmit.invoke(categoryNameText)
-                    categoryNameText = ""
+                    categoryNameText = EMPTY_STRING
                 },
                 modifier = defaultButtonModifier,
         ) {

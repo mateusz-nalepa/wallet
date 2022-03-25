@@ -85,5 +85,13 @@
     <string name="lastMonth">Ostatni Miesiąc</string>
     <string name="lastThreeMonths">Ostatnie 3 Miesiące</string>
     <string name="allExpenses">Wszystkie wydatki</string>
+    <string name="datePickerOk">Ok</string>
+    <string name="datePickerCancel">Cancel</string>
+    <string name="iconError">error</string>
+    <string name="areYouReadyToRemoveExpense">Na pewno usunąć wydatek?</string>
+    <string name="yesOrNoCancel">Anuluj</string>
+    <string name="yesOrNoConfirm">Potwierdź</string>
+    <string name="summaryScreen_allCategories">Wszystkie kategorie</string>
+    <string name="developerBy">Developed by Mateusz Nalepa</string>
 
 </resources>

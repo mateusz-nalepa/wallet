@@ -11,16 +11,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 
 @Composable
 fun ValidatedTextField(
-        textFieldLabel: String = "Kwota",
+        textFieldLabel: String = stringResource(R.string.amount),
         value: String,
         onValueChange: (String) -> Unit,
-        valueInvalidText: String = "Niepoprawna wartość",
+        valueInvalidText: String = stringResource(R.string.incorrectValue),
         isValueInValidFunction: (String) -> Boolean,
         keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         modifier: Modifier = defaultModifier,
@@ -41,7 +43,7 @@ fun ValidatedTextField(
                 singleLine = true,
                 trailingIcon = {
                     if (isValueInValid) {
-                        Icon(Icons.Filled.Error, "error")
+                        Icon(Icons.Filled.Error, stringResource(R.string.iconError))
                     }
                 },
                 isError = isValueInValid,

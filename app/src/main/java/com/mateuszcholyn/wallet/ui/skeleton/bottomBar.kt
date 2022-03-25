@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.util.EMPTY_STRING
 import kotlinx.coroutines.launch
 
 @Composable
@@ -31,7 +32,7 @@ fun BottomBar(
     BottomNavigation(elevation = 10.dp) {
         BottomNavigationItem(
                 icon = {
-                    Icon(imageVector = Icons.Filled.ShoppingCart, "")
+                    Icon(imageVector = Icons.Filled.ShoppingCart, EMPTY_STRING)
                 },
                 label = { Text(text = stringResource(R.string.newExpense)) },
                 selected = (selectedIndex.value == 0),
