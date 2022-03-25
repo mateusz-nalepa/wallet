@@ -4,13 +4,13 @@ import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.di.ActivityProvider
 import com.mateuszcholyn.wallet.ui.dropdown.WalletDropdown
 import com.mateuszcholyn.wallet.ui.util.defaultButtonModifier
+import com.mateuszcholyn.wallet.util.appContext.currentAppContext
 import com.mateuszcholyn.wallet.util.darkmode.ThemeProperties
 import com.mateuszcholyn.wallet.util.darkmode.enableGivenTheme
 import org.kodein.di.compose.rememberInstance
@@ -19,7 +19,7 @@ import org.kodein.di.compose.rememberInstance
 @Composable
 @ExperimentalMaterialApi
 fun ChangeThemeFragment(themeProperties: ThemeProperties) {
-    val currentContext = LocalContext.current
+    val currentContext = currentAppContext()
     val activityProvider: ActivityProvider by rememberInstance()
 
     val availableThemes = themeDropdownElements()

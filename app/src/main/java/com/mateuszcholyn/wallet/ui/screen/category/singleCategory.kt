@@ -10,7 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -21,6 +20,7 @@ import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.ui.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.ui.util.showShortText
+import com.mateuszcholyn.wallet.util.appContext.currentAppContext
 import org.kodein.di.compose.rememberInstance
 
 
@@ -33,7 +33,7 @@ fun SingleCategory(
         initialEditCategoryNameIsVisible: Boolean = false,
         categoryNamesOnly: List<String> = emptyList(),
 ) {
-    val currentContext = LocalContext.current
+    val currentContext = currentAppContext()
 
     val categoryService: CategoryService by rememberInstance()
     var detailsAreVisible by remember { mutableStateOf(initialDetailsAreVisible) }

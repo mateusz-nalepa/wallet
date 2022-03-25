@@ -3,16 +3,16 @@ package com.mateuszcholyn.wallet.ui.screen.settings.demomode
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.mateuszcholyn.wallet.di.ActivityProvider
 import com.mateuszcholyn.wallet.domain.DemoAppEnabledProvider
 import com.mateuszcholyn.wallet.ui.util.defaultButtonModifier
+import com.mateuszcholyn.wallet.util.appContext.currentAppContext
 import org.kodein.di.compose.rememberInstance
 
 @Composable
 fun DemoModeFragment() {
-    val currentContext = LocalContext.current
+    val currentContext = currentAppContext()
     val demoAppEnabledProvider: DemoAppEnabledProvider by rememberInstance()
     val activityProvider: ActivityProvider by rememberInstance()
 

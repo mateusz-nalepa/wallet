@@ -8,10 +8,18 @@ import androidx.compose.material.Colors
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import com.mateuszcholyn.wallet.util.appContext.currentAppContext
 import com.mateuszcholyn.wallet.util.createNewIfNotExists
 import com.mateuszcholyn.wallet.util.toFile
 import com.mateuszcholyn.wallet.util.verifyStoragePermissions
 import java.io.File
+
+@Composable
+fun resolveTheme(activity: Activity): ThemeProperties =
+        resolveTheme(
+                ctx = currentAppContext(),
+                activity = activity,
+        )
 
 
 fun enableGivenTheme(
