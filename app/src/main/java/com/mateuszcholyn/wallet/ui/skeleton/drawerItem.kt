@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,7 +33,7 @@ fun DrawerItem(item: NavDrawerItem, selected: Boolean, onItemClick: (NavDrawerIt
     ) {
         Image(
                 painter = painterResource(id = item.icon),
-                contentDescription = item.title,
+                contentDescription = stringResource(id = item.titleTranslationKey),
                 colorFilter = ColorFilter.tint(Color.White),
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
@@ -41,7 +42,7 @@ fun DrawerItem(item: NavDrawerItem, selected: Boolean, onItemClick: (NavDrawerIt
         )
         Spacer(modifier = Modifier.width(7.dp))
         Text(
-                text = item.title,
+                text = stringResource(id = item.titleTranslationKey),
                 fontSize = 18.sp,
                 color = Color.White
         )

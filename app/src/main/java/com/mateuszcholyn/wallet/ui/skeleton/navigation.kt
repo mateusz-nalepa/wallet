@@ -17,12 +17,12 @@ import com.mateuszcholyn.wallet.ui.screen.summary.NewSummaryScreen
 import com.mateuszcholyn.wallet.util.darkmode.ThemeProperties
 
 // TODO: translate - how to get context?
-sealed class NavDrawerItem(var route: String, var icon: Int, var title: String) {
-    object Category : NavDrawerItem("category", R.drawable.ic_home, "Category")
-    object AddOrEditExpense : NavDrawerItem("addOrEditExpense?expenseId={expenseId}", R.drawable.ic_music, "AddOrEditExpense")
-    object SummaryScreen : NavDrawerItem("summary", R.drawable.ic_movie, "Summary")
-    object Settings : NavDrawerItem("settings", R.drawable.ic_book, "Settings")
-    object Dummy : NavDrawerItem("dummy", R.drawable.ic_book, "Dummy")
+sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslationKey: Int) {
+    object Category : NavDrawerItem("category", R.drawable.ic_home, R.string.menuItem_Category)
+    object AddOrEditExpense : NavDrawerItem("addOrEditExpense?expenseId={expenseId}", R.drawable.ic_music, R.string.menuItem_AddOrEditExpense)
+    object SummaryScreen : NavDrawerItem("summary", R.drawable.ic_movie, R.string.menuItem_Summary)
+    object Settings : NavDrawerItem("settings", R.drawable.ic_book, R.string.menuItem_Settings)
+    object Dummy : NavDrawerItem("dummy", R.drawable.ic_book, R.string.menuItem_Dummy)
 }
 
 fun NavDrawerItem.AddOrEditExpense.routeWithoutId(): String =

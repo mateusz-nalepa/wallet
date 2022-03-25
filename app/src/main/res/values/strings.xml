@@ -92,6 +92,11 @@
     <string name="yesOrNoCancel">Anuluj</string>
     <string name="yesOrNoConfirm">Potwierdź</string>
     <string name="summaryScreen_allCategories">Wszystkie kategorie</string>
-    <string name="developerBy">Developed by Mateusz Nalepa</string>
+    <string name="developerBy">Autor: Mateusz Nalepa</string>
+    <string name="menuItem_Category">Kategorie</string>
+    <string name="menuItem_AddOrEditExpense">Dodaj wydatek</string>
+    <string name="menuItem_Summary">Podsumowanie</string>
+    <string name="menuItem_Settings">Ustawienia</string>
+    <string name="menuItem_Dummy">Dummy</string>
 
 </resources>
