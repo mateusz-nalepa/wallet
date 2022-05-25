@@ -18,8 +18,17 @@ class CategoryService(
                 .orderByCategoryUsageDesc()
     }
 
+    fun getAll(): List<ExistingCategory> {
+        return categoryRepository
+                .getAll()
+    }
+
     fun remove(categoryId: Long): Boolean {
         return categoryRepository.remove(categoryId)
+    }
+
+    fun removeAll(): Boolean {
+        return categoryRepository.removeAll()
     }
 
 }

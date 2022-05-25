@@ -65,6 +65,10 @@ class ExpenseService(
     fun hardRemove(expenseId: Long): Boolean =
             expenseRepository.remove(expenseId)
 
+    fun removeAll(): Boolean {
+        return expenseRepository.removeAll()
+    }
+
     fun saveExpense(expense: Expense): Expense =
             if (expense.id != null) {
                 updateExpense(expense)

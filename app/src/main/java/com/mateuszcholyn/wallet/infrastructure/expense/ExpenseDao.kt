@@ -18,6 +18,9 @@ interface ExpenseDao {
     @Query("delete from Expense where expense_id = :expenseId")
     fun remove(expenseId: Long): Int
 
+    @Query("delete from Expense")
+    fun removeAll(): Int
+
     @RawQuery(observedEntities = [ExpenseEntity::class, CategoryEntity::class])
     fun getAll(query: SupportSQLiteQuery): List<ExpenseWithCategory>
 

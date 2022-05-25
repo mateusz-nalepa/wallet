@@ -29,6 +29,11 @@ class SqLiteExpenseRepository(
         return expenseDao.remove(expenseId) == 1
     }
 
+    override fun removeAll(): Boolean {
+        expenseDao.removeAll()
+        return true
+    }
+
     override fun add(expense: Expense): Expense {
         return expense
                 .toEntity()

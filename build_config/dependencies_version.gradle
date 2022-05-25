@@ -1,7 +1,7 @@
 ext {
     build_gradle = '7.0.3'
     kodein = "4.1.0"
-    kotlin = "1.6.10"
+    kotlin = "1.6.21"
     appcompat_v7 = "27.1.1"
     constraint_layout = "2.0.4"
     design = "27.1.1"

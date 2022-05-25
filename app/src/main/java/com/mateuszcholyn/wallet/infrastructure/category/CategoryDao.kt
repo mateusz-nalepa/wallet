@@ -24,6 +24,9 @@ interface CategoryDao {
     @Query("delete from Category where category_id = :categoryId")
     fun remove(categoryId: Long): Int
 
+    @Query("delete from Category")
+    fun removeAll(): Int
+
     @Insert
     fun add(categoryEntity: CategoryEntity): Long
 

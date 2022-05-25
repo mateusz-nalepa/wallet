@@ -15,6 +15,16 @@ class SqLiteCategoryRepository(
         return categoryDao.remove(categoryId) == 1
     }
 
+    override fun removeAll(): Boolean {
+        categoryDao.removeAll()
+        return true
+    }
+
+    override fun getAll(): List<ExistingCategory> {
+        return categoryDao.getAll()
+                .map { it.toDomain() }
+    }
+
     override fun add(category: Category): ExistingCategory {
         return category
                 .toEntityAdd()
