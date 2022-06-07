@@ -15,14 +15,14 @@ import java.time.LocalDateTime
 
 
 @Suppress("unused")
-fun saveToFile(ctx: Context, activity: Activity, expenses: List<Expense>) {
+fun saveAllExpensesToFile(ctx: Context, activity: Activity, expenses: List<Expense>) {
     if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
         return
     }
     verifyStoragePermissions(activity)
 
 
-    val objectMapper = ObjectMapper().findAndRegisterModules()
+    val objectMapper = ObjectMapper().findAndRegisterModules().writerWithDefaultPrettyPrinter()
 
     try {
         ctx
@@ -68,6 +68,7 @@ private fun prepareSaveModel(ex: Expense): SaveModel =
         SaveModel(
                 expenseId = ex.idOrThrow(),
                 amount = ex.amount,
+                categoryId = ex.category.id,
                 categoryName = ex.category.name,
                 date = ex.date.toHumanText(),
                 description = ex.description,
@@ -89,6 +90,7 @@ private fun File.toFileWriter(): FileWriter {
 data class SaveModel(
         val expenseId: Long,
         val amount: BigDecimal,
+        val categoryId: Long,
         val categoryName: String,
         val date: String,
         val description: String,
