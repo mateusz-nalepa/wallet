@@ -19,18 +19,20 @@ fun WellnessScreenRunner() {
 
 @Composable
 fun WellnessScreen(modifier: Modifier = Modifier) {
-    StatelessWaterCounter(modifier)
+    Column(modifier = modifier) {
+        StatefulWaterCounter(modifier)
+        WellnessTasksList()
+    }
 }
 
-
 @Composable
-fun StatelessWaterCounter(modifier: Modifier = Modifier) {
+fun StatefulWaterCounter(modifier: Modifier = Modifier) {
     var count by rememberSaveable { mutableStateOf(0) }
-    StatefulWaterCounter(count, { count++ }, modifier)
+    StatelessWaterCounter(count, { count++ }, modifier)
 }
 
 @Composable
-fun StatefulWaterCounter(
+fun StatelessWaterCounter(
         count: Int,
         onIncrement: () -> Unit,
         modifier: Modifier = Modifier,
