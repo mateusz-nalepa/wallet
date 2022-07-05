@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -36,7 +37,7 @@ fun WellnessTasksList(
 
 @Composable
 fun WellnessTaskItem(taskName: String, modifier: Modifier = Modifier) {
-    var checkedState by remember { mutableStateOf(false) }
+    var checkedState by rememberSaveable { mutableStateOf(false) }
 
     StatelessWellnessTaskItem(
             taskName = taskName,
