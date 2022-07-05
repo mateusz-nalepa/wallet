@@ -30,6 +30,7 @@ fun Drawer(scope: CoroutineScope, scaffoldState: ScaffoldState, navController: N
             NavDrawerItem.AddOrEditExpense,
             NavDrawerItem.SummaryScreen,
             NavDrawerItem.Settings,
+            NavDrawerItem.Wellness,
             NavDrawerItem.Dummy,
     )
     Column {

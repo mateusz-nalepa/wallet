@@ -14,6 +14,7 @@ import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.NewAddOrEditExpenseSc
 import com.mateuszcholyn.wallet.ui.screen.category.NewCategoryScreen
 import com.mateuszcholyn.wallet.ui.screen.settings.SettingsScreen
 import com.mateuszcholyn.wallet.ui.screen.summary.NewSummaryScreen
+import com.mateuszcholyn.wallet.ui.wellness.WellnessScreenRunner
 import com.mateuszcholyn.wallet.util.darkmode.ThemeProperties
 
 // TODO: translate - how to get context?
@@ -22,6 +23,7 @@ sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslatio
     object AddOrEditExpense : NavDrawerItem("addOrEditExpense?expenseId={expenseId}", R.drawable.ic_music, R.string.menuItem_AddOrEditExpense)
     object SummaryScreen : NavDrawerItem("summary", R.drawable.ic_movie, R.string.menuItem_Summary)
     object Settings : NavDrawerItem("settings", R.drawable.ic_book, R.string.menuItem_Settings)
+    object Wellness : NavDrawerItem("wellness", R.drawable.ic_book, R.string.menuItem_Wellness)
     object Dummy : NavDrawerItem("dummy", R.drawable.ic_book, R.string.menuItem_Dummy)
 }
 
@@ -39,7 +41,8 @@ fun Navigation(
         navController: NavHostController,
         themeProperties: ThemeProperties,
 ) {
-    NavHost(navController, startDestination = NavDrawerItem.SummaryScreen.route) {
+//    NavHost(navController, startDestination = NavDrawerItem.SummaryScreen.route) {
+    NavHost(navController, startDestination = NavDrawerItem.Wellness.route) {
         composable(
                 route = NavDrawerItem.AddOrEditExpense.route,
                 arguments = listOf(navArgument("expenseId") {
@@ -58,6 +61,9 @@ fun Navigation(
         }
         composable(NavDrawerItem.Settings.route) {
             SettingsScreen(themeProperties)
+        }
+        composable(NavDrawerItem.Wellness.route) {
+            WellnessScreenRunner()
         }
         composable(NavDrawerItem.Dummy.route) {
             DummyScreen()

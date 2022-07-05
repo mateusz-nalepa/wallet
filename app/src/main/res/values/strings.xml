@@ -98,5 +98,6 @@
     <string name="menuItem_Summary">Podsumowanie</string>
     <string name="menuItem_Settings">Ustawienia</string>
     <string name="menuItem_Dummy">Dummy</string>
+    <string name="menuItem_Wellness">Wellness</string>
 
 </resources>
