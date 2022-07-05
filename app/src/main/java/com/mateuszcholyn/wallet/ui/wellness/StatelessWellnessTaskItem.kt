@@ -13,22 +13,24 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-data class WellnessTask(
+class WellnessTask(
         val id: Int,
         val label: String,
-)
+        initialChecked: Boolean = false,
+) {
+    var checked by mutableStateOf(initialChecked)
+}
 
-fun getWellnessTasks() = List(30) { i -> WellnessTask(i, "Task # $i") }
 
 @Composable
 fun WellnessTasksList(
         list: List<WellnessTask>,
+        onCheckedTask: (WellnessTask, Boolean) -> Unit,
         onCloseTask: (WellnessTask) -> Unit,
         modifier: Modifier = Modifier,
 ) {
@@ -37,7 +39,12 @@ fun WellnessTasksList(
                 items = list,
                 key = { task -> task.id },
         ) { task ->
-            WellnessTaskItem(taskName = task.label, onCloseTask = { onCloseTask(task) })
+            WellnessTaskItem(
+                    taskName = task.label,
+                    checked = task.checked,
+                    onCheckedChange = { checked -> onCheckedTask(task, checked) },
+                    onCloseTask = { onCloseTask(task) },
+            )
         }
     }
 }
@@ -45,15 +52,15 @@ fun WellnessTasksList(
 @Composable
 fun WellnessTaskItem(
         taskName: String,
+        checked: Boolean,
         modifier: Modifier = Modifier,
+        onCheckedChange: (Boolean) -> Unit,
         onCloseTask: () -> Unit,
 ) {
-    var checkedState by rememberSaveable { mutableStateOf(false) }
-
     StatelessWellnessTaskItem(
             taskName = taskName,
-            checked = checkedState,
-            onCheckedChange = { newValue -> checkedState = newValue },
+            checked = checked,
+            onCheckedChange = onCheckedChange,
             onClose = onCloseTask,
             modifier = modifier,
     )
