@@ -18,7 +18,8 @@ class InMemoryWellnessRepository : WellnessRepository {
 
 @HiltViewModel
 class WellnessViewModel @Inject constructor(
-        private val wellnessRepository: WellnessRepository
+        private val clicker: Clicker,
+        private val wellnessRepository: WellnessRepository,
 ) : ViewModel() {
     private val _tasks = wellnessRepository.getWellnessTasks().toMutableStateList()
     val tasks: List<WellnessTask>
@@ -26,6 +27,7 @@ class WellnessViewModel @Inject constructor(
 
     fun remove(item: WellnessTask) {
         _tasks.remove(item)
+        clicker.show()
     }
 
     fun changeTaskChecked(item: WellnessTask, checked: Boolean) {

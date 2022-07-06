@@ -2,6 +2,8 @@ package com.mateuszcholyn.wallet.di
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
+import com.mateuszcholyn.wallet.ui.wellness.Clicker
+import com.mateuszcholyn.wallet.ui.wellness.DefaultClicker
 import com.mateuszcholyn.wallet.ui.wellness.InMemoryWellnessRepository
 import com.mateuszcholyn.wallet.ui.wellness.WellnessRepository
 import dagger.Module
@@ -14,6 +16,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object HiltModule {
+
+    @Provides
+    @Singleton
+    fun provideClicker(): Clicker {
+        return DefaultClicker()
+    }
 
     @Provides
     @Singleton

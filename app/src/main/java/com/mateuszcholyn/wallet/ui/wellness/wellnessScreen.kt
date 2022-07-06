@@ -21,6 +21,7 @@ fun WellnessScreenRunner() {
 @Composable
 fun WellnessScreen(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
+        ClickerScreen(modifier)
         StatefulWaterCounter(modifier)
         StatefulWellnessTasksList(modifier)
     }
