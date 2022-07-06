@@ -11,7 +11,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun WellnessScreenRunner() {
@@ -29,7 +29,7 @@ fun WellnessScreen(modifier: Modifier = Modifier) {
 @Composable
 fun StatefulWellnessTasksList(
         modifier: Modifier = Modifier,
-        wellnessViewModel: WellnessViewModel = viewModel()
+        wellnessViewModel: WellnessViewModel = hiltViewModel()
 ) {
     WellnessTasksList(
             list = wellnessViewModel.tasks,

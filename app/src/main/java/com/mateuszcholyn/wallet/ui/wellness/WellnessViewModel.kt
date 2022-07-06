@@ -2,11 +2,25 @@ package com.mateuszcholyn.wallet.ui.wellness
 
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-fun getWellnessTasks() = List(30) { i -> WellnessTask(i, "Task # $i") }
 
-class WellnessViewModel : ViewModel() {
-    private val _tasks = getWellnessTasks().toMutableStateList()
+interface WellnessRepository {
+    fun getWellnessTasks(): List<WellnessTask>
+}
+
+class InMemoryWellnessRepository : WellnessRepository {
+    override fun getWellnessTasks(): List<WellnessTask> =
+            List(30) { i -> WellnessTask(i, "Task # $i") }
+}
+
+
+@HiltViewModel
+class WellnessViewModel @Inject constructor(
+        private val wellnessRepository: WellnessRepository
+) : ViewModel() {
+    private val _tasks = wellnessRepository.getWellnessTasks().toMutableStateList()
     val tasks: List<WellnessTask>
         get() = _tasks
 

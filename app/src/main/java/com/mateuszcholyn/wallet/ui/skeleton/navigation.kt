@@ -41,8 +41,7 @@ fun Navigation(
         navController: NavHostController,
         themeProperties: ThemeProperties,
 ) {
-//    NavHost(navController, startDestination = NavDrawerItem.SummaryScreen.route) {
-    NavHost(navController, startDestination = NavDrawerItem.Wellness.route) {
+    NavHost(navController, startDestination = NavDrawerItem.SummaryScreen.route) {
         composable(
                 route = NavDrawerItem.AddOrEditExpense.route,
                 arguments = listOf(navArgument("expenseId") {
