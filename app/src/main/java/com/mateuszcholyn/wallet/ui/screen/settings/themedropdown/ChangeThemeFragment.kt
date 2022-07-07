@@ -16,7 +16,9 @@ import com.mateuszcholyn.wallet.util.darkmode.enableGivenTheme
 
 @Composable
 @ExperimentalMaterialApi
-fun ChangeThemeFragment(themeProperties: ThemeProperties) {
+fun ChangeThemeFragment(
+        themeProperties: ThemeProperties,
+) {
     val currentContext = currentAppContext()
 
     val availableThemes = themeDropdownElements()

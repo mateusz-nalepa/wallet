@@ -39,7 +39,6 @@ fun NavDrawerItem.AddOrEditExpense.routeWithId(expenseId: Long): String =
 @Composable
 fun Navigation(
         navController: NavHostController,
-        themeProperties: ThemeProperties,
 ) {
     NavHost(navController, startDestination = NavDrawerItem.SummaryScreen.route) {
         composable(
@@ -59,7 +58,7 @@ fun Navigation(
             NewSummaryScreen(navController = navController)
         }
         composable(NavDrawerItem.Settings.route) {
-            SettingsScreen(themeProperties)
+            SettingsScreen()
         }
         composable(NavDrawerItem.Wellness.route) {
             WellnessScreenRunner()

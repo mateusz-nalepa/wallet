@@ -3,6 +3,8 @@ package com.mateuszcholyn.wallet.di
 import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
+import com.mateuszcholyn.wallet.ui.screen.settings.DefaultThemePropertiesProvider
+import com.mateuszcholyn.wallet.ui.screen.settings.ThemePropertiesProvider
 import com.mateuszcholyn.wallet.ui.wellness.Clicker
 import com.mateuszcholyn.wallet.ui.wellness.DefaultClicker
 import com.mateuszcholyn.wallet.ui.wellness.InMemoryWellnessRepository
@@ -31,15 +33,9 @@ object HiltModule {
         return InMemoryWellnessRepository()
     }
 
-}
-
-
-interface XD {
-    fun show()
-}
-
-class XdImpl() : XD {
-    override fun show() {
-        TODO("Not yet implemented")
+    @Provides
+    @Singleton
+    fun provideThemePropertiesProvider(@ApplicationContext context: Context): ThemePropertiesProvider {
+        return DefaultThemePropertiesProvider(context)
     }
 }

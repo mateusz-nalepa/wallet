@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -26,10 +27,10 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             withDI(di = resolveDi()) {
-                val themeProperties = resolveTheme(this)
+                val themeProperties = resolveTheme(this, isSystemInDarkTheme())
                 MaterialTheme(colors = themeProperties.colors) {
                     Surface(color = MaterialTheme.colors.background) {
-                        MainScreen(themeProperties = themeProperties)
+                        MainScreen()
                     }
                 }
             }

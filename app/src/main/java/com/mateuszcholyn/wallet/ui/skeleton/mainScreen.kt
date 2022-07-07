@@ -14,7 +14,7 @@ import com.mateuszcholyn.wallet.util.darkmode.ThemeProperties
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun MainScreen(themeProperties: ThemeProperties) {
+fun MainScreen() {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val scope = rememberCoroutineScope()
     val navController = rememberNavController()
@@ -33,7 +33,6 @@ fun MainScreen(themeProperties: ThemeProperties) {
     ) {
         Navigation(
                 navController = navController,
-                themeProperties = themeProperties,
         )
     }
 }
@@ -44,5 +43,5 @@ fun MainScreen(themeProperties: ThemeProperties) {
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
-    MainScreen(ThemeProperties(lightColors(), false, Resolver.LIGHT))
+    MainScreen()
 }

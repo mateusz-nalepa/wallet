@@ -2,21 +2,12 @@ package com.mateuszcholyn.wallet.util.darkmode
 
 import android.content.Context
 import android.os.Environment
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Colors
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
-import androidx.compose.runtime.Composable
-import com.mateuszcholyn.wallet.util.appContext.currentAppContext
 import com.mateuszcholyn.wallet.util.createNewIfNotExists
 import com.mateuszcholyn.wallet.util.toFile
 import java.io.File
-
-@Composable
-fun resolveTheme(): ThemeProperties =
-        resolveTheme(
-                ctx = currentAppContext(),
-        )
 
 
 fun enableGivenTheme(
@@ -32,6 +23,11 @@ fun enableGivenTheme(
                 .darkModeFilePath()
                 .toFile()
                 .delete()
+        if (Resolver.SYSTEM == resolver) {
+            // we don't want to create file in this case
+            return
+        }
+
         ctx
                 .darkModeFilePath()
                 .toFile()
@@ -58,19 +54,16 @@ data class ThemeProperties(
 
 
 @Suppress("unused")
-@Composable
-fun resolveTheme(ctx: Context): ThemeProperties {
+fun resolveTheme(ctx: Context, isSystemInDarkTheme: Boolean): ThemeProperties {
     if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
         return lightThemeProperties(Resolver.SYSTEM)
     }
 
     return runCatching {
         when {
-            darkModeFileNotExists(ctx) -> lightThemeProperties(Resolver.SYSTEM)
-            darkModeIsEnabled(ctx) -> darkThemeProperties(Resolver.LIGHT)
+            darkModeIsEnabled(ctx) -> darkThemeProperties(Resolver.DARK)
             lightModeIsEnabled(ctx) -> lightThemeProperties(Resolver.LIGHT)
-            useSystemTheme(ctx) -> resolveSystemTheme()
-            else -> lightThemeProperties(Resolver.SYSTEM)
+            else -> resolveSystemTheme(isSystemInDarkTheme)
         }
     }
             .getOrDefault(lightThemeProperties(Resolver.SYSTEM))
@@ -90,6 +83,11 @@ private fun darkThemeProperties(resolver: Resolver): ThemeProperties =
                 resolver = resolver,
         )
 
+
+private fun darkModeFileExists(ctx: Context): Boolean {
+    return !darkModeFileNotExists(ctx)
+}
+
 private fun darkModeFileNotExists(ctx: Context): Boolean {
     return try {
         !ctx
@@ -102,28 +100,22 @@ private fun darkModeFileNotExists(ctx: Context): Boolean {
 }
 
 private fun darkModeIsEnabled(ctx: Context): Boolean =
-        ctx
-                .darkModeFilePath()
-                .toFile()
-                .readText() == Resolver.DARK.name
+        darkModeFileExists(ctx) &&
+                ctx
+                        .darkModeFilePath()
+                        .toFile()
+                        .readText() == Resolver.DARK.name
 
 
 private fun lightModeIsEnabled(ctx: Context): Boolean =
-        ctx
-                .darkModeFilePath()
-                .toFile()
-                .readText() == Resolver.LIGHT.name
+        darkModeFileExists(ctx) &&
+                ctx
+                        .darkModeFilePath()
+                        .toFile()
+                        .readText() == Resolver.LIGHT.name
 
-private fun useSystemTheme(ctx: Context): Boolean =
-        ctx
-                .darkModeFilePath()
-                .toFile()
-                .readText() == Resolver.SYSTEM.name
-
-
-@Composable
-private fun resolveSystemTheme(): ThemeProperties =
-        when (isSystemInDarkTheme()) {
+private fun resolveSystemTheme(isSystemInDarkTheme: Boolean): ThemeProperties =
+        when (isSystemInDarkTheme) {
             true -> darkThemeProperties(Resolver.SYSTEM)
             false -> lightThemeProperties(Resolver.SYSTEM)
         }
