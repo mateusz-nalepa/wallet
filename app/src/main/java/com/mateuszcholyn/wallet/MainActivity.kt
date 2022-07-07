@@ -10,6 +10,7 @@ import androidx.compose.material.Surface
 import com.mateuszcholyn.wallet.di.resolveDi
 import com.mateuszcholyn.wallet.ui.skeleton.MainScreen
 import com.mateuszcholyn.wallet.util.darkmode.resolveTheme
+import com.mateuszcholyn.wallet.util.verifyStoragePermissions
 import dagger.hilt.android.AndroidEntryPoint
 import org.kodein.di.compose.withDI
 
@@ -21,9 +22,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        verifyStoragePermissions(this)
 
         setContent {
-            withDI(di = resolveDi(this)) {
+            withDI(di = resolveDi()) {
                 val themeProperties = resolveTheme(this)
                 MaterialTheme(colors = themeProperties.colors) {
                     Surface(color = MaterialTheme.colors.background) {

@@ -32,3 +32,14 @@ object HiltModule {
     }
 
 }
+
+
+interface XD {
+    fun show()
+}
+
+class XdImpl() : XD {
+    override fun show() {
+        TODO("Not yet implemented")
+    }
+}

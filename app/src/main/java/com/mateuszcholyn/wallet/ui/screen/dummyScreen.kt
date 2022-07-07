@@ -17,7 +17,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.di.ActivityProvider
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
@@ -31,7 +30,6 @@ import org.kodein.di.compose.rememberInstance
 @Composable
 fun DummyScreen() {
 
-    val activityProvider: ActivityProvider by rememberInstance()
     val categoryService: CategoryService by rememberInstance()
     val expenseService: ExpenseService by rememberInstance()
     val appContext = currentAppContext()
@@ -75,7 +73,6 @@ fun DummyScreen() {
 
                     saveAllExpensesToFile(
                             ctx = appContext,
-                            activity = activityProvider.get(),
                             expenses = summaryResult.expenses
                     )
                     showLongText(appContext, "Zakonczono eksport danych!")

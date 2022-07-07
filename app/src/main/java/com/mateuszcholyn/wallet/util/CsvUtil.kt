@@ -1,6 +1,5 @@
 package com.mateuszcholyn.wallet.util
 
-import android.app.Activity
 import android.content.Context
 import android.os.Environment
 import android.os.Environment.DIRECTORY_DOWNLOADS
@@ -15,12 +14,10 @@ import java.time.LocalDateTime
 
 
 @Suppress("unused")
-fun saveAllExpensesToFile(ctx: Context, activity: Activity, expenses: List<Expense>) {
+fun saveAllExpensesToFile(ctx: Context, expenses: List<Expense>) {
     if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
         return
     }
-    verifyStoragePermissions(activity)
-
 
     val objectMapper = ObjectMapper().findAndRegisterModules().writerWithDefaultPrettyPrinter()
 

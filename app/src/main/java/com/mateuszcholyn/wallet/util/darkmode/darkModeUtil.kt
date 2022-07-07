@@ -1,6 +1,5 @@
 package com.mateuszcholyn.wallet.util.darkmode
 
-import android.app.Activity
 import android.content.Context
 import android.os.Environment
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -11,27 +10,22 @@ import androidx.compose.runtime.Composable
 import com.mateuszcholyn.wallet.util.appContext.currentAppContext
 import com.mateuszcholyn.wallet.util.createNewIfNotExists
 import com.mateuszcholyn.wallet.util.toFile
-import com.mateuszcholyn.wallet.util.verifyStoragePermissions
 import java.io.File
 
 @Composable
-fun resolveTheme(activity: Activity): ThemeProperties =
+fun resolveTheme(): ThemeProperties =
         resolveTheme(
                 ctx = currentAppContext(),
-                activity = activity,
         )
 
 
 fun enableGivenTheme(
         ctx: Context,
-        activity: Activity,
         resolver: Resolver,
 ) {
     if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
         return
     }
-
-    verifyStoragePermissions(activity)
 
     try {
         ctx
@@ -65,12 +59,10 @@ data class ThemeProperties(
 
 @Suppress("unused")
 @Composable
-fun resolveTheme(ctx: Context, activity: Activity): ThemeProperties {
+fun resolveTheme(ctx: Context): ThemeProperties {
     if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
         return lightThemeProperties(Resolver.SYSTEM)
     }
-
-    verifyStoragePermissions(activity)
 
     return runCatching {
         when {

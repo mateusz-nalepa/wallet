@@ -1,7 +1,5 @@
 package com.mateuszcholyn.wallet.di.demodi
 
-import android.app.Activity
-import com.mateuszcholyn.wallet.di.ActivityProvider
 import com.mateuszcholyn.wallet.domain.DemoAppEnabledProvider
 import com.mateuszcholyn.wallet.domain.DemoModeEnabled
 import com.mateuszcholyn.wallet.domain.category.*
@@ -24,7 +22,6 @@ class SimpleDiScope {
 
 
 fun simpleDi(
-        activity: Activity,
         initScope: SimpleDiScope.() -> Unit,
 ): DI {
 
@@ -51,8 +48,6 @@ fun simpleDi(
         bind<ExpenseRepository>() with provider { diScope.expenseRepository }
         bind<ExpenseService>() with provider { ExpenseService(instance()) }
 
-        //
-        bind<ActivityProvider>() with provider { ActivityProvider(activity) }
     }
     return testDI
 }
