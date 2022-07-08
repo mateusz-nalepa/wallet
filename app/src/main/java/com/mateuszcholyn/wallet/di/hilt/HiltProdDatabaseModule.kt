@@ -3,8 +3,8 @@ package com.mateuszcholyn.wallet.di.hilt
 import android.content.Context
 import androidx.room.Room
 import com.mateuszcholyn.wallet.config.AppDatabase
-import com.mateuszcholyn.wallet.di.demodi.InMemoryCategoryRepository
-import com.mateuszcholyn.wallet.di.demodi.InMemoryExpenseRepository
+import com.mateuszcholyn.wallet.di.demomode.InMemoryCategoryRepository
+import com.mateuszcholyn.wallet.di.demomode.InMemoryExpenseRepository
 import com.mateuszcholyn.wallet.domain.DemoAppSwitcher
 import com.mateuszcholyn.wallet.domain.category.CategoryRepository
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
