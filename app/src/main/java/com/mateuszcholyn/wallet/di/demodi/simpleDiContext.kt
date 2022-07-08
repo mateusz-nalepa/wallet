@@ -48,7 +48,7 @@ fun simpleDi(
 
 
 class InMemoryCategoryRepository(
-        private val expenseRepository: InMemoryExpenseRepository,
+        private val expenseRepository: ExpenseRepository,
 ) : CategoryRepository {
     private val storage = mutableMapOf<Long, ExistingCategory>()
     private val idGenerator = IdGenerator()
@@ -104,7 +104,7 @@ class InMemoryExpenseRepository : ExpenseRepository {
         return storage.values.toList()
     }
 
-    fun getAll(): List<Expense> {
+    override fun getAll(): List<Expense> {
         return storage.values.toList()
     }
 

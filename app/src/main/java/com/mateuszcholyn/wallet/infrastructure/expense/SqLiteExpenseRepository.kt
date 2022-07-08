@@ -34,6 +34,10 @@ class SqLiteExpenseRepository(
         return true
     }
 
+    override fun getAll(): List<Expense> {
+        TODO("This method is used only in InMemoryExpenseRepository")
+    }
+
     override fun add(expense: Expense): Expense {
         return expense
                 .toEntity()

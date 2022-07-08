@@ -3,6 +3,9 @@ package com.mateuszcholyn.wallet.di.hilt
 import android.content.Context
 import androidx.room.Room
 import com.mateuszcholyn.wallet.config.AppDatabase
+import com.mateuszcholyn.wallet.di.demodi.InMemoryCategoryRepository
+import com.mateuszcholyn.wallet.di.demodi.InMemoryExpenseRepository
+import com.mateuszcholyn.wallet.domain.DemoAppSwitcher
 import com.mateuszcholyn.wallet.domain.category.CategoryRepository
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.infrastructure.category.SqLiteCategoryRepository
@@ -31,17 +34,32 @@ object HiltProdDatabaseModule {
 
     @Provides
     @Singleton
-    fun provideCategoryRepository(appDatabase: AppDatabase): CategoryRepository =
-            SqLiteCategoryRepository(
-                    categoryDao = appDatabase.categoryDao(),
-            )
+    fun provideCategoryRepository(
+            appDatabase: AppDatabase,
+            expenseRepository: ExpenseRepository,
+            demoAppSwitcher: DemoAppSwitcher,
+    ): CategoryRepository {
+        if (demoAppSwitcher.isDemoModeEnabled()) {
+            return InMemoryCategoryRepository(expenseRepository)
+        }
 
+        return SqLiteCategoryRepository(
+                categoryDao = appDatabase.categoryDao(),
+        )
+    }
 
     @Provides
     @Singleton
-    fun provideExpenseRepository(appDatabase: AppDatabase): ExpenseRepository =
-            SqLiteExpenseRepository(
-                    expenseDao = appDatabase.expenseDao(),
-            )
+    fun provideExpenseRepository(
+            appDatabase: AppDatabase,
+            demoAppSwitcher: DemoAppSwitcher,
+    ): ExpenseRepository {
+        if (demoAppSwitcher.isDemoModeEnabled()) {
+            return InMemoryExpenseRepository()
+        }
+        return SqLiteExpenseRepository(
+                expenseDao = appDatabase.expenseDao(),
+        )
+    }
 
 }
