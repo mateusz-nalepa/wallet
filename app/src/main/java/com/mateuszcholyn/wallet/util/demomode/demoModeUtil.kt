@@ -3,62 +3,39 @@ package com.mateuszcholyn.wallet.util.demomode
 import android.content.Context
 import android.os.Environment
 import com.mateuszcholyn.wallet.util.createNewIfNotExists
+import com.mateuszcholyn.wallet.util.mediaIsNotMounted
 import com.mateuszcholyn.wallet.util.toFile
 import java.io.File
 
 
-@Suppress("unused")
-fun enableDemoMode(ctx: Context): Boolean {
-    if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
-        return false
+fun enableDemoMode(ctx: Context) {
+    if (mediaIsNotMounted()) {
+        return
     }
-
-    return try {
-        ctx
-                .demoModeFilePath()
-                .toFile()
-                .createNewIfNotExists()
-
-        true
-    } catch (t: Throwable) {
-        false
-    }
+    runCatching { ctx.demoModeFile().createNewIfNotExists() }
+            .getOrElse { }
 }
 
-@Suppress("unused")
-fun disableDemoMode(ctx: Context): Boolean {
-    if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
-        return false
+fun disableDemoMode(ctx: Context) {
+    if (mediaIsNotMounted()) {
+        return
     }
-
-    return try {
-        ctx
-                .demoModeFilePath()
-                .toFile()
-                .delete()
-
-        true
-    } catch (t: Throwable) {
-        false
-    }
+    runCatching { ctx.demoModeFile().delete() }
+            .getOrElse { }
 }
 
-@Suppress("unused")
 fun isInDemoMode(ctx: Context): Boolean {
-    if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
+    if (mediaIsNotMounted()) {
         return false
     }
+    return runCatching { ctx.demoModeFile().exists() }
+            .getOrElse { false }
+}
 
-    return try {
-        ctx
+private fun Context.demoModeFile(): File =
+        this
                 .demoModeFilePath()
                 .toFile()
-                .exists()
-
-    } catch (t: Throwable) {
-        false
-    }
-}
 
 private fun Context.demoModeFilePath(): String {
     val appPath = this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.toString()

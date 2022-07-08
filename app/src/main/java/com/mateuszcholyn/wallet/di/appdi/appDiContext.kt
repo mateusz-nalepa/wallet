@@ -2,8 +2,6 @@ package com.mateuszcholyn.wallet.di.appdi
 
 import android.content.Context
 import com.mateuszcholyn.wallet.config.AppDatabase
-import com.mateuszcholyn.wallet.domain.DemoAppEnabledProvider
-import com.mateuszcholyn.wallet.domain.DemoModeDisabled
 import com.mateuszcholyn.wallet.domain.category.CategoryRepository
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
@@ -23,9 +21,6 @@ fun createDependencyContext(
 ): DI {
     return DI {
         val appDatabase = AppDatabase(applicationContext)
-
-        //Demo Mode
-        bind<DemoAppEnabledProvider>() with provider { DemoModeDisabled }
 
         //Category
         bind<CategoryDao>() with provider { appDatabase.categoryDao() }

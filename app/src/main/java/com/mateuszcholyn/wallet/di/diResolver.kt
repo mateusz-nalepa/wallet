@@ -9,13 +9,10 @@ import org.kodein.di.DI
 
 @Composable
 fun resolveDi(): DI {
-    val isDemoMode =
-            isInDemoMode(
-                    ctx = currentAppContext(),
-            )
+    val isDemoMode = isInDemoMode(ctx = currentAppContext())
 
     return if (isDemoMode) {
-        simpleDi() {}
+        simpleDi {}
     } else {
         createDependencyContext(currentAppContext())
     }

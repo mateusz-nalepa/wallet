@@ -6,6 +6,7 @@ import androidx.compose.material.Colors
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import com.mateuszcholyn.wallet.util.createNewIfNotExists
+import com.mateuszcholyn.wallet.util.mediaIsNotMounted
 import com.mateuszcholyn.wallet.util.toFile
 import java.io.File
 
@@ -14,7 +15,7 @@ fun enableGivenTheme(
         ctx: Context,
         resolver: Resolver,
 ) {
-    if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
+    if (mediaIsNotMounted()) {
         return
     }
 
@@ -55,8 +56,8 @@ data class ThemeProperties(
 
 @Suppress("unused")
 fun resolveTheme(ctx: Context, isSystemInDarkTheme: Boolean): ThemeProperties {
-    if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
-        return lightThemeProperties(Resolver.SYSTEM)
+    if (mediaIsNotMounted()) {
+        return lightThemeProperties(Resolver.LIGHT)
     }
 
     return runCatching {

@@ -1,7 +1,5 @@
 package com.mateuszcholyn.wallet.di.demodi
 
-import com.mateuszcholyn.wallet.domain.DemoAppEnabledProvider
-import com.mateuszcholyn.wallet.domain.DemoModeEnabled
 import com.mateuszcholyn.wallet.domain.category.*
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
@@ -35,11 +33,7 @@ fun simpleDi(
     diScope.expenseRepository.add(Expense(amount = BigDecimal("20.0"), date = LocalDateTime.now().minusHours(2), category = secondCategory, description = "expense 2"))
     diScope.expenseRepository.add(Expense(amount = BigDecimal("33.0"), date = LocalDateTime.now().minusHours(3), category = secondCategory, description = "expense 3"))
 
-
     val testDI by DI.lazy {
-        //Demo Mode
-        bind<DemoAppEnabledProvider>() with provider { DemoModeEnabled }
-
         //Category
         bind<CategoryRepository>() with provider { diScope.categoryRepository }
         bind<CategoryService>() with provider { CategoryService(instance()) }

@@ -1,26 +1,26 @@
 package com.mateuszcholyn.wallet.domain
 
 import android.content.Context
+import com.jakewharton.processphoenix.ProcessPhoenix
 import com.mateuszcholyn.wallet.util.demomode.disableDemoMode
 import com.mateuszcholyn.wallet.util.demomode.enableDemoMode
 
-interface DemoAppEnabledProvider {
+interface DemoAppSwitcher {
 
     fun isDemoModeEnabled(): Boolean
-    fun changeContext(context: Context)
+    fun switch()
     fun buttonText(): String
 
 }
 
-object DemoModeEnabled : DemoAppEnabledProvider {
-    override fun isDemoModeEnabled(): Boolean {
-        return true
-    }
+class DemoModeEnabled(
+        private val context: Context,
+) : DemoAppSwitcher {
+    override fun isDemoModeEnabled(): Boolean = true
 
-    override fun changeContext(context: Context) {
-        disableDemoMode(
-                ctx = context,
-        )
+    override fun switch() {
+        disableDemoMode(ctx = context)
+        ProcessPhoenix.triggerRebirth(context)
     }
 
     override fun buttonText(): String {
@@ -28,15 +28,14 @@ object DemoModeEnabled : DemoAppEnabledProvider {
     }
 }
 
-object DemoModeDisabled : DemoAppEnabledProvider {
-    override fun isDemoModeEnabled(): Boolean {
-        return false
-    }
+class DemoModeDisabled(
+        private val context: Context,
+) : DemoAppSwitcher {
+    override fun isDemoModeEnabled(): Boolean = false
 
-    override fun changeContext(context: Context) {
-        enableDemoMode(
-                ctx = context,
-        )
+    override fun switch() {
+        enableDemoMode(ctx = context)
+        ProcessPhoenix.triggerRebirth(context)
     }
 
     override fun buttonText(): String {

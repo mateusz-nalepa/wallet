@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 
 @Suppress("unused")
 fun saveAllExpensesToFile(ctx: Context, expenses: List<Expense>) {
-    if (Environment.MEDIA_MOUNTED != Environment.getExternalStorageState()) {
+    if (mediaIsNotMounted()) {
         return
     }
 
