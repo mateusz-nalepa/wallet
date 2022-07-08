@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.expense.Expense
@@ -21,7 +23,15 @@ import com.mateuszcholyn.wallet.ui.skeleton.routeWithId
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.asPrintableAmount
 import com.mateuszcholyn.wallet.util.dateutils.toHumanText
-import org.kodein.di.compose.rememberInstance
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+@HiltViewModel
+class ShowExpenseModel @Inject constructor(
+        private val expenseService: ExpenseService,
+) : ViewModel() {
+    fun expenseService(): ExpenseService = expenseService
+}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -31,8 +41,9 @@ fun ShowExpense(
         navController: NavHostController,
         refreshFunction: () -> Unit,
         initialDetailsAreVisible: Boolean = false,
+        showExpenseModel: ShowExpenseModel = hiltViewModel()
 ) {
-    val expenseService: ExpenseService by rememberInstance()
+    val expenseService = showExpenseModel.expenseService()
 
     var detailsAreVisible by remember { mutableStateOf(initialDetailsAreVisible) }
     ListItem(

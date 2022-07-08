@@ -16,6 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
@@ -25,13 +27,26 @@ import com.mateuszcholyn.wallet.util.appContext.currentAppContext
 import com.mateuszcholyn.wallet.util.dateutils.maxDate
 import com.mateuszcholyn.wallet.util.dateutils.minDate
 import com.mateuszcholyn.wallet.util.saveAllExpensesToFile
-import org.kodein.di.compose.rememberInstance
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+
+@HiltViewModel
+class DummyViewModel @Inject constructor(
+        private val categoryService: CategoryService,
+        private val expenseService: ExpenseService,
+) : ViewModel() {
+    fun expenseService(): ExpenseService = expenseService
+    fun categoryService(): CategoryService = categoryService
+}
 
 @Composable
-fun DummyScreen() {
+fun DummyScreen(
+        dummyViewModel: DummyViewModel = hiltViewModel()
+) {
 
-    val categoryService: CategoryService by rememberInstance()
-    val expenseService: ExpenseService by rememberInstance()
+    val categoryService = dummyViewModel.categoryService()
+    val expenseService = dummyViewModel.expenseService()
     val appContext = currentAppContext()
 
     Column(

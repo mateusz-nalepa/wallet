@@ -14,6 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
@@ -33,8 +35,9 @@ import com.mateuszcholyn.wallet.util.asFormattedAmount
 import com.mateuszcholyn.wallet.util.dateutils.toHumanText
 import com.mateuszcholyn.wallet.util.dateutils.toLocalDateTime
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
-import org.kodein.di.compose.rememberInstance
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDateTime
+import javax.inject.Inject
 
 data class CategoryViewModel(
         override val name: String,
@@ -83,13 +86,27 @@ fun NoCategoryPresentInfo(
 }
 
 
+@HiltViewModel
+class AddOrEditExpenseViewModel @Inject constructor(
+        private val categoryService: CategoryService,
+        private val expenseService: ExpenseService,
+) : ViewModel() {
+    fun expenseService(): ExpenseService = expenseService
+    fun categoryService(): CategoryService = categoryService
+}
+
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun NewAddOrEditExpenseScreen(navController: NavHostController, actualExpenseIdXD: String? = null) {
+fun NewAddOrEditExpenseScreen(
+        navController: NavHostController,
+        actualExpenseIdXD: String? = null,
+        addOrEditExpenseViewModel: AddOrEditExpenseViewModel = hiltViewModel()
+) {
     val actualExpenseId = actualExpenseIdXD?.toLong()
 
-    val expenseService: ExpenseService by rememberInstance()
-    val categoryService: CategoryService by rememberInstance()
+    val expenseService = addOrEditExpenseViewModel.expenseService()
+    val categoryService = addOrEditExpenseViewModel.categoryService()
 
     val categoryNameOptions = categoryService.getAllWithDetailsOrderByUsageDesc().map { it.toCategoryViewModel() }
 

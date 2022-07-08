@@ -1,8 +1,6 @@
 package com.mateuszcholyn.wallet.config
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryDao
@@ -17,36 +15,12 @@ import com.mateuszcholyn.wallet.infrastructure.util.LocalDateTimeConverter
         entities = [
             MonthlyBudgetEntity::class,
             CategoryEntity::class,
-            ExpenseEntity::class],
-        version = 2
+            ExpenseEntity::class
+        ],
+        version = 2,
 )
 @TypeConverters(LocalDateTimeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
-
     abstract fun categoryDao(): CategoryDao
     abstract fun expenseDao(): ExpenseDao
-
-    companion object {
-        @Volatile
-        private var instance: AppDatabase? = null
-        private val LOCK = Any()
-
-        operator fun invoke(context: Context) =
-                instance
-                        ?: synchronized(LOCK) {
-                            instance
-                                    ?: buildDatabase(context).also { instance = it }
-                        }
-
-        private fun buildDatabase(context: Context) =
-                Room
-                        .databaseBuilder(
-                                context,
-                                AppDatabase::class.java,
-                                "database.db",
-                        )
-                        .allowMainThreadQueries() // TODO this should be fixed!!
-                        .build()
-    }
-
 }

@@ -14,8 +14,8 @@ import java.time.LocalDateTime
 
 
 class SimpleDiScope {
-    val expenseRepository = SimpleExpenseRepository()
-    val categoryRepository: CategoryRepository = SimpleCategoryRepository(expenseRepository)
+    val expenseRepository = InMemoryExpenseRepository()
+    val categoryRepository: CategoryRepository = InMemoryCategoryRepository(expenseRepository)
 }
 
 
@@ -47,8 +47,8 @@ fun simpleDi(
 }
 
 
-class SimpleCategoryRepository(
-        private val expenseRepository: SimpleExpenseRepository,
+class InMemoryCategoryRepository(
+        private val expenseRepository: InMemoryExpenseRepository,
 ) : CategoryRepository {
     private val storage = mutableMapOf<Long, ExistingCategory>()
     private val idGenerator = IdGenerator()
@@ -91,7 +91,7 @@ class SimpleCategoryRepository(
     }
 }
 
-class SimpleExpenseRepository : ExpenseRepository {
+class InMemoryExpenseRepository : ExpenseRepository {
     private val storage = mutableMapOf<Long, Expense>()
     private val idGenerator = IdGenerator()
 

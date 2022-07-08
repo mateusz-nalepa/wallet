@@ -11,18 +11,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.EMPTY_STRING
-import org.kodein.di.compose.rememberInstance
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+@HiltViewModel
+class CategoryViewModel @Inject constructor(
+        private val categoryService: CategoryService,
+) : ViewModel() {
+
+    fun categoryService(): CategoryService =
+            categoryService
+
+}
+
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun NewCategoryScreen() {
-    val categoryService: CategoryService by rememberInstance()
+fun NewCategoryScreen(
+        categoryViewModel: CategoryViewModel = hiltViewModel()
+) {
+    val categoryService = categoryViewModel.categoryService()
 
     var categoryListOptions by remember { mutableStateOf(listOf<CategoryDetails>()) }
     var categoryNamesOnly by remember { mutableStateOf(listOf<String>()) }
@@ -62,6 +78,7 @@ fun NewCategoryScreen() {
                 ) {
             items(categoryListOptions) { categoryDetails ->
                 SingleCategory(
+                        categoryService = categoryService,
                         categoryDetails = categoryDetails,
                         refreshCategoryListFunction = { refreshCategoryList() },
                         categoryNamesOnly = categoryNamesOnly,

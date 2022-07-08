@@ -21,12 +21,12 @@ import com.mateuszcholyn.wallet.ui.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.ui.util.showShortText
 import com.mateuszcholyn.wallet.util.appContext.currentAppContext
-import org.kodein.di.compose.rememberInstance
 
 
 @ExperimentalMaterialApi
 @Composable
 fun SingleCategory(
+        categoryService: CategoryService,
         categoryDetails: CategoryDetails,
         refreshCategoryListFunction: () -> Unit,
         initialDetailsAreVisible: Boolean = false,
@@ -35,7 +35,6 @@ fun SingleCategory(
 ) {
     val currentContext = currentAppContext()
 
-    val categoryService: CategoryService by rememberInstance()
     var detailsAreVisible by remember { mutableStateOf(initialDetailsAreVisible) }
 
     var editCategoryNameIsVisible by remember { mutableStateOf(initialEditCategoryNameIsVisible) }

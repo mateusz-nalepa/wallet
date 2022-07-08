@@ -16,6 +16,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.R
@@ -34,14 +36,28 @@ import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.util.asPrintableAmount
 import com.mateuszcholyn.wallet.util.toDoubleOrDefaultZero
-import org.kodein.di.compose.rememberInstance
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+
+@HiltViewModel
+class SummaryViewModel @Inject constructor(
+        private val categoryService: CategoryService,
+        private val expenseService: ExpenseService,
+) : ViewModel() {
+    fun expenseService(): ExpenseService = expenseService
+    fun categoryService(): CategoryService = categoryService
+}
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun NewSummaryScreen(navController: NavHostController) {
-    val categoryService: CategoryService by rememberInstance()
-    val expenseService: ExpenseService by rememberInstance()
+fun NewSummaryScreen(
+        navController: NavHostController,
+        summaryViewModel: SummaryViewModel = hiltViewModel()
+) {
+    val categoryService = summaryViewModel.categoryService()
+    val expenseService = summaryViewModel.expenseService()
 
 
     val availableCategories =
