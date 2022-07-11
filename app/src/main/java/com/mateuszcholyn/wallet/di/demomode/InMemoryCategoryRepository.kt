@@ -7,7 +7,7 @@ import com.mateuszcholyn.wallet.domain.category.ExistingCategory
 import com.mateuszcholyn.wallet.domain.expense.ExpenseRepository
 
 class InMemoryCategoryRepository(
-        private val expenseRepository: ExpenseRepository,
+    private val expenseRepository: ExpenseRepository,
 ) : CategoryRepository {
     private val storage = mutableMapOf<Long, ExistingCategory>()
     private val idGenerator = IdGenerator()
@@ -21,10 +21,10 @@ class InMemoryCategoryRepository(
         val categoryId = idGenerator.nextNumber()
 
         val addedCategory =
-                ExistingCategory(
-                        id = categoryId,
-                        name = category.name,
-                )
+            ExistingCategory(
+                id = categoryId,
+                name = category.name,
+            )
 
         storage[categoryId] = addedCategory
 
@@ -39,13 +39,13 @@ class InMemoryCategoryRepository(
 
     override fun getAllCategoriesWithExpenses(): List<CategoryWithExpenses> {
         return storage.values
-                .map { category ->
-                    CategoryWithExpenses(
-                            category = category,
-                            expenses = expenseRepository.getAll().filter { expense ->
-                                expense.category.id == category.id
-                            }
-                    )
-                }
+            .map { category ->
+                CategoryWithExpenses(
+                    category = category,
+                    expenses = expenseRepository.getAll().filter { expense ->
+                        expense.category.id == category.id
+                    }
+                )
+            }
     }
 }

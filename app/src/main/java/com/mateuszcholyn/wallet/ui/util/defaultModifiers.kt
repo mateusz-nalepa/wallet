@@ -7,12 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 val defaultModifier =
-        Modifier
-                .padding(4.dp)
-                .fillMaxWidth()
+    Modifier
+        .padding(4.dp)
+        .fillMaxWidth()
 
 val defaultButtonModifier =
-        Modifier
-                .padding(4.dp)
-                .height(60.dp)
-                .fillMaxWidth()
+    Modifier
+        .padding(4.dp)
+        .height(60.dp)
+        .fillMaxWidth()

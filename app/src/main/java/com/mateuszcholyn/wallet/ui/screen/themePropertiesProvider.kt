@@ -9,7 +9,7 @@ interface ThemePropertiesProvider {
 }
 
 class DefaultThemePropertiesProvider(
-        private val context: Context,
+    private val context: Context,
 ) : ThemePropertiesProvider {
     override fun provide(isSystemInDarkTheme: Boolean): ThemeProperties {
         return resolveTheme(context, isSystemInDarkTheme)

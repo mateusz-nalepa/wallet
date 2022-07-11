@@ -12,8 +12,8 @@ import java.io.File
 
 
 fun enableGivenTheme(
-        ctx: Context,
-        resolver: Resolver,
+    ctx: Context,
+    resolver: Resolver,
 ) {
     if (mediaIsNotMounted()) {
         return
@@ -21,19 +21,19 @@ fun enableGivenTheme(
 
     try {
         ctx
-                .darkModeFilePath()
-                .toFile()
-                .delete()
+            .darkModeFilePath()
+            .toFile()
+            .delete()
         if (Resolver.SYSTEM == resolver) {
             // we don't want to create file in this case
             return
         }
 
         ctx
-                .darkModeFilePath()
-                .toFile()
-                .createNewIfNotExists()
-                .writeText(resolver.name)
+            .darkModeFilePath()
+            .toFile()
+            .createNewIfNotExists()
+            .writeText(resolver.name)
 
     } catch (t: Throwable) {
         t.printStackTrace()
@@ -48,9 +48,9 @@ enum class Resolver {
 }
 
 data class ThemeProperties(
-        val colors: Colors,
-        val shouldUseDarkTheme: Boolean,
-        val resolver: Resolver,
+    val colors: Colors,
+    val shouldUseDarkTheme: Boolean,
+    val resolver: Resolver,
 )
 
 
@@ -67,22 +67,22 @@ fun resolveTheme(ctx: Context, isSystemInDarkTheme: Boolean): ThemeProperties {
             else -> resolveSystemTheme(isSystemInDarkTheme)
         }
     }
-            .getOrDefault(lightThemeProperties(Resolver.SYSTEM))
+        .getOrDefault(lightThemeProperties(Resolver.SYSTEM))
 }
 
 private fun lightThemeProperties(resolver: Resolver): ThemeProperties =
-        ThemeProperties(
-                colors = lightColors(),
-                shouldUseDarkTheme = false,
-                resolver = resolver,
-        )
+    ThemeProperties(
+        colors = lightColors(),
+        shouldUseDarkTheme = false,
+        resolver = resolver,
+    )
 
 private fun darkThemeProperties(resolver: Resolver): ThemeProperties =
-        ThemeProperties(
-                colors = darkColors(),
-                shouldUseDarkTheme = true,
-                resolver = resolver,
-        )
+    ThemeProperties(
+        colors = darkColors(),
+        shouldUseDarkTheme = true,
+        resolver = resolver,
+    )
 
 
 private fun darkModeFileExists(ctx: Context): Boolean {
@@ -92,34 +92,34 @@ private fun darkModeFileExists(ctx: Context): Boolean {
 private fun darkModeFileNotExists(ctx: Context): Boolean {
     return try {
         !ctx
-                .darkModeFilePath()
-                .toFile()
-                .exists()
+            .darkModeFilePath()
+            .toFile()
+            .exists()
     } catch (t: Throwable) {
         true
     }
 }
 
 private fun darkModeIsEnabled(ctx: Context): Boolean =
-        darkModeFileExists(ctx) &&
-                ctx
-                        .darkModeFilePath()
-                        .toFile()
-                        .readText() == Resolver.DARK.name
+    darkModeFileExists(ctx) &&
+            ctx
+                .darkModeFilePath()
+                .toFile()
+                .readText() == Resolver.DARK.name
 
 
 private fun lightModeIsEnabled(ctx: Context): Boolean =
-        darkModeFileExists(ctx) &&
-                ctx
-                        .darkModeFilePath()
-                        .toFile()
-                        .readText() == Resolver.LIGHT.name
+    darkModeFileExists(ctx) &&
+            ctx
+                .darkModeFilePath()
+                .toFile()
+                .readText() == Resolver.LIGHT.name
 
 private fun resolveSystemTheme(isSystemInDarkTheme: Boolean): ThemeProperties =
-        when (isSystemInDarkTheme) {
-            true -> darkThemeProperties(Resolver.SYSTEM)
-            false -> lightThemeProperties(Resolver.SYSTEM)
-        }
+    when (isSystemInDarkTheme) {
+        true -> darkThemeProperties(Resolver.SYSTEM)
+        false -> lightThemeProperties(Resolver.SYSTEM)
+    }
 
 private fun Context.darkModeFilePath(): String {
     val appPath = this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.toString()

@@ -14,7 +14,7 @@ interface DemoAppSwitcher {
 }
 
 class DemoModeEnabled(
-        private val context: Context,
+    private val context: Context,
 ) : DemoAppSwitcher {
     override fun isDemoModeEnabled(): Boolean = true
 
@@ -29,7 +29,7 @@ class DemoModeEnabled(
 }
 
 class DemoModeDisabled(
-        private val context: Context,
+    private val context: Context,
 ) : DemoAppSwitcher {
     override fun isDemoModeEnabled(): Boolean = false
 

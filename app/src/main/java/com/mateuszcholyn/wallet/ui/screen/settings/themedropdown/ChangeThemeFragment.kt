@@ -17,7 +17,7 @@ import com.mateuszcholyn.wallet.util.darkmode.enableGivenTheme
 @Composable
 @ExperimentalMaterialApi
 fun ChangeThemeFragment(
-        themeProperties: ThemeProperties,
+    themeProperties: ThemeProperties,
 ) {
     val currentContext = currentAppContext()
 
@@ -25,19 +25,19 @@ fun ChangeThemeFragment(
     var selectedTheme by remember { mutableStateOf(availableThemes.find { it.resolver == themeProperties.resolver }!!) }
 
     WalletDropdown(
-            dropdownName = stringResource(R.string.theme),
-            selectedElement = selectedTheme,
-            availableElements = availableThemes,
-            onItemSelected = {
-                selectedTheme = it
-            },
+        dropdownName = stringResource(R.string.theme),
+        selectedElement = selectedTheme,
+        availableElements = availableThemes,
+        onItemSelected = {
+            selectedTheme = it
+        },
     )
     Button(
-            onClick = {
-                enableGivenTheme(currentContext, selectedTheme.resolver)
-                ProcessPhoenix.triggerRebirth(currentContext)
-            },
-            modifier = defaultButtonModifier,
+        onClick = {
+            enableGivenTheme(currentContext, selectedTheme.resolver)
+            ProcessPhoenix.triggerRebirth(currentContext)
+        },
+        modifier = defaultButtonModifier,
     ) {
         Text(text = stringResource(R.string.useGivenTheme))
     }

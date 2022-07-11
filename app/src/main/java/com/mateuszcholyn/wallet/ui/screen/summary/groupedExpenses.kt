@@ -21,27 +21,35 @@ import com.mateuszcholyn.wallet.util.asPrintableAmount
 @ExperimentalFoundationApi
 @Composable
 fun GroupedExpenses(
-        navController: NavHostController,
-        refreshFunction: () -> Unit,
-        expensesListGrouped: Map<String, List<Expense>>,
-        groupNameFunction: (Expense) -> String,
+    navController: NavHostController,
+    refreshFunction: () -> Unit,
+    expensesListGrouped: Map<String, List<Expense>>,
+    groupNameFunction: (Expense) -> String,
 ) {
     LazyColumn(modifier = defaultModifier) {
         expensesListGrouped.forEach { (_, expensesInGroup) ->
             stickyHeader {
-                Row(modifier = defaultModifier
+                Row(
+                    modifier = defaultModifier
                         .background(Color.LightGray)
-                        .padding(0.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(text = groupNameFunction.invoke(expensesInGroup.first()), modifier = defaultModifier.weight(1f))
-                    Text(text = expensesInGroup.sumExpensesAmount().asPrintableAmount(), modifier = defaultModifier.weight(1f))
+                        .padding(0.dp), horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = groupNameFunction.invoke(expensesInGroup.first()),
+                        modifier = defaultModifier.weight(1f)
+                    )
+                    Text(
+                        text = expensesInGroup.sumExpensesAmount().asPrintableAmount(),
+                        modifier = defaultModifier.weight(1f)
+                    )
                 }
             }
             itemsIndexed(items = expensesInGroup) { id, expense ->
                 ShowExpense(
-                        id = id,
-                        expense = expense,
-                        navController = navController,
-                        refreshFunction = { refreshFunction() }
+                    id = id,
+                    expense = expense,
+                    navController = navController,
+                    refreshFunction = { refreshFunction() }
                 )
             }
         }

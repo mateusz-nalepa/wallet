@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun BottomBar(
-        navController: NavHostController,
+    navController: NavHostController,
 ) {
     val selectedIndex = remember { mutableStateOf(0) }
     val scope = rememberCoroutineScope()
@@ -31,20 +31,20 @@ fun BottomBar(
 
     BottomNavigation(elevation = 10.dp) {
         BottomNavigationItem(
-                icon = {
-                    Icon(imageVector = Icons.Filled.ShoppingCart, EMPTY_STRING)
-                },
-                label = { Text(text = stringResource(R.string.newExpense)) },
-                selected = (selectedIndex.value == 0),
-                onClick = {
-                    scope.launch {
-                        navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithoutId()) {
-                            selectedIndex.value = 0
+            icon = {
+                Icon(imageVector = Icons.Filled.ShoppingCart, EMPTY_STRING)
+            },
+            label = { Text(text = stringResource(R.string.newExpense)) },
+            selected = (selectedIndex.value == 0),
+            onClick = {
+                scope.launch {
+                    navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithoutId()) {
+                        selectedIndex.value = 0
 
-                        }
                     }
-
                 }
+
+            }
         )
     }
 }

@@ -27,28 +27,28 @@ fun FloatingButton(scope: CoroutineScope, navController: NavHostController) {
     }
 
     ExtendedFloatingActionButton(
-            icon = { Icon(Icons.Filled.ShoppingCart, EMPTY_STRING) },
-            text = { Text(stringResource(R.string.addExpense)) },
-            onClick = {
-                scope.launch {
-                    navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithoutId()) {
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
-                        // on the back stack as users select items
-                        navController.graph.startDestinationRoute?.let { route ->
-                            popUpTo(route) {
-                                saveState = true
-                            }
+        icon = { Icon(Icons.Filled.ShoppingCart, EMPTY_STRING) },
+        text = { Text(stringResource(R.string.addExpense)) },
+        onClick = {
+            scope.launch {
+                navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithoutId()) {
+                    // Pop up to the start destination of the graph to
+                    // avoid building up a large stack of destinations
+                    // on the back stack as users select items
+                    navController.graph.startDestinationRoute?.let { route ->
+                        popUpTo(route) {
+                            saveState = true
                         }
-                        // Avoid multiple copies of the same destination when
-                        // reselecting the same item
-//                        launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
-//                        restoreState = true
                     }
-
+                    // Avoid multiple copies of the same destination when
+                    // reselecting the same item
+//                        launchSingleTop = true
+                    // Restore state when reselecting a previously selected item
+//                        restoreState = true
                 }
-            },
-            elevation = FloatingActionButtonDefaults.elevation(8.dp)
+
+            }
+        },
+        elevation = FloatingActionButtonDefaults.elevation(8.dp)
     )
 }

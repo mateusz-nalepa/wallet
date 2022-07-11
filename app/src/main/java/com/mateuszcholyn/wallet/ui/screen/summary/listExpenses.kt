@@ -12,23 +12,23 @@ import com.mateuszcholyn.wallet.domain.expense.Expense
 
 @Composable
 fun ExpensesList(
-        navController: NavHostController,
-        refreshFunction: () -> Unit,
-        expensesList: List<Expense>,
+    navController: NavHostController,
+    refreshFunction: () -> Unit,
+    expensesList: List<Expense>,
 ) {
     LazyColumn(
-            modifier =
-            Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 4.dp),
+        modifier =
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 4.dp),
 
-            ) {
+        ) {
         itemsIndexed(items = expensesList) { id, expense ->
             ShowExpense(
-                    id = id,
-                    expense = expense,
-                    navController = navController,
-                    refreshFunction = refreshFunction,
+                id = id,
+                expense = expense,
+                navController = navController,
+                refreshFunction = refreshFunction,
             )
         }
     }

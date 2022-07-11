@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.domain.category
 
 class CategoryService(
-        private val categoryRepository: CategoryRepository,
+    private val categoryRepository: CategoryRepository,
 ) {
 
     fun add(category: Category): ExistingCategory {
@@ -14,13 +14,13 @@ class CategoryService(
 
     fun getAllWithDetailsOrderByUsageDesc(): List<CategoryDetails> {
         return categoryRepository
-                .getAllCategoriesWithExpenses()
-                .orderByCategoryUsageDesc()
+            .getAllCategoriesWithExpenses()
+            .orderByCategoryUsageDesc()
     }
 
     fun getAll(): List<ExistingCategory> {
         return categoryRepository
-                .getAll()
+            .getAll()
     }
 
     fun remove(categoryId: Long): Boolean {
@@ -34,26 +34,26 @@ class CategoryService(
 }
 
 fun List<CategoryWithExpenses>.orderByCategoryUsageDesc(): List<CategoryDetails> =
-        this
-                .groupBy { it.category.name }
-                .mapValues { categoryNameWithListOfExpenses ->
-                    CategoryIdWithNumberOfExpenses(
-                            categoryId = categoryNameWithListOfExpenses.value.firstOrNull()?.category?.id
-                                    ?: throw IllegalStateException("Id should not be null"),
-                            numberOfExpenses = categoryNameWithListOfExpenses.value.first().expenses.size.toLong(),
-                    )
-                }
-                .toList()
-                .map {
-                    CategoryDetails(
-                            id = it.second.categoryId,
-                            name = it.first,
-                            numberOfExpenses = it.second.numberOfExpenses,
-                    )
-                }
-                .sortedByDescending { it.numberOfExpenses }
+    this
+        .groupBy { it.category.name }
+        .mapValues { categoryNameWithListOfExpenses ->
+            CategoryIdWithNumberOfExpenses(
+                categoryId = categoryNameWithListOfExpenses.value.firstOrNull()?.category?.id
+                    ?: throw IllegalStateException("Id should not be null"),
+                numberOfExpenses = categoryNameWithListOfExpenses.value.first().expenses.size.toLong(),
+            )
+        }
+        .toList()
+        .map {
+            CategoryDetails(
+                id = it.second.categoryId,
+                name = it.first,
+                numberOfExpenses = it.second.numberOfExpenses,
+            )
+        }
+        .sortedByDescending { it.numberOfExpenses }
 
 data class CategoryIdWithNumberOfExpenses(
-        val categoryId: Long,
-        val numberOfExpenses: Long,
+    val categoryId: Long,
+    val numberOfExpenses: Long,
 )

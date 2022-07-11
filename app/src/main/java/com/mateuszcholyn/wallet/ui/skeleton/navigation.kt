@@ -15,12 +15,16 @@ import com.mateuszcholyn.wallet.ui.screen.category.NewCategoryScreen
 import com.mateuszcholyn.wallet.ui.screen.settings.SettingsScreen
 import com.mateuszcholyn.wallet.ui.screen.summary.NewSummaryScreen
 import com.mateuszcholyn.wallet.ui.wellness.WellnessScreenRunner
-import com.mateuszcholyn.wallet.util.darkmode.ThemeProperties
 
 // TODO: translate - how to get context?
 sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslationKey: Int) {
     object Category : NavDrawerItem("category", R.drawable.ic_home, R.string.menuItem_Category)
-    object AddOrEditExpense : NavDrawerItem("addOrEditExpense?expenseId={expenseId}", R.drawable.ic_music, R.string.menuItem_AddOrEditExpense)
+    object AddOrEditExpense : NavDrawerItem(
+        "addOrEditExpense?expenseId={expenseId}",
+        R.drawable.ic_music,
+        R.string.menuItem_AddOrEditExpense
+    )
+
     object SummaryScreen : NavDrawerItem("summary", R.drawable.ic_movie, R.string.menuItem_Summary)
     object Settings : NavDrawerItem("settings", R.drawable.ic_book, R.string.menuItem_Settings)
     object Wellness : NavDrawerItem("wellness", R.drawable.ic_book, R.string.menuItem_Wellness)
@@ -28,28 +32,31 @@ sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslatio
 }
 
 fun NavDrawerItem.AddOrEditExpense.routeWithoutId(): String =
-        "addOrEditExpense"
+    "addOrEditExpense"
 
 fun NavDrawerItem.AddOrEditExpense.routeWithId(expenseId: Long): String =
-        "addOrEditExpense?expenseId=$expenseId"
+    "addOrEditExpense?expenseId=$expenseId"
 
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun Navigation(
-        navController: NavHostController,
+    navController: NavHostController,
 ) {
     NavHost(navController, startDestination = NavDrawerItem.SummaryScreen.route) {
         composable(
-                route = NavDrawerItem.AddOrEditExpense.route,
-                arguments = listOf(navArgument("expenseId") {
-                    nullable = true
-                    defaultValue = null
-                    type = NavType.StringType
-                }),
+            route = NavDrawerItem.AddOrEditExpense.route,
+            arguments = listOf(navArgument("expenseId") {
+                nullable = true
+                defaultValue = null
+                type = NavType.StringType
+            }),
         ) { backStackEntry ->
-            NewAddOrEditExpenseScreen(navController = navController, backStackEntry.arguments?.getString("expenseId"))
+            NewAddOrEditExpenseScreen(
+                navController = navController,
+                backStackEntry.arguments?.getString("expenseId")
+            )
         }
         composable(NavDrawerItem.Category.route) {
             NewCategoryScreen()

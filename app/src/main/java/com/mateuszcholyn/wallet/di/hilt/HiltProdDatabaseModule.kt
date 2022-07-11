@@ -24,41 +24,41 @@ object HiltProdDatabaseModule {
     @Provides
     @Singleton
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase =
-            Room.databaseBuilder(
-                    context,
-                    AppDatabase::class.java,
-                    "database.db",
-            )
-                    .allowMainThreadQueries() // TODO this should be fixed!!
-                    .build()
+        Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "database.db",
+        )
+            .allowMainThreadQueries() // TODO this should be fixed!!
+            .build()
 
     @Provides
     @Singleton
     fun provideCategoryRepository(
-            appDatabase: AppDatabase,
-            expenseRepository: ExpenseRepository,
-            demoAppSwitcher: DemoAppSwitcher,
+        appDatabase: AppDatabase,
+        expenseRepository: ExpenseRepository,
+        demoAppSwitcher: DemoAppSwitcher,
     ): CategoryRepository {
         if (demoAppSwitcher.isDemoModeEnabled()) {
             return InMemoryCategoryRepository(expenseRepository)
         }
 
         return SqLiteCategoryRepository(
-                categoryDao = appDatabase.categoryDao(),
+            categoryDao = appDatabase.categoryDao(),
         )
     }
 
     @Provides
     @Singleton
     fun provideExpenseRepository(
-            appDatabase: AppDatabase,
-            demoAppSwitcher: DemoAppSwitcher,
+        appDatabase: AppDatabase,
+        demoAppSwitcher: DemoAppSwitcher,
     ): ExpenseRepository {
         if (demoAppSwitcher.isDemoModeEnabled()) {
             return InMemoryExpenseRepository()
         }
         return SqLiteExpenseRepository(
-                expenseDao = appDatabase.expenseDao(),
+            expenseDao = appDatabase.expenseDao(),
         )
     }
 

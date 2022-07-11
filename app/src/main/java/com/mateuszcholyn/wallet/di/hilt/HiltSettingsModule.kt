@@ -21,14 +21,14 @@ object HiltSettingsModule {
     @Provides
     @Singleton
     fun provideThemePropertiesProvider(@ApplicationContext context: Context): ThemePropertiesProvider =
-            DefaultThemePropertiesProvider(context)
+        DefaultThemePropertiesProvider(context)
 
     @Provides
     @Singleton
     fun provideDemoAppSwitcher(@ApplicationContext context: Context): DemoAppSwitcher =
-            if (isInDemoMode(context)) {
-                DemoModeEnabled(context)
-            } else {
-                DemoModeDisabled(context)
-            }
+        if (isInDemoMode(context)) {
+            DemoModeEnabled(context)
+        } else {
+            DemoModeDisabled(context)
+        }
 }

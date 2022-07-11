@@ -8,7 +8,7 @@ import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.infrastructure.expense.toDomain
 
 class SqLiteCategoryRepository(
-        private val categoryDao: CategoryDao,
+    private val categoryDao: CategoryDao,
 ) : CategoryRepository {
 
     override fun remove(categoryId: Long): Boolean {
@@ -22,64 +22,64 @@ class SqLiteCategoryRepository(
 
     override fun getAll(): List<ExistingCategory> {
         return categoryDao.getAll()
-                .map { it.toDomain() }
+            .map { it.toDomain() }
     }
 
     override fun add(category: Category): ExistingCategory {
         return category
-                .toEntityAdd()
-                .let { categoryDao.add(it) }
-                .let { category.copy(id = it) }
-                .toDomain()
+            .toEntityAdd()
+            .let { categoryDao.add(it) }
+            .let { category.copy(id = it) }
+            .toDomain()
     }
 
     override fun update(category: ExistingCategory): ExistingCategory {
         category
-                .toEntityUpdate()
-                .let { categoryDao.update(it) }
+            .toEntityUpdate()
+            .let { categoryDao.update(it) }
 
         return category
     }
 
     override fun getAllCategoriesWithExpenses(): List<CategoryWithExpenses> {
         return categoryDao.getAllCategoriesWithExpenses()
-                .groupBy { it.categoryEntity }
-                .map {
-                    CategoryWithExpenses(
-                            category = it.key.toDomain(),
-                            expenses = it.value.toExpenses(it.key)
-                    )
-                }
+            .groupBy { it.categoryEntity }
+            .map {
+                CategoryWithExpenses(
+                    category = it.key.toDomain(),
+                    expenses = it.value.toExpenses(it.key)
+                )
+            }
     }
 
 }
 
 fun List<CategoryWithExpense>.toExpenses(categoryEntity: CategoryEntity): List<Expense> =
-        this
-                .filter { it.expenseEntity != null }
-                .map { it.expenseEntity!!.toDomain(categoryEntity) }
+    this
+        .filter { it.expenseEntity != null }
+        .map { it.expenseEntity!!.toDomain(categoryEntity) }
 
 fun ExistingCategory.toEntityUpdate(): CategoryEntity =
-        CategoryEntity(
-                categoryId = id,
-                name = name
-        )
+    CategoryEntity(
+        categoryId = id,
+        name = name
+    )
 
 fun Category.toEntityAdd(): CategoryEntity =
-        CategoryEntity(
-                categoryId = null,
-                name = name
-        )
+    CategoryEntity(
+        categoryId = null,
+        name = name
+    )
 
 fun CategoryEntity.toDomain(): ExistingCategory =
-        ExistingCategory(
-                id = categoryId!!,
-                name = name!!
-        )
+    ExistingCategory(
+        id = categoryId!!,
+        name = name!!
+    )
 
 
 fun Category.toDomain(): ExistingCategory =
-        ExistingCategory(
-                id = id!!,
-                name = name
-        )
+    ExistingCategory(
+        id = id!!,
+        name = name
+    )

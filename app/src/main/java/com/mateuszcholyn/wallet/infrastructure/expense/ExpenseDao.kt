@@ -8,7 +8,7 @@ import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
 interface ExpenseDao {
 
     @Query(
-            """SELECT Expense.*, Category.*
+        """SELECT Expense.*, Category.*
                     FROM Expense
                     INNER JOIN Category ON Expense.fk_category_id = Category.category_id
                     WHERE Expense.expense_id = :expenseId"""
@@ -31,7 +31,8 @@ interface ExpenseDao {
     fun update(expenseEntity: ExpenseEntity): Int
 
 
-    @Query("""SELECT count(Expense.expense_id)
+    @Query(
+        """SELECT count(Expense.expense_id)
                     FROM Expense"""
     )
     fun count(): Int
@@ -40,9 +41,9 @@ interface ExpenseDao {
 
 data class ExpenseWithCategory(
 
-        @Embedded
-        val expenseEntity: ExpenseEntity,
+    @Embedded
+    val expenseEntity: ExpenseEntity,
 
-        @Embedded
-        val categoryEntity: CategoryEntity
+    @Embedded
+    val categoryEntity: CategoryEntity
 )

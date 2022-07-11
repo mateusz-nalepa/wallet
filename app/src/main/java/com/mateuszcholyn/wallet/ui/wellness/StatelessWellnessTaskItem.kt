@@ -19,9 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 class WellnessTask(
-        val id: Int,
-        val label: String,
-        initialChecked: Boolean = false,
+    val id: Int,
+    val label: String,
+    initialChecked: Boolean = false,
 ) {
     var checked by mutableStateOf(initialChecked)
 }
@@ -29,21 +29,21 @@ class WellnessTask(
 
 @Composable
 fun WellnessTasksList(
-        list: List<WellnessTask>,
-        onCheckedTask: (WellnessTask, Boolean) -> Unit,
-        onCloseTask: (WellnessTask) -> Unit,
-        modifier: Modifier = Modifier,
+    list: List<WellnessTask>,
+    onCheckedTask: (WellnessTask, Boolean) -> Unit,
+    onCloseTask: (WellnessTask) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier) {
         items(
-                items = list,
-                key = { task -> task.id },
+            items = list,
+            key = { task -> task.id },
         ) { task ->
             WellnessTaskItem(
-                    taskName = task.label,
-                    checked = task.checked,
-                    onCheckedChange = { checked -> onCheckedTask(task, checked) },
-                    onCloseTask = { onCloseTask(task) },
+                taskName = task.label,
+                checked = task.checked,
+                onCheckedChange = { checked -> onCheckedTask(task, checked) },
+                onCloseTask = { onCloseTask(task) },
             )
         }
     }
@@ -51,31 +51,32 @@ fun WellnessTasksList(
 
 @Composable
 fun WellnessTaskItem(
-        taskName: String,
-        checked: Boolean,
-        modifier: Modifier = Modifier,
-        onCheckedChange: (Boolean) -> Unit,
-        onCloseTask: () -> Unit,
+    taskName: String,
+    checked: Boolean,
+    modifier: Modifier = Modifier,
+    onCheckedChange: (Boolean) -> Unit,
+    onCloseTask: () -> Unit,
 ) {
     StatelessWellnessTaskItem(
-            taskName = taskName,
-            checked = checked,
-            onCheckedChange = onCheckedChange,
-            onClose = onCloseTask,
-            modifier = modifier,
+        taskName = taskName,
+        checked = checked,
+        onCheckedChange = onCheckedChange,
+        onClose = onCloseTask,
+        modifier = modifier,
     )
 }
 
 @Composable
 private fun StatelessWellnessTaskItem(
-        taskName: String,
-        checked: Boolean,
-        onCheckedChange: (Boolean) -> Unit,
-        onClose: () -> Unit,
-        modifier: Modifier = Modifier,
+    taskName: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    onClose: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
-        Text(text = taskName, modifier = Modifier
+        Text(
+            text = taskName, modifier = Modifier
                 .weight(1f)
                 .padding(start = 16.dp)
         )

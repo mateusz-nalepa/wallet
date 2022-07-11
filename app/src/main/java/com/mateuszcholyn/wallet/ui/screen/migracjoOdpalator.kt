@@ -11,8 +11,8 @@ import java.math.BigDecimal
 import java.math.BigInteger
 
 fun odpalMigracje(
-        expenseService: ExpenseService,
-        categoryService: CategoryService,
+    expenseService: ExpenseService,
+    categoryService: CategoryService,
 ) {
     val objectMapper = ObjectMapper().findAndRegisterModules()
 
@@ -25,22 +25,22 @@ fun odpalMigracje(
     val allCategoriesRemoved = categoryService.removeAll()
 
     val newSavedCategories =
-            categories.categories
-                    .map { categoryFromDb ->
-                        val added =
-                                categoryService.add(
-                                        Category(
-                                                id = categoryFromDb.category_id.toLong(),
-                                                name = categoryFromDb.name,
-                                        )
-                                )
-
-                        SavedCategoryFromDb(
-                                newCategoryId = added.id,
-                                oldCategoryId = categoryFromDb.category_id.toLong(),
-                                name = added.name,
+        categories.categories
+            .map { categoryFromDb ->
+                val added =
+                    categoryService.add(
+                        Category(
+                            id = categoryFromDb.category_id.toLong(),
+                            name = categoryFromDb.name,
                         )
-                    }
+                    )
+
+                SavedCategoryFromDb(
+                    newCategoryId = added.id,
+                    oldCategoryId = categoryFromDb.category_id.toLong(),
+                    name = added.name,
+                )
+            }
 
 
     val xdd = categoryService.getAll()
@@ -48,13 +48,14 @@ fun odpalMigracje(
     expenses.expenses.forEach { expenseFromDb ->
 
         expenseService.saveExpense(Expense(
-                amount = expenseFromDb.amount,
-                date = expenseFromDb.date.toLong().toLocalDateTime(),
-                description = expenseFromDb.description,
-                category = newSavedCategories.first { it.oldCategoryId == expenseFromDb.fk_category_id.toLong() }.let { saved ->
+            amount = expenseFromDb.amount,
+            date = expenseFromDb.date.toLong().toLocalDateTime(),
+            description = expenseFromDb.description,
+            category = newSavedCategories.first { it.oldCategoryId == expenseFromDb.fk_category_id.toLong() }
+                .let { saved ->
                     ExistingCategory(
-                            id = saved.newCategoryId,
-                            name = saved.name
+                        id = saved.newCategoryId,
+                        name = saved.name
                     )
                 }
         ))
@@ -65,31 +66,31 @@ fun odpalMigracje(
 
 
 data class CategoriesFromDb(
-        val categories: List<CategoryFromDb>
+    val categories: List<CategoryFromDb>
 )
 
 
 data class CategoryFromDb(
-        val category_id: Int,
-        val name: String,
+    val category_id: Int,
+    val name: String,
 )
 
 
 data class ExpensesFromDb(
-        val expenses: List<ExpenseFromDb>
+    val expenses: List<ExpenseFromDb>
 )
 
 data class ExpenseFromDb(
-        val amount: BigDecimal,
-        val date: BigInteger,
-        val description: String,
-        val expense_id: Int,
-        val fk_category_id: Int
+    val amount: BigDecimal,
+    val date: BigInteger,
+    val description: String,
+    val expense_id: Int,
+    val fk_category_id: Int
 )
 
 
 data class SavedCategoryFromDb(
-        val newCategoryId: Long,
-        val oldCategoryId: Long,
-        val name: String,
+    val newCategoryId: Long,
+    val oldCategoryId: Long,
+    val name: String,
 )

@@ -16,15 +16,15 @@ object HiltDomainModule {
     @Provides
     @Singleton
     fun provideCategoryService(categoryRepository: CategoryRepository): CategoryService =
-            CategoryService(
-                    categoryRepository = categoryRepository,
-            )
+        CategoryService(
+            categoryRepository = categoryRepository,
+        )
 
 
     @Provides
     @Singleton
     fun provideExpenseService(expenseRepository: ExpenseRepository): ExpenseService =
-            ExpenseService(
-                    expenseRepository = expenseRepository,
-            )
+        ExpenseService(
+            expenseRepository = expenseRepository,
+        )
 }

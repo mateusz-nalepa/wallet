@@ -18,18 +18,18 @@ import kotlinx.coroutines.launch
 @Composable
 fun TopBar(scope: CoroutineScope, scaffoldState: ScaffoldState) {
     TopAppBar(
-            title = { Text(text = stringResource(R.string.app_name), fontSize = 18.sp) },
-            navigationIcon = {
-                IconButton(onClick = {
-                    scope.launch {
-                        scaffoldState.drawerState.open()
-                    }
-                }) {
-                    Icon(Icons.Filled.Menu, EMPTY_STRING)
+        title = { Text(text = stringResource(R.string.app_name), fontSize = 18.sp) },
+        navigationIcon = {
+            IconButton(onClick = {
+                scope.launch {
+                    scaffoldState.drawerState.open()
                 }
-            },
-            backgroundColor = colorResource(id = R.color.colorPrimary),
-            contentColor = Color.White
+            }) {
+                Icon(Icons.Filled.Menu, EMPTY_STRING)
+            }
+        },
+        backgroundColor = colorResource(id = R.color.colorPrimary),
+        contentColor = Color.White
     )
 }
 

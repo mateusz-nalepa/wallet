@@ -5,17 +5,17 @@ import android.widget.Toast
 
 fun showShortText(context: Context, text: String) {
     Toast.makeText(
-            context,
-            text,
-            Toast.LENGTH_SHORT,
+        context,
+        text,
+        Toast.LENGTH_SHORT,
     ).show()
 }
 
 
 fun showLongText(context: Context, text: String) {
     Toast.makeText(
-            context,
-            text,
-            Toast.LENGTH_LONG,
+        context,
+        text,
+        Toast.LENGTH_LONG,
     ).show()
 }

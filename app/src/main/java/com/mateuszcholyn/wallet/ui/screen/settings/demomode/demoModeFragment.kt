@@ -7,13 +7,13 @@ import com.mateuszcholyn.wallet.ui.util.defaultButtonModifier
 
 @Composable
 fun DemoModeFragment(
-        demoButtonText: String,
-        switchContextFunction: () -> Unit,
+    demoButtonText: String,
+    switchContextFunction: () -> Unit,
 ) {
 
     Button(
-            onClick = { switchContextFunction() },
-            modifier = defaultButtonModifier,
+        onClick = { switchContextFunction() },
+        modifier = defaultButtonModifier,
     ) {
         Text(text = demoButtonText)
     }

@@ -12,14 +12,14 @@ interface WellnessRepository {
 
 class InMemoryWellnessRepository : WellnessRepository {
     override fun getWellnessTasks(): List<WellnessTask> =
-            List(30) { i -> WellnessTask(i, "Task # $i") }
+        List(30) { i -> WellnessTask(i, "Task # $i") }
 }
 
 
 @HiltViewModel
 class WellnessViewModel @Inject constructor(
-        private val clicker: Clicker,
-        private val wellnessRepository: WellnessRepository,
+    private val clicker: Clicker,
+    private val wellnessRepository: WellnessRepository,
 ) : ViewModel() {
     private val _tasks = wellnessRepository.getWellnessTasks().toMutableStateList()
     val tasks: List<WellnessTask>
@@ -32,10 +32,10 @@ class WellnessViewModel @Inject constructor(
 
     fun changeTaskChecked(item: WellnessTask, checked: Boolean) {
         tasks
-                .find { it.id == item.id }
-                ?.let { task ->
-                    task.checked = checked
-                }
+            .find { it.id == item.id }
+            ?.let { task ->
+                task.checked = checked
+            }
     }
 
 

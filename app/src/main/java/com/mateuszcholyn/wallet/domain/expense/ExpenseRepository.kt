@@ -6,6 +6,7 @@ interface ExpenseRepository {
     fun removeAll(): Boolean {
         return true
     }
+
     fun getAll(): List<Expense>
     fun getAll(expenseSearchCriteria: ExpenseSearchCriteria): List<Expense>
     fun add(expense: Expense): Expense

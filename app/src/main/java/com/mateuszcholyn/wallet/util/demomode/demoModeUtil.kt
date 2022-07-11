@@ -13,7 +13,7 @@ fun enableDemoMode(ctx: Context) {
         return
     }
     runCatching { ctx.demoModeFile().createNewIfNotExists() }
-            .getOrElse { }
+        .getOrElse { }
 }
 
 fun disableDemoMode(ctx: Context) {
@@ -21,7 +21,7 @@ fun disableDemoMode(ctx: Context) {
         return
     }
     runCatching { ctx.demoModeFile().delete() }
-            .getOrElse { }
+        .getOrElse { }
 }
 
 fun isInDemoMode(ctx: Context): Boolean {
@@ -29,13 +29,13 @@ fun isInDemoMode(ctx: Context): Boolean {
         return false
     }
     return runCatching { ctx.demoModeFile().exists() }
-            .getOrElse { false }
+        .getOrElse { false }
 }
 
 private fun Context.demoModeFile(): File =
-        this
-                .demoModeFilePath()
-                .toFile()
+    this
+        .demoModeFilePath()
+        .toFile()
 
 private fun Context.demoModeFilePath(): String {
     val appPath = this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)!!.toString()

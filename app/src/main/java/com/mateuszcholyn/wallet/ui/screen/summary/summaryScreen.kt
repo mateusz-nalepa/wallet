@@ -42,8 +42,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SummaryViewModel @Inject constructor(
-        private val categoryService: CategoryService,
-        private val expenseService: ExpenseService,
+    private val categoryService: CategoryService,
+    private val expenseService: ExpenseService,
 ) : ViewModel() {
     fun expenseService(): ExpenseService = expenseService
     fun categoryService(): CategoryService = categoryService
@@ -53,15 +53,20 @@ class SummaryViewModel @Inject constructor(
 @ExperimentalFoundationApi
 @Composable
 fun NewSummaryScreen(
-        navController: NavHostController,
-        summaryViewModel: SummaryViewModel = hiltViewModel()
+    navController: NavHostController,
+    summaryViewModel: SummaryViewModel = hiltViewModel()
 ) {
     val categoryService = summaryViewModel.categoryService()
     val expenseService = summaryViewModel.expenseService()
 
 
     val availableCategories =
-            listOf(CategoryViewModel(name = stringResource(R.string.summaryScreen_allCategories), isAllCategories = true)) + categoryService.getAllWithDetailsOrderByUsageDesc().map { it.toCategoryViewModel() }
+        listOf(
+            CategoryViewModel(
+                name = stringResource(R.string.summaryScreen_allCategories),
+                isAllCategories = true
+            )
+        ) + categoryService.getAllWithDetailsOrderByUsageDesc().map { it.toCategoryViewModel() }
     var selectedCategory by remember { mutableStateOf(availableCategories.first()) }
 
     // QUICK RANGE
@@ -94,14 +99,14 @@ fun NewSummaryScreen(
 
     fun getExpenseSearchCriteria(): ExpenseSearchCriteria {
         return ExpenseSearchCriteria(
-                allCategories = selectedCategory.isAllCategories,
-                categoryId = selectedCategory.actualCategoryId(),
-                beginDate = selectedQuickRangeData.beginDate,
-                endDate = selectedQuickRangeData.endDate,
-                sort = selectedSort.sort,
-                isAllExpenses = selectedQuickRangeData.isAllExpenses,
-                fromAmount = amountRangeStart.toDoubleOrDefaultZero(),
-                toAmount = amountRangeEnd.toDoubleOrDefaultZero(),
+            allCategories = selectedCategory.isAllCategories,
+            categoryId = selectedCategory.actualCategoryId(),
+            beginDate = selectedQuickRangeData.beginDate,
+            endDate = selectedQuickRangeData.endDate,
+            sort = selectedSort.sort,
+            isAllExpenses = selectedQuickRangeData.isAllExpenses,
+            fromAmount = amountRangeStart.toDoubleOrDefaultZero(),
+            toAmount = amountRangeEnd.toDoubleOrDefaultZero(),
         )
     }
 
@@ -119,29 +124,35 @@ fun NewSummaryScreen(
     Column(modifier = defaultModifier) {
 
         WalletDropdown(
-                dropdownName = stringResource(R.string.category),
-                selectedElement = selectedCategory,
-                availableElements = availableCategories,
-                onItemSelected = {
-                    selectedCategory = it
-                },
+            dropdownName = stringResource(R.string.category),
+            selectedElement = selectedCategory,
+            availableElements = availableCategories,
+            onItemSelected = {
+                selectedCategory = it
+            },
         )
 
         WalletDropdown(
-                dropdownName = stringResource(R.string.range),
-                selectedElement = selectedQuickRangeData,
-                availableElements = availableQuickRangeDataV2,
-                onItemSelected = {
-                    selectedQuickRangeData = it
-                },
+            dropdownName = stringResource(R.string.range),
+            selectedElement = selectedQuickRangeData,
+            availableElements = availableQuickRangeDataV2,
+            onItemSelected = {
+                selectedQuickRangeData = it
+            },
         )
 
-        Row(modifier = defaultModifier, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = defaultModifier,
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             ClickableText(
-                    text = if (advancedFiltersExpanded) AnnotatedString(stringResource(R.string.hideFilters)) else AnnotatedString(stringResource(R.string.showFilters)),
-                    onClick = {
-                        advancedFiltersExpanded = !advancedFiltersExpanded
-                    },
+                text = if (advancedFiltersExpanded) AnnotatedString(stringResource(R.string.hideFilters)) else AnnotatedString(
+                    stringResource(R.string.showFilters)
+                ),
+                onClick = {
+                    advancedFiltersExpanded = !advancedFiltersExpanded
+                },
             )
             Checkbox(checked = advancedFiltersExpanded, onCheckedChange = {
                 advancedFiltersExpanded = !advancedFiltersExpanded
@@ -149,28 +160,36 @@ fun NewSummaryScreen(
         }
         if (advancedFiltersExpanded) {
             WalletDropdown(
-                    dropdownName = stringResource(R.string.Sorting),
-                    selectedElement = selectedSort,
-                    onItemSelected = { selectedSort = it },
-                    availableElements = availableSortElements,
+                dropdownName = stringResource(R.string.Sorting),
+                selectedElement = selectedSort,
+                onItemSelected = { selectedSort = it },
+                availableElements = availableSortElements,
             )
 
             ////##########################################################
-            Row(modifier = defaultModifier, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = defaultModifier,
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
 
                 Row(modifier = Modifier.weight(4f)) {
                     WalletDropdown(
-                            dropdownName = stringResource(R.string.grouping),
-                            selectedElement = selectedGroupElement,
-                            availableElements = availableGroupElements,
-                            onItemSelected = {
-                                selectedGroupElement = it
-                            },
-                            isEnabled = isGroupingEnabled,
+                        dropdownName = stringResource(R.string.grouping),
+                        selectedElement = selectedGroupElement,
+                        availableElements = availableGroupElements,
+                        onItemSelected = {
+                            selectedGroupElement = it
+                        },
+                        isEnabled = isGroupingEnabled,
                     )
                 }
 
-                Row(modifier = Modifier.weight(3f), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    modifier = Modifier.weight(3f),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Checkbox(checked = isGroupingEnabled, onCheckedChange = {
                         isGroupingEnabled = !isGroupingEnabled
                     })
@@ -182,26 +201,29 @@ fun NewSummaryScreen(
 
             Row(modifier = defaultModifier) {
                 OutlinedTextField(
-                        value = amountRangeStart,
-                        onValueChange = { amountRangeStart = it },
-                        label = { Text(stringResource(R.string.amountFrom)) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        modifier = defaultModifier.weight(1f),
-                        singleLine = true,
+                    value = amountRangeStart,
+                    onValueChange = { amountRangeStart = it },
+                    label = { Text(stringResource(R.string.amountFrom)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = defaultModifier.weight(1f),
+                    singleLine = true,
                 )
                 OutlinedTextField(
-                        value = amountRangeEnd,
-                        onValueChange = { amountRangeEnd = it },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        label = { Text(stringResource(R.string.amountTo)) },
-                        modifier = defaultModifier.weight(1f),
-                        singleLine = true,
+                    value = amountRangeEnd,
+                    onValueChange = { amountRangeEnd = it },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    label = { Text(stringResource(R.string.amountTo)) },
+                    modifier = defaultModifier.weight(1f),
+                    singleLine = true,
                 )
             }
         }
         Divider()
         Row(modifier = defaultModifier.padding(bottom = 0.dp)) {
-            Text(text = stringResource(R.string.quantity) + " ${expensesList.size}", modifier = defaultModifier.weight(1f))
+            Text(
+                text = stringResource(R.string.quantity) + " ${expensesList.size}",
+                modifier = defaultModifier.weight(1f)
+            )
         }
         Row(modifier = defaultModifier.padding(top = 0.dp)) {
             Text(text = summaryResultText, modifier = defaultModifier.weight(2f))
@@ -210,16 +232,16 @@ fun NewSummaryScreen(
 
         if (isGroupingEnabled) {
             GroupedExpenses(
-                    navController = navController,
-                    refreshFunction = { refreshScreen() },
-                    expensesListGrouped = expensesListGrouped,
-                    groupNameFunction = selectedGroupElement.groupFunctionName,
+                navController = navController,
+                refreshFunction = { refreshScreen() },
+                expensesListGrouped = expensesListGrouped,
+                groupNameFunction = selectedGroupElement.groupFunctionName,
             )
         } else {
             ExpensesList(
-                    navController = navController,
-                    refreshFunction = { refreshScreen() },
-                    expensesList = expensesList,
+                navController = navController,
+                refreshFunction = { refreshScreen() },
+                expensesList = expensesList,
             )
         }
     }
@@ -236,10 +258,10 @@ fun NewSummaryScreenPreview() {
 }
 
 fun CategoryViewModel.actualCategoryId(): Long? =
-        if (isAllCategories) null else id
+    if (isAllCategories) null else id
 
 fun Expense.descriptionOrDefault(defaultDescription: String): String =
-        if (description == EMPTY_STRING) defaultDescription else description
+    if (description == EMPTY_STRING) defaultDescription else description
 
 fun AverageExpenseResult.asTextSummary(): String =
-        "${wholeAmount.asPrintableAmount()} / $days d = ${averageAmount.asPrintableAmount()}/d"
+    "${wholeAmount.asPrintableAmount()} / $days d = ${averageAmount.asPrintableAmount()}/d"

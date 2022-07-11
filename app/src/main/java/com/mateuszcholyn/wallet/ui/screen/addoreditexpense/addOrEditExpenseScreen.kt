@@ -40,45 +40,45 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 data class CategoryViewModel(
-        override val name: String,
-        val id: Long? = null,
-        val isAllCategories: Boolean = false,
+    override val name: String,
+    val id: Long? = null,
+    val isAllCategories: Boolean = false,
 ) : DropdownElement
 
 
 fun CategoryDetails.toCategoryViewModel(): CategoryViewModel =
-        CategoryViewModel(
-                id = id,
-                name = name,
-        )
+    CategoryViewModel(
+        id = id,
+        name = name,
+    )
 
 fun ExistingCategory.toCategoryViewModel(): CategoryViewModel =
-        CategoryViewModel(
-                id = id,
-                name = name,
-        )
+    CategoryViewModel(
+        id = id,
+        name = name,
+    )
 
 fun CategoryViewModel.toExistingCategory(): ExistingCategory =
-        ExistingCategory(
-                id = id!!,
-                name = name,
-        )
+    ExistingCategory(
+        id = id!!,
+        name = name,
+    )
 
 @Composable
 fun NoCategoryPresentInfo(
-        navController: NavHostController,
+    navController: NavHostController,
 ) {
     Column(
-            modifier = defaultModifier
-                    .fillMaxSize()
-                    .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = defaultModifier
+            .fillMaxSize()
+            .padding(horizontal = 20.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(stringResource(R.string.categoryRequiredToAddExpense))
         Button(
-                onClick = { navController.navigate(NavDrawerItem.Category.route) },
-                modifier = defaultButtonModifier,
+            onClick = { navController.navigate(NavDrawerItem.Category.route) },
+            modifier = defaultButtonModifier,
         ) {
             Text(text = stringResource(R.string.addFirstCategory))
         }
@@ -88,8 +88,8 @@ fun NoCategoryPresentInfo(
 
 @HiltViewModel
 class AddOrEditExpenseViewModel @Inject constructor(
-        private val categoryService: CategoryService,
-        private val expenseService: ExpenseService,
+    private val categoryService: CategoryService,
+    private val expenseService: ExpenseService,
 ) : ViewModel() {
     fun expenseService(): ExpenseService = expenseService
     fun categoryService(): CategoryService = categoryService
@@ -99,16 +99,17 @@ class AddOrEditExpenseViewModel @Inject constructor(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NewAddOrEditExpenseScreen(
-        navController: NavHostController,
-        actualExpenseIdXD: String? = null,
-        addOrEditExpenseViewModel: AddOrEditExpenseViewModel = hiltViewModel()
+    navController: NavHostController,
+    actualExpenseIdXD: String? = null,
+    addOrEditExpenseViewModel: AddOrEditExpenseViewModel = hiltViewModel()
 ) {
     val actualExpenseId = actualExpenseIdXD?.toLong()
 
     val expenseService = addOrEditExpenseViewModel.expenseService()
     val categoryService = addOrEditExpenseViewModel.categoryService()
 
-    val categoryNameOptions = categoryService.getAllWithDetailsOrderByUsageDesc().map { it.toCategoryViewModel() }
+    val categoryNameOptions =
+        categoryService.getAllWithDetailsOrderByUsageDesc().map { it.toCategoryViewModel() }
 
     if (categoryNameOptions.isEmpty()) {
         NoCategoryPresentInfo(navController)
@@ -117,13 +118,24 @@ fun NewAddOrEditExpenseScreen(
 
     val datePickerDialogState = rememberMaterialDialogState()
 
-    val expenseOrNull = if (actualExpenseId == null) null else expenseService.getById(actualExpenseId)
+    val expenseOrNull =
+        if (actualExpenseId == null) null else expenseService.getById(actualExpenseId)
 
     var selectedCategory by remember { mutableStateOf(if (actualExpenseId == null) categoryNameOptions.first() else expenseOrNull!!.category.toCategoryViewModel()) }
-    var amount by remember { mutableStateOf(if (actualExpenseId == null) EMPTY_STRING else expenseOrNull!!.amount.asFormattedAmount().toString()) }
+    var amount by remember {
+        mutableStateOf(
+            if (actualExpenseId == null) EMPTY_STRING else expenseOrNull!!.amount.asFormattedAmount()
+                .toString()
+        )
+    }
 
     var description by remember { mutableStateOf(if (actualExpenseId == null) EMPTY_STRING else expenseOrNull!!.description) }
-    var dateText by remember { mutableStateOf(if (actualExpenseId == null) LocalDateTime.now().toHumanText() else expenseOrNull!!.date.toHumanText()) }
+    var dateText by remember {
+        mutableStateOf(
+            if (actualExpenseId == null) LocalDateTime.now()
+                .toHumanText() else expenseOrNull!!.date.toHumanText()
+        )
+    }
 
 
     val isFormValid by derivedStateOf {
@@ -131,72 +143,73 @@ fun NewAddOrEditExpenseScreen(
     }
 
     ComposeDateTimePicker(
-            dialogState = datePickerDialogState,
-            value = dateText,
-            onValueChange = { dateText = it },
+        dialogState = datePickerDialogState,
+        value = dateText,
+        onValueChange = { dateText = it },
     )
     val state = rememberScrollState()
 
     Column(modifier = defaultModifier.verticalScroll(state)) {
         WalletDropdown(
-                dropdownName = stringResource(R.string.category),
-                selectedElement = selectedCategory,
-                availableElements = categoryNameOptions,
-                onItemSelected = {
-                    selectedCategory = it
-                },
+            dropdownName = stringResource(R.string.category),
+            selectedElement = selectedCategory,
+            availableElements = categoryNameOptions,
+            onItemSelected = {
+                selectedCategory = it
+            },
         )
         Row(modifier = defaultModifier) {
             ValidatedTextField(
-                    textFieldLabel = stringResource(R.string.amount),
-                    value = amount,
-                    onValueChange = { amount = it },
-                    isValueInValidFunction = { it.isAmountInValid() },
-                    valueInvalidText = stringResource(R.string.incorrectAmount),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                textFieldLabel = stringResource(R.string.amount),
+                value = amount,
+                onValueChange = { amount = it },
+                isValueInValidFunction = { it.isAmountInValid() },
+                valueInvalidText = stringResource(R.string.incorrectAmount),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
         }
         Row(
-                modifier = defaultModifier,
+            modifier = defaultModifier,
         ) {
             OutlinedTextField(
-                    value = description,
-                    onValueChange = { description = it },
-                    label = { Text(stringResource(R.string.description)) },
-                    modifier = defaultModifier,
-                    maxLines = 5,
+                value = description,
+                onValueChange = { description = it },
+                label = { Text(stringResource(R.string.description)) },
+                modifier = defaultModifier,
+                maxLines = 5,
             )
         }
         Row(
-                modifier = defaultModifier,
+            modifier = defaultModifier,
         ) {
 
             OutlinedTextField(
-                    value = dateText,
-                    onValueChange = { dateText = it },
-                    label = { Text(stringResource(R.string.date)) },
-                    modifier = defaultModifier.clickable {
-                        datePickerDialogState.show()
-                    },
-                    enabled = false,
+                value = dateText,
+                onValueChange = { dateText = it },
+                label = { Text(stringResource(R.string.date)) },
+                modifier = defaultModifier.clickable {
+                    datePickerDialogState.show()
+                },
+                enabled = false,
             )
         }
         Row(modifier = defaultModifier) {
             Button(
-                    enabled = isFormValid,
-                    onClick = {
-                        expenseService.saveExpense(
-                                Expense(
-                                        id = actualExpenseId,
-                                        amount = amount.toBigDecimal(),
-                                        description = description,
-                                        category = selectedCategory.toExistingCategory(),
-                                        date = dateText.toLocalDateTime(),
+                enabled = isFormValid,
+                onClick = {
+                    expenseService.saveExpense(
+                        Expense(
+                            id = actualExpenseId,
+                            amount = amount.toBigDecimal(),
+                            description = description,
+                            category = selectedCategory.toExistingCategory(),
+                            date = dateText.toLocalDateTime(),
 
-                                        ))
-                        navController.navigate(NavDrawerItem.SummaryScreen.route)
-                    },
-                    modifier = defaultButtonModifier,
+                            )
+                    )
+                    navController.navigate(NavDrawerItem.SummaryScreen.route)
+                },
+                modifier = defaultButtonModifier,
             ) {
                 if (actualExpenseId != null) {
                     Text(stringResource(R.string.editExpense))
@@ -228,12 +241,12 @@ fun NewAddOrEditExpenseScreen(
 //}
 
 fun String.isAmountInValid(): Boolean =
-        this.isBlank() || this.startsWith("-") || this.cannotConvertToDouble()
+    this.isBlank() || this.startsWith("-") || this.cannotConvertToDouble()
 
 fun String.cannotConvertToDouble(): Boolean =
-        !kotlin
-                .runCatching {
-                    this.toDouble()
-                    true
-                }
-                .getOrDefault(false)
+    !kotlin
+        .runCatching {
+            this.toDouble()
+            true
+        }
+        .getOrDefault(false)

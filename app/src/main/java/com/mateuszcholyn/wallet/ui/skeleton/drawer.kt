@@ -26,28 +26,28 @@ import kotlinx.coroutines.launch
 @Composable
 fun Drawer(scope: CoroutineScope, scaffoldState: ScaffoldState, navController: NavController) {
     val items = listOf(
-            NavDrawerItem.Category,
-            NavDrawerItem.AddOrEditExpense,
-            NavDrawerItem.SummaryScreen,
-            NavDrawerItem.Settings,
-            NavDrawerItem.Wellness,
-            NavDrawerItem.Dummy,
+        NavDrawerItem.Category,
+        NavDrawerItem.AddOrEditExpense,
+        NavDrawerItem.SummaryScreen,
+        NavDrawerItem.Settings,
+        NavDrawerItem.Wellness,
+        NavDrawerItem.Dummy,
     )
     Column {
         // Header
         Image(
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = R.drawable.logo.toString(),
-                modifier = Modifier
-                        .height(100.dp)
-                        .fillMaxWidth()
-                        .padding(10.dp)
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = R.drawable.logo.toString(),
+            modifier = Modifier
+                .height(100.dp)
+                .fillMaxWidth()
+                .padding(10.dp)
         )
         // Space between
         Spacer(
-                modifier = Modifier
-                        .fillMaxWidth()
-                        .height(5.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(5.dp)
         )
         // List of navigation items
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -77,13 +77,13 @@ fun Drawer(scope: CoroutineScope, scaffoldState: ScaffoldState, navController: N
         }
         Spacer(modifier = Modifier.weight(1f))
         Text(
-                text = stringResource(R.string.developerBy),
-                color = Color.White,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                        .padding(12.dp)
-                        .align(Alignment.CenterHorizontally)
+            text = stringResource(R.string.developerBy),
+            color = Color.White,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(12.dp)
+                .align(Alignment.CenterHorizontally)
         )
     }
 }

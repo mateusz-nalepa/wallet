@@ -28,7 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ShowExpenseModel @Inject constructor(
-        private val expenseService: ExpenseService,
+    private val expenseService: ExpenseService,
 ) : ViewModel() {
     fun expenseService(): ExpenseService = expenseService
 }
@@ -36,93 +36,97 @@ class ShowExpenseModel @Inject constructor(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ShowExpense(
-        id: Int,
-        expense: Expense,
-        navController: NavHostController,
-        refreshFunction: () -> Unit,
-        initialDetailsAreVisible: Boolean = false,
-        showExpenseModel: ShowExpenseModel = hiltViewModel()
+    id: Int,
+    expense: Expense,
+    navController: NavHostController,
+    refreshFunction: () -> Unit,
+    initialDetailsAreVisible: Boolean = false,
+    showExpenseModel: ShowExpenseModel = hiltViewModel()
 ) {
     val expenseService = showExpenseModel.expenseService()
 
     var detailsAreVisible by remember { mutableStateOf(initialDetailsAreVisible) }
     ListItem(
-            text = { Text("${id + 1}. ${expense.category.name}") },
-            trailing = {
-                Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(text = expense.amount.asPrintableAmount(), fontSize = 16.sp)
-                    Icon(
-                            Icons.Filled.Paid,
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp),
-                    )
-                }
+        text = { Text("${id + 1}. ${expense.category.name}") },
+        trailing = {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(text = expense.amount.asPrintableAmount(), fontSize = 16.sp)
+                Icon(
+                    Icons.Filled.Paid,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp),
+                )
+            }
 
-            },
-            modifier = defaultModifier.clickable {
-                detailsAreVisible = !detailsAreVisible
-            },
+        },
+        modifier = defaultModifier.clickable {
+            detailsAreVisible = !detailsAreVisible
+        },
     )
 
     if (detailsAreVisible) {
         Column {
             Row(modifier = defaultModifier.padding(bottom = 0.dp)) {
                 Icon(
-                        Icons.Filled.Description,
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp),
+                    Icons.Filled.Description,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp),
                 )
                 Text(text = expense.descriptionOrDefault(stringResource(R.string.noDescription)))
             }
             Row(
-                    modifier = defaultModifier.padding(bottom = 0.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
+                modifier = defaultModifier.padding(bottom = 0.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
 
                 Row(horizontalArrangement = Arrangement.Start) {
                     Icon(
-                            Icons.Filled.Event,
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp),
+                        Icons.Filled.Event,
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp),
                     )
                     Text(text = expense.date.toHumanText())
                 }
 
                 Row(horizontalArrangement = Arrangement.End) {
                     IconButton(
-                            onClick = {
-                                navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithId(expenseId = expense.idOrThrow()))
-                            }
+                        onClick = {
+                            navController.navigate(
+                                NavDrawerItem.AddOrEditExpense.routeWithId(
+                                    expenseId = expense.idOrThrow()
+                                )
+                            )
+                        }
                     ) {
                         Icon(
-                                Icons.Filled.Edit,
-                                contentDescription = null,
-                                modifier = Modifier.size(24.dp),
+                            Icons.Filled.Edit,
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp),
                         )
                     }
                     val openDialog = remember { mutableStateOf(false) }
                     YesOrNoDialog(
-                            openDialog = openDialog,
-                            onConfirm = {
-                                expenseService.hardRemove(expenseId = expense.idOrThrow())
-                                refreshFunction()
-                                detailsAreVisible = false
+                        openDialog = openDialog,
+                        onConfirm = {
+                            expenseService.hardRemove(expenseId = expense.idOrThrow())
+                            refreshFunction()
+                            detailsAreVisible = false
 
-                            }
+                        }
                     )
                     IconButton(
-                            onClick = {
-                                openDialog.value = true
-                            }
+                        onClick = {
+                            openDialog.value = true
+                        }
                     ) {
                         Icon(
-                                Icons.Filled.DeleteForever,
-                                contentDescription = null,
-                                modifier = Modifier.size(24.dp),
+                            Icons.Filled.DeleteForever,
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp),
                         )
                     }
                 }

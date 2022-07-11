@@ -29,16 +29,16 @@ fun WellnessScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun StatefulWellnessTasksList(
-        modifier: Modifier = Modifier,
-        wellnessViewModel: WellnessViewModel = hiltViewModel()
+    modifier: Modifier = Modifier,
+    wellnessViewModel: WellnessViewModel = hiltViewModel()
 ) {
     WellnessTasksList(
-            list = wellnessViewModel.tasks,
-            onCheckedTask = { task, checked ->
-                wellnessViewModel.changeTaskChecked(task, checked)
-            },
-            onCloseTask = { task -> wellnessViewModel.remove(task) },
-            modifier,
+        list = wellnessViewModel.tasks,
+        onCheckedTask = { task, checked ->
+            wellnessViewModel.changeTaskChecked(task, checked)
+        },
+        onCloseTask = { task -> wellnessViewModel.remove(task) },
+        modifier,
     )
 }
 
@@ -50,9 +50,9 @@ fun StatefulWaterCounter(modifier: Modifier = Modifier) {
 
 @Composable
 fun StatelessWaterCounter(
-        count: Int,
-        onIncrement: () -> Unit,
-        modifier: Modifier = Modifier,
+    count: Int,
+    onIncrement: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.padding(16.dp)) {
         if (count > 0) {

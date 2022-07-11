@@ -19,11 +19,11 @@ object HiltWellnessModule {
     @Provides
     @Singleton
     fun provideClicker(@ApplicationContext context: Context): Clicker =
-            DefaultClicker(context)
+        DefaultClicker(context)
 
     @Provides
     @Singleton
     fun provideWellnessRepository(): WellnessRepository =
-            InMemoryWellnessRepository()
+        InMemoryWellnessRepository()
 
 }

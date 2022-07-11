@@ -13,53 +13,53 @@ interface DropdownElement {
 @ExperimentalMaterialApi
 @Composable
 fun <T> WalletDropdown(
-        dropdownName: String,
-        selectedElement: T,
-        availableElements: List<T>,
-        onItemSelected: (T) -> Unit,
-        isEnabled: Boolean = true,
+    dropdownName: String,
+    selectedElement: T,
+    availableElements: List<T>,
+    onItemSelected: (T) -> Unit,
+    isEnabled: Boolean = true,
 ) where T : DropdownElement {
     var dropdownExpanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
-            modifier = defaultModifier,
-            expanded = dropdownExpanded,
-            onExpandedChange = {
-                dropdownExpanded = !dropdownExpanded
-            }
+        modifier = defaultModifier,
+        expanded = dropdownExpanded,
+        onExpandedChange = {
+            dropdownExpanded = !dropdownExpanded
+        }
     ) {
         TextField(
-                modifier = defaultModifier,
-                readOnly = true,
-                value = selectedElement.name,
-                onValueChange = { },
-                label = { Text(dropdownName) },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(
-                            expanded = dropdownExpanded
-                    )
-                },
-                colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                enabled = isEnabled,
+            modifier = defaultModifier,
+            readOnly = true,
+            value = selectedElement.name,
+            onValueChange = { },
+            label = { Text(dropdownName) },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(
+                    expanded = dropdownExpanded
+                )
+            },
+            colors = ExposedDropdownMenuDefaults.textFieldColors(),
+            enabled = isEnabled,
         )
         ExposedDropdownMenu(
-                modifier = defaultModifier,
-                expanded = dropdownExpanded,
-                onDismissRequest = {
-                    dropdownExpanded = false
-                }
+            modifier = defaultModifier,
+            expanded = dropdownExpanded,
+            onDismissRequest = {
+                dropdownExpanded = false
+            }
         ) {
             availableElements.forEach { element ->
                 DropdownMenuItem(
-                        modifier = defaultModifier,
-                        onClick = {
-                            onItemSelected.invoke(element)
-                            dropdownExpanded = false
-                        }
+                    modifier = defaultModifier,
+                    onClick = {
+                        onItemSelected.invoke(element)
+                        dropdownExpanded = false
+                    }
                 ) {
                     Text(
-                            text = element.name,
-                            modifier = defaultModifier,
+                        text = element.name,
+                        modifier = defaultModifier,
                     )
                 }
             }

@@ -24,11 +24,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
-        private val categoryService: CategoryService,
+    private val categoryService: CategoryService,
 ) : ViewModel() {
 
     fun categoryService(): CategoryService =
-            categoryService
+        categoryService
 
 }
 
@@ -36,7 +36,7 @@ class CategoryViewModel @Inject constructor(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NewCategoryScreen(
-        categoryViewModel: CategoryViewModel = hiltViewModel()
+    categoryViewModel: CategoryViewModel = hiltViewModel()
 ) {
     val categoryService = categoryViewModel.categoryService()
 
@@ -52,36 +52,39 @@ fun NewCategoryScreen(
 
     Column {
         CategoryForm(
-                textFieldLabel = stringResource(R.string.newCategoryName),
-                buttonLabel = stringResource(R.string.addCategory),
-                initialCategoryName = EMPTY_STRING,
-                categoryNamesOnly = categoryNamesOnly,
-                onFormSubmit = { actualCategory ->
-                    categoryService.add(Category(name = actualCategory))
-                    refreshCategoryList()
-                }
+            textFieldLabel = stringResource(R.string.newCategoryName),
+            buttonLabel = stringResource(R.string.addCategory),
+            initialCategoryName = EMPTY_STRING,
+            categoryNamesOnly = categoryNamesOnly,
+            onFormSubmit = { actualCategory ->
+                categoryService.add(Category(name = actualCategory))
+                refreshCategoryList()
+            }
         )
 
         Row(modifier = defaultModifier, horizontalArrangement = Arrangement.SpaceBetween) {
             Text(text = stringResource(R.string.categories), modifier = defaultModifier.weight(1f))
-            Text(text = stringResource(R.string.quantity) + " ${categoryListOptions.size}", modifier = defaultModifier.weight(1f))
+            Text(
+                text = stringResource(R.string.quantity) + " ${categoryListOptions.size}",
+                modifier = defaultModifier.weight(1f)
+            )
         }
         Row(modifier = defaultModifier) {
             Divider()
         }
         LazyColumn(
-                modifier =
-                Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 4.dp),
+            modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 4.dp),
 
-                ) {
+            ) {
             items(categoryListOptions) { categoryDetails ->
                 SingleCategory(
-                        categoryService = categoryService,
-                        categoryDetails = categoryDetails,
-                        refreshCategoryListFunction = { refreshCategoryList() },
-                        categoryNamesOnly = categoryNamesOnly,
+                    categoryService = categoryService,
+                    categoryDetails = categoryDetails,
+                    refreshCategoryListFunction = { refreshCategoryList() },
+                    categoryNamesOnly = categoryNamesOnly,
                 )
             }
 

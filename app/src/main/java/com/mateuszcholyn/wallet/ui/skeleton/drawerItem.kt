@@ -23,28 +23,28 @@ import com.mateuszcholyn.wallet.R
 fun DrawerItem(item: NavDrawerItem, selected: Boolean, onItemClick: (NavDrawerItem) -> Unit) {
     val background = if (selected) R.color.colorPrimaryDark else android.R.color.transparent
     Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable(onClick = { onItemClick(item) })
-                    .height(45.dp)
-                    .background(colorResource(id = background))
-                    .padding(start = 10.dp)
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = { onItemClick(item) })
+            .height(45.dp)
+            .background(colorResource(id = background))
+            .padding(start = 10.dp)
     ) {
         Image(
-                painter = painterResource(id = item.icon),
-                contentDescription = stringResource(id = item.titleTranslationKey),
-                colorFilter = ColorFilter.tint(Color.White),
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                        .height(35.dp)
-                        .width(35.dp)
+            painter = painterResource(id = item.icon),
+            contentDescription = stringResource(id = item.titleTranslationKey),
+            colorFilter = ColorFilter.tint(Color.White),
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .height(35.dp)
+                .width(35.dp)
         )
         Spacer(modifier = Modifier.width(7.dp))
         Text(
-                text = stringResource(id = item.titleTranslationKey),
-                fontSize = 18.sp,
-                color = Color.White
+            text = stringResource(id = item.titleTranslationKey),
+            fontSize = 18.sp,
+            color = Color.White
         )
     }
 }

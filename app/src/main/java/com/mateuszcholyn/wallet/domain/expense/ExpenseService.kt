@@ -6,12 +6,12 @@ import java.time.Duration
 import java.time.LocalDateTime
 
 data class SummaryResult(
-        val expenses: List<Expense>,
-        val averageExpenseResult: AverageExpenseResult,
+    val expenses: List<Expense>,
+    val averageExpenseResult: AverageExpenseResult,
 )
 
 class ExpenseService(
-        private val expenseRepository: ExpenseRepository,
+    private val expenseRepository: ExpenseRepository,
 ) {
 
     fun getById(expenseId: Long): Expense {
@@ -22,59 +22,59 @@ class ExpenseService(
         val expenses = expenseRepository.getAll(expenseSearchCriteria)
 
         return SummaryResult(
-                expenses = expenses,
-                averageExpenseResult = averageExpense(expenses, expenseSearchCriteria),
+            expenses = expenses,
+            averageExpenseResult = averageExpense(expenses, expenseSearchCriteria),
         )
     }
 
     private fun averageExpense(
-            expenses: List<Expense>,
-            expenseSearchCriteria: ExpenseSearchCriteria,
+        expenses: List<Expense>,
+        expenseSearchCriteria: ExpenseSearchCriteria,
     ): AverageExpenseResult {
         val sum = expenses.sumExpensesAmount()
 
 
         var days =
-                if (expenseSearchCriteria.isAllExpenses) {
-                    if (expenses.isEmpty()) {
-                        0
-                    } else {
-                        val minimum = expenses.minOfOrNull { it.date }
-                        val maximum = LocalDateTime.now()
-
-                        Duration.between(minimum, maximum)
-                                .toDays()
-                    }
-
-
+            if (expenseSearchCriteria.isAllExpenses) {
+                if (expenses.isEmpty()) {
+                    0
                 } else {
-                    expenseSearchCriteria.toNumberOfDays()
+                    val minimum = expenses.minOfOrNull { it.date }
+                    val maximum = LocalDateTime.now()
+
+                    Duration.between(minimum, maximum)
+                        .toDays()
                 }
+
+
+            } else {
+                expenseSearchCriteria.toNumberOfDays()
+            }
 
         if (days == 0L) {
             days += 1 // have no idea why XD
         }
 
         return AverageExpenseResult(
-                wholeAmount = sum,
-                days = days.toInt(),
-                averageAmount = sum.divide(days.toBigDecimal(), 2, RoundingMode.HALF_UP)
+            wholeAmount = sum,
+            days = days.toInt(),
+            averageAmount = sum.divide(days.toBigDecimal(), 2, RoundingMode.HALF_UP)
         )
     }
 
     fun hardRemove(expenseId: Long): Boolean =
-            expenseRepository.remove(expenseId)
+        expenseRepository.remove(expenseId)
 
     fun removeAll(): Boolean {
         return expenseRepository.removeAll()
     }
 
     fun saveExpense(expense: Expense): Expense =
-            if (expense.id != null) {
-                updateExpense(expense)
-            } else {
-                addExpense(expense)
-            }
+        if (expense.id != null) {
+            updateExpense(expense)
+        } else {
+            addExpense(expense)
+        }
 
     private fun updateExpense(expense: Expense): Expense {
         return expenseRepository.update(expense)
@@ -87,19 +87,19 @@ class ExpenseService(
 }
 
 data class AverageExpenseResult(
-        val wholeAmount: BigDecimal,
-        val days: Int,
-        val averageAmount: BigDecimal,
+    val wholeAmount: BigDecimal,
+    val days: Int,
+    val averageAmount: BigDecimal,
 )
 
 fun List<Expense>.sumExpensesAmount(): BigDecimal =
-        if (this.isNotEmpty()) {
-            this.map { it.amount }.reduce { acc, bigDecimal -> acc.add(bigDecimal) }
-        } else {
-            BigDecimal.ZERO
-        }
+    if (this.isNotEmpty()) {
+        this.map { it.amount }.reduce { acc, bigDecimal -> acc.add(bigDecimal) }
+    } else {
+        BigDecimal.ZERO
+    }
 
 
 private fun ExpenseSearchCriteria.toNumberOfDays(): Long =
-        Duration.between(this.beginDate, this.endDate)
-                .toDays()
+    Duration.between(this.beginDate, this.endDate)
+        .toDays()

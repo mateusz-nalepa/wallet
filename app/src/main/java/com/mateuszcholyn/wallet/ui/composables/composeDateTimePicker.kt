@@ -14,9 +14,9 @@ import java.time.LocalDateTime
 
 @Composable
 fun ComposeDateTimePicker(
-        dialogState: MaterialDialogState,
-        value: String,
-        onValueChange: (String) -> Unit,
+    dialogState: MaterialDialogState,
+    value: String,
+    onValueChange: (String) -> Unit,
 ) {
     val toLocalDateTime = value.toLocalDateTime()
     var newDate = toLocalDateTime.toLocalDate()
@@ -24,28 +24,28 @@ fun ComposeDateTimePicker(
     val timePickerDialogState = rememberMaterialDialogState()
 
     MaterialDialog(
-            dialogState = timePickerDialogState,
-            buttons = {
-                positiveButton(stringResource(R.string.datePickerOk))
-                negativeButton(stringResource(R.string.datePickerCancel))
-            }
+        dialogState = timePickerDialogState,
+        buttons = {
+            positiveButton(stringResource(R.string.datePickerOk))
+            negativeButton(stringResource(R.string.datePickerCancel))
+        }
     )
     {
         timepicker(is24HourClock = true) { newTime ->
 
             LocalDateTime
-                    .of(newDate, newTime)
-                    .toHumanText()
-                    .also(onValueChange)
+                .of(newDate, newTime)
+                .toHumanText()
+                .also(onValueChange)
         }
     }
 
     MaterialDialog(
-            dialogState = dialogState,
-            buttons = {
-                positiveButton(stringResource(R.string.datePickerOk))
-                negativeButton(stringResource(R.string.datePickerCancel))
-            },
+        dialogState = dialogState,
+        buttons = {
+            positiveButton(stringResource(R.string.datePickerOk))
+            negativeButton(stringResource(R.string.datePickerCancel))
+        },
     )
     {
         datepicker { date ->

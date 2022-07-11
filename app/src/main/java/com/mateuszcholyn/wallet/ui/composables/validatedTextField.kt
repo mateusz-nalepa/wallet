@@ -19,41 +19,41 @@ import com.mateuszcholyn.wallet.ui.util.defaultModifier
 
 @Composable
 fun ValidatedTextField(
-        textFieldLabel: String = stringResource(R.string.amount),
-        value: String,
-        onValueChange: (String) -> Unit,
-        valueInvalidText: String = stringResource(R.string.incorrectValue),
-        isValueInValidFunction: (String) -> Boolean,
-        keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-        modifier: Modifier = defaultModifier,
+    textFieldLabel: String = stringResource(R.string.amount),
+    value: String,
+    onValueChange: (String) -> Unit,
+    valueInvalidText: String = stringResource(R.string.incorrectValue),
+    isValueInValidFunction: (String) -> Boolean,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+    modifier: Modifier = defaultModifier,
 ) {
 
     var isValueInValid by remember { mutableStateOf(false) }
 
     Column {
         OutlinedTextField(
-                value = value,
-                onValueChange = {
-                    isValueInValid = isValueInValidFunction(it)
-                    onValueChange.invoke(it)
-                },
-                keyboardOptions = keyboardOptions,
-                label = { Text(textFieldLabel) },
-                modifier = modifier,
-                singleLine = true,
-                trailingIcon = {
-                    if (isValueInValid) {
-                        Icon(Icons.Filled.Error, stringResource(R.string.iconError))
-                    }
-                },
-                isError = isValueInValid,
+            value = value,
+            onValueChange = {
+                isValueInValid = isValueInValidFunction(it)
+                onValueChange.invoke(it)
+            },
+            keyboardOptions = keyboardOptions,
+            label = { Text(textFieldLabel) },
+            modifier = modifier,
+            singleLine = true,
+            trailingIcon = {
+                if (isValueInValid) {
+                    Icon(Icons.Filled.Error, stringResource(R.string.iconError))
+                }
+            },
+            isError = isValueInValid,
         )
         if (isValueInValid) {
             Text(
-                    text = valueInvalidText,
-                    color = MaterialTheme.colors.error,
-                    style = MaterialTheme.typography.caption,
-                    modifier = Modifier.padding(start = 16.dp)
+                text = valueInvalidText,
+                color = MaterialTheme.colors.error,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.padding(start = 16.dp)
             )
         }
     }

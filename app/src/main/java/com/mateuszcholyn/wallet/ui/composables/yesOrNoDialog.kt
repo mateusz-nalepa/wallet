@@ -21,42 +21,42 @@ import com.mateuszcholyn.wallet.ui.util.defaultModifier
 
 @Composable
 fun YesOrNoDialog(
-        openDialog: MutableState<Boolean>,
-        onConfirm: () -> Unit,
-        message: String = stringResource(R.string.areYouReadyToRemoveExpense)
+    openDialog: MutableState<Boolean>,
+    onConfirm: () -> Unit,
+    message: String = stringResource(R.string.areYouReadyToRemoveExpense)
 ) {
     if (openDialog.value) {
         AlertDialog(
-                onDismissRequest = {
-                    openDialog.value = false
-                },
-                title = {
-                    Text(text = message)
-                },
-                buttons = {
-                    Row(
-                            modifier = Modifier.padding(all = 8.dp),
-                            horizontalArrangement = Arrangement.Center
+            onDismissRequest = {
+                openDialog.value = false
+            },
+            title = {
+                Text(text = message)
+            },
+            buttons = {
+                Row(
+                    modifier = Modifier.padding(all = 8.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(
+                        modifier = defaultModifier.weight(1f),
+                        onClick = { openDialog.value = false },
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green),
                     ) {
-                        Button(
-                                modifier = defaultModifier.weight(1f),
-                                onClick = { openDialog.value = false },
-                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green),
-                        ) {
-                            Text(stringResource(R.string.yesOrNoCancel))
-                        }
-                        Button(
-                                modifier = defaultModifier.weight(1f),
-                                onClick = {
-                                    openDialog.value = false
-                                    onConfirm.invoke()
-                                },
-                                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
-                        ) {
-                            Text(stringResource(R.string.yesOrNoConfirm))
-                        }
+                        Text(stringResource(R.string.yesOrNoCancel))
+                    }
+                    Button(
+                        modifier = defaultModifier.weight(1f),
+                        onClick = {
+                            openDialog.value = false
+                            onConfirm.invoke()
+                        },
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
+                    ) {
+                        Text(stringResource(R.string.yesOrNoConfirm))
                     }
                 }
+            }
         )
     }
 }
@@ -65,7 +65,7 @@ fun YesOrNoDialog(
 @Composable
 fun YesOrNoDialogPreview() {
     YesOrNoDialog(
-            openDialog = remember { mutableStateOf(false) },
-            onConfirm = {},
+        openDialog = remember { mutableStateOf(false) },
+        onConfirm = {},
     )
 }

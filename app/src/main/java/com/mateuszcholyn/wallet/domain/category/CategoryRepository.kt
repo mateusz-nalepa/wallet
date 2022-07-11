@@ -9,9 +9,10 @@ interface CategoryRepository {
         return true
     }
 
-    fun getAll() : List<ExistingCategory> {
+    fun getAll(): List<ExistingCategory> {
         return emptyList()
     }
+
     fun add(category: Category): ExistingCategory
     fun update(category: ExistingCategory): ExistingCategory
     fun getAllCategoriesWithExpenses(): List<CategoryWithExpenses>
@@ -19,6 +20,6 @@ interface CategoryRepository {
 }
 
 data class CategoryWithExpenses(
-        val category: ExistingCategory,
-        val expenses: List<Expense>,
+    val category: ExistingCategory,
+    val expenses: List<Expense>,
 )

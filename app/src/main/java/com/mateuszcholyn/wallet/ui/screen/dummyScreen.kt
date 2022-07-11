@@ -33,8 +33,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DummyViewModel @Inject constructor(
-        private val categoryService: CategoryService,
-        private val expenseService: ExpenseService,
+    private val categoryService: CategoryService,
+    private val expenseService: ExpenseService,
 ) : ViewModel() {
     fun expenseService(): ExpenseService = expenseService
     fun categoryService(): CategoryService = categoryService
@@ -42,7 +42,7 @@ class DummyViewModel @Inject constructor(
 
 @Composable
 fun DummyScreen(
-        dummyViewModel: DummyViewModel = hiltViewModel()
+    dummyViewModel: DummyViewModel = hiltViewModel()
 ) {
 
     val categoryService = dummyViewModel.categoryService()
@@ -50,49 +50,49 @@ fun DummyScreen(
     val appContext = currentAppContext()
 
     Column(
-            modifier = Modifier
-                    .fillMaxSize()
-                    .background(colorResource(id = R.color.colorPrimaryDark))
-                    .wrapContentSize(Alignment.Center)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(id = R.color.colorPrimaryDark))
+            .wrapContentSize(Alignment.Center)
     ) {
         Text(
-                text = stringResource(R.string.dummyView),
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                textAlign = TextAlign.Center,
-                fontSize = 25.sp
+            text = stringResource(R.string.dummyView),
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            textAlign = TextAlign.Center,
+            fontSize = 25.sp
         )
 
         Button(
-                onClick = {
+            onClick = {
 //                    odpalMigracje(expenseService, categoryService)
-                    showLongText(appContext, "Juz robiles migracje wczesniej!")
-                },
+                showLongText(appContext, "Juz robiles migracje wczesniej!")
+            },
         ) {
             Text("Wykonaj Migracje")
         }
 
         Button(
-                onClick = {
-                    val summaryResult =
-                            expenseService.getSummary(
-                                    ExpenseSearchCriteria(
-                                            allCategories = true,
-                                            beginDate = minDate,
-                                            endDate = maxDate,
-                                            isAllExpenses = true,
-                                    )
+            onClick = {
+                val summaryResult =
+                    expenseService.getSummary(
+                        ExpenseSearchCriteria(
+                            allCategories = true,
+                            beginDate = minDate,
+                            endDate = maxDate,
+                            isAllExpenses = true,
+                        )
 
-                            )
-
-                    saveAllExpensesToFile(
-                            ctx = appContext,
-                            expenses = summaryResult.expenses
                     )
-                    showLongText(appContext, "Zakonczono eksport danych!")
 
-                },
+                saveAllExpensesToFile(
+                    ctx = appContext,
+                    expenses = summaryResult.expenses
+                )
+                showLongText(appContext, "Zakonczono eksport danych!")
+
+            },
         ) {
             Text("Eksport danych")
         }

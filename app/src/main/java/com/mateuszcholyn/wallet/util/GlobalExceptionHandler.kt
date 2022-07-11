@@ -6,7 +6,7 @@ import android.widget.Toast
 class GlobalExceptionHandler(val context: Context) : Thread.UncaughtExceptionHandler {
 
     private var rootHandler: Thread.UncaughtExceptionHandler =
-            Thread.getDefaultUncaughtExceptionHandler()
+        Thread.getDefaultUncaughtExceptionHandler()
 
     init {
         Thread.setDefaultUncaughtExceptionHandler(this)
@@ -17,7 +17,7 @@ class GlobalExceptionHandler(val context: Context) : Thread.UncaughtExceptionHan
         ex.printStackTrace()
 
         Toast
-                .makeText(context, ex.message, Toast.LENGTH_LONG)
-                .show()
+            .makeText(context, ex.message, Toast.LENGTH_LONG)
+            .show()
     }
 }

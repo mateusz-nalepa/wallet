@@ -10,13 +10,14 @@ interface CategoryDao {
     @RawQuery(observedEntities = [ExpenseEntity::class, CategoryEntity::class])
     fun getAllOrderByUsageDesc(query: SupportSQLiteQuery): List<CategoryEntity>
 
-    @Query("""SELECT count(Category.name)
+    @Query(
+        """SELECT count(Category.name)
                     FROM Category"""
     )
     fun count(): Int
 
     @Query(
-            """SELECT Category.*
+        """SELECT Category.*
                     FROM Category"""
     )
     fun getAll(): List<CategoryEntity>
@@ -34,7 +35,7 @@ interface CategoryDao {
     fun update(categoryEntity: CategoryEntity): Int
 
     @Query(
-            """SELECT Category.*, Expense.*
+        """SELECT Category.*, Expense.*
                     FROM Category
                     LEFT JOIN Expense ON Expense.fk_category_id = Category.category_id"""
     )
@@ -44,9 +45,9 @@ interface CategoryDao {
 
 data class CategoryWithExpense(
 
-        @Embedded
-        val categoryEntity: CategoryEntity,
+    @Embedded
+    val categoryEntity: CategoryEntity,
 
-        @Embedded
-        val expenseEntity: ExpenseEntity? = null,
+    @Embedded
+    val expenseEntity: ExpenseEntity? = null,
 )

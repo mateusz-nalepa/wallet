@@ -17,31 +17,31 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-        private val themePropertiesProvider: ThemePropertiesProvider,
-        private val demoAppSwitcher: DemoAppSwitcher,
+    private val themePropertiesProvider: ThemePropertiesProvider,
+    private val demoAppSwitcher: DemoAppSwitcher,
 ) : ViewModel() {
 
     fun getThemeProperties(isSystemInDarkTheme: Boolean) =
-            themePropertiesProvider.provide(isSystemInDarkTheme)
+        themePropertiesProvider.provide(isSystemInDarkTheme)
 
     fun demoAppSwitcher(): DemoAppSwitcher =
-            demoAppSwitcher
+        demoAppSwitcher
 
 }
 
 @Composable
 @ExperimentalMaterialApi
 fun SettingsScreen(
-        settingsViewModel: SettingsViewModel = hiltViewModel()
+    settingsViewModel: SettingsViewModel = hiltViewModel()
 ) {
     Column(modifier = defaultModifier) {
         ChangeThemeFragment(
-                themeProperties = settingsViewModel.getThemeProperties(isSystemInDarkTheme()),
+            themeProperties = settingsViewModel.getThemeProperties(isSystemInDarkTheme()),
         )
         Divider()
         DemoModeFragment(
-                demoButtonText = settingsViewModel.demoAppSwitcher().buttonText(),
-                switchContextFunction = { settingsViewModel.demoAppSwitcher().switch() }
+            demoButtonText = settingsViewModel.demoAppSwitcher().buttonText(),
+            switchContextFunction = { settingsViewModel.demoAppSwitcher().switch() }
         )
     }
 }

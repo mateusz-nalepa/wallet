@@ -1,7 +1,6 @@
 package com.mateuszcholyn.wallet.util
 
 import android.content.Context
-import android.os.Environment
 import android.os.Environment.DIRECTORY_DOWNLOADS
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.mateuszcholyn.wallet.domain.expense.Expense
@@ -23,20 +22,20 @@ fun saveAllExpensesToFile(ctx: Context, expenses: List<Expense>) {
 
     try {
         ctx
-                .walletFilePath()
-                .toFile()
-                .createNewIfNotExists()
-                .also { println("File location is: ${it.absolutePath}") }
-                .toFileWriter()
-                .use { fileWriter ->
-                    val expensesAsJson =
-                            expenses
-                                    .map { prepareSaveModel(it) }
-                                    .let { objectMapper.writeValueAsString(it) }
+            .walletFilePath()
+            .toFile()
+            .createNewIfNotExists()
+            .also { println("File location is: ${it.absolutePath}") }
+            .toFileWriter()
+            .use { fileWriter ->
+                val expensesAsJson =
+                    expenses
+                        .map { prepareSaveModel(it) }
+                        .let { objectMapper.writeValueAsString(it) }
 
-                    fileWriter.write(expensesAsJson)
-                    fileSaved(ctx)
-                }
+                fileWriter.write(expensesAsJson)
+                fileSaved(ctx)
+            }
     } catch (t: Throwable) {
         fileNotSaved(ctx, t)
     }
@@ -62,14 +61,14 @@ fun String.toFile(): File {
 
 
 private fun prepareSaveModel(ex: Expense): SaveModel =
-        SaveModel(
-                expenseId = ex.idOrThrow(),
-                amount = ex.amount,
-                categoryId = ex.category.id,
-                categoryName = ex.category.name,
-                date = ex.date.toHumanText(),
-                description = ex.description,
-        )
+    SaveModel(
+        expenseId = ex.idOrThrow(),
+        amount = ex.amount,
+        categoryId = ex.category.id,
+        categoryName = ex.category.name,
+        date = ex.date.toHumanText(),
+        description = ex.description,
+    )
 
 fun File.createNewIfNotExists(): File {
 
@@ -85,10 +84,10 @@ private fun File.toFileWriter(): FileWriter {
 }
 
 data class SaveModel(
-        val expenseId: Long,
-        val amount: BigDecimal,
-        val categoryId: Long,
-        val categoryName: String,
-        val date: String,
-        val description: String,
+    val expenseId: Long,
+    val amount: BigDecimal,
+    val categoryId: Long,
+    val categoryName: String,
+    val date: String,
+    val description: String,
 )

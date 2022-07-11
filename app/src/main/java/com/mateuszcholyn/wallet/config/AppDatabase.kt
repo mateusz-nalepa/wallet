@@ -12,12 +12,12 @@ import com.mateuszcholyn.wallet.infrastructure.util.LocalDateTimeConverter
 
 
 @Database(
-        entities = [
-            MonthlyBudgetEntity::class,
-            CategoryEntity::class,
-            ExpenseEntity::class
-        ],
-        version = 2,
+    entities = [
+        MonthlyBudgetEntity::class,
+        CategoryEntity::class,
+        ExpenseEntity::class
+    ],
+    version = 2,
 )
 @TypeConverters(LocalDateTimeConverter::class)
 abstract class AppDatabase : RoomDatabase() {

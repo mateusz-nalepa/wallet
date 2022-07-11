@@ -13,11 +13,11 @@ import com.mateuszcholyn.wallet.util.EMPTY_STRING
 
 @Composable
 fun CategoryForm(
-        textFieldLabel: String,
-        buttonLabel: String,
-        initialCategoryName: String = EMPTY_STRING,
-        categoryNamesOnly: List<String> = emptyList(),
-        onFormSubmit: (String) -> Unit,
+    textFieldLabel: String,
+    buttonLabel: String,
+    initialCategoryName: String = EMPTY_STRING,
+    categoryNamesOnly: List<String> = emptyList(),
+    onFormSubmit: (String) -> Unit,
 ) {
 
     var categoryNameText by remember { mutableStateOf(initialCategoryName) }
@@ -28,22 +28,22 @@ fun CategoryForm(
 
     Column(modifier = defaultModifier) {
         ValidatedTextField(
-                textFieldLabel = textFieldLabel,
-                value = categoryNameText,
-                onValueChange = { categoryNameText = it },
-                isValueInValidFunction = {
-                    categoryIsInvalid(it, categoryNamesOnly)
-                },
-                valueInvalidText = stringResource(R.string.incorrectValue),
-                modifier = defaultModifier,
+            textFieldLabel = textFieldLabel,
+            value = categoryNameText,
+            onValueChange = { categoryNameText = it },
+            isValueInValidFunction = {
+                categoryIsInvalid(it, categoryNamesOnly)
+            },
+            valueInvalidText = stringResource(R.string.incorrectValue),
+            modifier = defaultModifier,
         )
         Button(
-                enabled = isFormValid,
-                onClick = {
-                    onFormSubmit.invoke(categoryNameText)
-                    categoryNameText = EMPTY_STRING
-                },
-                modifier = defaultButtonModifier,
+            enabled = isFormValid,
+            onClick = {
+                onFormSubmit.invoke(categoryNameText)
+                categoryNameText = EMPTY_STRING
+            },
+            modifier = defaultButtonModifier,
         ) {
             Text(buttonLabel)
         }

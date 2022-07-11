@@ -23,8 +23,8 @@ class DefaultClicker(private val context: Context) : Clicker {
 @Composable
 fun ClickerScreen(modifier: Modifier) {
     Button(
-            onClick = { println("Klikles") },
-            modifier.padding(top = 8.dp, start = 8.dp),
+        onClick = { println("Klikles") },
+        modifier.padding(top = 8.dp, start = 8.dp),
     ) {
         Text("Clicker")
     }
