@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.category.ExistingCategory
@@ -31,7 +32,6 @@ fun SingleCategory(
     refreshCategoryListFunction: () -> Unit,
     initialDetailsAreVisible: Boolean = false,
     initialEditCategoryNameIsVisible: Boolean = false,
-    categoryNamesOnly: List<String> = emptyList(),
 ) {
     val currentContext = currentAppContext()
 
@@ -125,14 +125,11 @@ fun SingleCategory(
             }
         }
         if (editCategoryNameIsVisible) {
-            CategoryForm(
-                textFieldLabel = stringResource(R.string.updatedCategoryName),
-                buttonLabel = stringResource(R.string.update),
-                initialCategoryName = categoryDetails.name,
-                categoryNamesOnly = categoryNamesOnly,
+            EditCategoryForm(
+                actualCategoryName = categoryDetails.name,
                 onFormSubmit = { actualCategory ->
                     categoryService.updateCategory(
-                        categoryDetails.toCategory(actualCategory)
+                        categoryDetails.toExistingCategory(actualCategory)
                     )
                     editCategoryNameIsVisible = false
                     detailsAreVisible = false
@@ -173,8 +170,8 @@ fun SingleCategory(
 //}
 
 
-fun CategoryDetails.toCategory(newName: String): ExistingCategory =
+fun CategoryDetails.toExistingCategory(categoryWithNewName: Category): ExistingCategory =
     ExistingCategory(
         id = id,
-        name = newName,
+        name = categoryWithNewName.name,
     )
