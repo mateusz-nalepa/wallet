@@ -45,8 +45,31 @@ class SummaryViewModel @Inject constructor(
     private val categoryService: CategoryService,
     private val expenseService: ExpenseService,
 ) : ViewModel() {
+
+    private var _availableCategories =
+        mutableListOf(*readCategoriesList().toTypedArray()).toMutableStateList()
+    val availableCategories: List<CategoryViewModel>
+        get() = _availableCategories
+
+    private var _selectedCategory = mutableStateOf(availableCategories.first())
+
+    val selectedCategory: CategoryViewModel
+        get() = _selectedCategory.value
+
+    private fun readCategoriesList(): List<CategoryViewModel> {
+        return listOf(
+            CategoryViewModel(
+                name = "Wszystkie kategorie", // TODO: move to screen... somehow :D
+                isAllCategories = true
+            )
+        ) + categoryService.getAllWithDetailsOrderByUsageDesc().map { it.toCategoryViewModel() }
+    }
+
     fun expenseService(): ExpenseService = expenseService
     fun categoryService(): CategoryService = categoryService
+    fun updateSelectedCategory(newSelectedCategory: CategoryViewModel) {
+        _selectedCategory.value = newSelectedCategory
+    }
 }
 
 @ExperimentalMaterialApi
@@ -56,18 +79,11 @@ fun NewSummaryScreen(
     navController: NavHostController,
     summaryViewModel: SummaryViewModel = hiltViewModel()
 ) {
-    val categoryService = summaryViewModel.categoryService()
     val expenseService = summaryViewModel.expenseService()
 
 
-    val availableCategories =
-        listOf(
-            CategoryViewModel(
-                name = stringResource(R.string.summaryScreen_allCategories),
-                isAllCategories = true
-            )
-        ) + categoryService.getAllWithDetailsOrderByUsageDesc().map { it.toCategoryViewModel() }
-    var selectedCategory by remember { mutableStateOf(availableCategories.first()) }
+    val availableCategories = summaryViewModel.availableCategories
+    val selectedCategory = summaryViewModel.selectedCategory
 
     // QUICK RANGE
     val availableQuickRangeDataV2 = quickRanges()
@@ -127,8 +143,8 @@ fun NewSummaryScreen(
             dropdownName = stringResource(R.string.category),
             selectedElement = selectedCategory,
             availableElements = availableCategories,
-            onItemSelected = {
-                selectedCategory = it
+            onItemSelected = { newSelectedCategory ->
+                summaryViewModel.updateSelectedCategory(newSelectedCategory)
             },
         )
 
