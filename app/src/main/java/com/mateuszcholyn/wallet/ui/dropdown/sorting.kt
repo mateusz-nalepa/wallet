@@ -7,6 +7,7 @@ import com.mateuszcholyn.wallet.domain.expense.Sort
 
 data class SortElement(
     override val name: String,
+    override val nameKey: Int? = null,
     val sort: Sort,
 ) : DropdownElement
 

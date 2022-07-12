@@ -39,26 +39,27 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-data class CategoryViewModel(
+data class CategoryViewModelForAddOrEditExpense(
     override val name: String,
+    override val nameKey: Int? = null,
     val id: Long? = null,
     val isAllCategories: Boolean = false,
 ) : DropdownElement
 
 
-fun CategoryDetails.toCategoryViewModel(): CategoryViewModel =
-    CategoryViewModel(
+fun CategoryDetails.toCategoryViewModel(): CategoryViewModelForAddOrEditExpense =
+    CategoryViewModelForAddOrEditExpense(
         id = id,
         name = name,
     )
 
-fun ExistingCategory.toCategoryViewModel(): CategoryViewModel =
-    CategoryViewModel(
+fun ExistingCategory.toCategoryViewModel(): CategoryViewModelForAddOrEditExpense =
+    CategoryViewModelForAddOrEditExpense(
         id = id,
         name = name,
     )
 
-fun CategoryViewModel.toExistingCategory(): ExistingCategory =
+fun CategoryViewModelForAddOrEditExpense.toExistingCategory(): ExistingCategory =
     ExistingCategory(
         id = id!!,
         name = name,

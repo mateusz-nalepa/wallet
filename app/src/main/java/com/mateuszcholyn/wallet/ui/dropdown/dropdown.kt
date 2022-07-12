@@ -2,11 +2,13 @@ package com.mateuszcholyn.wallet.ui.dropdown
 
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 
 
 interface DropdownElement {
     val name: String
+    val nameKey: Int?
 }
 
 
@@ -31,7 +33,7 @@ fun <T> WalletDropdown(
         TextField(
             modifier = defaultModifier,
             readOnly = true,
-            value = selectedElement.name,
+            value = resolveName(selectedElement.name, selectedElement.nameKey),
             onValueChange = { },
             label = { Text(dropdownName) },
             trailingIcon = {
@@ -58,7 +60,7 @@ fun <T> WalletDropdown(
                     }
                 ) {
                     Text(
-                        text = element.name,
+                        text = resolveName(element.name, element.nameKey),
                         modifier = defaultModifier,
                     )
                 }
@@ -66,4 +68,16 @@ fun <T> WalletDropdown(
         }
     }
 
+}
+
+@Composable
+private fun resolveName(name: String, nameKey: Int?): String {
+    val resolvedName =
+        if (name.contains("R.string")) {
+            stringResource(nameKey!!)
+        } else {
+            name
+        }
+    println("resolvedName: $resolvedName")
+    return resolvedName
 }

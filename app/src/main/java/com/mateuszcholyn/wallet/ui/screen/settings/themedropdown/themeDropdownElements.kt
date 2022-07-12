@@ -8,6 +8,7 @@ import com.mateuszcholyn.wallet.util.darkmode.Resolver
 
 data class ThemeDropdownElement(
     override val name: String,
+    override val nameKey: Int? = null,
     val resolver: Resolver,
 ) : DropdownElement
 

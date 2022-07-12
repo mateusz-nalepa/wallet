@@ -26,11 +26,8 @@ import com.mateuszcholyn.wallet.domain.expense.AverageExpenseResult
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.ui.dropdown.WalletDropdown
-import com.mateuszcholyn.wallet.ui.dropdown.groupingDataXD
-import com.mateuszcholyn.wallet.ui.dropdown.quickRanges
-import com.mateuszcholyn.wallet.ui.dropdown.sortingElements
-import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.CategoryViewModel
+import com.mateuszcholyn.wallet.ui.dropdown.*
+import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.CategoryViewModelForAddOrEditExpense
 import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.toCategoryViewModel
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.EMPTY_STRING
@@ -48,17 +45,26 @@ class SummaryViewModel @Inject constructor(
 
     private var _availableCategories =
         mutableListOf(*readCategoriesList().toTypedArray()).toMutableStateList()
-    val availableCategories: List<CategoryViewModel>
+    val availableCategories: List<CategoryViewModelForAddOrEditExpense>
         get() = _availableCategories
 
     private var _selectedCategory = mutableStateOf(availableCategories.first())
-
-    val selectedCategory: CategoryViewModel
+    val selectedCategory: CategoryViewModelForAddOrEditExpense
         get() = _selectedCategory.value
 
-    private fun readCategoriesList(): List<CategoryViewModel> {
+
+    private var _availableQuickRangeDataV2 =
+        mutableListOf(*quickRanges().toTypedArray()).toMutableStateList()
+    val availableQuickRangeDataV2: List<QuickRangeDataV2>
+        get() = _availableQuickRangeDataV2
+
+    private var _selectedQuickRangeData = mutableStateOf(_availableQuickRangeDataV2.first())
+    val selectedQuickRangeData: QuickRangeDataV2
+        get() = _selectedQuickRangeData.value
+
+    private fun readCategoriesList(): List<CategoryViewModelForAddOrEditExpense> {
         return listOf(
-            CategoryViewModel(
+            CategoryViewModelForAddOrEditExpense(
                 name = "Wszystkie kategorie", // TODO: move to screen... somehow :D
                 isAllCategories = true
             )
@@ -67,7 +73,7 @@ class SummaryViewModel @Inject constructor(
 
     fun expenseService(): ExpenseService = expenseService
     fun categoryService(): CategoryService = categoryService
-    fun updateSelectedCategory(newSelectedCategory: CategoryViewModel) {
+    fun updateSelectedCategory(newSelectedCategory: CategoryViewModelForAddOrEditExpense) {
         _selectedCategory.value = newSelectedCategory
     }
 }
@@ -81,13 +87,12 @@ fun NewSummaryScreen(
 ) {
     val expenseService = summaryViewModel.expenseService()
 
-
     val availableCategories = summaryViewModel.availableCategories
     val selectedCategory = summaryViewModel.selectedCategory
 
     // QUICK RANGE
-    val availableQuickRangeDataV2 = quickRanges()
-    var selectedQuickRangeData by remember { mutableStateOf(availableQuickRangeDataV2.first()) }
+    val availableQuickRangeDataV2 = summaryViewModel.availableQuickRangeDataV2
+    var selectedQuickRangeData = summaryViewModel.selectedQuickRangeData
 
 //    SORTING TYPE
     /////////////////////////////////////
@@ -273,7 +278,7 @@ fun NewSummaryScreenPreview() {
     NewSummaryScreen(rememberNavController())
 }
 
-fun CategoryViewModel.actualCategoryId(): Long? =
+fun CategoryViewModelForAddOrEditExpense.actualCategoryId(): Long? =
     if (isAllCategories) null else id
 
 fun Expense.descriptionOrDefault(defaultDescription: String): String =

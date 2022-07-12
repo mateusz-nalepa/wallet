@@ -9,6 +9,7 @@ import java.time.temporal.ChronoUnit
 
 data class GroupElement(
     override val name: String,
+    override val nameKey: Int? = null,
     val groupFunctionName: (Expense) -> String,
     val groupFunction: (Expense) -> String,
 ) : DropdownElement

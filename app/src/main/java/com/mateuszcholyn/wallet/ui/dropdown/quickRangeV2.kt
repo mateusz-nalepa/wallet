@@ -1,7 +1,5 @@
 package com.mateuszcholyn.wallet.ui.dropdown
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.util.dateutils.atStartOfTheDay
 import com.mateuszcholyn.wallet.util.dateutils.atStartOfTheMonth
@@ -13,53 +11,61 @@ import java.time.LocalTime
 
 class QuickRangeDataV2(
     override val name: String,
+    override val nameKey: Int? = null,
     val beginDate: LocalDateTime,
     val endDate: LocalDateTime,
     val isAllExpenses: Boolean = false,
 ) : DropdownElement
 
-@Composable
 fun quickRanges(): List<QuickRangeDataV2> {
     return listOf(
         QuickRangeDataV2(
-            name = stringResource(R.string.today),
+            name = "R.string.today",
+            nameKey = R.string.today,
             beginDate = LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
             endDate = LocalDateTime.now().plusHours(1),
         ),
         QuickRangeDataV2(
-            name = stringResource(R.string.yesterday),
+            name = "R.string.yesterday",
+            nameKey = R.string.yesterday,
             beginDate = LocalDateTime.now().minusDays(1).atStartOfTheDay(),
             endDate = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MAX),
         ),
         QuickRangeDataV2(
-            name = stringResource(R.string.dayBeforeYesterday),
+            name = "R.string.dayBeforeYesterday",
+            nameKey = R.string.dayBeforeYesterday,
             beginDate = LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.MIN),
             endDate = LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.MAX),
         ),
         QuickRangeDataV2(
-            name = stringResource(R.string.lastWeek),
+            name = "R.string.lastWeek",
+            nameKey = R.string.lastWeek,
             beginDate = LocalDateTime.now().minusDays(7),
             endDate = LocalDateTime.now(),
         ),
         QuickRangeDataV2(
-            name = stringResource(R.string.thisMonth),
+            name = "R.string.thisMonth",
+            nameKey = R.string.thisMonth,
             beginDate = LocalDateTime.now().atStartOfTheMonth(),
             endDate = LocalDateTime.now(),
         ),
         QuickRangeDataV2(
-            name = stringResource(R.string.lastMonth),
+            name = "R.string.lastMonth",
+            nameKey = R.string.lastMonth,
             beginDate = LocalDateTime.now().minusMonths(1),
             endDate = LocalDateTime.now(),
         ),
         QuickRangeDataV2(
-            name = stringResource(R.string.lastThreeMonths),
+            name = "R.string.lastThreeMonths",
+            nameKey = R.string.lastThreeMonths,
             beginDate = LocalDateTime.now().minusMonths(3),
             endDate = LocalDateTime.now(),
         ),
         QuickRangeDataV2(
+            name = "R.string.allExpenses",
+            nameKey = R.string.allExpenses,
             beginDate = minDate,
             endDate = maxDate,
-            name = stringResource(R.string.allExpenses),
             isAllExpenses = true,
         )
     )
