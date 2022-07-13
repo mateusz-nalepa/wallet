@@ -14,8 +14,6 @@ import com.mateuszcholyn.wallet.ui.util.defaultModifier
 fun SummaryStatisticSection(
     summaryViewModel: SummaryViewModel = hiltViewModel(),
 ) {
-    summaryViewModel.updateSummaryResultText(stringResource(R.string.defaultSummaryResultText))
-
     Row(modifier = defaultModifier.padding(bottom = 0.dp)) {
         Text(
             text = stringResource(R.string.quantity) + " ${summaryViewModel.expensesList.size}",

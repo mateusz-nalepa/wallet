@@ -93,6 +93,7 @@ class SummaryViewModel @Inject constructor(
         get() = _expensesListGrouped
 
     // i should use here string resources!
+    // something is wrong with this, data are not refreshed :(
     private val _summaryResultText = mutableStateOf("0 zł / 1 d = 0 zł/d")
     val summaryResultText: String
         get() = _summaryResultText.value
