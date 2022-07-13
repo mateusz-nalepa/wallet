@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.ui.screen.summary
+package com.mateuszcholyn.wallet.ui.screen.summary.expenseslist
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.sumExpensesAmount
+import com.mateuszcholyn.wallet.ui.screen.summary.ShowExpense
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.asPrintableAmount
 

@@ -9,9 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.ui.screen.DummyScreen
 import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.NewAddOrEditExpenseScreen
 import com.mateuszcholyn.wallet.ui.screen.category.NewCategoryScreen
+import com.mateuszcholyn.wallet.ui.screen.dummy.DummyScreen
 import com.mateuszcholyn.wallet.ui.screen.settings.SettingsScreen
 import com.mateuszcholyn.wallet.ui.screen.summary.NewSummaryScreen
 import com.mateuszcholyn.wallet.ui.wellness.WellnessScreenRunner

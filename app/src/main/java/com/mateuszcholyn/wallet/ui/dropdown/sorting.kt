@@ -1,7 +1,5 @@
 package com.mateuszcholyn.wallet.ui.dropdown
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.expense.Sort
 
@@ -11,23 +9,26 @@ data class SortElement(
     val sort: Sort,
 ) : DropdownElement
 
-@Composable
 fun sortingElements(): List<SortElement> {
     return listOf(
         SortElement(
-            name = stringResource(R.string.dataOdNajmlodszych),
+            name = "R.string.dataOdNajmlodszych",
+            nameKey = R.string.dataOdNajmlodszych,
             sort = Sort(Sort.Field.DATE, Sort.Type.DESC),
         ),
         SortElement(
-            name = stringResource(R.string.dataOdNajstarszych),
+            name = "R.string.dataOdNajstarszych",
+            nameKey = R.string.dataOdNajstarszych,
             sort = Sort(Sort.Field.DATE, Sort.Type.ASC),
         ),
         SortElement(
-            name = stringResource(R.string.cenaOdNajwyzszej),
+            name = "R.string.cenaOdNajwyzszej",
+            nameKey = R.string.cenaOdNajwyzszej,
             sort = Sort(Sort.Field.AMOUNT, Sort.Type.DESC),
         ),
         SortElement(
-            name = stringResource(R.string.cenaOdNajnizszej),
+            name = "R.string.cenaOdNajnizszej",
+            nameKey = R.string.cenaOdNajnizszej,
             sort = Sort(Sort.Field.AMOUNT, Sort.Type.ASC),
         ),
     )

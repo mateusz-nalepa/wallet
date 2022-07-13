@@ -44,7 +44,7 @@
     <string name="newExpense">Nowy wydatek</string>
     <string name="dummyView">Dummy View</string>
     <string name="quantity">Ilość:</string>
-    <string name="group">Group</string>
+    <string name="group">Grupuj</string>
     <string name="grouping">Grupowanie</string>
     <string name="Sorting">Sortowanie</string>
     <string name="hideFilters">Ukryj filtry</string>

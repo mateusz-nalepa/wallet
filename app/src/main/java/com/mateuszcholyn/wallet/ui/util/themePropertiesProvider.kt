@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.ui.screen
+package com.mateuszcholyn.wallet.ui.util
 
 import android.content.Context
 import com.mateuszcholyn.wallet.util.darkmode.ThemeProperties

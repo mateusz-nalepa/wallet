@@ -4,8 +4,8 @@ import android.content.Context
 import com.mateuszcholyn.wallet.domain.DemoAppSwitcher
 import com.mateuszcholyn.wallet.domain.DemoModeDisabled
 import com.mateuszcholyn.wallet.domain.DemoModeEnabled
-import com.mateuszcholyn.wallet.ui.screen.DefaultThemePropertiesProvider
-import com.mateuszcholyn.wallet.ui.screen.ThemePropertiesProvider
+import com.mateuszcholyn.wallet.ui.util.DefaultThemePropertiesProvider
+import com.mateuszcholyn.wallet.ui.util.ThemePropertiesProvider
 import com.mateuszcholyn.wallet.util.demomode.isInDemoMode
 import dagger.Module
 import dagger.Provides

@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.ui.screen.summary
+package com.mateuszcholyn.wallet.ui.screen.summary.expenseslist
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.domain.expense.Expense
+import com.mateuszcholyn.wallet.ui.screen.summary.ShowExpense
 
 @Composable
 fun ExpensesList(

@@ -78,6 +78,5 @@ private fun resolveName(name: String, nameKey: Int?): String {
         } else {
             name
         }
-    println("resolvedName: $resolvedName")
     return resolvedName
 }

@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.ui.screen
+package com.mateuszcholyn.wallet.ui.screen.dummy
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.mateuszcholyn.wallet.domain.category.Category
@@ -9,6 +9,12 @@ import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.util.dateutils.toLocalDateTime
 import java.math.BigDecimal
 import java.math.BigInteger
+
+//category_id, name
+private val allCategories = """""".trimIndent()
+
+//expense_id,amount,description,date,fk_category_id
+private val allExpenses = """""".trimIndent()
 
 fun odpalMigracje(
     expenseService: ExpenseService,
