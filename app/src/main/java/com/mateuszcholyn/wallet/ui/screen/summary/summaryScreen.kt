@@ -30,13 +30,18 @@ fun NewSummaryScreen(
 
     summaryViewModel.initScreen()
     Column(modifier = defaultModifier) {
-        SummaryCategoriesSection()
-        SummaryQuickRangeSection()
-        AdvancedFiltersSection()
+        SummaryFilters()
         Divider()
         SummarySearchResult(navController)
     }
 
+}
+
+@Composable
+fun SummaryFilters() {
+    SummaryCategoriesSection()
+    SummaryQuickRangeSection()
+    AdvancedFiltersSection()
 }
 
 @Composable
