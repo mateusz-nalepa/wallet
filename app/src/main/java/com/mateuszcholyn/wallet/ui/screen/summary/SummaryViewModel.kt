@@ -1,9 +1,12 @@
 package com.mateuszcholyn.wallet.ui.screen.summary
 
+import android.util.Log
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
-import androidx.compose.runtime.toMutableStateMap
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.AverageExpenseResult
 import com.mateuszcholyn.wallet.domain.expense.Expense
@@ -16,7 +19,20 @@ import com.mateuszcholyn.wallet.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.util.asPrintableAmount
 import com.mateuszcholyn.wallet.util.toDoubleOrDefaultZero
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+sealed class SummaryState {
+    object Loading : SummaryState()
+    data class Success(val summarySuccessContent: SummarySuccessContent) : SummaryState()
+    data class Error(val errorMessage: String) : SummaryState()
+}
+
+data class SummarySuccessContent(
+    val expensesList: List<Expense>,
+    val expensesGrouped: Map<String, List<Expense>>,
+    val summaryResultText: String,
+)
 
 @HiltViewModel
 class SummaryViewModel @Inject constructor(
@@ -83,21 +99,9 @@ class SummaryViewModel @Inject constructor(
         get() = _amountRangeEnd.value
 
     // Results
-    private var _expensesList = mutableListOf<Expense>().toMutableStateList()
-    val expensesList: List<Expense>
-        get() = _expensesList
-
-    private var _expensesListGrouped =
-        mutableListOf<Pair<String, List<Expense>>>().toMutableStateMap()
-    val expensesListGrouped: Map<String, List<Expense>>
-        get() = _expensesListGrouped
-
-    // i should use here string resources!
-    // something is wrong with this, data are not refreshed :(
-    private val _summaryResultText = mutableStateOf("0 zł / 1 d = 0 zł/d")
-    val summaryResultText: String
-        get() = _summaryResultText.value
-
+    private var _summaryState: MutableState<SummaryState> = mutableStateOf(SummaryState.Loading)
+    val summaryState: State<SummaryState>
+        get() = _summaryState
 
     private fun readCategoriesList(): List<CategoryViewModelForAddOrEditExpense> {
         return listOf(
@@ -138,7 +142,28 @@ class SummaryViewModel @Inject constructor(
         _amountRangeEnd.value = newAmountRangeEnd
     }
 
-    fun getExpenseSearchCriteria(): ExpenseSearchCriteria {
+    fun refreshScreen() {
+        viewModelScope.launch {
+            try {
+                _summaryState.value = SummaryState.Loading
+                _summaryState.value = SummaryState.Success(prepareSummarySuccessContent())
+            } catch (e: Exception) {
+                Log.d("BK", "Exception: ${e.message}")
+                _summaryState.value = SummaryState.Error(e.message ?: "Unknown error sad times")
+            }
+        }
+    }
+
+    private fun prepareSummarySuccessContent(): SummarySuccessContent {
+        val summaryResult = expenseService.getSummary(getExpenseSearchCriteria())
+        return SummarySuccessContent(
+            expensesList = summaryResult.expenses,
+            expensesGrouped = summaryResult.expenses.groupBy(selectedGroupElement.groupFunction),
+            summaryResultText = summaryResult.averageExpenseResult.asTextSummary(),
+        )
+    }
+
+    private fun getExpenseSearchCriteria(): ExpenseSearchCriteria {
         return ExpenseSearchCriteria(
             allCategories = selectedCategory.isAllCategories,
             categoryId = selectedCategory.actualCategoryId(),
@@ -151,27 +176,6 @@ class SummaryViewModel @Inject constructor(
         )
     }
 
-    fun updateExpensesList(newExpenses: List<Expense>) {
-        _expensesList.clear()
-        _expensesList.addAll(newExpenses)
-    }
-
-    fun updateExpensesListGrouped(expensesListGrouped: Map<String, List<Expense>>) {
-        _expensesListGrouped.clear()
-        _expensesListGrouped.putAll(expensesListGrouped)
-    }
-
-    fun updateSummaryResultText(newSummaryResultText: String) {
-        _summaryResultText.value = newSummaryResultText
-    }
-
-    fun refreshScreen() {
-        val summaryResult = expenseService.getSummary(getExpenseSearchCriteria())
-        updateExpensesList(summaryResult.expenses)
-        updateExpensesListGrouped(expensesList.groupBy(selectedGroupElement.groupFunction))
-
-        updateSummaryResultText(summaryResult.averageExpenseResult.asTextSummary())
-    }
 
 }
 
