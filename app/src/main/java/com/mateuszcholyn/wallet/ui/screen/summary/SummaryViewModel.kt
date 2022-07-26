@@ -19,6 +19,7 @@ import com.mateuszcholyn.wallet.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.util.asPrintableAmount
 import com.mateuszcholyn.wallet.util.toDoubleOrDefaultZero
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -77,36 +78,46 @@ class SummaryViewModel @Inject constructor(
 
     fun updateSelectedCategory(newSelectedCategory: CategoryViewModelForAddOrEditExpense) {
         _searchForm.value = _searchForm.value.copy(selectedCategory = newSelectedCategory)
+        refreshScreen()
     }
 
     fun updateQuickRangeData(newQuickRangeDataV2: QuickRangeDataV2) {
         _searchForm.value = _searchForm.value.copy(selectedQuickRangeData = newQuickRangeDataV2)
+        refreshScreen()
     }
 
     fun updateSortElement(newSortElement: SortElement) {
         _searchForm.value = _searchForm.value.copy(selectedSortElement = newSortElement)
+        refreshScreen()
     }
 
     fun groupingCheckBoxChecked(newValue: Boolean) {
         _searchForm.value = _searchForm.value.copy(isGroupingEnabled = newValue)
+        refreshScreen()
     }
 
     fun updateGroupElement(groupElement: GroupElement) {
         _searchForm.value = _searchForm.value.copy(selectedGroupElement = groupElement)
+        refreshScreen()
     }
 
     fun updateAmountRangeStart(newAmountRangeStart: String) {
         _searchForm.value = _searchForm.value.copy(amountRangeStart = newAmountRangeStart)
+        refreshScreen()
     }
 
     fun updateAmountRangeEnd(newAmountRangeEnd: String) {
         _searchForm.value = _searchForm.value.copy(amountRangeEnd = newAmountRangeEnd)
+        refreshScreen()
     }
 
     fun refreshScreen() {
         viewModelScope.launch {
             try {
                 _summaryState.value = SummaryState.Loading
+
+                delay(500)
+
                 _summaryState.value = SummaryState.Success(prepareSummarySuccessContent())
             } catch (e: Exception) {
                 Log.d("BK", "Exception: ${e.message}")
