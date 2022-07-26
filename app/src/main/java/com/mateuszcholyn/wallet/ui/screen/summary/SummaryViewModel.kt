@@ -115,9 +115,6 @@ class SummaryViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _summaryState.value = SummaryState.Loading
-
-                delay(500)
-
                 _summaryState.value = SummaryState.Success(prepareSummarySuccessContent())
             } catch (e: Exception) {
                 Log.d("BK", "Exception: ${e.message}")
