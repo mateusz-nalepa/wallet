@@ -18,7 +18,7 @@ fun AmountRangeSection(
 ) {
     Row(modifier = defaultModifier) {
         OutlinedTextField(
-            value = summaryViewModel.amountRangeStart,
+            value = summaryViewModel.summarySearchForm.amountRangeStart,
             onValueChange = { summaryViewModel.updateAmountRangeStart(it) },
             label = { Text(stringResource(R.string.amountFrom)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -26,7 +26,7 @@ fun AmountRangeSection(
             singleLine = true,
         )
         OutlinedTextField(
-            value = summaryViewModel.amountRangeEnd,
+            value = summaryViewModel.summarySearchForm.amountRangeEnd,
             onValueChange = { summaryViewModel.updateAmountRangeEnd(it) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             label = { Text(stringResource(R.string.amountTo)) },

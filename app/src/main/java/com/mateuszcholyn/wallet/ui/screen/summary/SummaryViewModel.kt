@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.expense.AverageExpenseResult
 import com.mateuszcholyn.wallet.domain.expense.Expense
@@ -21,6 +21,25 @@ import com.mateuszcholyn.wallet.util.toDoubleOrDefaultZero
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+fun initialCategory(): CategoryViewModelForAddOrEditExpense {
+    return CategoryViewModelForAddOrEditExpense(
+        name = "Wszystkie kategorie",
+        nameKey = R.string.summaryScreen_allCategories,
+        isAllCategories = true
+    )
+}
+
+data class SummarySearchForm(
+    val selectedCategory: CategoryViewModelForAddOrEditExpense = initialCategory(),
+    val selectedQuickRangeData: QuickRangeDataV2 = quickRanges().first(),
+    val selectedSortElement: SortElement = sortingElements().first(),
+    val amountRangeStart: String = 0.toString(),
+    val amountRangeEnd: String = Int.MAX_VALUE.toString(),
+    //
+    val isGroupingEnabled: Boolean = false,
+    val selectedGroupElement: GroupElement = groupingDataXD().first(),
+)
 
 sealed class SummaryState {
     object Loading : SummaryState()
@@ -40,106 +59,48 @@ class SummaryViewModel @Inject constructor(
     private val expenseService: ExpenseService,
 ) : ViewModel() {
 
-
     fun initScreen() {
         refreshScreen()
     }
 
-    private var _availableCategories =
-        mutableListOf(*readCategoriesList().toTypedArray()).toMutableStateList()
-    val availableCategories: List<CategoryViewModelForAddOrEditExpense>
-        get() = _availableCategories
+    private val _searchForm = mutableStateOf(SummarySearchForm())
+    val summarySearchForm: SummarySearchForm
+        get() = _searchForm.value
 
-    private var _selectedCategory = mutableStateOf(availableCategories.first())
-    val selectedCategory: CategoryViewModelForAddOrEditExpense
-        get() = _selectedCategory.value
-
-    // quick range
-    private var _availableQuickRangeDataV2 =
-        mutableListOf(*quickRanges().toTypedArray()).toMutableStateList()
-    val availableQuickRangeDataV2: List<QuickRangeDataV2>
-        get() = _availableQuickRangeDataV2
-
-    private var _selectedQuickRangeData = mutableStateOf(_availableQuickRangeDataV2.first())
-    val selectedQuickRangeData: QuickRangeDataV2
-        get() = _selectedQuickRangeData.value
-
-    // sortElement
-    private var _availableSortingElements =
-        mutableListOf(*sortingElements().toTypedArray()).toMutableStateList()
-    val availableSortingElements: List<SortElement>
-        get() = _availableSortingElements
-
-    private var _selectedSortElement = mutableStateOf(_availableSortingElements.first())
-    val selectedSortElement: SortElement
-        get() = _selectedSortElement.value
-
-    // is groupingEnabled
-    private val _isGroupingEnabled = mutableStateOf(false)
-    val isGroupingEnabled: Boolean
-        get() = _isGroupingEnabled.value
-
-    // grouping dropdown
-    private var _availableGroupElements =
-        mutableListOf(*groupingDataXD().toTypedArray()).toMutableStateList()
-    val availableGroupElements: List<GroupElement>
-        get() = _availableGroupElements
-
-    private var _selectedGroupElement = mutableStateOf(_availableGroupElements.first())
-    val selectedGroupElement: GroupElement
-        get() = _selectedGroupElement.value
-
-    // amount range
-    private val _amountRangeStart = mutableStateOf(0.toString())
-    val amountRangeStart: String
-        get() = _amountRangeStart.value
-
-    private val _amountRangeEnd = mutableStateOf(Int.MAX_VALUE.toString())
-    val amountRangeEnd: String
-        get() = _amountRangeEnd.value
-
-    // Results
     private var _summaryState: MutableState<SummaryState> = mutableStateOf(SummaryState.Loading)
     val summaryState: State<SummaryState>
         get() = _summaryState
 
-    private fun readCategoriesList(): List<CategoryViewModelForAddOrEditExpense> {
-        return listOf(
-            CategoryViewModelForAddOrEditExpense(
-                name = "Wszystkie kategorie", // TODO: move to screen... somehow :D
-                isAllCategories = true
-            )
-        ) + categoryService.getAllWithDetailsOrderByUsageDesc().map { it.toCategoryViewModel() }
-    }
+    fun readCategoriesList(): List<CategoryViewModelForAddOrEditExpense> =
+        listOf(initialCategory()) + categoryService.getAllWithDetailsOrderByUsageDesc()
+            .map { it.toCategoryViewModel() }
 
-    fun expenseService(): ExpenseService = expenseService
-    fun categoryService(): CategoryService = categoryService
     fun updateSelectedCategory(newSelectedCategory: CategoryViewModelForAddOrEditExpense) {
-        _selectedCategory.value = newSelectedCategory
+        _searchForm.value = _searchForm.value.copy(selectedCategory = newSelectedCategory)
     }
 
-    fun updateQuickRangeData(quickRangeDataV2: QuickRangeDataV2) {
-        _selectedQuickRangeData.value = quickRangeDataV2
+    fun updateQuickRangeData(newQuickRangeDataV2: QuickRangeDataV2) {
+        _searchForm.value = _searchForm.value.copy(selectedQuickRangeData = newQuickRangeDataV2)
     }
 
-    fun updateSortElement(sortElement: SortElement) {
-        _selectedSortElement.value = sortElement
+    fun updateSortElement(newSortElement: SortElement) {
+        _searchForm.value = _searchForm.value.copy(selectedSortElement = newSortElement)
     }
 
     fun groupingCheckBoxChecked(newValue: Boolean) {
-        _isGroupingEnabled.value = newValue
+        _searchForm.value = _searchForm.value.copy(isGroupingEnabled = newValue)
     }
 
     fun updateGroupElement(groupElement: GroupElement) {
-        _selectedGroupElement.value = groupElement
+        _searchForm.value = _searchForm.value.copy(selectedGroupElement = groupElement)
     }
 
     fun updateAmountRangeStart(newAmountRangeStart: String) {
-        _amountRangeStart.value = newAmountRangeStart
+        _searchForm.value = _searchForm.value.copy(amountRangeStart = newAmountRangeStart)
     }
 
     fun updateAmountRangeEnd(newAmountRangeEnd: String) {
-        _amountRangeEnd.value = newAmountRangeEnd
+        _searchForm.value = _searchForm.value.copy(amountRangeEnd = newAmountRangeEnd)
     }
 
     fun refreshScreen() {
@@ -155,30 +116,27 @@ class SummaryViewModel @Inject constructor(
     }
 
     private fun prepareSummarySuccessContent(): SummarySuccessContent {
-        val summaryResult = expenseService.getSummary(getExpenseSearchCriteria())
+        val summaryResult = expenseService.getSummary(summarySearchForm.toExpenseSearchCriteria())
         return SummarySuccessContent(
             expensesList = summaryResult.expenses,
-            expensesGrouped = summaryResult.expenses.groupBy(selectedGroupElement.groupFunction),
+            expensesGrouped = summaryResult.expenses.groupBy(summarySearchForm.selectedGroupElement.groupFunction),
             summaryResultText = summaryResult.averageExpenseResult.asTextSummary(),
         )
     }
 
-    private fun getExpenseSearchCriteria(): ExpenseSearchCriteria {
-        return ExpenseSearchCriteria(
-            allCategories = selectedCategory.isAllCategories,
-            categoryId = selectedCategory.actualCategoryId(),
-            beginDate = selectedQuickRangeData.beginDate,
-            endDate = selectedQuickRangeData.endDate,
-            sort = selectedSortElement.sort,
-            isAllExpenses = selectedQuickRangeData.isAllExpenses,
-            fromAmount = amountRangeStart.toDoubleOrDefaultZero(),
-            toAmount = amountRangeEnd.toDoubleOrDefaultZero(),
-        )
-    }
-
-
 }
 
+private fun SummarySearchForm.toExpenseSearchCriteria(): ExpenseSearchCriteria =
+    ExpenseSearchCriteria(
+        allCategories = selectedCategory.isAllCategories,
+        categoryId = selectedCategory.actualCategoryId(),
+        beginDate = selectedQuickRangeData.beginDate,
+        endDate = selectedQuickRangeData.endDate,
+        sort = selectedSortElement.sort,
+        isAllExpenses = selectedQuickRangeData.isAllExpenses,
+        fromAmount = amountRangeStart.toDoubleOrDefaultZero(),
+        toAmount = amountRangeEnd.toDoubleOrDefaultZero(),
+    )
 
 fun CategoryViewModelForAddOrEditExpense.actualCategoryId(): Long? =
     if (isAllCategories) null else id

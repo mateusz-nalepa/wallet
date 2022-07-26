@@ -33,7 +33,7 @@ fun SummaryGroupingSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                checked = summaryViewModel.isGroupingEnabled,
+                checked = summaryViewModel.summarySearchForm.isGroupingEnabled,
                 onCheckedChange = { newValue ->
                     summaryViewModel.groupingCheckBoxChecked(newValue)
                 })

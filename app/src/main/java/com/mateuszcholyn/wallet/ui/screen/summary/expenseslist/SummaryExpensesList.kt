@@ -15,12 +15,12 @@ fun SummaryExpensesList(
     summaryViewModel: SummaryViewModel = hiltViewModel()
 ) {
 
-    if (summaryViewModel.isGroupingEnabled) {
+    if (summaryViewModel.summarySearchForm.isGroupingEnabled) {
         GroupedExpenses(
             navController = navController,
             refreshFunction = { summaryViewModel.refreshScreen() },
             expensesListGrouped = summarySuccessContent.expensesGrouped,
-            groupNameFunction = summaryViewModel.selectedGroupElement.groupFunctionName,
+            groupNameFunction = summaryViewModel.summarySearchForm.selectedGroupElement.groupFunctionName,
         )
     } else {
         ExpensesList(
