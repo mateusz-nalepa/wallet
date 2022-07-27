@@ -53,7 +53,7 @@ fun SummarySearchResult(
 
     when (val summaryStateTemp = summaryState) {
         is SummaryState.Error -> SummaryError(summaryStateTemp.errorMessage)
-        is SummaryState.Loading -> SummaryLoading()
+        is SummaryState.Loading -> ScreenLoading("Summary Loading")
         is SummaryState.Success -> {
             SuccessSearchResult(
                 navController = navController,
@@ -78,12 +78,12 @@ fun SuccessSearchResult(
 }
 
 @Composable
-fun SummaryLoading() {
+fun ScreenLoading(loadingText: String) {
     Row(
         modifier = defaultModifier.fillMaxSize(),
         horizontalArrangement = Arrangement.Center
     ) {
-        Text(text = "Summary Loading")
+        Text(text = loadingText)
     }
 }
 
@@ -91,7 +91,7 @@ fun SummaryLoading() {
 @Preview(showBackground = true)
 @Composable
 fun SummaryLoadingPreview() {
-    SummaryLoading()
+    ScreenLoading("XD")
 }
 
 @Composable

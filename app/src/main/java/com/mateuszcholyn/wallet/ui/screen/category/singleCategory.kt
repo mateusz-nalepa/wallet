@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
-import com.mateuszcholyn.wallet.domain.category.CategoryService
 import com.mateuszcholyn.wallet.domain.category.ExistingCategory
 import com.mateuszcholyn.wallet.ui.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
@@ -27,11 +26,12 @@ import com.mateuszcholyn.wallet.util.appContext.currentAppContext
 @ExperimentalMaterialApi
 @Composable
 fun SingleCategory(
-    categoryService: CategoryService,
+    onDeleteFunction: (Long) -> Unit,
+    onUpdateCategoryFunction: (ExistingCategory) -> Unit,
     categoryDetails: CategoryDetails,
-    refreshCategoryListFunction: () -> Unit,
     initialDetailsAreVisible: Boolean = false,
     initialEditCategoryNameIsVisible: Boolean = false,
+    categorySuccessContent: CategorySuccessContent,
 ) {
     val currentContext = currentAppContext()
 
@@ -103,8 +103,7 @@ fun SingleCategory(
                 openDialog = openDialog,
                 onConfirm = {
                     if (categoryDetails.numberOfExpenses == 0L) {
-                        categoryService.remove(categoryDetails.id)
-                        refreshCategoryListFunction()
+                        onDeleteFunction.invoke(categoryDetails.id)
                         showShortText(
                             currentContext,
                             categoryRemovedText + " ${categoryDetails.name}"
@@ -128,47 +127,22 @@ fun SingleCategory(
             EditCategoryForm(
                 actualCategoryName = categoryDetails.name,
                 onFormSubmit = { actualCategory ->
-                    categoryService.updateCategory(
-                        categoryDetails.toExistingCategory(actualCategory)
+                    onUpdateCategoryFunction.invoke(
+                        categoryDetails.toExistingCategory(
+                            actualCategory
+                        )
                     )
                     editCategoryNameIsVisible = false
                     detailsAreVisible = false
-                    refreshCategoryListFunction()
-                }
+                },
+                categorySuccessContent = categorySuccessContent,
             )
         }
     }
 
-
-
     Divider()
 
 }
-
-
-//@ExperimentalMaterialApi
-//@Preview(showBackground = true)
-//@Composable
-//fun SingleCategoryPreview() {
-//    withDI(di = previewDi()) {
-//        MaterialTheme {
-//            Column {
-//                SingleCategory(
-//                        categoryDetails =
-//                        CategoryDetails(
-//                                id = 1,
-//                                name = "Zakupy",
-//                                numberOfExpenses = 14,
-//                        ),
-//                        refreshCategoryListFunction = {},
-//                        initialDetailsAreVisible = true,
-//                        initialEditCategoryNameIsVisible = true,
-//                )
-//            }
-//        }
-//    }
-//}
-
 
 fun CategoryDetails.toExistingCategory(categoryWithNewName: Category): ExistingCategory =
     ExistingCategory(

@@ -10,18 +10,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.domain.category.CategoryDetails
-import com.mateuszcholyn.wallet.domain.category.CategoryService
+import com.mateuszcholyn.wallet.domain.category.ExistingCategory
 
 @Composable
 fun CategoriesList(
+    categorySuccessContent: CategorySuccessContent,
     categoryViewModel: CategoryViewModel = hiltViewModel(),
 ) {
     CategoriesListStateless(
-        categoryListOptions = categoryViewModel.categoryOptions,
-        categoryService = categoryViewModel.categoryService(),
-        refreshCategoryListFunction = {
-            categoryViewModel.refreshCategoryList()
-        }
+        categoryListOptions = categorySuccessContent.categoriesList,
+        onDeleteFunction = { categoryId -> categoryViewModel.deleteCategory(categoryId) },
+        onUpdateCategory = { updatedCategory -> categoryViewModel.updateCategory(updatedCategory) },
+        categorySuccessContent = categorySuccessContent,
     )
 }
 
@@ -29,8 +29,9 @@ fun CategoriesList(
 @Composable
 private fun CategoriesListStateless(
     categoryListOptions: List<CategoryDetails>,
-    categoryService: CategoryService,
-    refreshCategoryListFunction: () -> Unit,
+    onDeleteFunction: (Long) -> Unit,
+    onUpdateCategory: (ExistingCategory) -> Unit,
+    categorySuccessContent: CategorySuccessContent,
 ) {
     LazyColumn(
         modifier =
@@ -41,9 +42,10 @@ private fun CategoriesListStateless(
         ) {
         items(categoryListOptions) { categoryDetails ->
             SingleCategory(
-                categoryService = categoryService,
+                onDeleteFunction = onDeleteFunction,
+                onUpdateCategoryFunction = onUpdateCategory,
                 categoryDetails = categoryDetails,
-                refreshCategoryListFunction = { refreshCategoryListFunction() },
+                categorySuccessContent = categorySuccessContent,
             )
         }
     }

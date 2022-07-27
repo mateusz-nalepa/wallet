@@ -16,15 +16,14 @@ import com.mateuszcholyn.wallet.util.EMPTY_STRING
 
 @Composable
 fun NewCategoryForm(
+    categorySuccessContent: CategorySuccessContent,
     categoryViewModel: CategoryViewModel = hiltViewModel(),
 ) {
     CategoryFormStateless(
         textFieldLabel = stringResource(R.string.newCategoryName),
         buttonLabel = stringResource(R.string.addCategory),
-        onFormSubmit = { newCategory ->
-            categoryViewModel.addCategory(newCategory)
-        },
-        categoryNamesOnly = categoryViewModel.categoryNamesOnly,
+        onFormSubmit = { newCategory -> categoryViewModel.addCategory(newCategory) },
+        categoryNamesOnly = categorySuccessContent.categoryNamesOnly,
     )
 }
 
@@ -32,14 +31,14 @@ fun NewCategoryForm(
 fun EditCategoryForm(
     actualCategoryName: String,
     onFormSubmit: (Category) -> Unit,
-    categoryViewModel: CategoryViewModel = hiltViewModel(),
+    categorySuccessContent: CategorySuccessContent,
 ) {
     CategoryFormStateless(
         textFieldLabel = stringResource(R.string.updatedCategoryName),
         buttonLabel = stringResource(R.string.update),
         initialCategoryName = actualCategoryName,
         onFormSubmit = onFormSubmit,
-        categoryNamesOnly = categoryViewModel.categoryNamesOnly,
+        categoryNamesOnly = categorySuccessContent.categoryNamesOnly,
     )
 }
 

@@ -5,15 +5,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 
 @Composable
 fun NumberOfCategories(
-    categoryViewModel: CategoryViewModel = hiltViewModel()
+    categorySuccessContent: CategorySuccessContent,
 ) {
-    NumberOfCategoriesStateless(categoryViewModel.categoryOptions.size)
+    NumberOfCategoriesStateless(categorySuccessContent.categoriesList.size)
 }
 
 @Composable
