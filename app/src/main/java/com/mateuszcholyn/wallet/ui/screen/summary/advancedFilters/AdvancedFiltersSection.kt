@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Checkbox
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
@@ -20,6 +21,7 @@ fun AdvancedFiltersSection() {
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
+
         ClickableText(
             text = if (advancedFiltersExpanded) AnnotatedString(stringResource(R.string.hideFilters)) else AnnotatedString(
                 stringResource(R.string.showFilters)
@@ -27,6 +29,13 @@ fun AdvancedFiltersSection() {
             onClick = {
                 advancedFiltersExpanded = !advancedFiltersExpanded
             },
+        )
+        Text(
+            text =
+            if (advancedFiltersExpanded)
+                stringResource(R.string.hideFilters)
+            else
+                stringResource(R.string.showFilters),
         )
         Checkbox(checked = advancedFiltersExpanded, onCheckedChange = {
             advancedFiltersExpanded = !advancedFiltersExpanded
