@@ -55,7 +55,7 @@ fun Navigation(
         ) { backStackEntry ->
             NewAddOrEditExpenseScreen(
                 navController = navController,
-                backStackEntry.arguments?.getString("expenseId")
+                backStackEntry.arguments?.getString("expenseId")?.toLong()
             )
         }
         composable(NavDrawerItem.Category.route) {

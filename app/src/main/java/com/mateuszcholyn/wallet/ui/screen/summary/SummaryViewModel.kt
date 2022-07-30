@@ -13,18 +13,17 @@ import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
 import com.mateuszcholyn.wallet.ui.dropdown.*
-import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.CategoryViewModelForAddOrEditExpense
-import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.toCategoryViewModel
+import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.CategoryView
+import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.toCategoryView
 import com.mateuszcholyn.wallet.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.util.asPrintableAmount
 import com.mateuszcholyn.wallet.util.toDoubleOrDefaultZero
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-fun initialCategory(): CategoryViewModelForAddOrEditExpense {
-    return CategoryViewModelForAddOrEditExpense(
+fun initialCategory(): CategoryView {
+    return CategoryView(
         name = "Wszystkie kategorie",
         nameKey = R.string.summaryScreen_allCategories,
         isAllCategories = true
@@ -32,7 +31,7 @@ fun initialCategory(): CategoryViewModelForAddOrEditExpense {
 }
 
 data class SummarySearchForm(
-    val selectedCategory: CategoryViewModelForAddOrEditExpense = initialCategory(),
+    val selectedCategory: CategoryView = initialCategory(),
     val selectedQuickRangeData: QuickRangeDataV2 = quickRanges().first(),
     val selectedSortElement: SortElement = sortingElements().first(),
     val amountRangeStart: String = 0.toString(),
@@ -72,11 +71,11 @@ class SummaryViewModel @Inject constructor(
     val summaryState: State<SummaryState>
         get() = _summaryState
 
-    fun readCategoriesList(): List<CategoryViewModelForAddOrEditExpense> =
+    fun readCategoriesList(): List<CategoryView> =
         listOf(initialCategory()) + categoryService.getAllWithDetailsOrderByUsageDesc()
-            .map { it.toCategoryViewModel() }
+            .map { it.toCategoryView() }
 
-    fun updateSelectedCategory(newSelectedCategory: CategoryViewModelForAddOrEditExpense) {
+    fun updateSelectedCategory(newSelectedCategory: CategoryView) {
         _searchForm.value = _searchForm.value.copy(selectedCategory = newSelectedCategory)
         refreshScreen()
     }
@@ -146,7 +145,7 @@ private fun SummarySearchForm.toExpenseSearchCriteria(): ExpenseSearchCriteria =
         toAmount = amountRangeEnd.toDoubleOrDefaultZero(),
     )
 
-fun CategoryViewModelForAddOrEditExpense.actualCategoryId(): Long? =
+fun CategoryView.actualCategoryId(): Long? =
     if (isAllCategories) null else id
 
 fun Expense.descriptionOrDefault(defaultDescription: String): String =
