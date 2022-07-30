@@ -106,7 +106,7 @@ fun ShowAddOrEditExpenseScreenContent(
     Column(modifier = defaultModifier.verticalScroll(state)) {
         WalletDropdown(
             dropdownName = stringResource(R.string.category),
-            selectedElement = formState.category!!,
+            selectedElement = formState.category,
             availableElements = categoryNameOptions,
             onItemSelected = {
                 addOrEditExpenseViewModel.updateCategory(it)
