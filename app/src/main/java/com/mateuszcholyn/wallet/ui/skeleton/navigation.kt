@@ -54,7 +54,8 @@ fun Navigation(
             }),
         ) { backStackEntry ->
             NewAddOrEditExpenseScreen(
-                navController = navController,
+                onFormSubmitNavigate = { navController.navigate(NavDrawerItem.SummaryScreen.route) },
+                onMissingCategoriesNavigate = { navController.navigate(NavDrawerItem.Category.route) },
                 backStackEntry.arguments?.getString("expenseId")?.toLong()
             )
         }

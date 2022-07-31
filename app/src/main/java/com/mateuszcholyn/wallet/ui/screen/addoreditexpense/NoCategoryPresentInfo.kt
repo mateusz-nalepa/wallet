@@ -10,15 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.ui.skeleton.NavDrawerItem
 import com.mateuszcholyn.wallet.ui.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 
 @Composable
 fun NoCategoryPresentInfo(
-    navController: NavHostController,
+    onMissingCategoriesNavigate: () -> Unit,
 ) {
     Column(
         modifier = defaultModifier
@@ -29,7 +27,7 @@ fun NoCategoryPresentInfo(
     ) {
         Text(stringResource(R.string.categoryRequiredToAddExpense))
         Button(
-            onClick = { navController.navigate(NavDrawerItem.Category.route) },
+            onClick = { onMissingCategoriesNavigate() },
             modifier = defaultButtonModifier,
         ) {
             Text(text = stringResource(R.string.addFirstCategory))
