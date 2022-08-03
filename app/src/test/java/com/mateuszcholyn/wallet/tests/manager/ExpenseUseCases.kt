@@ -15,22 +15,30 @@ import com.mateuszcholyn.wallet.backend.expensecore.ExpenseCoreServiceIMPL
 import com.mateuszcholyn.wallet.backend.expensecore.ExpenseRepository
 import com.mateuszcholyn.wallet.backend.expensecore.InMemoryExpenseRepository
 import com.mateuszcholyn.wallet.backend.expensecore.MiniKafkaExpensePublisher
+import com.mateuszcholyn.wallet.backend.searchservice.InMemorySearchServiceRepository
+import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceIMPL
+import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceRepository
 import com.mateuszcholyn.wallet.usecase.AddExpenseUseCase
 import com.mateuszcholyn.wallet.usecase.CreateCategoryUseCase
 import com.mateuszcholyn.wallet.usecase.GetCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.usecase.SearchServiceUseCase
 
 
 class ExpenseAppDependencies {
     var categoryRepository: CategoryRepository = InMemoryCategoryRepository()
     var expenseRepository: ExpenseRepository = InMemoryExpenseRepository()
+
     var categoriesQuickSummaryRepository: CategoriesQuickSummaryRepository =
         InMemoryCategoriesQuickSummaryRepository()
+
+    var searchServiceRepository: SearchServiceRepository = InMemorySearchServiceRepository()
 }
 
 data class ExpenseAppUseCases(
     val addExpenseUseCase: AddExpenseUseCase,
     val createCategoryUseCase: CreateCategoryUseCase,
     val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
+    val searchServiceUseCase: SearchServiceUseCase,
 ) {
 
     companion object {
@@ -46,9 +54,21 @@ data class ExpenseAppUseCases(
                     categoriesQuickSummaryAPI = categoriesQuickSummary,
                 )
 
+
+            val searchService =
+                SearchServiceIMPL(
+                    searchServiceRepository = deps.searchServiceRepository
+                )
+
             val categoriesQuickSummaryExpenseAddedSubscription =
                 Subscription<ExpenseAddedEvent> {
                     categoriesQuickSummary.handleEventExpenseAdded(it)
+                }
+
+
+            val searchServiceExpenseAddedSubscription =
+                Subscription<ExpenseAddedEvent> {
+                    searchService.handleEventExpenseAdded(it)
                 }
 
             val categoriesQuickSummaryCategoryAddedSubscription =
@@ -56,9 +76,13 @@ data class ExpenseAppUseCases(
                     categoriesQuickSummary.handleCategoryAdded(it)
                 }
 
+
             val miniKafka = MiniKafka()
             miniKafka.expenseAddedEventTopic.addSubscription(
                 categoriesQuickSummaryExpenseAddedSubscription
+            )
+            miniKafka.expenseAddedEventTopic.addSubscription(
+                searchServiceExpenseAddedSubscription
             )
             miniKafka.categoryAddedEventTopic.addSubscription(
                 categoriesQuickSummaryCategoryAddedSubscription
@@ -92,12 +116,16 @@ data class ExpenseAppUseCases(
                     expenseCoreServiceAPI = expenseCoreService,
                 )
 
-
+            val searchServiceUseCase =
+                SearchServiceUseCase(
+                    searchServiceAPI = searchService,
+                )
 
             return ExpenseAppUseCases(
                 createCategoryUseCase = createCategoryUseCase,
                 addExpenseUseCase = addExpenseUseCase,
                 getCategoriesQuickSummaryUseCase = getCategoriesQuickSummaryUseCase,
+                searchServiceUseCase = searchServiceUseCase,
             )
         }
 
