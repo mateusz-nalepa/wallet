@@ -10,7 +10,7 @@ import com.mateuszcholyn.wallet.backend.categorycore.MiniKafkaCategoryPublisher
 import com.mateuszcholyn.wallet.backend.events.CategoryAddedEvent
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.backend.events.MiniKafka
-import com.mateuszcholyn.wallet.backend.events.Subscriber
+import com.mateuszcholyn.wallet.backend.events.Subscription
 import com.mateuszcholyn.wallet.backend.expensecore.ExpenseCoreServiceIMPL
 import com.mateuszcholyn.wallet.backend.expensecore.ExpenseRepository
 import com.mateuszcholyn.wallet.backend.expensecore.InMemoryExpenseRepository
@@ -46,22 +46,22 @@ data class ExpenseAppUseCases(
                     categoriesQuickSummaryAPI = categoriesQuickSummary,
                 )
 
-            val categoriesQuickSummaryExpenseAddedSubscriber =
-                Subscriber<ExpenseAddedEvent> {
+            val categoriesQuickSummaryExpenseAddedSubscription =
+                Subscription<ExpenseAddedEvent> {
                     categoriesQuickSummary.handleEventExpenseAdded(it)
                 }
 
-            val categoriesQuickSummaryCategoryAddedSubscriber =
-                Subscriber<CategoryAddedEvent> {
+            val categoriesQuickSummaryCategoryAddedSubscription =
+                Subscription<CategoryAddedEvent> {
                     categoriesQuickSummary.handleCategoryAdded(it)
                 }
 
             val miniKafka = MiniKafka()
-            miniKafka.expenseAddedEventTopic.addSubscriber(
-                categoriesQuickSummaryExpenseAddedSubscriber
+            miniKafka.expenseAddedEventTopic.addSubscription(
+                categoriesQuickSummaryExpenseAddedSubscription
             )
-            miniKafka.categoryAddedEventTopic.addSubscriber(
-                categoriesQuickSummaryCategoryAddedSubscriber
+            miniKafka.categoryAddedEventTopic.addSubscription(
+                categoriesQuickSummaryCategoryAddedSubscription
             )
 
             val categoryPublisher =

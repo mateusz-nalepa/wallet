@@ -7,25 +7,22 @@ class MiniKafka {
 
 interface Topic<T> {
     fun publish(t: T)
-    fun addSubscriber(subscriber: Subscriber<T>)
+    fun addSubscription(subscription: Subscription<T>)
 }
 
-fun interface Subscriber<T> {
+fun interface Subscription<T> {
     fun onMessagePublished(t: T)
 }
 
 class TopicImpl<T> : Topic<T> {
-    private val subscribers: MutableList<Subscriber<T>> = mutableListOf()
+    private val subscriptions: MutableList<Subscription<T>> = mutableListOf()
 
-    override fun addSubscriber(subscriber: Subscriber<T>) {
-        subscribers.add(subscriber)
+    override fun addSubscription(subscription: Subscription<T>) {
+        subscriptions.add(subscription)
     }
 
     override fun publish(t: T) {
-        subscribers
-            .forEach { it.onMessagePublished(t) }
+        subscriptions.forEach { it.onMessagePublished(t) }
     }
 
 }
-
-
