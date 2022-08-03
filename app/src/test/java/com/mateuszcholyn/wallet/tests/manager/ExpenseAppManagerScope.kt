@@ -1,7 +1,13 @@
 package com.mateuszcholyn.wallet.tests.manager
 
 import com.mateuszcholyn.wallet.backend.categorycore.CategoryId
+import com.mateuszcholyn.wallet.backend.expensecore.ExpenseId
+import com.mateuszcholyn.wallet.randomAmount
 import com.mateuszcholyn.wallet.randomCategoryName
+import com.mateuszcholyn.wallet.randomDescription
+import com.mateuszcholyn.wallet.randomPaidAt
+import java.math.BigDecimal
+import java.time.Instant
 
 class ExpenseAppManagerScope {
 
@@ -18,4 +24,20 @@ class ExpenseAppManagerScope {
 class CategoryScope {
     lateinit var categoryId: CategoryId
     var categoryName = randomCategoryName()
+
+    val expensesScope = mutableListOf<ExpenseScope>()
+
+    fun expense(scope: ExpenseScope.() -> Unit): ExpenseScope {
+        val expenseScope = ExpenseScope().apply(scope)
+        expensesScope.add(expenseScope)
+        return expenseScope
+    }
+
+}
+
+class ExpenseScope {
+    lateinit var expenseId: ExpenseId
+    var amount: BigDecimal = randomAmount()
+    var description: String = randomDescription()
+    var paidAt: Instant = randomPaidAt()
 }

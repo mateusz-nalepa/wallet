@@ -13,3 +13,5 @@ fun randomDescription(): String = "description-${randomUUID()}"
 fun randomPaidAt(): Instant {
     return Instant.now().minusMillis(Random().nextLong())
 }
+
+fun randomInt(): Int = Random().nextInt(15)

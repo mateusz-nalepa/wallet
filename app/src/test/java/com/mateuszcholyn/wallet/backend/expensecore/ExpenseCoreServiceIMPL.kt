@@ -1,5 +1,7 @@
 package com.mateuszcholyn.wallet.backend.expensecore
 
+import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
+import com.mateuszcholyn.wallet.backend.events.MiniKafka
 import com.mateuszcholyn.wallet.randomUUID
 
 interface ExpenseRepository {
@@ -25,13 +27,27 @@ class InMemoryExpenseRepository : ExpenseRepository {
 }
 
 
+interface ExpensePublisher {
+    fun publishExpenseAddedEvent(expenseAddedEvent: ExpenseAddedEvent)
+}
+
+class MiniKafkaExpensePublisher(
+    private val miniKafka: MiniKafka,
+) : ExpensePublisher {
+    override fun publishExpenseAddedEvent(expenseAddedEvent: ExpenseAddedEvent) {
+        miniKafka.expenseAddedEventTopic.publish(expenseAddedEvent)
+    }
+}
+
 class ExpenseCoreServiceIMPL(
     private val expenseRepository: ExpenseRepository,
+    private val expensePublisher: ExpensePublisher,
 ) : ExpenseCoreServiceAPI {
     override fun add(addExpenseParameters: AddExpenseParameters): Expense =
         addExpenseParameters
             .toNewExpense()
             .let { expenseRepository.add(it) }
+            .also { expensePublisher.publishExpenseAddedEvent(it.toExpenseAddedEvent()) }
 
     override fun getAll(): List<Expense> =
         expenseRepository.getAll()
@@ -44,4 +60,12 @@ class ExpenseCoreServiceIMPL(
             paidAt = paidAt,
             categoryId = categoryId,
         )
+
+    private fun Expense.toExpenseAddedEvent(): ExpenseAddedEvent =
+        ExpenseAddedEvent(
+            expenseId = id,
+            categoryId = categoryId,
+            amount = amount,
+        )
+
 }

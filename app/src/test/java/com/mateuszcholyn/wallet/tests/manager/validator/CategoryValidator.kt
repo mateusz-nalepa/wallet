@@ -6,13 +6,24 @@ import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 
 fun ExpenseAppManager.validate(
     categoryId: CategoryId,
-    validateBlock: SimpleCategoryValidator.() -> Unit,
+    validateBlock: FullCategoryValidator.() -> Unit,
 ) {
     val category = this.expenseAppDependencies.categoryRepository.getById(categoryId)
     requireNotNull(category) { "Category with id $categoryId should exist" }
-    category.validate(validateBlock)
+
+    FullCategoryValidator(
+        category = category,
+    ).apply(validateBlock)
 }
 
+
+class FullCategoryValidator(
+    private val category: Category,
+) {
+    fun nameEqualTo(expectedCategoryName: String) {
+        SimpleCategoryValidator(category).nameEqualTo(expectedCategoryName)
+    }
+}
 
 fun Category.validate(validateBlock: SimpleCategoryValidator.() -> Unit) {
     SimpleCategoryValidator(this).apply(validateBlock)
@@ -27,5 +38,3 @@ class SimpleCategoryValidator(
         }
     }
 }
-
-
