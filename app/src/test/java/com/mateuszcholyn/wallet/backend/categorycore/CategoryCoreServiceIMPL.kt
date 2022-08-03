@@ -1,5 +1,7 @@
 package com.mateuszcholyn.wallet.backend.categorycore
 
+import com.mateuszcholyn.wallet.backend.events.CategoryAddedEvent
+import com.mateuszcholyn.wallet.backend.events.MiniKafka
 import com.mateuszcholyn.wallet.randomUUID
 import java.time.Instant
 
@@ -25,13 +27,28 @@ class InMemoryCategoryRepository : CategoryRepository {
             .find { it.id == categoryId }
 }
 
+interface CategoryPublisher {
+    fun publishCategoryAddedEvent(categoryAddedEvent: CategoryAddedEvent)
+}
+
+class MiniKafkaCategoryPublisher(
+    private val miniKafka: MiniKafka,
+) : CategoryPublisher {
+    override fun publishCategoryAddedEvent(categoryAddedEvent: CategoryAddedEvent) {
+        miniKafka.categoryAddedEventTopic.publish(categoryAddedEvent)
+    }
+}
+
+
 class CategoryCoreServiceIMPL(
     private val categoryRepository: CategoryRepository,
+    private val categoryPublisher: CategoryPublisher,
 ) : CategoryCoreServiceAPI {
     override fun add(createCategoryParameters: CreateCategoryParameters): Category =
         createCategoryParameters
             .toNewCategory()
             .let { categoryRepository.add(it) }
+            .also { categoryPublisher.publishCategoryAddedEvent(it.toCategoryAddedEvent()) }
 
     override fun getAll(): List<Category> =
         categoryRepository.getAll()
@@ -41,5 +58,11 @@ class CategoryCoreServiceIMPL(
             id = CategoryId(randomUUID()),
             name = name,
             createdAt = Instant.now(),
+        )
+
+    private fun Category.toCategoryAddedEvent(): CategoryAddedEvent =
+        CategoryAddedEvent(
+            categoryId = id,
+            name = name,
         )
 }

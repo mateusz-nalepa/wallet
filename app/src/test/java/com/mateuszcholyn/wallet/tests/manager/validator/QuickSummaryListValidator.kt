@@ -31,6 +31,10 @@ class SimpleQuickSummaryListValidator(
 class SimpleQuickSummaryValidator(
     private val quickSummary: QuickSummary,
 ) {
+    fun doesNotHaveExpenses() {
+        hasNumberOfExpensesEqualTo(0)
+    }
+
     fun hasNumberOfExpensesEqualTo(expectedNumberOfExpenses: Int) {
         assert(quickSummary.numberOfExpenses == expectedNumberOfExpenses) {
             "Expected number of expenses for categoryId: ${quickSummary.categoryId} " +

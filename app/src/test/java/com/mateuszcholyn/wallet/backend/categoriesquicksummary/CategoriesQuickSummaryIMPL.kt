@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.backend.categoriesquicksummary
 
 import com.mateuszcholyn.wallet.backend.categorycore.CategoryId
+import com.mateuszcholyn.wallet.backend.events.CategoryAddedEvent
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 
 
@@ -27,6 +28,12 @@ class InMemoryCategoriesQuickSummaryRepository : CategoriesQuickSummaryRepositor
 class CategoriesQuickSummaryIMPL(
     private val categoriesQuickSummaryRepository: CategoriesQuickSummaryRepository,
 ) : CategoriesQuickSummaryAPI {
+    override fun handleCategoryAdded(categoryAddedEvent: CategoryAddedEvent) {
+        categoryAddedEvent
+            .toQuickSummary()
+            .also { categoriesQuickSummaryRepository.saveQuickSummary(it) }
+    }
+
     override fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent) {
         expenseAddedEvent
             .toQuickSummary()
@@ -42,5 +49,11 @@ class CategoriesQuickSummaryIMPL(
         QuickSummary(
             categoryId = categoryId,
             numberOfExpenses = 1,
+        )
+
+    private fun CategoryAddedEvent.toQuickSummary(): QuickSummary =
+        QuickSummary(
+            categoryId = categoryId,
+            numberOfExpenses = 0,
         )
 }

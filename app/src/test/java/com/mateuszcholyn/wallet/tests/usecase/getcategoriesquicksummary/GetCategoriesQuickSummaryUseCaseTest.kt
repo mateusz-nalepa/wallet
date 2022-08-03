@@ -8,6 +8,28 @@ import com.mateuszcholyn.wallet.tests.manager.validator.validate
 import org.junit.Test
 
 class GetCategoriesQuickSummaryUseCaseTest {
+
+    @Test
+    fun `quick summary should have information about zero number of expenses`() {
+        // given
+        lateinit var categoryScope: CategoryScope
+        val manager =
+            initExpenseAppManager {
+                categoryScope = category {
+                }
+            }
+
+        // when
+        val quickSummaryList = manager.getCategoriesQuickSummaryUseCase()
+
+        // then
+        quickSummaryList.validate {
+            categoryId(categoryScope.categoryId) {
+                doesNotHaveExpenses()
+            }
+        }
+    }
+
     @Test
     fun `quick summary should have information about added expenses`() {
         // given
