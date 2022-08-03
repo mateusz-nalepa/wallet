@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.backend.usecase
+package com.mateuszcholyn.wallet.usecase
 
 import com.mateuszcholyn.wallet.backend.categorycore.Category
 import com.mateuszcholyn.wallet.backend.categorycore.CategoryCoreServiceAPI

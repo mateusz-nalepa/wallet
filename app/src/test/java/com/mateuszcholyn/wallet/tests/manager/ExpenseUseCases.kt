@@ -6,8 +6,8 @@ import com.mateuszcholyn.wallet.backend.categorycore.InMemoryCategoryRepository
 import com.mateuszcholyn.wallet.backend.expensecore.ExpenseCoreServiceIMPL
 import com.mateuszcholyn.wallet.backend.expensecore.ExpenseRepository
 import com.mateuszcholyn.wallet.backend.expensecore.InMemoryExpenseRepository
-import com.mateuszcholyn.wallet.backend.usecase.AddExpenseUseCase
-import com.mateuszcholyn.wallet.backend.usecase.CreateCategoryUseCase
+import com.mateuszcholyn.wallet.usecase.AddExpenseUseCase
+import com.mateuszcholyn.wallet.usecase.CreateCategoryUseCase
 
 
 class ExpenseAppDependencies {
