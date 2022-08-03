@@ -3,17 +3,21 @@ package com.mateuszcholyn.wallet.tests.manager
 
 fun initExpenseAppManager(scope: ExpenseAppManagerScope.() -> Unit): ExpenseAppManager {
 
+    val expenseAppManagerScope = ExpenseAppManagerScope().apply(scope)
     val expenseAppDependencies = ExpenseAppDependencies()
+    val useCases = ExpenseAppUseCases.createFrom(expenseAppDependencies)
+
+    ExpenseAppInitializer(
+        expenseAppManagerScope = expenseAppManagerScope,
+        expenseAppDependencies = expenseAppDependencies,
+        expenseAppUseCases = useCases,
+    ).init()
 
     return ExpenseAppManager(
         expenseAppDependencies = expenseAppDependencies,
-        expenseAppUseCases = ExpenseAppUseCases.createFrom(expenseAppDependencies)
+        expenseAppUseCases = useCases
     )
 }
-
-
-class ExpenseAppManagerScope
-
 
 class ExpenseAppManager(
     val expenseAppDependencies: ExpenseAppDependencies,

@@ -5,6 +5,7 @@ import com.mateuszcholyn.wallet.randomUUID
 interface ExpenseRepository {
     fun add(expense: Expense): Expense
     fun getAll(): List<Expense>
+    fun getById(expenseId: ExpenseId): Expense?
 }
 
 class InMemoryExpenseRepository : ExpenseRepository {
@@ -17,20 +18,25 @@ class InMemoryExpenseRepository : ExpenseRepository {
 
     override fun getAll(): List<Expense> =
         storage.values.toList()
+
+    override fun getById(expenseId: ExpenseId): Expense? =
+        getAll()
+            .find { it.id == expenseId }
 }
 
 
 class ExpenseCoreServiceIMPL(
     private val expenseRepository: ExpenseRepository,
 ) : ExpenseCoreServiceAPI {
-    override fun add(createExpenseParameters: CreateExpenseParameters): Expense {
-        TODO("Not yet implemented")
-    }
+    override fun add(addExpenseParameters: AddExpenseParameters): Expense =
+        addExpenseParameters
+            .toNewExpense()
+            .let { expenseRepository.add(it) }
 
     override fun getAll(): List<Expense> =
         expenseRepository.getAll()
 
-    private fun CreateExpenseParameters.toNewExpense(): Expense =
+    private fun AddExpenseParameters.toNewExpense(): Expense =
         Expense(
             id = ExpenseId(randomUUID()),
             amount = amount,

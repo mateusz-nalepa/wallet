@@ -5,11 +5,11 @@ import java.math.BigDecimal
 import java.time.Instant
 
 interface ExpenseCoreServiceAPI {
-    fun add(createExpenseParameters: CreateExpenseParameters): Expense
+    fun add(addExpenseParameters: AddExpenseParameters): Expense
     fun getAll(): List<Expense>
 }
 
-data class CreateExpenseParameters(
+data class AddExpenseParameters(
     val amount: BigDecimal,
     var description: String,
     var paidAt: Instant,
