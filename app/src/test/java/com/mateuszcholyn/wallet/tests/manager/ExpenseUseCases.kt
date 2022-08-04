@@ -3,15 +3,8 @@ package com.mateuszcholyn.wallet.tests.manager
 import com.mateuszcholyn.wallet.backend.categoriesquicksummary.CategoriesQuickSummaryIMPL
 import com.mateuszcholyn.wallet.backend.categoriesquicksummary.CategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.backend.categoriesquicksummary.InMemoryCategoriesQuickSummaryRepository
-import com.mateuszcholyn.wallet.backend.categorycore.CategoryCoreServiceIMPL
-import com.mateuszcholyn.wallet.backend.categorycore.CategoryRepository
-import com.mateuszcholyn.wallet.backend.categorycore.InMemoryCategoryRepository
-import com.mateuszcholyn.wallet.backend.categorycore.MiniKafkaCategoryPublisher
+import com.mateuszcholyn.wallet.backend.core.*
 import com.mateuszcholyn.wallet.backend.events.MiniKafka
-import com.mateuszcholyn.wallet.backend.expensecore.ExpenseCoreServiceIMPL
-import com.mateuszcholyn.wallet.backend.expensecore.ExpenseRepository
-import com.mateuszcholyn.wallet.backend.expensecore.InMemoryExpenseRepository
-import com.mateuszcholyn.wallet.backend.expensecore.MiniKafkaExpensePublisher
 import com.mateuszcholyn.wallet.backend.searchservice.InMemorySearchServiceRepository
 import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceIMPL
 import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceRepository
@@ -19,8 +12,10 @@ import com.mateuszcholyn.wallet.usecase.*
 
 
 class ExpenseAppDependencies {
-    var categoryRepository: CategoryRepository = InMemoryCategoryRepository()
-    var expenseRepository: ExpenseRepository = InMemoryExpenseRepository()
+
+    private var inMemoryCoreRepository = InMemoryCoreRepository()
+    var categoryRepository: CategoryRepository = inMemoryCoreRepository
+    var expenseRepository: ExpenseRepository = inMemoryCoreRepository
 
     var categoriesQuickSummaryRepository: CategoriesQuickSummaryRepository =
         InMemoryCategoriesQuickSummaryRepository()

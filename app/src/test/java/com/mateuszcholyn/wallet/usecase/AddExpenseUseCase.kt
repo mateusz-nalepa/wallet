@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.usecase
 
-import com.mateuszcholyn.wallet.backend.expensecore.AddExpenseParameters
-import com.mateuszcholyn.wallet.backend.expensecore.Expense
-import com.mateuszcholyn.wallet.backend.expensecore.ExpenseCoreServiceAPI
+import com.mateuszcholyn.wallet.backend.core.AddExpenseParameters
+import com.mateuszcholyn.wallet.backend.core.Expense
+import com.mateuszcholyn.wallet.backend.core.ExpenseCoreServiceAPI
 
 class AddExpenseUseCase(
     private val expenseCoreServiceAPI: ExpenseCoreServiceAPI,

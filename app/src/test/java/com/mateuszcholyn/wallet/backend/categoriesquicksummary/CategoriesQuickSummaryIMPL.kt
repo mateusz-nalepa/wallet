@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.backend.categoriesquicksummary
 
-import com.mateuszcholyn.wallet.backend.categorycore.CategoryId
+import com.mateuszcholyn.wallet.backend.core.CategoryId
 import com.mateuszcholyn.wallet.backend.events.CategoryAddedEvent
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.backend.events.ExpenseRemovedEvent

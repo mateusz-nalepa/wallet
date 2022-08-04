@@ -2,7 +2,7 @@ package com.mateuszcholyn.wallet.tests.manager.validator
 
 import com.mateuszcholyn.wallet.backend.categoriesquicksummary.QuickSummary
 import com.mateuszcholyn.wallet.backend.categoriesquicksummary.QuickSummaryList
-import com.mateuszcholyn.wallet.backend.categorycore.CategoryId
+import com.mateuszcholyn.wallet.backend.core.CategoryId
 
 fun QuickSummaryList.validate(
     validationBlock: SimpleQuickSummaryListValidator.() -> Unit,

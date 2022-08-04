@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.tests.usecase.removeexpense
 
-import com.mateuszcholyn.wallet.backend.expensecore.ExpenseNotFoundException
+import com.mateuszcholyn.wallet.backend.core.ExpenseNotFoundException
 import com.mateuszcholyn.wallet.catchThrowable
 import com.mateuszcholyn.wallet.randomExpenseId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseScope

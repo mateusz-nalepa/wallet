@@ -1,10 +1,11 @@
-package com.mateuszcholyn.wallet.backend.categorycore
+package com.mateuszcholyn.wallet.backend.core
 
 import java.time.Instant
 
 interface CategoryCoreServiceAPI {
     fun add(createCategoryParameters: CreateCategoryParameters): Category
     fun getAll(): List<Category>
+    fun remove(categoryId: CategoryId)
 }
 
 data class CreateCategoryParameters(

@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.usecase
 
-import com.mateuszcholyn.wallet.backend.expensecore.ExpenseCoreServiceAPI
-import com.mateuszcholyn.wallet.backend.expensecore.ExpenseId
+import com.mateuszcholyn.wallet.backend.core.ExpenseCoreServiceAPI
+import com.mateuszcholyn.wallet.backend.core.ExpenseId
 
 enum class ExpenseRemovedStatus {
     SUCCESS

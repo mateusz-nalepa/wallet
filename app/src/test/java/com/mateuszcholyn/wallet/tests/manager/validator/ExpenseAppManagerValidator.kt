@@ -16,7 +16,7 @@ class ExpenseAppManagerValidator(
             expenseAppManager
                 .expenseAppDependencies
                 .expenseRepository
-                .getAll()
+                .getAllExpenses()
                 .size
 
         assert(actualNumberOfExpenses == expectedNumberOfExpenses) {

@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.tests.manager.validator
 
-import com.mateuszcholyn.wallet.backend.expensecore.Expense
-import com.mateuszcholyn.wallet.backend.expensecore.ExpenseId
+import com.mateuszcholyn.wallet.backend.core.Expense
+import com.mateuszcholyn.wallet.backend.core.ExpenseId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 import java.time.Instant
 

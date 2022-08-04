@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.usecase
 
-import com.mateuszcholyn.wallet.backend.categorycore.Category
-import com.mateuszcholyn.wallet.backend.categorycore.CategoryCoreServiceAPI
-import com.mateuszcholyn.wallet.backend.categorycore.CreateCategoryParameters
+import com.mateuszcholyn.wallet.backend.core.Category
+import com.mateuszcholyn.wallet.backend.core.CategoryCoreServiceAPI
+import com.mateuszcholyn.wallet.backend.core.CreateCategoryParameters
 
 class CreateCategoryUseCase(
     private val categoryCoreServiceAPI: CategoryCoreServiceAPI,

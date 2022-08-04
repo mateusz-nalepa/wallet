@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet
 
-import com.mateuszcholyn.wallet.backend.categorycore.CategoryId
-import com.mateuszcholyn.wallet.backend.expensecore.ExpenseId
+import com.mateuszcholyn.wallet.backend.core.CategoryId
+import com.mateuszcholyn.wallet.backend.core.ExpenseId
 import java.math.BigDecimal
 import java.time.Instant
 import java.util.*
