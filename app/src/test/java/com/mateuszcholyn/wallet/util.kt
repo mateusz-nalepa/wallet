@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet
 
 import com.mateuszcholyn.wallet.backend.categorycore.CategoryId
+import com.mateuszcholyn.wallet.backend.expensecore.ExpenseId
 import java.math.BigDecimal
 import java.time.Instant
 import java.util.*
@@ -15,3 +16,4 @@ fun randomPaidAt(): Instant {
 }
 
 fun randomInt(): Int = Random().nextInt(15)
+fun randomExpenseId(): ExpenseId = ExpenseId("expenseId-${randomUUID()}")

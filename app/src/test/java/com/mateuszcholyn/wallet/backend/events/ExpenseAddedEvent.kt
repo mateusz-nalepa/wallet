@@ -9,3 +9,8 @@ data class ExpenseAddedEvent(
     val categoryId: CategoryId,
     val amount: BigDecimal,
 )
+
+data class ExpenseRemovedEvent(
+    val categoryId: CategoryId,
+    val expenseId: ExpenseId,
+)

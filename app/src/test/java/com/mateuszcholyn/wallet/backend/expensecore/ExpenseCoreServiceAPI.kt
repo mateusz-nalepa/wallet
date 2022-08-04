@@ -6,6 +6,7 @@ import java.time.Instant
 
 interface ExpenseCoreServiceAPI {
     fun add(addExpenseParameters: AddExpenseParameters): Expense
+    fun remove(expenseId: ExpenseId)
     fun getAll(): List<Expense>
 }
 

@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.backend.expensecore
 
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
+import com.mateuszcholyn.wallet.backend.events.ExpenseRemovedEvent
 import com.mateuszcholyn.wallet.backend.events.MiniKafka
 import com.mateuszcholyn.wallet.randomUUID
 
@@ -8,6 +9,7 @@ interface ExpenseRepository {
     fun add(expense: Expense): Expense
     fun getAll(): List<Expense>
     fun getById(expenseId: ExpenseId): Expense?
+    fun remove(expenseId: ExpenseId)
 }
 
 class InMemoryExpenseRepository : ExpenseRepository {
@@ -24,11 +26,16 @@ class InMemoryExpenseRepository : ExpenseRepository {
     override fun getById(expenseId: ExpenseId): Expense? =
         getAll()
             .find { it.id == expenseId }
+
+    override fun remove(expenseId: ExpenseId) {
+        storage.remove(expenseId)
+    }
 }
 
 
 interface ExpensePublisher {
     fun publishExpenseAddedEvent(expenseAddedEvent: ExpenseAddedEvent)
+    fun publishExpenseRemovedEvent(expenseRemovedEvent: ExpenseRemovedEvent)
 }
 
 class MiniKafkaExpensePublisher(
@@ -36,6 +43,10 @@ class MiniKafkaExpensePublisher(
 ) : ExpensePublisher {
     override fun publishExpenseAddedEvent(expenseAddedEvent: ExpenseAddedEvent) {
         miniKafka.expenseAddedEventTopic.publish(expenseAddedEvent)
+    }
+
+    override fun publishExpenseRemovedEvent(expenseRemovedEvent: ExpenseRemovedEvent) {
+        miniKafka.expenseRemovedEventTopic.publish(expenseRemovedEvent)
     }
 }
 
@@ -48,6 +59,13 @@ class ExpenseCoreServiceIMPL(
             .toNewExpense()
             .let { expenseRepository.add(it) }
             .also { expensePublisher.publishExpenseAddedEvent(it.toExpenseAddedEvent()) }
+
+    override fun remove(expenseId: ExpenseId) {
+        val expense =
+            expenseRepository.getById(expenseId) ?: throw ExpenseNotFoundException(expenseId)
+        expenseRepository.remove(expenseId)
+        expensePublisher.publishExpenseRemovedEvent(expense.toExpenseRemovedEvent())
+    }
 
     override fun getAll(): List<Expense> =
         expenseRepository.getAll()
@@ -68,4 +86,14 @@ class ExpenseCoreServiceIMPL(
             amount = amount,
         )
 
+    private fun Expense.toExpenseRemovedEvent(): ExpenseRemovedEvent =
+        ExpenseRemovedEvent(
+            expenseId = id,
+            categoryId = categoryId,
+        )
+
 }
+
+class ExpenseNotFoundException(expenseId: ExpenseId) : RuntimeException(
+    "Expense with id ${expenseId.id} does not exist"
+)

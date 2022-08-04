@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.backend.categoriesquicksummary
 import com.mateuszcholyn.wallet.backend.categorycore.CategoryId
 import com.mateuszcholyn.wallet.backend.events.CategoryAddedEvent
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
+import com.mateuszcholyn.wallet.backend.events.ExpenseRemovedEvent
 
 
 interface CategoriesQuickSummaryRepository {
@@ -45,15 +46,27 @@ class CategoriesQuickSummaryIMPL(
             .getQuickSummaries()
             .let { QuickSummaryList(it) }
 
+    override fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent) {
+        expenseRemovedEvent
+            .toQuickSummary()
+            .also { categoriesQuickSummaryRepository.saveQuickSummary(it) }
+    }
+
+    private fun CategoryAddedEvent.toQuickSummary(): QuickSummary =
+        QuickSummary(
+            categoryId = categoryId,
+            numberOfExpenses = 0,
+        )
+
     private fun ExpenseAddedEvent.toQuickSummary(): QuickSummary =
         QuickSummary(
             categoryId = categoryId,
             numberOfExpenses = 1,
         )
 
-    private fun CategoryAddedEvent.toQuickSummary(): QuickSummary =
+    private fun ExpenseRemovedEvent.toQuickSummary(): QuickSummary =
         QuickSummary(
             categoryId = categoryId,
-            numberOfExpenses = 0,
+            numberOfExpenses = -1,
         )
 }
