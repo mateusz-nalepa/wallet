@@ -18,7 +18,12 @@ class CategoryCoreServiceIMPL(
         categoryRepository.getAllCategories()
 
     override fun remove(categoryId: CategoryId) {
-        TODO("Not yet implemented")
+        categoryRepository.remove(
+            categoryId = categoryId,
+            onExpensesExistAction = {
+                throw CategoryHasExpensesException(it)
+            }
+        )
     }
 
     private fun CreateCategoryParameters.toNewCategory(): Category =
@@ -34,3 +39,6 @@ class CategoryCoreServiceIMPL(
             name = name,
         )
 }
+
+class CategoryHasExpensesException(categoryId: CategoryId) :
+    RuntimeException("Category with id ${categoryId.id} has expenses and cannot be removed")

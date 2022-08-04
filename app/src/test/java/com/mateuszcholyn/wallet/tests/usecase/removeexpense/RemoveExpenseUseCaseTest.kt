@@ -1,9 +1,12 @@
 package com.mateuszcholyn.wallet.tests.usecase.removeexpense
 
+import com.mateuszcholyn.wallet.backend.core.CategoryHasExpensesException
 import com.mateuszcholyn.wallet.backend.core.ExpenseNotFoundException
 import com.mateuszcholyn.wallet.catchThrowable
 import com.mateuszcholyn.wallet.randomExpenseId
+import com.mateuszcholyn.wallet.tests.manager.CategoryScope
 import com.mateuszcholyn.wallet.tests.manager.ExpenseScope
+import com.mateuszcholyn.wallet.tests.manager.ext.removeCategoryUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.removeExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.initExpenseAppManager
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
@@ -20,7 +23,7 @@ class RemoveExpenseUseCaseTest {
         val manager =
             initExpenseAppManager {
                 category {
-                    expense { }
+                    expenseScope = expense { }
                 }
             }
 
@@ -63,6 +66,32 @@ class RemoveExpenseUseCaseTest {
         throwable.validate {
             isInstanceOf(ExpenseNotFoundException::class)
             hasMessage("Expense with id ${nonExistingExpenseId.id} does not exist")
+        }
+    }
+
+    @Test
+    fun `should throw exception when trying to remove category which has expenses`() {
+        // given
+        lateinit var categoryScope: CategoryScope
+        val manager =
+            initExpenseAppManager {
+                categoryScope = category {
+                    expense { }
+                }
+            }
+
+        // when
+        val throwable =
+            catchThrowable {
+                manager.removeCategoryUseCase {
+                    categoryId = categoryScope.categoryId
+                }
+            }
+
+        // then
+        throwable.validate {
+            isInstanceOf(CategoryHasExpensesException::class)
+            hasMessage("Category with id ${categoryScope.categoryId.id} has expenses and cannot be removed")
         }
     }
 

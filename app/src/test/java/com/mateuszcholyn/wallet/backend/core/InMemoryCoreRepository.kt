@@ -20,6 +20,21 @@ class InMemoryCoreRepository : CategoryRepository, ExpenseRepository {
         return categories[categoryId]
     }
 
+    override fun remove(
+        categoryId: CategoryId,
+        onExpensesExistAction: (CategoryId) -> Unit,
+    ) {
+        val numberOfExpensesInGivenCategory =
+            getAllExpenses()
+                .filter { it.categoryId == categoryId }
+                .size
+
+        if (numberOfExpensesInGivenCategory > 0) {
+            onExpensesExistAction.invoke(categoryId)
+        }
+        categories.remove(categoryId)
+    }
+
     override fun add(
         expense: Expense,
         onNonExistingCategoryAction: (CategoryId) -> Unit,
