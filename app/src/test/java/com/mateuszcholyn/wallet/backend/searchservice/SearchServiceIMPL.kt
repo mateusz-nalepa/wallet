@@ -23,6 +23,7 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
             .toList()
             .filter { it.paidAt.isAfter(searchCriteria.beginDate) || it.paidAt.isEqual(searchCriteria.beginDate) }
             .filter { it.paidAt.isBefore(searchCriteria.endDate) || it.paidAt.isEqual(searchCriteria.endDate) }
+            .filter { it.categoryId == searchCriteria.categoryId }
 
 }
 

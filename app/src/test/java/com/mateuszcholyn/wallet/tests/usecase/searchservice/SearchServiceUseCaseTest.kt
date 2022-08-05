@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.tests.usecase.searchservice
 
 import com.mateuszcholyn.wallet.randomInt
+import com.mateuszcholyn.wallet.tests.manager.CategoryScope
 import com.mateuszcholyn.wallet.tests.manager.category
 import com.mateuszcholyn.wallet.tests.manager.expense
 import com.mateuszcholyn.wallet.tests.manager.ext.searchServiceUseCase
@@ -201,6 +202,34 @@ class SearchServiceUseCaseTest {
         // then
         searchServiceResult.validate {
             numberOfExpensesEqualTo(1)
+        }
+    }
+
+    @Test
+    fun `should search only given category id`() {
+        // given
+        lateinit var categoryScope: CategoryScope
+        val manager =
+            initExpenseAppManager {
+                categoryScope = category {
+                    expense {}
+                    expense {}
+                }
+                category {
+                    expense {}
+                    expense {}
+                    expense {}
+                }
+            }
+
+        // when
+        val searchServiceResult = manager.searchServiceUseCase {
+            categoryId = categoryScope.categoryId
+        }
+
+        // then
+        searchServiceResult.validate {
+            numberOfExpensesEqualTo(2)
         }
     }
 
