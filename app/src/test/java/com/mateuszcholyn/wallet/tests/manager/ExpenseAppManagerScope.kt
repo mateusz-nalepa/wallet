@@ -13,12 +13,12 @@ class ExpenseAppManagerScope {
 
     val categoriesScope = mutableListOf<CategoryScope>()
 
-    fun category(scope: CategoryScope.() -> Unit): CategoryScope {
-        val categoryScope = CategoryScope().apply(scope)
-        categoriesScope.add(categoryScope)
-        return categoryScope
-    }
+}
 
+fun ExpenseAppManagerScope.category(scope: CategoryScope.() -> Unit): CategoryScope {
+    val categoryScope = CategoryScope().apply(scope)
+    categoriesScope.add(categoryScope)
+    return categoryScope
 }
 
 class CategoryScope {
@@ -27,12 +27,12 @@ class CategoryScope {
 
     val expensesScope = mutableListOf<ExpenseScope>()
 
-    fun expense(scope: ExpenseScope.() -> Unit): ExpenseScope {
-        val expenseScope = ExpenseScope().apply(scope)
-        expensesScope.add(expenseScope)
-        return expenseScope
-    }
+}
 
+fun CategoryScope.expense(scope: ExpenseScope.() -> Unit): ExpenseScope {
+    val expenseScope = ExpenseScope().apply(scope)
+    expensesScope.add(expenseScope)
+    return expenseScope
 }
 
 class ExpenseScope {

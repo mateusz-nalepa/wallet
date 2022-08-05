@@ -6,7 +6,7 @@ import java.math.BigDecimal
 
 interface SearchServiceAPI {
     fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent)
-    fun getAll(): SearchServiceResult
+    fun getAll(searchCriteria: SearchCriteria): SearchServiceResult
 }
 
 data class SearchServiceResult(

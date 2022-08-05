@@ -1,11 +1,9 @@
 package com.mateuszcholyn.wallet.tests.usecase.getcategoriesquicksummary
 
 import com.mateuszcholyn.wallet.randomInt
-import com.mateuszcholyn.wallet.tests.manager.CategoryScope
-import com.mateuszcholyn.wallet.tests.manager.ExpenseScope
+import com.mateuszcholyn.wallet.tests.manager.*
 import com.mateuszcholyn.wallet.tests.manager.ext.getCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.removeExpenseUseCase
-import com.mateuszcholyn.wallet.tests.manager.initExpenseAppManager
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
 import org.junit.Test
 

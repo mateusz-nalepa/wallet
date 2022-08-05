@@ -6,7 +6,7 @@ import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 
 interface SearchServiceRepository {
     fun saveExpense(expenseAddedEvent: ExpenseAddedEvent): ExpenseAddedEvent
-    fun getAll(): List<ExpenseAddedEvent>
+    fun getAll(searchCriteria: SearchCriteria): List<ExpenseAddedEvent>
 }
 
 class InMemorySearchServiceRepository : SearchServiceRepository {
@@ -17,7 +17,7 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
         return expenseAddedEvent
     }
 
-    override fun getAll(): List<ExpenseAddedEvent> =
+    override fun getAll(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
         storage.values.toList()
 
 }
@@ -30,13 +30,21 @@ class SearchServiceIMPL(
         searchServiceRepository.saveExpense(expenseAddedEvent)
     }
 
-    override fun getAll(): SearchServiceResult =
+    override fun getAll(
+        searchCriteria: SearchCriteria,
+    ): SearchServiceResult =
         searchServiceRepository
-            .getAll()
-            .let {
-                SearchServiceResult(
-                    expenses = it,
-                    averageExpenseResult = SearchAverageExpenseResultCalculator.calculate(it)
-                )
-            }
+            .getAll(searchCriteria)
+            .toSearchServiceResult(searchCriteria)
+
+    private fun List<ExpenseAddedEvent>.toSearchServiceResult(
+        searchCriteria: SearchCriteria,
+    ): SearchServiceResult =
+        SearchServiceResult(
+            expenses = this,
+            averageExpenseResult = SearchAverageExpenseResultCalculator.calculate(
+                expenses = this,
+                searchCriteria = searchCriteria,
+            )
+        )
 }

@@ -2,15 +2,13 @@ package com.mateuszcholyn.wallet.tests.usecase.removeexpense
 
 import com.mateuszcholyn.wallet.backend.core.CategoryHasExpensesException
 import com.mateuszcholyn.wallet.backend.core.ExpenseNotFoundException
+import com.mateuszcholyn.wallet.backend.usecase.ExpenseRemovedStatus
 import com.mateuszcholyn.wallet.catchThrowable
 import com.mateuszcholyn.wallet.randomExpenseId
-import com.mateuszcholyn.wallet.tests.manager.CategoryScope
-import com.mateuszcholyn.wallet.tests.manager.ExpenseScope
+import com.mateuszcholyn.wallet.tests.manager.*
 import com.mateuszcholyn.wallet.tests.manager.ext.removeCategoryUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.removeExpenseUseCase
-import com.mateuszcholyn.wallet.tests.manager.initExpenseAppManager
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
-import com.mateuszcholyn.wallet.backend.usecase.ExpenseRemovedStatus
 import com.mateuszcholyn.wallet.validate
 import org.junit.Test
 

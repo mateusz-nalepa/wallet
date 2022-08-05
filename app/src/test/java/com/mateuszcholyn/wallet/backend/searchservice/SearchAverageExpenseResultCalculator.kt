@@ -1,30 +1,25 @@
 package com.mateuszcholyn.wallet.backend.searchservice
 
+import com.mateuszcholyn.wallet.backend.core.CategoryId
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.Duration
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 
 data class SearchCriteria(
+    val allCategories: Boolean,
+    val categoryId: CategoryId? = null,
     val beginDate: LocalDateTime,
     val endDate: LocalDateTime,
 )
-
-private fun defaultSearchCriteria(): SearchCriteria =
-    SearchCriteria(
-        beginDate = LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
-        endDate = LocalDateTime.now().plusHours(1),
-    )
 
 
 object SearchAverageExpenseResultCalculator {
 
     fun calculate(
         expenses: List<ExpenseAddedEvent>,
-        searchCriteria: SearchCriteria = defaultSearchCriteria(),
+        searchCriteria: SearchCriteria,
     ): SearchAverageExpenseResult {
         val sum = expenses.sumExpensesAmount()
 

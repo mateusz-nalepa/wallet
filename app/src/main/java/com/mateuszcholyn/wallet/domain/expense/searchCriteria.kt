@@ -8,6 +8,8 @@ data class ExpenseSearchCriteria(
     val categoryId: Long? = null,
     val beginDate: LocalDateTime,
     val endDate: LocalDateTime,
+
+
     val fromAmount: Double = Double.MIN_VALUE,
     val toAmount: Double = Double.MAX_VALUE,
     val isAllExpenses: Boolean = false,
