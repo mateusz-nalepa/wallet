@@ -8,11 +8,19 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-fun ExpenseAppManager.searchServiceUseCase(): SearchServiceResult {
+fun ExpenseAppManager.searchServiceUseCase(
+    initBlock: SearchCriteriaScope.() -> Unit,
+): SearchServiceResult {
+
+    val searchCriteria =
+        SearchCriteriaScope()
+            .also(initBlock)
+            .toSearchCriteria()
+
     return this
         .expenseAppUseCases
         .searchServiceUseCase
-        .invoke()
+        .invoke(searchCriteria)
 }
 
 class SearchCriteriaScope {

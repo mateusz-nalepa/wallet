@@ -24,7 +24,7 @@ class SearchServiceUseCaseTest {
             }
 
         // when
-        val searchServiceResult = manager.searchServiceUseCase()
+        val searchServiceResult = manager.searchServiceUseCase { }
 
         // then
         searchServiceResult.validate {
@@ -42,16 +42,44 @@ class SearchServiceUseCaseTest {
                     expense {
                         amount = givenAmount
                     }
-
                 }
             }
 
         // when
-        val searchServiceResult = manager.searchServiceUseCase()
+        val searchServiceResult = manager.searchServiceUseCase {}
 
         // then
         searchServiceResult.validate {
             averageExpenseIs(givenAmount)
+            numberOfDysEqualTo(1)
+        }
+    }
+
+    @Test
+    fun `search service should have information about average expense result for multiples expenses`() {
+        // given
+        val firstExpenseAmount = "10".toBigDecimal()
+        val secondExpenseAmount = "20".toBigDecimal()
+        val expensedExpenseAverageAmount = firstExpenseAmount + secondExpenseAmount
+
+        val manager =
+            initExpenseAppManager {
+                category {
+                    expense {
+                        amount = firstExpenseAmount
+                    }
+                    expense {
+                        amount = secondExpenseAmount
+                    }
+                }
+            }
+
+        // when
+        val searchServiceResult = manager.searchServiceUseCase {}
+
+        // then
+        searchServiceResult.validate {
+            averageExpenseIs(expensedExpenseAverageAmount)
             numberOfDysEqualTo(1)
         }
     }
