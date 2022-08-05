@@ -8,7 +8,7 @@ import java.time.Duration
 import java.time.LocalDateTime
 
 data class SearchCriteria(
-    val allCategories: Boolean,
+    val allCategories: Boolean? = null,
     val categoryId: CategoryId? = null,
     val beginDate: LocalDateTime,
     val endDate: LocalDateTime,

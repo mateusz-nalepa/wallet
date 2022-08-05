@@ -21,16 +21,22 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
         storage
             .values
             .toList()
-            .filter {
-                it.paidAt.isAfter(searchCriteria.beginDate) || it.paidAt.isEqual(searchCriteria.beginDate)
-            }
-            .filter {
-                it.paidAt.isBefore(searchCriteria.endDate) || it.paidAt.isEqual(searchCriteria.endDate)
-            }
+            .filterByBeginDate(searchCriteria)
+            .filterByEndDate(searchCriteria)
             .filterByCategory(searchCriteria)
 
+    private fun List<ExpenseAddedEvent>.filterByBeginDate(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
+        filter {
+            it.paidAt.isAfter(searchCriteria.beginDate) || it.paidAt.isEqual(searchCriteria.beginDate)
+        }
+
+    private fun List<ExpenseAddedEvent>.filterByEndDate(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
+        filter {
+            it.paidAt.isBefore(searchCriteria.endDate) || it.paidAt.isEqual(searchCriteria.endDate)
+        }
+
     private fun List<ExpenseAddedEvent>.filterByCategory(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
-        if (searchCriteria.allCategories) {
+        if (searchCriteria.allCategories != false) {
             this
         } else {
             filter { it.categoryId == searchCriteria.categoryId }

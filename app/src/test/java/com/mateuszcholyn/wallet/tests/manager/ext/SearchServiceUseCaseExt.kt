@@ -26,7 +26,7 @@ fun ExpenseAppManager.searchServiceUseCase(
 class SearchCriteriaScope {
     var beginDate: LocalDateTime = LocalDateTime.now().atStartOfTheDay()
     var endDate: LocalDateTime = LocalDateTime.now().atEndOfTheDay()
-    var allCategories: Boolean = true
+    var allCategories: Boolean? = null
     var categoryId: CategoryId? = null
 
 
@@ -37,6 +37,5 @@ class SearchCriteriaScope {
             beginDate = beginDate,
             endDate = endDate,
         )
-
 
 }
