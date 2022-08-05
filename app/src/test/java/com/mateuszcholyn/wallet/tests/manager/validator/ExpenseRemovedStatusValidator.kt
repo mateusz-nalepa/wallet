@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.tests.manager.validator
 
-import com.mateuszcholyn.wallet.usecase.ExpenseRemovedStatus
+import com.mateuszcholyn.wallet.backend.usecase.ExpenseRemovedStatus
 
 fun ExpenseRemovedStatus.validate(validateBlock: SimpleExpenseRemovedStatusValidator.() -> Unit) {
     SimpleExpenseRemovedStatusValidator(this).apply(validateBlock)

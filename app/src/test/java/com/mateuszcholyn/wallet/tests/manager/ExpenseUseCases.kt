@@ -8,7 +8,7 @@ import com.mateuszcholyn.wallet.backend.events.MiniKafka
 import com.mateuszcholyn.wallet.backend.searchservice.InMemorySearchServiceRepository
 import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceIMPL
 import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceRepository
-import com.mateuszcholyn.wallet.usecase.*
+import com.mateuszcholyn.wallet.backend.usecase.*
 
 
 class ExpenseAppDependencies {

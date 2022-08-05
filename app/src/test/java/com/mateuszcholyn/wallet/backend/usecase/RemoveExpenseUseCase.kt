@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.usecase
+package com.mateuszcholyn.wallet.backend.usecase
 
 import com.mateuszcholyn.wallet.backend.core.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.core.ExpenseId

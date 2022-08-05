@@ -10,7 +10,7 @@ import com.mateuszcholyn.wallet.tests.manager.ext.removeCategoryUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.removeExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.initExpenseAppManager
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
-import com.mateuszcholyn.wallet.usecase.ExpenseRemovedStatus
+import com.mateuszcholyn.wallet.backend.usecase.ExpenseRemovedStatus
 import com.mateuszcholyn.wallet.validate
 import org.junit.Test
 
