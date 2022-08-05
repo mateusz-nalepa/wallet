@@ -6,6 +6,8 @@ import com.mateuszcholyn.wallet.tests.manager.expense
 import com.mateuszcholyn.wallet.tests.manager.ext.searchServiceUseCase
 import com.mateuszcholyn.wallet.tests.manager.initExpenseAppManager
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
+import com.mateuszcholyn.wallet.util.dateutils.atEndOfTheDay
+import com.mateuszcholyn.wallet.util.dateutils.atStartOfTheDay
 import com.mateuszcholyn.wallet.util.dateutils.today
 import org.junit.Test
 
@@ -25,13 +27,11 @@ class SearchServiceUseCaseTest {
             }
 
         // when
-        val searchServiceResult = manager.searchServiceUseCase {
-            beginDate = today()
-        }
+        val searchServiceResult = manager.searchServiceUseCase { }
 
         // then
         searchServiceResult.validate {
-            hasNumberOfExpensesEqualTo(givenNumberOfExpenses)
+            numberOfExpensesEqualTo(givenNumberOfExpenses)
         }
     }
 
@@ -54,7 +54,7 @@ class SearchServiceUseCaseTest {
         // then
         searchServiceResult.validate {
             averageExpenseIs(givenAmount)
-            numberOfDysEqualTo(1)
+            numberOfDaysEqualTo(1)
         }
     }
 
@@ -86,7 +86,7 @@ class SearchServiceUseCaseTest {
         // then
         searchServiceResult.validate {
             averageExpenseIs(expectedExpenseAmount)
-            numberOfDysEqualTo(numberOfDays)
+            numberOfDaysEqualTo(numberOfDays)
         }
     }
 
@@ -115,7 +115,7 @@ class SearchServiceUseCaseTest {
         // then
         searchServiceResult.validate {
             averageExpenseIs(expensedExpenseAverageAmount)
-            numberOfDysEqualTo(1)
+            numberOfDaysEqualTo(1)
         }
     }
 
@@ -146,7 +146,61 @@ class SearchServiceUseCaseTest {
         // then
         searchServiceResult.validate {
             averageExpenseIs(expensedExpenseAverageAmount)
-            numberOfDysEqualTo(1)
+            numberOfDaysEqualTo(1)
+        }
+    }
+
+    @Test
+    fun `search service should ignore expenses that are older than search criteria`() {
+        // given
+        val manager =
+            initExpenseAppManager {
+                category {
+                    expense {
+                        paidAt = today()
+                    }
+                    expense {
+                        paidAt = today().minusDays(2)
+                    }
+                }
+            }
+
+        // when
+        val searchServiceResult = manager.searchServiceUseCase {
+            beginDate = today().atStartOfTheDay()
+            endDate = today().atEndOfTheDay()
+        }
+
+        // then
+        searchServiceResult.validate {
+            numberOfExpensesEqualTo(1)
+        }
+    }
+
+    @Test
+    fun `search service should ignore expenses that are newer than search criteria`() {
+        // given
+        val manager =
+            initExpenseAppManager {
+                category {
+                    expense {
+                        paidAt = today()
+                    }
+                    expense {
+                        paidAt = today().plusDays(2)
+                    }
+                }
+            }
+
+        // when
+        val searchServiceResult = manager.searchServiceUseCase {
+            beginDate = today().atStartOfTheDay()
+            endDate = today().atEndOfTheDay()
+        }
+
+        // then
+        searchServiceResult.validate {
+            numberOfExpensesEqualTo(1)
         }
     }
 

@@ -18,7 +18,11 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
     }
 
     override fun getAll(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
-        storage.values.toList()
+        storage
+            .values
+            .toList()
+            .filter { it.paidAt.isAfter(searchCriteria.beginDate) || it.paidAt.isEqual(searchCriteria.beginDate) }
+            .filter { it.paidAt.isBefore(searchCriteria.endDate) || it.paidAt.isEqual(searchCriteria.endDate) }
 
 }
 

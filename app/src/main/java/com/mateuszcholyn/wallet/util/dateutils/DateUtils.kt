@@ -38,6 +38,11 @@ fun LocalDateTime.atStartOfTheMonth(): LocalDateTime {
     return LocalDateTime.of(LocalDate.of(this.year, this.monthValue, 1), LocalTime.MIN)
 }
 
+fun LocalDateTime.minusDays(days: Int): LocalDateTime {
+    return this.minusDays(days.toLong())
+}
+
+
 
 val minDate: LocalDateTime = LocalDateTime.of(1970, 1, 1, 1, 1, 1)
 val maxDate: LocalDateTime = LocalDateTime.of(3000, 12, 31, 23, 59, 59)

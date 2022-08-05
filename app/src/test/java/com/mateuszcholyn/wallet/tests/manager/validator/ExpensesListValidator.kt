@@ -12,7 +12,7 @@ fun SearchServiceResult.validate(validateBlock: SimpleExpensesListValidator.() -
 class SimpleExpensesListValidator(
     private val searchServiceResult: SearchServiceResult,
 ) {
-    fun hasNumberOfExpensesEqualTo(expectedNumberOfExpenses: Int) {
+    fun numberOfExpensesEqualTo(expectedNumberOfExpenses: Int) {
         assert(searchServiceResult.expenses.size == expectedNumberOfExpenses) {
             "Expected number of expenses should be: $expectedNumberOfExpenses. " +
                     "Actual: ${searchServiceResult.expenses.size}"
@@ -29,7 +29,7 @@ class SimpleExpensesListValidator(
         }
     }
 
-    fun numberOfDysEqualTo(expectedNumberOfDays: Int) {
+    fun numberOfDaysEqualTo(expectedNumberOfDays: Int) {
         assert(searchServiceResult.averageExpenseResult.days == expectedNumberOfDays) {
             "Expected number of days should be: $expectedNumberOfDays. " +
                     "Actual: ${searchServiceResult.averageExpenseResult.days}"

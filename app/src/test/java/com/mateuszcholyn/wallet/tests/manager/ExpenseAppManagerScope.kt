@@ -6,6 +6,7 @@ import com.mateuszcholyn.wallet.randomAmount
 import com.mateuszcholyn.wallet.randomCategoryName
 import com.mateuszcholyn.wallet.randomDescription
 import com.mateuszcholyn.wallet.randomPaidAt
+import com.mateuszcholyn.wallet.util.dateutils.today
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -39,5 +40,5 @@ class ExpenseScope {
     lateinit var expenseId: ExpenseId
     var amount: BigDecimal = randomAmount()
     var description: String = randomDescription()
-    var paidAt: LocalDateTime = randomPaidAt()
+    var paidAt: LocalDateTime = today()
 }

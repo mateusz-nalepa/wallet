@@ -46,6 +46,7 @@ class ExpenseCoreServiceIMPL(
             expenseId = id,
             categoryId = categoryId,
             amount = amount,
+            paidAt = paidAt,
         )
 
     private fun Expense.toExpenseRemovedEvent(): ExpenseRemovedEvent =
