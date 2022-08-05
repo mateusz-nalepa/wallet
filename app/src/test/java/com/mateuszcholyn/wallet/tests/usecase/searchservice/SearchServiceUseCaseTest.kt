@@ -22,11 +22,35 @@ class SearchServiceUseCaseTest {
             }
 
         // when
-        val expensesList = manager.searchServiceUseCase()
+        val searchServiceResult = manager.searchServiceUseCase()
 
         // then
-        expensesList.validate {
+        searchServiceResult.validate {
             hasNumberOfExpensesEqualTo(givenNumberOfExpenses)
+        }
+    }
+
+    @Test
+    fun `search service should have information about average expense result for single expense`() {
+        // given
+        val givenAmount = "10".toBigDecimal()
+        val manager =
+            initExpenseAppManager {
+                category {
+                    expense {
+                        amount = givenAmount
+                    }
+
+                }
+            }
+
+        // when
+        val searchServiceResult = manager.searchServiceUseCase()
+
+        // then
+        searchServiceResult.validate {
+            averageExpenseIs(givenAmount)
+            numberOfDysEqualTo(1)
         }
     }
 

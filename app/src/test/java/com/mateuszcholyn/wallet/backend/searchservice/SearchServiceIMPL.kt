@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.backend.searchservice
 
-import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.backend.core.ExpenseId
+import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 
 
 interface SearchServiceRepository {
@@ -30,8 +30,13 @@ class SearchServiceIMPL(
         searchServiceRepository.saveExpense(expenseAddedEvent)
     }
 
-    override fun getAll(): ExpensesList =
+    override fun getAll(): SearchServiceResult =
         searchServiceRepository
             .getAll()
-            .let { ExpensesList(it) }
+            .let {
+                SearchServiceResult(
+                    expenses = it,
+                    averageExpenseResult = SearchAverageExpenseResultCalculator.calculate(it)
+                )
+            }
 }

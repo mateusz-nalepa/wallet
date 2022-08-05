@@ -1,9 +1,9 @@
 package com.mateuszcholyn.wallet.tests.manager.ext
 
-import com.mateuszcholyn.wallet.backend.searchservice.ExpensesList
+import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceResult
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 
-fun ExpenseAppManager.searchServiceUseCase(): ExpensesList {
+fun ExpenseAppManager.searchServiceUseCase(): SearchServiceResult {
     return this
         .expenseAppUseCases
         .searchServiceUseCase

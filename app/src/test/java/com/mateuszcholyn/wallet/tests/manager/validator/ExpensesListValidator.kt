@@ -1,19 +1,38 @@
 package com.mateuszcholyn.wallet.tests.manager.validator
 
-import com.mateuszcholyn.wallet.backend.searchservice.ExpensesList
+import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceResult
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 
-fun ExpensesList.validate(validateBlock: SimpleExpensesListValidator.() -> Unit) {
+fun SearchServiceResult.validate(validateBlock: SimpleExpensesListValidator.() -> Unit) {
     SimpleExpensesListValidator(this).apply(validateBlock)
 }
 
 class SimpleExpensesListValidator(
-    private val expensesList: ExpensesList,
+    private val searchServiceResult: SearchServiceResult,
 ) {
     fun hasNumberOfExpensesEqualTo(expectedNumberOfExpenses: Int) {
-        assert(expensesList.expenses.size == expectedNumberOfExpenses) {
+        assert(searchServiceResult.expenses.size == expectedNumberOfExpenses) {
             "Expected number of expenses should be: $expectedNumberOfExpenses. " +
-                    "Actual: ${expensesList.expenses.size}"
+                    "Actual: ${searchServiceResult.expenses.size}"
+        }
+    }
+
+    fun averageExpenseIs(expectedAverageExpense: BigDecimal) {
+        val roundedExpectedAverageExpense =
+            expectedAverageExpense.divide(BigDecimal.ONE, 2, RoundingMode.HALF_UP)
+
+        assert(searchServiceResult.averageExpenseResult.averageAmount == roundedExpectedAverageExpense) {
+            "Expected average expense amount should be: $roundedExpectedAverageExpense. " +
+                    "Actual: ${searchServiceResult.averageExpenseResult.averageAmount}"
+        }
+    }
+
+    fun numberOfDysEqualTo(expectedNumberOfDays: Int) {
+        assert(searchServiceResult.averageExpenseResult.days == expectedNumberOfDays) {
+            "Expected number of days should be: $expectedNumberOfDays. " +
+                    "Actual: ${searchServiceResult.averageExpenseResult.days}"
         }
     }
 }
