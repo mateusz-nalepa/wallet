@@ -4,9 +4,9 @@ import com.mateuszcholyn.wallet.backend.core.CategoryId
 import com.mateuszcholyn.wallet.backend.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceResult
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
-import java.time.LocalDate
+import com.mateuszcholyn.wallet.util.dateutils.atEndOfTheDay
+import com.mateuszcholyn.wallet.util.dateutils.atStartOfTheDay
 import java.time.LocalDateTime
-import java.time.LocalTime
 
 fun ExpenseAppManager.searchServiceUseCase(
     initBlock: SearchCriteriaScope.() -> Unit,
@@ -24,10 +24,10 @@ fun ExpenseAppManager.searchServiceUseCase(
 }
 
 class SearchCriteriaScope {
-    val beginDate: LocalDateTime = LocalDateTime.of(LocalDate.now(), LocalTime.MIN)
-    val endDate: LocalDateTime = LocalDateTime.now().plusHours(1)
-    val allCategories: Boolean = true
-    val categoryId: CategoryId? = null
+    var beginDate: LocalDateTime = LocalDateTime.now().atStartOfTheDay()
+    var endDate: LocalDateTime = LocalDateTime.now().atEndOfTheDay()
+    var allCategories: Boolean = true
+    var categoryId: CategoryId? = null
 
 
     fun toSearchCriteria(): SearchCriteria =

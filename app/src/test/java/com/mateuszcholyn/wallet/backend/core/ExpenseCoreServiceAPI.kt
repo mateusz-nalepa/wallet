@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.backend.core
 
 import java.math.BigDecimal
-import java.time.Instant
+import java.time.LocalDateTime
 
 interface ExpenseCoreServiceAPI {
     fun add(addExpenseParameters: AddExpenseParameters): Expense
@@ -12,7 +12,7 @@ interface ExpenseCoreServiceAPI {
 data class AddExpenseParameters(
     val amount: BigDecimal,
     var description: String,
-    var paidAt: Instant,
+    var paidAt: LocalDateTime,
     var categoryId: CategoryId
 )
 
@@ -24,6 +24,6 @@ data class Expense(
     val id: ExpenseId,
     val amount: BigDecimal,
     var description: String,
-    var paidAt: Instant,
+    var paidAt: LocalDateTime,
     var categoryId: CategoryId
 )

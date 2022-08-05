@@ -10,6 +10,7 @@ import com.mateuszcholyn.wallet.randomPaidAt
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 import java.math.BigDecimal
 import java.time.Instant
+import java.time.LocalDateTime
 
 fun ExpenseAppManager.addExpenseUseCase(
     scope: AddExpenseUseCase.() -> Unit,
@@ -29,7 +30,7 @@ fun ExpenseAppManager.addExpenseUseCase(
 class AddExpenseUseCase {
     var amount: BigDecimal = randomAmount()
     var description: String = randomDescription()
-    var paidAt: Instant = randomPaidAt()
+    var paidAt: LocalDateTime = randomPaidAt()
     var categoryId: CategoryId = randomCategoryId()
 
     fun toAddExpenseParameters(): AddExpenseParameters =

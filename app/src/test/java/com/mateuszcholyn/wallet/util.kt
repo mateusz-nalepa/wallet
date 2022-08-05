@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet
 import com.mateuszcholyn.wallet.backend.core.CategoryId
 import com.mateuszcholyn.wallet.backend.core.ExpenseId
 import java.math.BigDecimal
-import java.time.Instant
+import java.time.LocalDateTime
 import java.util.*
 
 fun randomUUID(): String = UUID.randomUUID().toString()
@@ -11,8 +11,8 @@ fun randomCategoryId(): CategoryId = CategoryId("categoryId-${randomUUID()}")
 fun randomCategoryName(): String = "categoryName-${randomUUID()}"
 fun randomAmount(): BigDecimal = BigDecimal.ONE
 fun randomDescription(): String = "description-${randomUUID()}"
-fun randomPaidAt(): Instant {
-    return Instant.now().minusMillis(Random().nextLong())
+fun randomPaidAt(): LocalDateTime {
+    return LocalDateTime.now().minusDays(Random().nextInt(10).toLong())
 }
 
 fun randomInt(): Int = Random().nextInt(15)

@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.tests.manager.validator
 import com.mateuszcholyn.wallet.backend.core.Expense
 import com.mateuszcholyn.wallet.backend.core.ExpenseId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
-import java.time.Instant
+import java.time.LocalDateTime
 
 fun ExpenseAppManager.validate(
     expenseId: ExpenseId,
@@ -22,7 +22,7 @@ fun Expense.validate(validateBlock: SimpleExpenseValidator.() -> Unit) {
 class SimpleExpenseValidator(
     private val expense: Expense,
 ) {
-    fun paidAtEqualTo(expectedPaidAt: Instant) {
+    fun paidAtEqualTo(expectedPaidAt: LocalDateTime) {
         assert(expense.paidAt == expectedPaidAt) {
             "Expected paidAt is: $expectedPaidAt. Actual: ${expense.paidAt}"
         }
