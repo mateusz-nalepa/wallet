@@ -225,6 +225,7 @@ class SearchServiceUseCaseTest {
         // when
         val searchServiceResult = manager.searchServiceUseCase {
             categoryId = categoryScope.categoryId
+            allCategories = false
         }
 
         // then
@@ -232,5 +233,35 @@ class SearchServiceUseCaseTest {
             numberOfExpensesEqualTo(2)
         }
     }
+
+    @Test
+    fun `should ignore category id parameter if allCategories is set to true`() {
+        // given
+        lateinit var categoryScope: CategoryScope
+        val manager =
+            initExpenseAppManager {
+                categoryScope = category {
+                    expense {}
+                    expense {}
+                }
+                category {
+                    expense {}
+                    expense {}
+                    expense {}
+                }
+            }
+
+        // when
+        val searchServiceResult = manager.searchServiceUseCase {
+            categoryId = categoryScope.categoryId
+            allCategories = true
+        }
+
+        // then
+        searchServiceResult.validate {
+            numberOfExpensesEqualTo(5)
+        }
+    }
+
 
 }

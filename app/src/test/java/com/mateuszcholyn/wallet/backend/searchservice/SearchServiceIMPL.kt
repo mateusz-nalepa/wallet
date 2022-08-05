@@ -21,10 +21,20 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
         storage
             .values
             .toList()
-            .filter { it.paidAt.isAfter(searchCriteria.beginDate) || it.paidAt.isEqual(searchCriteria.beginDate) }
-            .filter { it.paidAt.isBefore(searchCriteria.endDate) || it.paidAt.isEqual(searchCriteria.endDate) }
-            .filter { it.categoryId == searchCriteria.categoryId }
+            .filter {
+                it.paidAt.isAfter(searchCriteria.beginDate) || it.paidAt.isEqual(searchCriteria.beginDate)
+            }
+            .filter {
+                it.paidAt.isBefore(searchCriteria.endDate) || it.paidAt.isEqual(searchCriteria.endDate)
+            }
+            .filterByCategory(searchCriteria)
 
+    private fun List<ExpenseAddedEvent>.filterByCategory(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
+        if (searchCriteria.allCategories) {
+            this
+        } else {
+            filter { it.categoryId == searchCriteria.categoryId }
+        }
 }
 
 class SearchServiceIMPL(
