@@ -40,88 +40,51 @@ data class ExpenseAppUseCases(
                     categoriesQuickSummaryRepository = deps.categoriesQuickSummaryRepository
                 )
 
-            val getCategoriesQuickSummaryUseCase =
-                GetCategoriesQuickSummaryUseCase(
-                    categoriesQuickSummaryAPI = categoriesQuickSummary,
-                )
-
-
             val searchService =
                 SearchServiceIMPL(
                     searchServiceRepository = deps.searchServiceRepository
                 )
 
             val miniKafka = MiniKafka()
-            miniKafka.expenseAddedEventTopic.addSubscription {
-                categoriesQuickSummary.handleEventExpenseAdded(it)
-            }
-            miniKafka.expenseAddedEventTopic.addSubscription {
-                searchService.handleEventExpenseAdded(it)
-            }
-
-            miniKafka.categoryAddedEventTopic.addSubscription {
-                categoriesQuickSummary.handleCategoryAdded(it)
-            }
-            miniKafka.categoryRemovedEventTopic.addSubscription {
-                categoriesQuickSummary.handleCategoryRemoved(it)
-            }
-            miniKafka.expenseRemovedEventTopic.addSubscription {
-                categoriesQuickSummary.handleEventExpenseRemoved(it)
-            }
-            miniKafka.expenseRemovedEventTopic.addSubscription {
-                searchService.handleEventExpenseRemoved(it)
-            }
-
-            val categoryPublisher =
-                MiniKafkaCategoryPublisher(miniKafka)
+            MiniKafkaConfigurator.configure(
+                MiniKafkaConfigParameters(
+                    miniKafka = miniKafka,
+                    searchService = searchService,
+                    categoriesQuickSummary = categoriesQuickSummary,
+                )
+            )
 
             val categoryCoreService =
                 CategoryCoreServiceIMPL(
                     categoryRepository = deps.categoryRepository,
-                    categoryPublisher = categoryPublisher,
+                    categoryPublisher = MiniKafkaCategoryPublisher(miniKafka),
                 )
-
-            val createCategoryUseCase =
-                CreateCategoryUseCase(
-                    categoryCoreServiceAPI = categoryCoreService,
-                )
-
-            val expensePublisher =
-                MiniKafkaExpensePublisher(miniKafka)
 
             val expenseCoreService =
                 ExpenseCoreServiceIMPL(
                     expenseRepository = deps.expenseRepository,
-                    expensePublisher = expensePublisher,
-                )
-
-            val addExpenseUseCase =
-                AddExpenseUseCase(
-                    expenseCoreServiceAPI = expenseCoreService,
-                )
-
-            val searchServiceUseCase =
-                SearchServiceUseCase(
-                    searchServiceAPI = searchService,
-                )
-
-            val removeExpenseUseCase =
-                RemoveExpenseUseCase(
-                    expenseCoreServiceAPI = expenseCoreService,
-                )
-
-            val removeCategoryUseCase =
-                RemoveCategoryUseCase(
-                    categoryCoreServiceAPI = categoryCoreService,
+                    expensePublisher = MiniKafkaExpensePublisher(miniKafka),
                 )
 
             return ExpenseAppUseCases(
-                createCategoryUseCase = createCategoryUseCase,
-                addExpenseUseCase = addExpenseUseCase,
-                getCategoriesQuickSummaryUseCase = getCategoriesQuickSummaryUseCase,
-                searchServiceUseCase = searchServiceUseCase,
-                removeExpenseUseCase = removeExpenseUseCase,
-                removeCategoryUseCase = removeCategoryUseCase,
+                createCategoryUseCase = CreateCategoryUseCase(
+                    categoryCoreServiceAPI = categoryCoreService,
+                ),
+                removeCategoryUseCase = RemoveCategoryUseCase(
+                    categoryCoreServiceAPI = categoryCoreService,
+                ),
+                addExpenseUseCase = AddExpenseUseCase(
+                    expenseCoreServiceAPI = expenseCoreService,
+                ),
+                removeExpenseUseCase = RemoveExpenseUseCase(
+                    expenseCoreServiceAPI = expenseCoreService,
+                ),
+                getCategoriesQuickSummaryUseCase = GetCategoriesQuickSummaryUseCase(
+                    categoriesQuickSummaryAPI = categoriesQuickSummary,
+                ),
+                searchServiceUseCase = SearchServiceUseCase(
+                    searchServiceAPI = searchService,
+                ),
             )
         }
 
