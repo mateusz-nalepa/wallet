@@ -46,13 +46,13 @@ data class ExpenseAppUseCases(
                 )
 
             val miniKafka = MiniKafka()
-            MiniKafkaConfigurator.configure(
+            MiniKafkaConfigurator(
                 MiniKafkaConfigParameters(
                     miniKafka = miniKafka,
                     searchService = searchService,
                     categoriesQuickSummary = categoriesQuickSummary,
                 )
-            )
+            ).configure()
 
             val categoryCoreService =
                 CategoryCoreServiceIMPL(

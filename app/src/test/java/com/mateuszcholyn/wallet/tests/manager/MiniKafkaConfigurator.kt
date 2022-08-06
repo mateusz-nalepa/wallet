@@ -10,33 +10,49 @@ data class MiniKafkaConfigParameters(
     val categoriesQuickSummary: CategoriesQuickSummaryAPI,
 )
 
-object MiniKafkaConfigurator {
+class MiniKafkaConfigurator(
+    miniKafkaConfigParameters: MiniKafkaConfigParameters,
+) {
 
-    fun configure(miniKafkaConfigParameters: MiniKafkaConfigParameters) {
+    private val miniKafka = miniKafkaConfigParameters.miniKafka
+    private val searchService = miniKafkaConfigParameters.searchService
+    private val categoriesQuickSummary = miniKafkaConfigParameters.categoriesQuickSummary
 
-        val miniKafka = miniKafkaConfigParameters.miniKafka
-        val searchService = miniKafkaConfigParameters.searchService
-        val categoriesQuickSummary = miniKafkaConfigParameters.categoriesQuickSummary
+    fun configure() {
+        configureExpenseAddedEventTopic()
+        configureExpenseRemovedEventTopic()
 
+        configureCategoryAddedEventTopic()
+        configureCategoryRemovedEventTopic()
+    }
 
+    private fun configureExpenseAddedEventTopic() {
         miniKafka.expenseAddedEventTopic.addSubscription {
             categoriesQuickSummary.handleEventExpenseAdded(it)
         }
         miniKafka.expenseAddedEventTopic.addSubscription {
             searchService.handleEventExpenseAdded(it)
         }
+    }
 
-        miniKafka.categoryAddedEventTopic.addSubscription {
-            categoriesQuickSummary.handleCategoryAdded(it)
-        }
-        miniKafka.categoryRemovedEventTopic.addSubscription {
-            categoriesQuickSummary.handleCategoryRemoved(it)
-        }
+    private fun configureExpenseRemovedEventTopic() {
         miniKafka.expenseRemovedEventTopic.addSubscription {
             categoriesQuickSummary.handleEventExpenseRemoved(it)
         }
         miniKafka.expenseRemovedEventTopic.addSubscription {
             searchService.handleEventExpenseRemoved(it)
+        }
+    }
+
+    private fun configureCategoryAddedEventTopic() {
+        miniKafka.categoryAddedEventTopic.addSubscription {
+            categoriesQuickSummary.handleCategoryAdded(it)
+        }
+    }
+
+    private fun configureCategoryRemovedEventTopic() {
+        miniKafka.categoryRemovedEventTopic.addSubscription {
+            categoriesQuickSummary.handleCategoryRemoved(it)
         }
     }
 
