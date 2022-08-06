@@ -10,8 +10,8 @@ import java.time.LocalDateTime
 data class SearchCriteria(
     val allCategories: Boolean? = null,
     val categoryId: CategoryId? = null,
-    val beginDate: LocalDateTime,
-    val endDate: LocalDateTime,
+    val beginDate: LocalDateTime? = null,
+    val endDate: LocalDateTime? = null,
 )
 
 
@@ -23,30 +23,20 @@ object SearchAverageExpenseResultCalculator {
     ): SearchAverageExpenseResult {
         val sum = expenses.sumExpensesAmount()
 
+        var days =
+            if (expenses.isEmpty()) {
+                0
+            } else {
+                val minimum = searchCriteria.beginDate ?: expenses.minOf { it.paidAt }
+                val maximum = searchCriteria.endDate ?: expenses.maxOf { it.paidAt }
 
-//        var days =
-//            if (expenseSearchCriteria.isAllExpenses) {
-//                if (expenses.isEmpty()) {
-//                    0
-//                } else {
-//                    val minimum = expenses.minOfOrNull { it.date }
-//                    val maximum = LocalDateTime.now()
-//
-//                    Duration.between(minimum, maximum)
-//                        .toDays()
-//                }
-//
-//
-//            } else {
-//                expenseSearchCriteria.toNumberOfDays()
-//            }
-
-//        val firstExpense = expenses.first { expenses. }
-
-        var days = searchCriteria.toNumberOfDays()
+                Duration
+                    .between(minimum, maximum)
+                    .toDays()
+            }
 
         if (days == 0L) {
-            days += 1 // have no idea why XD
+            days += 1
         }
 
         return SearchAverageExpenseResult(
@@ -62,10 +52,5 @@ object SearchAverageExpenseResultCalculator {
         } else {
             BigDecimal.ZERO
         }
-
-    private fun SearchCriteria.toNumberOfDays(): Long =
-        Duration
-            .between(this.beginDate, this.endDate)
-            .toDays()
 
 }

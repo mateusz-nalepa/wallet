@@ -26,20 +26,30 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
             .filterByCategory(searchCriteria)
 
     private fun List<ExpenseAddedEvent>.filterByBeginDate(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
-        filter {
-            it.paidAt.isAfter(searchCriteria.beginDate) || it.paidAt.isEqual(searchCriteria.beginDate)
+        if (searchCriteria.beginDate == null) {
+            this
+        } else {
+            filter {
+                it.paidAt.isAfter(searchCriteria.beginDate) || it.paidAt.isEqual(searchCriteria.beginDate)
+            }
         }
 
     private fun List<ExpenseAddedEvent>.filterByEndDate(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
-        filter {
-            it.paidAt.isBefore(searchCriteria.endDate) || it.paidAt.isEqual(searchCriteria.endDate)
+        if (searchCriteria.endDate == null) {
+            this
+        } else {
+            filter {
+                it.paidAt.isBefore(searchCriteria.endDate) || it.paidAt.isEqual(searchCriteria.endDate)
+            }
         }
 
     private fun List<ExpenseAddedEvent>.filterByCategory(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
-        if (searchCriteria.allCategories != false) {
+        if (searchCriteria.categoryId != null && (searchCriteria.allCategories == null || searchCriteria.allCategories == false)) {
+            filter { it.categoryId == searchCriteria.categoryId }
+        } else if (searchCriteria.allCategories == null && searchCriteria.allCategories != false) {
             this
         } else {
-            filter { it.categoryId == searchCriteria.categoryId }
+            this
         }
 }
 

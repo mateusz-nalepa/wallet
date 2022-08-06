@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.tests.usecase.searchservice
 
+import com.mateuszcholyn.wallet.randomCategoryId
 import com.mateuszcholyn.wallet.randomInt
 import com.mateuszcholyn.wallet.tests.manager.CategoryScope
 import com.mateuszcholyn.wallet.tests.manager.category
@@ -135,7 +136,7 @@ class SearchServiceUseCaseTest {
                         amount = firstExpenseAmount
                     }
                     expense {
-
+                        paidAt = today()
                         amount = secondExpenseAmount
                     }
                 }
@@ -231,6 +232,31 @@ class SearchServiceUseCaseTest {
         // then
         searchServiceResult.validate {
             numberOfExpensesEqualTo(2)
+        }
+    }
+
+    @Test
+    fun `should search zero expenses when searching by non existing category`() {
+        // given
+        val manager =
+            initExpenseAppManager {
+                category {
+                    expense {}
+                    expense {}
+                }
+                category {
+                    expense {}
+                }
+            }
+
+        // when
+        val searchServiceResult = manager.searchServiceUseCase {
+            categoryId = randomCategoryId()
+        }
+
+        // then
+        searchServiceResult.validate {
+            numberOfExpensesEqualTo(0)
         }
     }
 

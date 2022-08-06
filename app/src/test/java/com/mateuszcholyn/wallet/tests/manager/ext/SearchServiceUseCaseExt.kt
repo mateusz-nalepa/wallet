@@ -4,8 +4,6 @@ import com.mateuszcholyn.wallet.backend.core.CategoryId
 import com.mateuszcholyn.wallet.backend.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceResult
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
-import com.mateuszcholyn.wallet.util.dateutils.atEndOfTheDay
-import com.mateuszcholyn.wallet.util.dateutils.atStartOfTheDay
 import java.time.LocalDateTime
 
 fun ExpenseAppManager.searchServiceUseCase(
@@ -24,8 +22,8 @@ fun ExpenseAppManager.searchServiceUseCase(
 }
 
 class SearchCriteriaScope {
-    var beginDate: LocalDateTime = LocalDateTime.now().atStartOfTheDay()
-    var endDate: LocalDateTime = LocalDateTime.now().atEndOfTheDay()
+    var beginDate: LocalDateTime? = null
+    var endDate: LocalDateTime? = null
     var allCategories: Boolean? = null
     var categoryId: CategoryId? = null
 
