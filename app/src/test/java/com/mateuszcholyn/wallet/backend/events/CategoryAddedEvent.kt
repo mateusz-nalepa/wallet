@@ -6,3 +6,7 @@ data class CategoryAddedEvent(
     val categoryId: CategoryId,
     val name: String,
 )
+
+data class CategoryRemovedEvent(
+    val categoryId: CategoryId,
+)

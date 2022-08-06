@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.tests.usecase.getcategoriesquicksummary
 import com.mateuszcholyn.wallet.randomInt
 import com.mateuszcholyn.wallet.tests.manager.*
 import com.mateuszcholyn.wallet.tests.manager.ext.getCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.tests.manager.ext.removeCategoryUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.removeExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
 import org.junit.Test
@@ -85,5 +86,26 @@ class GetCategoriesQuickSummaryUseCaseTest {
         }
     }
 
+    @Test
+    fun `quick summary should not have information about category after category removed event`() {
+        // given
+        lateinit var categoryScope: CategoryScope
+        val manager =
+            initExpenseAppManager {
+                categoryScope = category {}
+            }
+
+        manager.removeCategoryUseCase {
+            categoryId = categoryScope.categoryId
+        }
+
+        // when
+        val quickSummaryList = manager.getCategoriesQuickSummaryUseCase()
+
+        // then
+        quickSummaryList.validate {
+            categoryIdDoesNotExist(categoryScope.categoryId)
+        }
+    }
 
 }

@@ -62,6 +62,9 @@ data class ExpenseAppUseCases(
             miniKafka.categoryAddedEventTopic.addSubscription {
                 categoriesQuickSummary.handleCategoryAdded(it)
             }
+            miniKafka.categoryRemovedEventTopic.addSubscription {
+                categoriesQuickSummary.handleCategoryRemoved(it)
+            }
             miniKafka.expenseRemovedEventTopic.addSubscription {
                 categoriesQuickSummary.handleEventExpenseRemoved(it)
             }

@@ -17,13 +17,26 @@ class SimpleQuickSummaryListValidator(
         categoryId: CategoryId,
         validationBlock: SimpleQuickSummaryValidator.() -> Unit,
     ) {
-        val quickSummary =
+        val quickSummaryOrNull =
             quickSummaryList
                 .quickSummaries
                 .find { it.categoryId == categoryId }
-        requireNotNull(quickSummary) { "Quick summary for category with id: $categoryId should be present" }
+        requireNotNull(quickSummaryOrNull) { "Quick summary for category with id: $categoryId should be present" }
 
-        SimpleQuickSummaryValidator(quickSummary).apply(validationBlock)
+        SimpleQuickSummaryValidator(quickSummaryOrNull).apply(validationBlock)
+    }
+
+    fun categoryIdDoesNotExist(
+        categoryId: CategoryId,
+    ) {
+        val quickSummaryOrNull =
+            quickSummaryList
+                .quickSummaries
+                .find { it.categoryId == categoryId }
+
+        assert(quickSummaryOrNull == null) {
+            "Category with given id $categoryId should not be present in quick summary list"
+        }
     }
 }
 

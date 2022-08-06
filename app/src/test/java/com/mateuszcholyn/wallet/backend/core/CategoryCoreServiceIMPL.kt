@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.backend.core
 
 import com.mateuszcholyn.wallet.backend.events.CategoryAddedEvent
+import com.mateuszcholyn.wallet.backend.events.CategoryRemovedEvent
 import com.mateuszcholyn.wallet.randomUUID
 import java.time.Instant
 
@@ -18,12 +19,15 @@ class CategoryCoreServiceIMPL(
         categoryRepository.getAllCategories()
 
     override fun remove(categoryId: CategoryId) {
-        categoryRepository.remove(
-            categoryId = categoryId,
-            onExpensesExistAction = {
-                throw CategoryHasExpensesException(it)
-            }
-        )
+        categoryRepository
+            .remove(
+                categoryId = categoryId,
+                onExpensesExistAction = {
+                    throw CategoryHasExpensesException(it)
+                }
+            )
+            .also { categoryPublisher.publishCategoryRemovedEvent(CategoryRemovedEvent(categoryId)) }
+
     }
 
     private fun CreateCategoryParameters.toNewCategory(): Category =

@@ -4,6 +4,7 @@ class MiniKafka {
     val expenseAddedEventTopic: Topic<ExpenseAddedEvent> = TopicImpl()
     val expenseRemovedEventTopic: Topic<ExpenseRemovedEvent> = TopicImpl()
     val categoryAddedEventTopic: Topic<CategoryAddedEvent> = TopicImpl()
+    val categoryRemovedEventTopic: Topic<CategoryRemovedEvent> = TopicImpl()
 }
 
 interface Topic<T> {
