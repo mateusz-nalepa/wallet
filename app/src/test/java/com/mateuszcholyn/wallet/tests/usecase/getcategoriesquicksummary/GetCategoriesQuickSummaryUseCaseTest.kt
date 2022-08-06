@@ -10,7 +10,7 @@ import org.junit.Test
 class GetCategoriesQuickSummaryUseCaseTest {
 
     @Test
-    fun `quick summary should have information about zero number of expenses`() {
+    fun `quick summary should have information about added category`() {
         // given
         lateinit var categoryScope: CategoryScope
         val manager =
