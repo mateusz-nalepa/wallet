@@ -1,7 +1,9 @@
 package com.mateuszcholyn.wallet.tests.manager.validator
 
+import com.mateuszcholyn.wallet.backend.core.ExpenseId
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceResult
+import com.mateuszcholyn.wallet.tests.manager.ExpenseScope
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDateTime
@@ -53,6 +55,13 @@ class SimpleSingleExpenseAddedEventValidator(
     private val expenseIndex: Int,
     private val expenseAddedEvent: ExpenseAddedEvent,
 ) {
+
+    fun equalTo(expenseScope: ExpenseScope) {
+        paidAtEqualTo(expenseScope.paidAt)
+        amountEqualTo(expenseScope.amount)
+        idEqualTo(expenseScope.expenseId)
+    }
+
     fun paidAtEqualTo(expectedPaidAt: LocalDateTime) {
         assert(expenseAddedEvent.paidAt == expectedPaidAt) {
             "Expense with index $expenseIndex should have paid at equal to: $expectedPaidAt. " +
@@ -64,6 +73,13 @@ class SimpleSingleExpenseAddedEventValidator(
         assert(expenseAddedEvent.amount == expectedAmount) {
             "Expense with index $expenseIndex should have amount equal to: $expectedAmount. " +
                     "Actual: ${expenseAddedEvent.amount}"
+        }
+    }
+
+    fun idEqualTo(expectedId: ExpenseId) {
+        assert(expenseAddedEvent.expenseId == expectedId) {
+            "Expense with index $expenseIndex should have id equal to: $expectedId. " +
+                    "Actual: ${expenseAddedEvent.expenseId}"
         }
     }
 

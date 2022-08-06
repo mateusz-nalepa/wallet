@@ -68,6 +68,9 @@ data class ExpenseAppUseCases(
             miniKafka.expenseRemovedEventTopic.addSubscription {
                 categoriesQuickSummary.handleEventExpenseRemoved(it)
             }
+            miniKafka.expenseRemovedEventTopic.addSubscription {
+                searchService.handleEventExpenseRemoved(it)
+            }
 
             val categoryPublisher =
                 MiniKafkaCategoryPublisher(miniKafka)
