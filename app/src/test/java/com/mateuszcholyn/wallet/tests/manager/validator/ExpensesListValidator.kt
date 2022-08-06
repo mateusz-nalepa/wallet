@@ -1,8 +1,10 @@
 package com.mateuszcholyn.wallet.tests.manager.validator
 
+import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceResult
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.time.LocalDateTime
 
 
 fun SearchServiceResult.validate(validateBlock: SimpleExpensesListValidator.() -> Unit) {
@@ -35,5 +37,34 @@ class SimpleExpensesListValidator(
                     "Actual: ${searchServiceResult.averageExpenseResult.days}"
         }
     }
+
+    fun expenseIndex(
+        expenseIndex: Int,
+        validationBlock: SimpleSingleExpenseAddedEventValidator.() -> Unit,
+    ) {
+        SimpleSingleExpenseAddedEventValidator(
+            expenseIndex = expenseIndex,
+            expenseAddedEvent = searchServiceResult.expenses[expenseIndex],
+        ).validationBlock()
+    }
 }
 
+class SimpleSingleExpenseAddedEventValidator(
+    private val expenseIndex: Int,
+    private val expenseAddedEvent: ExpenseAddedEvent,
+) {
+    fun paidAtEqualTo(expectedPaidAt: LocalDateTime) {
+        assert(expenseAddedEvent.paidAt == expectedPaidAt) {
+            "Expense with index $expenseIndex should have paid at equal to: $expectedPaidAt. " +
+                    "Actual: ${expenseAddedEvent.paidAt}"
+        }
+    }
+
+    fun amountEqualTo(expectedAmount: BigDecimal) {
+        assert(expenseAddedEvent.amount == expectedAmount) {
+            "Expense with index $expenseIndex should have amount equal to: $expectedAmount. " +
+                    "Actual: ${expenseAddedEvent.amount}"
+        }
+    }
+
+}

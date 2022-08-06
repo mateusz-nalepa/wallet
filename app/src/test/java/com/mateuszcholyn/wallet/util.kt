@@ -20,3 +20,4 @@ fun randomExpenseId(): ExpenseId = ExpenseId("expenseId-${randomUUID()}")
 
 fun BigDecimal.plusRandomValue(): BigDecimal = this + BigDecimal("5")
 fun BigDecimal.minusRandomValue(): BigDecimal = this - BigDecimal("5")
+fun BigDecimal.plusInt(int: Int): BigDecimal = this + BigDecimal(int)

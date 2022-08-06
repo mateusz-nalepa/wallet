@@ -26,6 +26,7 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
             .filterByCategory(searchCriteria)
             .filterByFromAmount(searchCriteria)
             .filterByToAmount(searchCriteria)
+            .sort(searchCriteria)
 
     private fun List<ExpenseAddedEvent>.filterByBeginDate(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
         if (searchCriteria.beginDate == null) {
@@ -65,6 +66,19 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
         } else {
             this
         }
+
+    private fun List<ExpenseAddedEvent>.sort(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> {
+        val sortedByField =
+            when (searchCriteria.sort.field) {
+                NewSort.Field.DATE -> sortedBy { it.paidAt }
+                NewSort.Field.AMOUNT -> sortedBy { it.amount }
+            }
+
+        return when (searchCriteria.sort.type) {
+            NewSort.Type.DESC -> sortedByField.reversed()
+            NewSort.Type.ASC -> sortedByField
+        }
+    }
 }
 
 class SearchServiceIMPL(
