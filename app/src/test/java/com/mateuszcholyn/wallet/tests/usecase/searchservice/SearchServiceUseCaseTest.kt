@@ -1,7 +1,6 @@
 package com.mateuszcholyn.wallet.tests.usecase.searchservice
 
-import com.mateuszcholyn.wallet.randomCategoryId
-import com.mateuszcholyn.wallet.randomInt
+import com.mateuszcholyn.wallet.*
 import com.mateuszcholyn.wallet.tests.manager.CategoryScope
 import com.mateuszcholyn.wallet.tests.manager.category
 import com.mateuszcholyn.wallet.tests.manager.expense
@@ -226,7 +225,6 @@ class SearchServiceUseCaseTest {
         // when
         val searchServiceResult = manager.searchServiceUseCase {
             categoryId = categoryScope.categoryId
-            allCategories = false
         }
 
         // then
@@ -261,33 +259,51 @@ class SearchServiceUseCaseTest {
     }
 
     @Test
-    fun `should ignore category id parameter if allCategories is set to true`() {
+    fun `should ignore expenses where amount is less than fromAmount search criteria`() {
         // given
-        lateinit var categoryScope: CategoryScope
+        val amountSearchCriteria = randomAmount()
         val manager =
             initExpenseAppManager {
-                categoryScope = category {
-                    expense {}
-                    expense {}
-                }
                 category {
-                    expense {}
-                    expense {}
-                    expense {}
+                    expense { amount = amountSearchCriteria.plusRandomValue() }
+                    expense { amount = amountSearchCriteria.minusRandomValue() }
+                    expense { amount = amountSearchCriteria.minusRandomValue() }
                 }
             }
 
         // when
         val searchServiceResult = manager.searchServiceUseCase {
-            categoryId = categoryScope.categoryId
-            allCategories = true
+            fromAmount = amountSearchCriteria
         }
 
         // then
         searchServiceResult.validate {
-            numberOfExpensesEqualTo(5)
+            numberOfExpensesEqualTo(1)
         }
     }
 
+    @Test
+    fun `should ignore expenses where amount is greater than toAmount search criteria`() {
+        // given
+        val amountSearchCriteria = randomAmount()
+        val manager =
+            initExpenseAppManager {
+                category {
+                    expense { amount = amountSearchCriteria.plusRandomValue() }
+                    expense { amount = amountSearchCriteria.plusRandomValue() }
+                    expense { amount = amountSearchCriteria.minusRandomValue() }
+                }
+            }
+
+        // when
+        val searchServiceResult = manager.searchServiceUseCase {
+            toAmount = amountSearchCriteria
+        }
+
+        // then
+        searchServiceResult.validate {
+            numberOfExpensesEqualTo(1)
+        }
+    }
 
 }

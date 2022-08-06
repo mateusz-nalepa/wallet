@@ -17,3 +17,6 @@ fun randomPaidAt(): LocalDateTime {
 
 fun randomInt(): Int = Random().nextInt(15)
 fun randomExpenseId(): ExpenseId = ExpenseId("expenseId-${randomUUID()}")
+
+fun BigDecimal.plusRandomValue(): BigDecimal = this + BigDecimal("5")
+fun BigDecimal.minusRandomValue(): BigDecimal = this - BigDecimal("5")

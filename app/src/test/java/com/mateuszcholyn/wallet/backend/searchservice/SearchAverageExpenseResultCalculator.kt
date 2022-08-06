@@ -1,19 +1,9 @@
 package com.mateuszcholyn.wallet.backend.searchservice
 
-import com.mateuszcholyn.wallet.backend.core.CategoryId
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.Duration
-import java.time.LocalDateTime
-
-data class SearchCriteria(
-    val allCategories: Boolean? = null,
-    val categoryId: CategoryId? = null,
-    val beginDate: LocalDateTime? = null,
-    val endDate: LocalDateTime? = null,
-)
-
 
 object SearchAverageExpenseResultCalculator {
 

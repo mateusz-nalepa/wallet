@@ -24,6 +24,8 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
             .filterByBeginDate(searchCriteria)
             .filterByEndDate(searchCriteria)
             .filterByCategory(searchCriteria)
+            .filterByFromAmount(searchCriteria)
+            .filterByToAmount(searchCriteria)
 
     private fun List<ExpenseAddedEvent>.filterByBeginDate(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
         if (searchCriteria.beginDate == null) {
@@ -44,10 +46,22 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
         }
 
     private fun List<ExpenseAddedEvent>.filterByCategory(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
-        if (searchCriteria.categoryId != null && (searchCriteria.allCategories == null || searchCriteria.allCategories == false)) {
+        if (searchCriteria.categoryId != null) {
             filter { it.categoryId == searchCriteria.categoryId }
-        } else if (searchCriteria.allCategories == null && searchCriteria.allCategories != false) {
+        } else {
             this
+        }
+
+    private fun List<ExpenseAddedEvent>.filterByFromAmount(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
+        if (searchCriteria.fromAmount != null) {
+            filter { it.amount >= searchCriteria.fromAmount }
+        } else {
+            this
+        }
+
+    private fun List<ExpenseAddedEvent>.filterByToAmount(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
+        if (searchCriteria.toAmount != null) {
+            filter { it.amount <= searchCriteria.toAmount }
         } else {
             this
         }
