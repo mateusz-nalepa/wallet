@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.tests.usecase.core.category.updatecategory
 
-import com.mateuszcholyn.wallet.app.backend.core.category.CategoryNotFoundException
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryNotFoundException
 import com.mateuszcholyn.wallet.catchThrowable
 import com.mateuszcholyn.wallet.randomCategoryId
 import com.mateuszcholyn.wallet.randomCategoryName

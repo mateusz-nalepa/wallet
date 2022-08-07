@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.tests.manager
 
-import com.mateuszcholyn.wallet.app.backend.categoriesquicksummary.CategoriesQuickSummaryAPI
-import com.mateuszcholyn.wallet.app.backend.events.MiniKafka
-import com.mateuszcholyn.wallet.app.backend.searchservice.SearchServiceAPI
+import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryAPI
+import com.mateuszcholyn.wallet.newcode.app.backend.events.MiniKafka
+import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchServiceAPI
 
 data class MiniKafkaConfigParameters(
     val miniKafka: MiniKafka,

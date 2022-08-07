@@ -1,12 +1,12 @@
 package com.mateuszcholyn.wallet
 
-import com.mateuszcholyn.wallet.app.backend.core.category.CategoryId
-import com.mateuszcholyn.wallet.app.backend.core.expense.ExpenseId
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
+import com.mateuszcholyn.wallet.util.randomUUID
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.util.*
 
-fun randomUUID(): String = UUID.randomUUID().toString()
 fun randomCategoryId(): CategoryId = CategoryId("categoryId-${randomUUID()}")
 fun randomCategoryName(): String = "categoryName-${randomUUID()}"
 fun randomAmount(): BigDecimal = BigDecimal.ONE

@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.tests.manager.ext
 
-import com.mateuszcholyn.wallet.app.backend.core.category.CategoryId
-import com.mateuszcholyn.wallet.app.backend.core.expense.AddExpenseParameters
-import com.mateuszcholyn.wallet.app.backend.core.expense.Expense
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.AddExpenseParameters
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.Expense
 import com.mateuszcholyn.wallet.randomAmount
 import com.mateuszcholyn.wallet.randomCategoryId
 import com.mateuszcholyn.wallet.randomDescription

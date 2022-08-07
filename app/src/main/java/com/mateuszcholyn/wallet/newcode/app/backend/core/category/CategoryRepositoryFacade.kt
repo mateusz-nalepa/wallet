@@ -1,0 +1,32 @@
+package com.mateuszcholyn.wallet.newcode.app.backend.core.category
+
+class CategoryRepositoryFacade(
+    private val categoryRepositoryV2: CategoryRepositoryV2,
+) {
+    fun save(category: Category): Category =
+        categoryRepositoryV2.save(category)
+
+    fun getAllCategories(): List<Category> =
+        categoryRepositoryV2.getAllCategories()
+
+    fun getByIdOrThrow(categoryId: CategoryId): Category =
+        categoryRepositoryV2.getById(categoryId)
+            ?: throw CategoryNotFoundException(categoryId)
+
+    fun remove(categoryId: CategoryId) {
+        categoryRepositoryV2
+            .remove(
+                categoryId = categoryId,
+                onExpensesExistAction = {
+                    throw CategoryHasExpensesException(it)
+                }
+            )
+    }
+
+}
+
+class CategoryNotFoundException(categoryId: CategoryId) :
+    RuntimeException("Category with id ${categoryId.id} does not exist")
+
+class CategoryHasExpensesException(categoryId: CategoryId) :
+    RuntimeException("Category with id ${categoryId.id} has expenses and cannot be removed")

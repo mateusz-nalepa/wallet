@@ -1,14 +1,14 @@
 package com.mateuszcholyn.wallet.tests.manager.validator
 
-import com.mateuszcholyn.wallet.app.backend.core.category.Category
-import com.mateuszcholyn.wallet.app.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.Category
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 
 fun ExpenseAppManager.validate(
     categoryId: CategoryId,
     validateBlock: FullCategoryValidator.() -> Unit,
 ) {
-    val category = this.expenseAppDependencies.categoryRepository.getById(categoryId)
+    val category = this.expenseAppDependencies.categoryRepositoryV2.getById(categoryId)
     requireNotNull(category) { "Category with id $categoryId should exist" }
 
     FullCategoryValidator(

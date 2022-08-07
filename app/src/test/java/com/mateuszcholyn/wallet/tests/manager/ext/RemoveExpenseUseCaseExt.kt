@@ -1,9 +1,9 @@
 package com.mateuszcholyn.wallet.tests.manager.ext
 
-import com.mateuszcholyn.wallet.app.backend.core.expense.ExpenseId
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.randomExpenseId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
-import com.mateuszcholyn.wallet.app.usecase.core.expense.ExpenseRemovedStatus
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.ExpenseRemovedStatus
 
 fun ExpenseAppManager.removeExpenseUseCase(
     scope: RemoveExpenseUseCaseScope.() -> Unit,

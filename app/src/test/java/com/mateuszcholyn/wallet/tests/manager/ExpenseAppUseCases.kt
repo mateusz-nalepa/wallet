@@ -1,36 +1,36 @@
 package com.mateuszcholyn.wallet.tests.manager
 
-import com.mateuszcholyn.wallet.app.backend.categoriesquicksummary.CategoriesQuickSummaryIMPL
-import com.mateuszcholyn.wallet.app.backend.categoriesquicksummary.CategoriesQuickSummaryRepository
-import com.mateuszcholyn.wallet.app.backend.categoriesquicksummary.InMemoryCategoriesQuickSummaryRepository
-import com.mateuszcholyn.wallet.app.backend.core.InMemoryCoreRepository
-import com.mateuszcholyn.wallet.app.backend.core.category.CategoryCoreServiceIMPL
-import com.mateuszcholyn.wallet.app.backend.core.category.CategoryRepository
-import com.mateuszcholyn.wallet.app.backend.core.category.CategoryRepositoryFacade
-import com.mateuszcholyn.wallet.app.backend.core.category.MiniKafkaCategoryPublisher
-import com.mateuszcholyn.wallet.app.backend.core.expense.ExpenseCoreServiceIMPL
-import com.mateuszcholyn.wallet.app.backend.core.expense.ExpenseRepository
-import com.mateuszcholyn.wallet.app.backend.core.expense.ExpenseRepositoryFacade
-import com.mateuszcholyn.wallet.app.backend.core.expense.MiniKafkaExpensePublisher
-import com.mateuszcholyn.wallet.app.backend.events.MiniKafka
-import com.mateuszcholyn.wallet.app.backend.searchservice.InMemorySearchServiceRepository
-import com.mateuszcholyn.wallet.app.backend.searchservice.SearchServiceIMPL
-import com.mateuszcholyn.wallet.app.backend.searchservice.SearchServiceRepository
-import com.mateuszcholyn.wallet.app.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
-import com.mateuszcholyn.wallet.app.usecase.core.category.CreateCategoryUseCase
-import com.mateuszcholyn.wallet.app.usecase.core.category.RemoveCategoryUseCase
-import com.mateuszcholyn.wallet.app.usecase.core.category.UpdateCategoryUseCase
-import com.mateuszcholyn.wallet.app.usecase.core.expense.AddExpenseUseCase
-import com.mateuszcholyn.wallet.app.usecase.core.expense.RemoveExpenseUseCase
-import com.mateuszcholyn.wallet.app.usecase.core.expense.UpdateExpenseUseCase
-import com.mateuszcholyn.wallet.app.usecase.searchservice.SearchServiceUseCase
+import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryIMPL
+import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryRepository
+import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.InMemoryCategoriesQuickSummaryRepository
+import com.mateuszcholyn.wallet.newcode.app.backend.core.InMemoryCoreRepositoryV2
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryCoreServiceIMPL
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryRepositoryFacade
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryRepositoryV2
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.MiniKafkaCategoryPublisher
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseCoreServiceIMPL
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseRepositoryFacade
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseRepositoryV2
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.MiniKafkaExpensePublisher
+import com.mateuszcholyn.wallet.newcode.app.backend.events.MiniKafka
+import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.InMemorySearchServiceRepository
+import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchServiceIMPL
+import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchServiceRepository
+import com.mateuszcholyn.wallet.newcode.app.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.CreateCategoryUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.RemoveCategoryUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.UpdateCategoryUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.AddExpenseUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.RemoveExpenseUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.UpdateExpenseUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.searchservice.SearchServiceUseCase
 
 
 class ExpenseAppDependencies {
 
-    private var inMemoryCoreRepository = InMemoryCoreRepository()
-    var categoryRepository: CategoryRepository = inMemoryCoreRepository
-    var expenseRepository: ExpenseRepository = inMemoryCoreRepository
+    private var inMemoryCoreRepository = InMemoryCoreRepositoryV2()
+    var categoryRepositoryV2: CategoryRepositoryV2 = inMemoryCoreRepository
+    var expenseRepositoryV2: ExpenseRepositoryV2 = inMemoryCoreRepository
 
     var categoriesQuickSummaryRepository: CategoriesQuickSummaryRepository =
         InMemoryCategoriesQuickSummaryRepository()
@@ -73,40 +73,40 @@ data class ExpenseAppUseCases(
 
             val categoryCoreService =
                 CategoryCoreServiceIMPL(
-                    categoryRepositoryFacade = CategoryRepositoryFacade(deps.categoryRepository),
+                    categoryRepositoryFacade = CategoryRepositoryFacade(deps.categoryRepositoryV2),
                     categoryPublisher = MiniKafkaCategoryPublisher(miniKafka),
                 )
 
             val expenseCoreService =
                 ExpenseCoreServiceIMPL(
-                    expenseRepositoryFacade = ExpenseRepositoryFacade(deps.expenseRepository),
+                    expenseRepositoryFacade = ExpenseRepositoryFacade(deps.expenseRepositoryV2),
                     expensePublisher = MiniKafkaExpensePublisher(miniKafka),
                 )
 
             return ExpenseAppUseCases(
                 createCategoryUseCase = CreateCategoryUseCase(
-                    categoryCoreServiceAPI = categoryCoreService,
+                    categoryCoreService = categoryCoreService,
                 ),
                 updateCategoryUseCase = UpdateCategoryUseCase(
-                    categoryCoreServiceAPI = categoryCoreService,
+                    categoryCoreService = categoryCoreService,
                 ),
                 removeCategoryUseCase = RemoveCategoryUseCase(
-                    categoryCoreServiceAPI = categoryCoreService,
+                    categoryCoreService = categoryCoreService,
                 ),
                 addExpenseUseCase = AddExpenseUseCase(
-                    expenseCoreServiceAPI = expenseCoreService,
+                    expenseCoreService = expenseCoreService,
                 ),
                 updateExpenseUseCase = UpdateExpenseUseCase(
-                    expenseCoreServiceAPI = expenseCoreService,
+                    expenseCoreService = expenseCoreService,
                 ),
                 removeExpenseUseCase = RemoveExpenseUseCase(
-                    expenseCoreServiceAPI = expenseCoreService,
+                    expenseCoreService = expenseCoreService,
                 ),
                 getCategoriesQuickSummaryUseCase = GetCategoriesQuickSummaryUseCase(
-                    categoriesQuickSummaryAPI = categoriesQuickSummary,
+                    categoriesQuickSummary = categoriesQuickSummary,
                 ),
                 searchServiceUseCase = SearchServiceUseCase(
-                    searchServiceAPI = searchService,
+                    searchService = searchService,
                 ),
             )
         }

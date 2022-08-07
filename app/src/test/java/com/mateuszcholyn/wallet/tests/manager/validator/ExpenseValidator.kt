@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.tests.manager.validator
 
-import com.mateuszcholyn.wallet.app.backend.core.category.CategoryId
-import com.mateuszcholyn.wallet.app.backend.core.expense.Expense
-import com.mateuszcholyn.wallet.app.backend.core.expense.ExpenseId
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.Expense
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -11,7 +11,7 @@ fun ExpenseAppManager.validate(
     expenseId: ExpenseId,
     validateBlock: SimpleExpenseValidator.() -> Unit,
 ) {
-    val expense = this.expenseAppDependencies.expenseRepository.getById(expenseId)
+    val expense = this.expenseAppDependencies.expenseRepositoryV2.getById(expenseId)
     requireNotNull(expense) { "Expense with id $expenseId should exist" }
     expense.validate(validateBlock)
 }

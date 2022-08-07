@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.tests.manager
 
-import com.mateuszcholyn.wallet.app.backend.core.category.CategoryId
-import com.mateuszcholyn.wallet.app.backend.core.category.CreateCategoryParameters
-import com.mateuszcholyn.wallet.app.backend.core.expense.AddExpenseParameters
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CreateCategoryParameters
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.AddExpenseParameters
 
 
 class ExpenseAppInitializer(

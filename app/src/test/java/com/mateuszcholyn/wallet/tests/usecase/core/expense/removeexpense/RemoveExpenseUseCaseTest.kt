@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.tests.usecase.core.expense.removeexpense
 
-import com.mateuszcholyn.wallet.app.backend.core.expense.ExpenseNotFoundException
-import com.mateuszcholyn.wallet.app.usecase.core.expense.ExpenseRemovedStatus
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseNotFoundException
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.ExpenseRemovedStatus
 import com.mateuszcholyn.wallet.catchThrowable
 import com.mateuszcholyn.wallet.randomExpenseId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseScope

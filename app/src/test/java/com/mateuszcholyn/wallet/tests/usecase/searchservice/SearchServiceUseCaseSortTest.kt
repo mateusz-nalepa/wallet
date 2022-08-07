@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.tests.usecase.searchservice
 
-import com.mateuszcholyn.wallet.app.backend.searchservice.NewSort
+import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.NewSort
 import com.mateuszcholyn.wallet.plusInt
 import com.mateuszcholyn.wallet.randomAmount
 import com.mateuszcholyn.wallet.tests.manager.category
