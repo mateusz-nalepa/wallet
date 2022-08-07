@@ -1,9 +1,6 @@
 package com.mateuszcholyn.wallet.backend.categoriesquicksummary
 
-import com.mateuszcholyn.wallet.backend.events.CategoryAddedEvent
-import com.mateuszcholyn.wallet.backend.events.CategoryRemovedEvent
-import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
-import com.mateuszcholyn.wallet.backend.events.ExpenseRemovedEvent
+import com.mateuszcholyn.wallet.backend.events.*
 
 
 class CategoriesQuickSummaryIMPL(
@@ -22,6 +19,16 @@ class CategoriesQuickSummaryIMPL(
     override fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent) {
         expenseAddedEvent
             .toQuickSummary()
+            .also { categoriesQuickSummaryRepository.saveQuickSummary(it) }
+    }
+
+    override fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent) {
+        expenseUpdatedEvent
+            .toDecreaseNumberOfExpenses()
+            .also { categoriesQuickSummaryRepository.saveQuickSummary(it) }
+
+        expenseUpdatedEvent
+            .toIncreaseNumberOfExpenses()
             .also { categoriesQuickSummaryRepository.saveQuickSummary(it) }
     }
 
@@ -52,5 +59,17 @@ class CategoriesQuickSummaryIMPL(
         QuickSummary(
             categoryId = categoryId,
             numberOfExpenses = -1,
+        )
+
+    private fun ExpenseUpdatedEvent.toDecreaseNumberOfExpenses(): QuickSummary =
+        QuickSummary(
+            categoryId = this.oldCategoryId,
+            numberOfExpenses = -1,
+        )
+
+    private fun ExpenseUpdatedEvent.toIncreaseNumberOfExpenses(): QuickSummary =
+        QuickSummary(
+            categoryId = this.newCategoryId,
+            numberOfExpenses = 1,
         )
 }

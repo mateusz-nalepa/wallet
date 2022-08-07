@@ -20,6 +20,7 @@ class MiniKafkaConfigurator(
 
     fun configure() {
         configureExpenseAddedEventTopic()
+        configureExpenseUpdatedEventTopic()
         configureExpenseRemovedEventTopic()
 
         configureCategoryAddedEventTopic()
@@ -32,6 +33,12 @@ class MiniKafkaConfigurator(
         }
         miniKafka.expenseAddedEventTopic.addSubscription {
             searchService.handleEventExpenseAdded(it)
+        }
+    }
+
+    private fun configureExpenseUpdatedEventTopic() {
+        miniKafka.expenseUpdatedEventTopic.addSubscription {
+            categoriesQuickSummary.handleEventExpenseUpdated(it)
         }
     }
 

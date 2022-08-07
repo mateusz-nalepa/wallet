@@ -5,6 +5,7 @@ import com.mateuszcholyn.wallet.tests.manager.*
 import com.mateuszcholyn.wallet.tests.manager.ext.getCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.removeCategoryUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.removeExpenseUseCase
+import com.mateuszcholyn.wallet.tests.manager.ext.updateExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
 import org.junit.Test
 
@@ -82,6 +83,39 @@ class GetCategoriesQuickSummaryUseCaseTest {
         quickSummaryList.validate {
             categoryId(categoryScope.categoryId) {
                 hasNumberOfExpensesEqualTo(givenNumberOfExpenses - 1)
+            }
+        }
+    }
+
+    @Test
+    fun `quick summary should not have information about category after update expense event`() {
+        // given
+        lateinit var oldCategoryScope: CategoryScope
+        lateinit var newCategoryScope: CategoryScope
+        lateinit var expenseScope: ExpenseScope
+        val manager =
+            initExpenseAppManager {
+                oldCategoryScope = category {
+                    expenseScope = expense {}
+                }
+                newCategoryScope = category {}
+            }
+
+        manager.updateExpenseUseCase {
+            existingExpenseId = expenseScope.expenseId
+            newCategoryId = newCategoryScope.categoryId
+        }
+
+        // when
+        val quickSummaryList = manager.getCategoriesQuickSummaryUseCase()
+
+        // then
+        quickSummaryList.validate {
+            categoryId(oldCategoryScope.categoryId) {
+                hasNumberOfExpensesEqualTo(0)
+            }
+            categoryId(newCategoryScope.categoryId) {
+                hasNumberOfExpensesEqualTo(1)
             }
         }
     }

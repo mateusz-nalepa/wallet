@@ -12,6 +12,12 @@ data class ExpenseAddedEvent(
     val paidAt: LocalDateTime,
 )
 
+data class ExpenseUpdatedEvent(
+    val expenseId: ExpenseId,
+    val oldCategoryId: CategoryId,
+    val newCategoryId: CategoryId,
+)
+
 data class ExpenseRemovedEvent(
     val categoryId: CategoryId,
     val expenseId: ExpenseId,

@@ -1,18 +1,16 @@
 package com.mateuszcholyn.wallet.backend.categoriesquicksummary
 
 import com.mateuszcholyn.wallet.backend.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.events.CategoryAddedEvent
-import com.mateuszcholyn.wallet.backend.events.CategoryRemovedEvent
-import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
-import com.mateuszcholyn.wallet.backend.events.ExpenseRemovedEvent
+import com.mateuszcholyn.wallet.backend.events.*
 
 
 interface CategoriesQuickSummaryAPI {
     fun handleCategoryAdded(categoryAddedEvent: CategoryAddedEvent)
     fun handleCategoryRemoved(categoryRemovedEvent: CategoryRemovedEvent)
     fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent)
-    fun getQuickSummary(): QuickSummaryList
+    fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent)
     fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent)
+    fun getQuickSummary(): QuickSummaryList
 }
 
 data class QuickSummaryList(

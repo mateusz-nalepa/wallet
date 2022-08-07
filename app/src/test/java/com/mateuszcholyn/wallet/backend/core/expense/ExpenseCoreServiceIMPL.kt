@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.backend.core.expense
 import com.mateuszcholyn.wallet.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.backend.events.ExpenseRemovedEvent
+import com.mateuszcholyn.wallet.backend.events.ExpenseUpdatedEvent
 import com.mateuszcholyn.wallet.randomUUID
 
 
@@ -32,11 +33,22 @@ class ExpenseCoreServiceIMPL(
     override fun getAll(): List<Expense> =
         expenseRepository.getAllExpenses()
 
-    override fun update(updateExpenseParameters: Expense): Expense =
-        expenseRepository
-            .getByIdOrThrow(updateExpenseParameters.id)
+    override fun update(updateExpenseParameters: Expense): Expense {
+        val oldExpense = expenseRepository.getByIdOrThrow(updateExpenseParameters.id)
+
+        return oldExpense
             .updateUsing(updateExpenseParameters)
             .let { expenseRepository.save(it) }
+            .also {
+                expensePublisher.publishExpenseUpdatedEvent(
+                    ExpenseUpdatedEvent(
+                        expenseId = oldExpense.id,
+                        oldCategoryId = oldExpense.categoryId,
+                        newCategoryId = updateExpenseParameters.categoryId,
+                    )
+                )
+            }
+    }
 
     private fun AddExpenseParameters.toNewExpense(): Expense =
         Expense(
