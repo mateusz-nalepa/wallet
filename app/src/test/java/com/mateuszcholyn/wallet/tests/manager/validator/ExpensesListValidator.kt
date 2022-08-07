@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.tests.manager.validator
 
+import com.mateuszcholyn.wallet.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceResult
@@ -80,6 +81,13 @@ class SimpleSingleExpenseAddedEventValidator(
         assert(expenseAddedEvent.expenseId == expectedId) {
             "Expense with index $expenseIndex should have id equal to: $expectedId. " +
                     "Actual: ${expenseAddedEvent.expenseId}"
+        }
+    }
+
+    fun categoryIdEqualTo(expectedCategoryId: CategoryId) {
+        assert(expenseAddedEvent.categoryId == expectedCategoryId) {
+            "Expense with index $expenseIndex should have category id equal to: $expectedCategoryId. " +
+                    "Actual: ${expenseAddedEvent.categoryId}"
         }
     }
 

@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.backend.searchservice
 import com.mateuszcholyn.wallet.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.backend.events.ExpenseRemovedEvent
+import com.mateuszcholyn.wallet.backend.events.ExpenseUpdatedEvent
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -18,6 +19,7 @@ data class SearchCriteria(
 
 interface SearchServiceAPI {
     fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent)
+    fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent)
     fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent)
     fun getAll(searchCriteria: SearchCriteria): SearchServiceResult
 }

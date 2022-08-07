@@ -2,12 +2,20 @@ package com.mateuszcholyn.wallet.backend.searchservice
 
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.backend.events.ExpenseRemovedEvent
+import com.mateuszcholyn.wallet.backend.events.ExpenseUpdatedEvent
 
 class SearchServiceIMPL(
     private val searchServiceRepository: SearchServiceRepository,
 ) : SearchServiceAPI {
     override fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent) {
         searchServiceRepository.remove(expenseRemovedEvent.expenseId)
+    }
+
+    override fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent) {
+        searchServiceRepository
+            .getById(expenseId = expenseUpdatedEvent.expenseId)
+            ?.updateUsing(expenseUpdatedEvent)
+            ?.also { searchServiceRepository.saveExpense(it) }
     }
 
     override fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent) {
@@ -30,5 +38,14 @@ class SearchServiceIMPL(
                 expenses = this,
                 searchCriteria = searchCriteria,
             )
+        )
+
+    private fun ExpenseAddedEvent.updateUsing(
+        expenseUpdatedEvent: ExpenseUpdatedEvent,
+    ): ExpenseAddedEvent =
+        this.copy(
+            amount = expenseUpdatedEvent.newAmount,
+            paidAt = expenseUpdatedEvent.newPaidAt,
+            categoryId = expenseUpdatedEvent.newCategoryId,
         )
 }

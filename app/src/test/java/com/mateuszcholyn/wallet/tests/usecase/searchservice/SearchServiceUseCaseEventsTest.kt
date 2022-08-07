@@ -1,12 +1,13 @@
 package com.mateuszcholyn.wallet.tests.usecase.searchservice
 
+import com.mateuszcholyn.wallet.randomAmount
+import com.mateuszcholyn.wallet.randomDescription
 import com.mateuszcholyn.wallet.randomInt
-import com.mateuszcholyn.wallet.tests.manager.ExpenseScope
-import com.mateuszcholyn.wallet.tests.manager.category
-import com.mateuszcholyn.wallet.tests.manager.expense
+import com.mateuszcholyn.wallet.randomPaidAt
+import com.mateuszcholyn.wallet.tests.manager.*
 import com.mateuszcholyn.wallet.tests.manager.ext.removeExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.searchServiceUseCase
-import com.mateuszcholyn.wallet.tests.manager.initExpenseAppManager
+import com.mateuszcholyn.wallet.tests.manager.ext.updateExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
 import org.junit.Test
 
@@ -32,6 +33,47 @@ class SearchServiceUseCaseEventsTest {
         searchServiceResult.validate {
             numberOfExpensesEqualTo(givenNumberOfExpenses)
         }
+    }
+
+    @Test
+    fun `search service should handle expense updated event`() {
+        // given
+        val givenNewPaidAt = randomPaidAt()
+        val givenNewAmount = randomAmount()
+        val givenNewDescription = randomDescription()
+
+        lateinit var newCategoryScope: CategoryScope
+        lateinit var expenseScope: ExpenseScope
+        val manager =
+            initExpenseAppManager {
+                category {
+                    expenseScope = expense { }
+                }
+                newCategoryScope = category { }
+            }
+
+        manager.updateExpenseUseCase {
+            existingExpenseId = expenseScope.expenseId
+            newCategoryId = newCategoryScope.categoryId
+            newPaidAt = givenNewPaidAt
+            newAmount = givenNewAmount
+            newDescription = givenNewDescription
+        }
+
+        // when
+        val searchServiceResult = manager.searchServiceUseCase { }
+
+        // then
+        searchServiceResult.validate {
+            numberOfExpensesEqualTo(1)
+            expenseIndex(0) {
+                paidAtEqualTo(givenNewPaidAt)
+                amountEqualTo(givenNewAmount)
+                idEqualTo(expenseScope.expenseId)
+                categoryIdEqualTo(newCategoryScope.categoryId)
+            }
+        }
+
     }
 
     @Test

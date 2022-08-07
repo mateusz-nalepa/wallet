@@ -16,6 +16,8 @@ data class ExpenseUpdatedEvent(
     val expenseId: ExpenseId,
     val oldCategoryId: CategoryId,
     val newCategoryId: CategoryId,
+    val newAmount: BigDecimal,
+    val newPaidAt: LocalDateTime,
 )
 
 data class ExpenseRemovedEvent(

@@ -4,6 +4,7 @@ import com.mateuszcholyn.wallet.backend.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 
 interface SearchServiceRepository {
+    fun getById(expenseId: ExpenseId): ExpenseAddedEvent?
     fun saveExpense(expenseAddedEvent: ExpenseAddedEvent): ExpenseAddedEvent
     fun getAll(searchCriteria: SearchCriteria): List<ExpenseAddedEvent>
     fun remove(expenseId: ExpenseId)
@@ -11,6 +12,9 @@ interface SearchServiceRepository {
 
 class InMemorySearchServiceRepository : SearchServiceRepository {
     private val storage: MutableMap<ExpenseId, ExpenseAddedEvent> = mutableMapOf()
+
+    override fun getById(expenseId: ExpenseId): ExpenseAddedEvent? =
+        storage[expenseId]
 
     override fun saveExpense(expenseAddedEvent: ExpenseAddedEvent): ExpenseAddedEvent {
         storage[expenseAddedEvent.expenseId] = expenseAddedEvent

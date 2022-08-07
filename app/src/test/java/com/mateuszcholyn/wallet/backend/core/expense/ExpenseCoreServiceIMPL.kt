@@ -33,11 +33,7 @@ class ExpenseCoreServiceIMPL(
             .let { expenseRepositoryFacade.save(it) }
             .also {
                 expensePublisher.publishExpenseUpdatedEvent(
-                    ExpenseUpdatedEvent(
-                        expenseId = oldExpense.id,
-                        oldCategoryId = oldExpense.categoryId,
-                        newCategoryId = updateExpenseParameters.categoryId,
-                    )
+                    it.toExpenseUpdatedEvent(oldExpense = oldExpense)
                 )
             }
     }
@@ -71,5 +67,16 @@ class ExpenseCoreServiceIMPL(
             description = updateExpenseParameters.description,
             paidAt = updateExpenseParameters.paidAt,
             categoryId = updateExpenseParameters.categoryId,
+        )
+
+    private fun Expense.toExpenseUpdatedEvent(
+        oldExpense: Expense,
+    ): ExpenseUpdatedEvent =
+        ExpenseUpdatedEvent(
+            expenseId = id,
+            oldCategoryId = oldExpense.categoryId,
+            newCategoryId = categoryId,
+            newAmount = amount,
+            newPaidAt = paidAt,
         )
 }
