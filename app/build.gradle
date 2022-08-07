@@ -15,7 +15,7 @@ android {
         targetSdkVersion 32
         versionCode 2
         versionName "2.0"
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner 'com.mateuszcholyn.wallet.newTests.CustomTestRunner'
         configurations.all {
             resolutionStrategy {
                 force 'androidx.core:core-ktx:1.7.0'
@@ -81,6 +81,7 @@ dependencies {
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.1"
 
     implementation 'androidx.room:room-runtime:2.4.2'
+    implementation 'androidx.test:runner:1.4.0'
     kapt 'androidx.room:room-compiler:2.4.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
 
@@ -125,9 +126,9 @@ dependencies {
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.3.0-alpha01'
     debugImplementation 'androidx.compose.ui:ui-test-manifest:1.3.0-alpha01'
 
-//    // Hilt Testing
-//    androidTestImplementation("com.google.dagger:hilt-android-testing:2.38.1")
-//    // ...with Kotlin.
-//    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.38.1")
+    // Hilt Testing
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.38.1")
+    // ...with Kotlin.
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.38.1")
 
 }
