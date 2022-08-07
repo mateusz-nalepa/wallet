@@ -1,5 +1,7 @@
 package com.mateuszcholyn.wallet.di.usecases
 
+import com.mateuszcholyn.wallet.newcode.app.backend.BackendHiltIsPropertySetup
+import com.mateuszcholyn.wallet.newcode.app.backend.BackendIsPropertySetup
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryAPI
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryIMPL
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryRepository
@@ -101,5 +103,20 @@ object HiltServicesModuleV2 {
             categoryPublisher = MiniKafkaCategoryPublisher(miniKafka),
         )
     }
+
+    @Provides
+    @Singleton
+    fun provideBackendIsPropertySetup(
+        categoriesQuickSummaryAPI: CategoriesQuickSummaryAPI,
+        searchServiceAPI: SearchServiceAPI,
+        expenseCoreServiceAPI: ExpenseCoreServiceAPI,
+        categoryCoreServiceAPI: CategoryCoreServiceAPI,
+    ): BackendIsPropertySetup =
+        BackendHiltIsPropertySetup(
+            categoriesQuickSummaryAPI = categoriesQuickSummaryAPI,
+            searchServiceAPI = searchServiceAPI,
+            expenseCoreServiceAPI = expenseCoreServiceAPI,
+            categoryCoreServiceAPI = categoryCoreServiceAPI,
+        )
 
 }
