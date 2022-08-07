@@ -3,10 +3,10 @@ package com.mateuszcholyn.wallet.tests.manager.ext
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.AddExpenseParameters
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.Expense
-import com.mateuszcholyn.wallet.randomAmount
-import com.mateuszcholyn.wallet.randomCategoryId
-import com.mateuszcholyn.wallet.randomDescription
-import com.mateuszcholyn.wallet.randomPaidAt
+import com.mateuszcholyn.wallet.tests.manager.randomAmount
+import com.mateuszcholyn.wallet.tests.manager.randomCategoryId
+import com.mateuszcholyn.wallet.tests.manager.randomDescription
+import com.mateuszcholyn.wallet.tests.manager.randomPaidAt
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 import java.math.BigDecimal
 import java.time.LocalDateTime

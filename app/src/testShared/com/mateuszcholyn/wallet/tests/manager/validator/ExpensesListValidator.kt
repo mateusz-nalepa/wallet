@@ -4,7 +4,7 @@ import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.newcode.app.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchServiceResult
-import com.mateuszcholyn.wallet.tests.managerscope.ExpenseScope
+import com.mateuszcholyn.wallet.tests.manager.ExpenseScope
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDateTime

@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.infrastructure.sqlite.expense
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.infrastructure.DatabaseTestSpecification
-import com.mateuszcholyn.wallet.randomDescription
+import com.mateuszcholyn.wallet.tests.manager.randomDescription
 import com.mateuszcholyn.wallet.randomNewCategory
 import com.mateuszcholyn.wallet.randomNewExpense
 import junit.framework.Assert.assertEquals

@@ -1,15 +1,11 @@
 package com.mateuszcholyn.wallet.tests.usecase.core.category.updatecategory
 
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryNotFoundException
-import com.mateuszcholyn.wallet.catchThrowable
-import com.mateuszcholyn.wallet.randomCategoryId
-import com.mateuszcholyn.wallet.randomCategoryName
-import com.mateuszcholyn.wallet.tests.managerscope.CategoryScope
-import com.mateuszcholyn.wallet.tests.managerscope.category
+import com.mateuszcholyn.wallet.tests.catchThrowable
+import com.mateuszcholyn.wallet.tests.manager.*
 import com.mateuszcholyn.wallet.tests.manager.ext.updateCategoryUseCase
-import com.mateuszcholyn.wallet.tests.manager.initExpenseAppManager
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
-import com.mateuszcholyn.wallet.validate
+import com.mateuszcholyn.wallet.tests.validate
 import org.junit.Test
 
 class UpdateCategoryUseCaseTest {

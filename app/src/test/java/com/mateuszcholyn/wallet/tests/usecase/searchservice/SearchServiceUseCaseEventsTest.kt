@@ -1,18 +1,18 @@
 package com.mateuszcholyn.wallet.tests.usecase.searchservice
 
-import com.mateuszcholyn.wallet.randomAmount
-import com.mateuszcholyn.wallet.randomDescription
-import com.mateuszcholyn.wallet.randomInt
-import com.mateuszcholyn.wallet.randomPaidAt
+import com.mateuszcholyn.wallet.tests.manager.randomAmount
+import com.mateuszcholyn.wallet.tests.manager.randomDescription
+import com.mateuszcholyn.wallet.tests.manager.randomInt
+import com.mateuszcholyn.wallet.tests.manager.randomPaidAt
 import com.mateuszcholyn.wallet.tests.manager.*
 import com.mateuszcholyn.wallet.tests.manager.ext.removeExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.searchServiceUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.updateExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
-import com.mateuszcholyn.wallet.tests.managerscope.CategoryScope
-import com.mateuszcholyn.wallet.tests.managerscope.ExpenseScope
-import com.mateuszcholyn.wallet.tests.managerscope.category
-import com.mateuszcholyn.wallet.tests.managerscope.expense
+import com.mateuszcholyn.wallet.tests.manager.CategoryScope
+import com.mateuszcholyn.wallet.tests.manager.ExpenseScope
+import com.mateuszcholyn.wallet.tests.manager.category
+import com.mateuszcholyn.wallet.tests.manager.expense
 import org.junit.Test
 
 class SearchServiceUseCaseEventsTest {

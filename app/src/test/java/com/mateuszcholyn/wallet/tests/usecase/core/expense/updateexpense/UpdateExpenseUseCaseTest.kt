@@ -1,14 +1,11 @@
 package com.mateuszcholyn.wallet.tests.usecase.core.expense.updateexpense
 
-import com.mateuszcholyn.wallet.*
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseNotFoundException
+import com.mateuszcholyn.wallet.tests.catchThrowable
 import com.mateuszcholyn.wallet.tests.manager.*
 import com.mateuszcholyn.wallet.tests.manager.ext.updateExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
-import com.mateuszcholyn.wallet.tests.managerscope.CategoryScope
-import com.mateuszcholyn.wallet.tests.managerscope.ExpenseScope
-import com.mateuszcholyn.wallet.tests.managerscope.category
-import com.mateuszcholyn.wallet.tests.managerscope.expense
+import com.mateuszcholyn.wallet.tests.validate
 import org.junit.Test
 
 class UpdateExpenseUseCaseTest {

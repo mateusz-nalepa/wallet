@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.tests.manager.ext
 
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.Category
-import com.mateuszcholyn.wallet.randomCategoryId
-import com.mateuszcholyn.wallet.randomCategoryName
+import com.mateuszcholyn.wallet.tests.manager.randomCategoryId
+import com.mateuszcholyn.wallet.tests.manager.randomCategoryName
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 
 fun ExpenseAppManager.updateCategoryUseCase(

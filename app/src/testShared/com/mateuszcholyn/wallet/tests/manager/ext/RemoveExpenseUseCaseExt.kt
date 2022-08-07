@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.tests.manager.ext
 
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.randomExpenseId
+import com.mateuszcholyn.wallet.tests.manager.randomExpenseId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.ExpenseRemovedStatus
 

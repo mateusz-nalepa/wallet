@@ -1,10 +1,10 @@
 package com.mateuszcholyn.wallet.tests.usecase.searchservice
 
 import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.NewSort
-import com.mateuszcholyn.wallet.plusInt
-import com.mateuszcholyn.wallet.randomAmount
-import com.mateuszcholyn.wallet.tests.managerscope.category
-import com.mateuszcholyn.wallet.tests.managerscope.expense
+import com.mateuszcholyn.wallet.tests.manager.plusInt
+import com.mateuszcholyn.wallet.tests.manager.randomAmount
+import com.mateuszcholyn.wallet.tests.manager.category
+import com.mateuszcholyn.wallet.tests.manager.expense
 import com.mateuszcholyn.wallet.tests.manager.ext.searchServiceUseCase
 import com.mateuszcholyn.wallet.tests.manager.initExpenseAppManager
 import com.mateuszcholyn.wallet.tests.manager.validator.validate

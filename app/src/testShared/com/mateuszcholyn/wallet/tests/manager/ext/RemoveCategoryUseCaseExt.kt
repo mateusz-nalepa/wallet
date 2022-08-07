@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.tests.manager.ext
 
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
-import com.mateuszcholyn.wallet.randomCategoryId
+import com.mateuszcholyn.wallet.tests.manager.randomCategoryId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.CategoryRemovedStatus
 

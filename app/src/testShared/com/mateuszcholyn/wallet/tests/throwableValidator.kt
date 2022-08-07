@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet
+package com.mateuszcholyn.wallet.tests
 
 import kotlin.reflect.KClass
 
