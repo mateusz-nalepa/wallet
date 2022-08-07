@@ -1,9 +1,9 @@
 package com.mateuszcholyn.wallet.tests.manager.ext
 
 import com.mateuszcholyn.wallet.*
-import com.mateuszcholyn.wallet.backend.core.CategoryId
-import com.mateuszcholyn.wallet.backend.core.Expense
-import com.mateuszcholyn.wallet.backend.core.ExpenseId
+import com.mateuszcholyn.wallet.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.backend.core.expense.Expense
+import com.mateuszcholyn.wallet.backend.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 import java.math.BigDecimal
 import java.time.LocalDateTime

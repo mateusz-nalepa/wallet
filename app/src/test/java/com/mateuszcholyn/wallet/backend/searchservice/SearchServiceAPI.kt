@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.backend.searchservice
 
-import com.mateuszcholyn.wallet.backend.core.CategoryId
+import com.mateuszcholyn.wallet.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.backend.events.ExpenseRemovedEvent
 import java.math.BigDecimal

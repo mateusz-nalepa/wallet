@@ -1,11 +1,10 @@
 package com.mateuszcholyn.wallet.tests.manager
 
-import com.mateuszcholyn.wallet.backend.core.CategoryId
-import com.mateuszcholyn.wallet.backend.core.ExpenseId
+import com.mateuszcholyn.wallet.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.backend.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.randomAmount
 import com.mateuszcholyn.wallet.randomCategoryName
 import com.mateuszcholyn.wallet.randomDescription
-import com.mateuszcholyn.wallet.randomPaidAt
 import com.mateuszcholyn.wallet.util.dateutils.today
 import java.math.BigDecimal
 import java.time.LocalDateTime

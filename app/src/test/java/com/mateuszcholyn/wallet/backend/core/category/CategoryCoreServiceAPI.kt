@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.backend.core
+package com.mateuszcholyn.wallet.backend.core.category
 
 import java.time.Instant
 

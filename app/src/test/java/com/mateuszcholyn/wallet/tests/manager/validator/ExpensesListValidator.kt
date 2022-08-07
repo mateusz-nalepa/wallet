@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.tests.manager.validator
 
-import com.mateuszcholyn.wallet.backend.core.ExpenseId
+import com.mateuszcholyn.wallet.backend.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceResult
 import com.mateuszcholyn.wallet.tests.manager.ExpenseScope

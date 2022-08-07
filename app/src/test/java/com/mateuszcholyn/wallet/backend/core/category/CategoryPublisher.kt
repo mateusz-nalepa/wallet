@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.backend.core
+package com.mateuszcholyn.wallet.backend.core.category
 
 import com.mateuszcholyn.wallet.backend.events.CategoryAddedEvent
 import com.mateuszcholyn.wallet.backend.events.CategoryRemovedEvent

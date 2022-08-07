@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.tests.manager.ext
 
-import com.mateuszcholyn.wallet.backend.core.Category
-import com.mateuszcholyn.wallet.backend.core.CreateCategoryParameters
+import com.mateuszcholyn.wallet.backend.core.category.Category
+import com.mateuszcholyn.wallet.backend.core.category.CreateCategoryParameters
 import com.mateuszcholyn.wallet.randomCategoryName
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 

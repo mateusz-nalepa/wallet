@@ -1,4 +1,6 @@
-package com.mateuszcholyn.wallet.backend.core
+package com.mateuszcholyn.wallet.backend.core.expense
+
+import com.mateuszcholyn.wallet.backend.core.category.CategoryId
 
 interface ExpenseRepository {
     fun save(

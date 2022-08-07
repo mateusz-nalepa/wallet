@@ -1,5 +1,6 @@
-package com.mateuszcholyn.wallet.backend.core
+package com.mateuszcholyn.wallet.backend.core.expense
 
+import com.mateuszcholyn.wallet.backend.core.category.CategoryId
 import java.math.BigDecimal
 import java.time.LocalDateTime
 

@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.tests.manager.ext
 
-import com.mateuszcholyn.wallet.backend.core.CategoryId
+import com.mateuszcholyn.wallet.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.searchservice.NewSort
 import com.mateuszcholyn.wallet.backend.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceResult

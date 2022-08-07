@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.backend.usecase
 
-import com.mateuszcholyn.wallet.backend.core.CategoryCoreServiceAPI
-import com.mateuszcholyn.wallet.backend.core.CategoryId
+import com.mateuszcholyn.wallet.backend.core.category.CategoryCoreServiceAPI
+import com.mateuszcholyn.wallet.backend.core.category.CategoryId
 
 enum class CategoryRemovedStatus {
     SUCCESS

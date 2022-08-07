@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.backend.categoriesquicksummary
 
-import com.mateuszcholyn.wallet.backend.core.CategoryId
+import com.mateuszcholyn.wallet.backend.core.category.CategoryId
 
 interface CategoriesQuickSummaryRepository {
     fun saveQuickSummary(quickSummary: QuickSummary): QuickSummary

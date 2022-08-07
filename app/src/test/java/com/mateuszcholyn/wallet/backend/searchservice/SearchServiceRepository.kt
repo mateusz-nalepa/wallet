@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.backend.searchservice
 
-import com.mateuszcholyn.wallet.backend.core.ExpenseId
+import com.mateuszcholyn.wallet.backend.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.events.ExpenseAddedEvent
 
 interface SearchServiceRepository {

@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.backend.core
+package com.mateuszcholyn.wallet.backend.core.category
 
 interface CategoryRepository {
     fun add(category: Category): Category

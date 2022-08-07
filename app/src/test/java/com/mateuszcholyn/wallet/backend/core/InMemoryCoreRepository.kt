@@ -1,5 +1,11 @@
 package com.mateuszcholyn.wallet.backend.core
 
+import com.mateuszcholyn.wallet.backend.core.category.Category
+import com.mateuszcholyn.wallet.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.backend.core.category.CategoryRepository
+import com.mateuszcholyn.wallet.backend.core.expense.Expense
+import com.mateuszcholyn.wallet.backend.core.expense.ExpenseId
+import com.mateuszcholyn.wallet.backend.core.expense.ExpenseRepository
 import java.util.concurrent.ConcurrentHashMap
 
 class InMemoryCoreRepository : CategoryRepository, ExpenseRepository {

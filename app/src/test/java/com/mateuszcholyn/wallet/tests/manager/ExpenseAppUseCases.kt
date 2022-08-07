@@ -4,6 +4,12 @@ import com.mateuszcholyn.wallet.backend.categoriesquicksummary.CategoriesQuickSu
 import com.mateuszcholyn.wallet.backend.categoriesquicksummary.CategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.backend.categoriesquicksummary.InMemoryCategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.backend.core.*
+import com.mateuszcholyn.wallet.backend.core.category.CategoryCoreServiceIMPL
+import com.mateuszcholyn.wallet.backend.core.category.CategoryRepository
+import com.mateuszcholyn.wallet.backend.core.category.MiniKafkaCategoryPublisher
+import com.mateuszcholyn.wallet.backend.core.expense.ExpenseCoreServiceIMPL
+import com.mateuszcholyn.wallet.backend.core.expense.ExpenseRepository
+import com.mateuszcholyn.wallet.backend.core.expense.MiniKafkaExpensePublisher
 import com.mateuszcholyn.wallet.backend.events.MiniKafka
 import com.mateuszcholyn.wallet.backend.searchservice.InMemorySearchServiceRepository
 import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceIMPL
