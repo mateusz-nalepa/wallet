@@ -1,7 +1,8 @@
-package com.mateuszcholyn.wallet.backend.usecase
+package com.mateuszcholyn.wallet.backend.usecase.quicksummary
 
 import com.mateuszcholyn.wallet.backend.categoriesquicksummary.CategoriesQuickSummaryAPI
 import com.mateuszcholyn.wallet.backend.categoriesquicksummary.QuickSummaryList
+import com.mateuszcholyn.wallet.backend.usecase.UseCase
 
 
 class GetCategoriesQuickSummaryUseCase(

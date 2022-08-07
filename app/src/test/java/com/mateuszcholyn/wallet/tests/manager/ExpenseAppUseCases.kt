@@ -3,18 +3,26 @@ package com.mateuszcholyn.wallet.tests.manager
 import com.mateuszcholyn.wallet.backend.categoriesquicksummary.CategoriesQuickSummaryIMPL
 import com.mateuszcholyn.wallet.backend.categoriesquicksummary.CategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.backend.categoriesquicksummary.InMemoryCategoriesQuickSummaryRepository
-import com.mateuszcholyn.wallet.backend.core.*
+import com.mateuszcholyn.wallet.backend.core.InMemoryCoreRepository
 import com.mateuszcholyn.wallet.backend.core.category.CategoryCoreServiceIMPL
 import com.mateuszcholyn.wallet.backend.core.category.CategoryRepository
+import com.mateuszcholyn.wallet.backend.core.category.CategoryRepositoryFacade
 import com.mateuszcholyn.wallet.backend.core.category.MiniKafkaCategoryPublisher
 import com.mateuszcholyn.wallet.backend.core.expense.ExpenseCoreServiceIMPL
 import com.mateuszcholyn.wallet.backend.core.expense.ExpenseRepository
+import com.mateuszcholyn.wallet.backend.core.expense.ExpenseRepositoryFacade
 import com.mateuszcholyn.wallet.backend.core.expense.MiniKafkaExpensePublisher
 import com.mateuszcholyn.wallet.backend.events.MiniKafka
 import com.mateuszcholyn.wallet.backend.searchservice.InMemorySearchServiceRepository
 import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceIMPL
 import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceRepository
-import com.mateuszcholyn.wallet.backend.usecase.*
+import com.mateuszcholyn.wallet.backend.usecase.core.category.CreateCategoryUseCase
+import com.mateuszcholyn.wallet.backend.usecase.core.category.RemoveCategoryUseCase
+import com.mateuszcholyn.wallet.backend.usecase.core.expense.AddExpenseUseCase
+import com.mateuszcholyn.wallet.backend.usecase.core.expense.RemoveExpenseUseCase
+import com.mateuszcholyn.wallet.backend.usecase.core.expense.UpdateExpenseUseCase
+import com.mateuszcholyn.wallet.backend.usecase.quicksummary.GetCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.backend.usecase.searchservice.SearchServiceUseCase
 
 
 class ExpenseAppDependencies {
@@ -63,13 +71,13 @@ data class ExpenseAppUseCases(
 
             val categoryCoreService =
                 CategoryCoreServiceIMPL(
-                    categoryRepository = deps.categoryRepository,
+                    categoryRepositoryFacade = CategoryRepositoryFacade(deps.categoryRepository),
                     categoryPublisher = MiniKafkaCategoryPublisher(miniKafka),
                 )
 
             val expenseCoreService =
                 ExpenseCoreServiceIMPL(
-                    expenseRepository = deps.expenseRepository,
+                    expenseRepositoryFacade = ExpenseRepositoryFacade(deps.expenseRepository),
                     expensePublisher = MiniKafkaExpensePublisher(miniKafka),
                 )
 

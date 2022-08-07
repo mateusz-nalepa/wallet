@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.tests.manager.ext
 import com.mateuszcholyn.wallet.backend.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.randomExpenseId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
-import com.mateuszcholyn.wallet.backend.usecase.ExpenseRemovedStatus
+import com.mateuszcholyn.wallet.backend.usecase.core.expense.ExpenseRemovedStatus
 
 fun ExpenseAppManager.removeExpenseUseCase(
     scope: RemoveExpenseUseCaseScope.() -> Unit,

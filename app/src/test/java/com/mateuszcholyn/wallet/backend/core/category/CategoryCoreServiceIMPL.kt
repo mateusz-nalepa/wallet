@@ -6,28 +6,22 @@ import com.mateuszcholyn.wallet.randomUUID
 import java.time.Instant
 
 class CategoryCoreServiceIMPL(
-    private val categoryRepository: CategoryRepository,
+    private val categoryRepositoryFacade: CategoryRepositoryFacade,
     private val categoryPublisher: CategoryPublisher,
 ) : CategoryCoreServiceAPI {
     override fun add(createCategoryParameters: CreateCategoryParameters): Category =
         createCategoryParameters
             .toNewCategory()
-            .let { categoryRepository.add(it) }
+            .let { categoryRepositoryFacade.add(it) }
             .also { categoryPublisher.publishCategoryAddedEvent(it.toCategoryAddedEvent()) }
 
     override fun getAll(): List<Category> =
-        categoryRepository.getAllCategories()
+        categoryRepositoryFacade.getAllCategories()
 
     override fun remove(categoryId: CategoryId) {
-        categoryRepository
-            .remove(
-                categoryId = categoryId,
-                onExpensesExistAction = {
-                    throw CategoryHasExpensesException(it)
-                }
-            )
+        categoryRepositoryFacade
+            .remove(categoryId)
             .also { categoryPublisher.publishCategoryRemovedEvent(CategoryRemovedEvent(categoryId)) }
-
     }
 
     private fun CreateCategoryParameters.toNewCategory(): Category =
@@ -44,5 +38,3 @@ class CategoryCoreServiceIMPL(
         )
 }
 
-class CategoryHasExpensesException(categoryId: CategoryId) :
-    RuntimeException("Category with id ${categoryId.id} has expenses and cannot be removed")
