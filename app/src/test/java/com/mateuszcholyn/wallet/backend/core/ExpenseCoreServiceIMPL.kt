@@ -13,7 +13,7 @@ class ExpenseCoreServiceIMPL(
         addExpenseParameters
             .toNewExpense()
             .let { expense ->
-                expenseRepository.add(
+                expenseRepository.save(
                     expense = expense,
                     onNonExistingCategoryAction = { categoryId ->
                         throw CategoryWithGivenIdDoesNotExist(categoryId)
@@ -23,14 +23,19 @@ class ExpenseCoreServiceIMPL(
             .also { expensePublisher.publishExpenseAddedEvent(it.toExpenseAddedEvent()) }
 
     override fun remove(expenseId: ExpenseId) {
-        val expense =
-            expenseRepository.getById(expenseId) ?: throw ExpenseNotFoundException(expenseId)
+        val expense = expenseRepository.getByIdOrThrow(expenseId)
         expenseRepository.remove(expenseId)
         expensePublisher.publishExpenseRemovedEvent(expense.toExpenseRemovedEvent())
     }
 
     override fun getAll(): List<Expense> =
         expenseRepository.getAllExpenses()
+
+    override fun update(updateExpenseParameters: Expense): Expense =
+        expenseRepository
+            .getByIdOrThrow(updateExpenseParameters.id)
+            .updateUsing(updateExpenseParameters)
+            .let { expenseRepository.save(it) }
 
     private fun AddExpenseParameters.toNewExpense(): Expense =
         Expense(
@@ -62,3 +67,14 @@ class ExpenseNotFoundException(expenseId: ExpenseId) :
 
 class CategoryWithGivenIdDoesNotExist(categoryId: CategoryId) :
     RuntimeException("Category with id ${categoryId.id} does not exist")
+
+private fun Expense.updateUsing(updateExpenseParameters: Expense): Expense =
+    this.copy(
+        amount = updateExpenseParameters.amount,
+        description = updateExpenseParameters.description,
+        paidAt = updateExpenseParameters.paidAt,
+        categoryId = updateExpenseParameters.categoryId,
+    )
+
+private fun ExpenseRepository.getByIdOrThrow(expenseId: ExpenseId): Expense =
+    this.getById(expenseId) ?: throw ExpenseNotFoundException(expenseId)

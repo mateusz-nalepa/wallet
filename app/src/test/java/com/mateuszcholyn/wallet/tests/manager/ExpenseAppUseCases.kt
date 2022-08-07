@@ -24,12 +24,13 @@ class ExpenseAppDependencies {
 }
 
 data class ExpenseAppUseCases(
-    val addExpenseUseCase: AddExpenseUseCase,
     val createCategoryUseCase: CreateCategoryUseCase,
+    val removeCategoryUseCase: RemoveCategoryUseCase,
+    val addExpenseUseCase: AddExpenseUseCase,
+    val updateExpenseUseCase: UpdateExpenseUseCase,
+    val removeExpenseUseCase: RemoveExpenseUseCase,
     val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
     val searchServiceUseCase: SearchServiceUseCase,
-    val removeExpenseUseCase: RemoveExpenseUseCase,
-    val removeCategoryUseCase: RemoveCategoryUseCase,
 ) {
 
     companion object {
@@ -74,6 +75,9 @@ data class ExpenseAppUseCases(
                     categoryCoreServiceAPI = categoryCoreService,
                 ),
                 addExpenseUseCase = AddExpenseUseCase(
+                    expenseCoreServiceAPI = expenseCoreService,
+                ),
+                updateExpenseUseCase = UpdateExpenseUseCase(
                     expenseCoreServiceAPI = expenseCoreService,
                 ),
                 removeExpenseUseCase = RemoveExpenseUseCase(

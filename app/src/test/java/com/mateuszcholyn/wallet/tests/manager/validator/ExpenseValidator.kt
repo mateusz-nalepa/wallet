@@ -1,8 +1,10 @@
 package com.mateuszcholyn.wallet.tests.manager.validator
 
+import com.mateuszcholyn.wallet.backend.core.CategoryId
 import com.mateuszcholyn.wallet.backend.core.Expense
 import com.mateuszcholyn.wallet.backend.core.ExpenseId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
+import java.math.BigDecimal
 import java.time.LocalDateTime
 
 fun ExpenseAppManager.validate(
@@ -24,7 +26,25 @@ class SimpleExpenseValidator(
 ) {
     fun paidAtEqualTo(expectedPaidAt: LocalDateTime) {
         assert(expense.paidAt == expectedPaidAt) {
-            "Expected paidAt is: $expectedPaidAt. Actual: ${expense.paidAt}"
+            "Expected paidAt should be: $expectedPaidAt. Actual: ${expense.paidAt}"
+        }
+    }
+
+    fun descriptionEqualTo(expectedDescription: String) {
+        assert(expense.description == expectedDescription) {
+            "Expected description should be: $expectedDescription. Actual: ${expense.description}"
+        }
+    }
+
+    fun amountEqualTo(expectedAmount: BigDecimal) {
+        assert(expense.amount == expectedAmount) {
+            "Expected amount should be: $expectedAmount. Actual: ${expense.amount}"
+        }
+    }
+
+    fun categoryIdEqualTo(expectedCategoryId: CategoryId) {
+        assert(expense.categoryId == expectedCategoryId) {
+            "Expected category Id should be: $expectedCategoryId. Actual: ${expense.categoryId}"
         }
     }
 }

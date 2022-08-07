@@ -35,7 +35,7 @@ class InMemoryCoreRepository : CategoryRepository, ExpenseRepository {
         categories.remove(categoryId)
     }
 
-    override fun add(
+    override fun save(
         expense: Expense,
         onNonExistingCategoryAction: (CategoryId) -> Unit,
     ): Expense {

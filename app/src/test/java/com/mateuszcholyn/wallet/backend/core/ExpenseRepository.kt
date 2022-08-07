@@ -1,9 +1,9 @@
 package com.mateuszcholyn.wallet.backend.core
 
 interface ExpenseRepository {
-    fun add(
+    fun save(
         expense: Expense,
-        onNonExistingCategoryAction: (CategoryId) -> Unit,
+        onNonExistingCategoryAction: (CategoryId) -> Unit = {},
     ): Expense
 
     fun getAllExpenses(): List<Expense>
