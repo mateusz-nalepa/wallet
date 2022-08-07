@@ -3,13 +3,13 @@ package com.mateuszcholyn.wallet.app.backend.core.category
 class CategoryRepositoryFacade(
     private val categoryRepository: CategoryRepository,
 ) {
-    fun add(category: Category): Category =
-        categoryRepository.add(category)
+    fun save(category: Category): Category =
+        categoryRepository.save(category)
 
     fun getAllCategories(): List<Category> =
         categoryRepository.getAllCategories()
 
-    fun getByIdOrThrow(categoryId: CategoryId): Category? =
+    fun getByIdOrThrow(categoryId: CategoryId): Category =
         categoryRepository.getById(categoryId)
             ?: throw CategoryNotFoundException(categoryId)
 

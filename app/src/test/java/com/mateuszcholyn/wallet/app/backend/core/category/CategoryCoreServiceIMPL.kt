@@ -3,7 +3,6 @@ package com.mateuszcholyn.wallet.app.backend.core.category
 import com.mateuszcholyn.wallet.app.backend.events.CategoryAddedEvent
 import com.mateuszcholyn.wallet.app.backend.events.CategoryRemovedEvent
 import com.mateuszcholyn.wallet.randomUUID
-import java.time.Instant
 
 class CategoryCoreServiceIMPL(
     private val categoryRepositoryFacade: CategoryRepositoryFacade,
@@ -12,7 +11,7 @@ class CategoryCoreServiceIMPL(
     override fun add(createCategoryParameters: CreateCategoryParameters): Category =
         createCategoryParameters
             .toNewCategory()
-            .let { categoryRepositoryFacade.add(it) }
+            .let { categoryRepositoryFacade.save(it) }
             .also { categoryPublisher.publishCategoryAddedEvent(it.toCategoryAddedEvent()) }
 
     override fun getAll(): List<Category> =
@@ -24,17 +23,27 @@ class CategoryCoreServiceIMPL(
             .also { categoryPublisher.publishCategoryRemovedEvent(CategoryRemovedEvent(categoryId)) }
     }
 
+    override fun update(updateCategoryParameters: Category): Category =
+        categoryRepositoryFacade
+            .getByIdOrThrow(updateCategoryParameters.id)
+            .updateUsing(updateCategoryParameters)
+            .let { categoryRepositoryFacade.save(it) }
+
     private fun CreateCategoryParameters.toNewCategory(): Category =
         Category(
             id = CategoryId(randomUUID()),
             name = name,
-            createdAt = Instant.now(),
         )
 
     private fun Category.toCategoryAddedEvent(): CategoryAddedEvent =
         CategoryAddedEvent(
             categoryId = id,
             name = name,
+        )
+
+    private fun Category.updateUsing(updateCategoryParameters: Category): Category =
+        this.copy(
+            name = updateCategoryParameters.name,
         )
 }
 

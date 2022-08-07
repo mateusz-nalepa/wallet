@@ -1,11 +1,10 @@
 package com.mateuszcholyn.wallet.app.backend.core.category
 
-import java.time.Instant
-
 interface CategoryCoreServiceAPI {
     fun add(createCategoryParameters: CreateCategoryParameters): Category
     fun getAll(): List<Category>
     fun remove(categoryId: CategoryId)
+    fun update(updateCategoryParameters: Category): Category
 }
 
 data class CreateCategoryParameters(
@@ -19,5 +18,4 @@ data class CategoryId(
 data class Category(
     val id: CategoryId,
     val name: String,
-    val createdAt: Instant,
 )

@@ -16,12 +16,13 @@ import com.mateuszcholyn.wallet.app.backend.events.MiniKafka
 import com.mateuszcholyn.wallet.app.backend.searchservice.InMemorySearchServiceRepository
 import com.mateuszcholyn.wallet.app.backend.searchservice.SearchServiceIMPL
 import com.mateuszcholyn.wallet.app.backend.searchservice.SearchServiceRepository
+import com.mateuszcholyn.wallet.app.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.app.usecase.core.category.CreateCategoryUseCase
 import com.mateuszcholyn.wallet.app.usecase.core.category.RemoveCategoryUseCase
+import com.mateuszcholyn.wallet.app.usecase.core.category.UpdateCategoryUseCase
 import com.mateuszcholyn.wallet.app.usecase.core.expense.AddExpenseUseCase
 import com.mateuszcholyn.wallet.app.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.app.usecase.core.expense.UpdateExpenseUseCase
-import com.mateuszcholyn.wallet.app.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.app.usecase.searchservice.SearchServiceUseCase
 
 
@@ -39,6 +40,7 @@ class ExpenseAppDependencies {
 
 data class ExpenseAppUseCases(
     val createCategoryUseCase: CreateCategoryUseCase,
+    val updateCategoryUseCase: UpdateCategoryUseCase,
     val removeCategoryUseCase: RemoveCategoryUseCase,
     val addExpenseUseCase: AddExpenseUseCase,
     val updateExpenseUseCase: UpdateExpenseUseCase,
@@ -83,6 +85,9 @@ data class ExpenseAppUseCases(
 
             return ExpenseAppUseCases(
                 createCategoryUseCase = CreateCategoryUseCase(
+                    categoryCoreServiceAPI = categoryCoreService,
+                ),
+                updateCategoryUseCase = UpdateCategoryUseCase(
                     categoryCoreServiceAPI = categoryCoreService,
                 ),
                 removeCategoryUseCase = RemoveCategoryUseCase(

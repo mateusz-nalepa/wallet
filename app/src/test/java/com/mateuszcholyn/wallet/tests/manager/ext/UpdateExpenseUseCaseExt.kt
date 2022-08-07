@@ -12,7 +12,7 @@ fun ExpenseAppManager.updateExpenseUseCase(
     scope: UpdateExpenseUseCaseScope.() -> Unit,
 ): Expense {
 
-    val addExpenseParameters =
+    val updateExpenseUseCaseParameters =
         UpdateExpenseUseCaseScope()
             .apply(scope)
             .toExpense()
@@ -20,7 +20,7 @@ fun ExpenseAppManager.updateExpenseUseCase(
     return this
         .expenseAppUseCases
         .updateExpenseUseCase
-        .invoke(addExpenseParameters)
+        .invoke(updateExpenseUseCaseParameters)
 }
 
 class UpdateExpenseUseCaseScope {

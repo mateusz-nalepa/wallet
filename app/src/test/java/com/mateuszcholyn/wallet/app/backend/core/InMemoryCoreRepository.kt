@@ -13,7 +13,7 @@ class InMemoryCoreRepository : CategoryRepository, ExpenseRepository {
     private val categories: MutableMap<CategoryId, Category> = ConcurrentHashMap()
     private val expenses: MutableMap<ExpenseId, Expense> = ConcurrentHashMap()
 
-    override fun add(category: Category): Category {
+    override fun save(category: Category): Category {
         categories[category.id] = category
         return category
     }
