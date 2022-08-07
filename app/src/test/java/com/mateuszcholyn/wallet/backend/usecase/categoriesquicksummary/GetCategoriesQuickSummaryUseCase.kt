@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.backend.usecase.quicksummary
+package com.mateuszcholyn.wallet.backend.usecase.categoriesquicksummary
 
 import com.mateuszcholyn.wallet.backend.categoriesquicksummary.CategoriesQuickSummaryAPI
 import com.mateuszcholyn.wallet.backend.categoriesquicksummary.QuickSummaryList

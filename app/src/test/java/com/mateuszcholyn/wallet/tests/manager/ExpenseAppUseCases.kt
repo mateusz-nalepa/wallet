@@ -21,7 +21,7 @@ import com.mateuszcholyn.wallet.backend.usecase.core.category.RemoveCategoryUseC
 import com.mateuszcholyn.wallet.backend.usecase.core.expense.AddExpenseUseCase
 import com.mateuszcholyn.wallet.backend.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.backend.usecase.core.expense.UpdateExpenseUseCase
-import com.mateuszcholyn.wallet.backend.usecase.quicksummary.GetCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.backend.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.backend.usecase.searchservice.SearchServiceUseCase
 
 
