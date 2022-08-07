@@ -1,8 +1,7 @@
 package com.mateuszcholyn.wallet.tests.usecase.core.expense.updateexpense
 
-import com.mateuszcholyn.wallet.randomAmount
-import com.mateuszcholyn.wallet.randomDescription
-import com.mateuszcholyn.wallet.randomPaidAt
+import com.mateuszcholyn.wallet.*
+import com.mateuszcholyn.wallet.app.backend.core.expense.ExpenseNotFoundException
 import com.mateuszcholyn.wallet.tests.manager.*
 import com.mateuszcholyn.wallet.tests.manager.ext.updateExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
@@ -49,6 +48,26 @@ class UpdateExpenseUseCaseTest {
             amountEqualTo(givenNewAmount)
             descriptionEqualTo(givenNewDescription)
             categoryIdEqualTo(newCategoryScope.categoryId)
+        }
+    }
+
+    @Test
+    fun `should throw exception when trying to update non existing expense`() {
+        // given
+        val nonExistingExpenseId = randomExpenseId()
+        val manager = initExpenseAppManager {}
+
+        // when
+        val throwable = catchThrowable {
+            manager.updateExpenseUseCase {
+                existingExpenseId = nonExistingExpenseId
+            }
+        }
+
+        // then
+        throwable.validate {
+            isInstanceOf(ExpenseNotFoundException::class)
+            hasMessage("Expense with id ${nonExistingExpenseId.id} does not exist")
         }
     }
 
