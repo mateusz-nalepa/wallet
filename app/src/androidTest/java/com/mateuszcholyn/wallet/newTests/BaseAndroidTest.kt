@@ -2,6 +2,7 @@ package com.mateuszcholyn.wallet.newTests
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseRepositoryV2
+import com.mateuszcholyn.wallet.tests.managerscope.ExpenseAppManagerScope
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -20,9 +21,23 @@ open class BaseAndroidTest {
     @Inject
     lateinit var expenseRepositoryV2: ExpenseRepositoryV2
 
+    @Inject
+    lateinit var manager: ExpenseAppIntegrationManager
+
     @Before
     fun init() {
         hiltRule.inject()
+    }
+
+}
+
+class ExpenseAppIntegrationManager @Inject constructor(
+    private val expenseRepositoryV2: ExpenseRepositoryV2,
+) {
+
+    fun init(scope: ExpenseAppManagerScope.() -> Unit) {
+
+        println("Start working here!")
     }
 
 }

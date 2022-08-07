@@ -2,9 +2,9 @@ package com.mateuszcholyn.wallet.tests.usecase.core.category.removecategory
 
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryHasExpensesException
 import com.mateuszcholyn.wallet.catchThrowable
-import com.mateuszcholyn.wallet.tests.manager.CategoryScope
-import com.mateuszcholyn.wallet.tests.manager.category
-import com.mateuszcholyn.wallet.tests.manager.expense
+import com.mateuszcholyn.wallet.tests.managerscope.CategoryScope
+import com.mateuszcholyn.wallet.tests.managerscope.category
+import com.mateuszcholyn.wallet.tests.managerscope.expense
 import com.mateuszcholyn.wallet.tests.manager.ext.removeCategoryUseCase
 import com.mateuszcholyn.wallet.tests.manager.initExpenseAppManager
 import com.mateuszcholyn.wallet.validate

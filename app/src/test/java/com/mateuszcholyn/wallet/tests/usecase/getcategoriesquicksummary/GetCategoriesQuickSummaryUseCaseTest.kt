@@ -7,6 +7,10 @@ import com.mateuszcholyn.wallet.tests.manager.ext.removeCategoryUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.removeExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.updateExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
+import com.mateuszcholyn.wallet.tests.managerscope.CategoryScope
+import com.mateuszcholyn.wallet.tests.managerscope.ExpenseScope
+import com.mateuszcholyn.wallet.tests.managerscope.category
+import com.mateuszcholyn.wallet.tests.managerscope.expense
 import org.junit.Test
 
 class GetCategoriesQuickSummaryUseCaseTest {

@@ -4,9 +4,9 @@ import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseNotFound
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.ExpenseRemovedStatus
 import com.mateuszcholyn.wallet.catchThrowable
 import com.mateuszcholyn.wallet.randomExpenseId
-import com.mateuszcholyn.wallet.tests.manager.ExpenseScope
-import com.mateuszcholyn.wallet.tests.manager.category
-import com.mateuszcholyn.wallet.tests.manager.expense
+import com.mateuszcholyn.wallet.tests.managerscope.ExpenseScope
+import com.mateuszcholyn.wallet.tests.managerscope.category
+import com.mateuszcholyn.wallet.tests.managerscope.expense
 import com.mateuszcholyn.wallet.tests.manager.ext.removeExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.initExpenseAppManager
 import com.mateuszcholyn.wallet.tests.manager.validator.validate

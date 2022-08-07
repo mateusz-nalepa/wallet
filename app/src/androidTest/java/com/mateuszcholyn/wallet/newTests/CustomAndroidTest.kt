@@ -8,6 +8,10 @@ class CustomAndroidTest : BaseAndroidTest() {
 
     @Test
     fun asdasd() {
+        println("Hodorcio")
+        manager.init {}
+
+
         val allExpenses = expenseRepositoryV2.getAllExpenses()
     }
 

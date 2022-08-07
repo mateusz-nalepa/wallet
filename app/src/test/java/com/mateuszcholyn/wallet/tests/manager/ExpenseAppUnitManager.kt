@@ -1,5 +1,7 @@
 package com.mateuszcholyn.wallet.tests.manager
 
+import com.mateuszcholyn.wallet.tests.managerscope.ExpenseAppManagerScope
+
 
 fun initExpenseAppManager(scope: ExpenseAppManagerScope.() -> Unit): ExpenseAppManager {
 
@@ -7,9 +9,8 @@ fun initExpenseAppManager(scope: ExpenseAppManagerScope.() -> Unit): ExpenseAppM
     val expenseAppDependencies = ExpenseAppDependencies()
     val useCases = ExpenseAppUseCases.createFrom(expenseAppDependencies)
 
-    ExpenseAppInitializer(
+    ExpenseAppUnitInitializer(
         expenseAppManagerScope = expenseAppManagerScope,
-        expenseAppDependencies = expenseAppDependencies,
         expenseAppUseCases = useCases,
     ).init()
 

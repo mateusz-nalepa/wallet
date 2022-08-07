@@ -5,6 +5,10 @@ import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseNotFound
 import com.mateuszcholyn.wallet.tests.manager.*
 import com.mateuszcholyn.wallet.tests.manager.ext.updateExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
+import com.mateuszcholyn.wallet.tests.managerscope.CategoryScope
+import com.mateuszcholyn.wallet.tests.managerscope.ExpenseScope
+import com.mateuszcholyn.wallet.tests.managerscope.category
+import com.mateuszcholyn.wallet.tests.managerscope.expense
 import org.junit.Test
 
 class UpdateExpenseUseCaseTest {

@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.tests.usecase.core.expense.addexpense
 
 import com.mateuszcholyn.wallet.randomPaidAt
-import com.mateuszcholyn.wallet.tests.manager.CategoryScope
-import com.mateuszcholyn.wallet.tests.manager.category
+import com.mateuszcholyn.wallet.tests.managerscope.CategoryScope
+import com.mateuszcholyn.wallet.tests.managerscope.category
 import com.mateuszcholyn.wallet.tests.manager.ext.addExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.initExpenseAppManager
 import com.mateuszcholyn.wallet.tests.manager.validator.validate

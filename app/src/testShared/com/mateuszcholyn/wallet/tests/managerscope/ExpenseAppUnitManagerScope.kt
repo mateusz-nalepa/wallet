@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.tests.manager
+package com.mateuszcholyn.wallet.tests.managerscope
 
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
