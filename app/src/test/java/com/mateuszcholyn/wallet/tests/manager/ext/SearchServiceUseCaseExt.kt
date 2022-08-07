@@ -1,9 +1,9 @@
 package com.mateuszcholyn.wallet.tests.manager.ext
 
-import com.mateuszcholyn.wallet.backend.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.searchservice.NewSort
-import com.mateuszcholyn.wallet.backend.searchservice.SearchCriteria
-import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceResult
+import com.mateuszcholyn.wallet.app.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.app.backend.searchservice.NewSort
+import com.mateuszcholyn.wallet.app.backend.searchservice.SearchCriteria
+import com.mateuszcholyn.wallet.app.backend.searchservice.SearchServiceResult
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 import java.math.BigDecimal
 import java.time.LocalDateTime

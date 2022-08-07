@@ -1,9 +1,9 @@
 package com.mateuszcholyn.wallet.tests.manager.ext
 
-import com.mateuszcholyn.wallet.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.randomCategoryId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
-import com.mateuszcholyn.wallet.backend.usecase.core.category.CategoryRemovedStatus
+import com.mateuszcholyn.wallet.app.usecase.core.category.CategoryRemovedStatus
 
 fun ExpenseAppManager.removeCategoryUseCase(
     scope: RemoveCategoryUseCaseScope.() -> Unit,

@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.tests.manager.validator
 
-import com.mateuszcholyn.wallet.backend.core.category.Category
-import com.mateuszcholyn.wallet.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.app.backend.core.category.Category
+import com.mateuszcholyn.wallet.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 
 fun ExpenseAppManager.validate(

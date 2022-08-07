@@ -1,28 +1,28 @@
 package com.mateuszcholyn.wallet.tests.manager
 
-import com.mateuszcholyn.wallet.backend.categoriesquicksummary.CategoriesQuickSummaryIMPL
-import com.mateuszcholyn.wallet.backend.categoriesquicksummary.CategoriesQuickSummaryRepository
-import com.mateuszcholyn.wallet.backend.categoriesquicksummary.InMemoryCategoriesQuickSummaryRepository
-import com.mateuszcholyn.wallet.backend.core.InMemoryCoreRepository
-import com.mateuszcholyn.wallet.backend.core.category.CategoryCoreServiceIMPL
-import com.mateuszcholyn.wallet.backend.core.category.CategoryRepository
-import com.mateuszcholyn.wallet.backend.core.category.CategoryRepositoryFacade
-import com.mateuszcholyn.wallet.backend.core.category.MiniKafkaCategoryPublisher
-import com.mateuszcholyn.wallet.backend.core.expense.ExpenseCoreServiceIMPL
-import com.mateuszcholyn.wallet.backend.core.expense.ExpenseRepository
-import com.mateuszcholyn.wallet.backend.core.expense.ExpenseRepositoryFacade
-import com.mateuszcholyn.wallet.backend.core.expense.MiniKafkaExpensePublisher
-import com.mateuszcholyn.wallet.backend.events.MiniKafka
-import com.mateuszcholyn.wallet.backend.searchservice.InMemorySearchServiceRepository
-import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceIMPL
-import com.mateuszcholyn.wallet.backend.searchservice.SearchServiceRepository
-import com.mateuszcholyn.wallet.backend.usecase.core.category.CreateCategoryUseCase
-import com.mateuszcholyn.wallet.backend.usecase.core.category.RemoveCategoryUseCase
-import com.mateuszcholyn.wallet.backend.usecase.core.expense.AddExpenseUseCase
-import com.mateuszcholyn.wallet.backend.usecase.core.expense.RemoveExpenseUseCase
-import com.mateuszcholyn.wallet.backend.usecase.core.expense.UpdateExpenseUseCase
-import com.mateuszcholyn.wallet.backend.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
-import com.mateuszcholyn.wallet.backend.usecase.searchservice.SearchServiceUseCase
+import com.mateuszcholyn.wallet.app.backend.categoriesquicksummary.CategoriesQuickSummaryIMPL
+import com.mateuszcholyn.wallet.app.backend.categoriesquicksummary.CategoriesQuickSummaryRepository
+import com.mateuszcholyn.wallet.app.backend.categoriesquicksummary.InMemoryCategoriesQuickSummaryRepository
+import com.mateuszcholyn.wallet.app.backend.core.InMemoryCoreRepository
+import com.mateuszcholyn.wallet.app.backend.core.category.CategoryCoreServiceIMPL
+import com.mateuszcholyn.wallet.app.backend.core.category.CategoryRepository
+import com.mateuszcholyn.wallet.app.backend.core.category.CategoryRepositoryFacade
+import com.mateuszcholyn.wallet.app.backend.core.category.MiniKafkaCategoryPublisher
+import com.mateuszcholyn.wallet.app.backend.core.expense.ExpenseCoreServiceIMPL
+import com.mateuszcholyn.wallet.app.backend.core.expense.ExpenseRepository
+import com.mateuszcholyn.wallet.app.backend.core.expense.ExpenseRepositoryFacade
+import com.mateuszcholyn.wallet.app.backend.core.expense.MiniKafkaExpensePublisher
+import com.mateuszcholyn.wallet.app.backend.events.MiniKafka
+import com.mateuszcholyn.wallet.app.backend.searchservice.InMemorySearchServiceRepository
+import com.mateuszcholyn.wallet.app.backend.searchservice.SearchServiceIMPL
+import com.mateuszcholyn.wallet.app.backend.searchservice.SearchServiceRepository
+import com.mateuszcholyn.wallet.app.usecase.core.category.CreateCategoryUseCase
+import com.mateuszcholyn.wallet.app.usecase.core.category.RemoveCategoryUseCase
+import com.mateuszcholyn.wallet.app.usecase.core.expense.AddExpenseUseCase
+import com.mateuszcholyn.wallet.app.usecase.core.expense.RemoveExpenseUseCase
+import com.mateuszcholyn.wallet.app.usecase.core.expense.UpdateExpenseUseCase
+import com.mateuszcholyn.wallet.app.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.app.usecase.searchservice.SearchServiceUseCase
 
 
 class ExpenseAppDependencies {

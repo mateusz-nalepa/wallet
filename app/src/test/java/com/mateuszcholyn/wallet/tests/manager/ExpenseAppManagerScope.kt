@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.tests.manager
 
-import com.mateuszcholyn.wallet.backend.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.core.expense.ExpenseId
+import com.mateuszcholyn.wallet.app.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.app.backend.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.randomAmount
 import com.mateuszcholyn.wallet.randomCategoryName
 import com.mateuszcholyn.wallet.randomDescription
