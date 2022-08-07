@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.tests.usecase.createcategory
+package com.mateuszcholyn.wallet.tests.usecase.core.category.createcategory
 
 import com.mateuszcholyn.wallet.randomCategoryName
 import com.mateuszcholyn.wallet.tests.manager.ext.createCategoryUseCase

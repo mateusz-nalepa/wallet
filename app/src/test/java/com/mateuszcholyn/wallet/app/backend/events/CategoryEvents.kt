@@ -9,7 +9,7 @@ data class CategoryAddedEvent(
 
 data class CategoryUpdatedEvent(
     val categoryId: CategoryId,
-    val name: String,
+    val newName: String,
 )
 
 data class CategoryRemovedEvent(

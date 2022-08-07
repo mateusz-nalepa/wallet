@@ -1,13 +1,14 @@
-package com.mateuszcholyn.wallet.tests.usecase.removeexpense
+package com.mateuszcholyn.wallet.tests.usecase.core.expense.removeexpense
 
-import com.mateuszcholyn.wallet.app.backend.core.category.CategoryHasExpensesException
 import com.mateuszcholyn.wallet.app.backend.core.expense.ExpenseNotFoundException
 import com.mateuszcholyn.wallet.app.usecase.core.expense.ExpenseRemovedStatus
 import com.mateuszcholyn.wallet.catchThrowable
 import com.mateuszcholyn.wallet.randomExpenseId
-import com.mateuszcholyn.wallet.tests.manager.*
-import com.mateuszcholyn.wallet.tests.manager.ext.removeCategoryUseCase
+import com.mateuszcholyn.wallet.tests.manager.ExpenseScope
+import com.mateuszcholyn.wallet.tests.manager.category
+import com.mateuszcholyn.wallet.tests.manager.expense
 import com.mateuszcholyn.wallet.tests.manager.ext.removeExpenseUseCase
+import com.mateuszcholyn.wallet.tests.manager.initExpenseAppManager
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
 import com.mateuszcholyn.wallet.validate
 import org.junit.Test
@@ -59,37 +60,10 @@ class RemoveExpenseUseCaseTest {
                 }
             }
 
-
         // then
         throwable.validate {
             isInstanceOf(ExpenseNotFoundException::class)
             hasMessage("Expense with id ${nonExistingExpenseId.id} does not exist")
-        }
-    }
-
-    @Test
-    fun `should throw exception when trying to remove category which has expenses`() {
-        // given
-        lateinit var categoryScope: CategoryScope
-        val manager =
-            initExpenseAppManager {
-                categoryScope = category {
-                    expense { }
-                }
-            }
-
-        // when
-        val throwable =
-            catchThrowable {
-                manager.removeCategoryUseCase {
-                    categoryId = categoryScope.categoryId
-                }
-            }
-
-        // then
-        throwable.validate {
-            isInstanceOf(CategoryHasExpensesException::class)
-            hasMessage("Category with id ${categoryScope.categoryId.id} has expenses and cannot be removed")
         }
     }
 

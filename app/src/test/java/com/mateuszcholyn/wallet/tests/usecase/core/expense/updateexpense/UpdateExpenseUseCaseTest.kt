@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.tests.usecase.updateexpense
+package com.mateuszcholyn.wallet.tests.usecase.core.expense.updateexpense
 
 import com.mateuszcholyn.wallet.randomAmount
 import com.mateuszcholyn.wallet.randomDescription

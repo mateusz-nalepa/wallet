@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.tests.usecase.addexpense
+package com.mateuszcholyn.wallet.tests.usecase.core.expense.addexpense
 
 import com.mateuszcholyn.wallet.randomPaidAt
 import com.mateuszcholyn.wallet.tests.manager.CategoryScope
