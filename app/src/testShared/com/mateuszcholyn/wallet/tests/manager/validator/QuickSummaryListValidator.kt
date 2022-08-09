@@ -49,7 +49,7 @@ class SimpleQuickSummaryValidator(
     }
 
     fun hasNumberOfExpensesEqualTo(expectedNumberOfExpenses: Int) {
-        assert(quickSummary.numberOfExpenses == expectedNumberOfExpenses) {
+        assert(quickSummary.numberOfExpenses == expectedNumberOfExpenses.toLong()) {
             "Expected number of expenses for categoryId: ${quickSummary.categoryId} " +
                     "should be: $expectedNumberOfExpenses. " +
                     "Actual: ${quickSummary.numberOfExpenses}"

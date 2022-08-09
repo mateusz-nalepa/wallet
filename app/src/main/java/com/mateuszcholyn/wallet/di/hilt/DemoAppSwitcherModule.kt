@@ -4,8 +4,6 @@ import android.content.Context
 import com.mateuszcholyn.wallet.domain.DemoAppSwitcher
 import com.mateuszcholyn.wallet.domain.DemoModeDisabled
 import com.mateuszcholyn.wallet.domain.DemoModeEnabled
-import com.mateuszcholyn.wallet.ui.util.DefaultThemePropertiesProvider
-import com.mateuszcholyn.wallet.ui.util.ThemePropertiesProvider
 import com.mateuszcholyn.wallet.util.demomode.isInDemoMode
 import dagger.Module
 import dagger.Provides
@@ -16,11 +14,15 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object HiltSettingsModule {
+object DemoAppSwitcherModule {
 
     @Provides
     @Singleton
-    fun provideThemePropertiesProvider(@ApplicationContext context: Context): ThemePropertiesProvider =
-        DefaultThemePropertiesProvider(context)
+    fun provideDemoAppSwitcher(@ApplicationContext context: Context): DemoAppSwitcher =
+        if (isInDemoMode(context)) {
+            DemoModeEnabled(context)
+        } else {
+            DemoModeDisabled(context)
+        }
 
 }

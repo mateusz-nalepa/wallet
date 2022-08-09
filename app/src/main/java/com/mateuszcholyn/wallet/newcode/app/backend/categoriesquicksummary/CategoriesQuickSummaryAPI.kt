@@ -19,5 +19,15 @@ data class QuickSummaryList(
 
 data class QuickSummary(
     val categoryId: CategoryId,
-    val numberOfExpenses: Int,
-)
+    val numberOfExpenses: Long,
+) {
+    fun incWithOne(): QuickSummary =
+        this.copy(
+            numberOfExpenses = numberOfExpenses + 1,
+        )
+
+    fun decWithOne(): QuickSummary =
+        this.copy(
+            numberOfExpenses = numberOfExpenses - 1,
+        )
+}

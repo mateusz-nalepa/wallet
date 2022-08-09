@@ -1,7 +1,11 @@
 package com.mateuszcholyn.wallet.di.usecases
 
+import com.mateuszcholyn.wallet.config.AppDatabaseV2
+import com.mateuszcholyn.wallet.di.hilt.NewAppQualifier
+import com.mateuszcholyn.wallet.domain.DemoAppSwitcher
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.InMemoryCategoriesQuickSummaryRepository
+import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.SqLiteCategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.newcode.app.backend.core.InMemoryCoreRepositoryV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryRepositoryV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseRepositoryV2
@@ -41,9 +45,16 @@ object HiltProdDatabaseModuleV2 {
 
     @Provides
     @Singleton
-    fun provideCategoriesQuickSummaryRepository(): CategoriesQuickSummaryRepository {
-        return InMemoryCategoriesQuickSummaryRepository()
-    }
+    fun provideCategoriesQuickSummaryRepository(
+        @NewAppQualifier appDatabaseV2: AppDatabaseV2,
+        demoAppSwitcher: DemoAppSwitcher,
+    ): CategoriesQuickSummaryRepository =
+        if (demoAppSwitcher.isDemoModeEnabled()) {
+            InMemoryCategoriesQuickSummaryRepository()
+        } else {
+            SqLiteCategoriesQuickSummaryRepository(appDatabaseV2.categoriesQuickSummaryDao())
+        }
+
 
     @Provides
     @Singleton

@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.newTests.setup.di
 
 import com.mateuszcholyn.wallet.newTests.setup.ExpenseAppIntegrationManager
+import com.mateuszcholyn.wallet.newcode.app.backend.BackendIsConfigured
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryRepositoryV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseRepositoryV2
@@ -40,6 +41,7 @@ class ExpenseAppIntegrationManagerModule {
         expenseRepositoryV2: ExpenseRepositoryV2,
         categoriesQuickSummaryRepository: CategoriesQuickSummaryRepository,
         searchServiceRepository: SearchServiceRepository,
+        backendIsConfigured: BackendIsConfigured,
     ): ExpenseAppIntegrationManager =
         ExpenseAppIntegrationManager(
             // Use cases
@@ -57,6 +59,9 @@ class ExpenseAppIntegrationManagerModule {
             expenseRepositoryV2 = expenseRepositoryV2,
             categoriesQuickSummaryRepository = categoriesQuickSummaryRepository,
             searchServiceRepository = searchServiceRepository,
+
+            // app works
+            backendIsConfigured = backendIsConfigured,
         )
 
 }

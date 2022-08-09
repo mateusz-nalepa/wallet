@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary
 
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.newcode.app.backend.events.*
 
 
@@ -17,19 +18,12 @@ class CategoriesQuickSummaryIMPL(
     }
 
     override fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent) {
-        expenseAddedEvent
-            .toQuickSummary()
-            .also { categoriesQuickSummaryRepository.saveQuickSummary(it) }
+        incWithOne(expenseAddedEvent.categoryId)
     }
 
     override fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent) {
-        expenseUpdatedEvent
-            .toDecreaseNumberOfExpenses()
-            .also { categoriesQuickSummaryRepository.saveQuickSummary(it) }
-
-        expenseUpdatedEvent
-            .toIncreaseNumberOfExpenses()
-            .also { categoriesQuickSummaryRepository.saveQuickSummary(it) }
+        decWithOne(expenseUpdatedEvent.oldCategoryId)
+        incWithOne(expenseUpdatedEvent.newCategoryId)
     }
 
     override fun getQuickSummary(): QuickSummaryList =
@@ -38,9 +32,7 @@ class CategoriesQuickSummaryIMPL(
             .let { QuickSummaryList(it) }
 
     override fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent) {
-        expenseRemovedEvent
-            .toQuickSummary()
-            .also { categoriesQuickSummaryRepository.saveQuickSummary(it) }
+        decWithOne(expenseRemovedEvent.categoryId)
     }
 
     private fun CategoryAddedEvent.toQuickSummary(): QuickSummary =
@@ -49,27 +41,26 @@ class CategoriesQuickSummaryIMPL(
             numberOfExpenses = 0,
         )
 
-    private fun ExpenseAddedEvent.toQuickSummary(): QuickSummary =
-        QuickSummary(
-            categoryId = categoryId,
-            numberOfExpenses = 1,
-        )
+    private fun incWithOne(categoryId: CategoryId) {
+        categoriesQuickSummaryRepository
+            .findByCategoryIdOrThrow(categoryId)
+            .incWithOne()
+            .also { categoriesQuickSummaryRepository.saveQuickSummary(it) }
+    }
 
-    private fun ExpenseRemovedEvent.toQuickSummary(): QuickSummary =
-        QuickSummary(
-            categoryId = categoryId,
-            numberOfExpenses = -1,
-        )
+    private fun decWithOne(categoryId: CategoryId) {
+        categoriesQuickSummaryRepository
+            .findByCategoryIdOrThrow(categoryId)
+            .decWithOne()
+            .also { categoriesQuickSummaryRepository.saveQuickSummary(it) }
+    }
 
-    private fun ExpenseUpdatedEvent.toDecreaseNumberOfExpenses(): QuickSummary =
-        QuickSummary(
-            categoryId = this.oldCategoryId,
-            numberOfExpenses = -1,
-        )
-
-    private fun ExpenseUpdatedEvent.toIncreaseNumberOfExpenses(): QuickSummary =
-        QuickSummary(
-            categoryId = this.newCategoryId,
-            numberOfExpenses = 1,
-        )
 }
+
+private fun CategoriesQuickSummaryRepository.findByCategoryIdOrThrow(categoryId: CategoryId) =
+    this.findByCategoryId(categoryId)
+        ?: throw CategoryQuickSummaryNotFoundException(categoryId)
+
+
+class CategoryQuickSummaryNotFoundException(categoryId: CategoryId) :
+    RuntimeException("Category quick summary for category with id ${categoryId.id} does not exist")

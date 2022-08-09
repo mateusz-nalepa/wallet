@@ -3,6 +3,8 @@ package com.mateuszcholyn.wallet.config
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.mateuszcholyn.wallet.config.newDatabase.CategoriesQuickSummaryDao
+import com.mateuszcholyn.wallet.config.newDatabase.CategoriesQuickSummaryEntity
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryDao
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
 import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseDao
@@ -23,4 +25,20 @@ import com.mateuszcholyn.wallet.infrastructure.util.LocalDateTimeConverter
 abstract class AppDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
     abstract fun expenseDao(): ExpenseDao
+}
+
+
+
+
+
+
+@Database(
+    entities = [
+        CategoriesQuickSummaryEntity::class,
+    ],
+    version = 1,
+)
+@TypeConverters(LocalDateTimeConverter::class)
+abstract class AppDatabaseV2 : RoomDatabase() {
+    abstract fun categoriesQuickSummaryDao(): CategoriesQuickSummaryDao
 }
