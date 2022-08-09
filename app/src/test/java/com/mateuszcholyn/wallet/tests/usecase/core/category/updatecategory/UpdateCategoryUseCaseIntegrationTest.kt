@@ -1,17 +1,24 @@
 package com.mateuszcholyn.wallet.tests.usecase.core.category.updatecategory
 
+
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryNotFoundException
 import com.mateuszcholyn.wallet.tests.catchThrowable
-import com.mateuszcholyn.wallet.tests.manager.*
+import com.mateuszcholyn.wallet.tests.manager.CategoryScope
+import com.mateuszcholyn.wallet.tests.manager.category
 import com.mateuszcholyn.wallet.tests.manager.ext.updateCategoryUseCase
+import com.mateuszcholyn.wallet.tests.manager.randomCategoryId
+import com.mateuszcholyn.wallet.tests.manager.randomCategoryName
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
+import com.mateuszcholyn.wallet.tests.setup.initExpenseAppManager
 import com.mateuszcholyn.wallet.tests.validate
+
 import org.junit.Test
 
-class UpdateCategoryUseCaseTest {
+
+class UpdateCategoryUseCaseIntegrationTest {
 
     @Test
-    fun `should update expense`() {
+    fun shouldUpdateExpense() {
         // given
         val givenNewCategoryName = randomCategoryName()
 
@@ -38,7 +45,7 @@ class UpdateCategoryUseCaseTest {
     }
 
     @Test
-    fun `should throw exception when trying to update non existing category`() {
+    fun shouldThrowExceptionWhenTryingToUpdateNonExistingCategory() {
         // given
         val nonExistingCategoryId = randomCategoryId()
         val manager = initExpenseAppManager {}

@@ -1,6 +1,6 @@
-package com.mateuszcholyn.wallet.tests.usecase.searchservice
+package com.mateuszcholyn.wallet.newTests.usecase.searchservice
 
-
+import com.mateuszcholyn.wallet.newTests.setup.BaseIntegrationTest
 import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.NewSort
 import com.mateuszcholyn.wallet.tests.manager.category
 import com.mateuszcholyn.wallet.tests.manager.expense
@@ -8,14 +8,13 @@ import com.mateuszcholyn.wallet.tests.manager.ext.searchServiceUseCase
 import com.mateuszcholyn.wallet.tests.manager.plusInt
 import com.mateuszcholyn.wallet.tests.manager.randomAmount
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
-import com.mateuszcholyn.wallet.tests.setup.initExpenseAppManager
 import com.mateuszcholyn.wallet.util.dateutils.plusIntDays
 import com.mateuszcholyn.wallet.util.dateutils.today
-
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
-
-class SearchServiceUseCaseSortTest {
+@HiltAndroidTest
+class SearchServiceUseCaseSortTest : BaseIntegrationTest() {
 
     @Test
     fun shouldSortExpensesByDateDescending() {

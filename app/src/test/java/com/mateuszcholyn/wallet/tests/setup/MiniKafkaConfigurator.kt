@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.tests.manager.setupunittest
+package com.mateuszcholyn.wallet.tests.setup
 
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryAPI
 import com.mateuszcholyn.wallet.newcode.app.backend.events.MiniKafka

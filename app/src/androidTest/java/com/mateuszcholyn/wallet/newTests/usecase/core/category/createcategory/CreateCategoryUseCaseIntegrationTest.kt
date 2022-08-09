@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.newTests.usecase.core.category.createcategory
 
-import com.mateuszcholyn.wallet.newTests.BaseIntegrationTest
+import com.mateuszcholyn.wallet.newTests.setup.BaseIntegrationTest
 import com.mateuszcholyn.wallet.tests.manager.ext.createCategoryUseCase
 import com.mateuszcholyn.wallet.tests.manager.randomCategoryName
 import com.mateuszcholyn.wallet.tests.manager.validator.validate

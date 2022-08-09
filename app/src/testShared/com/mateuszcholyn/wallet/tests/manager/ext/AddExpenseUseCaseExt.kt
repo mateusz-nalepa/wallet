@@ -12,11 +12,11 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 
 fun ExpenseAppManager.addExpenseUseCase(
-    scope: AddExpenseUseCase.() -> Unit,
+    scope: AddExpenseUseCaseScope.() -> Unit,
 ): Expense {
 
     val addExpenseParameters =
-        AddExpenseUseCase()
+        AddExpenseUseCaseScope()
             .apply(scope)
             .toAddExpenseParameters()
 
@@ -26,7 +26,7 @@ fun ExpenseAppManager.addExpenseUseCase(
         .invoke(addExpenseParameters)
 }
 
-class AddExpenseUseCase {
+class AddExpenseUseCaseScope {
     var amount: BigDecimal = randomAmount()
     var description: String = randomDescription()
     var paidAt: LocalDateTime = randomPaidAt()

@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.tests.manager.setupunittest
+package com.mateuszcholyn.wallet.tests.setup
 
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryIMPL
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryCoreServiceIMPL
@@ -17,8 +17,24 @@ import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.AddExpenseUseCa
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.searchservice.SearchServiceUseCase
-import com.mateuszcholyn.wallet.tests.manager.ExpenseAppDependencies
-import com.mateuszcholyn.wallet.tests.manager.ExpenseAppUseCases
+import com.mateuszcholyn.wallet.tests.manager.*
+
+fun initExpenseAppManager(scope: ExpenseAppManagerScope.() -> Unit): ExpenseAppManager {
+
+    val expenseAppManagerScope = ExpenseAppManagerScope().apply(scope)
+    val expenseAppDependencies = ExpenseAppDependencies()
+    val useCases = createFrom(expenseAppDependencies)
+
+    ExpenseAppUnitInitializer(
+        expenseAppManagerScope = expenseAppManagerScope,
+        expenseAppUseCases = useCases,
+    ).init()
+
+    return ExpenseAppManager(
+        expenseAppDependencies = expenseAppDependencies,
+        expenseAppUseCases = useCases
+    )
+}
 
 internal fun createFrom(deps: ExpenseAppDependencies): ExpenseAppUseCases {
 

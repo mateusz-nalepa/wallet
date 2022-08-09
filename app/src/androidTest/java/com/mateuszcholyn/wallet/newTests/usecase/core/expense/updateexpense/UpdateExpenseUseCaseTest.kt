@@ -1,18 +1,17 @@
-package com.mateuszcholyn.wallet.tests.usecase.core.expense.updateexpense
+package com.mateuszcholyn.wallet.newTests.usecase.core.expense.updateexpense
 
-
+import com.mateuszcholyn.wallet.newTests.setup.BaseIntegrationTest
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseNotFoundException
 import com.mateuszcholyn.wallet.tests.catchThrowable
 import com.mateuszcholyn.wallet.tests.manager.*
 import com.mateuszcholyn.wallet.tests.manager.ext.updateExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
-import com.mateuszcholyn.wallet.tests.setup.initExpenseAppManager
 import com.mateuszcholyn.wallet.tests.validate
-
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
-
-class UpdateExpenseUseCaseTest {
+@HiltAndroidTest
+class UpdateExpenseUseCaseTest : BaseIntegrationTest() {
 
     @Test
     fun shouldUpdateExpense() {

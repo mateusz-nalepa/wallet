@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.newTests
+package com.mateuszcholyn.wallet.newTests.setup
 
 import android.app.Application
 import android.content.Context

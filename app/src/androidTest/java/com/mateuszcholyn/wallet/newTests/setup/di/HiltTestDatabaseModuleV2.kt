@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.newTests.di
+package com.mateuszcholyn.wallet.newTests.setup.di
 
 import com.mateuszcholyn.wallet.di.usecases.HiltProdDatabaseModuleV2
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryRepository

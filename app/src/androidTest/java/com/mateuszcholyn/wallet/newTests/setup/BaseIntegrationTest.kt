@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.newTests
+package com.mateuszcholyn.wallet.newTests.setup
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseRepositoryV2

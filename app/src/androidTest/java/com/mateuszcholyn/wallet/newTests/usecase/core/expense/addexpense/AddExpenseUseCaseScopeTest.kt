@@ -1,17 +1,19 @@
-package com.mateuszcholyn.wallet.tests.usecase.core.expense.addexpense
+package com.mateuszcholyn.wallet.newTests.usecase.core.expense.addexpense
 
-import com.mateuszcholyn.wallet.tests.manager.randomPaidAt
+import com.mateuszcholyn.wallet.newTests.setup.BaseIntegrationTest
 import com.mateuszcholyn.wallet.tests.manager.CategoryScope
 import com.mateuszcholyn.wallet.tests.manager.category
 import com.mateuszcholyn.wallet.tests.manager.ext.addExpenseUseCase
-import com.mateuszcholyn.wallet.tests.manager.initExpenseAppManager
+import com.mateuszcholyn.wallet.tests.manager.randomPaidAt
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
-class AddExpenseUseCaseTest {
+@HiltAndroidTest
+class AddExpenseUseCaseScopeTest : BaseIntegrationTest() {
 
     @Test
-    fun `should add expense`() {
+    fun shouldAddExpense() {
         // given
         val givenPaidAt = randomPaidAt()
         lateinit var categoryScope: CategoryScope

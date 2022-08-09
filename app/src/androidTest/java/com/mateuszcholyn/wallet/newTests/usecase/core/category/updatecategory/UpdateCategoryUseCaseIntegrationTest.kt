@@ -1,11 +1,15 @@
 package com.mateuszcholyn.wallet.newTests.usecase.core.category.updatecategory
 
-import com.mateuszcholyn.wallet.newTests.BaseIntegrationTest
+import com.mateuszcholyn.wallet.newTests.setup.BaseIntegrationTest
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryNotFoundException
+import com.mateuszcholyn.wallet.tests.catchThrowable
 import com.mateuszcholyn.wallet.tests.manager.CategoryScope
 import com.mateuszcholyn.wallet.tests.manager.category
 import com.mateuszcholyn.wallet.tests.manager.ext.updateCategoryUseCase
+import com.mateuszcholyn.wallet.tests.manager.randomCategoryId
 import com.mateuszcholyn.wallet.tests.manager.randomCategoryName
 import com.mateuszcholyn.wallet.tests.manager.validator.validate
+import com.mateuszcholyn.wallet.tests.validate
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
@@ -39,24 +43,24 @@ class UpdateCategoryUseCaseIntegrationTest : BaseIntegrationTest() {
         }
     }
 
-//    @Test
-//    fun `should throw exception when trying to update non existing category`() {
-//        // given
-//        val nonExistingCategoryId = randomCategoryId()
-//        val manager = initExpenseAppManager {}
-//
-//        // when
-//        val throwable = catchThrowable {
-//            manager.updateCategoryUseCase {
-//                existingCategoryId = nonExistingCategoryId
-//            }
-//        }
-//
-//        // then
-//        throwable.validate {
-//            isInstanceOf(CategoryNotFoundException::class)
-//            hasMessage("Category with id ${nonExistingCategoryId.id} does not exist")
-//        }
-//    }
+    @Test
+    fun shouldThrowExceptionWhenTryingToUpdateNonExistingCategory() {
+        // given
+        val nonExistingCategoryId = randomCategoryId()
+        val manager = initExpenseAppManager {}
+
+        // when
+        val throwable = catchThrowable {
+            manager.updateCategoryUseCase {
+                existingCategoryId = nonExistingCategoryId
+            }
+        }
+
+        // then
+        throwable.validate {
+            isInstanceOf(CategoryNotFoundException::class)
+            hasMessage("Category with id ${nonExistingCategoryId.id} does not exist")
+        }
+    }
 
 }

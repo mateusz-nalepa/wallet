@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.newTests.usecase.core.category.removecategory
 
-import com.mateuszcholyn.wallet.newTests.BaseIntegrationTest
+import com.mateuszcholyn.wallet.newTests.setup.BaseIntegrationTest
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryHasExpensesException
 import com.mateuszcholyn.wallet.tests.catchThrowable
 import com.mateuszcholyn.wallet.tests.manager.CategoryScope

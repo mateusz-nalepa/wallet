@@ -1,19 +1,22 @@
 package com.mateuszcholyn.wallet.tests.usecase.core.category.removecategory
 
+
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryHasExpensesException
 import com.mateuszcholyn.wallet.tests.catchThrowable
 import com.mateuszcholyn.wallet.tests.manager.CategoryScope
 import com.mateuszcholyn.wallet.tests.manager.category
 import com.mateuszcholyn.wallet.tests.manager.expense
 import com.mateuszcholyn.wallet.tests.manager.ext.removeCategoryUseCase
-import com.mateuszcholyn.wallet.tests.manager.initExpenseAppManager
+import com.mateuszcholyn.wallet.tests.setup.initExpenseAppManager
 import com.mateuszcholyn.wallet.tests.validate
+
 import org.junit.Test
 
-class RemoveCategoryUseCaseTest {
+
+class RemoveCategoryUseCaseIntegrationTest {
 
     @Test
-    fun `should throw exception when trying to remove category which has expenses`() {
+    fun shouldThrowExceptionWhenTryingToRemoveCategoryWhichHasExpenses() {
         // given
         lateinit var categoryScope: CategoryScope
         val manager =
@@ -37,6 +40,5 @@ class RemoveCategoryUseCaseTest {
             hasMessage("Category with id ${categoryScope.categoryId.id} has expenses and cannot be removed")
         }
     }
-
 
 }
