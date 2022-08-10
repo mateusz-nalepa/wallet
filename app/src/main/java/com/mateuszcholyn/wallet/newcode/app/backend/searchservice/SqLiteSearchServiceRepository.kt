@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.newcode.app.backend.searchservice
 
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.mateuszcholyn.wallet.config.newDatabase.SearchServiceDao
 import com.mateuszcholyn.wallet.config.newDatabase.SearchServiceEntity
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
@@ -22,7 +23,7 @@ class SqLiteSearchServiceRepository(
 
     override fun getAll(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
         searchServiceDao
-            .getAll(SearchServiceQueryHelper.prepareSearchQuery(searchCriteria))
+            .getAll(SimpleSQLiteQuery(SearchServiceQueryHelper.prepareSearchQuery(searchCriteria)))
             .map { it.toDomain() }
 
     override fun remove(expenseId: ExpenseId) {
