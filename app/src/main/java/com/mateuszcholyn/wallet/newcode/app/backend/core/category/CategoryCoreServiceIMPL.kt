@@ -8,13 +8,13 @@ class CategoryCoreServiceIMPL(
     private val categoryRepositoryFacade: CategoryRepositoryFacade,
     private val categoryPublisher: CategoryPublisher,
 ) : CategoryCoreServiceAPI {
-    override fun add(createCategoryParameters: CreateCategoryParameters): Category =
+    override fun add(createCategoryParameters: CreateCategoryParameters): CategoryV2 =
         createCategoryParameters
             .toNewCategory()
             .let { categoryRepositoryFacade.save(it) }
             .also { categoryPublisher.publishCategoryAddedEvent(it.toCategoryAddedEvent()) }
 
-    override fun getAll(): List<Category> =
+    override fun getAll(): List<CategoryV2> =
         categoryRepositoryFacade.getAllCategories()
 
     override fun remove(categoryId: CategoryId) {
@@ -23,25 +23,25 @@ class CategoryCoreServiceIMPL(
             .also { categoryPublisher.publishCategoryRemovedEvent(CategoryRemovedEvent(categoryId)) }
     }
 
-    override fun update(updateCategoryParameters: Category): Category =
+    override fun update(updateCategoryParameters: CategoryV2): CategoryV2 =
         categoryRepositoryFacade
             .getByIdOrThrow(updateCategoryParameters.id)
             .updateUsing(updateCategoryParameters)
             .let { categoryRepositoryFacade.save(it) }
 
-    private fun CreateCategoryParameters.toNewCategory(): Category =
-        Category(
+    private fun CreateCategoryParameters.toNewCategory(): CategoryV2 =
+        CategoryV2(
             id = CategoryId(randomUUID()),
             name = name,
         )
 
-    private fun Category.toCategoryAddedEvent(): CategoryAddedEvent =
+    private fun CategoryV2.toCategoryAddedEvent(): CategoryAddedEvent =
         CategoryAddedEvent(
             categoryId = id,
             name = name,
         )
 
-    private fun Category.updateUsing(updateCategoryParameters: Category): Category =
+    private fun CategoryV2.updateUsing(updateCategoryParameters: CategoryV2): CategoryV2 =
         this.copy(
             name = updateCategoryParameters.name,
         )

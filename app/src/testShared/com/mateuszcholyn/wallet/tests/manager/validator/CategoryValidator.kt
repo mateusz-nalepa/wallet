@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.tests.manager.validator
 
-import com.mateuszcholyn.wallet.newcode.app.backend.core.category.Category
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 
@@ -18,19 +18,19 @@ fun ExpenseAppManager.validate(
 
 
 class FullCategoryValidator(
-    private val category: Category,
+    private val category: CategoryV2,
 ) {
     fun nameEqualTo(expectedCategoryName: String) {
         SimpleCategoryValidator(category).nameEqualTo(expectedCategoryName)
     }
 }
 
-fun Category.validate(validateBlock: SimpleCategoryValidator.() -> Unit) {
+fun CategoryV2.validate(validateBlock: SimpleCategoryValidator.() -> Unit) {
     SimpleCategoryValidator(this).apply(validateBlock)
 }
 
 class SimpleCategoryValidator(
-    private val category: Category,
+    private val category: CategoryV2,
 ) {
     fun nameEqualTo(expectedCategoryName: String) {
         assert(category.name == expectedCategoryName) {

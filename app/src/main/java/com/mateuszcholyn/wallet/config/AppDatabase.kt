@@ -5,6 +5,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.mateuszcholyn.wallet.config.newDatabase.CategoriesQuickSummaryDao
 import com.mateuszcholyn.wallet.config.newDatabase.CategoriesQuickSummaryEntity
+import com.mateuszcholyn.wallet.config.newDatabase.CategoryEntityV2
+import com.mateuszcholyn.wallet.config.newDatabase.CategoryV2Dao
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryDao
 import com.mateuszcholyn.wallet.infrastructure.category.CategoryEntity
 import com.mateuszcholyn.wallet.infrastructure.expense.ExpenseDao
@@ -28,17 +30,15 @@ abstract class AppDatabase : RoomDatabase() {
 }
 
 
-
-
-
-
 @Database(
     entities = [
         CategoriesQuickSummaryEntity::class,
+        CategoryEntityV2::class,
     ],
     version = 1,
 )
 @TypeConverters(LocalDateTimeConverter::class)
 abstract class AppDatabaseV2 : RoomDatabase() {
     abstract fun categoriesQuickSummaryDao(): CategoriesQuickSummaryDao
+    abstract fun categoryV2Dao(): CategoryV2Dao
 }

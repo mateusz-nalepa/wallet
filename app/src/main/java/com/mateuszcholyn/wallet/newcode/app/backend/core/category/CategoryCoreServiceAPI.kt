@@ -1,10 +1,10 @@
 package com.mateuszcholyn.wallet.newcode.app.backend.core.category
 
 interface CategoryCoreServiceAPI {
-    fun add(createCategoryParameters: CreateCategoryParameters): Category
-    fun getAll(): List<Category>
+    fun add(createCategoryParameters: CreateCategoryParameters): CategoryV2
+    fun getAll(): List<CategoryV2>
     fun remove(categoryId: CategoryId)
-    fun update(updateCategoryParameters: Category): Category
+    fun update(updateCategoryParameters: CategoryV2): CategoryV2
 }
 
 data class CreateCategoryParameters(
@@ -15,7 +15,7 @@ data class CategoryId(
     val id: String,
 )
 
-data class Category(
+data class CategoryV2(
     val id: CategoryId,
     val name: String,
 )

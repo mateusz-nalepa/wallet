@@ -36,5 +36,5 @@ data class CategoriesQuickSummaryEntity(
     val categoryId: String,
 
     @ColumnInfo(name = "number_of_expenses")
-    var numberOfExpenses: Long,
+    val numberOfExpenses: Long,
 )

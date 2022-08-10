@@ -8,6 +8,7 @@ import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.InMem
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.SqLiteCategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.newcode.app.backend.core.InMemoryCoreRepositoryV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryRepositoryV2
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.SqLiteCategoryRepositoryV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseRepositoryV2
 import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.InMemorySearchServiceRepository
 import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchServiceRepository
@@ -31,9 +32,14 @@ object HiltProdDatabaseModuleV2 {
     @Singleton
     fun provideCategoryRepositoryV2(
         inMemoryCoreRepositoryV2: InMemoryCoreRepositoryV2,
-    ): CategoryRepositoryV2 {
-        return inMemoryCoreRepositoryV2
-    }
+        @NewAppQualifier appDatabaseV2: AppDatabaseV2,
+        demoAppSwitcher: DemoAppSwitcher,
+    ): CategoryRepositoryV2 =
+        if (demoAppSwitcher.isDemoModeEnabled()) {
+            inMemoryCoreRepositoryV2
+        } else {
+            SqLiteCategoryRepositoryV2(appDatabaseV2.categoryV2Dao())
+        }
 
     @Provides
     @Singleton
@@ -58,9 +64,7 @@ object HiltProdDatabaseModuleV2 {
 
     @Provides
     @Singleton
-    fun provideSearchServiceRepository(): SearchServiceRepository {
-        return InMemorySearchServiceRepository()
-    }
-
+    fun provideSearchServiceRepository(): SearchServiceRepository =
+        InMemorySearchServiceRepository()
 
 }
