@@ -9,13 +9,11 @@ import java.time.LocalDateTime
 class LocalDateTimeConverter {
 
     @TypeConverter
-    fun toLocalDateTime(value: Long): LocalDateTime {
-        return value.toLocalDateTime()
-    }
+    fun toLocalDateTime(value: Long): LocalDateTime =
+        value.toLocalDateTime()
 
     @TypeConverter
-    fun toLong(value: LocalDateTime): Long {
-        return value.toMillis()
-    }
+    fun toLong(value: LocalDateTime): Long =
+        value.toMillis()
 
 }

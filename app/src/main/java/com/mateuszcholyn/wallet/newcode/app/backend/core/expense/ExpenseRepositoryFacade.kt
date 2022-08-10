@@ -6,8 +6,8 @@ class ExpenseRepositoryFacade(
     private val expenseRepositoryV2: ExpenseRepositoryV2,
 ) {
     fun save(
-        expense: Expense,
-    ): Expense =
+        expense: ExpenseV2,
+    ): ExpenseV2 =
         expenseRepositoryV2.save(
             expense = expense,
             onNonExistingCategoryAction = { categoryId ->
@@ -15,10 +15,10 @@ class ExpenseRepositoryFacade(
             }
         )
 
-    fun getAllExpenses(): List<Expense> =
+    fun getAllExpenses(): List<ExpenseV2> =
         expenseRepositoryV2.getAllExpenses()
 
-    fun getByIdOrThrow(expenseId: ExpenseId): Expense =
+    fun getByIdOrThrow(expenseId: ExpenseId): ExpenseV2 =
         expenseRepositoryV2.getById(expenseId)
             ?: throw ExpenseNotFoundException(expenseId)
 

@@ -10,7 +10,9 @@ class SqLiteCategoriesQuickSummaryRepository(
 
     override fun saveQuickSummary(quickSummary: QuickSummary): QuickSummary =
         quickSummary
-            .also { categoriesQuickSummaryDao.save(it.toEntity()) }
+            .toEntity()
+            .also { categoriesQuickSummaryDao.save(it) }
+            .toDomain()
 
     override fun getQuickSummaries(): List<QuickSummary> =
         categoriesQuickSummaryDao

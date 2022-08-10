@@ -5,10 +5,10 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 
 interface ExpenseCoreServiceAPI {
-    fun add(addExpenseParameters: AddExpenseParameters): Expense
+    fun add(addExpenseParameters: AddExpenseParameters): ExpenseV2
     fun remove(expenseId: ExpenseId)
-    fun getAll(): List<Expense>
-    fun update(updateExpenseParameters: Expense): Expense
+    fun getAll(): List<ExpenseV2>
+    fun update(updateExpenseParameters: ExpenseV2): ExpenseV2
 }
 
 data class AddExpenseParameters(
@@ -22,7 +22,7 @@ data class ExpenseId(
     val id: String,
 )
 
-data class Expense(
+data class ExpenseV2(
     val id: ExpenseId,
     val amount: BigDecimal,
     var description: String,

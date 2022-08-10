@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.tests.manager.validator
 
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
-import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.Expense
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 import java.math.BigDecimal
@@ -17,12 +17,12 @@ fun ExpenseAppManager.validate(
 }
 
 
-fun Expense.validate(validateBlock: SimpleExpenseValidator.() -> Unit) {
+fun ExpenseV2.validate(validateBlock: SimpleExpenseValidator.() -> Unit) {
     SimpleExpenseValidator(this).apply(validateBlock)
 }
 
 class SimpleExpenseValidator(
-    private val expense: Expense,
+    private val expense: ExpenseV2,
 ) {
     fun paidAtEqualTo(expectedPaidAt: LocalDateTime) {
         assert(expense.paidAt == expectedPaidAt) {
@@ -37,7 +37,7 @@ class SimpleExpenseValidator(
     }
 
     fun amountEqualTo(expectedAmount: BigDecimal) {
-        assert(expense.amount == expectedAmount) {
+        assert(expense.amount.toString() == expectedAmount.toString()) {
             "Expected amount should be: $expectedAmount. Actual: ${expense.amount}"
         }
     }

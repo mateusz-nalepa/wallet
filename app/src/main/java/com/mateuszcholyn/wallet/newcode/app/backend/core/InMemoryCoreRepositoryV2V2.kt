@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.newcode.app.backend.core
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryRepositoryV2
-import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.Expense
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseRepositoryV2
 import java.util.concurrent.ConcurrentHashMap
@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap
 class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
 
     private val categories: MutableMap<CategoryId, CategoryV2> = ConcurrentHashMap()
-    private val expenses: MutableMap<ExpenseId, Expense> = ConcurrentHashMap()
+    private val expenses: MutableMap<ExpenseId, ExpenseV2> = ConcurrentHashMap()
 
     override fun save(category: CategoryV2): CategoryV2 {
         categories[category.id] = category
@@ -42,9 +42,9 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
     }
 
     override fun save(
-        expense: Expense,
+        expense: ExpenseV2,
         onNonExistingCategoryAction: (CategoryId) -> Unit,
-    ): Expense {
+    ): ExpenseV2 {
         val categoryOrNull = categories[expense.categoryId]
 
         if (categoryOrNull == null) {
@@ -55,11 +55,11 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
         return expense
     }
 
-    override fun getAllExpenses(): List<Expense> {
+    override fun getAllExpenses(): List<ExpenseV2> {
         return expenses.values.toList()
     }
 
-    override fun getById(expenseId: ExpenseId): Expense? {
+    override fun getById(expenseId: ExpenseId): ExpenseV2? {
         return expenses[expenseId]
     }
 

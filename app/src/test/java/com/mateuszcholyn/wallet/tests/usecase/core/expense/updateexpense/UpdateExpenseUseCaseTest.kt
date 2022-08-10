@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.tests.usecase.core.expense.updateexpense
 
 
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.CategoryWithGivenIdDoesNotExist
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseNotFoundException
 import com.mateuszcholyn.wallet.tests.catchThrowable
 import com.mateuszcholyn.wallet.tests.manager.*
@@ -73,6 +74,33 @@ class UpdateExpenseUseCaseTest {
         throwable.validate {
             isInstanceOf(ExpenseNotFoundException::class)
             hasMessage("Expense with id ${nonExistingExpenseId.id} does not exist")
+        }
+    }
+
+    @Test
+    fun shouldThrowExceptionWhenTryingToUpdateNonExistingCategory() {
+        // given
+        lateinit var expenseScope: ExpenseScope
+        val nonExistingCategoryId = randomCategoryId()
+
+        val manager = initExpenseAppManager {
+            category {
+                expenseScope = expense { }
+            }
+        }
+
+        // when
+        val throwable = catchThrowable {
+            manager.updateExpenseUseCase {
+                existingExpenseId = expenseScope.expenseId
+                newCategoryId = nonExistingCategoryId
+            }
+        }
+
+        // then
+        throwable.validate {
+            isInstanceOf(CategoryWithGivenIdDoesNotExist::class)
+            hasMessage("Category with id ${nonExistingCategoryId.id} does not exist")
         }
     }
 

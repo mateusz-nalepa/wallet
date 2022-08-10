@@ -9,7 +9,7 @@ import java.util.*
 
 fun randomCategoryId(): CategoryId = CategoryId("categoryId-${randomUUID()}")
 fun randomCategoryName(): String = "categoryName-${randomUUID()}"
-fun randomAmount(): BigDecimal = BigDecimal.ONE
+fun randomAmount(): BigDecimal = BigDecimal.valueOf(Random().nextInt(20).toLong().toDouble())
 fun randomDescription(): String = "description-${randomUUID()}"
 fun randomPaidAt(): LocalDateTime {
     return LocalDateTime.now().minusDays(Random().nextInt(10).toLong())
@@ -18,6 +18,6 @@ fun randomPaidAt(): LocalDateTime {
 fun randomInt(): Int = Random().nextInt(15)
 fun randomExpenseId(): ExpenseId = ExpenseId("expenseId-${randomUUID()}")
 
-fun BigDecimal.plusRandomValue(): BigDecimal = this + BigDecimal("5")
-fun BigDecimal.minusRandomValue(): BigDecimal = this - BigDecimal("5")
+fun BigDecimal.plusRandomValue(): BigDecimal = this + randomAmount()
+fun BigDecimal.minusRandomValue(): BigDecimal = this - randomAmount()
 fun BigDecimal.plusInt(int: Int): BigDecimal = this + BigDecimal(int)

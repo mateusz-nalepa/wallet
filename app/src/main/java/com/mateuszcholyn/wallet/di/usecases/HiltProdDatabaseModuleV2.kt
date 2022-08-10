@@ -10,6 +10,7 @@ import com.mateuszcholyn.wallet.newcode.app.backend.core.InMemoryCoreRepositoryV
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryRepositoryV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.SqLiteCategoryRepositoryV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseRepositoryV2
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.SqLiteExpenseRepositoryV2
 import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.InMemorySearchServiceRepository
 import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchServiceRepository
 import dagger.Module
@@ -45,9 +46,14 @@ object HiltProdDatabaseModuleV2 {
     @Singleton
     fun provideExpenseRepositoryV2(
         inMemoryCoreRepositoryV2: InMemoryCoreRepositoryV2,
-    ): ExpenseRepositoryV2 {
-        return inMemoryCoreRepositoryV2
-    }
+        @NewAppQualifier appDatabaseV2: AppDatabaseV2,
+        demoAppSwitcher: DemoAppSwitcher,
+    ): ExpenseRepositoryV2 =
+        if (demoAppSwitcher.isDemoModeEnabled()) {
+            inMemoryCoreRepositoryV2
+        } else {
+            SqLiteExpenseRepositoryV2(appDatabaseV2.expenseV2Dao())
+        }
 
     @Provides
     @Singleton

@@ -10,7 +10,7 @@ class ExpenseCoreServiceIMPL(
     private val expenseRepositoryFacade: ExpenseRepositoryFacade,
     private val expensePublisher: ExpensePublisher,
 ) : ExpenseCoreServiceAPI {
-    override fun add(addExpenseParameters: AddExpenseParameters): Expense =
+    override fun add(addExpenseParameters: AddExpenseParameters): ExpenseV2 =
         addExpenseParameters
             .toNewExpense()
             .let { expenseRepositoryFacade.save(it) }
@@ -22,10 +22,10 @@ class ExpenseCoreServiceIMPL(
         expensePublisher.publishExpenseRemovedEvent(expense.toExpenseRemovedEvent())
     }
 
-    override fun getAll(): List<Expense> =
+    override fun getAll(): List<ExpenseV2> =
         expenseRepositoryFacade.getAllExpenses()
 
-    override fun update(updateExpenseParameters: Expense): Expense {
+    override fun update(updateExpenseParameters: ExpenseV2): ExpenseV2 {
         val oldExpense = expenseRepositoryFacade.getByIdOrThrow(updateExpenseParameters.id)
 
         return oldExpense
@@ -38,8 +38,8 @@ class ExpenseCoreServiceIMPL(
             }
     }
 
-    private fun AddExpenseParameters.toNewExpense(): Expense =
-        Expense(
+    private fun AddExpenseParameters.toNewExpense(): ExpenseV2 =
+        ExpenseV2(
             id = ExpenseId(randomUUID()),
             amount = amount,
             description = description,
@@ -47,7 +47,7 @@ class ExpenseCoreServiceIMPL(
             categoryId = categoryId,
         )
 
-    private fun Expense.toExpenseAddedEvent(): ExpenseAddedEvent =
+    private fun ExpenseV2.toExpenseAddedEvent(): ExpenseAddedEvent =
         ExpenseAddedEvent(
             expenseId = id,
             categoryId = categoryId,
@@ -55,13 +55,13 @@ class ExpenseCoreServiceIMPL(
             paidAt = paidAt,
         )
 
-    private fun Expense.toExpenseRemovedEvent(): ExpenseRemovedEvent =
+    private fun ExpenseV2.toExpenseRemovedEvent(): ExpenseRemovedEvent =
         ExpenseRemovedEvent(
             expenseId = id,
             categoryId = categoryId,
         )
 
-    private fun Expense.updateUsing(updateExpenseParameters: Expense): Expense =
+    private fun ExpenseV2.updateUsing(updateExpenseParameters: ExpenseV2): ExpenseV2 =
         this.copy(
             amount = updateExpenseParameters.amount,
             description = updateExpenseParameters.description,
@@ -69,8 +69,8 @@ class ExpenseCoreServiceIMPL(
             categoryId = updateExpenseParameters.categoryId,
         )
 
-    private fun Expense.toExpenseUpdatedEvent(
-        oldExpense: Expense,
+    private fun ExpenseV2.toExpenseUpdatedEvent(
+        oldExpense: ExpenseV2,
     ): ExpenseUpdatedEvent =
         ExpenseUpdatedEvent(
             expenseId = id,

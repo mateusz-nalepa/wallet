@@ -22,7 +22,11 @@ class SqLiteCategoryRepositoryV2(
             ?.toDomain()
 
     override fun remove(categoryId: CategoryId, onExpensesExistAction: (CategoryId) -> Unit) {
-        categoryV2Dao.remove(categoryId.id)
+        try {
+            categoryV2Dao.remove(categoryId.id)
+        } catch (t: Throwable) {
+            onExpensesExistAction.invoke(categoryId)
+        }
     }
 }
 

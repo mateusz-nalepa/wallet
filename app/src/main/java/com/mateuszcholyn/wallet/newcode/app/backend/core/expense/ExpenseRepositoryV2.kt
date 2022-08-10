@@ -4,11 +4,11 @@ import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 
 interface ExpenseRepositoryV2 {
     fun save(
-        expense: Expense,
+        expense: ExpenseV2,
         onNonExistingCategoryAction: (CategoryId) -> Unit = {},
-    ): Expense
+    ): ExpenseV2
 
-    fun getAllExpenses(): List<Expense>
-    fun getById(expenseId: ExpenseId): Expense?
+    fun getAllExpenses(): List<ExpenseV2>
+    fun getById(expenseId: ExpenseId): ExpenseV2?
     fun remove(expenseId: ExpenseId)
 }
