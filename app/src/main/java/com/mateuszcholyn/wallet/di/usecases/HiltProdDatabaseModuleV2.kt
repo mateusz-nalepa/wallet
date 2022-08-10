@@ -13,6 +13,7 @@ import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseReposito
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.SqLiteExpenseRepositoryV2
 import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.InMemorySearchServiceRepository
 import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchServiceRepository
+import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SqLiteSearchServiceRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,9 +26,8 @@ object HiltProdDatabaseModuleV2 {
 
     @Provides
     @Singleton
-    fun provideInMemoryCoreRepositoryV2(): InMemoryCoreRepositoryV2 {
-        return InMemoryCoreRepositoryV2()
-    }
+    fun provideInMemoryCoreRepositoryV2(): InMemoryCoreRepositoryV2 =
+        InMemoryCoreRepositoryV2()
 
     @Provides
     @Singleton
@@ -70,7 +70,14 @@ object HiltProdDatabaseModuleV2 {
 
     @Provides
     @Singleton
-    fun provideSearchServiceRepository(): SearchServiceRepository =
-        InMemorySearchServiceRepository()
+    fun provideSearchServiceRepository(
+        @NewAppQualifier appDatabaseV2: AppDatabaseV2,
+        demoAppSwitcher: DemoAppSwitcher,
+    ): SearchServiceRepository =
+        if (demoAppSwitcher.isDemoModeEnabled()) {
+            InMemorySearchServiceRepository()
+        } else {
+            SqLiteSearchServiceRepository(appDatabaseV2.searchServiceDao())
+        }
 
 }

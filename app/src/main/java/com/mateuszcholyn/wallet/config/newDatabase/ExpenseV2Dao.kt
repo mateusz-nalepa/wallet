@@ -38,7 +38,6 @@ interface ExpenseV2Dao {
     ],
     indices = [
         Index("expense_id", unique = true),
-        Index("fk_category_id")
     ]
 )
 data class ExpenseEntityV2(

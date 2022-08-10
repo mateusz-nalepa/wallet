@@ -6,7 +6,7 @@ import com.mateuszcholyn.wallet.util.dateutils.toMillis
 import java.time.LocalDateTime
 
 
-class LocalDateTimeConverter {
+object LocalDateTimeConverter {
 
     @TypeConverter
     fun toLocalDateTime(value: Long): LocalDateTime =

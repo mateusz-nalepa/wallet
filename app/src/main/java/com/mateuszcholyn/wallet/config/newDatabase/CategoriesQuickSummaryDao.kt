@@ -27,7 +27,9 @@ interface CategoriesQuickSummaryDao {
 
 @Entity(
     tableName = "categories_quick_summary",
-    indices = [Index("category_id", unique = true)]
+    indices = [
+        Index("category_id", unique = true),
+    ]
 )
 data class CategoriesQuickSummaryEntity(
 

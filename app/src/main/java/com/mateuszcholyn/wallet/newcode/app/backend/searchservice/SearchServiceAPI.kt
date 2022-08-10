@@ -14,7 +14,7 @@ data class SearchCriteria(
     val endDate: LocalDateTime? = null,
     val fromAmount: BigDecimal? = null,
     val toAmount: BigDecimal? = null,
-    val sort: NewSort = NewSort(NewSort.Field.DATE, NewSort.Type.DESC)
+    val sort: NewSort = NewSort(NewSort.Field.DATE, NewSort.Order.DESC)
 )
 
 interface SearchServiceAPI {
@@ -37,7 +37,7 @@ data class SearchAverageExpenseResult(
 
 data class NewSort(
     val field: Field,
-    val type: Type,
+    val order: Order,
 ) {
 
     enum class Field {
@@ -45,7 +45,7 @@ data class NewSort(
         AMOUNT,
     }
 
-    enum class Type {
+    enum class Order {
         ASC,
         DESC,
     }

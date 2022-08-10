@@ -31,7 +31,7 @@ class SearchServiceUseCaseSortTest : BaseIntegrationTest() {
 
         // when
         val searchServiceResult = manager.searchServiceUseCase {
-            sort = NewSort(NewSort.Field.DATE, NewSort.Type.DESC)
+            sort = NewSort(NewSort.Field.DATE, NewSort.Order.DESC)
         }
 
         // then
@@ -57,7 +57,7 @@ class SearchServiceUseCaseSortTest : BaseIntegrationTest() {
 
         // when
         val searchServiceResult = manager.searchServiceUseCase {
-            sort = NewSort(NewSort.Field.DATE, NewSort.Type.ASC)
+            sort = NewSort(NewSort.Field.DATE, NewSort.Order.ASC)
         }
 
         // then
@@ -83,7 +83,7 @@ class SearchServiceUseCaseSortTest : BaseIntegrationTest() {
 
         // when
         val searchServiceResult = manager.searchServiceUseCase {
-            sort = NewSort(NewSort.Field.AMOUNT, NewSort.Type.DESC)
+            sort = NewSort(NewSort.Field.AMOUNT, NewSort.Order.DESC)
         }
 
         // then
@@ -109,7 +109,7 @@ class SearchServiceUseCaseSortTest : BaseIntegrationTest() {
 
         // when
         val searchServiceResult = manager.searchServiceUseCase {
-            sort = NewSort(NewSort.Field.AMOUNT, NewSort.Type.ASC)
+            sort = NewSort(NewSort.Field.AMOUNT, NewSort.Order.ASC)
         }
 
         // then

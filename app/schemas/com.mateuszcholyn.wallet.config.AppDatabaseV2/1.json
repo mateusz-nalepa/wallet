@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c7b64425e25770c84255b004dafa2392",
+    "identityHash": "086e6f1c6cecee9dfc37fe38033e6676",
     "entities": [
       {
         "tableName": "categories_quick_summary",
@@ -135,15 +135,6 @@
             ],
             "orders": [],
             "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_expenses_expense_id` ON `${TABLE_NAME}` (`expense_id`)"
-          },
-          {
-            "name": "index_expenses_fk_category_id",
-            "unique": false,
-            "columnNames": [
-              "fk_category_id"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_expenses_fk_category_id` ON `${TABLE_NAME}` (`fk_category_id`)"
           }
         ],
         "foreignKeys": [
@@ -159,12 +150,87 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "search_service",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`expense_id` TEXT NOT NULL, `category_id` TEXT NOT NULL, `amount` REAL NOT NULL, `paid_at` INTEGER NOT NULL, PRIMARY KEY(`expense_id`))",
+        "fields": [
+          {
+            "fieldPath": "expenseId",
+            "columnName": "expense_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryId",
+            "columnName": "category_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paidAt",
+            "columnName": "paid_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "expense_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_search_service_expense_id",
+            "unique": true,
+            "columnNames": [
+              "expense_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_search_service_expense_id` ON `${TABLE_NAME}` (`expense_id`)"
+          },
+          {
+            "name": "index_search_service_category_id",
+            "unique": false,
+            "columnNames": [
+              "category_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_search_service_category_id` ON `${TABLE_NAME}` (`category_id`)"
+          },
+          {
+            "name": "index_search_service_amount",
+            "unique": false,
+            "columnNames": [
+              "amount"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_search_service_amount` ON `${TABLE_NAME}` (`amount`)"
+          },
+          {
+            "name": "index_search_service_paid_at",
+            "unique": false,
+            "columnNames": [
+              "paid_at"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_search_service_paid_at` ON `${TABLE_NAME}` (`paid_at`)"
+          }
+        ],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c7b64425e25770c84255b004dafa2392')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '086e6f1c6cecee9dfc37fe38033e6676')"
     ]
   }
 }

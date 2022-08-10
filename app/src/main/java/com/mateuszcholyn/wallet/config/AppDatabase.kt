@@ -33,6 +33,7 @@ abstract class AppDatabase : RoomDatabase() {
         CategoriesQuickSummaryEntity::class,
         CategoryEntityV2::class,
         ExpenseEntityV2::class,
+        SearchServiceEntity::class,
     ],
     version = 1,
 )
@@ -46,4 +47,5 @@ abstract class AppDatabaseV2 : RoomDatabase() {
     abstract fun categoriesQuickSummaryDao(): CategoriesQuickSummaryDao
     abstract fun categoryV2Dao(): CategoryV2Dao
     abstract fun expenseV2Dao(): ExpenseV2Dao
+    abstract fun searchServiceDao(): SearchServiceDao
 }

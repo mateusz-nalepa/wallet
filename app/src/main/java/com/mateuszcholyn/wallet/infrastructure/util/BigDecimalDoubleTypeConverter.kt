@@ -3,10 +3,10 @@ package com.mateuszcholyn.wallet.infrastructure.util
 import androidx.room.TypeConverter
 import java.math.BigDecimal
 
-class BigDecimalDoubleTypeConverter {
+object BigDecimalDoubleTypeConverter {
 
     @TypeConverter
-    fun bigDecimalToDouble(input: BigDecimal?): Double =
+    fun toDouble(input: BigDecimal?): Double =
         input
             ?.toDouble()
             ?: 0.0

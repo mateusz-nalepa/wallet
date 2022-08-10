@@ -82,9 +82,9 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
                 NewSort.Field.AMOUNT -> sortedBy { it.amount }
             }
 
-        return when (searchCriteria.sort.type) {
-            NewSort.Type.DESC -> sortedByField.reversed()
-            NewSort.Type.ASC -> sortedByField
+        return when (searchCriteria.sort.order) {
+            NewSort.Order.DESC -> sortedByField.reversed()
+            NewSort.Order.ASC -> sortedByField
         }
     }
 }

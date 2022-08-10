@@ -29,7 +29,7 @@ class SearchCriteriaScope {
     var categoryId: CategoryId? = null
     var fromAmount: BigDecimal? = null
     var toAmount: BigDecimal? = null
-    var sort: NewSort = NewSort(NewSort.Field.DATE, NewSort.Type.DESC)
+    var sort: NewSort = NewSort(NewSort.Field.DATE, NewSort.Order.DESC)
 
     fun toSearchCriteria(): SearchCriteria =
         SearchCriteria(
