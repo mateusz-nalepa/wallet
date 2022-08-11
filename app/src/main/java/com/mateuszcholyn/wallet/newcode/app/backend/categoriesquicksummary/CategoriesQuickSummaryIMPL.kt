@@ -31,6 +31,7 @@ class CategoriesQuickSummaryIMPL(
     }
 
     override fun getQuickSummary(): QuickSummaryList {
+        // HODOR - write test for that
         val allCategories = categoryCoreServiceAPI.getAll()
         return categoriesQuickSummaryRepository
             .getQuickSummaries()

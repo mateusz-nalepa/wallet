@@ -6,6 +6,7 @@ import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseV2WithCategory
 import com.mateuszcholyn.wallet.newcode.app.usecase.UseCase
 
+// HODOR - write test for that
 class GetExpenseUseCase(
     private val expenseCoreService: ExpenseCoreServiceAPI,
 ) : UseCase {

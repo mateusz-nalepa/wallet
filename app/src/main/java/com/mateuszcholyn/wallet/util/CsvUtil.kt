@@ -61,6 +61,7 @@ fun String.toFile(): File {
 
 
 private fun prepareSaveModel(ex: Expense): SaveModel =
+    // HODOR - fix this code!
     TODO("fix me!!")
 //    SaveModel(
 //        expenseId = ex.idOrThrow(),

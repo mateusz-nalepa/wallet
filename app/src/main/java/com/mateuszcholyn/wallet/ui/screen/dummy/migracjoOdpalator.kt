@@ -15,6 +15,7 @@ fun odpalMigracje(
     expenseService: ExpenseService,
     categoryService: CategoryService,
 ) {
+    // HODOR - write me!
     TODO("you need to fix me!!")
 //    val objectMapper = ObjectMapper().findAndRegisterModules()
 //
