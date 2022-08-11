@@ -1,6 +1,5 @@
 package com.mateuszcholyn.wallet.newcode.app.backend.searchservice
 
-import com.mateuszcholyn.wallet.newcode.app.backend.events.ExpenseAddedEvent
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.Duration
@@ -8,7 +7,7 @@ import java.time.Duration
 object SearchAverageExpenseResultCalculator {
 
     fun calculate(
-        expenses: List<ExpenseAddedEvent>,
+        expenses: List<SearchSingleResult>,
         searchCriteria: SearchCriteria,
     ): SearchAverageExpenseResult {
         val sum = expenses.sumExpensesAmount()
@@ -36,7 +35,7 @@ object SearchAverageExpenseResultCalculator {
         )
     }
 
-    private fun List<ExpenseAddedEvent>.sumExpensesAmount(): BigDecimal =
+    private fun List<SearchSingleResult>.sumExpensesAmount(): BigDecimal =
         if (this.isNotEmpty()) {
             this.map { it.amount }.reduce { acc, bigDecimal -> acc.add(bigDecimal) }
         } else {

@@ -49,7 +49,7 @@ class UpdateExpenseUseCaseTest {
             descriptionEqualTo(givenNewDescription)
             categoryIdEqualTo(newCategoryScope.categoryId)
         }
-        manager.validate(updatedExpense.id) {
+        manager.validate(updatedExpense.expenseId) {
             paidAtEqualTo(givenNewPaidAt)
             amountEqualTo(givenNewAmount)
             descriptionEqualTo(givenNewDescription)

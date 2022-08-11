@@ -6,10 +6,14 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mateuszcholyn.wallet.domain.category.Category
-import com.mateuszcholyn.wallet.domain.category.CategoryDetails
-import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.domain.category.ExistingCategory
+import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoryQuickSummary
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryV2
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CreateCategoryParameters
+import com.mateuszcholyn.wallet.newcode.app.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.CreateCategoryUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.RemoveCategoryUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.UpdateCategoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,13 +26,16 @@ sealed class CategoryState {
 }
 
 data class CategorySuccessContent(
-    val categoriesList: List<CategoryDetails>,
+    val categoriesList: List<CategoryQuickSummary>,
     val categoryNamesOnly: List<String>,
 )
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
-    private val categoryService: CategoryService,
+    private val createCategoryUseCase: CreateCategoryUseCase,
+    private val removeCategoryUseCase: RemoveCategoryUseCase,
+    private val updateCategoryUseCase: UpdateCategoryUseCase,
+    private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
 ) : ViewModel() {
 
     private var _categoryState: MutableState<CategoryState> = mutableStateOf(CategoryState.Loading)
@@ -39,18 +46,29 @@ class CategoryViewModel @Inject constructor(
         refreshScreen()
     }
 
-    fun addCategory(newCategory: Category) {
-        categoryService.add(newCategory)
+    fun addCategory(newCategoryName: NewCategoryName) {
+        val createCategoryParameters =
+            CreateCategoryParameters(
+                name = newCategoryName,
+            )
+        createCategoryUseCase.invoke(createCategoryParameters)
         refreshScreen()
     }
 
-    fun deleteCategory(categoryId: Long) {
-        categoryService.remove(categoryId)
+    fun deleteCategory(categoryId: CategoryId) {
+        removeCategoryUseCase.invoke(categoryId)
         refreshScreen()
     }
 
-    fun updateCategory(existingCategory: ExistingCategory) {
-        categoryService.updateCategory(existingCategory)
+    fun updateCategory(categoryQuickSummary: CategoryQuickSummary) {
+        val updatedCategory =
+            CategoryV2(
+                id = categoryQuickSummary.categoryId,
+                name = categoryQuickSummary.categoryName,
+            )
+
+        updateCategoryUseCase.invoke(updatedCategory)
+
         refreshScreen()
     }
 
@@ -67,11 +85,11 @@ class CategoryViewModel @Inject constructor(
     }
 
     private fun prepareCategorySuccessContent(): CategorySuccessContent {
-        val categories = categoryService.getAllWithDetailsOrderByUsageDesc()
-        val categoryNamesOnly = categories.map { it.name }
+        val quickSummaries = getCategoriesQuickSummaryUseCase.invoke().quickSummaries
+        val categoryNamesOnly = quickSummaries.map { it.categoryName }
 
         return CategorySuccessContent(
-            categoriesList = categories,
+            categoriesList = quickSummaries,
             categoryNamesOnly = categoryNamesOnly,
         )
     }

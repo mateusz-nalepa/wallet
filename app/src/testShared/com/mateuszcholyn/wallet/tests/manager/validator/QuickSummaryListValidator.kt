@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.tests.manager.validator
 
-import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.QuickSummary
+import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoryQuickSummary
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.QuickSummaryList
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 
@@ -42,17 +42,17 @@ class SimpleQuickSummaryListValidator(
 
 
 class SimpleQuickSummaryValidator(
-    private val quickSummary: QuickSummary,
+    private val categoryQuickSummary: CategoryQuickSummary,
 ) {
     fun doesNotHaveExpenses() {
         hasNumberOfExpensesEqualTo(0)
     }
 
     fun hasNumberOfExpensesEqualTo(expectedNumberOfExpenses: Int) {
-        assert(quickSummary.numberOfExpenses == expectedNumberOfExpenses.toLong()) {
-            "Expected number of expenses for categoryId: ${quickSummary.categoryId} " +
+        assert(categoryQuickSummary.numberOfExpenses == expectedNumberOfExpenses.toLong()) {
+            "Expected number of expenses for categoryId: ${categoryQuickSummary.categoryId} " +
                     "should be: $expectedNumberOfExpenses. " +
-                    "Actual: ${quickSummary.numberOfExpenses}"
+                    "Actual: ${categoryQuickSummary.numberOfExpenses}"
         }
     }
 }

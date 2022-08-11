@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mateuszcholyn.wallet.domain.category.CategoryDetails
-import com.mateuszcholyn.wallet.domain.category.ExistingCategory
+import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoryQuickSummary
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 
 @Composable
 fun CategoriesList(
@@ -28,9 +28,9 @@ fun CategoriesList(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun CategoriesListStateless(
-    categoryListOptions: List<CategoryDetails>,
-    onDeleteFunction: (Long) -> Unit,
-    onUpdateCategory: (ExistingCategory) -> Unit,
+    categoryListOptions: List<CategoryQuickSummary>,
+    onDeleteFunction: (CategoryId) -> Unit,
+    onUpdateCategory: (CategoryQuickSummary) -> Unit,
     categorySuccessContent: CategorySuccessContent,
 ) {
     LazyColumn(
@@ -40,11 +40,12 @@ private fun CategoriesListStateless(
             .padding(horizontal = 4.dp),
 
         ) {
-        items(categoryListOptions) { categoryDetails ->
+        items(categoryListOptions) { categoryQuickSummary ->
             SingleCategory(
                 onDeleteFunction = onDeleteFunction,
                 onUpdateCategoryFunction = onUpdateCategory,
-                categoryDetails = categoryDetails,
+//                categoryDetails = categoryDetails,
+                categoryQuickSummary = categoryQuickSummary,
                 categorySuccessContent = categorySuccessContent,
             )
         }

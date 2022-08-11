@@ -17,6 +17,9 @@ class CategoryCoreServiceIMPL(
     override fun getAll(): List<CategoryV2> =
         categoryRepositoryFacade.getAllCategories()
 
+    override fun getByIdOrThrow(categoryId: CategoryId): CategoryV2 =
+        categoryRepositoryFacade.getByIdOrThrow(categoryId)
+
     override fun remove(categoryId: CategoryId) {
         categoryRepositoryFacade
             .remove(categoryId)

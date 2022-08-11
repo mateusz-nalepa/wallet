@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "086e6f1c6cecee9dfc37fe38033e6676",
+    "identityHash": "c3910a15699c387b969d114075278b9f",
     "entities": [
       {
         "tableName": "categories_quick_summary",
@@ -153,7 +153,7 @@
       },
       {
         "tableName": "search_service",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`expense_id` TEXT NOT NULL, `category_id` TEXT NOT NULL, `amount` REAL NOT NULL, `paid_at` INTEGER NOT NULL, PRIMARY KEY(`expense_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`expense_id` TEXT NOT NULL, `category_id` TEXT NOT NULL, `amount` REAL NOT NULL, `paid_at` INTEGER NOT NULL, `description` TEXT NOT NULL, PRIMARY KEY(`expense_id`))",
         "fields": [
           {
             "fieldPath": "expenseId",
@@ -177,6 +177,12 @@
             "fieldPath": "paidAt",
             "columnName": "paid_at",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -230,7 +236,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '086e6f1c6cecee9dfc37fe38033e6676')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c3910a15699c387b969d114075278b9f')"
     ]
   }
 }

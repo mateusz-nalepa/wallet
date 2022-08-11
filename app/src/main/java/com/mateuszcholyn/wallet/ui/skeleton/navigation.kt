@@ -34,7 +34,7 @@ sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslatio
 fun NavDrawerItem.AddOrEditExpense.routeWithoutId(): String =
     "addOrEditExpense"
 
-fun NavDrawerItem.AddOrEditExpense.routeWithId(expenseId: Long): String =
+fun NavDrawerItem.AddOrEditExpense.routeWithId(expenseId: String): String =
     "addOrEditExpense?expenseId=$expenseId"
 
 
@@ -56,7 +56,7 @@ fun Navigation(
             NewAddOrEditExpenseScreen(
                 onFormSubmitNavigate = { navController.navigate(NavDrawerItem.SummaryScreen.route) },
                 onMissingCategoriesNavigate = { navController.navigate(NavDrawerItem.Category.route) },
-                backStackEntry.arguments?.getString("expenseId")?.toLong()
+                backStackEntry.arguments?.getString("expenseId")
             )
         }
         composable(NavDrawerItem.Category.route) {

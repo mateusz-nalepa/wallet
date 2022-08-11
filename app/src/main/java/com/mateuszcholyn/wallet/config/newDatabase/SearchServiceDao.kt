@@ -34,6 +34,7 @@ const val EXPENSE_ID_FIELD_NAME = "expense_id"
 const val CATEGORY_ID_FIELD_NAME = "category_id"
 const val AMOUNT_FIELD_NAME = "amount"
 const val PAID_AT_FIELD_NAME = "paid_at"
+const val DESCRIPTION_FIELD_NAME = "description"
 
 @Entity(
     tableName = SEARCH_SERVICE_TABLE_NAME,
@@ -59,4 +60,6 @@ data class SearchServiceEntity(
     @ColumnInfo(name = PAID_AT_FIELD_NAME)
     val paidAt: LocalDateTime,
 
-    )
+    @ColumnInfo(name = DESCRIPTION_FIELD_NAME)
+    val description: String,
+)

@@ -33,9 +33,11 @@ object HiltServicesModuleV2 {
     fun provideCategoriesQuickSummaryAPI(
         categoriesQuickSummaryRepository: CategoriesQuickSummaryRepository,
         miniKafka: MiniKafka,
+        categoryCoreServiceAPI: CategoryCoreServiceAPI,
     ): CategoriesQuickSummaryAPI {
         val categoriesQuickSummary = CategoriesQuickSummaryIMPL(
             categoriesQuickSummaryRepository = categoriesQuickSummaryRepository,
+            categoryCoreServiceAPI = categoryCoreServiceAPI,
         )
 
         miniKafka.expenseAddedEventTopic.addSubscription {
@@ -62,9 +64,11 @@ object HiltServicesModuleV2 {
     fun provideSearchServiceAPI(
         searchServiceRepository: SearchServiceRepository,
         miniKafka: MiniKafka,
+        categoryCoreServiceAPI: CategoryCoreServiceAPI,
     ): SearchServiceAPI {
         val searchService = SearchServiceIMPL(
             searchServiceRepository = searchServiceRepository,
+            categoryCoreServiceAPI = categoryCoreServiceAPI,
         )
 
         miniKafka.expenseAddedEventTopic.addSubscription {
@@ -85,10 +89,12 @@ object HiltServicesModuleV2 {
     fun provideExpenseCoreServiceAPI(
         expenseRepositoryV2: ExpenseRepositoryV2,
         miniKafka: MiniKafka,
+        categoryCoreServiceAPI: CategoryCoreServiceAPI
     ): ExpenseCoreServiceAPI {
         return ExpenseCoreServiceIMPL(
             expenseRepositoryFacade = ExpenseRepositoryFacade(expenseRepositoryV2),
             expensePublisher = MiniKafkaExpensePublisher(miniKafka),
+            categoryCoreServiceAPI = categoryCoreServiceAPI,
         )
     }
 

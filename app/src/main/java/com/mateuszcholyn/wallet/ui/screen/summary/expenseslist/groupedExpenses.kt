@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.sumExpensesAmount
+import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.ui.screen.summary.ShowExpense
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.asPrintableAmount
@@ -24,8 +24,8 @@ import com.mateuszcholyn.wallet.util.asPrintableAmount
 fun GroupedExpenses(
     navController: NavHostController,
     refreshFunction: () -> Unit,
-    expensesListGrouped: Map<String, List<Expense>>,
-    groupNameFunction: (Expense) -> String,
+    expensesListGrouped: Map<String, List<SearchSingleResult>>,
+    groupNameFunction: (SearchSingleResult) -> String,
 ) {
     LazyColumn(modifier = defaultModifier) {
         expensesListGrouped.forEach { (_, expensesInGroup) ->
@@ -45,10 +45,10 @@ fun GroupedExpenses(
                     )
                 }
             }
-            itemsIndexed(items = expensesInGroup) { id, expense ->
+            itemsIndexed(items = expensesInGroup) { id, searchSingleResult ->
                 ShowExpense(
                     id = id,
-                    expense = expense,
+                    searchSingleResult = searchSingleResult,
                     navController = navController,
                     refreshFunction = { refreshFunction() }
                 )

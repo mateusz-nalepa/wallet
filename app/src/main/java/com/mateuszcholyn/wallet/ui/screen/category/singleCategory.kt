@@ -14,9 +14,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.domain.category.Category
-import com.mateuszcholyn.wallet.domain.category.CategoryDetails
-import com.mateuszcholyn.wallet.domain.category.ExistingCategory
+import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoryQuickSummary
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.ui.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.ui.util.showShortText
@@ -26,9 +25,9 @@ import com.mateuszcholyn.wallet.util.appContext.currentAppContext
 @ExperimentalMaterialApi
 @Composable
 fun SingleCategory(
-    onDeleteFunction: (Long) -> Unit,
-    onUpdateCategoryFunction: (ExistingCategory) -> Unit,
-    categoryDetails: CategoryDetails,
+    onDeleteFunction: (CategoryId) -> Unit,
+    onUpdateCategoryFunction: (CategoryQuickSummary) -> Unit,
+    categoryQuickSummary: CategoryQuickSummary,
     initialDetailsAreVisible: Boolean = false,
     initialEditCategoryNameIsVisible: Boolean = false,
     categorySuccessContent: CategorySuccessContent,
@@ -42,13 +41,13 @@ fun SingleCategory(
     ListItem(
         modifier =
         Modifier
-            .testTag("CategoryItem#${categoryDetails.id}")
+            .testTag("CategoryItem#${categoryQuickSummary.categoryId.id}")
             .clickable {
                 detailsAreVisible = !detailsAreVisible
             },
 
-        text = { Text(categoryDetails.name) },
-        secondaryText = { Text(stringResource(R.string.amountOfExpenses) + " ${categoryDetails.numberOfExpenses}") },
+        text = { Text(categoryQuickSummary.categoryName) },
+        secondaryText = { Text(stringResource(R.string.amountOfExpenses) + " ${categoryQuickSummary.numberOfExpenses}") },
         trailing = {
             if (detailsAreVisible) {
                 Icon(
@@ -102,11 +101,11 @@ fun SingleCategory(
                 message = stringResource(R.string.reallyHardRemoveCategory),
                 openDialog = openDialog,
                 onConfirm = {
-                    if (categoryDetails.numberOfExpenses == 0L) {
-                        onDeleteFunction.invoke(categoryDetails.id)
+                    if (categoryQuickSummary.numberOfExpenses == 0L) {
+                        onDeleteFunction.invoke(categoryQuickSummary.categoryId)
                         showShortText(
                             currentContext,
-                            categoryRemovedText + " ${categoryDetails.name}"
+                            categoryRemovedText + " ${categoryQuickSummary.categoryName}"
                         )
                     } else {
                         showShortText(currentContext, cannotRemoveCategoryWithExpensesText)
@@ -125,13 +124,9 @@ fun SingleCategory(
         }
         if (editCategoryNameIsVisible) {
             EditCategoryForm(
-                actualCategoryName = categoryDetails.name,
-                onFormSubmit = { actualCategory ->
-                    onUpdateCategoryFunction.invoke(
-                        categoryDetails.toExistingCategory(
-                            actualCategory
-                        )
-                    )
+                actualCategoryName = categoryQuickSummary.categoryName,
+                onFormSubmit = { newCategoryName ->
+                    onUpdateCategoryFunction.invoke(categoryQuickSummary.copy(categoryName = newCategoryName))
                     editCategoryNameIsVisible = false
                     detailsAreVisible = false
                 },
@@ -144,8 +139,8 @@ fun SingleCategory(
 
 }
 
-fun CategoryDetails.toExistingCategory(categoryWithNewName: Category): ExistingCategory =
-    ExistingCategory(
-        id = id,
-        name = categoryWithNewName.name,
-    )
+//fun CategoryDetails.toExistingCategory(categoryWithNewName: Category): ExistingCategory =
+//    ExistingCategory(
+//        id = id,
+//        name = categoryWithNewName.name,
+//    )

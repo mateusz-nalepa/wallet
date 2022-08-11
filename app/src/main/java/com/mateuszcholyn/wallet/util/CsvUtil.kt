@@ -61,14 +61,15 @@ fun String.toFile(): File {
 
 
 private fun prepareSaveModel(ex: Expense): SaveModel =
-    SaveModel(
-        expenseId = ex.idOrThrow(),
-        amount = ex.amount,
-        categoryId = ex.category.id,
-        categoryName = ex.category.name,
-        date = ex.date.toHumanText(),
-        description = ex.description,
-    )
+    TODO("fix me!!")
+//    SaveModel(
+//        expenseId = ex.idOrThrow(),
+//        amount = ex.amount,
+//        categoryId = ex.category.id,
+//        categoryName = ex.category.name,
+//        date = ex.date.toHumanText(),
+//        description = ex.description,
+//    )
 
 fun File.createNewIfNotExists(): File {
 

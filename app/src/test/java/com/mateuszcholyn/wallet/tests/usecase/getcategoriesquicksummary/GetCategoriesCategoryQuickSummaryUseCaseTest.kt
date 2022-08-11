@@ -12,7 +12,7 @@ import com.mateuszcholyn.wallet.tests.setup.initExpenseAppManager
 import org.junit.Test
 
 
-class GetCategoriesQuickSummaryUseCaseTest {
+class GetCategoriesCategoryQuickSummaryUseCaseTest {
 
     @Test
     fun quickSummaryShouldHaveInformationAboutAddedCategory() {

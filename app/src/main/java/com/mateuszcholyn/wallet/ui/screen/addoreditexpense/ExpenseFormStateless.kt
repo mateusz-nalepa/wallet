@@ -25,7 +25,7 @@ import java.time.LocalDateTime
 @Composable
 fun EditExpenseScreen(
     onFormSubmitNavigateAction: () -> Unit,
-    actualExpenseId: Long,
+    actualExpenseId: String,
     addOrEditExpenseViewModel: AddOrEditExpenseViewModel = hiltViewModel(),
 ) {
     val categoryNameOptions by remember { mutableStateOf(addOrEditExpenseViewModel.categoryOptions()) }
@@ -130,7 +130,7 @@ private fun ExpenseFormStateless(
         }
         Row(modifier = defaultModifier) {
             OutlinedDatePickerField(
-                value = formState.date,
+                value = formState.paidAt,
                 onValueChange = { onDateChange(it) },
             )
         }

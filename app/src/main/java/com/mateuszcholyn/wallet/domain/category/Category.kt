@@ -9,6 +9,6 @@ data class Category(
 
 
 data class ExistingCategory(
-    var id: Long,
+    var id: String,
     var name: String
 ) : Serializable

@@ -8,13 +8,15 @@ class SqLiteCategoriesQuickSummaryRepository(
     private val categoriesQuickSummaryDao: CategoriesQuickSummaryDao
 ) : CategoriesQuickSummaryRepository {
 
-    override fun saveQuickSummary(quickSummary: QuickSummary): QuickSummary =
-        quickSummary
+    override fun saveQuickSummaryResult(
+        categoryQuickSummaryResult: CategoryQuickSummaryResult,
+    ): CategoryQuickSummaryResult =
+        categoryQuickSummaryResult
             .toEntity()
             .also { categoriesQuickSummaryDao.save(it) }
             .toDomain()
 
-    override fun getQuickSummaries(): List<QuickSummary> =
+    override fun getQuickSummaries(): List<CategoryQuickSummaryResult> =
         categoriesQuickSummaryDao
             .getAll()
             .map { it.toDomain() }
@@ -23,20 +25,20 @@ class SqLiteCategoriesQuickSummaryRepository(
         categoriesQuickSummaryDao.remove(categoryId.id)
     }
 
-    override fun findByCategoryId(categoryId: CategoryId): QuickSummary? =
+    override fun findByCategoryId(categoryId: CategoryId): CategoryQuickSummaryResult? =
         categoriesQuickSummaryDao
             .findByCategoryId(categoryId.id)
             ?.toDomain()
 }
 
-private fun QuickSummary.toEntity(): CategoriesQuickSummaryEntity =
+private fun CategoryQuickSummaryResult.toEntity(): CategoriesQuickSummaryEntity =
     CategoriesQuickSummaryEntity(
         categoryId = categoryId.id,
         numberOfExpenses = numberOfExpenses,
     )
 
-private fun CategoriesQuickSummaryEntity.toDomain(): QuickSummary =
-    QuickSummary(
+private fun CategoriesQuickSummaryEntity.toDomain(): CategoryQuickSummaryResult =
+    CategoryQuickSummaryResult(
         categoryId = CategoryId(categoryId),
         numberOfExpenses = numberOfExpenses,
     )

@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.newcode.app.backend.core.expense
 
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.newcode.app.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.newcode.app.backend.events.ExpenseRemovedEvent
 import com.mateuszcholyn.wallet.newcode.app.backend.events.ExpenseUpdatedEvent
@@ -9,6 +10,7 @@ import com.mateuszcholyn.wallet.util.randomUUID
 class ExpenseCoreServiceIMPL(
     private val expenseRepositoryFacade: ExpenseRepositoryFacade,
     private val expensePublisher: ExpensePublisher,
+    private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
 ) : ExpenseCoreServiceAPI {
     override fun add(addExpenseParameters: AddExpenseParameters): ExpenseV2 =
         addExpenseParameters
@@ -26,7 +28,7 @@ class ExpenseCoreServiceIMPL(
         expenseRepositoryFacade.getAllExpenses()
 
     override fun update(updateExpenseParameters: ExpenseV2): ExpenseV2 {
-        val oldExpense = expenseRepositoryFacade.getByIdOrThrow(updateExpenseParameters.id)
+        val oldExpense = expenseRepositoryFacade.getByIdOrThrow(updateExpenseParameters.expenseId)
 
         return oldExpense
             .updateUsing(updateExpenseParameters)
@@ -38,9 +40,23 @@ class ExpenseCoreServiceIMPL(
             }
     }
 
+    override fun getByIdOrThrow(expenseId: ExpenseId): ExpenseV2WithCategory {
+        val expense = expenseRepositoryFacade.getByIdOrThrow(expenseId)
+        val category = categoryCoreServiceAPI.getByIdOrThrow(expense.categoryId)
+
+        return ExpenseV2WithCategory(
+            expenseId = expenseId,
+            amount = expense.amount,
+            description = expense.description,
+            paidAt = expense.paidAt,
+            categoryId = category.id,
+            categoryName = category.name,
+        )
+    }
+
     private fun AddExpenseParameters.toNewExpense(): ExpenseV2 =
         ExpenseV2(
-            id = ExpenseId(randomUUID()),
+            expenseId = ExpenseId(randomUUID()),
             amount = amount,
             description = description,
             paidAt = paidAt,
@@ -49,15 +65,16 @@ class ExpenseCoreServiceIMPL(
 
     private fun ExpenseV2.toExpenseAddedEvent(): ExpenseAddedEvent =
         ExpenseAddedEvent(
-            expenseId = id,
+            expenseId = expenseId,
             categoryId = categoryId,
             amount = amount,
             paidAt = paidAt,
+            description = description,
         )
 
     private fun ExpenseV2.toExpenseRemovedEvent(): ExpenseRemovedEvent =
         ExpenseRemovedEvent(
-            expenseId = id,
+            expenseId = expenseId,
             categoryId = categoryId,
         )
 
@@ -73,10 +90,11 @@ class ExpenseCoreServiceIMPL(
         oldExpense: ExpenseV2,
     ): ExpenseUpdatedEvent =
         ExpenseUpdatedEvent(
-            expenseId = id,
+            expenseId = expenseId,
             oldCategoryId = oldExpense.categoryId,
             newCategoryId = categoryId,
             newAmount = amount,
             newPaidAt = paidAt,
+            newDescription = description,
         )
 }

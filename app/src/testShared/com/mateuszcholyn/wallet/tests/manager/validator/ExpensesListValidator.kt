@@ -2,8 +2,8 @@ package com.mateuszcholyn.wallet.tests.manager.validator
 
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.newcode.app.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchServiceResult
+import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.tests.manager.ExpenseScope
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -47,14 +47,14 @@ class SimpleExpensesListValidator(
     ) {
         SimpleSingleExpenseAddedEventValidator(
             expenseIndex = expenseIndex,
-            expenseAddedEvent = searchServiceResult.expenses[expenseIndex],
+            searchSingleResult = searchServiceResult.expenses[expenseIndex],
         ).validationBlock()
     }
 }
 
 class SimpleSingleExpenseAddedEventValidator(
     private val expenseIndex: Int,
-    private val expenseAddedEvent: ExpenseAddedEvent,
+    private val searchSingleResult: SearchSingleResult,
 ) {
 
     fun equalTo(expenseScope: ExpenseScope) {
@@ -64,30 +64,30 @@ class SimpleSingleExpenseAddedEventValidator(
     }
 
     fun paidAtEqualTo(expectedPaidAt: LocalDateTime) {
-        assert(expenseAddedEvent.paidAt == expectedPaidAt) {
+        assert(searchSingleResult.paidAt == expectedPaidAt) {
             "Expense with index $expenseIndex should have paid at equal to: $expectedPaidAt. " +
-                    "Actual: ${expenseAddedEvent.paidAt}"
+                    "Actual: ${searchSingleResult.paidAt}"
         }
     }
 
     fun amountEqualTo(expectedAmount: BigDecimal) {
-        assert(expenseAddedEvent.amount == expectedAmount) {
+        assert(searchSingleResult.amount == expectedAmount) {
             "Expense with index $expenseIndex should have amount equal to: $expectedAmount. " +
-                    "Actual: ${expenseAddedEvent.amount}"
+                    "Actual: ${searchSingleResult.amount}"
         }
     }
 
     fun idEqualTo(expectedId: ExpenseId) {
-        assert(expenseAddedEvent.expenseId == expectedId) {
+        assert(searchSingleResult.expenseId == expectedId) {
             "Expense with index $expenseIndex should have id equal to: $expectedId. " +
-                    "Actual: ${expenseAddedEvent.expenseId}"
+                    "Actual: ${searchSingleResult.expenseId}"
         }
     }
 
     fun categoryIdEqualTo(expectedCategoryId: CategoryId) {
-        assert(expenseAddedEvent.categoryId == expectedCategoryId) {
+        assert(searchSingleResult.categoryId == expectedCategoryId) {
             "Expense with index $expenseIndex should have category id equal to: $expectedCategoryId. " +
-                    "Actual: ${expenseAddedEvent.categoryId}"
+                    "Actual: ${searchSingleResult.categoryId}"
         }
     }
 

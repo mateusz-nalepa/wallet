@@ -39,7 +39,7 @@ object SearchServiceQueryHelper {
         }
 
         if (searchCriteria.toAmount != null) {
-            whereSections.add("$AMOUNT_FIELD_NAME <= ${toDouble(searchCriteria.toAmount)} ")
+            whereSections.add(" $AMOUNT_FIELD_NAME <= ${toDouble(searchCriteria.toAmount)} ")
         }
 
         if (searchCriteria.shouldAddWhereClause()) {

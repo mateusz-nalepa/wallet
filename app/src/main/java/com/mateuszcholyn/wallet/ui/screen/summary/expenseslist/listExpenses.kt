@@ -8,14 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.mateuszcholyn.wallet.domain.expense.Expense
+import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.ui.screen.summary.ShowExpense
 
 @Composable
 fun ExpensesList(
     navController: NavHostController,
     refreshFunction: () -> Unit,
-    expensesList: List<Expense>,
+    expensesList: List<SearchSingleResult>,
 ) {
     LazyColumn(
         modifier =
@@ -24,10 +24,10 @@ fun ExpensesList(
             .padding(horizontal = 4.dp),
 
         ) {
-        itemsIndexed(items = expensesList) { id, expense ->
+        itemsIndexed(items = expensesList) { id, searchSingleResult ->
             ShowExpense(
                 id = id,
-                expense = expense,
+                searchSingleResult = searchSingleResult,
                 navController = navController,
                 refreshFunction = refreshFunction,
             )

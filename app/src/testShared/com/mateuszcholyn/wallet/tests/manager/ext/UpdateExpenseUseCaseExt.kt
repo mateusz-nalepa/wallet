@@ -31,7 +31,7 @@ class UpdateExpenseUseCaseScope {
 
     fun toExpense(): ExpenseV2 =
         ExpenseV2(
-            id = existingExpenseId,
+            expenseId = existingExpenseId,
             amount = newAmount,
             description = newDescription,
             paidAt = newPaidAt,

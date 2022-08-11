@@ -34,24 +34,25 @@ class CategoryService(
 }
 
 fun List<CategoryWithExpenses>.orderByCategoryUsageDesc(): List<CategoryDetails> =
-    this
-        .groupBy { it.category.name }
-        .mapValues { categoryNameWithListOfExpenses ->
-            CategoryIdWithNumberOfExpenses(
-                categoryId = categoryNameWithListOfExpenses.value.firstOrNull()?.category?.id
-                    ?: throw IllegalStateException("Id should not be null"),
-                numberOfExpenses = categoryNameWithListOfExpenses.value.first().expenses.size.toLong(),
-            )
-        }
-        .toList()
-        .map {
-            CategoryDetails(
-                id = it.second.categoryId,
-                name = it.first,
-                numberOfExpenses = it.second.numberOfExpenses,
-            )
-        }
-        .sortedByDescending { it.numberOfExpenses }
+    TODO("remove me XDD")
+    //    this
+//        .groupBy { it.category.name }
+//        .mapValues { categoryNameWithListOfExpenses ->
+//            CategoryIdWithNumberOfExpenses(
+//                categoryId = categoryNameWithListOfExpenses.value.firstOrNull()?.category?.id
+//                    ?: throw IllegalStateException("Id should not be null"),
+//                numberOfExpenses = categoryNameWithListOfExpenses.value.first().expenses.size.toLong(),
+//            )
+//        }
+//        .toList()
+//        .map {
+//            CategoryDetails(
+//                id = it.second.categoryId,
+//                name = it.first,
+//                numberOfExpenses = it.second.numberOfExpenses,
+//            )
+//        }
+//        .sortedByDescending { it.numberOfExpenses }
 
 data class CategoryIdWithNumberOfExpenses(
     val categoryId: Long,

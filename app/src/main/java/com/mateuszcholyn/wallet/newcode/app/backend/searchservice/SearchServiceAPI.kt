@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.newcode.app.backend.searchservice
 
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.newcode.app.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.newcode.app.backend.events.ExpenseRemovedEvent
 import com.mateuszcholyn.wallet.newcode.app.backend.events.ExpenseUpdatedEvent
@@ -25,8 +26,18 @@ interface SearchServiceAPI {
 }
 
 data class SearchServiceResult(
-    val expenses: List<ExpenseAddedEvent>,
+    val expenses: List<SearchSingleResult>,
     val averageExpenseResult: SearchAverageExpenseResult,
+)
+
+
+data class SearchSingleResult(
+    val expenseId: ExpenseId,
+    val categoryId: CategoryId,
+    val categoryName: String,
+    val amount: BigDecimal,
+    val paidAt: LocalDateTime,
+    val description: String,
 )
 
 data class SearchAverageExpenseResult(

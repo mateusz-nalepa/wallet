@@ -18,23 +18,11 @@ class InMemoryCategoryRepository(
     }
 
     override fun add(category: Category): ExistingCategory {
-        val categoryId = idGenerator.nextNumber()
-
-        val addedCategory =
-            ExistingCategory(
-                id = categoryId,
-                name = category.name,
-            )
-
-        storage[categoryId] = addedCategory
-
-        return addedCategory
+        TODO("remove me XD")
     }
 
     override fun update(category: ExistingCategory): ExistingCategory {
-        storage[category.id] = category
-
-        return category
+        TODO("remove me XD")
     }
 
     override fun getAllCategoriesWithExpenses(): List<CategoryWithExpenses> {

@@ -14,20 +14,11 @@ interface CategoriesQuickSummaryAPI {
 }
 
 data class QuickSummaryList(
-    val quickSummaries: List<QuickSummary>,
+    val quickSummaries: List<CategoryQuickSummary>,
 )
 
-data class QuickSummary(
+data class CategoryQuickSummary(
     val categoryId: CategoryId,
+    val categoryName: String,
     val numberOfExpenses: Long,
-) {
-    fun incWithOne(): QuickSummary =
-        this.copy(
-            numberOfExpenses = numberOfExpenses + 1,
-        )
-
-    fun decWithOne(): QuickSummary =
-        this.copy(
-            numberOfExpenses = numberOfExpenses - 1,
-        )
-}
+)

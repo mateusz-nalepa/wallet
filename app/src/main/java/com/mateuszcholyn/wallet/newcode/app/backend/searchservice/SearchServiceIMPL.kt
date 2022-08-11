@@ -1,11 +1,15 @@
 package com.mateuszcholyn.wallet.newcode.app.backend.searchservice
 
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryCoreServiceAPI
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryV2
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.findOrThrow
 import com.mateuszcholyn.wallet.newcode.app.backend.events.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.newcode.app.backend.events.ExpenseRemovedEvent
 import com.mateuszcholyn.wallet.newcode.app.backend.events.ExpenseUpdatedEvent
 
 class SearchServiceIMPL(
     private val searchServiceRepository: SearchServiceRepository,
+    private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
 ) : SearchServiceAPI {
     override fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent) {
         searchServiceRepository.remove(expenseRemovedEvent.expenseId)
@@ -19,33 +23,63 @@ class SearchServiceIMPL(
     }
 
     override fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent) {
-        searchServiceRepository.saveExpense(expenseAddedEvent)
+        searchServiceRepository.saveExpense(expenseAddedEvent.toSearchSingleResult())
     }
 
     override fun getAll(
         searchCriteria: SearchCriteria,
-    ): SearchServiceResult =
-        searchServiceRepository
-            .getAll(searchCriteria)
-            .toSearchServiceResult(searchCriteria)
+    ): SearchServiceResult {
+        val allCategories = categoryCoreServiceAPI.getAll()
 
-    private fun List<ExpenseAddedEvent>.toSearchServiceResult(
+        return searchServiceRepository
+            .getAll(searchCriteria)
+            .toSearchServiceResult(allCategories, searchCriteria)
+    }
+
+    private fun List<SearchSingleResultRepo>.toSearchServiceResult(
+        allCategories: List<CategoryV2>,
         searchCriteria: SearchCriteria,
-    ): SearchServiceResult =
-        SearchServiceResult(
-            expenses = this,
+    ): SearchServiceResult {
+
+        val expensesWithDetails = this.map { it.toSearchSingleResult(allCategories) }
+
+        return SearchServiceResult(
+            expenses = expensesWithDetails,
             averageExpenseResult = SearchAverageExpenseResultCalculator.calculate(
-                expenses = this,
+                expenses = expensesWithDetails,
                 searchCriteria = searchCriteria,
             )
         )
+    }
 
-    private fun ExpenseAddedEvent.updateUsing(
+    private fun SearchSingleResultRepo.updateUsing(
         expenseUpdatedEvent: ExpenseUpdatedEvent,
-    ): ExpenseAddedEvent =
+    ): SearchSingleResultRepo =
         this.copy(
             amount = expenseUpdatedEvent.newAmount,
             paidAt = expenseUpdatedEvent.newPaidAt,
             categoryId = expenseUpdatedEvent.newCategoryId,
+            description = expenseUpdatedEvent.newDescription,
+        )
+
+    private fun ExpenseAddedEvent.toSearchSingleResult(): SearchSingleResultRepo =
+        SearchSingleResultRepo(
+            expenseId = expenseId,
+            categoryId = categoryId,
+            amount = amount,
+            paidAt = paidAt,
+            description = description,
         )
 }
+
+private fun SearchSingleResultRepo.toSearchSingleResult(
+    allCategories: List<CategoryV2>,
+): SearchSingleResult =
+    SearchSingleResult(
+        expenseId = expenseId,
+        categoryId = categoryId,
+        categoryName = allCategories.findOrThrow(categoryId).name,
+        amount = amount,
+        paidAt = paidAt,
+        description = description,
+    )

@@ -18,12 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.ui.util.showLongText
 import com.mateuszcholyn.wallet.util.appContext.currentAppContext
-import com.mateuszcholyn.wallet.util.dateutils.maxDate
-import com.mateuszcholyn.wallet.util.dateutils.minDate
-import com.mateuszcholyn.wallet.util.saveAllExpensesToFile
 
 
 @Composable
@@ -60,22 +56,23 @@ fun DummyScreen(
 
         Button(
             onClick = {
-                val summaryResult =
-                    expenseService.getSummary(
-                        ExpenseSearchCriteria(
-                            allCategories = true,
-                            beginDate = minDate,
-                            endDate = maxDate,
-                            isAllExpenses = true,
-                        )
-
-                    )
-
-                saveAllExpensesToFile(
-                    ctx = appContext,
-                    expenses = summaryResult.expenses
-                )
-                showLongText(appContext, "Zakonczono eksport danych!")
+//                val summaryResult =
+//                    expenseService.getSummary(
+//                        ExpenseSearchCriteria(
+//                            allCategories = true,
+//                            beginDate = minDate,
+//                            endDate = maxDate,
+//                            isAllExpenses = true,
+//                        )
+//
+//                    )
+//
+//                saveAllExpensesToFile(
+//                    ctx = appContext,
+//                    expenses = summaryResult.expenses
+//                )
+//                showLongText(appContext, "Zakonczono eksport danych!")
+                showLongText(appContext, "NIC NIE WYEKSPORTOWANO!!")
 
             },
         ) {

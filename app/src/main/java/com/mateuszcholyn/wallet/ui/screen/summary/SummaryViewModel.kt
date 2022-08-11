@@ -7,15 +7,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.domain.expense.AverageExpenseResult
-import com.mateuszcholyn.wallet.domain.expense.Expense
-import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
-import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchServiceAPI
+import com.mateuszcholyn.wallet.domain.expense.*
+import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoryQuickSummary
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.*
+import com.mateuszcholyn.wallet.newcode.app.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.searchservice.SearchServiceUseCase
 import com.mateuszcholyn.wallet.ui.dropdown.*
 import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.CategoryView
-import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.toCategoryView
 import com.mateuszcholyn.wallet.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.util.asPrintableAmount
 import com.mateuszcholyn.wallet.util.toDoubleOrDefaultZero
@@ -27,7 +26,7 @@ fun initialCategory(): CategoryView {
     return CategoryView(
         name = "Wszystkie kategorie",
         nameKey = R.string.summaryScreen_allCategories,
-        isAllCategories = true
+        categoryId = null,
     )
 }
 
@@ -49,16 +48,15 @@ sealed class SummaryState {
 }
 
 data class SummarySuccessContent(
-    val expensesList: List<Expense>,
-    val expensesGrouped: Map<String, List<Expense>>,
+    val expensesList: List<SearchSingleResult>,
+    val expensesGrouped: Map<String, List<SearchSingleResult>>,
     val summaryResultText: String,
 )
 
 @HiltViewModel
 class SummaryViewModel @Inject constructor(
-    private val categoryService: CategoryService,
-    private val expenseService: ExpenseService,
-    private val searchServiceAPI: SearchServiceAPI,
+    private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
+    private val searchServiceUseCase: SearchServiceUseCase,
 ) : ViewModel() {
 
     fun initScreen() {
@@ -74,8 +72,8 @@ class SummaryViewModel @Inject constructor(
         get() = _summaryState
 
     fun readCategoriesList(): List<CategoryView> =
-        listOf(initialCategory()) + categoryService.getAllWithDetailsOrderByUsageDesc()
-            .map { it.toCategoryView() }
+        listOf(initialCategory()) +
+                getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
 
     fun updateSelectedCategory(newSelectedCategory: CategoryView) {
         _searchForm.value = _searchForm.value.copy(selectedCategory = newSelectedCategory)
@@ -125,33 +123,79 @@ class SummaryViewModel @Inject constructor(
     }
 
     private fun prepareSummarySuccessContent(): SummarySuccessContent {
-        val summaryResult = expenseService.getSummary(summarySearchForm.toExpenseSearchCriteria())
+//        val summaryResult = expenseService.getSummary(summarySearchForm.toExpenseSearchCriteria())
+
+        val summaryResult = searchServiceUseCase.invoke(summarySearchForm.toSearchCriteria())
+
+        val expenses = summaryResult.expenses
+
         return SummarySuccessContent(
-            expensesList = summaryResult.expenses,
-            expensesGrouped = summaryResult.expenses.groupBy(summarySearchForm.selectedGroupElement.groupFunction),
+            expensesList = expenses,
+            expensesGrouped = expenses.groupBy(summarySearchForm.selectedGroupElement.groupFunction),
             summaryResultText = summaryResult.averageExpenseResult.asTextSummary(),
         )
     }
 
 }
+//
+//private fun SummarySearchForm.toExpenseSearchCriteria(): ExpenseSearchCriteria =
+//    ExpenseSearchCriteria(
+//        allCategories = selectedCategory.isAllCategories,
+//        categoryId = selectedCategory.actualCategoryId(),
+//        beginDate = selectedQuickRangeData.beginDate,
+//        endDate = selectedQuickRangeData.endDate,
+//        sort = selectedSortElement.sort,
+//        isAllExpenses = selectedQuickRangeData.isAllExpenses,
+//        fromAmount = amountRangeStart.toDoubleOrDefaultZero(),
+//        toAmount = amountRangeEnd.toDoubleOrDefaultZero(),
+//    )
 
-private fun SummarySearchForm.toExpenseSearchCriteria(): ExpenseSearchCriteria =
-    ExpenseSearchCriteria(
-        allCategories = selectedCategory.isAllCategories,
-        categoryId = selectedCategory.actualCategoryId(),
+private fun SummarySearchForm.toSearchCriteria(): SearchCriteria =
+    SearchCriteria(
+        categoryId = selectedCategory.categoryId?.let { CategoryId(it) },
         beginDate = selectedQuickRangeData.beginDate,
         endDate = selectedQuickRangeData.endDate,
-        sort = selectedSortElement.sort,
-        isAllExpenses = selectedQuickRangeData.isAllExpenses,
-        fromAmount = amountRangeStart.toDoubleOrDefaultZero(),
-        toAmount = amountRangeEnd.toDoubleOrDefaultZero(),
+        fromAmount = amountRangeStart.toDoubleOrDefaultZero().toBigDecimal(),
+        toAmount = amountRangeEnd.toDoubleOrDefaultZero().toBigDecimal(),
+        sort = selectedSortElement.sort.toNewSort(),
     )
 
-fun CategoryView.actualCategoryId(): Long? =
-    if (isAllCategories) null else id
+//fun CategoryView.actualCategoryId(): Long? =
+//    if (isAllCategories) null else id
 
 fun Expense.descriptionOrDefault(defaultDescription: String): String =
     if (description == EMPTY_STRING) defaultDescription else description
 
-fun AverageExpenseResult.asTextSummary(): String =
+fun SearchSingleResult.descriptionOrDefault(defaultDescription: String): String =
+    if (description == EMPTY_STRING) defaultDescription else description
+
+//fun AverageExpenseResult.asTextSummary(): String =
+//    "${wholeAmount.asPrintableAmount()} / $days d = ${averageAmount.asPrintableAmount()}/d"
+
+
+fun SearchAverageExpenseResult.asTextSummary(): String =
     "${wholeAmount.asPrintableAmount()} / $days d = ${averageAmount.asPrintableAmount()}/d"
+
+private fun Sort.toNewSort(): NewSort =
+    NewSort(
+        field = field.toNewField(),
+        order = type.toNewOrder(),
+    )
+
+private fun Sort.Field.toNewField(): NewSort.Field =
+    when (this) {
+        Sort.Field.DATE -> NewSort.Field.DATE
+        Sort.Field.AMOUNT -> NewSort.Field.AMOUNT
+    }
+
+private fun Sort.Type.toNewOrder(): NewSort.Order =
+    when (this) {
+        Sort.Type.ASC -> NewSort.Order.ASC
+        Sort.Type.DESC -> NewSort.Order.DESC
+    }
+
+fun CategoryQuickSummary.toCategoryView(): CategoryView =
+    CategoryView(
+        categoryId = categoryId.id,
+        name = categoryName,
+    )

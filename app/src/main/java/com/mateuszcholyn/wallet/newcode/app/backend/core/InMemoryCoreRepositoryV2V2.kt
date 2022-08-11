@@ -51,7 +51,7 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
             onNonExistingCategoryAction.invoke(expense.categoryId)
         }
 
-        expenses[expense.id] = expense
+        expenses[expense.expenseId] = expense
         return expense
     }
 

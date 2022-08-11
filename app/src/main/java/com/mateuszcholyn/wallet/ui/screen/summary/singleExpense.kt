@@ -15,8 +15,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.domain.expense.Expense
-import com.mateuszcholyn.wallet.domain.expense.ExpenseService
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
+import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchSingleResult
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.ui.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.ui.skeleton.NavDrawerItem
 import com.mateuszcholyn.wallet.ui.skeleton.routeWithId
@@ -28,32 +29,35 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ShowExpenseModel @Inject constructor(
-    private val expenseService: ExpenseService,
+    private val removeExpenseUseCase: RemoveExpenseUseCase,
 ) : ViewModel() {
-    fun expenseService(): ExpenseService = expenseService
+
+
+    fun removeExpenseById(expenseId: ExpenseId) {
+        removeExpenseUseCase.invoke(expenseId)
+    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ShowExpense(
     id: Int,
-    expense: Expense,
+    searchSingleResult: SearchSingleResult,
     navController: NavHostController,
     refreshFunction: () -> Unit,
     initialDetailsAreVisible: Boolean = false,
     showExpenseModel: ShowExpenseModel = hiltViewModel()
 ) {
-    val expenseService = showExpenseModel.expenseService()
 
     var detailsAreVisible by remember { mutableStateOf(initialDetailsAreVisible) }
     ListItem(
-        text = { Text("${id + 1}. ${expense.category.name}") },
+        text = { Text("${id + 1}. ${searchSingleResult.categoryName}") },
         trailing = {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(text = expense.amount.asPrintableAmount(), fontSize = 16.sp)
+                Text(text = searchSingleResult.amount.asPrintableAmount(), fontSize = 16.sp)
                 Icon(
                     Icons.Filled.Paid,
                     contentDescription = null,
@@ -75,7 +79,7 @@ fun ShowExpense(
                     contentDescription = null,
                     modifier = Modifier.size(24.dp),
                 )
-                Text(text = expense.descriptionOrDefault(stringResource(R.string.noDescription)))
+                Text(text = searchSingleResult.descriptionOrDefault(stringResource(R.string.noDescription)))
             }
             Row(
                 modifier = defaultModifier.padding(bottom = 0.dp),
@@ -89,7 +93,7 @@ fun ShowExpense(
                         contentDescription = null,
                         modifier = Modifier.size(24.dp),
                     )
-                    Text(text = expense.date.toHumanText())
+                    Text(text = searchSingleResult.paidAt.toHumanText())
                 }
 
                 Row(horizontalArrangement = Arrangement.End) {
@@ -97,7 +101,7 @@ fun ShowExpense(
                         onClick = {
                             navController.navigate(
                                 NavDrawerItem.AddOrEditExpense.routeWithId(
-                                    expenseId = expense.idOrThrow()
+                                    expenseId = searchSingleResult.expenseId.id
                                 )
                             )
                         }
@@ -112,7 +116,7 @@ fun ShowExpense(
                     YesOrNoDialog(
                         openDialog = openDialog,
                         onConfirm = {
-                            expenseService.hardRemove(expenseId = expense.idOrThrow())
+                            showExpenseModel.removeExpenseById(expenseId = searchSingleResult.expenseId)
                             refreshFunction()
                             detailsAreVisible = false
 

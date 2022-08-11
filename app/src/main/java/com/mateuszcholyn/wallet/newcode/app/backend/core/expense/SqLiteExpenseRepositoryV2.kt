@@ -44,7 +44,7 @@ class SqLiteExpenseRepositoryV2(
 
 private fun ExpenseV2.toEntity(): ExpenseEntityV2 =
     ExpenseEntityV2(
-        expenseId = id.id,
+        expenseId = expenseId.id,
         amount = amount,
         description = description,
         paidAt = paidAt,
@@ -53,7 +53,7 @@ private fun ExpenseV2.toEntity(): ExpenseEntityV2 =
 
 private fun ExpenseEntityV2.toDomain(): ExpenseV2 =
     ExpenseV2(
-        id = ExpenseId(expenseId),
+        expenseId = ExpenseId(expenseId),
         amount = amount,
         description = description,
         paidAt = paidAt,

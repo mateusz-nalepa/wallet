@@ -5,23 +5,22 @@ import com.mateuszcholyn.wallet.config.newDatabase.SearchServiceDao
 import com.mateuszcholyn.wallet.config.newDatabase.SearchServiceEntity
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.newcode.app.backend.events.ExpenseAddedEvent
 
 class SqLiteSearchServiceRepository(
     private val searchServiceDao: SearchServiceDao,
 ) : SearchServiceRepository {
-    override fun getById(expenseId: ExpenseId): ExpenseAddedEvent? =
+    override fun getById(expenseId: ExpenseId): SearchSingleResultRepo? =
         searchServiceDao
             .findByExpenseId(expenseId.id)
             ?.toDomain()
 
-    override fun saveExpense(expenseAddedEvent: ExpenseAddedEvent): ExpenseAddedEvent =
-        expenseAddedEvent
+    override fun saveExpense(searchSingleResultRepo: SearchSingleResultRepo): SearchSingleResultRepo =
+        searchSingleResultRepo
             .toEntity()
             .also { searchServiceDao.save(it) }
             .toDomain()
 
-    override fun getAll(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
+    override fun getAll(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> =
         searchServiceDao
             .getAll(SimpleSQLiteQuery(SearchServiceQueryHelper.prepareSearchQuery(searchCriteria)))
             .map { it.toDomain() }
@@ -32,18 +31,20 @@ class SqLiteSearchServiceRepository(
 }
 
 
-private fun ExpenseAddedEvent.toEntity(): SearchServiceEntity =
+private fun SearchSingleResultRepo.toEntity(): SearchServiceEntity =
     SearchServiceEntity(
         expenseId = expenseId.id,
         categoryId = categoryId.id,
         amount = amount,
         paidAt = paidAt,
+        description = description,
     )
 
-private fun SearchServiceEntity.toDomain(): ExpenseAddedEvent =
-    ExpenseAddedEvent(
+private fun SearchServiceEntity.toDomain(): SearchSingleResultRepo =
+    SearchSingleResultRepo(
         expenseId = ExpenseId(expenseId),
         categoryId = CategoryId(categoryId),
         amount = amount,
         paidAt = paidAt,
+        description = description,
     )

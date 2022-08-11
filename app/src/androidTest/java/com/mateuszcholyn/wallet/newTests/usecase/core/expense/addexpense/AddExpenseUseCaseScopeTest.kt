@@ -33,7 +33,7 @@ class AddExpenseUseCaseScopeTest : BaseIntegrationTest() {
         newExpense.validate {
             paidAtEqualTo(givenPaidAt)
         }
-        manager.validate(newExpense.id) {
+        manager.validate(newExpense.expenseId) {
             paidAtEqualTo(givenPaidAt)
         }
     }

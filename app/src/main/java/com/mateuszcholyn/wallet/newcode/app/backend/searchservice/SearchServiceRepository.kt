@@ -1,27 +1,38 @@
 package com.mateuszcholyn.wallet.newcode.app.backend.searchservice
 
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.newcode.app.backend.events.ExpenseAddedEvent
+import java.math.BigDecimal
+import java.time.LocalDateTime
+
+
+data class SearchSingleResultRepo(
+    val expenseId: ExpenseId,
+    val categoryId: CategoryId,
+    val amount: BigDecimal,
+    val paidAt: LocalDateTime,
+    val description: String,
+)
 
 interface SearchServiceRepository {
-    fun getById(expenseId: ExpenseId): ExpenseAddedEvent?
-    fun saveExpense(expenseAddedEvent: ExpenseAddedEvent): ExpenseAddedEvent
-    fun getAll(searchCriteria: SearchCriteria): List<ExpenseAddedEvent>
+    fun getById(expenseId: ExpenseId): SearchSingleResultRepo?
+    fun saveExpense(searchSingleResultRepo: SearchSingleResultRepo): SearchSingleResultRepo
+    fun getAll(searchCriteria: SearchCriteria): List<SearchSingleResultRepo>
     fun remove(expenseId: ExpenseId)
 }
 
 class InMemorySearchServiceRepository : SearchServiceRepository {
-    private val storage: MutableMap<ExpenseId, ExpenseAddedEvent> = mutableMapOf()
+    private val storage: MutableMap<ExpenseId, SearchSingleResultRepo> = mutableMapOf()
 
-    override fun getById(expenseId: ExpenseId): ExpenseAddedEvent? =
+    override fun getById(expenseId: ExpenseId): SearchSingleResultRepo? =
         storage[expenseId]
 
-    override fun saveExpense(expenseAddedEvent: ExpenseAddedEvent): ExpenseAddedEvent {
-        storage[expenseAddedEvent.expenseId] = expenseAddedEvent
-        return expenseAddedEvent
+    override fun saveExpense(searchSingleResultRepo: SearchSingleResultRepo): SearchSingleResultRepo {
+        storage[searchSingleResultRepo.expenseId] = searchSingleResultRepo
+        return searchSingleResultRepo
     }
 
-    override fun getAll(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
+    override fun getAll(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> =
         storage
             .values
             .toList()
@@ -36,7 +47,7 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
         storage.remove(expenseId)
     }
 
-    private fun List<ExpenseAddedEvent>.filterByBeginDate(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
+    private fun List<SearchSingleResultRepo>.filterByBeginDate(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> =
         if (searchCriteria.beginDate == null) {
             this
         } else {
@@ -45,7 +56,7 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
             }
         }
 
-    private fun List<ExpenseAddedEvent>.filterByEndDate(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
+    private fun List<SearchSingleResultRepo>.filterByEndDate(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> =
         if (searchCriteria.endDate == null) {
             this
         } else {
@@ -54,28 +65,28 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
             }
         }
 
-    private fun List<ExpenseAddedEvent>.filterByCategory(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
+    private fun List<SearchSingleResultRepo>.filterByCategory(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> =
         if (searchCriteria.categoryId != null) {
             filter { it.categoryId == searchCriteria.categoryId }
         } else {
             this
         }
 
-    private fun List<ExpenseAddedEvent>.filterByFromAmount(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
+    private fun List<SearchSingleResultRepo>.filterByFromAmount(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> =
         if (searchCriteria.fromAmount != null) {
             filter { it.amount >= searchCriteria.fromAmount }
         } else {
             this
         }
 
-    private fun List<ExpenseAddedEvent>.filterByToAmount(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> =
+    private fun List<SearchSingleResultRepo>.filterByToAmount(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> =
         if (searchCriteria.toAmount != null) {
             filter { it.amount <= searchCriteria.toAmount }
         } else {
             this
         }
 
-    private fun List<ExpenseAddedEvent>.sort(searchCriteria: SearchCriteria): List<ExpenseAddedEvent> {
+    private fun List<SearchSingleResultRepo>.sort(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> {
         val sortedByField =
             when (searchCriteria.sort.field) {
                 NewSort.Field.DATE -> sortedBy { it.paidAt }

@@ -51,7 +51,7 @@ class ExpenseAppUnitInitializer(
         val category =
             expenseAppUseCases.addExpenseUseCase.invoke(addExpenseParameters)
 
-        expenseScope.expenseId = category.id
+        expenseScope.expenseId = category.expenseId
     }
 
 }

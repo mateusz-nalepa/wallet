@@ -9,6 +9,7 @@ import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.CreateCategory
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.RemoveCategoryUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.UpdateCategoryUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.AddExpenseUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.GetExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.searchservice.SearchServiceUseCase
@@ -48,6 +49,13 @@ object HiltUseCasesModuleV2 {
     @Singleton
     fun provideAddExpenseUseCase(expenseCoreServiceAPI: ExpenseCoreServiceAPI): AddExpenseUseCase =
         AddExpenseUseCase(
+            expenseCoreService = expenseCoreServiceAPI,
+        )
+
+    @Provides
+    @Singleton
+    fun provideGetExpenseUseCase(expenseCoreServiceAPI: ExpenseCoreServiceAPI): GetExpenseUseCase =
+        GetExpenseUseCase(
             expenseCoreService = expenseCoreServiceAPI,
         )
 

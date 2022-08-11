@@ -7,7 +7,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.domain.category.Category
 import com.mateuszcholyn.wallet.ui.composables.ValidatedTextField
 import com.mateuszcholyn.wallet.ui.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
@@ -30,7 +29,7 @@ fun NewCategoryForm(
 @Composable
 fun EditCategoryForm(
     actualCategoryName: String,
-    onFormSubmit: (Category) -> Unit,
+    onFormSubmit: (NewCategoryName) -> Unit,
     categorySuccessContent: CategorySuccessContent,
 ) {
     CategoryFormStateless(
@@ -42,26 +41,28 @@ fun EditCategoryForm(
     )
 }
 
+typealias NewCategoryName = String
+
 @Composable
 private fun CategoryFormStateless(
     textFieldLabel: String,
     buttonLabel: String,
     initialCategoryName: String = EMPTY_STRING,
     categoryNamesOnly: List<String> = emptyList(),
-    onFormSubmit: (Category) -> Unit,
+    onFormSubmit: (NewCategoryName) -> Unit,
 ) {
 
-    var categoryNameText by remember { mutableStateOf(initialCategoryName) }
+    var newCategoryNameText by remember { mutableStateOf(initialCategoryName) }
 
     val isFormValid by derivedStateOf {
-        !categoryIsInvalid(categoryNameText, categoryNamesOnly)
+        !categoryIsInvalid(newCategoryNameText, categoryNamesOnly)
     }
 
     Column(modifier = defaultModifier) {
         ValidatedTextField(
             textFieldLabel = textFieldLabel,
-            value = categoryNameText,
-            onValueChange = { categoryNameText = it },
+            value = newCategoryNameText,
+            onValueChange = { newCategoryNameText = it },
             isValueInValidFunction = {
                 categoryIsInvalid(it, categoryNamesOnly)
             },
@@ -71,8 +72,8 @@ private fun CategoryFormStateless(
         Button(
             enabled = isFormValid,
             onClick = {
-                onFormSubmit.invoke(Category(name = categoryNameText))
-                categoryNameText = EMPTY_STRING
+                onFormSubmit.invoke(newCategoryNameText)
+                newCategoryNameText = EMPTY_STRING
             },
             modifier = defaultButtonModifier,
         ) {

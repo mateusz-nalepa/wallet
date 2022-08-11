@@ -11,7 +11,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
-class GetCategoriesQuickSummaryUseCaseIntegrationTest : BaseIntegrationTest() {
+class GetCategoriesCategoryQuickSummaryUseCaseIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun quickSummaryShouldHaveInformationAboutAddedCategory() {

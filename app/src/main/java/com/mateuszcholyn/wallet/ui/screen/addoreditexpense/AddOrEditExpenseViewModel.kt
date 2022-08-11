@@ -7,9 +7,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.domain.expense.Expense
-import com.mateuszcholyn.wallet.domain.expense.ExpenseService
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.AddExpenseParameters
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseV2
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseV2WithCategory
+import com.mateuszcholyn.wallet.newcode.app.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.AddExpenseUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.GetExpenseUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.UpdateExpenseUseCase
+import com.mateuszcholyn.wallet.ui.screen.summary.toCategoryView
 import com.mateuszcholyn.wallet.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.util.asFormattedAmount
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,22 +31,25 @@ sealed class AddOrEditExpenseScreenState {
 }
 
 data class FormDetails(
-    val actualExpenseId: Long? = null,
+    val actualExpenseId: String? = null,
     val amount: String = EMPTY_STRING,
     val description: String = EMPTY_STRING,
     val category: CategoryView = CategoryView(
         "Wszystkie kategorie",
         R.string.allExpenses
     ), // TODO: this should be nullable? XD
-    val date: LocalDateTime = LocalDateTime.now(),
+    val paidAt: LocalDateTime = LocalDateTime.now(),
     val submitButtonLabel: String = EMPTY_STRING,
 )
 
 
 @HiltViewModel
 class AddOrEditExpenseViewModel @Inject constructor(
-    private val categoryService: CategoryService,
-    private val expenseService: ExpenseService,
+//    private val expenseService: ExpenseService,
+    private val addExpenseUseCase: AddExpenseUseCase,
+    private val updateExpenseUseCase: UpdateExpenseUseCase,
+    private val getExpenseUseCase: GetExpenseUseCase,
+    private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
 ) : ViewModel() {
 
     private var _addOrEditExpenseScreenState: MutableState<AddOrEditExpenseScreenState> =
@@ -55,7 +65,7 @@ class AddOrEditExpenseViewModel @Inject constructor(
 
 
     fun categoryOptions(): List<CategoryView> {
-        return categoryService.getAllWithDetailsOrderByUsageDesc().map { it.toCategoryView() }
+        return getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
     }
 
     fun updateCategory(newCategory: CategoryView) {
@@ -73,7 +83,7 @@ class AddOrEditExpenseViewModel @Inject constructor(
     }
 
     fun updateDate(newDate: LocalDateTime) {
-        _addOrEditExpenseFormState.value = _addOrEditExpenseFormState.value.copy(date = newDate)
+        _addOrEditExpenseFormState.value = _addOrEditExpenseFormState.value.copy(paidAt = newDate)
     }
 
     fun updateSubmitButtonLabel(newLabel: String) {
@@ -86,29 +96,44 @@ class AddOrEditExpenseViewModel @Inject constructor(
     }
 
     fun saveExpense() {
-        val expense =
-            Expense(
-                id = addOrEditExpenseFormState.value.actualExpenseId,
-                amount = addOrEditExpenseFormState.value.amount.toBigDecimal(),
-                description = addOrEditExpenseFormState.value.description,
-                category = addOrEditExpenseFormState.value.category.toExistingCategory(),
-                date = addOrEditExpenseFormState.value.date,
-            )
-        expenseService.saveExpense(expense)
+        val actualExpenseId = addOrEditExpenseFormState.value.actualExpenseId
+
+
+        if (actualExpenseId == null) {
+
+            val addExpenseParameters =
+                AddExpenseParameters(
+                    amount = addOrEditExpenseFormState.value.amount.toBigDecimal(),
+                    description = addOrEditExpenseFormState.value.description,
+                    paidAt = addOrEditExpenseFormState.value.paidAt,
+                    categoryId = CategoryId(addOrEditExpenseFormState.value.category.categoryId!!)
+                )
+            addExpenseUseCase.invoke(addExpenseParameters)
+        } else {
+            val updatedExpense =
+                ExpenseV2(
+                    expenseId = ExpenseId(actualExpenseId),
+                    amount = addOrEditExpenseFormState.value.amount.toBigDecimal(),
+                    description = addOrEditExpenseFormState.value.description,
+                    categoryId = CategoryId(addOrEditExpenseFormState.value.category.categoryId!!),
+                    paidAt = addOrEditExpenseFormState.value.paidAt,
+                )
+            updateExpenseUseCase.invoke(updatedExpense)
+        }
     }
 
-    fun loadExpense(expenseId: Long) {
+    fun loadExpense(expenseId: String) {
         viewModelScope.launch {
             try {
                 _addOrEditExpenseScreenState.value = AddOrEditExpenseScreenState.Loading
-                val expense = expenseService.getById(expenseId)
+                val expense = getExpenseUseCase.invoke(ExpenseId(expenseId))
 
                 _addOrEditExpenseFormState.value = _addOrEditExpenseFormState.value.copy(
-                    actualExpenseId = expense.id,
+                    actualExpenseId = expense.expenseId.id,
                     amount = expense.amount.asFormattedAmount().toString(),
                     description = expense.description,
-                    category = expense.category.toCategoryView(),
-                    date = expense.date,
+                    category = expense.toCategoryView(),
+                    paidAt = expense.paidAt,
                 )
                 _addOrEditExpenseScreenState.value = AddOrEditExpenseScreenState.Show
             } catch (t: Throwable) {
@@ -121,3 +146,9 @@ class AddOrEditExpenseViewModel @Inject constructor(
     }
 
 }
+
+fun ExpenseV2WithCategory.toCategoryView(): CategoryView =
+    CategoryView(
+        categoryId = categoryId.id,
+        name = categoryName,
+    )

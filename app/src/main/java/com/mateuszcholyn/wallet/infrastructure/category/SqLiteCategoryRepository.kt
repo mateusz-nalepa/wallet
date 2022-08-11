@@ -60,10 +60,12 @@ fun List<CategoryWithExpense>.toExpenses(categoryEntity: CategoryEntity): List<E
         .map { it.expenseEntity!!.toDomain(categoryEntity) }
 
 fun ExistingCategory.toEntityUpdate(): CategoryEntity =
-    CategoryEntity(
-        categoryId = id,
-        name = name
-    )
+    TODO("remove me XDD")
+
+//    CategoryEntity(
+//        categoryId = id,
+//        name = name
+//    )
 
 fun Category.toEntityAdd(): CategoryEntity =
     CategoryEntity(
@@ -72,14 +74,18 @@ fun Category.toEntityAdd(): CategoryEntity =
     )
 
 fun CategoryEntity.toDomain(): ExistingCategory =
-    ExistingCategory(
-        id = categoryId!!,
-        name = name!!
-    )
+    TODO("remove me XDD")
+
+//    ExistingCategory(
+//        id = categoryId!!,
+//        name = name!!
+//    )
 
 
 fun Category.toDomain(): ExistingCategory =
-    ExistingCategory(
-        id = id!!,
-        name = name
-    )
+    TODO("remove me XDD")
+
+//ExistingCategory(
+//        id = id!!,
+//        name = name
+//    )
