@@ -46,7 +46,6 @@ object SearchServiceQueryHelper {
             averageQuery += whereSections.joinToString(prefix = " \n WHERE ", separator = " \n and")
         }
         averageQuery += " \n ORDER BY ${searchCriteria.resolveSort()}"
-
         return averageQuery
     }
 

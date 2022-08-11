@@ -12,6 +12,7 @@ import com.mateuszcholyn.wallet.domain.expense.AverageExpenseResult
 import com.mateuszcholyn.wallet.domain.expense.Expense
 import com.mateuszcholyn.wallet.domain.expense.ExpenseSearchCriteria
 import com.mateuszcholyn.wallet.domain.expense.ExpenseService
+import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchServiceAPI
 import com.mateuszcholyn.wallet.ui.dropdown.*
 import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.CategoryView
 import com.mateuszcholyn.wallet.ui.screen.addoreditexpense.toCategoryView
@@ -57,6 +58,7 @@ data class SummarySuccessContent(
 class SummaryViewModel @Inject constructor(
     private val categoryService: CategoryService,
     private val expenseService: ExpenseService,
+    private val searchServiceAPI: SearchServiceAPI,
 ) : ViewModel() {
 
     fun initScreen() {
