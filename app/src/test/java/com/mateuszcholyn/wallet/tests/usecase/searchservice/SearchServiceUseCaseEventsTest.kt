@@ -71,6 +71,7 @@ class SearchServiceUseCaseEventsTest {
                 amountEqualTo(givenNewAmount)
                 idEqualTo(expenseScope.expenseId)
                 categoryIdEqualTo(newCategoryScope.categoryId)
+                categoryNameEqualTo(newCategoryScope.categoryName)
             }
         }
 

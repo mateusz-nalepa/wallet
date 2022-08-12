@@ -57,6 +57,7 @@ class GetCategoriesCategoryQuickSummaryUseCaseTest {
         quickSummaryList.validate {
             categoryId(categoryScope.categoryId) {
                 hasNumberOfExpensesEqualTo(givenNumberOfExpenses)
+                hasName(categoryScope.categoryName)
             }
         }
     }
@@ -117,9 +118,11 @@ class GetCategoriesCategoryQuickSummaryUseCaseTest {
         quickSummaryList.validate {
             categoryId(oldCategoryScope.categoryId) {
                 hasNumberOfExpensesEqualTo(0)
+                hasName(oldCategoryScope.categoryName)
             }
             categoryId(newCategoryScope.categoryId) {
                 hasNumberOfExpensesEqualTo(1)
+                hasName(newCategoryScope.categoryName)
             }
         }
     }

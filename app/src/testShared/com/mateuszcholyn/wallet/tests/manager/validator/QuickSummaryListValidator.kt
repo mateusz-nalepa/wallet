@@ -55,5 +55,13 @@ class SimpleQuickSummaryValidator(
                     "Actual: ${categoryQuickSummary.numberOfExpenses}"
         }
     }
+
+    fun hasName(expectedCategoryName: String) {
+        assert(categoryQuickSummary.categoryName == expectedCategoryName) {
+            "Expected categoryName for categoryId: ${categoryQuickSummary.categoryId} " +
+                    "should be: $expectedCategoryName. " +
+                    "Actual: ${categoryQuickSummary.categoryName}"
+        }
+    }
 }
 

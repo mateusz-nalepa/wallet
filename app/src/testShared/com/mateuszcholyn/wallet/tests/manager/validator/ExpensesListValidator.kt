@@ -91,4 +91,11 @@ class SimpleSingleExpenseAddedEventValidator(
         }
     }
 
+    fun categoryNameEqualTo(expectedCategoryName: String) {
+        assert(searchSingleResult.categoryName == expectedCategoryName) {
+            "Expense with index $expenseIndex should have categoryName equal to: $expectedCategoryName. " +
+                    "Actual: ${searchSingleResult.categoryName}"
+        }
+    }
+
 }

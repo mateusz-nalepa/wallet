@@ -29,7 +29,6 @@ class SearchServiceIMPL(
     override fun getAll(
         searchCriteria: SearchCriteria,
     ): SearchServiceResult {
-        // HODOR - write test for that
         val allCategories = categoryCoreServiceAPI.getAll()
 
         return searchServiceRepository
