@@ -32,6 +32,10 @@ class CategoryCoreServiceIMPL(
             .updateUsing(updateCategoryParameters)
             .let { categoryRepositoryFacade.save(it) }
 
+    override fun removeAll() {
+        categoryRepositoryFacade.removeAll()
+    }
+
     private fun CreateCategoryParameters.toNewCategory(): CategoryV2 =
         CategoryV2(
             id = CategoryId(randomUUID()),

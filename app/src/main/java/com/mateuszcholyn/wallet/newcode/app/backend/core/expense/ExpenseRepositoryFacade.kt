@@ -26,6 +26,10 @@ class ExpenseRepositoryFacade(
         expenseRepositoryV2.remove(expenseId)
     }
 
+    fun removeAll() {
+        expenseRepositoryV2.removeAllExpenses()
+    }
+
 
 }
 

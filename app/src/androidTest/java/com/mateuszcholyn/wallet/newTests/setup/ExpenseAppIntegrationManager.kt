@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.newTests.setup
 
-import com.mateuszcholyn.wallet.newcode.app.backend.BackendIsConfigured
+import com.mateuszcholyn.wallet.newcode.app.backend.AllBackendServices
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryRepositoryV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseRepositoryV2
@@ -35,7 +35,7 @@ class ExpenseAppIntegrationManager @Inject constructor(
     private val searchServiceRepository: SearchServiceRepository,
 
     // All App works
-    private val backendIsConfigured: BackendIsConfigured,
+    private val allBackendServices: AllBackendServices,
 ) {
 
     fun expenseAppUseCases(): ExpenseAppUseCases =

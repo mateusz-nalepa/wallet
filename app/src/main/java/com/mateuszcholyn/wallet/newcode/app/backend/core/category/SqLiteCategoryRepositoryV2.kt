@@ -28,6 +28,10 @@ class SqLiteCategoryRepositoryV2(
             onExpensesExistAction.invoke(categoryId)
         }
     }
+
+    override fun removeAllCategories() {
+        categoryV2Dao.removeAll()
+    }
 }
 
 private fun CategoryV2.toEntity(): CategoryEntityV2 =

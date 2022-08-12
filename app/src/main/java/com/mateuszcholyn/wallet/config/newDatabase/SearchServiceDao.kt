@@ -26,6 +26,9 @@ interface SearchServiceDao {
     @Query("delete from search_service where expense_id = :expenseId")
     fun remove(expenseId: String): Int
 
+    @Query("delete from search_service")
+    fun removeAll()
+
 }
 
 const val SEARCH_SERVICE_TABLE_NAME = "search_service"

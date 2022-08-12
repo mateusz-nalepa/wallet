@@ -54,6 +54,10 @@ class ExpenseCoreServiceIMPL(
         )
     }
 
+    override fun removeAll() {
+        expenseRepositoryFacade.removeAll()
+    }
+
     private fun AddExpenseParameters.toNewExpense(): ExpenseV2 =
         ExpenseV2(
             expenseId = ExpenseId(randomUUID()),

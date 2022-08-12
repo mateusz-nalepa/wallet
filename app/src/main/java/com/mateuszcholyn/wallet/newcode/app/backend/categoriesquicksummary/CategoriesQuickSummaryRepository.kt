@@ -7,6 +7,7 @@ interface CategoriesQuickSummaryRepository {
     fun getQuickSummaries(): List<CategoryQuickSummaryResult>
     fun remove(categoryId: CategoryId)
     fun findByCategoryId(categoryId: CategoryId): CategoryQuickSummaryResult?
+    fun removeAll()
 }
 
 data class CategoryQuickSummaryResult(

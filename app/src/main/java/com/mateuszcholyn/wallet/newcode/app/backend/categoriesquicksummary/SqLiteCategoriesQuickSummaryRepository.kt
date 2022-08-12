@@ -29,6 +29,10 @@ class SqLiteCategoriesQuickSummaryRepository(
         categoriesQuickSummaryDao
             .findByCategoryId(categoryId.id)
             ?.toDomain()
+
+    override fun removeAll() {
+        categoriesQuickSummaryDao.removeAll()
+    }
 }
 
 private fun CategoryQuickSummaryResult.toEntity(): CategoriesQuickSummaryEntity =

@@ -23,6 +23,11 @@ class CategoryRepositoryFacade(
             )
     }
 
+    fun removeAll() {
+        categoryRepositoryV2
+            .removeAllCategories()
+    }
+
 }
 
 class CategoryNotFoundException(categoryId: CategoryId) :

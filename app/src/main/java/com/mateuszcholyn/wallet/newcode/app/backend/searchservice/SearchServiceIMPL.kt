@@ -37,6 +37,10 @@ class SearchServiceIMPL(
             .toSearchServiceResult(allCategories, searchCriteria)
     }
 
+    override fun removeAll() {
+        searchServiceRepository.removeAll()
+    }
+
     private fun List<SearchSingleResultRepo>.toSearchServiceResult(
         allCategories: List<CategoryV2>,
         searchCriteria: SearchCriteria,

@@ -18,16 +18,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryV2
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseV2
 import com.mateuszcholyn.wallet.ui.util.showLongText
 import com.mateuszcholyn.wallet.util.appContext.currentAppContext
+import com.mateuszcholyn.wallet.util.saveAllExpensesToFile
 
 
 @Composable
 fun DummyScreen(
     dummyViewModel: DummyViewModel = hiltViewModel()
 ) {
-    val categoryService = dummyViewModel.categoryService()
-    val expenseService = dummyViewModel.expenseService()
     val appContext = currentAppContext()
 
     Column(
@@ -47,8 +48,8 @@ fun DummyScreen(
 
         Button(
             onClick = {
-//                    odpalMigracje(expenseService, categoryService)
-                showLongText(appContext, "Juz robiles migracje wczesniej!")
+                odpalMigracje(dummyViewModel.allBackendServices())
+//                showLongText(appContext, "Juz robiles migracje wczesniej!")
             },
         ) {
             Text("Wykonaj Migracje")
@@ -56,24 +57,17 @@ fun DummyScreen(
 
         Button(
             onClick = {
-//                val summaryResult =
-//                    expenseService.getSummary(
-//                        ExpenseSearchCriteria(
-//                            allCategories = true,
-//                            beginDate = minDate,
-//                            endDate = maxDate,
-//                            isAllExpenses = true,
-//                        )
-//
-//                    )
-//
-//                saveAllExpensesToFile(
-//                    ctx = appContext,
-//                    expenses = summaryResult.expenses
-//                )
-//                showLongText(appContext, "Zakonczono eksport danych!")
-                showLongText(appContext, "NIC NIE WYEKSPORTOWANO!!")
+                val saveAllExpensesV2WithCategoriesV2Model =
+                    SaveAllExpensesV2WithCategoriesV2Model(
+                        categories = dummyViewModel.getAllCategories(),
+                        expenses = dummyViewModel.getAllExpenses(),
+                    )
 
+                saveAllExpensesToFile(
+                    ctx = appContext,
+                    saveAllExpensesV2WithCategoriesV2Model = saveAllExpensesV2WithCategoriesV2Model
+                )
+                showLongText(appContext, "Zakonczono eksport danych!")
             },
         ) {
             Text("Eksport danych")
@@ -89,3 +83,8 @@ fun DummyScreen(
 fun DummyScreenPreview() {
     DummyScreen()
 }
+
+data class SaveAllExpensesV2WithCategoriesV2Model(
+    val categories: List<CategoryV2>,
+    val expenses: List<ExpenseV2>,
+)

@@ -1,7 +1,6 @@
 package com.mateuszcholyn.wallet.di.usecases
 
-import com.mateuszcholyn.wallet.newcode.app.backend.BackendHiltIsConfigured
-import com.mateuszcholyn.wallet.newcode.app.backend.BackendIsConfigured
+import com.mateuszcholyn.wallet.newcode.app.backend.AllBackendServices
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryAPI
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryIMPL
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryRepository
@@ -117,8 +116,8 @@ object HiltServicesModuleV2 {
         searchServiceAPI: SearchServiceAPI,
         expenseCoreServiceAPI: ExpenseCoreServiceAPI,
         categoryCoreServiceAPI: CategoryCoreServiceAPI,
-    ): BackendIsConfigured =
-        BackendHiltIsConfigured(
+    ): AllBackendServices =
+        AllBackendServices(
             categoriesQuickSummaryAPI = categoriesQuickSummaryAPI,
             searchServiceAPI = searchServiceAPI,
             expenseCoreServiceAPI = expenseCoreServiceAPI,

@@ -23,6 +23,7 @@ interface SearchServiceAPI {
     fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent)
     fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent)
     fun getAll(searchCriteria: SearchCriteria): SearchServiceResult
+    fun removeAll()
 }
 
 data class SearchServiceResult(

@@ -10,6 +10,7 @@ interface ExpenseCoreServiceAPI {
     fun getAll(): List<ExpenseV2>
     fun update(updateExpenseParameters: ExpenseV2): ExpenseV2
     fun getByIdOrThrow(expenseId: ExpenseId): ExpenseV2WithCategory
+    fun removeAll()
 }
 
 data class AddExpenseParameters(

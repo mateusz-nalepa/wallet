@@ -8,4 +8,6 @@ interface CategoryRepositoryV2 {
         categoryId: CategoryId,
         onExpensesExistAction: (CategoryId) -> Unit,
     )
+
+    fun removeAllCategories()
 }

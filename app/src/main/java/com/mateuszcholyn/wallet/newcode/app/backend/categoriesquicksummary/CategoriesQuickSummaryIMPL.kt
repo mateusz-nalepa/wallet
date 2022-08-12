@@ -35,8 +35,13 @@ class CategoriesQuickSummaryIMPL(
         val allCategories = categoryCoreServiceAPI.getAll()
         return categoriesQuickSummaryRepository
             .getQuickSummaries()
+            .sortedByDescending { it.numberOfExpenses }
             .map { it.toCategoryQuickSummary(allCategories) }
             .let { QuickSummaryList(it) }
+    }
+
+    override fun removeAll() {
+        categoriesQuickSummaryRepository.removeAll()
     }
 
     private fun CategoryQuickSummaryResult.toCategoryQuickSummary(

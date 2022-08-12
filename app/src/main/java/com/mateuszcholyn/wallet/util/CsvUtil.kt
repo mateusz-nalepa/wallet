@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.util
 import android.content.Context
 import android.os.Environment.DIRECTORY_DOWNLOADS
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.mateuszcholyn.wallet.domain.expense.Expense
+import com.mateuszcholyn.wallet.ui.screen.dummy.SaveAllExpensesV2WithCategoriesV2Model
 import com.mateuszcholyn.wallet.ui.util.showLongText
 import com.mateuszcholyn.wallet.util.dateutils.toHumanText
 import java.io.File
@@ -13,7 +13,10 @@ import java.time.LocalDateTime
 
 
 @Suppress("unused")
-fun saveAllExpensesToFile(ctx: Context, expenses: List<Expense>) {
+fun saveAllExpensesToFile(
+    ctx: Context,
+    saveAllExpensesV2WithCategoriesV2Model: SaveAllExpensesV2WithCategoriesV2Model
+) {
     if (mediaIsNotMounted()) {
         return
     }
@@ -28,12 +31,10 @@ fun saveAllExpensesToFile(ctx: Context, expenses: List<Expense>) {
             .also { println("File location is: ${it.absolutePath}") }
             .toFileWriter()
             .use { fileWriter ->
-                val expensesAsJson =
-                    expenses
-                        .map { prepareSaveModel(it) }
-                        .let { objectMapper.writeValueAsString(it) }
+                val allExpensesV2WithCategoriesV2AsJson =
+                    objectMapper.writeValueAsString(saveAllExpensesV2WithCategoriesV2Model)
 
-                fileWriter.write(expensesAsJson)
+                fileWriter.write(allExpensesV2WithCategoriesV2AsJson)
                 fileSaved(ctx)
             }
     } catch (t: Throwable) {
@@ -59,19 +60,6 @@ fun String.toFile(): File {
     return File(this)
 }
 
-
-private fun prepareSaveModel(ex: Expense): SaveModel =
-    // HODOR - fix this code!
-    TODO("fix me!!")
-//    SaveModel(
-//        expenseId = ex.idOrThrow(),
-//        amount = ex.amount,
-//        categoryId = ex.category.id,
-//        categoryName = ex.category.name,
-//        date = ex.date.toHumanText(),
-//        description = ex.description,
-//    )
-
 fun File.createNewIfNotExists(): File {
 
     if (!this.exists()) {
@@ -85,11 +73,3 @@ private fun File.toFileWriter(): FileWriter {
     return FileWriter(this)
 }
 
-data class SaveModel(
-    val expenseId: Long,
-    val amount: BigDecimal,
-    val categoryId: Long,
-    val categoryName: String,
-    val date: String,
-    val description: String,
-)

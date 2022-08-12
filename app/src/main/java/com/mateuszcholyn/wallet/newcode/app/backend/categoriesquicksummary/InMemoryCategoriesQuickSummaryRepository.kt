@@ -21,4 +21,18 @@ class InMemoryCategoriesQuickSummaryRepository : CategoriesQuickSummaryRepositor
 
     override fun findByCategoryId(categoryId: CategoryId): CategoryQuickSummaryResult? =
         storage[categoryId]
+
+    override fun removeAll() {
+        storage.removeAll { it.categoryId }
+    }
+}
+
+fun <KEY, ENTRY> MutableMap<KEY, ENTRY>.removeAll(
+    keyFromEntry: (ENTRY) -> KEY,
+) {
+    val keys = this.values.toList().map { keyFromEntry(it) }
+
+    keys.forEach { key ->
+        this.remove(key)
+    }
 }

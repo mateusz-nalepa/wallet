@@ -11,6 +11,7 @@ interface CategoriesQuickSummaryAPI {
     fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent)
     fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent)
     fun getQuickSummary(): QuickSummaryList
+    fun removeAll()
 }
 
 data class QuickSummaryList(

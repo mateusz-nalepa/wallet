@@ -23,6 +23,9 @@ interface CategoriesQuickSummaryDao {
     @Query("delete from categories_quick_summary where category_id = :categoryId")
     fun remove(categoryId: String): Int
 
+    @Query("delete from categories_quick_summary")
+    fun removeAll()
+
 }
 
 @Entity(

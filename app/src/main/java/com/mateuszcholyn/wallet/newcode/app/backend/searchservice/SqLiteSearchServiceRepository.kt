@@ -28,6 +28,10 @@ class SqLiteSearchServiceRepository(
     override fun remove(expenseId: ExpenseId) {
         searchServiceDao.remove(expenseId.id)
     }
+
+    override fun removeAll() {
+        searchServiceDao.removeAll()
+    }
 }
 
 

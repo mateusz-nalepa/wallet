@@ -41,6 +41,22 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
         categories.remove(categoryId)
     }
 
+    override fun removeAllCategories() {
+        val ids = categories.values.toList().map { it.id }
+
+        ids.forEach {
+            categories.remove(it)
+        }
+    }
+
+    override fun removeAllExpenses() {
+        val ids = expenses.values.toList().map { it.expenseId }
+
+        ids.forEach {
+            expenses.remove(it)
+        }
+    }
+
     override fun save(
         expense: ExpenseV2,
         onNonExistingCategoryAction: (CategoryId) -> Unit,

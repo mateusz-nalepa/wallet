@@ -1,5 +1,7 @@
 package com.mateuszcholyn.wallet.newcode.app.backend.searchservice
 
+import com.mateuszcholyn.wallet.util.dateutils.maxDate
+import com.mateuszcholyn.wallet.util.dateutils.minDate
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.Duration
@@ -16,8 +18,11 @@ object SearchAverageExpenseResultCalculator {
             if (expenses.isEmpty()) {
                 0
             } else {
-                val minimum = searchCriteria.beginDate ?: expenses.minOf { it.paidAt }
-                val maximum = searchCriteria.endDate ?: expenses.maxOf { it.paidAt }
+                // HODOR: fix me, remove values if not neccessary
+                val minimum =
+                    if (searchCriteria.beginDate != null && searchCriteria.beginDate != minDate ) searchCriteria.beginDate else expenses.minOf { it.paidAt }
+                val maximum =
+                    if (searchCriteria.endDate != null && searchCriteria.endDate != maxDate ) searchCriteria.endDate else expenses.maxOf { it.paidAt }
 
                 Duration
                     .between(minimum, maximum)

@@ -1,24 +1,22 @@
 package com.mateuszcholyn.wallet.ui.screen.dummy
 
 import androidx.lifecycle.ViewModel
-import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import com.mateuszcholyn.wallet.newcode.app.backend.BackendIsConfigured
+import com.mateuszcholyn.wallet.newcode.app.backend.AllBackendServices
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryV2
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseV2
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class DummyViewModel @Inject constructor(
-    private val categoryService: CategoryService,
-    private val expenseService: ExpenseService,
-    // Temporary added to verify hilt use cases setup
-    private val backendIsConfigured: BackendIsConfigured,
+    private val allBackendServices: AllBackendServices,
 ) : ViewModel() {
 
-    init {
-        println("DummyViewModel: BackendIsConfigured")
-    }
+    fun allBackendServices() = allBackendServices
 
-    fun expenseService(): ExpenseService = expenseService
-    fun categoryService(): CategoryService = categoryService
+    fun getAllCategories(): List<CategoryV2> =
+        allBackendServices.categoryCoreServiceAPI.getAll()
+
+    fun getAllExpenses(): List<ExpenseV2> =
+        allBackendServices.expenseCoreServiceAPI.getAll()
 }

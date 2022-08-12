@@ -11,4 +11,5 @@ interface ExpenseRepositoryV2 {
     fun getAllExpenses(): List<ExpenseV2>
     fun getById(expenseId: ExpenseId): ExpenseV2?
     fun remove(expenseId: ExpenseId)
+    fun removeAllExpenses()
 }

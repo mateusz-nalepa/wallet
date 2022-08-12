@@ -25,6 +25,9 @@ interface ExpenseV2Dao {
     @Query("delete from expenses where expense_id = :expenseId")
     fun remove(expenseId: String): Int
 
+    @Query("delete from expenses")
+    fun removeAll(): Int
+
 }
 
 @Entity(

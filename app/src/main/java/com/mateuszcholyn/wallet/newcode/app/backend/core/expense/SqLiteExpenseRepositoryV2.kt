@@ -40,6 +40,10 @@ class SqLiteExpenseRepositoryV2(
     override fun remove(expenseId: ExpenseId) {
         expenseV2Dao.remove(expenseId.id)
     }
+
+    override fun removeAllExpenses() {
+        expenseV2Dao.removeAll()
+    }
 }
 
 private fun ExpenseV2.toEntity(): ExpenseEntityV2 =

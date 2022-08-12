@@ -23,6 +23,8 @@ interface CategoryV2Dao {
     @Query("delete from categories where category_id = :categoryId")
     fun remove(categoryId: String): Int
 
+    @Query("delete from categories")
+    fun removeAll()
 }
 
 @Entity(

@@ -19,6 +19,7 @@ interface SearchServiceRepository {
     fun saveExpense(searchSingleResultRepo: SearchSingleResultRepo): SearchSingleResultRepo
     fun getAll(searchCriteria: SearchCriteria): List<SearchSingleResultRepo>
     fun remove(expenseId: ExpenseId)
+    fun removeAll()
 }
 
 class InMemorySearchServiceRepository : SearchServiceRepository {
@@ -45,6 +46,14 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
 
     override fun remove(expenseId: ExpenseId) {
         storage.remove(expenseId)
+    }
+
+    override fun removeAll() {
+        val ids = storage.values.toList().map { it.expenseId }
+
+        ids.forEach {
+            storage.remove(it)
+        }
     }
 
     private fun List<SearchSingleResultRepo>.filterByBeginDate(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> =

@@ -8,14 +8,13 @@ import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchServiceA
 /**
  * Inject this class in every use case to be sure, that Hilt Setup with MiniKafka is fully working
  */
-interface BackendIsConfigured
 
-class BackendHiltIsConfigured(
-    private val categoriesQuickSummaryAPI: CategoriesQuickSummaryAPI,
-    private val searchServiceAPI: SearchServiceAPI,
-    private val expenseCoreServiceAPI: ExpenseCoreServiceAPI,
-    private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
-) : BackendIsConfigured {
+class AllBackendServices(
+    val categoriesQuickSummaryAPI: CategoriesQuickSummaryAPI,
+    val searchServiceAPI: SearchServiceAPI,
+    val expenseCoreServiceAPI: ExpenseCoreServiceAPI,
+    val categoryCoreServiceAPI: CategoryCoreServiceAPI,
+) {
     init {
         println("BackendHiltIsConfigured")
     }

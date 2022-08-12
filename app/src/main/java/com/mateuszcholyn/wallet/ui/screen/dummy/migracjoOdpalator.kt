@@ -1,99 +1,79 @@
 package com.mateuszcholyn.wallet.ui.screen.dummy
 
-import com.mateuszcholyn.wallet.domain.category.CategoryService
-import com.mateuszcholyn.wallet.domain.expense.ExpenseService
-import java.math.BigDecimal
-import java.math.BigInteger
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.mateuszcholyn.wallet.newcode.app.backend.AllBackendServices
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
+import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CreateCategoryParameters
+import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.AddExpenseParameters
+import com.mateuszcholyn.wallet.util.dateutils.toLocalDateTime
 
-//category_id, name
-private val allCategories = """""".trimIndent()
 
-//expense_id,amount,description,date,fk_category_id
-private val allExpenses = """""".trimIndent()
+private data class BackupCategory(
+    val id: Long,
+    val name: String,
+)
 
 fun odpalMigracje(
-    expenseService: ExpenseService,
-    categoryService: CategoryService,
+    allBackendServices: AllBackendServices,
 ) {
     // HODOR - write me!
-    TODO("you need to fix me!!")
-//    val objectMapper = ObjectMapper().findAndRegisterModules()
-//
-//
-//    val categories = objectMapper.readValue(allCategories, CategoriesFromDb::class.java)
-//    val expenses = objectMapper.readValue(allExpenses, ExpensesFromDb::class.java)
-//
-//
-//    val allExpensesRemoved = expenseService.removeAll()
-//    val allCategoriesRemoved = categoryService.removeAll()
-//
-//    val newSavedCategories =
-//        categories.categories
-//            .map { categoryFromDb ->
-//                val added =
-//                    categoryService.add(
-//                        Category(
-//                            id = categoryFromDb.category_id.toLong(),
-//                            name = categoryFromDb.name,
-//                        )
-//                    )
-//
-//                SavedCategoryFromDb(
-//                    newCategoryId = added.id,
-//                    oldCategoryId = categoryFromDb.category_id.toLong(),
-//                    name = added.name,
-//                )
-//            }
-//
-//
-//    val xdd = categoryService.getAll()
-//
-//    expenses.expenses.forEach { expenseFromDb ->
-//
-//        expenseService.saveExpense(Expense(
-//            amount = expenseFromDb.amount,
-//            date = expenseFromDb.date.toLong().toLocalDateTime(),
-//            description = expenseFromDb.description,
-//            category = newSavedCategories.first { it.oldCategoryId == expenseFromDb.fk_category_id.toLong() }
-//                .let { saved ->
-//                    ExistingCategory(
-//                        id = saved.newCategoryId,
-//                        name = saved.name
-//                    )
-//                }
-//        ))
-//
-//    }
+    val objectMapper = ObjectMapper().findAndRegisterModules()
+
+    allBackendServices.searchServiceAPI.removeAll()
+    allBackendServices.categoriesQuickSummaryAPI.removeAll()
+    allBackendServices.expenseCoreServiceAPI.removeAll()
+    allBackendServices.categoryCoreServiceAPI.removeAll()
+
+    val allExpenses = objectMapper.readValue(ALL_EXPENSES, BackupSaveModelAll::class.java)
+
+    val categoriesWithBackups =
+        allExpenses
+            .expenses
+            .map { BackupCategory(it.categoryId, it.categoryName) }
+            .distinct()
+
+    println(categoriesWithBackups)
+
+
+    val newSavedCategories =
+        categoriesWithBackups
+            .map { backupCategory ->
+                val addedCategory =
+                    allBackendServices.categoryCoreServiceAPI.add(
+                        CreateCategoryParameters(name = backupCategory.name)
+                    )
+
+
+                SavedCategoryFromDb(
+                    oldCategoryId = backupCategory.id,
+                    newCategoryId = addedCategory.id,
+                    name = backupCategory.name,
+                )
+            }
+
+
+    // new saved expenses
+    allExpenses
+        .expenses
+        .forEach { backupSaveModel ->
+
+            allBackendServices
+                .expenseCoreServiceAPI
+                .add(
+                    AddExpenseParameters(
+                        amount = backupSaveModel.amount,
+                        description = backupSaveModel.description,
+                        paidAt = backupSaveModel.date.toLocalDateTime(),
+                        categoryId = newSavedCategories.first { it.oldCategoryId == backupSaveModel.categoryId }.newCategoryId,
+                    )
+                )
+        }
 
 }
 
 
-data class CategoriesFromDb(
-    val categories: List<CategoryFromDb>
-)
-
-
-data class CategoryFromDb(
-    val category_id: Int,
-    val name: String,
-)
-
-
-data class ExpensesFromDb(
-    val expenses: List<ExpenseFromDb>
-)
-
-data class ExpenseFromDb(
-    val amount: BigDecimal,
-    val date: BigInteger,
-    val description: String,
-    val expense_id: Int,
-    val fk_category_id: Int
-)
-
-
 data class SavedCategoryFromDb(
-    val newCategoryId: Long,
     val oldCategoryId: Long,
+    val newCategoryId: CategoryId,
     val name: String,
 )
