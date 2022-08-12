@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.config
+package com.mateuszcholyn.wallet
 
 import android.app.Application
 import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
