@@ -1,7 +1,6 @@
-package com.mateuszcholyn.wallet.tests.manager.ext
+package com.mateuszcholyn.wallet.tests.manager.ext.core.expense
 
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseV2WithCategory
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 import com.mateuszcholyn.wallet.tests.manager.randomExpenseId

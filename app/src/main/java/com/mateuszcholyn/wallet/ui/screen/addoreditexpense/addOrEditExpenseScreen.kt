@@ -47,21 +47,4 @@ data class CategoryView(
     override val nameKey: Int? = null,
     val categoryId: String? = null,
 ) : DropdownElement
-//
-//fun CategoryDetails.toCategoryView(): CategoryView =
-//    CategoryView(
-//        categoryId = id,
-//        name = name,
-//    )
-//
-//fun ExistingCategory.toCategoryView(): CategoryView =
-//    CategoryView(
-//        categoryId = id,
-//        name = name,
-//    )
-//
-//fun CategoryView.toExistingCategory(): ExistingCategory =
-//    ExistingCategory(
-//        id = categoryId!!,
-//        name = name,
-//    )
+

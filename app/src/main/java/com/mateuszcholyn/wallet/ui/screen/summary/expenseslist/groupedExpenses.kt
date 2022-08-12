@@ -12,11 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.mateuszcholyn.wallet.domain.expense.sumExpensesAmount
 import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.ui.screen.summary.ShowExpense
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import com.mateuszcholyn.wallet.util.asPrintableAmount
+import java.math.BigDecimal
 
 
 @ExperimentalFoundationApi
@@ -56,3 +56,10 @@ fun GroupedExpenses(
         }
     }
 }
+
+private fun List<SearchSingleResult>.sumExpensesAmount(): BigDecimal =
+    if (this.isNotEmpty()) {
+        this.map { it.amount }.reduce { acc, bigDecimal -> acc.add(bigDecimal) }
+    } else {
+        BigDecimal.ZERO
+    }

@@ -22,9 +22,8 @@ object HiltServicesModuleV2 {
 
     @Provides
     @Singleton
-    fun provideMiniKafka(): MiniKafka {
-        return MiniKafka()
-    }
+    fun provideMiniKafka(): MiniKafka =
+        MiniKafka()
 
 
     @Provides
@@ -89,25 +88,23 @@ object HiltServicesModuleV2 {
         expenseRepositoryV2: ExpenseRepositoryV2,
         miniKafka: MiniKafka,
         categoryCoreServiceAPI: CategoryCoreServiceAPI
-    ): ExpenseCoreServiceAPI {
-        return ExpenseCoreServiceIMPL(
+    ): ExpenseCoreServiceAPI =
+        ExpenseCoreServiceIMPL(
             expenseRepositoryFacade = ExpenseRepositoryFacade(expenseRepositoryV2),
             expensePublisher = MiniKafkaExpensePublisher(miniKafka),
             categoryCoreServiceAPI = categoryCoreServiceAPI,
         )
-    }
 
     @Provides
     @Singleton
     fun provideCategoryCoreServiceAPI(
         categoryRepositoryV2: CategoryRepositoryV2,
         miniKafka: MiniKafka,
-    ): CategoryCoreServiceAPI {
-        return CategoryCoreServiceIMPL(
+    ): CategoryCoreServiceAPI =
+        CategoryCoreServiceIMPL(
             categoryRepositoryFacade = CategoryRepositoryFacade(categoryRepositoryV2),
             categoryPublisher = MiniKafkaCategoryPublisher(miniKafka),
         )
-    }
 
     @Provides
     @Singleton

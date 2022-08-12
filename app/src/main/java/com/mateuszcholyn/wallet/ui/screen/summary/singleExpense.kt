@@ -141,31 +141,3 @@ fun ShowExpense(
     }
     Divider()
 }
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun ShowExpensePreview() {
-//    withDI(di = previewDi()) {
-//        MaterialTheme {
-//            Column {
-//                ShowExpense(
-//                        id = 1,
-//                        expense = Expense(
-//                                id = 1L,
-//                                amount = BigDecimal("5"),
-//                                date = LocalDateTime.now(),
-//                                description = "Opis do WydasdatkuOpis do WydatkuOpis do Wydatku\nOpis do WydatkuOpis do WydatkuOpis do Wydatku\n",
-//                                category = Category(
-//                                        id = 1L,
-//                                        name = "XD",
-//                                ),
-//                        ),
-//                        navController = rememberNavController(),
-//                        refreshFunction = {},
-//                        initialDetailsAreVisible = true,
-//                )
-//            }
-//        }
-//    }
-//}

@@ -37,7 +37,7 @@ data class FormDetails(
     val category: CategoryView = CategoryView(
         "Wszystkie kategorie",
         R.string.allExpenses
-    ), // TODO: this should be nullable? XD
+    ), // HODOR: this should be nullable? XD
     val paidAt: LocalDateTime = LocalDateTime.now(),
     val submitButtonLabel: String = EMPTY_STRING,
 )
@@ -45,7 +45,6 @@ data class FormDetails(
 
 @HiltViewModel
 class AddOrEditExpenseViewModel @Inject constructor(
-//    private val expenseService: ExpenseService,
     private val addExpenseUseCase: AddExpenseUseCase,
     private val updateExpenseUseCase: UpdateExpenseUseCase,
     private val getExpenseUseCase: GetExpenseUseCase,

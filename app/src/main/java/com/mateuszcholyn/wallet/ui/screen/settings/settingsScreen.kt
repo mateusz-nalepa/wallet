@@ -7,10 +7,10 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
-import com.mateuszcholyn.wallet.domain.DemoAppSwitcher
-import com.mateuszcholyn.wallet.ui.util.ThemePropertiesProvider
+import com.mateuszcholyn.wallet.domain.demomode.DemoAppSwitcher
 import com.mateuszcholyn.wallet.ui.screen.settings.demomode.DemoModeFragment
 import com.mateuszcholyn.wallet.ui.screen.settings.themedropdown.ChangeThemeFragment
+import com.mateuszcholyn.wallet.ui.util.ThemePropertiesProvider
 import com.mateuszcholyn.wallet.ui.util.defaultModifier
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

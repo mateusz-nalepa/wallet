@@ -8,7 +8,6 @@ import com.mateuszcholyn.wallet.ui.util.showLongText
 import com.mateuszcholyn.wallet.util.dateutils.toHumanText
 import java.io.File
 import java.io.FileWriter
-import java.math.BigDecimal
 import java.time.LocalDateTime
 
 

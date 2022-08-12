@@ -44,7 +44,6 @@ private fun CategoriesListStateless(
             SingleCategory(
                 onDeleteFunction = onDeleteFunction,
                 onUpdateCategoryFunction = onUpdateCategory,
-//                categoryDetails = categoryDetails,
                 categoryQuickSummary = categoryQuickSummary,
                 categorySuccessContent = categorySuccessContent,
             )

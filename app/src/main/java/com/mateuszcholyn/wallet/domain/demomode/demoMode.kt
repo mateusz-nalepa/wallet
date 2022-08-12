@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.domain
+package com.mateuszcholyn.wallet.domain.demomode
 
 import android.content.Context
 import com.jakewharton.processphoenix.ProcessPhoenix

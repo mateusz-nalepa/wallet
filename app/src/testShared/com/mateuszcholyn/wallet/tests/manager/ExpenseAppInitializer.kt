@@ -5,7 +5,7 @@ import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CreateCategory
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.AddExpenseParameters
 
 
-class ExpenseAppUnitInitializer(
+class ExpenseAppInitializer(
     val expenseAppManagerScope: ExpenseAppManagerScope,
     val expenseAppUseCases: ExpenseAppUseCases,
 ) {

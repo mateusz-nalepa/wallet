@@ -2,9 +2,9 @@ package com.mateuszcholyn.wallet.newTests.setup
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseRepositoryV2
+import com.mateuszcholyn.wallet.tests.manager.ExpenseAppInitializer
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManagerScope
-import com.mateuszcholyn.wallet.tests.manager.ExpenseAppUnitInitializer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -35,7 +35,7 @@ open class BaseIntegrationTest {
     fun initExpenseAppManager(scope: ExpenseAppManagerScope.() -> Unit): ExpenseAppManager {
         val expenseAppManagerScope = ExpenseAppManagerScope().apply(scope)
 
-        ExpenseAppUnitInitializer(
+        ExpenseAppInitializer(
             expenseAppManagerScope = expenseAppManagerScope,
             expenseAppUseCases = integrationManager.expenseAppUseCases(),
         ).init()

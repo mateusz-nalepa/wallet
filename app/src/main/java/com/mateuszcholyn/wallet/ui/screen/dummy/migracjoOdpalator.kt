@@ -51,7 +51,6 @@ fun odpalMigracje(
             }
 
 
-    // new saved expenses
     allExpenses
         .expenses
         .forEach { backupSaveModel ->

@@ -14,8 +14,4 @@ class AllBackendServices(
     val searchServiceAPI: SearchServiceAPI,
     val expenseCoreServiceAPI: ExpenseCoreServiceAPI,
     val categoryCoreServiceAPI: CategoryCoreServiceAPI,
-) {
-    init {
-        println("BackendHiltIsConfigured")
-    }
-}
+)

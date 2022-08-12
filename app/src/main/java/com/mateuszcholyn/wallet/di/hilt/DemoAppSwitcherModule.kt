@@ -1,9 +1,9 @@
 package com.mateuszcholyn.wallet.di.hilt
 
 import android.content.Context
-import com.mateuszcholyn.wallet.domain.DemoAppSwitcher
-import com.mateuszcholyn.wallet.domain.DemoModeDisabled
-import com.mateuszcholyn.wallet.domain.DemoModeEnabled
+import com.mateuszcholyn.wallet.domain.demomode.DemoAppSwitcher
+import com.mateuszcholyn.wallet.domain.demomode.DemoModeDisabled
+import com.mateuszcholyn.wallet.domain.demomode.DemoModeEnabled
 import com.mateuszcholyn.wallet.util.demomode.isInDemoMode
 import dagger.Module
 import dagger.Provides

@@ -13,7 +13,6 @@ interface Clicker {
     fun show()
 }
 
-// TODO show shortText
 class DefaultClicker(private val context: Context) : Clicker {
     override fun show() {
         showShortText(context = context, "Default Clicker")

@@ -1,9 +1,9 @@
 <resources>
-    <attr name="customText" format="string|reference"/>
+    <attr name="customText" format="string|reference" />
 
     <!-- now define which arguments your fragment is gonna have (can be more then one) -->
     <!-- the convention is "FragmentClassName_MembersInjector" -->
     <declare-styleable name="MyFragment_MembersInjector">
-        <attr name="customText"/>
+        <attr name="customText" />
     </declare-styleable>
 </resources>

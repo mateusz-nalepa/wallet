@@ -26,7 +26,7 @@ fun initExpenseAppManager(scope: ExpenseAppManagerScope.() -> Unit): ExpenseAppM
     val expenseAppDependencies = ExpenseAppDependencies()
     val useCases = createFrom(expenseAppDependencies)
 
-    ExpenseAppUnitInitializer(
+    ExpenseAppInitializer(
         expenseAppManagerScope = expenseAppManagerScope,
         expenseAppUseCases = useCases,
     ).init()

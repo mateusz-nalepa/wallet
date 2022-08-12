@@ -2,9 +2,7 @@ package com.mateuszcholyn.wallet.newTests.setup.di
 
 import android.content.Context
 import androidx.room.Room
-import com.mateuszcholyn.wallet.config.AppDatabase
 import com.mateuszcholyn.wallet.config.AppDatabaseV2
-import com.mateuszcholyn.wallet.di.hilt.NewAppQualifier
 import com.mateuszcholyn.wallet.di.usecases.NewAppDatabaseModule
 import dagger.Module
 import dagger.Provides
@@ -21,7 +19,6 @@ import javax.inject.Singleton
 object TestNewAppDatabaseModule {
 
     @Provides
-    @NewAppQualifier
     @Singleton
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabaseV2 =
         Room

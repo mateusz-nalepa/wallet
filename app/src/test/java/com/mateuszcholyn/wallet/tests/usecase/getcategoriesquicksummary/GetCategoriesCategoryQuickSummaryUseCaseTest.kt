@@ -2,7 +2,7 @@ package com.mateuszcholyn.wallet.tests.usecase.getcategoriesquicksummary
 
 
 import com.mateuszcholyn.wallet.tests.manager.*
-import com.mateuszcholyn.wallet.tests.manager.ext.getCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.tests.manager.ext.getcategoriesquicksummary.getCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.removeCategoryUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.removeExpenseUseCase
 import com.mateuszcholyn.wallet.tests.manager.ext.updateExpenseUseCase

@@ -81,7 +81,6 @@ object HiltUseCasesModuleV2 {
             categoriesQuickSummary = categoriesQuickSummaryAPI,
         )
 
-
     @Provides
     @Singleton
     fun provideSearchServiceUseCase(searchServiceAPI: SearchServiceAPI): SearchServiceUseCase =

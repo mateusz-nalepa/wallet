@@ -48,13 +48,3 @@ fun BottomBar(
         )
     }
 }
-
-//@Composable
-//fun BottomNavigationItem(icon = {
-//    //composable function for menu icon
-//},
-//label = { //composable function for menu title},
-//    selected = //mutableState boolean for highlight,
-//            onClick = {
-//        //menu item click event
-//    })

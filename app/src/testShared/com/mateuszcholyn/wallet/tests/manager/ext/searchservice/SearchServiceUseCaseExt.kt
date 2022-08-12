@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.tests.manager.ext
+package com.mateuszcholyn.wallet.tests.manager.ext.searchservice
 
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.newcode.app.backend.searchservice.NewSort

@@ -1,13 +1,9 @@
-package com.mateuszcholyn.wallet.tests.manager.ext
+package com.mateuszcholyn.wallet.tests.manager.ext.core.expense
 
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.AddExpenseParameters
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseV2
-import com.mateuszcholyn.wallet.tests.manager.randomAmount
-import com.mateuszcholyn.wallet.tests.manager.randomCategoryId
-import com.mateuszcholyn.wallet.tests.manager.randomDescription
-import com.mateuszcholyn.wallet.tests.manager.randomPaidAt
-import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
+import com.mateuszcholyn.wallet.tests.manager.*
 import java.math.BigDecimal
 import java.time.LocalDateTime
 

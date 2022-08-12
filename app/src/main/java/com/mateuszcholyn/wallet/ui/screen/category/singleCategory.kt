@@ -138,9 +138,3 @@ fun SingleCategory(
     Divider()
 
 }
-
-//fun CategoryDetails.toExistingCategory(categoryWithNewName: Category): ExistingCategory =
-//    ExistingCategory(
-//        id = id,
-//        name = categoryWithNewName.name,
-//    )

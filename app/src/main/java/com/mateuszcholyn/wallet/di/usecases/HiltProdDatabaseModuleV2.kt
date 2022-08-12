@@ -1,8 +1,7 @@
 package com.mateuszcholyn.wallet.di.usecases
 
 import com.mateuszcholyn.wallet.config.AppDatabaseV2
-import com.mateuszcholyn.wallet.di.hilt.NewAppQualifier
-import com.mateuszcholyn.wallet.domain.DemoAppSwitcher
+import com.mateuszcholyn.wallet.domain.demomode.DemoAppSwitcher
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.InMemoryCategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.SqLiteCategoriesQuickSummaryRepository
@@ -33,7 +32,7 @@ object HiltProdDatabaseModuleV2 {
     @Singleton
     fun provideCategoryRepositoryV2(
         inMemoryCoreRepositoryV2: InMemoryCoreRepositoryV2,
-        @NewAppQualifier appDatabaseV2: AppDatabaseV2,
+        appDatabaseV2: AppDatabaseV2,
         demoAppSwitcher: DemoAppSwitcher,
     ): CategoryRepositoryV2 =
         if (demoAppSwitcher.isDemoModeEnabled()) {
@@ -46,7 +45,7 @@ object HiltProdDatabaseModuleV2 {
     @Singleton
     fun provideExpenseRepositoryV2(
         inMemoryCoreRepositoryV2: InMemoryCoreRepositoryV2,
-        @NewAppQualifier appDatabaseV2: AppDatabaseV2,
+        appDatabaseV2: AppDatabaseV2,
         demoAppSwitcher: DemoAppSwitcher,
     ): ExpenseRepositoryV2 =
         if (demoAppSwitcher.isDemoModeEnabled()) {
@@ -58,7 +57,7 @@ object HiltProdDatabaseModuleV2 {
     @Provides
     @Singleton
     fun provideCategoriesQuickSummaryRepository(
-        @NewAppQualifier appDatabaseV2: AppDatabaseV2,
+        appDatabaseV2: AppDatabaseV2,
         demoAppSwitcher: DemoAppSwitcher,
     ): CategoriesQuickSummaryRepository =
         if (demoAppSwitcher.isDemoModeEnabled()) {
@@ -67,11 +66,10 @@ object HiltProdDatabaseModuleV2 {
             SqLiteCategoriesQuickSummaryRepository(appDatabaseV2.categoriesQuickSummaryDao())
         }
 
-
     @Provides
     @Singleton
     fun provideSearchServiceRepository(
-        @NewAppQualifier appDatabaseV2: AppDatabaseV2,
+        appDatabaseV2: AppDatabaseV2,
         demoAppSwitcher: DemoAppSwitcher,
     ): SearchServiceRepository =
         if (demoAppSwitcher.isDemoModeEnabled()) {

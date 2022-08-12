@@ -18,6 +18,11 @@ import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.UpdateExpenseUs
 import com.mateuszcholyn.wallet.newcode.app.usecase.searchservice.SearchServiceUseCase
 
 
+class ExpenseAppManager(
+    val expenseAppDependencies: ExpenseAppDependencies,
+    val expenseAppUseCases: ExpenseAppUseCases,
+)
+
 data class ExpenseAppDependencies(
 
     private var inMemoryCoreRepository: InMemoryCoreRepositoryV2 = InMemoryCoreRepositoryV2(),

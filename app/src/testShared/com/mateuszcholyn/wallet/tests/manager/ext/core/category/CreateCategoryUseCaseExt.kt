@@ -1,9 +1,9 @@
-package com.mateuszcholyn.wallet.tests.manager.ext
+package com.mateuszcholyn.wallet.tests.manager.ext.core.category
 
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryV2
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CreateCategoryParameters
-import com.mateuszcholyn.wallet.tests.manager.randomCategoryName
 import com.mateuszcholyn.wallet.tests.manager.ExpenseAppManager
+import com.mateuszcholyn.wallet.tests.manager.randomCategoryName
 
 
 fun ExpenseAppManager.createCategoryUseCase(

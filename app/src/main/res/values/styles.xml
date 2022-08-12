@@ -1,6 +1,5 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
-    </style>
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar"></style>
 
 </resources>
