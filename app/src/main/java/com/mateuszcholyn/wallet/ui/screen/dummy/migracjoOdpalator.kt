@@ -16,7 +16,6 @@ private data class BackupCategory(
 fun odpalMigracje(
     allBackendServices: AllBackendServices,
 ) {
-    // HODOR - write me!
     val objectMapper = ObjectMapper().findAndRegisterModules()
 
     allBackendServices.searchServiceAPI.removeAll()

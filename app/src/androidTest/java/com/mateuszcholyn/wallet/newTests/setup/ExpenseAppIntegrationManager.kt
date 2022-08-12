@@ -10,6 +10,7 @@ import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.CreateCategory
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.RemoveCategoryUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.UpdateCategoryUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.AddExpenseUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.GetExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.searchservice.SearchServiceUseCase
@@ -23,6 +24,7 @@ class ExpenseAppIntegrationManager @Inject constructor(
     private val updateCategoryUseCase: UpdateCategoryUseCase,
     private val removeCategoryUseCase: RemoveCategoryUseCase,
     private val addExpenseUseCase: AddExpenseUseCase,
+    private val getExpenseUseCase: GetExpenseUseCase,
     private val updateExpenseUseCase: UpdateExpenseUseCase,
     private val removeExpenseUseCase: RemoveExpenseUseCase,
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
@@ -44,6 +46,7 @@ class ExpenseAppIntegrationManager @Inject constructor(
             updateCategoryUseCase = updateCategoryUseCase,
             removeCategoryUseCase = removeCategoryUseCase,
             addExpenseUseCase = addExpenseUseCase,
+            getExpenseUseCase = getExpenseUseCase,
             updateExpenseUseCase = updateExpenseUseCase,
             removeExpenseUseCase = removeExpenseUseCase,
             getCategoriesQuickSummaryUseCase = getCategoriesQuickSummaryUseCase,

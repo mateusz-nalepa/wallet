@@ -49,6 +49,7 @@ fun DummyScreen(
         Button(
             onClick = {
                 odpalMigracje(dummyViewModel.allBackendServices())
+                showLongText(appContext, "Migracja zakończona!")
 //                showLongText(appContext, "Juz robiles migracje wczesniej!")
             },
         ) {

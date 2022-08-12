@@ -11,6 +11,7 @@ import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.CreateCategory
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.RemoveCategoryUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.UpdateCategoryUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.AddExpenseUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.GetExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.searchservice.SearchServiceUseCase
@@ -31,6 +32,7 @@ class ExpenseAppIntegrationManagerModule {
         updateCategoryUseCase: UpdateCategoryUseCase,
         removeCategoryUseCase: RemoveCategoryUseCase,
         addExpenseUseCase: AddExpenseUseCase,
+        getExpenseUseCase: GetExpenseUseCase,
         updateExpenseUseCase: UpdateExpenseUseCase,
         removeExpenseUseCase: RemoveExpenseUseCase,
         getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
@@ -49,6 +51,7 @@ class ExpenseAppIntegrationManagerModule {
             updateCategoryUseCase = updateCategoryUseCase,
             removeCategoryUseCase = removeCategoryUseCase,
             addExpenseUseCase = addExpenseUseCase,
+            getExpenseUseCase = getExpenseUseCase,
             updateExpenseUseCase = updateExpenseUseCase,
             removeExpenseUseCase = removeExpenseUseCase,
             getCategoriesQuickSummaryUseCase = getCategoriesQuickSummaryUseCase,

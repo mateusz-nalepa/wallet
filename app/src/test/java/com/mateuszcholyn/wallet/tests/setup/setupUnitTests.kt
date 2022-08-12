@@ -14,6 +14,7 @@ import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.CreateCategory
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.RemoveCategoryUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.category.UpdateCategoryUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.AddExpenseUseCase
+import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.GetExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.searchservice.SearchServiceUseCase
@@ -37,25 +38,7 @@ fun initExpenseAppManager(scope: ExpenseAppManagerScope.() -> Unit): ExpenseAppM
 }
 
 internal fun createFrom(deps: ExpenseAppDependencies): ExpenseAppUseCases {
-
-    val categoriesQuickSummary =
-        CategoriesQuickSummaryIMPL(
-            categoriesQuickSummaryRepository = deps.categoriesQuickSummaryRepository
-        )
-
-    val searchService =
-        SearchServiceIMPL(
-            searchServiceRepository = deps.searchServiceRepository
-        )
-
     val miniKafka = MiniKafka()
-    MiniKafkaConfigurator(
-        MiniKafkaConfigParameters(
-            miniKafka = miniKafka,
-            searchService = searchService,
-            categoriesQuickSummary = categoriesQuickSummary,
-        )
-    ).configure()
 
     val categoryCoreService =
         CategoryCoreServiceIMPL(
@@ -67,7 +50,28 @@ internal fun createFrom(deps: ExpenseAppDependencies): ExpenseAppUseCases {
         ExpenseCoreServiceIMPL(
             expenseRepositoryFacade = ExpenseRepositoryFacade(deps.expenseRepositoryV2),
             expensePublisher = MiniKafkaExpensePublisher(miniKafka),
+            categoryCoreServiceAPI = categoryCoreService,
         )
+
+    val categoriesQuickSummary =
+        CategoriesQuickSummaryIMPL(
+            categoriesQuickSummaryRepository = deps.categoriesQuickSummaryRepository,
+            categoryCoreServiceAPI = categoryCoreService,
+        )
+
+    val searchService =
+        SearchServiceIMPL(
+            searchServiceRepository = deps.searchServiceRepository,
+            categoryCoreServiceAPI = categoryCoreService,
+        )
+
+    MiniKafkaConfigurator(
+        MiniKafkaConfigParameters(
+            miniKafka = miniKafka,
+            searchService = searchService,
+            categoriesQuickSummary = categoriesQuickSummary,
+        )
+    ).configure()
 
     return ExpenseAppUseCases(
         createCategoryUseCase = CreateCategoryUseCase(
@@ -80,6 +84,9 @@ internal fun createFrom(deps: ExpenseAppDependencies): ExpenseAppUseCases {
             categoryCoreService = categoryCoreService,
         ),
         addExpenseUseCase = AddExpenseUseCase(
+            expenseCoreService = expenseCoreService,
+        ),
+        getExpenseUseCase = GetExpenseUseCase(
             expenseCoreService = expenseCoreService,
         ),
         updateExpenseUseCase = UpdateExpenseUseCase(
