@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.newcode.app.backend.searchservice
 
 import androidx.sqlite.db.SimpleSQLiteQuery
-import com.mateuszcholyn.wallet.config.newDatabase.SearchServiceDao
-import com.mateuszcholyn.wallet.config.newDatabase.SearchServiceEntity
+import com.mateuszcholyn.wallet.newcode.app.backend.database.newDatabase.SearchServiceDao
+import com.mateuszcholyn.wallet.newcode.app.backend.database.newDatabase.SearchServiceEntity
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 import com.mateuszcholyn.wallet.newcode.app.backend.core.expense.ExpenseId
 

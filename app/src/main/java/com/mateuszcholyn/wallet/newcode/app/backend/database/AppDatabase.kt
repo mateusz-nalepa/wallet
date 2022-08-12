@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.config
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.mateuszcholyn.wallet.config.newDatabase.*
+import com.mateuszcholyn.wallet.newcode.app.backend.database.newDatabase.*
 import com.mateuszcholyn.wallet.infrastructure.util.BigDecimalDoubleTypeConverter
 import com.mateuszcholyn.wallet.infrastructure.util.LocalDateTimeConverter
 

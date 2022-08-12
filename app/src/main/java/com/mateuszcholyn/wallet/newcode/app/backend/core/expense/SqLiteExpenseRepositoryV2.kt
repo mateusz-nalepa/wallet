@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.newcode.app.backend.core.expense
 
-import com.mateuszcholyn.wallet.config.newDatabase.ExpenseEntityV2
-import com.mateuszcholyn.wallet.config.newDatabase.ExpenseV2Dao
+import com.mateuszcholyn.wallet.newcode.app.backend.database.newDatabase.ExpenseEntityV2
+import com.mateuszcholyn.wallet.newcode.app.backend.database.newDatabase.ExpenseV2Dao
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 
 class SqLiteExpenseRepositoryV2(

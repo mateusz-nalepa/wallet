@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.config.newDatabase
+package com.mateuszcholyn.wallet.newcode.app.backend.database.newDatabase
 
 import androidx.room.*
 import java.math.BigDecimal

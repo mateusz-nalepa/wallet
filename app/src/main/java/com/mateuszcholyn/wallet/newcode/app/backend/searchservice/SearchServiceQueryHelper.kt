@@ -1,9 +1,9 @@
 package com.mateuszcholyn.wallet.newcode.app.backend.searchservice
 
-import com.mateuszcholyn.wallet.config.newDatabase.AMOUNT_FIELD_NAME
-import com.mateuszcholyn.wallet.config.newDatabase.CATEGORY_ID_FIELD_NAME
-import com.mateuszcholyn.wallet.config.newDatabase.PAID_AT_FIELD_NAME
-import com.mateuszcholyn.wallet.config.newDatabase.SEARCH_SERVICE_TABLE_NAME
+import com.mateuszcholyn.wallet.newcode.app.backend.database.newDatabase.AMOUNT_FIELD_NAME
+import com.mateuszcholyn.wallet.newcode.app.backend.database.newDatabase.CATEGORY_ID_FIELD_NAME
+import com.mateuszcholyn.wallet.newcode.app.backend.database.newDatabase.PAID_AT_FIELD_NAME
+import com.mateuszcholyn.wallet.newcode.app.backend.database.newDatabase.SEARCH_SERVICE_TABLE_NAME
 import com.mateuszcholyn.wallet.infrastructure.util.BigDecimalDoubleTypeConverter.toDouble
 import com.mateuszcholyn.wallet.infrastructure.util.LocalDateTimeConverter.toLong
 

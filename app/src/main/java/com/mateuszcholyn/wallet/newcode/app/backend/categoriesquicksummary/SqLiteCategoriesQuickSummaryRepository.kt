@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary
 
-import com.mateuszcholyn.wallet.config.newDatabase.CategoriesQuickSummaryDao
-import com.mateuszcholyn.wallet.config.newDatabase.CategoriesQuickSummaryEntity
+import com.mateuszcholyn.wallet.newcode.app.backend.database.newDatabase.CategoriesQuickSummaryDao
+import com.mateuszcholyn.wallet.newcode.app.backend.database.newDatabase.CategoriesQuickSummaryEntity
 import com.mateuszcholyn.wallet.newcode.app.backend.core.category.CategoryId
 
 class SqLiteCategoriesQuickSummaryRepository(

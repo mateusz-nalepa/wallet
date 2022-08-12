@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.newcode.app.backend.core.category
 
-import com.mateuszcholyn.wallet.config.newDatabase.CategoryEntityV2
-import com.mateuszcholyn.wallet.config.newDatabase.CategoryV2Dao
+import com.mateuszcholyn.wallet.newcode.app.backend.database.newDatabase.CategoryEntityV2
+import com.mateuszcholyn.wallet.newcode.app.backend.database.newDatabase.CategoryV2Dao
 
 class SqLiteCategoryRepositoryV2(
     private val categoryV2Dao: CategoryV2Dao,
