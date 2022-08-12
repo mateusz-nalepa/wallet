@@ -3,8 +3,6 @@ package com.mateuszcholyn.wallet.ui.dropdown
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.util.dateutils.atStartOfTheDay
 import com.mateuszcholyn.wallet.util.dateutils.atStartOfTheMonth
-import com.mateuszcholyn.wallet.util.dateutils.maxDate
-import com.mateuszcholyn.wallet.util.dateutils.minDate
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -12,9 +10,8 @@ import java.time.LocalTime
 class QuickRangeDataV2(
     override val name: String,
     override val nameKey: Int? = null,
-    val beginDate: LocalDateTime,
-    val endDate: LocalDateTime,
-    val isAllExpenses: Boolean = false,
+    val beginDate: LocalDateTime?,
+    val endDate: LocalDateTime?,
 ) : DropdownElement
 
 fun quickRanges(): List<QuickRangeDataV2> {
@@ -64,9 +61,8 @@ fun quickRanges(): List<QuickRangeDataV2> {
         QuickRangeDataV2(
             name = "R.string.allExpenses",
             nameKey = R.string.allExpenses,
-            beginDate = minDate,
-            endDate = maxDate,
-            isAllExpenses = true,
+            beginDate = null,
+            endDate = null,
         )
     )
 
