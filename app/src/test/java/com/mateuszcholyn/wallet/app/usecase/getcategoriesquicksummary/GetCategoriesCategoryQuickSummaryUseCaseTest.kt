@@ -10,7 +10,7 @@ import com.mateuszcholyn.wallet.manager.ext.getcategoriesquicksummary.getCategor
 import com.mateuszcholyn.wallet.manager.validator.validate
 import org.junit.Test
 
-
+// TODO: write tests for category order
 class GetCategoriesCategoryQuickSummaryUseCaseTest {
 
     @Test
