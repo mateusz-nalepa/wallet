@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.di.usecases
 
+import com.mateuszcholyn.wallet.domain.demomode.DemoModeInitializer
 import com.mateuszcholyn.wallet.newcode.app.backend.AllBackendServices
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryAPI
 import com.mateuszcholyn.wallet.newcode.app.backend.categoriesquicksummary.CategoriesQuickSummaryIMPL
@@ -113,12 +114,14 @@ object HiltServicesModuleV2 {
         searchServiceAPI: SearchServiceAPI,
         expenseCoreServiceAPI: ExpenseCoreServiceAPI,
         categoryCoreServiceAPI: CategoryCoreServiceAPI,
+        demoModeInitializer: DemoModeInitializer,
     ): AllBackendServices =
         AllBackendServices(
             categoriesQuickSummaryAPI = categoriesQuickSummaryAPI,
             searchServiceAPI = searchServiceAPI,
             expenseCoreServiceAPI = expenseCoreServiceAPI,
             categoryCoreServiceAPI = categoryCoreServiceAPI,
+            demoModeInitializer = demoModeInitializer,
         )
 
 }

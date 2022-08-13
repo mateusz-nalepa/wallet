@@ -13,6 +13,7 @@ import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.GetExpenseUseCa
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.newcode.app.usecase.searchservice.SearchServiceUseCase
+import com.mateuszcholyn.wallet.tests.manager.ExpenseAppUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -86,6 +87,36 @@ object HiltUseCasesModuleV2 {
     fun provideSearchServiceUseCase(searchServiceAPI: SearchServiceAPI): SearchServiceUseCase =
         SearchServiceUseCase(
             searchService = searchServiceAPI,
+        )
+
+    @Provides
+    @Singleton
+    // TODO: main module should have no access to testShared module!!
+    fun provideExpenseAppUseCases(
+        createCategoryUseCase: CreateCategoryUseCase,
+        updateCategoryUseCase: UpdateCategoryUseCase,
+        removeCategoryUseCase: RemoveCategoryUseCase,
+        // Expense
+        addExpenseUseCase: AddExpenseUseCase,
+        getExpenseUseCase: GetExpenseUseCase,
+        updateExpenseUseCase: UpdateExpenseUseCase,
+        removeExpenseUseCase: RemoveExpenseUseCase,
+
+        getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
+        searchServiceUseCase: SearchServiceUseCase,
+    ): ExpenseAppUseCases =
+        ExpenseAppUseCases(
+            createCategoryUseCase = createCategoryUseCase,
+            updateCategoryUseCase = updateCategoryUseCase,
+            removeCategoryUseCase = removeCategoryUseCase,
+            // Expense
+            addExpenseUseCase = addExpenseUseCase,
+            getExpenseUseCase = getExpenseUseCase,
+            updateExpenseUseCase = updateExpenseUseCase,
+            removeExpenseUseCase = removeExpenseUseCase,
+
+            getCategoriesQuickSummaryUseCase = getCategoriesQuickSummaryUseCase,
+            searchServiceUseCase = searchServiceUseCase,
         )
 
 }
