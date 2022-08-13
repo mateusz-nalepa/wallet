@@ -3,6 +3,8 @@ package com.mateuszcholyn.wallet.backend.impl.domain.searchservice
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchAverageExpenseResult
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.atEndOfTheDay
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.atStartOfTheDay
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.Duration
@@ -42,7 +44,10 @@ object SearchAverageExpenseResultCalculator {
                 val maximum = searchCriteria.endDate ?: expenses.maxOf { it.paidAt }
 
                 Duration
-                    .between(minimum, maximum)
+                    /**
+                     * Write test for this case: atStartOfTheDay, atEndOfTheDay
+                     */
+                    .between(minimum.atStartOfTheDay(), maximum.atEndOfTheDay())
                     .toDays()
             }
 
