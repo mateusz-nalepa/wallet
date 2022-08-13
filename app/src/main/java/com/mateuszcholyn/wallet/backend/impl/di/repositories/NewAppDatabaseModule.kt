@@ -21,7 +21,7 @@ object NewAppDatabaseModule {
         Room.databaseBuilder(
             context,
             AppDatabaseV2::class.java,
-            "database_v2.db",
+            "wallet_database.db",
         )
             .allowMainThreadQueries() // HODOR this should be fixed!!
             .build()
