@@ -1,13 +1,9 @@
-package com.mateuszcholyn.wallet.backend.impl.domain.searchservice
+package com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservice
 
 import com.mateuszcholyn.wallet.backend.api.searchservice.NewSort
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.BigDecimalDoubleTypeConverter.toDouble
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.LocalDateTimeConverter.toLong
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservice.AMOUNT_FIELD_NAME
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservice.CATEGORY_ID_FIELD_NAME
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservice.PAID_AT_FIELD_NAME
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservice.SEARCH_SERVICE_TABLE_NAME
 
 object SearchServiceQueryHelper {
 

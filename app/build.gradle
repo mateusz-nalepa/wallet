@@ -141,4 +141,7 @@ dependencies {
     // ...with Kotlin.
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.38.1")
 
+    //
+    implementation 'com.tngtech.archunit:archunit:0.23.1'
+
 }

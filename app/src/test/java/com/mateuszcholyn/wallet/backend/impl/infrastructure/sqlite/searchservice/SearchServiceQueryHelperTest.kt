@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.backend.impl.domain.searchservice
+package com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservice
 
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.BigDecimalDoubleTypeConverter

@@ -4,7 +4,6 @@ import androidx.sqlite.db.SimpleSQLiteQuery
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
-import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceQueryHelper
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchSingleResultRepo
 
