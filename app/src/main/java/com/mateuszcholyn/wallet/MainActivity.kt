@@ -8,9 +8,9 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import com.mateuszcholyn.wallet.ui.skeleton.MainScreen
-import com.mateuszcholyn.wallet.util.darkmode.resolveTheme
-import com.mateuszcholyn.wallet.util.verifyStoragePermissions
+import com.mateuszcholyn.wallet.frontend.infrastructure.theme.resolveTheme
+import com.mateuszcholyn.wallet.frontend.view.skeleton.MainScreen
+import com.mateuszcholyn.wallet.util.permissionchecker.verifyStoragePermissions
 import dagger.hilt.android.AndroidEntryPoint
 
 

@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet
 
 import android.app.Application
-import com.mateuszcholyn.wallet.util.GlobalExceptionHandler
+import com.mateuszcholyn.wallet.util.globalexceptiongandler.GlobalExceptionHandler
 import dagger.hilt.android.HiltAndroidApp
 
 
