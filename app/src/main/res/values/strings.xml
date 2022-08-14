@@ -85,6 +85,7 @@
     <string name="lastMonth">Ostatni Miesiąc</string>
     <string name="lastThreeMonths">Ostatnie 3 Miesiące</string>
     <string name="allExpenses">Wszystkie wydatki</string>
+    <string name="allExpensesUpToToday">Wydatki do dziś</string>
     <string name="datePickerOk">Ok</string>
     <string name="datePickerCancel">Cancel</string>
     <string name="iconError">error</string>
