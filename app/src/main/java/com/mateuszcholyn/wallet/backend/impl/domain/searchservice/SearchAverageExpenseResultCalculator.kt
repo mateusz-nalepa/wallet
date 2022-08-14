@@ -5,6 +5,7 @@ import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.atEndOfTheDay
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.atStartOfTheDay
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.plusIntDays
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.Duration
@@ -40,8 +41,13 @@ object SearchAverageExpenseResultCalculator {
             if (expenses.isEmpty()) {
                 0
             } else {
-                val minimum = searchCriteria.beginDate ?: expenses.minOf { it.paidAt }
-                val maximum = searchCriteria.endDate ?: expenses.maxOf { it.paidAt }
+                var minimum = searchCriteria.beginDate ?: expenses.minOf { it.paidAt }
+                var maximum = searchCriteria.endDate ?: expenses.maxOf { it.paidAt }
+
+                // Show All Expenses up to today
+                if (searchCriteria.beginDate == null) {
+                    maximum = maximum.plusIntDays(1)
+                }
 
                 Duration
                     /**

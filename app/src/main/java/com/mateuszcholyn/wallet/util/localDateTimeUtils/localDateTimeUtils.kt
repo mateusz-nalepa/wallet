@@ -33,5 +33,12 @@ fun LocalDateTime.atStartOfTheMonth(): LocalDateTime =
 fun LocalDateTime.plusIntDays(days: Int): LocalDateTime =
     this.plusDays(days.toLong())
 
+fun LocalDateTime.minusIntDays(days: Int): LocalDateTime =
+    this.minusDays(days.toLong())
+
 fun today(): LocalDateTime =
     LocalDateTime.now()
+
+fun oneWeekAgo(): LocalDateTime =
+    LocalDateTime.now().minusIntDays(7)
+
