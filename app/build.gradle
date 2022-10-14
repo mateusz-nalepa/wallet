@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'shot'
 
 apply from: "$rootProjectDir/build_config/dependencies_version.gradle"
 
@@ -15,7 +16,8 @@ android {
         targetSdkVersion 32
         versionCode 2
         versionName "2.0"
-        testInstrumentationRunner 'com.mateuszcholyn.wallet.app.setupintegrationtests.CustomTestRunner'
+//        testInstrumentationRunner 'com.mateuszcholyn.wallet.app.setupintegrationtests.CustomTestRunner'
+        testInstrumentationRunner "com.karumi.shot.ShotTestRunner"
         configurations.all {
             resolutionStrategy {
                 force 'androidx.core:core-ktx:1.7.0'
