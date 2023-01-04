@@ -85,6 +85,10 @@ class AddOrEditExpenseViewModel @Inject constructor(
         _addOrEditExpenseFormState.value = _addOrEditExpenseFormState.value.copy(paidAt = newDate)
     }
 
+    fun setDateToToday() {
+        updateDate(LocalDateTime.now())
+    }
+
     fun updateSubmitButtonLabel(newLabel: String) {
         _addOrEditExpenseFormState.value =
             _addOrEditExpenseFormState.value.copy(submitButtonLabel = newLabel)
@@ -92,6 +96,17 @@ class AddOrEditExpenseViewModel @Inject constructor(
 
     fun screenVisible() {
         _addOrEditExpenseScreenState.value = AddOrEditExpenseScreenState.Show
+    }
+
+    fun copyExpense() {
+        val addExpenseParameters =
+            AddExpenseParameters(
+                amount = addOrEditExpenseFormState.value.amount.toBigDecimal(),
+                description = addOrEditExpenseFormState.value.description,
+                paidAt = addOrEditExpenseFormState.value.paidAt,
+                categoryId = CategoryId(addOrEditExpenseFormState.value.category.categoryId!!)
+            )
+        addExpenseUseCase.invoke(addExpenseParameters)
     }
 
     fun saveExpense() {

@@ -23,6 +23,39 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 import java.time.LocalDateTime
 
 @Composable
+fun CopyExpenseScreen(
+    onFormSubmitNavigateAction: () -> Unit,
+    actualExpenseId: String,
+    addOrEditExpenseViewModel: AddOrEditExpenseViewModel = hiltViewModel(),
+) {
+    val categoryNameOptions by remember { mutableStateOf(addOrEditExpenseViewModel.categoryOptions()) }
+
+    DisposableEffect(key1 = Unit, effect = {
+        addOrEditExpenseViewModel.loadExpense(actualExpenseId)
+        addOrEditExpenseViewModel.setDateToToday()
+        addOrEditExpenseViewModel.screenVisible()
+        onDispose { }
+    })
+
+    val formState by remember { addOrEditExpenseViewModel.addOrEditExpenseFormState }
+
+    ExpenseFormStateless(
+        categoryNameOptions = categoryNameOptions,
+        onFormSubmit = {
+            addOrEditExpenseViewModel.copyExpense()
+            onFormSubmitNavigateAction()
+        },
+        submitButtonLabel = stringResource(R.string.copyExpense),
+        formState = formState,
+        onCategorySelected = { addOrEditExpenseViewModel.updateCategory(it) },
+        onAmountChange = { addOrEditExpenseViewModel.updateAmount(it) },
+        onDescriptionChange = { addOrEditExpenseViewModel.updateDescription(it) },
+        onDateChange = { addOrEditExpenseViewModel.updateDate(it) },
+    )
+}
+
+
+@Composable
 fun EditExpenseScreen(
     onFormSubmitNavigateAction: () -> Unit,
     actualExpenseId: String,

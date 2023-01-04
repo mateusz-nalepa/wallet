@@ -20,7 +20,7 @@ import com.mateuszcholyn.wallet.frontend.view.wellness.WellnessScreenRunner
 sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslationKey: Int) {
     object Category : NavDrawerItem("category", R.drawable.ic_home, R.string.menuItem_Category)
     object AddOrEditExpense : NavDrawerItem(
-        "addOrEditExpense?expenseId={expenseId}",
+        "addOrEditExpense?expenseId={expenseId}&mode={mode}",
         R.drawable.ic_music,
         R.string.menuItem_AddOrEditExpense
     )
@@ -37,6 +37,8 @@ fun NavDrawerItem.AddOrEditExpense.routeWithoutId(): String =
 fun NavDrawerItem.AddOrEditExpense.routeWithId(expenseId: String): String =
     "addOrEditExpense?expenseId=$expenseId"
 
+fun NavDrawerItem.AddOrEditExpense.copyExpense(expenseId: String): String =
+    "addOrEditExpense?mode=copy&expenseId=$expenseId"
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -47,16 +49,25 @@ fun Navigation(
     NavHost(navController, startDestination = NavDrawerItem.SummaryScreen.route) {
         composable(
             route = NavDrawerItem.AddOrEditExpense.route,
-            arguments = listOf(navArgument("expenseId") {
-                nullable = true
-                defaultValue = null
-                type = NavType.StringType
-            }),
+            arguments = listOf(
+                navArgument("expenseId") {
+                    nullable = true
+                    defaultValue = null
+                    type = NavType.StringType
+                },
+                navArgument("mode") {
+                    nullable = true
+                    defaultValue = null
+                    type = NavType.StringType
+                }
+
+            ),
         ) { backStackEntry ->
             NewAddOrEditExpenseScreen(
                 onFormSubmitNavigate = { navController.navigate(NavDrawerItem.SummaryScreen.route) },
                 onMissingCategoriesNavigate = { navController.navigate(NavDrawerItem.Category.route) },
-                backStackEntry.arguments?.getString("expenseId")
+                actualExpenseId = backStackEntry.arguments?.getString("expenseId"),
+                screenMode = backStackEntry.arguments?.getString("mode")
             )
         }
         composable(NavDrawerItem.Category.route) {

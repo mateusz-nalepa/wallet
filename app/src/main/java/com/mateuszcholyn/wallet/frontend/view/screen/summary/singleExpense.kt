@@ -20,6 +20,7 @@ import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.view.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.frontend.view.skeleton.NavDrawerItem
+import com.mateuszcholyn.wallet.frontend.view.skeleton.copyExpense
 import com.mateuszcholyn.wallet.frontend.view.skeleton.routeWithId
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
@@ -97,6 +98,23 @@ fun ShowExpense(
                 }
 
                 Row(horizontalArrangement = Arrangement.End) {
+                    // copy
+                    IconButton(
+                        onClick = {
+                            navController.navigate(
+                                NavDrawerItem.AddOrEditExpense.copyExpense(
+                                    expenseId = searchSingleResult.expenseId.id
+                                )
+                            )
+                        }
+                    ) {
+                        Icon(
+                            Icons.Filled.CopyAll,
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp),
+                        )
+                    }
+                    // edit
                     IconButton(
                         onClick = {
                             navController.navigate(
@@ -112,6 +130,7 @@ fun ShowExpense(
                             modifier = Modifier.size(24.dp),
                         )
                     }
+                    // remove
                     val openDialog = remember { mutableStateOf(false) }
                     YesOrNoDialog(
                         openDialog = openDialog,

@@ -12,6 +12,7 @@ fun NewAddOrEditExpenseScreen(
     onFormSubmitNavigate: () -> Unit,
     onMissingCategoriesNavigate: () -> Unit,
     actualExpenseId: String? = null,
+    screenMode: String? = null,
     addOrEditExpenseViewModel: AddOrEditExpenseViewModel = hiltViewModel()
 ) {
     val categoryNameOptions by remember { mutableStateOf(addOrEditExpenseViewModel.categoryOptions()) }
@@ -22,6 +23,7 @@ fun NewAddOrEditExpenseScreen(
     ShowAddOrEditExpenseScreenContent(
         onFormSubmit = onFormSubmitNavigate,
         actualExpenseId = actualExpenseId,
+        screenMode = screenMode,
     )
 }
 
@@ -29,8 +31,15 @@ fun NewAddOrEditExpenseScreen(
 fun ShowAddOrEditExpenseScreenContent(
     onFormSubmit: () -> Unit,
     actualExpenseId: String?,
+    screenMode: String? = null,
 ) {
-    if (actualExpenseId == null) {
+
+    if (screenMode == "copy" && actualExpenseId != null) {
+        CopyExpenseScreen(
+            onFormSubmitNavigateAction = onFormSubmit,
+            actualExpenseId = actualExpenseId,
+        )
+    } else if (actualExpenseId == null) {
         AddExpenseScreen(
             onFormSubmitNavigateAction = onFormSubmit,
         )

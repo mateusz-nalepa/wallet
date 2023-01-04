@@ -11,6 +11,7 @@
     <string name="kwota">Kwota</string>
     <string name="category">Kategoria</string>
     <string name="addExpense">Dodaj wydatek</string>
+    <string name="copyExpense">Dodaj skopiowany wydatek</string>
     <string name="editExpense">Edytuj wydatek</string>
     <string name="categoryItemName">categoryItem</string>
     <string name="averageExpense">Sredni wydatek</string>
