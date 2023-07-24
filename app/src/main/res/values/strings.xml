@@ -73,6 +73,7 @@
     <string name="description">Opis</string>
     <string name="date">Data</string>
     <string name="wgdnia">wg. dnia</string>
+    <string name="wgmiesiaca">wg. miesiąca</string>
     <string name="wgroku">wg. roku</string>
     <string name="dataOdNajmlodszych">data: od najmłodszych</string>
     <string name="dataOdNajstarszych">data: od najstarszych</string>

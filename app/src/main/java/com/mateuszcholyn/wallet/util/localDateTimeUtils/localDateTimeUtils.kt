@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter
 
 private val simpleDateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 private val textDateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+private val monthAndYearDateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("MM.yyyy")
 
 fun String.toLocalDateTime(): LocalDateTime =
     LocalDateTime.parse(this, simpleDateFormat)
@@ -14,6 +15,9 @@ fun LocalDateTime.toHumanText(): String =
 
 fun LocalDateTime.toHumanDateText(): String =
     textDateFormat.format(this)
+
+fun LocalDateTime.toHumanMonthAndYear(): String =
+    monthAndYearDateFormat.format(this)
 
 fun Long.toLocalDateTime(): LocalDateTime =
     Instant.ofEpochMilli(this).atZone(ZoneOffset.UTC).toLocalDateTime();
