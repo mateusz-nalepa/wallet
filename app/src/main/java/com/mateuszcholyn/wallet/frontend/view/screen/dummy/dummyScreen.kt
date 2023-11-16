@@ -50,11 +50,11 @@ fun DummyScreen(
         Button(
             onClick = {
 //                readBackupData(dummyViewModel.allBackendServices())
-//                showLongText(appContext, "Migracja zakończona!")
-                showLongText(appContext, "Juz robiles migracje wczesniej!")
+//                showLongText(appContext, "Importowanie zakończone!")
+                showLongText(appContext, "Dane są już zaimportowane!")
             },
         ) {
-            Text("Wykonaj Migracje")
+            Text("Importuj dane")
         }
 
         Button(

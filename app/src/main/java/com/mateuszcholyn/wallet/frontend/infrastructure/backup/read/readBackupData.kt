@@ -5,11 +5,11 @@ import com.mateuszcholyn.wallet.backend.api.AllBackendServices
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
-import com.mateuszcholyn.wallet.util.localDateTimeUtils.toLocalDateTime
+import com.mateuszcholyn.wallet.frontend.view.screen.dummy.SaveAllExpensesV2WithCategoriesV2Model
 
 
 private data class BackupCategory(
-    val id: Long,
+    val id: String,
     val name: String,
 )
 
@@ -23,12 +23,12 @@ fun readBackupData(
     allBackendServices.expenseCoreServiceAPI.removeAll()
     allBackendServices.categoryCoreServiceAPI.removeAll()
 
-    val allExpenses = objectMapper.readValue(ALL_EXPENSES_AS_JSON, BackupSaveModelAll::class.java)
+    val allExpenses = objectMapper.readValue(ALL_EXPENSES_AS_JSON, SaveAllExpensesV2WithCategoriesV2Model::class.java)
 
     val categoriesWithBackups =
         allExpenses
-            .expenses
-            .map { BackupCategory(it.categoryId, it.categoryName) }
+            .categories
+            .map { BackupCategory(it.id.id, it.name) }
             .distinct()
 
 
@@ -40,9 +40,8 @@ fun readBackupData(
                         CreateCategoryParameters(name = backupCategory.name)
                     )
 
-
                 SavedCategoryFromDb(
-                    oldCategoryId = backupCategory.id,
+                    oldCategoryId = CategoryId(backupCategory.id),
                     newCategoryId = addedCategory.id,
                     name = backupCategory.name,
                 )
@@ -59,7 +58,7 @@ fun readBackupData(
                     AddExpenseParameters(
                         amount = backupSaveModel.amount,
                         description = backupSaveModel.description,
-                        paidAt = backupSaveModel.date.toLocalDateTime(),
+                        paidAt = backupSaveModel.paidAt,
                         categoryId = newSavedCategories.first { it.oldCategoryId == backupSaveModel.categoryId }.newCategoryId,
                     )
                 )
@@ -69,7 +68,7 @@ fun readBackupData(
 
 
 data class SavedCategoryFromDb(
-    val oldCategoryId: Long,
+    val oldCategoryId: CategoryId,
     val newCategoryId: CategoryId,
     val name: String,
 )
