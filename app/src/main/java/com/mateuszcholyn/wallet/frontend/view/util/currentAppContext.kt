@@ -5,6 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-fun currentAppContext(): Context {
-    return LocalContext.current
-}
+fun currentAppContext(): Context =
+    LocalContext.current
+

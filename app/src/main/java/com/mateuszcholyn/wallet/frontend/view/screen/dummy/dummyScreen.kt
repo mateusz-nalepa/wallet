@@ -27,6 +27,7 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.showLongText
+import java.util.stream.Collectors
 
 //import uploadBasic
 
@@ -43,7 +44,7 @@ fun DummyScreen(
 ) {
     val appContext = currentAppContext()
 
-    val launcher =
+    val saveFileLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val pickedUri = it.data?.data ?: return@rememberLauncherForActivityResult
             appContext
@@ -54,23 +55,26 @@ fun DummyScreen(
                 }
         }
 
+    val openFileLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val pickedUri = it.data?.data ?: return@rememberLauncherForActivityResult
+            val xdLista = mutableListOf<String>()
 
-//    val createFileIntent =
-//        Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-//            addCategory(Intent.CATEGORY_OPENABLE)
-//            type = "application/pdf"
-//            putExtra(Intent.EXTRA_TITLE, "nazwa_pliku.pdf")
-//        }
-//
-//    launcher.launch(createFileIntent)
+            appContext
+                .contentResolver
+                .openInputStream(pickedUri)
+                ?.use { outputStream ->
+                    xdLista.addAll(
 
+                        outputStream
+                            .bufferedReader()
+                            .lines()
+                            .collect(Collectors.toList())
+                    )
+                }
 
-//    val scope = rememberCoroutineScope()
-//
-//    scope.launch {
-//        zapisywaniePliku(appContext)
-//
-//    }
+            xdLista
+        }
 
 
     Column(
@@ -84,13 +88,25 @@ fun DummyScreen(
                 val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
                     .apply {
                         addCategory(Intent.CATEGORY_OPENABLE)
-                        type = "application/octet-stream"
+                        type = "application/txt"
                         putExtra(Intent.EXTRA_TITLE, "export.dat")
                     }
-                launcher.launch(intent)
+                saveFileLauncher.launch(intent)
             }
         ) {
-            Text("Select")
+            Text("XD Export")
+        }
+        Button(
+            onClick = {
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                    .apply {
+                        addCategory(Intent.CATEGORY_OPENABLE)
+                        type = "*/*"
+                    }
+                openFileLauncher.launch(intent)
+            }
+        ) {
+            Text("XD Import")
         }
         Text(
             text = stringResource(R.string.dummyView),
