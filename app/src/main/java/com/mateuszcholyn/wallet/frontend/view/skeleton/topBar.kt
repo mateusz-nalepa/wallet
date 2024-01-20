@@ -18,7 +18,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun TopBar(scope: CoroutineScope, scaffoldState: ScaffoldState) {
     TopAppBar(
-        title = { Text(text = stringResource(R.string.app_name), fontSize = 18.sp) },
+        title = {
+            Text(text = stringResource(R.string.app_name), fontSize = 18.sp) },
         navigationIcon = {
             IconButton(onClick = {
                 scope.launch {
@@ -28,12 +29,13 @@ fun TopBar(scope: CoroutineScope, scaffoldState: ScaffoldState) {
                 Icon(Icons.Filled.Menu, EMPTY_STRING)
             }
         },
-        backgroundColor = colorResource(id = R.color.colorPrimary),
+        // nie trzeba przekazywać kolorów, whoooa XD
+        backgroundColor = MaterialTheme.colors.primarySurface,
         contentColor = Color.White
     )
 }
 
-@Preview(showBackground = false)
+@Preview(showBackground = true)
 @Composable
 fun TopBarPreview() {
     val scope = rememberCoroutineScope()

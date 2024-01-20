@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             val themeProperties = resolveTheme(this, isSystemInDarkTheme())
             MaterialTheme(colors = themeProperties.colors) {
                 Surface(color = MaterialTheme.colors.background) {
-                    MainScreen()
+                    MainScreen(themeProperties)
                 }
             }
         }

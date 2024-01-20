@@ -100,7 +100,7 @@
     <string name="menuItem_AddOrEditExpense">Dodaj wydatek</string>
     <string name="menuItem_Summary">Podsumowanie</string>
     <string name="menuItem_Settings">Ustawienia</string>
-    <string name="menuItem_Dummy">Dummy</string>
+    <string name="menuItem_Dummy">Import/Eksport</string>
     <string name="menuItem_Wellness">Wellness</string>
 
 </resources>

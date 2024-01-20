@@ -5,16 +5,16 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.frontend.domain.theme.ThemeProperties
+import com.mateuszcholyn.wallet.frontend.infrastructure.theme.lightThemeProperties
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun MainScreen() {
+fun MainScreen(themeProperties: ThemeProperties) {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val scope = rememberCoroutineScope()
     val navController = rememberNavController()
@@ -23,7 +23,7 @@ fun MainScreen() {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = { TopBar(scope = scope, scaffoldState = scaffoldState) },
-        drawerBackgroundColor = colorResource(id = R.color.colorPrimary),
+        drawerBackgroundColor = themeProperties.colors.background,
         // scrimColor = Color.Red,  // Color for the fade background when you open/close the drawer
         drawerContent = {
             Drawer(scope = scope, scaffoldState = scaffoldState, navController = navController)
@@ -43,5 +43,5 @@ fun MainScreen() {
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
-    MainScreen()
+    MainScreen(lightThemeProperties())
 }

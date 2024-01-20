@@ -5,7 +5,7 @@ import androidx.compose.material.lightColors
 import com.mateuszcholyn.wallet.frontend.domain.theme.Resolver
 import com.mateuszcholyn.wallet.frontend.domain.theme.ThemeProperties
 
-fun lightThemeProperties(resolver: Resolver): ThemeProperties =
+fun lightThemeProperties(resolver: Resolver = Resolver.SYSTEM): ThemeProperties =
     ThemeProperties(
         colors = lightColors(),
         shouldUseDarkTheme = false,
