@@ -1,10 +1,10 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.dummy
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Context
-import android.text.InputType
-import android.widget.EditText
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,16 +25,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
-import com.mateuszcholyn.wallet.frontend.infrastructure.backup.read.readBackupData
-import com.mateuszcholyn.wallet.frontend.infrastructure.backup.save.saveAllExpensesToFile
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.showLongText
-import kotlinx.coroutines.launch
+
 //import uploadBasic
 
 
 suspend fun zapisywaniePliku(appContext: Context) {
 //    uploadBasic(appContext)
+
 }
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -44,6 +42,28 @@ fun DummyScreen(
     dummyViewModel: DummyViewModel = hiltViewModel()
 ) {
     val appContext = currentAppContext()
+
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val pickedUri = it.data?.data ?: return@rememberLauncherForActivityResult
+            appContext
+                .contentResolver
+                .openOutputStream(pickedUri)
+                ?.use { outputStream ->
+                    outputStream.write("123".toByteArray())
+                }
+        }
+
+
+//    val createFileIntent =
+//        Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+//            addCategory(Intent.CATEGORY_OPENABLE)
+//            type = "application/pdf"
+//            putExtra(Intent.EXTRA_TITLE, "nazwa_pliku.pdf")
+//        }
+//
+//    launcher.launch(createFileIntent)
+
 
 //    val scope = rememberCoroutineScope()
 //
@@ -59,6 +79,19 @@ fun DummyScreen(
             .background(colorResource(id = R.color.colorPrimaryDark))
             .wrapContentSize(Alignment.Center)
     ) {
+        Button(
+            onClick = {
+                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+                    .apply {
+                        addCategory(Intent.CATEGORY_OPENABLE)
+                        type = "application/octet-stream"
+                        putExtra(Intent.EXTRA_TITLE, "export.dat")
+                    }
+                launcher.launch(intent)
+            }
+        ) {
+            Text("Select")
+        }
         Text(
             text = stringResource(R.string.dummyView),
             fontWeight = FontWeight.Bold,
