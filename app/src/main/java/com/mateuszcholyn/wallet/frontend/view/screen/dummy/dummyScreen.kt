@@ -1,5 +1,10 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.dummy
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
+import android.text.InputType
+import android.widget.EditText
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +12,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,13 +30,28 @@ import com.mateuszcholyn.wallet.frontend.infrastructure.backup.read.readBackupDa
 import com.mateuszcholyn.wallet.frontend.infrastructure.backup.save.saveAllExpensesToFile
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.showLongText
+import kotlinx.coroutines.launch
+//import uploadBasic
 
 
+suspend fun zapisywaniePliku(appContext: Context) {
+//    uploadBasic(appContext)
+}
+
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun DummyScreen(
     dummyViewModel: DummyViewModel = hiltViewModel()
 ) {
     val appContext = currentAppContext()
+
+//    val scope = rememberCoroutineScope()
+//
+//    scope.launch {
+//        zapisywaniePliku(appContext)
+//
+//    }
+
 
     Column(
         modifier = Modifier
@@ -59,16 +80,19 @@ fun DummyScreen(
 
         Button(
             onClick = {
-                val saveAllExpensesV2WithCategoriesV2Model =
-                    SaveAllExpensesV2WithCategoriesV2Model(
-                        categories = dummyViewModel.getAllCategories(),
-                        expenses = dummyViewModel.getAllExpenses(),
-                    )
+//                val saveAllExpensesV2WithCategoriesV2Model =
+//                    SaveAllExpensesV2WithCategoriesV2Model(
+//                        categories = dummyViewModel.getAllCategories(),
+//                        expenses = dummyViewModel.getAllExpenses(),
+//                    )
+//
+//                saveAllExpensesToFile(
+//                    ctx = appContext,
+//                    saveAllExpensesV2WithCategoriesV2Model = saveAllExpensesV2WithCategoriesV2Model
+//                )
+                // Tworzenie okna dialogowego
 
-                saveAllExpensesToFile(
-                    ctx = appContext,
-                    saveAllExpensesV2WithCategoriesV2Model = saveAllExpensesV2WithCategoriesV2Model
-                )
+
                 showLongText(appContext, "Zakonczono eksport danych!")
             },
         ) {

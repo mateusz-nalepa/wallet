@@ -58,7 +58,7 @@ data class SummarySuccessContent(
 class SummaryViewModel @Inject constructor(
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
     private val searchServiceUseCase: SearchServiceUseCase,
-    appIsConfigured: AppIsConfigured,
+//    appIsConfigured: AppIsConfigured,
 ) : ViewModel() {
 
     fun initScreen() {

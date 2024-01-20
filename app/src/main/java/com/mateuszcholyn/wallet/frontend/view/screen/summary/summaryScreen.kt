@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.advancedFilters.AdvancedFiltersSection
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.expenseslist.SummaryExpensesList
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
+import dagger.hilt.android.AndroidEntryPoint
 
 
 @ExperimentalMaterialApi
