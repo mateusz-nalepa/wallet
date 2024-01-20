@@ -42,6 +42,10 @@ suspend fun zapisywaniePliku(appContext: Context) {
 fun DummyScreen(
     dummyViewModel: DummyViewModel = hiltViewModel()
 ) {
+
+
+
+
     val appContext = currentAppContext()
 
     val saveFileLauncher =
@@ -83,6 +87,8 @@ fun DummyScreen(
             .background(colorResource(id = R.color.colorPrimaryDark))
             .wrapContentSize(Alignment.Center)
     ) {
+
+
         Button(
             onClick = {
                 val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)

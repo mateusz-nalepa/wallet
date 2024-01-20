@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
@@ -18,7 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.advancedFilters.AdvancedFiltersSection
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.expenseslist.SummaryExpensesList
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
-import dagger.hilt.android.AndroidEntryPoint
+import com.mateuszcholyn.wallet.SelectedColorsMutableState
 
 
 @ExperimentalMaterialApi
@@ -31,6 +32,13 @@ fun NewSummaryScreen(
 
     summaryViewModel.initScreen()
     Column(modifier = defaultModifier) {
+        Button(
+            onClick = {
+                SelectedColorsMutableState.value = !SelectedColorsMutableState.value
+            }
+        ) {
+            Text("Zmien motyw")
+        }
         SummaryFilters()
         Divider()
         SummarySearchResult(navController)
