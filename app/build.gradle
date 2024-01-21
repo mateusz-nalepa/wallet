@@ -134,6 +134,8 @@ dependencies {
 // Preferences DataStore (SharedPreferences like APIs)
         implementation "androidx.datastore:datastore-preferences:1.0.0"
         implementation "androidx.datastore:datastore:1.0.0"
+
+    implementation 'androidx.core:core-splashscreen:1.0.1'
     // Hilt
     // compatible with version in main build.gradle
     implementation("com.google.dagger:hilt-android:2.50")
