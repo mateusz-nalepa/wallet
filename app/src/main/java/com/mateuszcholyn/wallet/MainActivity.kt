@@ -33,11 +33,8 @@ import com.mateuszcholyn.wallet.frontend.view.skeleton.MainScreen
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.util.permissionchecker.verifyStoragePermissions
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 
 @Composable
@@ -116,14 +113,13 @@ fun MyApp() {
 
 
     LaunchedEffect(key1 = "asd") {
-        CoroutineScope(Dispatchers.IO).launch {
-            store
-                .getSelectedTheme
-                .collect { value ->
-                    SelectedColorsMutableState.value = value
-                    isLoading = false
-                }
-        }
+        store
+            .getSelectedTheme
+            .collect { value ->
+                SelectedColorsMutableState.value = value
+                isLoading = false
+            }
+
     }
 
 
