@@ -88,14 +88,14 @@
     <string name="lastThreeMonths">Ostatnie 3 Miesiące</string>
     <string name="allExpenses">Wszystkie wydatki</string>
     <string name="allExpensesUpToToday">Wydatki do dziś</string>
-    <string name="datePickerOk">Ok</string>
+    <string name="datePickerOk">OK</string>
     <string name="datePickerCancel">Cancel</string>
     <string name="iconError">error</string>
     <string name="areYouReadyToRemoveExpense">Na pewno usunąć wydatek?</string>
     <string name="yesOrNoCancel">Anuluj</string>
     <string name="yesOrNoConfirm">Potwierdź</string>
     <string name="summaryScreen_allCategories">Wszystkie kategorie</string>
-    <string name="developerBy">Autor: Mateusz Nalepa</string>
+    <string name="developerBy">Author: Mateusz Nalepa</string>
     <string name="menuItem_Category">Kategorie</string>
     <string name="menuItem_AddOrEditExpense">Dodaj wydatek</string>
     <string name="menuItem_Summary">Podsumowanie</string>

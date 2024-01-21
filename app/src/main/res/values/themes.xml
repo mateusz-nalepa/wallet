@@ -1,12 +1,4 @@
 <resources>
-<!--    <style name="Theme.MyApp.Starting" parent="Theme.SplashScreen">-->
-<!--        <item name="android:windowBackground">@drawable/your_splashscreen_drawable</item>-->
-<!--    </style>-->
 
-
-
-    <style name="AppSplash" parent="Theme.SplashScreen">
-    </style>
-
-
+    <style name="AppSplash" parent="Theme.SplashScreen" />
 </resources>

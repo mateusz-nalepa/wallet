@@ -5,10 +5,22 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.ListItem
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.DeleteForever
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -71,17 +83,6 @@ fun SingleCategory(
             modifier = defaultModifier.padding(top = 0.dp),
             horizontalArrangement = Arrangement.End
         ) {
-            IconButton(
-                onClick = {
-                    showShortText(currentContext, notImplementedText)
-                }
-            ) {
-                Icon(
-                    Icons.Filled.PresentToAll,
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp),
-                )
-            }
             IconButton(
                 onClick = {
                     editCategoryNameIsVisible = !editCategoryNameIsVisible

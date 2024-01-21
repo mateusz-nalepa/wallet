@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
@@ -32,8 +32,8 @@ fun GroupedExpenses(
             stickyHeader {
                 Row(
                     modifier = defaultModifier
-                        .background(Color.LightGray)
-                        .padding(0.dp), horizontalArrangement = Arrangement.SpaceBetween
+                        .background(MaterialTheme.colors.onPrimary)
+                        .padding(0.dp), horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Text(
                         text = groupNameFunction.invoke(expensesInGroup.first()),

@@ -14,7 +14,6 @@ import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -26,11 +25,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun TopBar(scope: CoroutineScope, scaffoldState: ScaffoldState) {
     TopAppBar(
+        backgroundColor = MaterialTheme.colors.primarySurface,
         title = {
             Text(
-//                text = stringResource(R.string.app_name),
-                text = "kolorowe XD",
-                fontSize = 18.sp
+                text = stringResource(R.string.app_name),
+                fontSize = 20.sp
             )
         },
         navigationIcon = {
@@ -42,9 +41,6 @@ fun TopBar(scope: CoroutineScope, scaffoldState: ScaffoldState) {
                 Icon(Icons.Filled.Menu, EMPTY_STRING)
             }
         },
-        // nie trzeba przekazywać kolorów, whoooa XD
-        backgroundColor = MaterialTheme.colors.primarySurface,
-        contentColor = Color.White
     )
 }
 

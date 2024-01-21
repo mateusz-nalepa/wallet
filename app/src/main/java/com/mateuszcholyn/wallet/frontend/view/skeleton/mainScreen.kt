@@ -22,7 +22,7 @@ fun MainScreen() {
         scaffoldState = scaffoldState,
         topBar = { TopBar(scope = scope, scaffoldState = scaffoldState) },
         drawerBackgroundColor = MaterialTheme.colors.background,
-        // scrimColor = Color.Red,  // Color for the fade background when you open/close the drawer
+//        drawerScrimColor = Color.Red,  // Color for the fade background when you open/close the drawer
         drawerContent = {
             Drawer(scope = scope, scaffoldState = scaffoldState, navController = navController)
         },
