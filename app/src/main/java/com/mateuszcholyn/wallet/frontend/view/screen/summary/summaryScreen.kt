@@ -16,10 +16,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.mateuszcholyn.wallet.SelectedColorsMutableState
+import com.mateuszcholyn.wallet.UserStore
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.advancedFilters.AdvancedFiltersSection
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.expenseslist.SummaryExpensesList
+import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
-import com.mateuszcholyn.wallet.SelectedColorsMutableState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @ExperimentalMaterialApi
@@ -30,11 +35,24 @@ fun NewSummaryScreen(
     summaryViewModel: SummaryViewModel = hiltViewModel(),
 ) {
 
+    val store = UserStore(currentAppContext())
+
     summaryViewModel.initScreen()
     Column(modifier = defaultModifier) {
         Button(
             onClick = {
-                SelectedColorsMutableState.value = !SelectedColorsMutableState.value
+                CoroutineScope(Dispatchers.IO).launch {
+                    store.saveSelectedTheme(
+                        if (SelectedColorsMutableState.value == "light") {
+                            SelectedColorsMutableState.value = "dark"
+                            "dark"
+                        } else {
+                            SelectedColorsMutableState.value = "light"
+                            "light"
+                        }
+
+                    )
+                }
             }
         ) {
             Text("Zmien motyw")
