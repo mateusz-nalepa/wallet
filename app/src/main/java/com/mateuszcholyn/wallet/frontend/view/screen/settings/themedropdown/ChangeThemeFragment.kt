@@ -16,6 +16,8 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
 
 @Composable
 @ExperimentalMaterialApi
+// TODO: przepisz to na korzystanie z pięknego buttona który zmienia `w locie` motyw :3
+// i przejrzyuj użycia theme properties, bo generalnie trzeba to ciut przerefactorować teraz XD
 fun ChangeThemeFragment(
     themeProperties: ThemeProperties,
 ) {

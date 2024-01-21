@@ -1,6 +1,9 @@
 package com.mateuszcholyn.wallet.frontend.infrastructure.demomode
 
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.mateuszcholyn.wallet.frontend.domain.demomode.DemoModeDisabledMarker
 import com.mateuszcholyn.wallet.frontend.infrastructure.util.createNewIfNotExists
@@ -12,7 +15,7 @@ class DemoModeDisabled(
 ) : DemoModeDisabledMarker {
     override fun switch() {
         enableDemoMode(ctx = context)
-        ProcessPhoenix.triggerRebirth(context)
+        AppRestartService.restart(context)
     }
 }
 
