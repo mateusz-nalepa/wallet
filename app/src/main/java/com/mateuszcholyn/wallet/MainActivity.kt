@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Colors
@@ -89,8 +90,7 @@ class MainActivity : AppCompatActivity() {
 }
 
 
-
-private fun resolveThemeV2(actualTheme: String?): Colors =
+fun resolveThemeColors(actualTheme: String?): Colors =
     when (actualTheme) {
         "light" -> lightColors()
         "dark" -> darkColors()
@@ -98,10 +98,19 @@ private fun resolveThemeV2(actualTheme: String?): Colors =
     }
 
 
+
+
 val SelectedColorsMutableState = mutableStateOf<String?>(null)
 
 val LocalIsLightThemeComposition = compositionLocalOf { SelectedColorsMutableState }
 //val LocalIsLightTheme = compositionLocalOf { true } // gdyby wartsc miała być stała
+
+
+private fun defaultTheme(isSystemInDarkTheme: Boolean) =
+    when (isSystemInDarkTheme) {
+        true -> "dark"
+        false -> "light"
+    }
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -113,12 +122,14 @@ fun MyApp() {
 
     val store = UserStore(currentAppContext())
 
+    val isSystemInDarkTheme = isSystemInDarkTheme()
+
 
     LaunchedEffect(key1 = "asd") {
         store
             .getSelectedTheme
             .collect { value ->
-                SelectedColorsMutableState.value = value
+                SelectedColorsMutableState.value = value ?: defaultTheme(isSystemInDarkTheme)
                 isLoading = false
             }
 
@@ -126,17 +137,18 @@ fun MyApp() {
 
 
 //    if (!isLoading) {
-        CompositionLocalProvider(LocalIsLightThemeComposition provides rememberSaveable { SelectedColorsMutableState }) {
-            // Teraz możesz użyć LocalIsLightTheme w dowolnym miejscu w Twojej aplikacji
+    CompositionLocalProvider(LocalIsLightThemeComposition provides rememberSaveable { SelectedColorsMutableState }) {
+        // Teraz możesz użyć LocalIsLightTheme w dowolnym miejscu w Twojej aplikacji
 
-            MaterialTheme(
-                colors = resolveThemeV2(LocalIsLightThemeComposition.current.value),
-            ) {
-                Surface(color = MaterialTheme.colors.background) {
-                    MainScreen()
-                }
+        MaterialTheme(
+            colors = resolveThemeColors(LocalIsLightThemeComposition.current.value),
+        ) {
+            Surface(color = MaterialTheme.colors.background) {
+//            Surface {
+                MainScreen()
             }
         }
+    }
 //    } else {
 //        LoadingScreen()
 //

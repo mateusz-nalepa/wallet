@@ -65,7 +65,6 @@ fun ShowExpense(
                     modifier = Modifier.size(24.dp),
                 )
             }
-
         },
         modifier = defaultModifier.clickable {
             detailsAreVisible = !detailsAreVisible

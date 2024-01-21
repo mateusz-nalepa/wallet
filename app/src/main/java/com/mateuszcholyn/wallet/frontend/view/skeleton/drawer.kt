@@ -1,15 +1,16 @@
 package com.mateuszcholyn.wallet.frontend.view.skeleton
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Divider
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
-import androidx.compose.material.lightColors
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -28,8 +29,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.frontend.domain.theme.Resolver
-import com.mateuszcholyn.wallet.frontend.infrastructure.theme.darkThemeProperties
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -40,6 +39,8 @@ fun Drawer(
     scaffoldState: ScaffoldState,
     navController: NavController,
 ) {
+
+
     val items = listOf(
         NavDrawerItem.Category,
         NavDrawerItem.AddOrEditExpense,
@@ -48,19 +49,19 @@ fun Drawer(
         NavDrawerItem.Wellness,
         NavDrawerItem.Dummy,
     )
-//    MaterialTheme(colors = lightColors()) {
-        Column {
-            // Header
-            Text(
-                text = "Simple Wallet",
-                color = Color.White,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                fontSize = 30.sp,
-                modifier = Modifier
-                    .padding(12.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
+    Column {
+        // Header
+        Text(
+            text = "Simple Wallet",
+//            color = MaterialTheme.colors.primaryVariant,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            fontSize = 30.sp,
+            modifier = Modifier
+                .padding(12.dp)
+                .align(Alignment.CenterHorizontally)
+//                .background(MaterialTheme.colors.onBackground)
+        )
 //        Image(
 //            painter = painterResource(id = R.drawable.logo),
 //            contentDescription = R.drawable.logo.toString(),
@@ -69,50 +70,50 @@ fun Drawer(
 //                .fillMaxWidth()
 //                .padding(10.dp)
 //        )
-            // Space between
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(5.dp)
-            )
-            // List of navigation items
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
-            items.forEach { item ->
-                DrawerItem(item = item, selected = currentRoute == item.route, onItemClick = {
-                    navController.navigate(item.route) {
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
-                        // on the back stack as users select items
-                        navController.graph.startDestinationRoute?.let { route ->
-                            popUpTo(route) {
-                                saveState = true
-                            }
+        // Space between
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(5.dp)
+        )
+        Divider()
+        // List of navigation items
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+        items.forEach { item ->
+            DrawerItem(item = item, selected = currentRoute == item.route, onItemClick = {
+                navController.navigate(item.route) {
+                    // Pop up to the start destination of the graph to
+                    // avoid building up a large stack of destinations
+                    // on the back stack as users select items
+                    navController.graph.startDestinationRoute?.let { route ->
+                        popUpTo(route) {
+                            saveState = true
                         }
-                        // Avoid multiple copies of the same destination when
-                        // reselecting the same item
-                        launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
-                        restoreState = true
                     }
-                    // Close drawer
-                    scope.launch {
-                        scaffoldState.drawerState.close()
-                    }
-                })
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Text(
-                text = stringResource(R.string.developerBy),
-                color = Color.White,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .padding(12.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
+                    // Avoid multiple copies of the same destination when
+                    // reselecting the same item
+                    launchSingleTop = true
+                    // Restore state when reselecting a previously selected item
+                    restoreState = true
+                }
+                // Close drawer
+                scope.launch {
+                    scaffoldState.drawerState.close()
+                }
+            })
         }
-//    }
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = stringResource(R.string.developerBy),
+//            color = MaterialTheme.colors.primary,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(12.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+    }
 }
 
 @Preview(showBackground = false)
