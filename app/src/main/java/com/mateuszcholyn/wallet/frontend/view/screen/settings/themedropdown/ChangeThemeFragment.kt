@@ -1,47 +1,34 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.settings.themedropdown
 
-import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
-import com.jakewharton.processphoenix.ProcessPhoenix
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.frontend.domain.theme.ThemeProperties
-import com.mateuszcholyn.wallet.frontend.infrastructure.theme.enableGivenTheme
 import com.mateuszcholyn.wallet.frontend.view.dropdown.WalletDropdown
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
-import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
+import com.mateuszcholyn.wallet.userConfig.UserConfigProvider
+import com.mateuszcholyn.wallet.userConfig.theme.ThemeChanger
+import com.mateuszcholyn.wallet.userConfig.theme.WalletThemeSelectedByUser
 
 
 @Composable
 @ExperimentalMaterialApi
-// TODO: przepisz to na korzystanie z pięknego buttona który zmienia `w locie` motyw :3
-// i przejrzyuj użycia theme properties, bo generalnie trzeba to ciut przerefactorować teraz XD
-fun ChangeThemeFragment(
-    themeProperties: ThemeProperties,
-) {
-    val currentContext = currentAppContext()
-
+fun ChangeThemeFragment() {
     val availableThemes = themeDropdownElements()
-    var selectedTheme by remember { mutableStateOf(availableThemes.find { it.resolver == themeProperties.resolver }!!) }
+    val userContextProvider = UserConfigProvider(currentAppContext())
 
+    var selectedTheme by remember { mutableStateOf(availableThemes.find { it.walletTheme.themeName == WalletThemeSelectedByUser.value }!!) }
     WalletDropdown(
         dropdownName = stringResource(R.string.theme),
         selectedElement = selectedTheme,
         availableElements = availableThemes,
         onItemSelected = {
             selectedTheme = it
+            ThemeChanger.enableGivenTheme(userContextProvider, it.walletTheme.themeName)
         },
     )
-    Button(
-        onClick = {
-            enableGivenTheme(currentContext, selectedTheme.resolver)
-            ProcessPhoenix.triggerRebirth(currentContext)
-        },
-        modifier = defaultButtonModifier,
-    ) {
-        Text(text = stringResource(R.string.useGivenTheme))
-    }
-
 }

@@ -3,30 +3,28 @@ package com.mateuszcholyn.wallet.frontend.view.screen.settings.themedropdown
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.frontend.domain.theme.Resolver
 import com.mateuszcholyn.wallet.frontend.view.dropdown.DropdownElement
+import com.mateuszcholyn.wallet.userConfig.theme.WalletTheme
 
 data class ThemeDropdownElement(
     override val name: String,
     override val nameKey: Int? = null,
-    val resolver: Resolver,
+    val walletTheme: WalletTheme,
 ) : DropdownElement
 
 @Composable
-fun themeDropdownElements(): List<ThemeDropdownElement> {
-    return listOf(
+fun themeDropdownElements(): List<ThemeDropdownElement> =
+    listOf(
         ThemeDropdownElement(
             name = stringResource(R.string.useSystemTheme),
-            resolver = Resolver.SYSTEM,
+            walletTheme = WalletTheme.SYSTEM,
         ),
         ThemeDropdownElement(
             name = stringResource(R.string.lightTheme),
-            resolver = Resolver.LIGHT,
-
-            ),
+            walletTheme = WalletTheme.LIGHT,
+        ),
         ThemeDropdownElement(
             name = stringResource(R.string.darkTheme),
-            resolver = Resolver.DARK,
+            walletTheme = WalletTheme.DARK,
         )
     )
-}

@@ -1,8 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.summary
 
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatDelegate.getApplicationLocales
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,28 +20,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.MainActivity
-import com.mateuszcholyn.wallet.UserStore
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.advancedFilters.AdvancedFiltersSection
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.expenseslist.SummaryExpensesList
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
-import com.mateuszcholyn.wallet.getCurrentLocale
+import com.mateuszcholyn.wallet.userConfig.UserConfigProvider
+import com.mateuszcholyn.wallet.userConfig.language.LocaleService
 import java.util.Locale
-
-
-fun triggerRebirth(value: Boolean, context: Context) {
-    val packageManager = context.packageManager
-    val intent = packageManager.getLaunchIntentForPackage(context.packageName)
-    val componentName = intent!!.component
-    val mainIntent = Intent.makeRestartActivityTask(componentName)
-    mainIntent.putExtra("twoj_klucz", value)
-
-    // Required for API 34 and later
-    // Ref: https://developer.android.com/about/versions/14/behavior-changes-14#safer-intents
-    mainIntent.setPackage(context.packageName)
-    context.startActivity(mainIntent)
-    Runtime.getRuntime().exit(0)
-}
 
 
 @ExperimentalMaterialApi
@@ -54,14 +37,14 @@ fun NewSummaryScreen(
     summaryViewModel: SummaryViewModel = hiltViewModel(),
 ) {
 
-    val store = UserStore(currentAppContext())
+    val store = UserConfigProvider(currentAppContext())
 
     var xd by remember {
         mutableStateOf("PL")
     }
 
-    val aktualny = getCurrentLocale()
-    val aktualnyXD = getApplicationLocales().get(0) ?: Locale.getDefault()
+    val aktualny = LocaleService.getCurrentLocale()
+    val aktualnyXD = LocaleService.getCurrentLocaleV2()
 
 
     val context = currentAppContext()
@@ -75,17 +58,6 @@ fun NewSummaryScreen(
 
     summaryViewModel.initScreen()
     Column(modifier = defaultModifier) {
-        Button(onClick = {
-            triggerRebirth(true, context)
-        }) {
-            Text("wejdz")
-        }
-        Button(onClick = {
-//            startActivity(context, wyjdzIntent, null)
-            triggerRebirth(false, context)
-        }) {
-            Text("wyjdz")
-        }
         //        Button(
 //            onClick = {
 //                CoroutineScope(Dispatchers.IO).launch {
@@ -105,39 +77,39 @@ fun NewSummaryScreen(
 //            Text("Zmien motyw")
 //        }
 
-//        Button(onClick = {}) {
-//            Text("Aktualny: $xd : $aktualny")
-//        }
-//
-//        Button(onClick = {}) {
-//            Text("XD Aktualny: $aktualnyXD")
-//        }
-//
-//
-//        Button(onClick = {
-//            val locale = Locale("it", "IT")
-//            setApplicationLocales(LocaleListCompat.create(locale))
-//            xd = "Wloski"
-//        }) {
-//            Text("Ustaw wloski")
-//        }
-//
-//        Button(onClick = {
-//            val locale = Locale("en", "US")
-//            setApplicationLocales(LocaleListCompat.create(locale))
-//            xd = "Angielski"
-//
-//        }) {
-//            Text("Ustaw angielski")
-//        }
-//
-//        Button(onClick = {
-//            val locale = Locale("pl", "PL")
-//            setApplicationLocales(LocaleListCompat.create(locale))
-//            xd = "Polski"
-//        }) {
-//            Text("Ustaw polski")
-//        }
+        Button(onClick = {}) {
+            Text("Aktualny: $xd : $aktualny")
+        }
+
+        Button(onClick = {}) {
+            Text("XD Aktualny: $aktualnyXD")
+        }
+
+
+        Button(onClick = {
+            val locale = Locale("it", "IT")
+            LocaleService.setApplicationLocale(locale)
+            xd = "Wloski"
+        }) {
+            Text("Ustaw wloski")
+        }
+
+        Button(onClick = {
+            val locale = Locale("en", "US")
+            LocaleService.setApplicationLocale(locale)
+            xd = "Angielski"
+
+        }) {
+            Text("Ustaw angielski")
+        }
+
+        Button(onClick = {
+            val locale = Locale("pl", "PL")
+            LocaleService.setApplicationLocale(locale)
+            xd = "Polski"
+        }) {
+            Text("Ustaw polski")
+        }
 
         SummaryFilters()
         Divider()

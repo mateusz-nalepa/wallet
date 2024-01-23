@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.app.setupintegrationtests.di.demomode
 import android.content.Context
 import com.mateuszcholyn.wallet.frontend.di.demomode.DemoAppSwitcherModule
 import com.mateuszcholyn.wallet.frontend.domain.demomode.DemoAppSwitcher
-import com.mateuszcholyn.wallet.frontend.infrastructure.demomode.DemoModeDisabled
+import com.mateuszcholyn.wallet.frontend.domain.demomode.DemoModeDisabled
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -26,6 +26,6 @@ object TestDemoAppSwitcherModule {
         /**
          * For Integration Tests we want to be sure, that we are not using InMemoryImplementations
          */
-        DemoModeDisabled(context)
+        DemoModeDisabled()
 
 }

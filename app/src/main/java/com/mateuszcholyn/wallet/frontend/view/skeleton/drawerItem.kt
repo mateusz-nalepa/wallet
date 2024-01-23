@@ -28,7 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mateuszcholyn.wallet.LocalIsLightThemeComposition
+import com.mateuszcholyn.wallet.userConfig.theme.LocalWalletThemeComposition
 
 private fun Modifier.backgroundIfSelected(selected: Boolean): Modifier =
     composed {
@@ -71,7 +71,7 @@ fun DrawerItem(item: NavDrawerItem, selected: Boolean, onItemClick: (NavDrawerIt
 @Preview(showBackground = true)
 @Composable
 fun LightDrawerItemPreviewSelectedWithBackground() {
-    CompositionLocalProvider(LocalIsLightThemeComposition provides remember { mutableStateOf("light") }) {
+    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf("light") }) {
         MaterialTheme(colors = lightColors()) {
             DrawerItem(item = NavDrawerItem.Category, selected = true, onItemClick = {})
         }
@@ -81,7 +81,7 @@ fun LightDrawerItemPreviewSelectedWithBackground() {
 @Preview(showBackground = true)
 @Composable
 fun LightDrawerItemPreviewNotSelectedWithBackground() {
-    CompositionLocalProvider(LocalIsLightThemeComposition provides remember { mutableStateOf("light") }) {
+    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf("light") }) {
         MaterialTheme(colors = lightColors()) {
             DrawerItem(item = NavDrawerItem.Category, selected = false, onItemClick = {})
         }
@@ -91,7 +91,7 @@ fun LightDrawerItemPreviewNotSelectedWithBackground() {
 @Preview(showBackground = true)
 @Composable
 fun DarkDrawerItemPreviewSelectedWithBackground() {
-    CompositionLocalProvider(LocalIsLightThemeComposition provides remember { mutableStateOf("dark") }) {
+    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf("dark") }) {
         MaterialTheme(colors = darkColors()) {
             DrawerItem(item = NavDrawerItem.Category, selected = true, onItemClick = {})
         }
@@ -101,7 +101,7 @@ fun DarkDrawerItemPreviewSelectedWithBackground() {
 @Preview(showBackground = true)
 @Composable
 fun DarkDrawerItemPreviewNotSelectedWithBackground() {
-    CompositionLocalProvider(LocalIsLightThemeComposition provides remember { mutableStateOf("dark") }) {
+    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf("dark") }) {
         MaterialTheme(colors = darkColors()) {
             DrawerItem(item = NavDrawerItem.Category, selected = false, onItemClick = {})
         }
