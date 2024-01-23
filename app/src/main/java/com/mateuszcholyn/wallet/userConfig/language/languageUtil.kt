@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import java.util.Locale
 
-//LocaleService.setApplicationLocale(locale)
-
 enum class WalletLanguage(
     val language: String,
     val locale: Locale,
@@ -20,21 +18,30 @@ enum class WalletLanguage(
     ),
     ITALIAN(
         "Italiano",
-
         Locale("it", "IT"),
     ),
 }
 
+private val supportedLocales =
+    WalletLanguage
+        .entries
+        .toList()
+        .map { it.locale }
+
 object LocaleService {
 
-    fun getCurrentLocaleV2(): Locale =
+    fun getCurrentAppLanguage(): Locale =
+        getSystemLanguage()
+            ?.takeIf { it in supportedLocales }
+            ?: WalletLanguage.ENGLISH.locale
+
+    private fun getSystemLanguage(): Locale? =
         AppCompatDelegate
             .getApplicationLocales()
             .takeIf { !it.isEmpty }
             ?.get(0)
-            ?: Locale.getDefault()
 
-    fun setApplicationLocale(locale: Locale) {
+    fun setApplicationLanguage(locale: Locale) {
         AppCompatDelegate
             .setApplicationLocales(LocaleListCompat.create(locale))
     }

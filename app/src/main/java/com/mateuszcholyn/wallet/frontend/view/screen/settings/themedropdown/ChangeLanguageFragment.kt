@@ -10,20 +10,33 @@ import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.dropdown.WalletDropdown
 import com.mateuszcholyn.wallet.userConfig.language.LocaleService
+import com.mateuszcholyn.wallet.userConfig.language.WalletLanguage
+import java.util.Locale
 
 
 @Composable
 @ExperimentalMaterialApi
 fun ChangeLanguageFragment() {
     val availableLanguages = languageDropdownElements()
-    var selectedLanguage by remember { mutableStateOf(availableLanguages[0]) }
+    var selectedLanguage by remember {
+        mutableStateOf(LocaleService.getCurrentAppLanguage().toLanguageDropdownElement())
+    }
     WalletDropdown(
         dropdownName = stringResource(R.string.language),
         selectedElement = selectedLanguage,
         availableElements = availableLanguages,
         onItemSelected = {
             selectedLanguage = it
-            LocaleService.setApplicationLocale(it.walletLanguage.locale)
+            LocaleService.setApplicationLanguage(it.walletLanguage.locale)
         },
     )
 }
+
+private fun Locale.toLanguageDropdownElement(): LanguageDropdownElement =
+    when (this) {
+        WalletLanguage.ENGLISH.locale -> WalletLanguage.ENGLISH
+        WalletLanguage.POLISH.locale -> WalletLanguage.POLISH
+        WalletLanguage.ITALIAN.locale -> WalletLanguage.ITALIAN
+        else -> WalletLanguage.ENGLISH
+    }
+        .toLanguageDropdownElement()

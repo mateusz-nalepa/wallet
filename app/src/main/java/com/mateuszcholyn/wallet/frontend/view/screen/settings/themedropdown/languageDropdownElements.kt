@@ -13,12 +13,10 @@ fun languageDropdownElements(): List<LanguageDropdownElement> =
     WalletLanguage
         .entries
         .toList()
-        .map {
-            LanguageDropdownElement(
-                name = it.language,
-                walletLanguage = it,
-            )
-        }
+        .map { it.toLanguageDropdownElement() }
 
-
-
+fun WalletLanguage.toLanguageDropdownElement(): LanguageDropdownElement =
+    LanguageDropdownElement(
+        name = this.language,
+        walletLanguage = this,
+    )
