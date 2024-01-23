@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import com.mateuszcholyn.wallet.frontend.domain.demomode.DemoAppSwitcher
@@ -36,7 +37,7 @@ fun SettingsScreen(
         ChangeLanguageFragment()
         Divider()
         DemoModeFragment(
-            demoButtonText = settingsViewModel.demoAppSwitcher().buttonText(),
+            demoButtonText = stringResource(settingsViewModel.demoAppSwitcher().buttonMessageKey()),
             switchContextFunction = { settingsViewModel.demoAppSwitcher().switch(context) }
         )
     }

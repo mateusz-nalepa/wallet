@@ -1,6 +1,10 @@
 package com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.CategoryEntityV2
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -19,6 +23,10 @@ import java.time.LocalDateTime
         Index("expense_id", unique = true),
     ]
 )
+// TODO: fixme XD
+// warning: fk_category_id column references a foreign key but it is not part of an index.
+// This may trigger full table scans whenever parent table is modified so you are highly advised to create an index that covers
+// this column.
 data class ExpenseEntityV2(
 
     @PrimaryKey

@@ -103,5 +103,7 @@
     <string name="menuItem_Settings">Ustawienia</string>
     <string name="menuItem_Dummy">Import/Eksport</string>
     <string name="menuItem_Wellness">Wellness</string>
+    <string name="startDemoMode">Uruchom tryb demo</string>
+    <string name="leaveDemoMode">Opuść tryb demo</string>
 
 </resources>

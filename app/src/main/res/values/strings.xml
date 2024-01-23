@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Portfel</string>
     <string name="language">Język</string>
+    <string name="startDemoMode">Start demo mode</string>
+    <string name="leaveDemoMode">Leave demo mode</string>
     <string name="action_settings">Settings</string>
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
