@@ -8,7 +8,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import com.mateuszcholyn.wallet.frontend.domain.demomode.DemoAppSwitcher
 import com.mateuszcholyn.wallet.frontend.view.screen.settings.demomode.DemoModeFragment
-import com.mateuszcholyn.wallet.frontend.view.screen.settings.themedropdown.ChangeThemeFragment
+import com.mateuszcholyn.wallet.frontend.view.screen.settings.language.ChangeThemeFragment
+import com.mateuszcholyn.wallet.frontend.view.screen.settings.themedropdown.ChangeLanguageFragment
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,6 +33,7 @@ fun SettingsScreen(
     val context = currentAppContext()
     Column(modifier = defaultModifier) {
         ChangeThemeFragment()
+        ChangeLanguageFragment()
         Divider()
         DemoModeFragment(
             demoButtonText = settingsViewModel.demoAppSwitcher().buttonText(),

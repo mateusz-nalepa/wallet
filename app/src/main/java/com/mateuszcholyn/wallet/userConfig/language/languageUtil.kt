@@ -1,21 +1,31 @@
 package com.mateuszcholyn.wallet.userConfig.language
 
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.core.os.ConfigurationCompat
 import androidx.core.os.LocaleListCompat
 import java.util.Locale
 
+//LocaleService.setApplicationLocale(locale)
+
+enum class WalletLanguage(
+    val language: String,
+    val locale: Locale,
+) {
+    POLISH(
+        "Polski",
+        Locale("pl", "PL"),
+    ),
+    ENGLISH(
+        "English",
+        Locale("en", "US"),
+    ),
+    ITALIAN(
+        "Italiano",
+
+        Locale("it", "IT"),
+    ),
+}
 
 object LocaleService {
-
-    @Composable
-    fun getCurrentLocale(): Locale =
-        ConfigurationCompat
-            .getLocales(LocalConfiguration.current)
-            .get(0)
-            ?: Locale.getDefault()
 
     fun getCurrentLocaleV2(): Locale =
         AppCompatDelegate

@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.settings.themedropdown
+package com.mateuszcholyn.wallet.frontend.view.screen.settings.language
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
