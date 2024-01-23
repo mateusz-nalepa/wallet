@@ -26,7 +26,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.core.os.ConfigurationCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -39,6 +41,7 @@ import com.mateuszcholyn.wallet.util.permissionchecker.verifyStoragePermissions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.util.Locale
 
 
 @Composable
@@ -98,8 +101,6 @@ fun resolveThemeColors(actualTheme: String?): Colors =
     }
 
 
-
-
 val SelectedColorsMutableState = mutableStateOf<String?>(null)
 
 val LocalIsLightThemeComposition = compositionLocalOf { SelectedColorsMutableState }
@@ -112,10 +113,25 @@ private fun defaultTheme(isSystemInDarkTheme: Boolean) =
         false -> "light"
     }
 
+@Composable
+fun getCurrentLocale(): Locale =
+    ConfigurationCompat
+        .getLocales(LocalConfiguration.current)
+        .get(0)
+        ?: Locale.getDefault()
+
+
+//val LocalMutableContext = staticCompositionLocalOf<MutableState<Context>> {
+//    error("LocalMutableContext not provided")
+//}
+
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
 fun MyApp() {
+
+    val currentLocale = getCurrentLocale()
+
 
     var isLoading by rememberSaveable { mutableStateOf(true) }
 
@@ -136,7 +152,13 @@ fun MyApp() {
     }
 
 
-//    if (!isLoading) {
+//    val context = LocalContext.current
+//    CompositionLocalProvider(
+//        LocalMutableContext provides remember { mutableStateOf(context) },
+//    ) {
+//        CompositionLocalProvider(
+//            LocalContext provides LocalMutableContext.current.value,
+//        ) {
     CompositionLocalProvider(LocalIsLightThemeComposition provides rememberSaveable { SelectedColorsMutableState }) {
         // Teraz możesz użyć LocalIsLightTheme w dowolnym miejscu w Twojej aplikacji
 
@@ -149,6 +171,12 @@ fun MyApp() {
             }
         }
     }
+
+//        }
+//    }
+
+
+//    if (!isLoading) {
 //    } else {
 //        LoadingScreen()
 //
