@@ -1,0 +1,1 @@
+TODO - dodaj github actions żeby działały XD
