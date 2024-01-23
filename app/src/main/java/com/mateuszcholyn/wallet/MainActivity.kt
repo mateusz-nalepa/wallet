@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +33,7 @@ import androidx.core.os.ConfigurationCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -42,6 +44,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.Locale
+import kotlin.properties.Delegates
 
 
 @Composable
@@ -52,16 +55,26 @@ fun LoadingScreen() {
     }
 }
 
+
+data class UserConfig(
+    val selectedTheme: String?,
+    val demoModeEnabled: Boolean?,
+)
+
 class UserStore(private val context: Context) {
     companion object {
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("walletSettings")
 
         private val USER_TOKEN_KEY = stringPreferencesKey("userSelectedTheme")
+        private val DEMO_MODE_KEY = booleanPreferencesKey("demoModeEnabled")
     }
 
-    val getSelectedTheme: Flow<String?> =
+    fun getUserConfig(): Flow<UserConfig?> =
         context.dataStore.data.map { preferences ->
-            preferences[USER_TOKEN_KEY]
+            UserConfig(
+                selectedTheme = preferences[USER_TOKEN_KEY],
+                demoModeEnabled = preferences[DEMO_MODE_KEY],
+            )
         }
 
     suspend fun saveSelectedTheme(token: String) {
@@ -69,7 +82,21 @@ class UserStore(private val context: Context) {
             preferences[USER_TOKEN_KEY] = token
         }
     }
+
+    suspend fun saveDemoModeEnabled(token: String) {
+        context.dataStore.edit { preferences ->
+            preferences[USER_TOKEN_KEY] = token
+        }
+    }
+
 }
+
+object XDD {
+    var czyJestDemoMode by Delegates.notNull<Boolean>()
+//    var czyJestDemoMode = true
+}
+
+
 
 
 @ExperimentalFoundationApi
@@ -79,6 +106,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val wartoscIntent = intent.getBooleanExtra("twoj_klucz", false)
+
+        XDD.czyJestDemoMode = wartoscIntent
+
         verifyStoragePermissions(this)
 
         installSplashScreen().setKeepOnScreenCondition {
@@ -143,12 +175,12 @@ fun MyApp() {
 
     LaunchedEffect(key1 = "asd") {
         store
-            .getSelectedTheme
-            .collect { value ->
-                SelectedColorsMutableState.value = value ?: defaultTheme(isSystemInDarkTheme)
+            .getUserConfig()
+            .collect { userConfig ->
+                SelectedColorsMutableState.value =
+                    userConfig?.selectedTheme ?: defaultTheme(isSystemInDarkTheme)
                 isLoading = false
             }
-
     }
 
 

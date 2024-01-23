@@ -1,10 +1,10 @@
 package com.mateuszcholyn.wallet.frontend.di.demomode
 
 import android.content.Context
+import com.mateuszcholyn.wallet.XDD
 import com.mateuszcholyn.wallet.frontend.domain.demomode.DemoAppSwitcher
 import com.mateuszcholyn.wallet.frontend.infrastructure.demomode.DemoModeDisabled
 import com.mateuszcholyn.wallet.frontend.infrastructure.demomode.DemoModeEnabled
-import com.mateuszcholyn.wallet.frontend.infrastructure.demomode.isInDemoMode
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,10 +19,9 @@ object DemoAppSwitcherModule {
     @Provides
     @Singleton
     fun provideDemoAppSwitcher(@ApplicationContext context: Context): DemoAppSwitcher =
-        if (isInDemoMode(context)) {
+        if (XDD.czyJestDemoMode) {
             DemoModeEnabled(context)
         } else {
             DemoModeDisabled(context)
         }
-
 }

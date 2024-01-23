@@ -13,17 +13,23 @@ import androidx.compose.material.primarySurface
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.XDD
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun TopBar(scope: CoroutineScope, scaffoldState: ScaffoldState) {
+    val isInDemoMode by rememberSaveable { mutableStateOf(XDD.czyJestDemoMode) }
+
     TopAppBar(
         backgroundColor = MaterialTheme.colors.primarySurface,
         title = {
@@ -31,6 +37,12 @@ fun TopBar(scope: CoroutineScope, scaffoldState: ScaffoldState) {
                 text = stringResource(R.string.app_name),
                 fontSize = 20.sp
             )
+            if (isInDemoMode) {
+                Text(
+                    text = "DEMO!!",
+                    fontSize = 20.sp
+                )
+            }
         },
         navigationIcon = {
             IconButton(onClick = {

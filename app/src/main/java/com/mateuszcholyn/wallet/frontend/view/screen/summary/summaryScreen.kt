@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.summary
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatDelegate.getApplicationLocales
-import androidx.appcompat.app.AppCompatDelegate.setApplicationLocales
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,32 +18,31 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.mateuszcholyn.wallet.SelectedColorsMutableState
+import com.mateuszcholyn.wallet.MainActivity
 import com.mateuszcholyn.wallet.UserStore
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.advancedFilters.AdvancedFiltersSection
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.expenseslist.SummaryExpensesList
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 import com.mateuszcholyn.wallet.getCurrentLocale
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.Locale
 
-object LocaleUtils {
 
-    fun setLanguage(locale: Locale, context: Context) {
-        Locale.setDefault(locale)
-        val resources = context.resources
-        val configuration = resources.configuration
-        configuration.setLocale(locale)
-        resources.updateConfiguration(configuration, resources.displayMetrics)
-    }
+fun triggerRebirth(value: Boolean, context: Context) {
+    val packageManager = context.packageManager
+    val intent = packageManager.getLaunchIntentForPackage(context.packageName)
+    val componentName = intent!!.component
+    val mainIntent = Intent.makeRestartActivityTask(componentName)
+    mainIntent.putExtra("twoj_klucz", value)
 
+    // Required for API 34 and later
+    // Ref: https://developer.android.com/about/versions/14/behavior-changes-14#safer-intents
+    mainIntent.setPackage(context.packageName)
+    context.startActivity(mainIntent)
+    Runtime.getRuntime().exit(0)
 }
 
 
@@ -65,61 +64,80 @@ fun NewSummaryScreen(
     val aktualnyXD = getApplicationLocales().get(0) ?: Locale.getDefault()
 
 
+    val context = currentAppContext()
+    val wejdzIntent = Intent(context, MainActivity::class.java)
+    wejdzIntent.putExtra("twoj_klucz", true)
+
+
+    val wyjdzIntent = Intent(context, MainActivity::class.java)
+    wyjdzIntent.putExtra("twoj_klucz", true)
+
 
     summaryViewModel.initScreen()
     Column(modifier = defaultModifier) {
-        Button(
-            onClick = {
-                CoroutineScope(Dispatchers.IO).launch {
-                    store.saveSelectedTheme(
-                        if (SelectedColorsMutableState.value == "light") {
-                            SelectedColorsMutableState.value = "dark"
-                            "dark"
-                        } else {
-                            SelectedColorsMutableState.value = "light"
-                            "light"
-                        }
-
-                    )
-                }
-            }
-        ) {
-            Text("Zmien motyw")
-        }
-
-        Button(onClick = {}) {
-            Text("Aktualny: $xd : $aktualny")
-        }
-
-        Button(onClick = {}) {
-            Text("XD Aktualny: $aktualnyXD")
-        }
-
-
         Button(onClick = {
-            val locale = Locale("it", "IT")
-            setApplicationLocales(LocaleListCompat.create(locale))
-            xd = "Wloski"
+            triggerRebirth(true, context)
         }) {
-            Text("Ustaw wloski")
+            Text("wejdz")
         }
-
         Button(onClick = {
-            val locale = Locale("en", "US")
-            setApplicationLocales(LocaleListCompat.create(locale))
-            xd = "Angielski"
-
+//            startActivity(context, wyjdzIntent, null)
+            triggerRebirth(false, context)
         }) {
-            Text("Ustaw angielski")
+            Text("wyjdz")
         }
+        //        Button(
+//            onClick = {
+//                CoroutineScope(Dispatchers.IO).launch {
+//                    store.saveSelectedTheme(
+//                        if (SelectedColorsMutableState.value == "light") {
+//                            SelectedColorsMutableState.value = "dark"
+//                            "dark"
+//                        } else {
+//                            SelectedColorsMutableState.value = "light"
+//                            "light"
+//                        }
+//
+//                    )
+//                }
+//            }
+//        ) {
+//            Text("Zmien motyw")
+//        }
 
-        Button(onClick = {
-            val locale = Locale("pl", "PL")
-            setApplicationLocales(LocaleListCompat.create(locale))
-            xd = "Polski"
-        }) {
-            Text("Ustaw polski")
-        }
+//        Button(onClick = {}) {
+//            Text("Aktualny: $xd : $aktualny")
+//        }
+//
+//        Button(onClick = {}) {
+//            Text("XD Aktualny: $aktualnyXD")
+//        }
+//
+//
+//        Button(onClick = {
+//            val locale = Locale("it", "IT")
+//            setApplicationLocales(LocaleListCompat.create(locale))
+//            xd = "Wloski"
+//        }) {
+//            Text("Ustaw wloski")
+//        }
+//
+//        Button(onClick = {
+//            val locale = Locale("en", "US")
+//            setApplicationLocales(LocaleListCompat.create(locale))
+//            xd = "Angielski"
+//
+//        }) {
+//            Text("Ustaw angielski")
+//        }
+//
+//        Button(onClick = {
+//            val locale = Locale("pl", "PL")
+//            setApplicationLocales(LocaleListCompat.create(locale))
+//            xd = "Polski"
+//        }) {
+//            Text("Ustaw polski")
+//        }
 
         SummaryFilters()
         Divider()
