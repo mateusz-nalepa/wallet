@@ -5,6 +5,7 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchServiceResult
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.manager.ExpenseScope
+import com.mateuszcholyn.wallet.manager.validator.LocalDateTimeValidator.assertLocalDateTime
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDateTime
@@ -64,7 +65,7 @@ class SimpleSingleExpenseAddedEventValidator(
     }
 
     fun paidAtEqualTo(expectedPaidAt: LocalDateTime) {
-        assert(searchSingleResult.paidAt == expectedPaidAt) {
+        assertLocalDateTime(searchSingleResult.paidAt, expectedPaidAt) {
             "Expense with index $expenseIndex should have paid at equal to: $expectedPaidAt. " +
                     "Actual: ${searchSingleResult.paidAt}"
         }
