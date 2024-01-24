@@ -2,15 +2,18 @@ package com.mateuszcholyn.wallet.app.usecase.getcategoriesquicksummary
 
 
 import com.mateuszcholyn.wallet.app.setupunittests.initExpenseAppManager
-import com.mateuszcholyn.wallet.manager.*
+import com.mateuszcholyn.wallet.manager.CategoryScope
+import com.mateuszcholyn.wallet.manager.ExpenseScope
+import com.mateuszcholyn.wallet.manager.category
+import com.mateuszcholyn.wallet.manager.expense
 import com.mateuszcholyn.wallet.manager.ext.core.category.removeCategoryUseCase
 import com.mateuszcholyn.wallet.manager.ext.core.expense.removeExpenseUseCase
 import com.mateuszcholyn.wallet.manager.ext.core.expense.updateExpenseUseCase
 import com.mateuszcholyn.wallet.manager.ext.getcategoriesquicksummary.getCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.manager.randomInt
 import com.mateuszcholyn.wallet.manager.validator.validate
 import org.junit.Test
 
-// TODO: write tests for category order
 class GetCategoriesCategoryQuickSummaryUseCaseTest {
 
     @Test

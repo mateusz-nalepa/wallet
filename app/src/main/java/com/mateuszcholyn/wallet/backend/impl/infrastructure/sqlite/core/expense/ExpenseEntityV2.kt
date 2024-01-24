@@ -39,7 +39,6 @@ data class ExpenseEntityV2(
     @ColumnInfo(name = "description")
     val description: String,
 
-    // TODO: użyj Instant, zamiast LocalDateTime XD
     @ColumnInfo(name = "paid_at")
     val paidAt: Instant,
 

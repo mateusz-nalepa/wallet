@@ -13,8 +13,7 @@ data class DataStoreConfig(
     val selectedTheme: String?,
 )
 
-// TODO: do not create it in composable, but inject it?
-// but actually it's very easy to use XD
+// TODO: merge all configs into one class XD
 class UserConfigProvider(
     private val context: Context,
 ) {

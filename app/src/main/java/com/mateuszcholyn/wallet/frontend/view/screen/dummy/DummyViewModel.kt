@@ -7,6 +7,8 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+// TODO: change to BackupViewModel
+// TODO: zrób żeby działał ten import i eksport
 @HiltViewModel
 class DummyViewModel @Inject constructor(
     private val allBackendServices: AllBackendServices,

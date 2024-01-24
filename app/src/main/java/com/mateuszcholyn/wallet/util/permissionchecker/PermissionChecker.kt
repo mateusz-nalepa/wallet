@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 
+// TODO: do i still need it?
 fun verifyStoragePermissions(activity: Activity) {
     // Check if we have write permission
     val permission =

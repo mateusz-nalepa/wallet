@@ -19,6 +19,7 @@ import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservice
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservice.SearchServiceEntity
 
 // TODO: write tests for it
+// maybe i should put schema to the app resources bia gradle??
 val MIGRATION_1_2 =
     object : Migration(1, 2) {
         override fun migrate(db: SupportSQLiteDatabase) {

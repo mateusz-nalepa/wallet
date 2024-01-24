@@ -1,7 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.dummy
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -27,13 +26,6 @@ import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.showLongText
 import java.util.stream.Collectors
 
-//import uploadBasic
-
-
-suspend fun zapisywaniePliku(appContext: Context) {
-//    uploadBasic(appContext)
-
-}
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable

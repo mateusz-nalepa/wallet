@@ -76,7 +76,7 @@ android {
     }
     namespace 'com.mateuszcholyn.wallet'
 
-    // TODO: main should have no access to testShared
+    // FIXME: main should have no access to testShared
     sourceSets {
         test {
             main.java.srcDirs += "$projectDir/src/testShared"
