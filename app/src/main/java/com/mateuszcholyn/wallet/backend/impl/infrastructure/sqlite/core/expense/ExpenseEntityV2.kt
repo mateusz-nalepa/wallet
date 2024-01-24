@@ -23,10 +23,6 @@ import java.time.LocalDateTime
         Index("fk_category_id", unique = false),
     ]
 )
-// TODO: fixme XD
-// warning: fk_category_id column references a foreign key but it is not part of an index.
-// This may trigger full table scans whenever parent table is modified so you are highly advised to create an index that covers
-// this column.
 data class ExpenseEntityV2(
 
     @PrimaryKey
