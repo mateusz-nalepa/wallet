@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.frontend.domain.demomode
 import android.content.Context
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.util.AppRestartService
+import com.mateuszcholyn.wallet.userConfig.demoMode.DemoModeConfig
 
 interface DemoAppSwitcher {
 
@@ -20,7 +21,8 @@ class DemoModeEnabled : DemoAppSwitcher {
         R.string.leaveDemoMode
 
     override fun switch(context: Context) {
-        AppRestartService.restart(false, context)
+        DemoModeConfig.setDemoModeFlag(context, false)
+        AppRestartService.restart(context)
     }
 }
 
@@ -33,6 +35,7 @@ class DemoModeDisabled : DemoAppSwitcher {
         R.string.startDemoMode
 
     override fun switch(context: Context) {
-        AppRestartService.restart(true, context)
+        DemoModeConfig.setDemoModeFlag(context, true)
+        AppRestartService.restart(context)
     }
 }

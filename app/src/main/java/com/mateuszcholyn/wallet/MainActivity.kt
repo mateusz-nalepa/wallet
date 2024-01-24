@@ -16,7 +16,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.mateuszcholyn.wallet.frontend.view.skeleton.MainScreen
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.userConfig.UserConfigProvider
-import com.mateuszcholyn.wallet.userConfig.demoMode.DemoModeStaticConfig
 import com.mateuszcholyn.wallet.userConfig.theme.LocalWalletThemeComposition
 import com.mateuszcholyn.wallet.userConfig.theme.WalletThemeSelectedByUser
 import com.mateuszcholyn.wallet.userConfig.theme.resolveThemeColors
@@ -32,8 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DemoModeStaticConfig.setApplicationDemoModeFlagFrom(intent)
-
         verifyStoragePermissions(this)
 
         installSplashScreen().setKeepOnScreenCondition {
