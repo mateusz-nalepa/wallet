@@ -5,8 +5,8 @@ import androidx.core.content.edit
 
 /*
   This class is used only in:
-  -> MainActivity to invoke setApplicationDemoModeFlagFrom
-  -> DemoAppSwitcherModule to invoke isDemoModeEnabled
+  -> DemoAppSwitcherModule to get actual mode
+  -> DemoAppSwitcher implementations to switch between demo / regular mode
   In other places you should use: DemoAppSwitcher bean
  */
 object DemoModeConfig {
