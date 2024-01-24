@@ -9,18 +9,22 @@ import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
+const val EXPENSES_TABLE_NAME = "expenses"
+
+const val EXPENSES_FK_CATEGORY_ID_NAME = "fk_category_id"
+
 @Entity(
-    tableName = "expenses",
+    tableName = EXPENSES_TABLE_NAME,
     foreignKeys = [
         ForeignKey(
             entity = CategoryEntityV2::class,
             parentColumns = arrayOf("category_id"),
-            childColumns = arrayOf("fk_category_id")
+            childColumns = arrayOf(EXPENSES_FK_CATEGORY_ID_NAME)
         )
     ],
     indices = [
         Index("expense_id", unique = true),
-        Index("fk_category_id", unique = false),
+        Index(EXPENSES_FK_CATEGORY_ID_NAME, unique = false),
     ]
 )
 data class ExpenseEntityV2(
@@ -39,6 +43,6 @@ data class ExpenseEntityV2(
     @ColumnInfo(name = "paid_at")
     val paidAt: LocalDateTime,
 
-    @ColumnInfo(name = "fk_category_id")
+    @ColumnInfo(name = EXPENSES_FK_CATEGORY_ID_NAME)
     val fkCategoryId: String,
 )
