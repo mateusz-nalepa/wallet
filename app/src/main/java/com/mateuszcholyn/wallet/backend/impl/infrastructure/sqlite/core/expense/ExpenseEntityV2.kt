@@ -19,8 +19,8 @@ import java.time.LocalDateTime
         )
     ],
     indices = [
-        // HODOR: add index for fk_category_id
         Index("expense_id", unique = true),
+        Index("fk_category_id", unique = false),
     ]
 )
 // TODO: fixme XD
