@@ -3,9 +3,14 @@ package com.mateuszcholyn.wallet.manager.ext.core.expense
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
-import com.mateuszcholyn.wallet.manager.*
+import com.mateuszcholyn.wallet.manager.ExpenseAppManager
+import com.mateuszcholyn.wallet.manager.randomAmount
+import com.mateuszcholyn.wallet.manager.randomCategoryId
+import com.mateuszcholyn.wallet.manager.randomDescription
+import com.mateuszcholyn.wallet.manager.randomExpenseId
+import com.mateuszcholyn.wallet.manager.randomPaidAt
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.Instant
 
 fun ExpenseAppManager.updateExpenseUseCase(
     scope: UpdateExpenseUseCaseScope.() -> Unit,
@@ -26,7 +31,7 @@ class UpdateExpenseUseCaseScope {
     var existingExpenseId: ExpenseId = randomExpenseId()
     var newAmount: BigDecimal = randomAmount()
     var newDescription: String = randomDescription()
-    var newPaidAt: LocalDateTime = randomPaidAt()
+    var newPaidAt: Instant = randomPaidAt()
     var newCategoryId: CategoryId = randomCategoryId()
 
     fun toExpense(): ExpenseV2 =

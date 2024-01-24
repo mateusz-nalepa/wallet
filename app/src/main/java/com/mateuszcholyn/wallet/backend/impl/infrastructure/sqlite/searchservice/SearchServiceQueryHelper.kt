@@ -3,7 +3,6 @@ package com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservic
 import com.mateuszcholyn.wallet.backend.api.searchservice.NewSort
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.BigDecimalDoubleTypeConverter.toDouble
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.LocalDateTimeConverter.toLong
 
 object SearchServiceQueryHelper {
 
@@ -25,11 +24,11 @@ object SearchServiceQueryHelper {
         }
 
         if (searchCriteria.beginDate != null) {
-            whereSections.add(" $PAID_AT_FIELD_NAME >= ${toLong(searchCriteria.beginDate)} ")
+            whereSections.add(" $PAID_AT_FIELD_NAME >= ${searchCriteria.beginDate.toEpochMilli()} ")
         }
 
         if (searchCriteria.endDate != null) {
-            whereSections.add(" $PAID_AT_FIELD_NAME <= ${toLong(searchCriteria.endDate)} ")
+            whereSections.add(" $PAID_AT_FIELD_NAME <= ${searchCriteria.endDate.toEpochMilli()} ")
         }
 
         if (searchCriteria.fromAmount != null) {

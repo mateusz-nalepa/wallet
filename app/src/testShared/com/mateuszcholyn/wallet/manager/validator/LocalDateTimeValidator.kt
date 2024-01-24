@@ -1,23 +1,22 @@
 package com.mateuszcholyn.wallet.manager.validator
 
-import com.mateuszcholyn.wallet.util.localDateTimeUtils.toLocalDateTime
-import com.mateuszcholyn.wallet.util.localDateTimeUtils.toMillis
-import java.time.LocalDateTime
+import java.time.Instant
 
 object LocalDateTimeValidator {
 
-    fun assertLocalDateTime(
-        actual: LocalDateTime,
-        expected: LocalDateTime,
+
+    fun assertInstant(
+        actual: Instant,
+        expected: Instant,
         messageProvider: () -> Any = { }
     ) {
-        /**
-         * When saving to DB only seconds are saved and nano precision is lost
-         */
-        val actualWithoutPrecision = actual.toMillis().toLocalDateTime()
-        val expectedWithoutPrecision = expected.toMillis().toLocalDateTime()
+//        /**
+//         * When saving to DB only seconds are saved and nano precision is lost
+//         */
+        val actualWithoutPrecision = actual.toEpochMilli()
+        val expectedWithoutPrecision = expected.toEpochMilli()
 
-        assert(expectedWithoutPrecision == actualWithoutPrecision) {
+        assert(actualWithoutPrecision == expectedWithoutPrecision) {
             messageProvider.invoke()
         }
 

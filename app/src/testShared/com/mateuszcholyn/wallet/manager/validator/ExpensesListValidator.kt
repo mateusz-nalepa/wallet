@@ -5,10 +5,10 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchServiceResult
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.manager.ExpenseScope
-import com.mateuszcholyn.wallet.manager.validator.LocalDateTimeValidator.assertLocalDateTime
+import com.mateuszcholyn.wallet.manager.validator.LocalDateTimeValidator.assertInstant
 import java.math.BigDecimal
 import java.math.RoundingMode
-import java.time.LocalDateTime
+import java.time.Instant
 
 
 fun SearchServiceResult.validate(validateBlock: SimpleExpensesListValidator.() -> Unit) {
@@ -64,8 +64,8 @@ class SimpleSingleExpenseAddedEventValidator(
         idEqualTo(expenseScope.expenseId)
     }
 
-    fun paidAtEqualTo(expectedPaidAt: LocalDateTime) {
-        assertLocalDateTime(searchSingleResult.paidAt, expectedPaidAt) {
+    fun paidAtEqualTo(expectedPaidAt: Instant) {
+        assertInstant(searchSingleResult.paidAt, expectedPaidAt) {
             "Expense with index $expenseIndex should have paid at equal to: $expectedPaidAt. " +
                     "Actual: ${searchSingleResult.paidAt}"
         }

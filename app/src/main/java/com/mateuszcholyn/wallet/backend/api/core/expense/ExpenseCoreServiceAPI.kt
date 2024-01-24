@@ -2,7 +2,7 @@ package com.mateuszcholyn.wallet.backend.api.core.expense
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.Instant
 
 interface ExpenseCoreServiceAPI {
     fun add(addExpenseParameters: AddExpenseParameters): ExpenseV2
@@ -16,7 +16,7 @@ interface ExpenseCoreServiceAPI {
 data class AddExpenseParameters(
     val amount: BigDecimal,
     val description: String,
-    val paidAt: LocalDateTime,
+    val paidAt: Instant,
     val categoryId: CategoryId
 )
 
@@ -28,7 +28,7 @@ data class ExpenseV2(
     val expenseId: ExpenseId,
     val amount: BigDecimal,
     val description: String,
-    val paidAt: LocalDateTime,
+    val paidAt: Instant,
     val categoryId: CategoryId
 )
 
@@ -36,7 +36,7 @@ data class ExpenseV2WithCategory(
     val expenseId: ExpenseId,
     val amount: BigDecimal,
     val description: String,
-    val paidAt: LocalDateTime,
+    val paidAt: Instant,
     val categoryId: CategoryId,
     val categoryName: String,
 )

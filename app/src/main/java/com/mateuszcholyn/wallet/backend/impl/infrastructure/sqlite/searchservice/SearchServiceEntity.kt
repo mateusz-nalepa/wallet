@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.Instant
 
 const val SEARCH_SERVICE_TABLE_NAME = "search_service"
 
@@ -37,7 +37,7 @@ data class SearchServiceEntity(
     val amount: BigDecimal,
 
     @ColumnInfo(name = PAID_AT_FIELD_NAME)
-    val paidAt: LocalDateTime,
+    val paidAt: Instant,
 
     @ColumnInfo(name = DESCRIPTION_FIELD_NAME)
     val description: String,

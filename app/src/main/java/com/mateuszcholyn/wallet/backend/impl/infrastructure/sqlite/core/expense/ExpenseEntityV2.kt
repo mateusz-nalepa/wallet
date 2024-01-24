@@ -7,7 +7,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.CategoryEntityV2
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.Instant
 
 const val EXPENSES_TABLE_NAME = "expenses"
 
@@ -41,7 +41,7 @@ data class ExpenseEntityV2(
 
     // TODO: użyj Instant, zamiast LocalDateTime XD
     @ColumnInfo(name = "paid_at")
-    val paidAt: LocalDateTime,
+    val paidAt: Instant,
 
     @ColumnInfo(name = EXPENSES_FK_CATEGORY_ID_NAME)
     val fkCategoryId: String,

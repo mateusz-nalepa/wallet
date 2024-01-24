@@ -6,7 +6,7 @@ import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchServiceResult
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.Instant
 
 fun ExpenseAppManager.searchServiceUseCase(
     initBlock: SearchCriteriaScope.() -> Unit,
@@ -24,8 +24,8 @@ fun ExpenseAppManager.searchServiceUseCase(
 }
 
 class SearchCriteriaScope {
-    var beginDate: LocalDateTime? = null
-    var endDate: LocalDateTime? = null
+    var beginDate: Instant? = null
+    var endDate: Instant? = null
     var categoryId: CategoryId? = null
     var fromAmount: BigDecimal? = null
     var toAmount: BigDecimal? = null

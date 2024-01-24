@@ -20,6 +20,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.addoreditexpense.CategoryVi
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import com.mateuszcholyn.wallet.frontend.view.util.toDoubleOrDefaultZero
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -140,8 +141,8 @@ class SummaryViewModel @Inject constructor(
 private fun SummarySearchForm.toSearchCriteria(): SearchCriteria =
     SearchCriteria(
         categoryId = selectedCategory.categoryId?.let { CategoryId(it) },
-        beginDate = selectedQuickRangeData.beginDate,
-        endDate = selectedQuickRangeData.endDate,
+        beginDate = selectedQuickRangeData.beginDate?.fromUserLocalTimeZoneToUTCInstant(),
+        endDate = selectedQuickRangeData.endDate?.fromUserLocalTimeZoneToUTCInstant(),
         fromAmount = amountRangeStart.toDoubleOrDefaultZero().toBigDecimal(),
         toAmount = amountRangeEnd.toDoubleOrDefaultZero().toBigDecimal(),
         sort = selectedSortElement.sort,

@@ -4,7 +4,7 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.today
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.Instant
 
 class ExpenseAppManagerScope {
 
@@ -36,5 +36,5 @@ class ExpenseScope {
     lateinit var expenseId: ExpenseId
     var amount: BigDecimal = randomAmount()
     var description: String = randomDescription()
-    var paidAt: LocalDateTime = today()
+    var paidAt: Instant = today()
 }

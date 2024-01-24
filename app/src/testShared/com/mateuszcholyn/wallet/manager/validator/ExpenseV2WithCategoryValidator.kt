@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.manager.validator
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2WithCategory
 import com.mateuszcholyn.wallet.manager.CategoryScope
 import com.mateuszcholyn.wallet.manager.ExpenseScope
-import com.mateuszcholyn.wallet.manager.validator.LocalDateTimeValidator.assertLocalDateTime
+import com.mateuszcholyn.wallet.manager.validator.LocalDateTimeValidator.assertInstant
 
 fun ExpenseV2WithCategory.validate(
     validateBlock: ExpenseV2WithCategoryValidator.() -> Unit,
@@ -41,7 +41,7 @@ class ExpenseV2WithCategoryValidator(
                     "Actual: ${expenseV2WithCategory.description}"
         }
 
-        assertLocalDateTime(expenseV2WithCategory.paidAt, expenseScope.paidAt) {
+        assertInstant(expenseV2WithCategory.paidAt, expenseScope.paidAt) {
             "Expected paidAt is: ${expenseScope.paidAt}. " +
                     "Actual: ${expenseV2WithCategory.paidAt}"
         }

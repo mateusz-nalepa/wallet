@@ -5,6 +5,7 @@ import com.mateuszcholyn.wallet.manager.category
 import com.mateuszcholyn.wallet.manager.expense
 import com.mateuszcholyn.wallet.manager.ext.searchservice.searchServiceUseCase
 import com.mateuszcholyn.wallet.manager.validator.validate
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.minusDays
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.minusIntDays
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.today
 import dagger.hilt.android.testing.HiltAndroidTest

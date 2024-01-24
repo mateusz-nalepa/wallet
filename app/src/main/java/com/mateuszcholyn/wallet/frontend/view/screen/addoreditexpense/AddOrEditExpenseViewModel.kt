@@ -19,6 +19,8 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.UpdateExpen
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.toCategoryView
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.asFormattedAmount
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -103,7 +105,7 @@ class AddOrEditExpenseViewModel @Inject constructor(
             AddExpenseParameters(
                 amount = addOrEditExpenseFormState.value.amount.toBigDecimal(),
                 description = addOrEditExpenseFormState.value.description,
-                paidAt = addOrEditExpenseFormState.value.paidAt,
+                paidAt = addOrEditExpenseFormState.value.paidAt.fromUserLocalTimeZoneToUTCInstant(),
                 categoryId = CategoryId(addOrEditExpenseFormState.value.category.categoryId!!)
             )
         addExpenseUseCase.invoke(addExpenseParameters)
@@ -119,7 +121,7 @@ class AddOrEditExpenseViewModel @Inject constructor(
                 AddExpenseParameters(
                     amount = addOrEditExpenseFormState.value.amount.toBigDecimal(),
                     description = addOrEditExpenseFormState.value.description,
-                    paidAt = addOrEditExpenseFormState.value.paidAt,
+                    paidAt = addOrEditExpenseFormState.value.paidAt.fromUserLocalTimeZoneToUTCInstant(),
                     categoryId = CategoryId(addOrEditExpenseFormState.value.category.categoryId!!)
                 )
             addExpenseUseCase.invoke(addExpenseParameters)
@@ -130,7 +132,7 @@ class AddOrEditExpenseViewModel @Inject constructor(
                     amount = addOrEditExpenseFormState.value.amount.toBigDecimal(),
                     description = addOrEditExpenseFormState.value.description,
                     categoryId = CategoryId(addOrEditExpenseFormState.value.category.categoryId!!),
-                    paidAt = addOrEditExpenseFormState.value.paidAt,
+                    paidAt = addOrEditExpenseFormState.value.paidAt.fromUserLocalTimeZoneToUTCInstant(),
                 )
             updateExpenseUseCase.invoke(updatedExpense)
         }
@@ -147,7 +149,7 @@ class AddOrEditExpenseViewModel @Inject constructor(
                     amount = expense.amount.asFormattedAmount().toString(),
                     description = expense.description,
                     category = expense.toCategoryView(),
-                    paidAt = expense.paidAt,
+                    paidAt = expense.paidAt.fromUTCInstantToUserLocalTimeZone(),
                 )
                 _addOrEditExpenseScreenState.value = AddOrEditExpenseScreenState.Show
             } catch (t: Throwable) {

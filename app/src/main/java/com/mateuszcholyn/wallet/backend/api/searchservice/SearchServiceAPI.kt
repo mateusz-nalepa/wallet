@@ -6,13 +6,13 @@ import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseAddedEve
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRemovedEvent
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseUpdatedEvent
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.Instant
 
 
 data class SearchCriteria(
     val categoryId: CategoryId? = null,
-    val beginDate: LocalDateTime? = null,
-    val endDate: LocalDateTime? = null,
+    val beginDate: Instant? = null,
+    val endDate: Instant? = null,
     val fromAmount: BigDecimal? = null,
     val toAmount: BigDecimal? = null,
     val sort: NewSort = NewSort(NewSort.Field.DATE, NewSort.Order.DESC)
@@ -37,7 +37,7 @@ data class SearchSingleResult(
     val categoryId: CategoryId,
     val categoryName: String,
     val amount: BigDecimal,
-    val paidAt: LocalDateTime,
+    val paidAt: Instant,
     val description: String,
 )
 

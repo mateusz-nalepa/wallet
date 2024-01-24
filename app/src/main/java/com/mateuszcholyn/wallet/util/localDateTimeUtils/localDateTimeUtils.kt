@@ -1,7 +1,12 @@
 package com.mateuszcholyn.wallet.util.localDateTimeUtils
 
-import java.time.*
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 private val simpleDateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 private val textDateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
@@ -19,30 +24,63 @@ fun LocalDateTime.toHumanDateText(): String =
 fun LocalDateTime.toHumanMonthAndYear(): String =
     monthAndYearDateFormat.format(this)
 
-fun Long.toLocalDateTime(): LocalDateTime =
-    Instant.ofEpochMilli(this).atZone(ZoneOffset.UTC).toLocalDateTime();
 
-fun LocalDateTime.toMillis(): Long =
-    this.toInstant(ZoneOffset.UTC).toEpochMilli()
+fun Long.toInstant(): Instant =
+    Instant.ofEpochMilli(this)
+
+fun Instant.plusIntDays(days: Int): Instant =
+    this.plus(days.toLong(), ChronoUnit.DAYS)
+
+fun Instant.minusIntDays(days: Int): Instant =
+    this.minusDays(days.toLong())
+
+fun today(): Instant =
+    Instant.now()
+
+fun Instant.minusDays(days: Long): Instant =
+    this.fromUTCInstantToUserLocalTimeZone()
+        .minusDays(days)
+        .fromUserLocalTimeZoneToUTCInstant()
+
+fun Instant.plusDays(days: Long): Instant =
+    this.fromUTCInstantToUserLocalTimeZone()
+        .plusDays(days)
+        .fromUserLocalTimeZoneToUTCInstant()
+
+fun Instant.atStartOfTheDay(): Instant =
+    fromUTCInstantToUserLocalTimeZone()
+        .atStartOfTheDay()
+        .fromUserLocalTimeZoneToUTCInstant()
 
 fun LocalDateTime.atStartOfTheDay(): LocalDateTime =
     LocalDateTime.of(this.toLocalDate(), LocalTime.MIN)
 
-fun LocalDateTime.atEndOfTheDay(): LocalDateTime =
-    LocalDateTime.of(this.toLocalDate(), LocalTime.MAX)
+fun Instant.atStartOfTheMonth(): Instant =
+    fromUTCInstantToUserLocalTimeZone()
+        .atStartOfTheMonth()
+        .fromUserLocalTimeZoneToUTCInstant()
 
 fun LocalDateTime.atStartOfTheMonth(): LocalDateTime =
     LocalDateTime.of(LocalDate.of(this.year, this.monthValue, 1), LocalTime.MIN)
 
-fun LocalDateTime.plusIntDays(days: Int): LocalDateTime =
-    this.plusDays(days.toLong())
+fun LocalDateTime.atEndOfTheDay(): LocalDateTime =
+    LocalDateTime.of(this.toLocalDate(), LocalTime.MAX)
 
-fun LocalDateTime.minusIntDays(days: Int): LocalDateTime =
-    this.minusDays(days.toLong())
+fun Instant.atEndOfTheDay(): Instant =
+    fromUTCInstantToUserLocalTimeZone()
+        .atEndOfTheDay()
+        .fromUserLocalTimeZoneToUTCInstant()
 
-fun today(): LocalDateTime =
-    LocalDateTime.now()
+fun Instant.fromUTCInstantToUserLocalTimeZone(): LocalDateTime =
+    LocalDateTime.ofInstant(this, userZone())
 
-fun oneWeekAgo(): LocalDateTime =
-    LocalDateTime.now().minusIntDays(7)
+fun LocalDateTime.fromUserLocalTimeZoneToUTCInstant(): Instant =
+    this
+        .toInstant(
+            userZone().rules.getOffset(
+                Instant.now(),
+            )
+        )
 
+private fun userZone(): ZoneId =
+    ZoneId.systemDefault()

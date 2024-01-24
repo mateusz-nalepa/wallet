@@ -5,14 +5,14 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.NewSort
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.Instant
 
 
 data class SearchSingleResultRepo(
     val expenseId: ExpenseId,
     val categoryId: CategoryId,
     val amount: BigDecimal,
-    val paidAt: LocalDateTime,
+    val paidAt: Instant,
     val description: String,
 )
 
@@ -63,7 +63,7 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
             this
         } else {
             filter {
-                it.paidAt.isAfter(searchCriteria.beginDate) || it.paidAt.isEqual(searchCriteria.beginDate)
+                it.paidAt.isAfter(searchCriteria.beginDate) || it.paidAt == searchCriteria.beginDate
             }
         }
 
@@ -72,7 +72,7 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
             this
         } else {
             filter {
-                it.paidAt.isBefore(searchCriteria.endDate) || it.paidAt.isEqual(searchCriteria.endDate)
+                it.paidAt.isBefore(searchCriteria.endDate) || it.paidAt == searchCriteria.endDate
             }
         }
 

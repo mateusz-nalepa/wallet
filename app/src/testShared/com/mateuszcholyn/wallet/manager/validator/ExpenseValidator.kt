@@ -4,9 +4,9 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
-import com.mateuszcholyn.wallet.manager.validator.LocalDateTimeValidator.assertLocalDateTime
+import com.mateuszcholyn.wallet.manager.validator.LocalDateTimeValidator.assertInstant
 import java.math.BigDecimal
-import java.time.LocalDateTime
+import java.time.Instant
 
 fun ExpenseAppManager.validate(
     expenseId: ExpenseId,
@@ -25,8 +25,8 @@ fun ExpenseV2.validate(validateBlock: SimpleExpenseValidator.() -> Unit) {
 class SimpleExpenseValidator(
     private val expense: ExpenseV2,
 ) {
-    fun paidAtEqualTo(expectedPaidAt: LocalDateTime) {
-        assertLocalDateTime(expense.paidAt, expectedPaidAt) {
+    fun paidAtEqualTo(expectedPaidAt: Instant) {
+        assertInstant(expense.paidAt, expectedPaidAt) {
             "Expected paidAt should be: $expectedPaidAt. Actual: ${expense.paidAt}"
         }
     }

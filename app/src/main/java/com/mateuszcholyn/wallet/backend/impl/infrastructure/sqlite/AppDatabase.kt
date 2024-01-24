@@ -8,7 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.categoriesquicksummary.CategoriesQuickSummaryDao
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.categoriesquicksummary.CategoriesQuickSummaryEntity
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.BigDecimalDoubleTypeConverter
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.LocalDateTimeConverter
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.CategoryEntityV2
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.CategoryV2Dao
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense.EXPENSES_FK_CATEGORY_ID_NAME
@@ -37,7 +37,7 @@ val MIGRATION_1_2 =
 )
 @TypeConverters(
     value = [
-        LocalDateTimeConverter::class,
+        InstantConverter::class,
         BigDecimalDoubleTypeConverter::class,
     ],
 )

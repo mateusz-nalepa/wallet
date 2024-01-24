@@ -6,6 +6,7 @@ import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.atEndOfTheDay
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.atStartOfTheDay
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.atStartOfTheMonth
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.minusDays
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.plusIntDays
 import java.math.BigDecimal
 import java.math.RoundingMode

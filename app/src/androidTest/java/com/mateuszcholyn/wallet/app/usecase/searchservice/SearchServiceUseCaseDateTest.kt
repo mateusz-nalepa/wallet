@@ -7,6 +7,8 @@ import com.mateuszcholyn.wallet.manager.ext.searchservice.searchServiceUseCase
 import com.mateuszcholyn.wallet.manager.validator.validate
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.atEndOfTheDay
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.atStartOfTheDay
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.minusDays
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.plusDays
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.today
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
