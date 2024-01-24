@@ -19,6 +19,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.summary.advancedFilters.Adv
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.expenseslist.SummaryExpensesList
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
+// TODO: dodaj modala jak jest tryb demo, co i jak XD
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
