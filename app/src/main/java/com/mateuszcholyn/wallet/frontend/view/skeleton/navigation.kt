@@ -11,7 +11,7 @@ import androidx.navigation.navArgument
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.screen.addoreditexpense.NewAddOrEditExpenseScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.category.NewCategoryScreen
-import com.mateuszcholyn.wallet.frontend.view.screen.dummy.DummyScreen
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.BackupDataScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.settings.SettingsScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.NewSummaryScreen
 import com.mateuszcholyn.wallet.frontend.view.wellness.WellnessScreenRunner
@@ -82,7 +82,7 @@ fun Navigation(
             WellnessScreenRunner()
         }
         composable(NavDrawerItem.Dummy.route) {
-            DummyScreen()
+            BackupDataScreen()
         }
     }
 }

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.mateuszcholyn.wallet.frontend.infrastructure.util.createNewIfNotExists
 import com.mateuszcholyn.wallet.frontend.infrastructure.util.mediaIsNotMounted
 import com.mateuszcholyn.wallet.frontend.infrastructure.util.toFile
-import com.mateuszcholyn.wallet.frontend.view.screen.dummy.SaveAllExpensesV2WithCategoriesV2Model
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.SaveAllExpensesV2WithCategoriesV2Model
 import com.mateuszcholyn.wallet.frontend.view.util.showLongText
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanText
 import java.io.File

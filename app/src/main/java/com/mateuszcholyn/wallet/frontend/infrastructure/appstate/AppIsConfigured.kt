@@ -5,6 +5,7 @@ import com.mateuszcholyn.wallet.frontend.domain.appstate.AppIsConfigured
 import com.mateuszcholyn.wallet.frontend.domain.demomode.DemoModeInitializer
 
 
+// TODO: popraw ogólnie wszystkie błędy kompilacji
 class HiltAppIsConfigured(
     allBackendServices: AllBackendServices,
     demoModeInitializer: DemoModeInitializer,

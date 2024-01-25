@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.dummy
+package com.mateuszcholyn.wallet.frontend.view.screen.backup
 
 import androidx.lifecycle.ViewModel
 import com.mateuszcholyn.wallet.backend.api.AllBackendServices
@@ -10,7 +10,7 @@ import javax.inject.Inject
 // TODO: change to BackupViewModel
 // TODO: zrób żeby działał ten import i eksport
 @HiltViewModel
-class DummyViewModel @Inject constructor(
+class BackupDataModel @Inject constructor(
     private val allBackendServices: AllBackendServices,
 ) : ViewModel() {
 

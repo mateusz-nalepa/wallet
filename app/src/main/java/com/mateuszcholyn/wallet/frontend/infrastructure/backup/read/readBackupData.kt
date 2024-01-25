@@ -5,7 +5,7 @@ import com.mateuszcholyn.wallet.backend.api.AllBackendServices
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
-import com.mateuszcholyn.wallet.frontend.view.screen.dummy.SaveAllExpensesV2WithCategoriesV2Model
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.SaveAllExpensesV2WithCategoriesV2Model
 
 
 private data class BackupCategory(
@@ -23,7 +23,10 @@ fun readBackupData(
     allBackendServices.expenseCoreServiceAPI.removeAll()
     allBackendServices.categoryCoreServiceAPI.removeAll()
 
-    val allExpenses = objectMapper.readValue(ALL_EXPENSES_AS_JSON, SaveAllExpensesV2WithCategoriesV2Model::class.java)
+    val allExpenses = objectMapper.readValue(
+        ALL_EXPENSES_AS_JSON,
+        SaveAllExpensesV2WithCategoriesV2Model::class.java
+    )
 
     val categoriesWithBackups =
         allExpenses
