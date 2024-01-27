@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.categoriesquicksummary.CategoriesQuickSummaryDao
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.categoriesquicksummary.CategoriesQuickSummaryEntity
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.BigDecimalDoubleTypeConverter
@@ -47,4 +48,7 @@ abstract class AppDatabaseV2 : RoomDatabase() {
     abstract fun categoryV2Dao(): CategoryV2Dao
     abstract fun expenseV2Dao(): ExpenseV2Dao
     abstract fun searchServiceDao(): SearchServiceDao
+
+    fun getSQLiteDB(): SupportSQLiteOpenHelper =
+        openHelper
 }

@@ -4,6 +4,7 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
 
+// TODO: pousuwaj wszędzie te `V2` gdzie nie są naprawde potrzebne XDD
 interface ExpenseRepositoryV2 {
     fun save(
         expense: ExpenseV2,

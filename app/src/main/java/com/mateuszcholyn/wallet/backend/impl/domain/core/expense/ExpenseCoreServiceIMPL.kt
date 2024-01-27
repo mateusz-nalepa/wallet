@@ -1,14 +1,43 @@
 package com.mateuszcholyn.wallet.backend.impl.domain.core.expense
 
+import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
-import com.mateuszcholyn.wallet.backend.api.core.expense.*
+import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
+import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
+import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
+import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
+import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2WithCategory
 import com.mateuszcholyn.wallet.util.randomuuid.randomUUID
+
+
+interface TransactionManager {
+    fun <T> executeInTransaction(block: () -> T): T
+}
+
+class DefaultTransactionManager(
+    private val dbHelper: SupportSQLiteOpenHelper,
+) : TransactionManager {
+    override fun <T> executeInTransaction(block: () -> T): T {
+        val db = dbHelper.writableDatabase
+        db.beginTransaction()
+        try {
+            val result = block.invoke()
+            db.setTransactionSuccessful()
+            return result
+        } catch (e: Exception) {
+            throw e
+        } finally {
+            db.endTransaction()
+        }
+    }
+}
 
 
 class ExpenseCoreServiceIMPL(
     private val expenseRepositoryFacade: ExpenseRepositoryFacade,
     private val expensePublisher: ExpensePublisher,
     private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
+//    private val transactionManager: TransactionManager,
 ) : ExpenseCoreServiceAPI {
     // TODO: ogólnie tutaj powinna być ta transakcja XD
     override fun add(addExpenseParameters: AddExpenseParameters): ExpenseV2 =

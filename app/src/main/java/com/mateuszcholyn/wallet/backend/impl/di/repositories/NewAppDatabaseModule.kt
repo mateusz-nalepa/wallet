@@ -19,11 +19,12 @@ object NewAppDatabaseModule {
     @Provides
     @Singleton
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabaseV2 =
-        Room.databaseBuilder(
-            context,
-            AppDatabaseV2::class.java,
-            "wallet_database.db",
-        )
+        Room
+            .databaseBuilder(
+                context,
+                AppDatabaseV2::class.java,
+                "wallet_database.db",
+            )
             .allowMainThreadQueries() // HODOR this should be fixed!!
             .addMigrations(
                 MIGRATION_1_2,
