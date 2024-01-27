@@ -10,6 +10,7 @@ class ExpenseCoreServiceIMPL(
     private val expensePublisher: ExpensePublisher,
     private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
 ) : ExpenseCoreServiceAPI {
+    // TODO: ogólnie tutaj powinna być ta transakcja XD
     override fun add(addExpenseParameters: AddExpenseParameters): ExpenseV2 =
         addExpenseParameters
             .toNewExpense()
