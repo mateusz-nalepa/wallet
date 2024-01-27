@@ -5,6 +5,7 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
+import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
 import com.mateuszcholyn.wallet.frontend.domain.usecase.UseCase
 import com.mateuszcholyn.wallet.frontend.infrastructure.backup.read.SavedCategoryFromDb
@@ -15,6 +16,7 @@ data class ImportV1Parameters(
     val removeAllBeforeImport: Boolean,
 )
 
+// TODO: dodaj podsumowanie po imporcie XD
 class ImportV1UseCase(
     private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
     private val expenseCoreServiceAPI: ExpenseCoreServiceAPI,
@@ -28,23 +30,36 @@ class ImportV1UseCase(
 
         val savedCategoriesFromDb =
             categoriesFromBackup
-                .map { backupCategory -> getOrCreateCategoryByName(backupCategory) }
+                .map { backupCategory -> getOrCreateCategoryById(backupCategory) }
 
         importV1Parameters
             .backupWalletV1
             .expenses
-            .forEach { backupExpenseV1 -> addExpense(savedCategoriesFromDb, backupExpenseV1) }
+            .forEach { backupExpenseV1 -> addExpenseOrIgnoreIfExpenseIdIsPresent(savedCategoriesFromDb, backupExpenseV1) }
 
         println(importV1Parameters)
     }
 
-    private fun getOrCreateCategoryByName(
+    private fun getOrCreateCategoryById(
         backupCategoryV1: BackupWalletV1.BackupCategoryV1,
     ): SavedCategoryFromDb {
 
+        if (categoryCoreServiceAPI.getById(CategoryId(backupCategoryV1.id)) != null) {
+            return SavedCategoryFromDb(
+                categoryIdFromImportFile = CategoryId(backupCategoryV1.id),
+                categoryIdFromDatabase = CategoryId(backupCategoryV1.id),
+                // TODO: ta linia wygląda na mega niepotrzebną
+                name = backupCategoryV1.name,
+            )
+        }
+
         val categoryFromDb =
-            categoryCoreServiceAPI.getByCategoryName(backupCategoryV1.name)
-                ?: categoryCoreServiceAPI.add(CreateCategoryParameters(name = backupCategoryV1.name))
+            categoryCoreServiceAPI.add(
+                CreateCategoryParameters(
+                    categoryId = CategoryId(backupCategoryV1.id),
+                    name = backupCategoryV1.name
+                )
+            )
 
         return SavedCategoryFromDb(
             categoryIdFromImportFile = CategoryId(backupCategoryV1.id),
@@ -54,12 +69,16 @@ class ImportV1UseCase(
         )
     }
 
-    private fun addExpense(
+    private fun addExpenseOrIgnoreIfExpenseIdIsPresent(
         savedCategoriesFromDb: List<SavedCategoryFromDb>,
         backupExpenseV1: BackupWalletV1.BackupExpenseV1,
     ) {
+        if (expenseCoreServiceAPI.getById(ExpenseId(backupExpenseV1.expenseId)) != null) {
+            return
+        }
 
         AddExpenseParameters(
+            expenseId = ExpenseId(backupExpenseV1.expenseId),
             amount = backupExpenseV1.amount,
             description = backupExpenseV1.description,
             paidAt = InstantConverter.toInstant(backupExpenseV1.paidAt),

@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.manager
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
+import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
 import com.mateuszcholyn.wallet.backend.impl.domain.categoriesquicksummary.CategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.categoriesquicksummary.InMemoryCategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.core.InMemoryCoreRepositoryV2
@@ -31,3 +32,9 @@ fun ExpenseAppManager.getAllCoreCategories(): List<CategoryV2> =
         .expenseAppDependencies
         .categoryRepositoryV2
         .getAllCategories()
+
+fun ExpenseAppManager.getAllCoreExpenses(): List<ExpenseV2> =
+    this
+        .expenseAppDependencies
+        .expenseRepositoryV2
+        .getAllExpenses()

@@ -10,11 +10,13 @@ interface ExpenseCoreServiceAPI {
     fun remove(expenseId: ExpenseId)
     fun getAll(): List<ExpenseV2>
     fun update(updateExpenseParameters: ExpenseV2): ExpenseV2
-    fun getByIdOrThrow(expenseId: ExpenseId): ExpenseV2WithCategory
+    fun getExpenseWithCategoryDetails(expenseId: ExpenseId): ExpenseV2WithCategory
+    fun getById(expenseId: ExpenseId): ExpenseV2?
     fun removeAll()
 }
 
 data class AddExpenseParameters(
+    val expenseId: ExpenseId? = null,
     val amount: BigDecimal,
     val description: String,
     val paidAt: Instant,

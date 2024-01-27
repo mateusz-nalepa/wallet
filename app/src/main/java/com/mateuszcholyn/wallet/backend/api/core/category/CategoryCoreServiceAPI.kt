@@ -4,8 +4,7 @@ interface CategoryCoreServiceAPI {
     fun add(createCategoryParameters: CreateCategoryParameters): CategoryV2
     fun getAll(): List<CategoryV2>
     fun getByIdOrThrow(categoryId: CategoryId): CategoryV2
-
-    fun getByCategoryName(categoryName: String): CategoryV2?
+    fun getById(categoryId: CategoryId): CategoryV2?
 
     fun remove(categoryId: CategoryId)
     fun update(updateCategoryParameters: CategoryV2): CategoryV2
@@ -13,6 +12,7 @@ interface CategoryCoreServiceAPI {
 }
 
 data class CreateCategoryParameters(
+    val categoryId: CategoryId? = null,
     val name: String,
 )
 

@@ -65,6 +65,7 @@
     <string name="cannotRemoveCategoryWithExpenses">Nie możesz usunąć kategorii w której są wydatki</string>
     <string name="updatedCategoryName">Nowa nazwa kategorii</string>
     <string name="update">Aktualizuj</string>
+    <string name="categoryAlreadyExists">Kategoria o takiej nazwie już istnieje</string>
     <string name="incorrectValue">Nieprawidłowa wartość</string>
     <string name="newCategoryName">Nazwa nowej kategorii</string>
     <string name="addCategory">Dodaj kategorię</string>

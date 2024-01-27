@@ -66,7 +66,7 @@ private fun CategoryFormStateless(
             isValueInValidFunction = {
                 categoryIsInvalid(it, categoryNamesOnly)
             },
-            valueInvalidText = stringResource(R.string.incorrectValue),
+            valueInvalidText = stringResource(R.string.categoryAlreadyExists),
             modifier = defaultModifier,
         )
         Button(

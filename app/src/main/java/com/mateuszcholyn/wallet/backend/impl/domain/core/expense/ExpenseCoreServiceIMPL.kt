@@ -68,7 +68,7 @@ class ExpenseCoreServiceIMPL(
             }
     }
 
-    override fun getByIdOrThrow(expenseId: ExpenseId): ExpenseV2WithCategory {
+    override fun getExpenseWithCategoryDetails(expenseId: ExpenseId): ExpenseV2WithCategory {
         val expense = expenseRepositoryFacade.getByIdOrThrow(expenseId)
         val category = categoryCoreServiceAPI.getByIdOrThrow(expense.categoryId)
 
@@ -82,13 +82,16 @@ class ExpenseCoreServiceIMPL(
         )
     }
 
+    override fun getById(expenseId: ExpenseId): ExpenseV2? =
+        expenseRepositoryFacade.getById(expenseId)
+
     override fun removeAll() {
         expenseRepositoryFacade.removeAll()
     }
 
     private fun AddExpenseParameters.toNewExpense(): ExpenseV2 =
         ExpenseV2(
-            expenseId = ExpenseId(randomUUID()),
+            expenseId = this.expenseId ?: ExpenseId(randomUUID()),
             amount = amount,
             description = description,
             paidAt = paidAt,

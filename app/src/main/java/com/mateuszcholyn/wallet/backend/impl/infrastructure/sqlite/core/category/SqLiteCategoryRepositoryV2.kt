@@ -23,11 +23,6 @@ class SqLiteCategoryRepositoryV2(
             .getByCategoryId(categoryId.id)
             ?.toDomain()
 
-    override fun getByCategoryName(categoryName: String): CategoryV2? =
-        categoryV2Dao
-            .getByCategoryName(categoryName)
-            ?.toDomain()
-
     override fun remove(categoryId: CategoryId, onExpensesExistAction: (CategoryId) -> Unit) {
         try {
             categoryV2Dao.remove(categoryId.id)

@@ -33,21 +33,23 @@ fun BigDecimal.minusRandomValue(): BigDecimal = this - randomAmount()
 fun BigDecimal.plusInt(int: Int): BigDecimal = this + BigDecimal(int)
 
 fun randomBackupCategoryV1(
+    categoryId: CategoryId = randomCategoryId(),
     name: String = randomCategoryName(),
 ): BackupWalletV1.BackupCategoryV1 =
     BackupWalletV1.BackupCategoryV1(
-        id = randomCategoryId().id,
+        id = categoryId.id,
         name = name,
     )
 
 fun randomBackupExpenseV1(
-    categoryId: String,
+    expenseId: ExpenseId = randomExpenseId(),
+    categoryId: CategoryId = randomCategoryId(),
 ): BackupWalletV1.BackupExpenseV1 =
     BackupWalletV1.BackupExpenseV1(
-        expenseId = randomExpenseId().id,
+        expenseId = expenseId.id,
         amount = randomAmount(),
         description = randomDescription(),
         paidAt = InstantConverter.toLong(randomPaidAt()),
-        categoryId = categoryId,
+        categoryId = categoryId.id,
     )
 

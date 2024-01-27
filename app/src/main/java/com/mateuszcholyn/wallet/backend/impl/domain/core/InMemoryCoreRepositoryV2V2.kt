@@ -33,7 +33,7 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
         return categories[categoryId]
     }
 
-    override fun getByCategoryName(categoryName: String): CategoryV2? =
+    private fun getByCategoryName(categoryName: String): CategoryV2? =
         categories
             .values
             .toList()

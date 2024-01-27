@@ -20,8 +20,11 @@ class ExpenseRepositoryFacade(
     fun getAllExpenses(): List<ExpenseV2> =
         expenseRepositoryV2.getAllExpenses()
 
-    fun getByIdOrThrow(expenseId: ExpenseId): ExpenseV2 =
+    fun getById(expenseId: ExpenseId): ExpenseV2? =
         expenseRepositoryV2.getById(expenseId)
+
+    fun getByIdOrThrow(expenseId: ExpenseId): ExpenseV2 =
+        getById(expenseId)
             ?: throw ExpenseNotFoundException(expenseId)
 
     fun remove(expenseId: ExpenseId) {

@@ -19,11 +19,11 @@ class CategoryCoreServiceIMPL(
     override fun getAll(): List<CategoryV2> =
         categoryRepositoryFacade.getAllCategories()
 
+    override fun getById(categoryId: CategoryId): CategoryV2? =
+        categoryRepositoryFacade.getById(categoryId)
+
     override fun getByIdOrThrow(categoryId: CategoryId): CategoryV2 =
         categoryRepositoryFacade.getByIdOrThrow(categoryId)
-
-    override fun getByCategoryName(categoryName: String): CategoryV2? =
-        categoryRepositoryFacade.getByCategoryName(categoryName)
 
     override fun remove(categoryId: CategoryId) {
         categoryRepositoryFacade
@@ -43,7 +43,7 @@ class CategoryCoreServiceIMPL(
 
     private fun CreateCategoryParameters.toNewCategory(): CategoryV2 =
         CategoryV2(
-            id = CategoryId(randomUUID()),
+            id = this.categoryId ?: CategoryId(randomUUID()),
             name = name,
         )
 

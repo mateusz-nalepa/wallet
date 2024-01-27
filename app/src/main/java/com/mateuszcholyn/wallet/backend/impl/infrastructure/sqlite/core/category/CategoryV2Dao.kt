@@ -23,14 +23,6 @@ interface CategoryV2Dao {
     )
     fun getByCategoryId(categoryId: String): CategoryEntityV2?
 
-    @Query(
-        """SELECT * 
-              FROM categories
-              WHERE name =:categoryName
-              """
-    )
-    fun getByCategoryName(categoryName: String): CategoryEntityV2?
-
     @Query("delete from categories where category_id = :categoryId")
     fun remove(categoryId: String): Int
 

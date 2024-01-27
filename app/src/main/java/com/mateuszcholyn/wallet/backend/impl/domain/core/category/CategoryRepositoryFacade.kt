@@ -12,12 +12,12 @@ class CategoryRepositoryFacade(
     fun getAllCategories(): List<CategoryV2> =
         categoryRepositoryV2.getAllCategories()
 
-    fun getByIdOrThrow(categoryId: CategoryId): CategoryV2 =
+    fun getById(categoryId: CategoryId): CategoryV2? =
         categoryRepositoryV2.getById(categoryId)
-            ?: throw CategoryNotFoundException(categoryId)
 
-    fun getByCategoryName(categoryName: String): CategoryV2? =
-        categoryRepositoryV2.getByCategoryName(categoryName)
+    fun getByIdOrThrow(categoryId: CategoryId): CategoryV2 =
+        getById(categoryId)
+            ?: throw CategoryNotFoundException(categoryId)
 
     fun remove(categoryId: CategoryId) {
         categoryRepositoryV2

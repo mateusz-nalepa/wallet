@@ -10,6 +10,6 @@ class GetExpenseUseCase(
 ) : UseCase {
 
     fun invoke(expenseId: ExpenseId): ExpenseV2WithCategory =
-        expenseCoreService.getByIdOrThrow(expenseId)
+        expenseCoreService.getExpenseWithCategoryDetails(expenseId)
 
 }
