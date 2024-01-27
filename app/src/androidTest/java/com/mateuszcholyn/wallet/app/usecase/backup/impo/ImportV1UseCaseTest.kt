@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.app.usecase.backup.impo
 
 import com.mateuszcholyn.wallet.app.setupintegrationtests.BaseIntegrationTest
+import com.mateuszcholyn.wallet.app.usecase.backup.assertExpenseFromImportFileEqualToExpenseFromDb
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
@@ -22,7 +23,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
-class BackupExportV1UseCaseTest : BaseIntegrationTest() {
+class ImportV1UseCaseTest : BaseIntegrationTest() {
 
     @Test
     fun shouldImportV1Data() {
@@ -41,11 +42,20 @@ class BackupExportV1UseCaseTest : BaseIntegrationTest() {
         val manager = initExpenseAppManager {}
 
         // when
-        manager.importV1UseCase {
-            backupWalletV1 = givenBackupWalletV1
-        }
+        val importSummary =
+            manager.importV1UseCase {
+                backupWalletV1 = givenBackupWalletV1
+            }
 
         // then
+        importSummary.validate {
+            numberOfInputDataMatch(givenBackupWalletV1)
+            numberOfImportedCategoriesEqualTo(1)
+            numberOfSkippedCategoriesEqualTo(0)
+            numberOfImportedExpensesEqualTo(1)
+            numberOfSkippedExpensesEqualTo(0)
+        }
+
         manager.validate {
             numberOfCoreCategoriesEqualTo(1)
             numberOfCoreExpensesEqualTo(1)
@@ -79,12 +89,20 @@ class BackupExportV1UseCaseTest : BaseIntegrationTest() {
         }
 
         // when import with parameter removeAllBeforeImport is set to true
-        manager.importV1UseCase {
-            backupWalletV1 = givenBackupWalletV1
-            removeAllBeforeImport = true
-        }
+        val importV1Summary =
+            manager.importV1UseCase {
+                backupWalletV1 = givenBackupWalletV1
+                removeAllBeforeImport = true
+            }
 
         // then
+        importV1Summary.validate {
+            numberOfInputDataMatch(givenBackupWalletV1)
+            numberOfImportedCategoriesEqualTo(1)
+            numberOfSkippedCategoriesEqualTo(0)
+            numberOfImportedExpensesEqualTo(numberOfExpensesInBackupData)
+            numberOfSkippedExpensesEqualTo(0)
+        }
         manager.validate {
             numberOfCoreExpensesEqualTo(numberOfExpensesInBackupData)
         }
@@ -111,11 +129,19 @@ class BackupExportV1UseCaseTest : BaseIntegrationTest() {
             )
 
         // when
-        manager.importV1UseCase {
-            backupWalletV1 = givenBackupWalletV1
-        }
+        val importV1Summary =
+            manager.importV1UseCase {
+                backupWalletV1 = givenBackupWalletV1
+            }
 
         // then
+        importV1Summary.validate {
+            numberOfInputDataMatch(givenBackupWalletV1)
+            numberOfImportedCategoriesEqualTo(1)
+            numberOfSkippedCategoriesEqualTo(0)
+            numberOfImportedExpensesEqualTo(0)
+            numberOfSkippedExpensesEqualTo(0)
+        }
         manager.validate {
             numberOfCoreCategoriesEqualTo(2)
         }
@@ -147,11 +173,19 @@ class BackupExportV1UseCaseTest : BaseIntegrationTest() {
 
 
         // when
-        manager.importV1UseCase {
-            backupWalletV1 = givenBackupWalletV1
-        }
+        val importV1Summary =
+            manager.importV1UseCase {
+                backupWalletV1 = givenBackupWalletV1
+            }
 
         // then
+        importV1Summary.validate {
+            numberOfInputDataMatch(givenBackupWalletV1)
+            numberOfImportedCategoriesEqualTo(0)
+            numberOfSkippedCategoriesEqualTo(1)
+            numberOfImportedExpensesEqualTo(0)
+            numberOfSkippedExpensesEqualTo(0)
+        }
         manager.validate {
             numberOfCoreCategoriesEqualTo(1)
         }
@@ -232,11 +266,19 @@ class BackupExportV1UseCaseTest : BaseIntegrationTest() {
 
 
         // when
-        manager.importV1UseCase {
-            backupWalletV1 = givenBackupWalletV1
-        }
+        val importV1Summary =
+            manager.importV1UseCase {
+                backupWalletV1 = givenBackupWalletV1
+            }
 
         // then
+        importV1Summary.validate {
+            numberOfInputDataMatch(givenBackupWalletV1)
+            numberOfImportedCategoriesEqualTo(0)
+            numberOfSkippedCategoriesEqualTo(1)
+            numberOfImportedExpensesEqualTo(0)
+            numberOfSkippedExpensesEqualTo(1)
+        }
         manager.validate {
             numberOfCoreExpensesEqualTo(1)
         }
@@ -269,20 +311,80 @@ class BackupExportV1UseCaseTest : BaseIntegrationTest() {
             )
 
         // when
-        manager.importV1UseCase {
-            backupWalletV1 = givenBackupWalletV1
-        }
+        val importV1Summary =
+            manager.importV1UseCase {
+                backupWalletV1 = givenBackupWalletV1
+            }
 
         // then
+        importV1Summary.validate {
+            numberOfInputDataMatch(givenBackupWalletV1)
+            numberOfImportedCategoriesEqualTo(0)
+            numberOfSkippedCategoriesEqualTo(1)
+            numberOfImportedExpensesEqualTo(1)
+            numberOfSkippedExpensesEqualTo(0)
+        }
         manager.validate {
             numberOfCoreExpensesEqualTo(2)
         }
         val expenseFromDb = manager.getAllCoreExpenses().last()
 
-        assertExpenseFromImportFileEqualToExpenseFromDbIgnoringExpenseId(
+        assertExpenseFromImportFileEqualToExpenseFromDb(
             givenRandomBackupExpenseV1,
             expenseFromDb,
         )
+    }
+
+    @Test
+    fun afterSecondTimeImportAllExpensedAndCategoriesShouldBeMarkedAsSkipped() {
+        // given
+        val givenRandomBackupCategoryV1 = randomBackupCategoryV1()
+
+        val givenBackupWalletV1 =
+            BackupWalletV1(
+                version = 1,
+                categories = listOf(givenRandomBackupCategoryV1),
+                expenses = listOf(
+                    randomBackupExpenseV1(
+                        categoryId = CategoryId(
+                            givenRandomBackupCategoryV1.id
+                        )
+                    )
+                ),
+            )
+
+        val manager = initExpenseAppManager {}
+
+        // when
+        val firstImportSummary =
+            manager.importV1UseCase {
+                backupWalletV1 = givenBackupWalletV1
+            }
+
+        // then
+        firstImportSummary.validate {
+            numberOfInputDataMatch(givenBackupWalletV1)
+            numberOfImportedCategoriesEqualTo(1)
+            numberOfSkippedCategoriesEqualTo(0)
+            numberOfImportedExpensesEqualTo(1)
+            numberOfSkippedExpensesEqualTo(0)
+        }
+
+        // when import again
+        val secondImportSummary =
+            manager.importV1UseCase {
+                backupWalletV1 = givenBackupWalletV1
+            }
+
+        // then
+        secondImportSummary.validate {
+            numberOfInputDataMatch(givenBackupWalletV1)
+            numberOfImportedCategoriesEqualTo(0)
+            numberOfSkippedCategoriesEqualTo(1)
+            numberOfImportedExpensesEqualTo(0)
+            numberOfSkippedExpensesEqualTo(1)
+        }
+
     }
 
 }

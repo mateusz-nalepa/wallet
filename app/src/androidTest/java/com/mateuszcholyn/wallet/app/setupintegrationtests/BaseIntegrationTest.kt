@@ -42,10 +42,9 @@ open class BaseIntegrationTest {
         )
     }
 
-    // HODOR this test shold be removed
     @Test
     fun pass() {
-        println("All Tests is not working without this XD")
+        println("Integration tests are not working without this XD")
     }
 
 }

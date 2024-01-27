@@ -1,34 +1,31 @@
 package com.mateuszcholyn.wallet.app.usecase.backup.export
 
 import com.mateuszcholyn.wallet.app.setupintegrationtests.BaseIntegrationTest
+import com.mateuszcholyn.wallet.app.usecase.backup.assertExportedCategoryEqualToCategoryFromDb
+import com.mateuszcholyn.wallet.app.usecase.backup.assertExportedExpenseEqualToExpenseFromDb
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
-import com.mateuszcholyn.wallet.manager.CategoryScope
 import com.mateuszcholyn.wallet.manager.ExpenseScope
 import com.mateuszcholyn.wallet.manager.category
 import com.mateuszcholyn.wallet.manager.expense
 import com.mateuszcholyn.wallet.manager.ext.backup.export.exportV1UseCase
+import com.mateuszcholyn.wallet.manager.getAllCoreCategories
+import com.mateuszcholyn.wallet.manager.getAllCoreExpenses
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
-class BackupExportV1UseCaseTest : BaseIntegrationTest() {
+class ExportV1UseCaseTest : BaseIntegrationTest() {
 
     @Test
     fun shouldExportV1Data() {
         // given
-        // TODO: validate exported data? XDD
-        lateinit var firstCategory: CategoryScope
-        lateinit var firstExpense: ExpenseScope
-
-        lateinit var secondCategory: CategoryScope
-        lateinit var secondExpense: ExpenseScope
         val manager =
             initExpenseAppManager {
-                firstCategory = category {
-                    firstExpense = expense {}
+                category {
+                    expense {}
                 }
-                secondCategory = category {
-                    secondExpense = expense {}
+                category {
+                    expense {}
                 }
             }
 
@@ -41,6 +38,24 @@ class BackupExportV1UseCaseTest : BaseIntegrationTest() {
             numberOfCategoriesEqualTo(2)
             numberOfExpensesEqualTo(2)
         }
+        assertExportedCategoryEqualToCategoryFromDb(
+            backupWalletV1.categories.first(),
+            manager.getAllCoreCategories().first(),
+        )
+
+        assertExportedCategoryEqualToCategoryFromDb(
+            backupWalletV1.categories.last(),
+            manager.getAllCoreCategories().last(),
+        )
+
+        assertExportedExpenseEqualToExpenseFromDb(
+            backupWalletV1.expenses.first(),
+            manager.getAllCoreExpenses().first(),
+        )
+        assertExportedExpenseEqualToExpenseFromDb(
+            backupWalletV1.expenses.last(),
+            manager.getAllCoreExpenses().last(),
+        )
     }
 
 
