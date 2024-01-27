@@ -10,7 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.file.export.fileExporter
-import com.mateuszcholyn.wallet.frontend.view.screen.backup.file.import.fileSelector
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.file.impo.fileSelector
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier

@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.backup.file.import
+package com.mateuszcholyn.wallet.frontend.view.screen.backup.file.impo
 
 import android.content.Context
 import android.net.Uri

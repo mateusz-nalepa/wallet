@@ -5,6 +5,8 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchServiceAPI
 import com.mateuszcholyn.wallet.frontend.domain.usecase.ExpenseAppUseCases
+import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.export.ExportV1UseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1UseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.CreateCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.RemoveCategoryUseCase
@@ -91,6 +93,28 @@ object HiltUseCasesModuleV2 {
 
     @Provides
     @Singleton
+    fun provideExportV1UseCase(
+        expenseCoreServiceAPI: ExpenseCoreServiceAPI,
+        categoryCoreServiceAPI: CategoryCoreServiceAPI,
+    ): ExportV1UseCase =
+        ExportV1UseCase(
+            categoryCoreServiceAPI = categoryCoreServiceAPI,
+            expenseCoreServiceAPI = expenseCoreServiceAPI,
+        )
+
+    @Provides
+    @Singleton
+    fun provideImportV1UseCase(
+        expenseCoreServiceAPI: ExpenseCoreServiceAPI,
+        categoryCoreServiceAPI: CategoryCoreServiceAPI,
+    ): ImportV1UseCase =
+        ImportV1UseCase(
+            categoryCoreServiceAPI = categoryCoreServiceAPI,
+            expenseCoreServiceAPI = expenseCoreServiceAPI,
+        )
+
+    @Provides
+    @Singleton
     fun provideExpenseAppUseCases(
         createCategoryUseCase: CreateCategoryUseCase,
         updateCategoryUseCase: UpdateCategoryUseCase,
@@ -103,6 +127,10 @@ object HiltUseCasesModuleV2 {
 
         getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
         searchServiceUseCase: SearchServiceUseCase,
+
+        // import & export
+        exportV1UseCase: ExportV1UseCase,
+        importV1UseCase: ImportV1UseCase,
     ): ExpenseAppUseCases =
         ExpenseAppUseCases(
             createCategoryUseCase = createCategoryUseCase,
@@ -116,6 +144,9 @@ object HiltUseCasesModuleV2 {
 
             getCategoriesQuickSummaryUseCase = getCategoriesQuickSummaryUseCase,
             searchServiceUseCase = searchServiceUseCase,
+
+            exportV1UseCase = exportV1UseCase,
+            importV1UseCase = importV1UseCase,
         )
 
 }

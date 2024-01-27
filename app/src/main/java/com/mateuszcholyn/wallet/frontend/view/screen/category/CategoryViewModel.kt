@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 
 sealed class CategoryState {
-    object Loading : CategoryState()
+    data object Loading : CategoryState()
     data class Success(val categorySuccessContent: CategorySuccessContent) : CategoryState()
     data class Error(val errorMessage: String) : CategoryState()
 }
@@ -73,6 +73,8 @@ class CategoryViewModel @Inject constructor(
     }
 
     fun refreshScreen() {
+        // w sumie takie coś można by wszędie dać i korytyny by działały od razu XD
+        // to tak odnośnie usuwania mainThreadQueries XD
         viewModelScope.launch {
             try {
                 _categoryState.value = CategoryState.Loading

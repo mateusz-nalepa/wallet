@@ -11,7 +11,7 @@ fun ExpenseAppManager.validate(
 class ExpenseAppManagerValidator(
     private val expenseAppManager: ExpenseAppManager
 ) {
-    fun numberOfExpensesInExpenseCoreEqualTo(expectedNumberOfExpenses: Int) {
+    fun numberOfCoreExpensesEqualTo(expectedNumberOfExpenses: Int) {
         val actualNumberOfExpenses =
             expenseAppManager
                 .expenseAppDependencies
@@ -23,4 +23,18 @@ class ExpenseAppManagerValidator(
             "Expected number of expenses should be: $expectedNumberOfExpenses. Actual: $actualNumberOfExpenses"
         }
     }
+
+    fun numberOfCoreCategoriesEqualTo(expectedNumberOfCategories: Int) {
+        val actualNumberOfCategories =
+            expenseAppManager
+                .expenseAppDependencies
+                .categoryRepositoryV2
+                .getAllCategories()
+                .size
+
+        assert(actualNumberOfCategories == expectedNumberOfCategories) {
+            "Expected number of expenses should be: $expectedNumberOfCategories. Actual: $actualNumberOfCategories"
+        }
+    }
+
 }

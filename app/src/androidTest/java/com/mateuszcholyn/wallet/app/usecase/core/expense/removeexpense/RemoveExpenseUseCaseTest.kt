@@ -39,7 +39,7 @@ class RemoveExpenseUseCaseTest : BaseIntegrationTest() {
             statusEqualTo(ExpenseRemovedStatus.SUCCESS)
         }
         manager.validate {
-            numberOfExpensesInExpenseCoreEqualTo(0)
+            numberOfCoreExpensesEqualTo(0)
         }
     }
 
