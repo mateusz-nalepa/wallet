@@ -14,8 +14,15 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
     private val expenses: MutableMap<ExpenseId, ExpenseV2> = ConcurrentHashMap()
 
     override fun save(category: CategoryV2): CategoryV2 {
+        ensureCategoryNameIsUnique(category)
         categories[category.id] = category
         return category
+    }
+
+    private fun ensureCategoryNameIsUnique(category: CategoryV2) {
+        if (getByCategoryName(category.name) != null) {
+            throw IllegalStateException("Category with name: ${category.name} is already present")
+        }
     }
 
     override fun getAllCategories(): List<CategoryV2> {
@@ -25,6 +32,12 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
     override fun getById(categoryId: CategoryId): CategoryV2? {
         return categories[categoryId]
     }
+
+    override fun getByCategoryName(categoryName: String): CategoryV2? =
+        categories
+            .values
+            .toList()
+            .firstOrNull { it.name == categoryName }
 
     override fun remove(
         categoryId: CategoryId,

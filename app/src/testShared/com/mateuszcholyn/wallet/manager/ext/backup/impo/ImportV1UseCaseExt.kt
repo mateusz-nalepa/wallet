@@ -22,9 +22,11 @@ fun ExpenseAppManager.importV1UseCase(
 
 class ImportV1ParametersScope {
     lateinit var backupWalletV1: BackupWalletV1
+    var removeAllBeforeImport: Boolean = false
 
     fun toV1Parameters(): ImportV1Parameters =
         ImportV1Parameters(
             backupWalletV1 = backupWalletV1,
+            removeAllBeforeImport = removeAllBeforeImport,
         )
 }

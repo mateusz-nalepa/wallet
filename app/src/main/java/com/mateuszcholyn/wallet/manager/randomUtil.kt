@@ -2,6 +2,8 @@ package com.mateuszcholyn.wallet.manager
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
 import com.mateuszcholyn.wallet.util.randomuuid.randomUUID
 import java.math.BigDecimal
@@ -11,6 +13,7 @@ import java.util.Random
 
 fun randomCategoryId(): CategoryId = CategoryId("categoryId-${randomUUID()}")
 fun randomCategoryName(): String = "categoryName-${randomUUID()}"
+
 // from 5 to 25??
 fun randomAmount(): BigDecimal = BigDecimal.valueOf(Random().nextInt(20) + 5.toLong().toDouble())
 fun randomDescription(): String = "description-${randomUUID()}"
@@ -28,3 +31,23 @@ fun randomExpenseId(): ExpenseId = ExpenseId("expenseId-${randomUUID()}")
 fun BigDecimal.plusRandomValue(): BigDecimal = this + randomAmount()
 fun BigDecimal.minusRandomValue(): BigDecimal = this - randomAmount()
 fun BigDecimal.plusInt(int: Int): BigDecimal = this + BigDecimal(int)
+
+fun randomBackupCategoryV1(
+    name: String = randomCategoryName(),
+): BackupWalletV1.BackupCategoryV1 =
+    BackupWalletV1.BackupCategoryV1(
+        id = randomCategoryId().id,
+        name = name,
+    )
+
+fun randomBackupExpenseV1(
+    categoryId: String,
+): BackupWalletV1.BackupExpenseV1 =
+    BackupWalletV1.BackupExpenseV1(
+        expenseId = randomExpenseId().id,
+        amount = randomAmount(),
+        description = randomDescription(),
+        paidAt = InstantConverter.toLong(randomPaidAt()),
+        categoryId = categoryId,
+    )
+

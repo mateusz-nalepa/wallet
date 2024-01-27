@@ -6,6 +6,7 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchServiceAPI
 import com.mateuszcholyn.wallet.frontend.domain.usecase.ExpenseAppUseCases
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.export.ExportV1UseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.AllExpensesRemover
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1UseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.CreateCategoryUseCase
@@ -104,13 +105,30 @@ object HiltUseCasesModuleV2 {
 
     @Provides
     @Singleton
+    fun provideAllExpensesRemover(
+        searchServiceAPI: SearchServiceAPI,
+        categoriesQuickSummaryAPI: CategoriesQuickSummaryAPI,
+        expenseCoreServiceAPI: ExpenseCoreServiceAPI,
+        categoryCoreServiceAPI: CategoryCoreServiceAPI,
+    ): AllExpensesRemover =
+        AllExpensesRemover(
+            searchServiceAPI = searchServiceAPI,
+            categoriesQuickSummaryAPI = categoriesQuickSummaryAPI,
+            expenseCoreServiceAPI = expenseCoreServiceAPI,
+            categoryCoreServiceAPI = categoryCoreServiceAPI,
+        )
+
+    @Provides
+    @Singleton
     fun provideImportV1UseCase(
         expenseCoreServiceAPI: ExpenseCoreServiceAPI,
         categoryCoreServiceAPI: CategoryCoreServiceAPI,
+        allExpensesRemover: AllExpensesRemover,
     ): ImportV1UseCase =
         ImportV1UseCase(
             categoryCoreServiceAPI = categoryCoreServiceAPI,
             expenseCoreServiceAPI = expenseCoreServiceAPI,
+            allExpensesRemover = allExpensesRemover,
         )
 
     @Provides

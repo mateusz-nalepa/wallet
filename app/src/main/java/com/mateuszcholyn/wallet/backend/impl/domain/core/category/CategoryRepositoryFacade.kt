@@ -16,6 +16,9 @@ class CategoryRepositoryFacade(
         categoryRepositoryV2.getById(categoryId)
             ?: throw CategoryNotFoundException(categoryId)
 
+    fun getByCategoryName(categoryName: String): CategoryV2? =
+        categoryRepositoryV2.getByCategoryName(categoryName)
+
     fun remove(categoryId: CategoryId) {
         categoryRepositoryV2
             .remove(

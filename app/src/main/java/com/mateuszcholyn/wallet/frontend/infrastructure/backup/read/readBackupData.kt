@@ -44,8 +44,8 @@ fun readBackupData(
                     )
 
                 SavedCategoryFromDb(
-                    oldCategoryId = CategoryId(backupCategory.id),
-                    newCategoryId = addedCategory.id,
+                    categoryIdFromImportFile = CategoryId(backupCategory.id),
+                    categoryIdFromDatabase = addedCategory.id,
                     name = backupCategory.name,
                 )
             }
@@ -62,7 +62,7 @@ fun readBackupData(
                         amount = backupSaveModel.amount,
                         description = backupSaveModel.description,
                         paidAt = backupSaveModel.paidAt,
-                        categoryId = newSavedCategories.first { it.oldCategoryId == backupSaveModel.categoryId }.newCategoryId,
+                        categoryId = newSavedCategories.first { it.categoryIdFromImportFile == backupSaveModel.categoryId }.categoryIdFromDatabase,
                     )
                 )
         }
@@ -71,7 +71,7 @@ fun readBackupData(
 
 
 data class SavedCategoryFromDb(
-    val oldCategoryId: CategoryId,
-    val newCategoryId: CategoryId,
+    val categoryIdFromImportFile: CategoryId,
+    val categoryIdFromDatabase: CategoryId,
     val name: String,
 )
