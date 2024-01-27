@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.app.usecase.backup.export
 
 import com.mateuszcholyn.wallet.app.setupintegrationtests.BaseIntegrationTest
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import com.mateuszcholyn.wallet.manager.CategoryScope
 import com.mateuszcholyn.wallet.manager.ExpenseScope
@@ -39,6 +40,32 @@ class BackupExportV1UseCaseTest : BaseIntegrationTest() {
             versionIsEqualTo1()
             numberOfCategoriesEqualTo(2)
             numberOfExpensesEqualTo(2)
+        }
+    }
+
+
+    @Test
+    fun exportedDataContainsPaidAtInLongFormat() {
+        // given
+        lateinit var firstExpense: ExpenseScope
+
+        val manager =
+            initExpenseAppManager {
+                category {
+                    firstExpense = expense {}
+                }
+            }
+
+        // when
+        val backupWalletV1 = manager.exportV1UseCase()
+
+        // then
+        assert(
+            backupWalletV1.expenses.first().paidAt == InstantConverter.toLong(firstExpense.paidAt),
+        ) {
+            """Expected date as: ${InstantConverter.toLong(firstExpense.paidAt)}.
+                Got: ${backupWalletV1.expenses.first().paidAt}
+                """
         }
     }
 
