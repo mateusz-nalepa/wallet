@@ -6,7 +6,12 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
 
 // TODO: pousuwaj wszędzie te `V2` gdzie nie są naprawde potrzebne XDD
 interface ExpenseRepositoryV2 {
-    fun save(
+    fun create(
+        expense: ExpenseV2,
+        onNonExistingCategoryAction: (CategoryId) -> Unit = {},
+    ): ExpenseV2
+
+    fun update(
         expense: ExpenseV2,
         onNonExistingCategoryAction: (CategoryId) -> Unit = {},
     ): ExpenseV2

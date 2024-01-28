@@ -28,8 +28,19 @@ val MIGRATION_1_2 =
         }
     }
 
+val MIGRATION_2_3 =
+    object : Migration(2, 3) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                """
+                DROP INDEX IF EXISTS `index_categories_name`;
+                """.trimIndent()
+            )
+        }
+    }
+
 @Database(
-    version = 2,
+    version = 3,
     entities = [
         CategoriesQuickSummaryEntity::class,
         CategoryEntityV2::class,

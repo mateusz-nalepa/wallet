@@ -5,7 +5,6 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.frontend.domain.usecase.UseCase
 import com.mateuszcholyn.wallet.frontend.infrastructure.backup.read.CategoryFinished
 import com.mateuszcholyn.wallet.frontend.infrastructure.backup.read.SavedCategoryFromDb
-import com.mateuszcholyn.wallet.frontend.infrastructure.backup.read.SkipCategoryAndAllExpenses
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import java.util.UUID
 
@@ -64,11 +63,6 @@ class ImportV1UseCase(
         importV1SummaryGenerator: ImportV1SummaryGenerator,
     ) {
         when (categoryFinished) {
-            is SkipCategoryAndAllExpenses -> {
-                backupCategory.expenses.forEach { _ ->
-                    importV1SummaryGenerator.markExpenseSkipped()
-                }
-            }
 
             is SavedCategoryFromDb -> backupCategory.expenses.forEach { backupExpense ->
                 ExpenseImport(expenseCoreServiceAPI)

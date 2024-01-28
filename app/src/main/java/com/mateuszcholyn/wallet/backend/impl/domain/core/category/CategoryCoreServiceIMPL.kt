@@ -13,7 +13,7 @@ class CategoryCoreServiceIMPL(
     override fun add(createCategoryParameters: CreateCategoryParameters): CategoryV2 =
         createCategoryParameters
             .toNewCategory()
-            .let { categoryRepositoryFacade.save(it) }
+            .let { categoryRepositoryFacade.create(it) }
             .also { categoryPublisher.publishCategoryAddedEvent(it.toCategoryAddedEvent()) }
 
     override fun getAll(): List<CategoryV2> =
@@ -35,7 +35,7 @@ class CategoryCoreServiceIMPL(
         categoryRepositoryFacade
             .getByIdOrThrow(updateCategoryParameters.id)
             .updateUsing(updateCategoryParameters)
-            .let { categoryRepositoryFacade.save(it) }
+            .let { categoryRepositoryFacade.update(it) }
 
     override fun removeAll() {
         categoryRepositoryFacade.removeAll()

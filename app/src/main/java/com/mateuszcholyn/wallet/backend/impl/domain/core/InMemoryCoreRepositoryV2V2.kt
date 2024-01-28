@@ -13,16 +13,14 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
     private val categories: MutableMap<CategoryId, CategoryV2> = ConcurrentHashMap()
     private val expenses: MutableMap<ExpenseId, ExpenseV2> = ConcurrentHashMap()
 
-    override fun save(category: CategoryV2): CategoryV2 {
-        ensureCategoryNameIsUnique(category)
+    override fun create(category: CategoryV2): CategoryV2 {
         categories[category.id] = category
         return category
     }
 
-    private fun ensureCategoryNameIsUnique(category: CategoryV2) {
-        if (getByCategoryName(category.name) != null) {
-            throw IllegalStateException("Category with name: ${category.name} is already present")
-        }
+    override fun update(category: CategoryV2): CategoryV2 {
+        categories[category.id] = category
+        return category
     }
 
     override fun getAllCategories(): List<CategoryV2> {
@@ -32,12 +30,6 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
     override fun getById(categoryId: CategoryId): CategoryV2? {
         return categories[categoryId]
     }
-
-    private fun getByCategoryName(categoryName: String): CategoryV2? =
-        categories
-            .values
-            .toList()
-            .firstOrNull { it.name == categoryName }
 
     override fun remove(
         categoryId: CategoryId,
@@ -70,7 +62,7 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
         }
     }
 
-    override fun save(
+    override fun create(
         expense: ExpenseV2,
         onNonExistingCategoryAction: (CategoryId) -> Unit,
     ): ExpenseV2 {
@@ -83,6 +75,12 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
         expenses[expense.expenseId] = expense
         return expense
     }
+
+    override fun update(
+        expense: ExpenseV2,
+        onNonExistingCategoryAction: (CategoryId) -> Unit,
+    ): ExpenseV2 =
+        create(expense, onNonExistingCategoryAction)
 
     override fun getAllExpenses(): List<ExpenseV2> {
         return expenses.values.toList()

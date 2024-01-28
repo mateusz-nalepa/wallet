@@ -1,5 +1,9 @@
 package com.mateuszcholyn.wallet.app.setupunittests
 
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoriesQuickSummaryAPI
+import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
+import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
+import com.mateuszcholyn.wallet.backend.api.searchservice.SearchServiceAPI
 import com.mateuszcholyn.wallet.backend.impl.domain.categoriesquicksummary.CategoriesQuickSummaryIMPL
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryCoreServiceIMPL
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRepositoryFacade
@@ -9,8 +13,10 @@ import com.mateuszcholyn.wallet.backend.impl.domain.minikafka.MiniKafka
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceIMPL
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.minikafka.core.category.MiniKafkaCategoryPublisher
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.minikafka.core.expense.MiniKafkaExpensePublisher
-import com.mateuszcholyn.wallet.manager.ExpenseAppManagerScope
 import com.mateuszcholyn.wallet.frontend.domain.usecase.ExpenseAppUseCases
+import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.export.ExportV1UseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.AllExpensesRemover
+import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1UseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.CreateCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.RemoveCategoryUseCase
@@ -20,7 +26,10 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.GetExpenseU
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
-import com.mateuszcholyn.wallet.manager.*
+import com.mateuszcholyn.wallet.manager.ExpenseAppDependencies
+import com.mateuszcholyn.wallet.manager.ExpenseAppInitializer
+import com.mateuszcholyn.wallet.manager.ExpenseAppManager
+import com.mateuszcholyn.wallet.manager.ExpenseAppManagerScope
 
 fun initExpenseAppManager(scope: ExpenseAppManagerScope.() -> Unit): ExpenseAppManager {
 
@@ -44,26 +53,26 @@ internal fun createFrom(
 ): ExpenseAppUseCases {
     val miniKafka = MiniKafka()
 
-    val categoryCoreService =
+    val categoryCoreService: CategoryCoreServiceAPI =
         CategoryCoreServiceIMPL(
             categoryRepositoryFacade = CategoryRepositoryFacade(deps.categoryRepositoryV2),
             categoryPublisher = MiniKafkaCategoryPublisher(miniKafka),
         )
 
-    val expenseCoreService =
+    val expenseCoreService: ExpenseCoreServiceAPI =
         ExpenseCoreServiceIMPL(
             expenseRepositoryFacade = ExpenseRepositoryFacade(deps.expenseRepositoryV2),
             expensePublisher = MiniKafkaExpensePublisher(miniKafka),
             categoryCoreServiceAPI = categoryCoreService,
         )
 
-    val categoriesQuickSummary =
+    val categoriesQuickSummary: CategoriesQuickSummaryAPI =
         CategoriesQuickSummaryIMPL(
             categoriesQuickSummaryRepository = deps.categoriesQuickSummaryRepository,
             categoryCoreServiceAPI = categoryCoreService,
         )
 
-    val searchService =
+    val searchService: SearchServiceAPI =
         SearchServiceIMPL(
             searchServiceRepository = deps.searchServiceRepository,
             categoryCoreServiceAPI = categoryCoreService,
@@ -104,6 +113,21 @@ internal fun createFrom(
         ),
         searchServiceUseCase = SearchServiceUseCase(
             searchService = searchService,
+        ),
+        exportV1UseCase = ExportV1UseCase(
+            categoryCoreServiceAPI = categoryCoreService,
+            expenseCoreServiceAPI = expenseCoreService,
+
+            ),
+        importV1UseCase = ImportV1UseCase(
+            categoryCoreServiceAPI = categoryCoreService,
+            expenseCoreServiceAPI = expenseCoreService,
+            allExpensesRemover = AllExpensesRemover(
+                categoryCoreServiceAPI = categoryCoreService,
+                expenseCoreServiceAPI = expenseCoreService,
+                categoriesQuickSummaryAPI = categoriesQuickSummary,
+                searchServiceAPI = searchService,
+            )
         ),
     )
 }

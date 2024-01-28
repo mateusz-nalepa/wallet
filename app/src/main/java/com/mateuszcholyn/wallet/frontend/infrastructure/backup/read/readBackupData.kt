@@ -80,5 +80,3 @@ data class SavedCategoryFromDb(
     val name: String,
 ) : CategoryFinished
 
-data object SkipCategoryAndAllExpenses : CategoryFinished
-

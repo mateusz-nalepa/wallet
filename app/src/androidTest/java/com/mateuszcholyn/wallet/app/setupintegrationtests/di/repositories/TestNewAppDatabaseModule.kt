@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.mateuszcholyn.wallet.backend.impl.di.repositories.NewAppDatabaseModule
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabaseV2
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.MIGRATION_1_2
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.MIGRATION_2_3
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -29,6 +30,7 @@ object TestNewAppDatabaseModule {
             .allowMainThreadQueries() // this should be fixed!
             .addMigrations(
                 MIGRATION_1_2,
+                MIGRATION_2_3,
             )
             .build()
 }

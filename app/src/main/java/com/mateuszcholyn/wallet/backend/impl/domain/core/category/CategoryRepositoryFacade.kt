@@ -6,8 +6,11 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
 class CategoryRepositoryFacade(
     private val categoryRepositoryV2: CategoryRepositoryV2,
 ) {
-    fun save(category: CategoryV2): CategoryV2 =
-        categoryRepositoryV2.save(category)
+    fun create(category: CategoryV2): CategoryV2 =
+        categoryRepositoryV2.create(category)
+
+    fun update(category: CategoryV2): CategoryV2 =
+        categoryRepositoryV2.update(category)
 
     fun getAllCategories(): List<CategoryV2> =
         categoryRepositoryV2.getAllCategories()

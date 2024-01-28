@@ -18,6 +18,7 @@ import com.mateuszcholyn.wallet.manager.getAllCoreExpenses
 import com.mateuszcholyn.wallet.manager.randomBackupCategoryV1
 import com.mateuszcholyn.wallet.manager.randomBackupExpenseV1
 import com.mateuszcholyn.wallet.manager.randomCategoryId
+import com.mateuszcholyn.wallet.manager.randomCategoryName
 import com.mateuszcholyn.wallet.manager.randomExpenseId
 import com.mateuszcholyn.wallet.manager.validator.LocalDateTimeValidator.assertInstant
 import com.mateuszcholyn.wallet.manager.validator.validate
@@ -549,6 +550,51 @@ class ImportV1UseCaseTest : BaseIntegrationTest() {
                 Got: ${expenseFromDb.paidAt}
                 """
         }
+    }
+
+    @Test
+    fun `there should be two categories with same name after import`() {
+        // given
+        val givenCategoryName = randomCategoryName()
+        val manager =
+            initExpenseAppManager {
+                category {
+                    categoryName = givenCategoryName
+                }
+            }
+
+        val givenBackupWalletV1 =
+            BackupWalletV1(
+                version = 1,
+                categories = listOf(
+                    randomBackupCategoryV1(
+                        categoryId = randomCategoryId(),
+                        name = givenCategoryName,
+                    )
+                ),
+            )
+
+        // when
+        val importV1Summary =
+            manager.importV1UseCase {
+                backupWalletV1 = givenBackupWalletV1
+            }
+
+        // then
+        importV1Summary.validate {
+            numberOfInputDataMatch(givenBackupWalletV1)
+            numberOfImportedCategoriesEqualTo(1)
+            numberOfSkippedCategoriesEqualTo(0)
+        }
+        manager.validate {
+            numberOfCoreCategoriesEqualTo(2)
+        }
+        val firstCategory = manager.getAllCoreCategories().first()
+        val secondCategory = manager.getAllCoreCategories().last()
+
+        assert(firstCategory.id != secondCategory.id) { "categoryId equal" }
+        assert(firstCategory.name == secondCategory.name) { "categoryName not equal" }
+        assert(firstCategory.name == givenCategoryName) { "categoryName not equal" }
     }
 
 }

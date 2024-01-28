@@ -7,10 +7,20 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
 class ExpenseRepositoryFacade(
     private val expenseRepositoryV2: ExpenseRepositoryV2,
 ) {
-    fun save(
+    fun create(
         expense: ExpenseV2,
     ): ExpenseV2 =
-        expenseRepositoryV2.save(
+        expenseRepositoryV2.create(
+            expense = expense,
+            onNonExistingCategoryAction = { categoryId ->
+                throw CategoryWithGivenIdDoesNotExist(categoryId)
+            }
+        )
+
+    fun update(
+        expense: ExpenseV2,
+    ): ExpenseV2 =
+        expenseRepositoryV2.update(
             expense = expense,
             onNonExistingCategoryAction = { categoryId ->
                 throw CategoryWithGivenIdDoesNotExist(categoryId)

@@ -6,19 +6,25 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 
+const val CATEGORIES_TABLE_NAME = "categories"
+
+const val CATEGORIES_TABLE_CATEGORY_NAME_COLUMN = "name"
+
+const val CATEGORIES_TABLE_CATEGORY_ID_COLUMN = "category_id"
+
+
 @Entity(
-    tableName = "categories",
+    tableName = CATEGORIES_TABLE_NAME,
     indices = [
-        Index("name", unique = true),
-        Index("category_id", unique = true),
+        Index(CATEGORIES_TABLE_CATEGORY_ID_COLUMN, unique = true),
     ]
 )
 data class CategoryEntityV2(
 
     @PrimaryKey
-    @ColumnInfo(name = "category_id")
+    @ColumnInfo(name = CATEGORIES_TABLE_CATEGORY_ID_COLUMN)
     val categoryId: String,
 
-    @ColumnInfo(name = "name")
+    @ColumnInfo(name = CATEGORIES_TABLE_CATEGORY_NAME_COLUMN)
     val name: String
 )

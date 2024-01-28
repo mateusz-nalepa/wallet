@@ -8,25 +8,34 @@ import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseReposito
 class SqLiteExpenseRepositoryV2(
     private val expenseV2Dao: ExpenseV2Dao,
 ) : ExpenseRepositoryV2 {
-    override fun save(
+
+    override fun create(
         expense: ExpenseV2,
         onNonExistingCategoryAction: (CategoryId) -> Unit,
     ): ExpenseV2 =
-        expense
-            .also { saveOrThrow(it, onNonExistingCategoryAction) }
-
-    private fun saveOrThrow(
-        expense: ExpenseV2,
-        onNonExistingCategoryAction: (CategoryId) -> Unit,
-    ) {
         try {
             expense
                 .toEntity()
-                .also { expenseV2Dao.save(it) }
+                .also { expenseV2Dao.create(it) }
+                .toDomain()
         } catch (t: Throwable) {
             onNonExistingCategoryAction.invoke(expense.categoryId)
+            throw t
         }
-    }
+
+    override fun update(
+        expense: ExpenseV2,
+        onNonExistingCategoryAction: (CategoryId) -> Unit
+    ): ExpenseV2 =
+        try {
+            expense
+                .toEntity()
+                .also { expenseV2Dao.update(it) }
+                .toDomain()
+        } catch (t: Throwable) {
+            onNonExistingCategoryAction.invoke(expense.categoryId)
+            throw t
+        }
 
     override fun getAllExpenses(): List<ExpenseV2> =
         expenseV2Dao

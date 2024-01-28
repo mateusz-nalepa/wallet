@@ -43,7 +43,7 @@ class ExpenseCoreServiceIMPL(
     override fun add(addExpenseParameters: AddExpenseParameters): ExpenseV2 =
         addExpenseParameters
             .toNewExpense()
-            .let { expenseRepositoryFacade.save(it) }
+            .let { expenseRepositoryFacade.create(it) }
             .also { expensePublisher.publishExpenseAddedEvent(it.toExpenseAddedEvent()) }
 
     override fun remove(expenseId: ExpenseId) {
@@ -60,7 +60,7 @@ class ExpenseCoreServiceIMPL(
 
         return oldExpense
             .updateUsing(updateExpenseParameters)
-            .let { expenseRepositoryFacade.save(it) }
+            .let { expenseRepositoryFacade.update(it) }
             .also {
                 expensePublisher.publishExpenseUpdatedEvent(
                     it.toExpenseUpdatedEvent(oldExpense = oldExpense)

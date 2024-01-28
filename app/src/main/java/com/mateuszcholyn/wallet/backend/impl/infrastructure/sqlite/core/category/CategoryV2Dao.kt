@@ -2,15 +2,18 @@ package com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.categor
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 
 @Dao
 interface CategoryV2Dao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(categoryEntityV2: CategoryEntityV2)
+    @Insert
+    fun create(categoryEntityV2: CategoryEntityV2)
+
+    @Update
+    fun update(categoryEntityV2: CategoryEntityV2)
 
     @Query("SELECT * FROM categories")
     fun getAll(): List<CategoryEntityV2>

@@ -32,4 +32,34 @@ class CreateCategoryUseCaseIntegrationTest : BaseIntegrationTest() {
         }
     }
 
+    @Test
+    fun shouldCreateSecondCategoryWithSameName() {
+        // given
+        val manager = initExpenseAppManager { }
+        val givenCategoryName = randomCategoryName()
+
+        // when
+        val firstCategory =
+            manager.createCategoryUseCase {
+                name = givenCategoryName
+            }
+
+        val secondCategory =
+            manager.createCategoryUseCase {
+                name = givenCategoryName
+            }
+
+        // then
+        manager.validate {
+            numberOfCoreCategoriesEqualTo(2)
+        }
+        firstCategory.validate {
+            nameEqualTo(givenCategoryName)
+        }
+        secondCategory.validate {
+            nameEqualTo(givenCategoryName)
+        }
+    }
+
+
 }

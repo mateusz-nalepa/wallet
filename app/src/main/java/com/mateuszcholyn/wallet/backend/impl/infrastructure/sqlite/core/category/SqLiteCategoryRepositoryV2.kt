@@ -7,10 +7,16 @@ import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryReposi
 class SqLiteCategoryRepositoryV2(
     private val categoryV2Dao: CategoryV2Dao,
 ) : CategoryRepositoryV2 {
-    override fun save(category: CategoryV2): CategoryV2 =
+    override fun create(category: CategoryV2): CategoryV2 =
         category
             .toEntity()
-            .also { categoryV2Dao.save(it) }
+            .also { categoryV2Dao.create(it) }
+            .toDomain()
+
+    override fun update(category: CategoryV2): CategoryV2 =
+        category
+            .toEntity()
+            .also { categoryV2Dao.update(it) }
             .toDomain()
 
     override fun getAllCategories(): List<CategoryV2> =
