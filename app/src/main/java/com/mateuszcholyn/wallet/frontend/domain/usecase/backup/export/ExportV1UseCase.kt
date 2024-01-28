@@ -29,20 +29,22 @@ object BackupV1Creator {
         BackupWalletV1(
             version = 1,
             categories = categories
-                .map {
+                .map { category ->
                     BackupWalletV1.BackupCategoryV1(
-                        id = it.id.id,
-                        name = it.name,
+                        id = category.id.id,
+                        name = category.name,
+                        expenses = expenses
+                            .filter { it.categoryId == category.id }
+                            .map {
+                                BackupWalletV1.BackupCategoryV1.BackupExpenseV1(
+                                    expenseId = it.expenseId.id,
+                                    amount = it.amount,
+                                    description = it.description,
+                                    paidAt = it.paidAt.toEpochMilli(),
+                                )
+
+                            }
                     )
                 },
-            expenses = expenses.map {
-                BackupWalletV1.BackupExpenseV1(
-                    expenseId = it.expenseId.id,
-                    amount = it.amount,
-                    description = it.description,
-                    paidAt = it.paidAt.toEpochMilli(),
-                    categoryId = it.categoryId.id,
-                )
-            }
         )
 }

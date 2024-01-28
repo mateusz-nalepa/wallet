@@ -69,9 +69,14 @@ fun readBackupData(
 
 }
 
+sealed interface CategoryFinished
+
 
 data class SavedCategoryFromDb(
     val categoryIdFromImportFile: CategoryId,
     val categoryIdFromDatabase: CategoryId,
     val name: String,
-)
+) : CategoryFinished
+
+data object SkipCategoryAndAllExpenses : CategoryFinished
+

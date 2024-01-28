@@ -13,8 +13,9 @@ class ImportV1SummaryValidator(
 ) {
 
     fun numberOfInputDataMatch(backupWalletV1: BackupWalletV1) {
-        numberOfCategoriesEqualTo(backupWalletV1.categories.size)
-        numberOfExpensesEqualTo(backupWalletV1.expenses.size)
+        val categories = backupWalletV1.categories
+        numberOfCategoriesEqualTo(categories.size)
+        numberOfExpensesEqualTo(categories.flatMap { it.expenses }.size)
     }
 
     private fun numberOfCategoriesEqualTo(expectedNumberOfCategories: Int) {

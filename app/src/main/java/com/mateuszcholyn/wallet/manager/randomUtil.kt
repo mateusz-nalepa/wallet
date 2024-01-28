@@ -11,7 +11,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.util.Random
 
-fun randomCategoryId(): CategoryId = CategoryId("categoryId-${randomUUID()}")
+fun randomCategoryId(): CategoryId = CategoryId(randomUUID())
 fun randomCategoryName(): String = "categoryName-${randomUUID()}"
 
 // from 5 to 25??
@@ -26,7 +26,7 @@ fun randomInt(): Int =
 //    from 5 to 15?
     Random().nextInt(10) + 5
 
-fun randomExpenseId(): ExpenseId = ExpenseId("expenseId-${randomUUID()}")
+fun randomExpenseId(): ExpenseId = ExpenseId(randomUUID())
 
 fun BigDecimal.plusRandomValue(): BigDecimal = this + randomAmount()
 fun BigDecimal.minusRandomValue(): BigDecimal = this - randomAmount()
@@ -35,21 +35,21 @@ fun BigDecimal.plusInt(int: Int): BigDecimal = this + BigDecimal(int)
 fun randomBackupCategoryV1(
     categoryId: CategoryId = randomCategoryId(),
     name: String = randomCategoryName(),
+    expenses: List<BackupWalletV1.BackupCategoryV1.BackupExpenseV1> = emptyList(),
 ): BackupWalletV1.BackupCategoryV1 =
     BackupWalletV1.BackupCategoryV1(
         id = categoryId.id,
         name = name,
+        expenses = expenses,
     )
 
 fun randomBackupExpenseV1(
     expenseId: ExpenseId = randomExpenseId(),
-    categoryId: CategoryId = randomCategoryId(),
-): BackupWalletV1.BackupExpenseV1 =
-    BackupWalletV1.BackupExpenseV1(
+): BackupWalletV1.BackupCategoryV1.BackupExpenseV1 =
+    BackupWalletV1.BackupCategoryV1.BackupExpenseV1(
         expenseId = expenseId.id,
         amount = randomAmount(),
         description = randomDescription(),
         paidAt = InstantConverter.toLong(randomPaidAt()),
-        categoryId = categoryId.id,
     )
 

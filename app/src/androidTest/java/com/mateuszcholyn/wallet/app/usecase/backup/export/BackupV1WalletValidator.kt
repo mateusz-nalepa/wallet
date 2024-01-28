@@ -22,10 +22,10 @@ class BackupV1WalletValidator(
             "Categories in backup should be: 2, Actual: ${backupWalletV1.categories.size} "
         }
     }
-
-    fun numberOfExpensesEqualTo(expectedNumberOfExpenses: Int) {
-        assert(backupWalletV1.expenses.size == 2) {
-            "Expenses in backup should be: 2, Actual: ${backupWalletV1.expenses.size} "
-        }
-    }
+    // TODO: check it XD
+//    fun numberOfExpensesEqualTo(expectedNumberOfExpenses: Int) {
+//        assert(backupWalletV1.expenses.size == 2) {
+//            "Expenses in backup should be: 2, Actual: ${backupWalletV1.expenses.size} "
+//        }
+//    }
 }

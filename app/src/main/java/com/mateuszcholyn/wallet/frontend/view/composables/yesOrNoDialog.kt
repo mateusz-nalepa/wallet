@@ -23,7 +23,10 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 fun YesOrNoDialog(
     openDialog: MutableState<Boolean>,
     onConfirm: () -> Unit,
-    message: String = stringResource(R.string.areYouReadyToRemoveExpense)
+    onCancel: () -> Unit = {},
+    message: String = stringResource(R.string.areYouReadyToRemoveExpense),
+    cancelText: String = stringResource(R.string.yesOrNoCancel),
+    confirmText: String = stringResource(R.string.yesOrNoConfirm),
 ) {
     if (openDialog.value) {
         AlertDialog(
@@ -40,10 +43,13 @@ fun YesOrNoDialog(
                 ) {
                     Button(
                         modifier = defaultModifier.weight(1f),
-                        onClick = { openDialog.value = false },
+                        onClick = {
+                            openDialog.value = false
+                            onCancel.invoke()
+                        },
                         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.onError),
                     ) {
-                        Text(stringResource(R.string.yesOrNoCancel))
+                        Text(cancelText)
                     }
                     Button(
                         modifier = defaultModifier.weight(1f),
@@ -53,7 +59,7 @@ fun YesOrNoDialog(
                         },
                         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.error),
                     ) {
-                        Text(stringResource(R.string.yesOrNoConfirm))
+                        Text(confirmText)
                     }
                 }
             }

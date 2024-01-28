@@ -5,10 +5,15 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
+import com.mateuszcholyn.wallet.frontend.view.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.file.export.fileExporter
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.file.impo.fileSelector
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
@@ -24,13 +29,49 @@ fun BackupImport(
 ) {
     val context = currentAppContext()
 
+
+    val openCategoryChangedDialog = remember { mutableStateOf(false) }
+    var onCategoryYesAction: () -> Unit = {}
+    var onCategoryNoAction: () -> Unit = {}
+    YesOrNoDialog(
+        message = "Kategoria popsute. Kontynuować?",
+        openDialog = openCategoryChangedDialog,
+        onConfirm = {
+            onCategoryYesAction.invoke()
+        },
+        onCancel = {
+            onCategoryNoAction.invoke()
+        }
+    )
+
+    val openExpenseChangedDialog = remember { mutableStateOf(false) }
+    var onExpenseYesAction: () -> Unit = {}
+    var onExpenseNoAction: () -> Unit = {}
+    YesOrNoDialog(
+        message = "Wydatek popsute. Kontynuować?",
+        openDialog = openExpenseChangedDialog,
+        onConfirm = {
+            onExpenseYesAction.invoke()
+        },
+        onCancel = {
+            onExpenseNoAction.invoke()
+        }
+    )
+
     val fileSelector =
         fileSelector(
             onFileSelected = {
                 backupScreenViewModel.importBackupV1JsonString(
                     jsonString = it.bufferedReader().readText(),
-                    onImportSuccessAction = {
-                        showLongText(context, "Importowanie zakończone!")
+                    onCategoryChangedAction = { categoryChangedInput ->
+                        onCategoryYesAction = categoryChangedInput.keepCategoryNameFromDatabase
+                        onCategoryNoAction = categoryChangedInput.skipCategoryAndAllExpenses
+                        openCategoryChangedDialog.value = true
+                    },
+                    onExpanseChangedAction = { expanseChangedInput ->
+                        onExpenseNoAction = expanseChangedInput.keepExpenseFromDatabase
+                        onExpenseNoAction = expanseChangedInput.skipExpense
+                        openCategoryChangedDialog.value = true
                     }
                 )
             }
@@ -68,13 +109,36 @@ fun BackupExport(
 
 // TODO: dopiero na tym ekranie daj: verifyPermissions?? o ile faktycznie potrzebne XD
 @Composable
-fun BackupDataScreen() {
+fun BackupDataScreen(
+    backupScreenViewModel: BackupScreenViewModel = hiltViewModel(),
+) {
+
+    val context = currentAppContext()
+    val importState by remember { backupScreenViewModel.importState }
+
     Column(
         modifier = defaultModifier.fillMaxHeight(),
     ) {
         // TODO: obtestuj to jakoś?? zrób jakieś error handling? XD
         BackupImport()
         BackupExport()
+
+        when (val importStateTemp = importState) {
+            is ImportState.NotStarted -> {}
+            is ImportState.Error -> showLongText(context, importStateTemp.errorMessage)
+            // TODO: pokaż podsumowanie jakoś bardziej prawilnie XD
+            is ImportState.Success ->
+                Text(
+                    modifier = Modifier.fillMaxHeight(),
+                    text = importStateTemp.importV1Summary.toString()
+                )
+
+            is ImportState.Loading ->
+                Text(
+                    modifier = Modifier.fillMaxHeight(),
+                    text = "Loading"
+                )
+        }
     }
 }
 
