@@ -64,13 +64,13 @@ fun BackupImport(
                 backupScreenViewModel.importBackupV1JsonString(
                     jsonString = it.bufferedReader().readText(),
                     onCategoryChangedAction = { categoryChangedInput ->
-                        onCategoryYesAction = categoryChangedInput.keepCategoryNameFromDatabase
-                        onCategoryNoAction = categoryChangedInput.skipCategoryAndAllExpenses
+                        onCategoryYesAction = categoryChangedInput.keepCategoryFromDatabase
+                        onCategoryNoAction = categoryChangedInput.useCategoryFromBackup
                         openCategoryChangedDialog.value = true
                     },
                     onExpanseChangedAction = { expanseChangedInput ->
                         onExpenseNoAction = expanseChangedInput.keepExpenseFromDatabase
-                        onExpenseNoAction = expanseChangedInput.skipExpense
+                        onExpenseNoAction = expanseChangedInput.useExpenseFromBackup
                         openCategoryChangedDialog.value = true
                     }
                 )

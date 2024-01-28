@@ -2,6 +2,8 @@ package com.mateuszcholyn.wallet.manager.ext.backup.impo
 
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Parameters
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Summary
+import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.OnCategoryChangedInput
+import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.OnExpanseChangedInput
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
 import kotlinx.coroutines.runBlocking
@@ -27,14 +29,18 @@ fun ExpenseAppManager.importV1UseCase(
 class ImportV1ParametersScope {
     lateinit var backupWalletV1: BackupWalletV1
     var removeAllBeforeImport: Boolean = false
+    var onCategoryChangedAction: (OnCategoryChangedInput) -> Unit = {
+        throw RuntimeException("not used")
+    }
+    var onExpanseChangedAction: (OnExpanseChangedInput) -> Unit = {
+        throw RuntimeException("not used")
+    }
 
     fun toV1Parameters(): ImportV1Parameters =
         ImportV1Parameters(
             backupWalletV1 = backupWalletV1,
             removeAllBeforeImport = removeAllBeforeImport,
-            onCategoryChangedAction = {
-                // TODO: dostarczane na bieżąco
-            },
-            onExpanseChangedAction = {}
+            onCategoryNameChangedAction = onCategoryChangedAction,
+            onExpanseChangedAction = onExpanseChangedAction,
         )
 }

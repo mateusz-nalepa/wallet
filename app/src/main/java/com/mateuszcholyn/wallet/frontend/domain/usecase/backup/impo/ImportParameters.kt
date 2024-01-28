@@ -6,16 +6,16 @@ data class ImportV1Parameters(
     val backupWalletV1: BackupWalletV1,
     val removeAllBeforeImport: Boolean,
     // te dwie akcje powinny zwracać wynik, czy dla pozostałych wykonać to samo
-    val onCategoryChangedAction: (OnCategoryChangedInput) -> Unit,
+    val onCategoryNameChangedAction: (OnCategoryChangedInput) -> Unit,
     val onExpanseChangedAction: (OnExpanseChangedInput) -> Unit,
 )
 
 data class OnCategoryChangedInput(
-    val keepCategoryNameFromDatabase: () -> Unit,
-    val skipCategoryAndAllExpenses: () -> Unit,
+    val keepCategoryFromDatabase: () -> Unit,
+    val useCategoryFromBackup: () -> Unit,
 )
 
 data class OnExpanseChangedInput(
     val keepExpenseFromDatabase: () -> Unit,
-    val skipExpense: () -> Unit,
+    val useExpenseFromBackup: () -> Unit,
 )

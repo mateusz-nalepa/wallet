@@ -32,6 +32,7 @@ class UpdateExpenseUseCaseScope {
     var newAmount: BigDecimal = randomAmount()
     var newDescription: String = randomDescription()
     var newPaidAt: Instant = randomPaidAt()
+    // TODO: this should be lateinitVar??
     var newCategoryId: CategoryId = randomCategoryId()
 
     fun toExpense(): ExpenseV2 =

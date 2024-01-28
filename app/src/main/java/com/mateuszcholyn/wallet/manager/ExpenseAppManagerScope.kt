@@ -23,7 +23,6 @@ class CategoryScope {
     var categoryName = randomCategoryName()
 
     val expensesScope = mutableListOf<ExpenseScope>()
-
 }
 
 fun CategoryScope.expense(scope: ExpenseScope.() -> Unit): ExpenseScope {

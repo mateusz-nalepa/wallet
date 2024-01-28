@@ -65,7 +65,7 @@ class BackupScreenViewModel @Inject constructor(
                 ImportV1Parameters(
                     backupWalletV1 = backupWalletV1,
                     removeAllBeforeImport = false,
-                    onCategoryChangedAction = onCategoryChangedAction,
+                    onCategoryNameChangedAction = onCategoryChangedAction,
                     onExpanseChangedAction = onExpanseChangedAction,
                 )
 

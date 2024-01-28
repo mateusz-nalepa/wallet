@@ -3,7 +3,10 @@ package com.mateuszcholyn.wallet.manager.validator
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
+import com.mateuszcholyn.wallet.manager.ExpenseScope
 import com.mateuszcholyn.wallet.manager.validator.LocalDateTimeValidator.assertInstant
 import java.math.BigDecimal
 import java.time.Instant
@@ -25,6 +28,35 @@ fun ExpenseV2.validate(validateBlock: SimpleExpenseValidator.() -> Unit) {
 class SimpleExpenseValidator(
     private val expense: ExpenseV2,
 ) {
+
+    fun isSameAsExpenseFromDatabase(
+        expenseScope: ExpenseScope,
+        categoryId: CategoryId,
+    ) {
+        idIsEqualTo(expenseScope.expenseId)
+        paidAtEqualTo(expenseScope.paidAt)
+        descriptionEqualTo(expenseScope.description)
+        amountEqualTo(expenseScope.amount)
+        categoryIdEqualTo(categoryId)
+    }
+
+    fun isSameAsExpenseFromBackup(
+        backupExpense: BackupWalletV1.BackupCategoryV1.BackupExpenseV1,
+        categoryId: CategoryId,
+    ) {
+        idIsEqualTo(ExpenseId(backupExpense.expenseId))
+        paidAtEqualTo(InstantConverter.toInstant(backupExpense.paidAt))
+        descriptionEqualTo(backupExpense.description)
+        amountEqualTo(backupExpense.amount)
+        categoryIdEqualTo(categoryId)
+    }
+
+    fun idIsEqualTo(expectedExpenseId: ExpenseId) {
+        assert(expense.expenseId == expectedExpenseId) {
+            "Expected expenseId should be: $expectedExpenseId. Actual: ${expense.expenseId}"
+        }
+    }
+
     fun paidAtEqualTo(expectedPaidAt: Instant) {
         assertInstant(expense.paidAt, expectedPaidAt) {
             "Expected paidAt should be: $expectedPaidAt. Actual: ${expense.paidAt}"

@@ -2,6 +2,8 @@ package com.mateuszcholyn.wallet.manager.validator
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
+import com.mateuszcholyn.wallet.manager.CategoryScope
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
 
 fun ExpenseAppManager.validate(
@@ -32,9 +34,30 @@ fun CategoryV2.validate(validateBlock: SimpleCategoryValidator.() -> Unit) {
 class SimpleCategoryValidator(
     private val category: CategoryV2,
 ) {
+
+    fun isSameAsCategoryFromBackup(
+        backupCategory: BackupWalletV1.BackupCategoryV1,
+    ) {
+        nameEqualTo(backupCategory.name)
+        idEqualTo(CategoryId(backupCategory.id))
+    }
+
+    fun isSameAsExistingCategory(
+        categoryScope: CategoryScope,
+    ) {
+        nameEqualTo(categoryScope.categoryName)
+        idEqualTo(categoryScope.categoryId)
+    }
+
     fun nameEqualTo(expectedCategoryName: String) {
         assert(category.name == expectedCategoryName) {
             "Expected category name is: $expectedCategoryName. Actual: ${category.name}"
+        }
+    }
+
+    fun idEqualTo(expectedCategoryId: CategoryId) {
+        assert(category.id == expectedCategoryId) {
+            "Expected categoryId is: $expectedCategoryId. Actual: ${category.id}"
         }
     }
 }

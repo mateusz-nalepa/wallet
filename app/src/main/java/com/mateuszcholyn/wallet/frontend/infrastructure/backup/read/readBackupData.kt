@@ -69,12 +69,14 @@ fun readBackupData(
 
 }
 
-sealed interface CategoryFinished
 
+// to trzeba uprośicć
+sealed interface CategoryFinished
 
 data class SavedCategoryFromDb(
     val categoryIdFromImportFile: CategoryId,
     val categoryIdFromDatabase: CategoryId,
+    // TODO: ta linia wygląda na mega niepotrzebną
     val name: String,
 ) : CategoryFinished
 

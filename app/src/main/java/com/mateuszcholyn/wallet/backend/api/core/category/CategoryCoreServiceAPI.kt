@@ -5,7 +5,6 @@ interface CategoryCoreServiceAPI {
     fun getAll(): List<CategoryV2>
     fun getByIdOrThrow(categoryId: CategoryId): CategoryV2
     fun getById(categoryId: CategoryId): CategoryV2?
-
     fun remove(categoryId: CategoryId)
     fun update(updateCategoryParameters: CategoryV2): CategoryV2
     fun removeAll()

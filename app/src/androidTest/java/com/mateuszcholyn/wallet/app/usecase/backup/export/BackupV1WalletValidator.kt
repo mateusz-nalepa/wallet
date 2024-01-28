@@ -18,14 +18,16 @@ class BackupV1WalletValidator(
     }
 
     fun numberOfCategoriesEqualTo(expectedNumberOfCategories: Int) {
-        assert(backupWalletV1.categories.size == 2) {
-            "Categories in backup should be: 2, Actual: ${backupWalletV1.categories.size} "
+        assert(backupWalletV1.categories.size == expectedNumberOfCategories) {
+            "Categories in backup should be: $expectedNumberOfCategories, Actual: ${backupWalletV1.categories.size} "
         }
     }
-    // TODO: check it XD
-//    fun numberOfExpensesEqualTo(expectedNumberOfExpenses: Int) {
-//        assert(backupWalletV1.expenses.size == 2) {
-//            "Expenses in backup should be: 2, Actual: ${backupWalletV1.expenses.size} "
-//        }
-//    }
+
+    fun numberOfExpensesEqualTo(expectedNumberOfExpenses: Int) {
+        val expensesSize = backupWalletV1.categories.flatMap { it.expenses }.size
+
+        assert(expensesSize == expectedNumberOfExpenses) {
+            "Expenses in backup should be: ${expectedNumberOfExpenses}, Actual: $expensesSize "
+        }
+    }
 }
