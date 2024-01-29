@@ -2,8 +2,14 @@ package com.mateuszcholyn.wallet.frontend.view.screen.category
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.R
@@ -54,21 +60,36 @@ private fun CategoryFormStateless(
 
     var newCategoryNameText by remember { mutableStateOf(initialCategoryName) }
 
-    val isFormValid by derivedStateOf {
-        !categoryIsInvalid(newCategoryNameText, categoryNamesOnly)
+    val isFormValid by remember {
+        derivedStateOf {
+            !categoryIsInvalid(newCategoryNameText)
+        }
     }
+
+    var categoryAlreadyExists by remember { mutableStateOf(false) }
 
     Column(modifier = defaultModifier) {
         ValidatedTextField(
             textFieldLabel = textFieldLabel,
             value = newCategoryNameText,
-            onValueChange = { newCategoryNameText = it },
-            isValueInValidFunction = {
-                categoryIsInvalid(it, categoryNamesOnly)
+            onValueChange = {
+                categoryAlreadyExists = shouldShowCategoryWarning(it, categoryNamesOnly)
+                newCategoryNameText = it
             },
-            valueInvalidText = stringResource(R.string.categoryAlreadyExists),
+            isValueInValidFunction = {
+                categoryIsInvalid(it)
+            },
+            valueInvalidText = "Nieprawidłowa nazwa kategorii",
+
             modifier = defaultModifier,
         )
+        if (categoryAlreadyExists) {
+            Text(
+                text = "Kategoria o takiej nazwie już istnieje. Wciąż jednak możesz dodać kolejną kategorię o takiej nazwie, jeśli chcesz.",
+                color = MaterialTheme.colors.primary,
+                modifier = defaultModifier,
+            )
+        }
         Button(
             enabled = isFormValid,
             onClick = {
@@ -82,6 +103,8 @@ private fun CategoryFormStateless(
     }
 }
 
-private fun categoryIsInvalid(category: String, categories: List<String>): Boolean {
-    return category.isBlank() || category in categories
-}
+private fun categoryIsInvalid(category: String): Boolean =
+    category.isBlank()
+
+private fun shouldShowCategoryWarning(category: String, categories: List<String>): Boolean =
+    category != "" && category in categories

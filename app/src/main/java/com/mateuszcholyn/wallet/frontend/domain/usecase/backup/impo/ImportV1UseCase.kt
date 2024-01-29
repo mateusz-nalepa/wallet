@@ -1,10 +1,9 @@
 package com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
+import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.frontend.domain.usecase.UseCase
-import com.mateuszcholyn.wallet.frontend.infrastructure.backup.read.CategoryFinished
-import com.mateuszcholyn.wallet.frontend.infrastructure.backup.read.SavedCategoryFromDb
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import java.util.UUID
 
@@ -59,22 +58,22 @@ class ImportV1UseCase(
     private suspend fun processCategoryFinishedImporting(
         importV1Parameters: ImportV1Parameters,
         backupCategory: BackupWalletV1.BackupCategoryV1,
-        categoryFinished: CategoryFinished,
+        savedCategoryFromDb: SavedCategoryFromDb,
         importV1SummaryGenerator: ImportV1SummaryGenerator,
     ) {
-        when (categoryFinished) {
-
-            is SavedCategoryFromDb -> backupCategory.expenses.forEach { backupExpense ->
+        backupCategory
+            .expenses
+            .forEach { backupExpense ->
                 ExpenseImport(expenseCoreServiceAPI)
                     .addExpense(
                         backupCategory,
                         importV1Parameters,
-                        categoryFinished,
+                        savedCategoryFromDb,
                         backupExpense,
                         importV1SummaryGenerator,
                     )
             }
-        }
+
     }
 
 
@@ -93,3 +92,7 @@ fun validateIdIsUUID(id: String, lazyMessage: () -> String) {
         throw IllegalStateException(lazyMessage.invoke())
     }
 }
+
+data class SavedCategoryFromDb(
+    val categoryId: CategoryId,
+)

@@ -12,9 +12,10 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1UseC
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.OnCategoryChangedInput
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.OnExpanseChangedInput
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupV1JsonCreator
-import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupV1JsonReader
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 // TODO: zrób żeby działał ten import i eksport
@@ -25,6 +26,8 @@ sealed class ImportState {
 
     data object NotStarted : ImportState()
     data object Loading : ImportState()
+
+    // TODO: to cały czas jest widoczne jak się ponownie wejdzie na ekran xDD
     data class Success(val importV1Summary: ImportV1Summary) : ImportState()
     data class Error(val errorMessage: String) : ImportState()
 }
@@ -47,30 +50,24 @@ class BackupScreenViewModel @Inject constructor(
 
     // TODO: export jak export, ale to weź mocno obtestuj xD
     fun importBackupV1JsonString(
-        jsonString: String,
+        fileWithBackupCopy: File,
         onCategoryChangedAction: (OnCategoryChangedInput) -> Unit,
         onExpanseChangedAction: (OnExpanseChangedInput) -> Unit,
     ) {
         try {
-//            val backupWalletV1 = BackupV1JsonReader.readBackupWalletV1(jsonString)
-//            println(backupWalletV1)
-
-            val backupWalletV1 =
-                BackupWalletV1(
-                    version = 1,
-                    emptyList(),
-                )
-
-            val importV1Parameters =
-                ImportV1Parameters(
-                    backupWalletV1 = backupWalletV1,
-                    removeAllBeforeImport = false,
-                    onCategoryNameChangedAction = onCategoryChangedAction,
-                    onExpanseChangedAction = onExpanseChangedAction,
-                )
-
-
             viewModelScope.launch {
+                val backupWalletV1 =
+                    BackupV1JsonReader
+                        .readBackupWalletV1(fileWithBackupCopy.bufferedReader().readText())
+
+                val importV1Parameters =
+                    ImportV1Parameters(
+                        backupWalletV1 = backupWalletV1,
+                        removeAllBeforeImport = false,
+                        onCategoryNameChangedAction = onCategoryChangedAction,
+                        onExpanseChangedAction = onExpanseChangedAction,
+                    )
+
                 _importState.value = ImportState.Loading
                 val importV1Summary = importV1UseCase.invoke(importV1Parameters)
                 _importState.value = ImportState.Success(importV1Summary)

@@ -6,7 +6,6 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
-import com.mateuszcholyn.wallet.frontend.infrastructure.backup.read.SavedCategoryFromDb
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import kotlinx.coroutines.CompletableDeferred
 
@@ -31,7 +30,6 @@ class ExpenseImport(
                         "Invalid expenseId: [${backupExpenseV1.expenseId}]. Have it been modified manually in file with backup data?"
                     }
                     addNewExpenseWhichWasProbablyRemoved(
-                        backupCategoryV1,
                         savedCategoryFromDb,
                         backupExpenseV1,
                         importV1SummaryGenerator
@@ -79,7 +77,6 @@ class ExpenseImport(
 
 
     private fun addNewExpenseWhichWasProbablyRemoved(
-        backupCategoryV1: BackupWalletV1.BackupCategoryV1,
         savedCategoriesFromDb: SavedCategoryFromDb,
         backupExpenseV1: BackupWalletV1.BackupCategoryV1.BackupExpenseV1,
         importV1SummaryGenerator: ImportV1SummaryGenerator,
@@ -90,7 +87,7 @@ class ExpenseImport(
             description = backupExpenseV1.description,
             paidAt = InstantConverter.toInstant(backupExpenseV1.paidAt),
             // TODO: tu wcześniej było wyszukiwanie na liście xd
-            categoryId = savedCategoriesFromDb.categoryIdFromDatabase,
+            categoryId = savedCategoriesFromDb.categoryId,
         )
             .let { expenseCoreServiceAPI.add(it) }
             .also { importV1SummaryGenerator.markExpenseImported() }

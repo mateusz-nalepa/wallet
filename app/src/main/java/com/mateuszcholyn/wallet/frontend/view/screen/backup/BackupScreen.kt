@@ -27,34 +27,35 @@ import java.time.LocalDateTime
 fun BackupImport(
     backupScreenViewModel: BackupScreenViewModel = hiltViewModel(),
 ) {
-    val context = currentAppContext()
-
-
     val openCategoryChangedDialog = remember { mutableStateOf(false) }
-    var onCategoryYesAction: () -> Unit = {}
-    var onCategoryNoAction: () -> Unit = {}
+    var onKeepCategoryFromDatabase: () -> Unit = {}
+    var onUseCategoryFromBackup: () -> Unit = {}
     YesOrNoDialog(
-        message = "Kategoria popsute. Kontynuować?",
+        message = "Kategoria się zmieniła!",
+        confirmText = "Zachowaj kategorię z bazy",
+        cancelText = "Zachowaj kategorię z kopii zapasowej",
         openDialog = openCategoryChangedDialog,
         onConfirm = {
-            onCategoryYesAction.invoke()
+            onKeepCategoryFromDatabase.invoke()
         },
         onCancel = {
-            onCategoryNoAction.invoke()
+            onUseCategoryFromBackup.invoke()
         }
     )
 
     val openExpenseChangedDialog = remember { mutableStateOf(false) }
-    var onExpenseYesAction: () -> Unit = {}
-    var onExpenseNoAction: () -> Unit = {}
+    var onKeepExpenseFromDatabase: () -> Unit = {}
+    var onUseExpenseFromBackup: () -> Unit = {}
     YesOrNoDialog(
-        message = "Wydatek popsute. Kontynuować?",
+        message = "Wydatek się zmienił!",
+        confirmText = "Zachowaj wydatek z bazy",
+        cancelText = "Zachowaj wydatek z kopii zapasowej",
         openDialog = openExpenseChangedDialog,
         onConfirm = {
-            onExpenseYesAction.invoke()
+            onKeepExpenseFromDatabase.invoke()
         },
         onCancel = {
-            onExpenseNoAction.invoke()
+            onUseExpenseFromBackup.invoke()
         }
     )
 
@@ -62,16 +63,16 @@ fun BackupImport(
         fileSelector(
             onFileSelected = {
                 backupScreenViewModel.importBackupV1JsonString(
-                    jsonString = it.bufferedReader().readText(),
+                    fileWithBackupCopy = it,
                     onCategoryChangedAction = { categoryChangedInput ->
-                        onCategoryYesAction = categoryChangedInput.keepCategoryFromDatabase
-                        onCategoryNoAction = categoryChangedInput.useCategoryFromBackup
+                        onKeepCategoryFromDatabase = categoryChangedInput.keepCategoryFromDatabase
+                        onUseCategoryFromBackup = categoryChangedInput.useCategoryFromBackup
                         openCategoryChangedDialog.value = true
                     },
                     onExpanseChangedAction = { expanseChangedInput ->
-                        onExpenseNoAction = expanseChangedInput.keepExpenseFromDatabase
-                        onExpenseNoAction = expanseChangedInput.useExpenseFromBackup
-                        openCategoryChangedDialog.value = true
+                        onKeepExpenseFromDatabase = expanseChangedInput.keepExpenseFromDatabase
+                        onUseExpenseFromBackup = expanseChangedInput.useExpenseFromBackup
+                        openExpenseChangedDialog.value = true
                     }
                 )
             }
