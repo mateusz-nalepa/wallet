@@ -6,14 +6,12 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
-import com.mateuszcholyn.wallet.frontend.view.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.file.export.fileExporter
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.file.impo.fileSelector
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
@@ -27,53 +25,17 @@ import java.time.LocalDateTime
 fun BackupImport(
     backupScreenViewModel: BackupScreenViewModel = hiltViewModel(),
 ) {
-    val openCategoryChangedDialog = remember { mutableStateOf(false) }
-    var onKeepCategoryFromDatabase: () -> Unit = {}
-    var onUseCategoryFromBackup: () -> Unit = {}
-    YesOrNoDialog(
-        message = "Kategoria się zmieniła!",
-        confirmText = "Zachowaj kategorię z bazy",
-        cancelText = "Zachowaj kategorię z kopii zapasowej",
-        openDialog = openCategoryChangedDialog,
-        onConfirm = {
-            onKeepCategoryFromDatabase.invoke()
-        },
-        onCancel = {
-            onUseCategoryFromBackup.invoke()
-        }
-    )
 
-    val openExpenseChangedDialog = remember { mutableStateOf(false) }
-    var onKeepExpenseFromDatabase: () -> Unit = {}
-    var onUseExpenseFromBackup: () -> Unit = {}
-    YesOrNoDialog(
-        message = "Wydatek się zmienił!",
-        confirmText = "Zachowaj wydatek z bazy",
-        cancelText = "Zachowaj wydatek z kopii zapasowej",
-        openDialog = openExpenseChangedDialog,
-        onConfirm = {
-            onKeepExpenseFromDatabase.invoke()
-        },
-        onCancel = {
-            onUseExpenseFromBackup.invoke()
-        }
-    )
+    val categoryChangedModal = categoryChangedModal()
+    val expenseChangedModal = expenseChangedModal()
 
     val fileSelector =
         fileSelector(
-            onFileSelected = {
+            onFileSelected = { file ->
                 backupScreenViewModel.importBackupV1JsonString(
-                    fileWithBackupCopy = it,
-                    onCategoryChangedAction = { categoryChangedInput ->
-                        onKeepCategoryFromDatabase = categoryChangedInput.keepCategoryFromDatabase
-                        onUseCategoryFromBackup = categoryChangedInput.useCategoryFromBackup
-                        openCategoryChangedDialog.value = true
-                    },
-                    onExpanseChangedAction = { expanseChangedInput ->
-                        onKeepExpenseFromDatabase = expanseChangedInput.keepExpenseFromDatabase
-                        onUseExpenseFromBackup = expanseChangedInput.useExpenseFromBackup
-                        openExpenseChangedDialog.value = true
-                    }
+                    fileWithBackupCopy = file,
+                    onCategoryChangedAction = { categoryChangedModal.open(it) },
+                    onExpanseChangedAction = { expenseChangedModal.open(it) },
                 )
             }
         )

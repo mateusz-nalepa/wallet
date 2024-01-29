@@ -9,76 +9,52 @@ import kotlinx.coroutines.CompletableDeferred
 
 class CategoryImport(
     private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
+    private val importV1SummaryGenerator: ImportV1SummaryGenerator,
+    private val importV1Parameters: ImportV1Parameters,
+    private val backupCategoryV1: BackupWalletV1.BackupCategoryV1
 ) {
 
-    suspend fun getOrCreateCategoryById(
-        importV1Parameters: ImportV1Parameters,
-        backupCategoryV1: BackupWalletV1.BackupCategoryV1,
-        importV1SummaryGenerator: ImportV1SummaryGenerator,
-    ): SavedCategoryFromDb {
-        val nullableCategoryFromDatabaseByCategoryId =
-            categoryCoreServiceAPI.getById(CategoryId(backupCategoryV1.id))
-                ?: return run {
-                    validateIdIsUUID(backupCategoryV1.id) {
-                        "Invalid categoryId: [${backupCategoryV1.id}]. Have it been modified manually in file with backup data?"
-                    }
-                    addNewCategoryWhichHasBeenProbablyRemoved(
-                        backupCategoryV1,
-                        importV1SummaryGenerator
-                    )
-                }
+    suspend fun getOrCreateCategory(): SavedCategoryFromDb {
+        val categoryFromDb =
+            categoryCoreServiceAPI
+                .getById(CategoryId(backupCategoryV1.id))
+                ?: return addNewCategoryWhichHasBeenProbablyRemoved()
 
-        return if (categoryChangedAfterExport(
-                backupCategoryV1,
-                nullableCategoryFromDatabaseByCategoryId,
-            )
-        ) {
-            askUserWhatToDoWhenCategoryNameChanged(
-                nullableCategoryFromDatabaseByCategoryId,
-                backupCategoryV1,
-                importV1SummaryGenerator,
-                importV1Parameters
-            )
+        return if (categoryChangedAfterExport(categoryFromDb)) {
+            askUserWhatToDoWhenCategoryNameChanged(categoryFromDb)
         } else {
-            useExistingCategoryResult(backupCategoryV1, importV1SummaryGenerator)
+            useExistingCategoryResult()
         }
     }
 
-    private fun addNewCategoryWhichHasBeenProbablyRemoved(
-        backupCategoryV1: BackupWalletV1.BackupCategoryV1,
-        importV1SummaryGenerator: ImportV1SummaryGenerator,
-    ): SavedCategoryFromDb {
-        val addedCategory =
-            categoryCoreServiceAPI.add(
+    private fun addNewCategoryWhichHasBeenProbablyRemoved(): SavedCategoryFromDb {
+
+        validateIdIsUUID(backupCategoryV1.id) {
+            "Invalid categoryId: [${backupCategoryV1.id}]. Have it been modified manually in file with backup data?"
+        }
+
+        return categoryCoreServiceAPI
+            .add(
                 CreateCategoryParameters(
                     categoryId = CategoryId(backupCategoryV1.id),
                     name = backupCategoryV1.name
                 )
             )
-
-        return SavedCategoryFromDb(categoryId = addedCategory.id)
+            .let { SavedCategoryFromDb(categoryId = it.id) }
             .also { importV1SummaryGenerator.markCategoryImported() }
     }
 
-    private fun useExistingCategoryResult(
-        backupCategoryV1: BackupWalletV1.BackupCategoryV1,
-        importV1SummaryGenerator: ImportV1SummaryGenerator,
-    ): SavedCategoryFromDb =
-        SavedCategoryFromDb(categoryId = CategoryId(backupCategoryV1.id))
+    private fun useExistingCategoryResult(): SavedCategoryFromDb =
+        SavedCategoryFromDb(CategoryId(backupCategoryV1.id))
             .also { importV1SummaryGenerator.markCategorySkipped() }
 
-
     private fun categoryChangedAfterExport(
-        backupCategoryV1: BackupWalletV1.BackupCategoryV1,
         categoryFromDb: CategoryV2,
     ): Boolean =
         categoryFromDb.name != backupCategoryV1.name
 
     private suspend fun askUserWhatToDoWhenCategoryNameChanged(
-        existingCategoryFromDatabaseByCategoryId: CategoryV2,
-        backupCategoryV1: BackupWalletV1.BackupCategoryV1,
-        importV1SummaryGenerator: ImportV1SummaryGenerator,
-        importV1Parameters: ImportV1Parameters,
+        categoryFromDb: CategoryV2,
     ): SavedCategoryFromDb {
         val deferred = CompletableDeferred<() -> SavedCategoryFromDb>()
 
@@ -88,19 +64,12 @@ class CategoryImport(
                 OnCategoryChangedInput(
                     keepCategoryFromDatabase = {
                         deferred.complete {
-                            useExistingCategoryResult(
-                                backupCategoryV1,
-                                importV1SummaryGenerator
-                            )
+                            useExistingCategoryResult()
                         }
                     },
                     useCategoryFromBackup = {
                         deferred.complete {
-                            updateCategoryByUsingDataFromBackup(
-                                existingCategoryFromDatabaseByCategoryId,
-                                backupCategoryV1,
-                                importV1SummaryGenerator,
-                            )
+                            updateCategoryByUsingDataFromBackup(categoryFromDb)
                         }
                     },
                 )
@@ -109,18 +78,12 @@ class CategoryImport(
     }
 
     private fun updateCategoryByUsingDataFromBackup(
-        existingCategoryFromDatabaseByCategoryId: CategoryV2,
-        backupCategoryV1: BackupWalletV1.BackupCategoryV1,
-        importV1SummaryGenerator: ImportV1SummaryGenerator,
-    ): SavedCategoryFromDb {
-
-        val updatedCategory =
-            existingCategoryFromDatabaseByCategoryId
-                .copy(name = backupCategoryV1.name)
-                .let { categoryCoreServiceAPI.update(it) }
-
-        return SavedCategoryFromDb(categoryId = updatedCategory.id)
+        categoryFromDb: CategoryV2,
+    ): SavedCategoryFromDb =
+        categoryFromDb
+            .copy(name = backupCategoryV1.name)
+            .let { categoryCoreServiceAPI.update(it) }
+            .let { SavedCategoryFromDb(it.id) }
             .also { importV1SummaryGenerator.markCategoryImported() }
-    }
 
 }

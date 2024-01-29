@@ -1,5 +1,7 @@
 package com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo
 
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
+
 data class ImportV1Summary(
     val numberOfCategories: Int,
     val numberOfExpenses: Int,
@@ -15,12 +17,21 @@ class ImportV1SummaryGenerator(
     val numberOfCategories: Int,
     val numberOfExpenses: Int,
 
-    var numberOfImportedCategories: Int = 0,
-    var numberOfSkippedCategories: Int = 0,
+    private var numberOfImportedCategories: Int = 0,
+    private var numberOfSkippedCategories: Int = 0,
 
-    var numberOfImportedExpenses: Int = 0,
-    var numberOfSkippedExpenses: Int = 0,
+    private var numberOfImportedExpenses: Int = 0,
+    private var numberOfSkippedExpenses: Int = 0,
 ) {
+
+    companion object {
+        fun from(backupWalletV1: BackupWalletV1): ImportV1SummaryGenerator =
+            ImportV1SummaryGenerator(
+                numberOfCategories = backupWalletV1.categories.size,
+                numberOfExpenses = backupWalletV1.categories.flatMap { it.expenses }.size,
+            )
+    }
+
     fun markCategoryImported() {
         numberOfImportedCategories++
     }

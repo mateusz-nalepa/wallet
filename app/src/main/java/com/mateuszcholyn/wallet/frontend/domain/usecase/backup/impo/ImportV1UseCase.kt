@@ -24,63 +24,55 @@ class ImportV1UseCase(
     ): ImportV1Summary {
         removeAllIfNecessary(importV1Parameters)
 
-        val categories = importV1Parameters.backupWalletV1.categories
-
-        val importV1SummaryGenerator =
-            ImportV1SummaryGenerator(
-                numberOfCategories = categories.size,
-                numberOfExpenses = categories.flatMap { it.expenses }.size,
-            )
-
-        importV1Parameters
-            .backupWalletV1
-            .categories
-            .map { backupCategory ->
-                val categoryFinishedImporting =
-                    CategoryImport(categoryCoreServiceAPI)
-                        .getOrCreateCategoryById(
-                            importV1Parameters,
-                            backupCategory,
-                            importV1SummaryGenerator,
-                        )
-
-                processCategoryFinishedImporting(
-                    importV1Parameters,
-                    backupCategory,
-                    categoryFinishedImporting,
-                    importV1SummaryGenerator,
-                )
-            }
-
-        return importV1SummaryGenerator.toImportV1Summary()
+        return ImportV1SummaryGenerator
+            .from(importV1Parameters.backupWalletV1)
+            .also { importBackup(importV1Parameters, it) }
+            .toImportV1Summary()
     }
-
-    private suspend fun processCategoryFinishedImporting(
-        importV1Parameters: ImportV1Parameters,
-        backupCategory: BackupWalletV1.BackupCategoryV1,
-        savedCategoryFromDb: SavedCategoryFromDb,
-        importV1SummaryGenerator: ImportV1SummaryGenerator,
-    ) {
-        backupCategory
-            .expenses
-            .forEach { backupExpense ->
-                ExpenseImport(expenseCoreServiceAPI)
-                    .addExpense(
-                        backupCategory,
-                        importV1Parameters,
-                        savedCategoryFromDb,
-                        backupExpense,
-                        importV1SummaryGenerator,
-                    )
-            }
-
-    }
-
 
     private fun removeAllIfNecessary(importV1Parameters: ImportV1Parameters) {
         if (importV1Parameters.removeAllBeforeImport) {
             allExpensesRemover.removeAll()
         }
+    }
+
+    private suspend fun importBackup(
+        importV1Parameters: ImportV1Parameters,
+        summaryGenerator: ImportV1SummaryGenerator,
+    ) {
+        importV1Parameters
+            .backupWalletV1
+            .categories
+            .map { backupCategory ->
+                importSingleCategory(backupCategory, importV1Parameters, summaryGenerator)
+            }
+    }
+
+    private suspend fun importSingleCategory(
+        backupCategory: BackupWalletV1.BackupCategoryV1,
+        importV1Parameters: ImportV1Parameters,
+        summaryGenerator: ImportV1SummaryGenerator,
+    ) {
+        val savedCategoryFromDb =
+            CategoryImport(
+                categoryCoreServiceAPI,
+                summaryGenerator,
+                importV1Parameters,
+                backupCategory,
+            ).getOrCreateCategory()
+
+        backupCategory
+            .expenses
+            .forEach { backupExpense ->
+                ExpenseImport(
+                    expenseCoreServiceAPI,
+                    backupCategory,
+                    importV1Parameters,
+                    savedCategoryFromDb,
+                    backupExpense,
+                    summaryGenerator,
+                ).addExpense()
+            }
     }
 
 }
