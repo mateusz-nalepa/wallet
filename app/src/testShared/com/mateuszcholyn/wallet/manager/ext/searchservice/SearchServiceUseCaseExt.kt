@@ -5,6 +5,7 @@ import com.mateuszcholyn.wallet.backend.api.searchservice.NewSort
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchServiceResult
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
+import kotlinx.coroutines.runBlocking
 import java.math.BigDecimal
 import java.time.Instant
 
@@ -17,10 +18,11 @@ fun ExpenseAppManager.searchServiceUseCase(
             .also(initBlock)
             .toSearchCriteria()
 
-    return this
-        .expenseAppUseCases
-        .searchServiceUseCase
-        .invoke(searchCriteria)
+    return runBlocking {
+        expenseAppUseCases
+            .searchServiceUseCase
+            .invoke(searchCriteria)
+    }
 }
 
 class SearchCriteriaScope {

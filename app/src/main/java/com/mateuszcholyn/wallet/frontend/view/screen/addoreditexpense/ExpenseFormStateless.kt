@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.addoreditexpense
 
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
@@ -10,7 +11,11 @@ import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,13 +27,15 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 import java.time.LocalDateTime
 
+
 @Composable
 fun CopyExpenseScreen(
     onFormSubmitNavigateAction: () -> Unit,
     actualExpenseId: String,
     addOrEditExpenseViewModel: AddOrEditExpenseViewModel = hiltViewModel(),
 ) {
-    val categoryNameOptions by remember { mutableStateOf(addOrEditExpenseViewModel.categoryOptions()) }
+    addOrEditExpenseViewModel.initScreen()
+    val categoryNameOptions by remember { addOrEditExpenseViewModel.categoryOptions }
 
     DisposableEffect(key1 = Unit, effect = {
         addOrEditExpenseViewModel.loadExpense(actualExpenseId)
@@ -61,7 +68,7 @@ fun EditExpenseScreen(
     actualExpenseId: String,
     addOrEditExpenseViewModel: AddOrEditExpenseViewModel = hiltViewModel(),
 ) {
-    val categoryNameOptions by remember { mutableStateOf(addOrEditExpenseViewModel.categoryOptions()) }
+    val categoryNameOptions by remember { addOrEditExpenseViewModel.categoryOptions }
 
     DisposableEffect(key1 = Unit, effect = {
         addOrEditExpenseViewModel.loadExpense(actualExpenseId)
@@ -92,7 +99,7 @@ fun AddExpenseScreen(
     onFormSubmitNavigateAction: () -> Unit,
     addOrEditExpenseViewModel: AddOrEditExpenseViewModel = hiltViewModel(),
 ) {
-    val categoryNameOptions by remember { mutableStateOf(addOrEditExpenseViewModel.categoryOptions()) }
+    val categoryNameOptions by remember { addOrEditExpenseViewModel.categoryOptions }
 
     DisposableEffect(key1 = Unit, effect = {
         addOrEditExpenseViewModel.updateCategory(categoryNameOptions.first())
@@ -117,6 +124,7 @@ fun AddExpenseScreen(
     )
 }
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 @OptIn(ExperimentalMaterialApi::class)
 private fun ExpenseFormStateless(

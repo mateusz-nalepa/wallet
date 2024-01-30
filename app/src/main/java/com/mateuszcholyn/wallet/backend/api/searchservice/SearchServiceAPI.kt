@@ -19,11 +19,11 @@ data class SearchCriteria(
 )
 
 interface SearchServiceAPI {
-    fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent)
-    fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent)
-    fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent)
-    fun getAll(searchCriteria: SearchCriteria): SearchServiceResult
-    fun removeAll()
+    suspend fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent)
+    suspend fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent)
+    suspend fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent)
+    suspend fun getAll(searchCriteria: SearchCriteria): SearchServiceResult
+    suspend fun removeAll()
 }
 
 data class SearchServiceResult(

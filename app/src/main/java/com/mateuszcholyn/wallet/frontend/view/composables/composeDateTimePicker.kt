@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.frontend.view.composables
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanText
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.toLocalDateTime
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.MaterialDialogState
@@ -35,7 +35,7 @@ fun ComposeDateTimePicker(
 
             LocalDateTime
                 .of(newDate, newTime)
-                .toHumanText()
+                .toHumanDateTimeText()
                 .also(onValueChange)
         }
     }

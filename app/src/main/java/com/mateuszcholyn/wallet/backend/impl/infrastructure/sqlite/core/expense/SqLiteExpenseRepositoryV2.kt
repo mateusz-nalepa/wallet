@@ -4,55 +4,71 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepositoryV2
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.coroutineDispatcher.DispatcherProvider
+import kotlinx.coroutines.withContext
 
 class SqLiteExpenseRepositoryV2(
     private val expenseV2Dao: ExpenseV2Dao,
+    private val dispatcherProvider: DispatcherProvider,
 ) : ExpenseRepositoryV2 {
 
-    override fun create(
+    override suspend fun create(
         expense: ExpenseV2,
         onNonExistingCategoryAction: (CategoryId) -> Unit,
     ): ExpenseV2 =
-        try {
-            expense
-                .toEntity()
-                .also { expenseV2Dao.create(it) }
-                .toDomain()
-        } catch (t: Throwable) {
-            onNonExistingCategoryAction.invoke(expense.categoryId)
-            throw t
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            try {
+                expense
+                    .toEntity()
+                    .also { expenseV2Dao.create(it) }
+                    .toDomain()
+            } catch (t: Throwable) {
+                onNonExistingCategoryAction.invoke(expense.categoryId)
+                throw t
+            }
         }
 
-    override fun update(
+    override suspend fun update(
         expense: ExpenseV2,
         onNonExistingCategoryAction: (CategoryId) -> Unit
     ): ExpenseV2 =
-        try {
-            expense
-                .toEntity()
-                .also { expenseV2Dao.update(it) }
-                .toDomain()
-        } catch (t: Throwable) {
-            onNonExistingCategoryAction.invoke(expense.categoryId)
-            throw t
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            try {
+                expense
+                    .toEntity()
+                    .also { expenseV2Dao.update(it) }
+                    .toDomain()
+            } catch (t: Throwable) {
+                onNonExistingCategoryAction.invoke(expense.categoryId)
+                throw t
+            }
         }
 
-    override fun getAllExpenses(): List<ExpenseV2> =
-        expenseV2Dao
-            .getAll()
-            .map { it.toDomain() }
+    override suspend fun getAllExpenses(): List<ExpenseV2> =
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            expenseV2Dao
+                .getAll()
+                .map { it.toDomain() }
+        }
 
-    override fun getById(expenseId: ExpenseId): ExpenseV2? =
-        expenseV2Dao
-            .getByExpenseId(expenseId.id)
-            ?.toDomain()
+    override suspend fun getById(expenseId: ExpenseId): ExpenseV2? =
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            expenseV2Dao
+                .getByExpenseId(expenseId.id)
+                ?.toDomain()
+        }
 
-    override fun remove(expenseId: ExpenseId) {
-        expenseV2Dao.remove(expenseId.id)
+    override suspend fun remove(expenseId: ExpenseId) {
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            expenseV2Dao.remove(expenseId.id)
+        }
     }
 
-    override fun removeAllExpenses() {
-        expenseV2Dao.removeAll()
+    override suspend fun removeAllExpenses() {
+        withContext(dispatcherProvider.provideIODispatcher()) {
+
+            expenseV2Dao.removeAll()
+        }
     }
 }
 

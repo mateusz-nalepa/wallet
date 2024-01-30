@@ -16,6 +16,7 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.G
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.AddExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.GetExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.UpdateExpenseUseCase
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.coroutineDispatcher.DispatcherProvider
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.toCategoryView
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.asFormattedAmount
@@ -27,8 +28,8 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 sealed class AddOrEditExpenseScreenState {
-    object Loading : AddOrEditExpenseScreenState()
-    object Show : AddOrEditExpenseScreenState()
+    data object Loading : AddOrEditExpenseScreenState()
+    data object Show : AddOrEditExpenseScreenState()
     data class Error(val errorMessage: String) : AddOrEditExpenseScreenState()
 }
 
@@ -51,6 +52,7 @@ class AddOrEditExpenseViewModel @Inject constructor(
     private val updateExpenseUseCase: UpdateExpenseUseCase,
     private val getExpenseUseCase: GetExpenseUseCase,
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
+    
 ) : ViewModel() {
 
     private var _addOrEditExpenseScreenState: MutableState<AddOrEditExpenseScreenState> =
@@ -61,13 +63,28 @@ class AddOrEditExpenseViewModel @Inject constructor(
 
     private var _addOrEditExpenseFormState: MutableState<FormDetails> =
         mutableStateOf(FormDetails())
+
+    private var _categoryOptions: MutableState<List<CategoryView>> =
+        mutableStateOf(emptyList())
+
+    val categoryOptions: State<List<CategoryView>> =
+        _categoryOptions
+
     val addOrEditExpenseFormState: State<FormDetails>
         get() = _addOrEditExpenseFormState
 
-
-    fun categoryOptions(): List<CategoryView> {
-        return getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
+    init {
+        initScreen()
     }
+
+    fun initScreen() {
+        categoryOptions()
+    }
+
+    private fun categoryOptions() =
+        viewModelScope.launch {
+            _categoryOptions.value = getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
+        }
 
     fun updateCategory(newCategory: CategoryView) {
         _addOrEditExpenseFormState.value =
@@ -91,11 +108,6 @@ class AddOrEditExpenseViewModel @Inject constructor(
         updateDate(LocalDateTime.now())
     }
 
-    fun updateSubmitButtonLabel(newLabel: String) {
-        _addOrEditExpenseFormState.value =
-            _addOrEditExpenseFormState.value.copy(submitButtonLabel = newLabel)
-    }
-
     fun screenVisible() {
         _addOrEditExpenseScreenState.value = AddOrEditExpenseScreenState.Show
     }
@@ -108,33 +120,36 @@ class AddOrEditExpenseViewModel @Inject constructor(
                 paidAt = addOrEditExpenseFormState.value.paidAt.fromUserLocalTimeZoneToUTCInstant(),
                 categoryId = CategoryId(addOrEditExpenseFormState.value.category.categoryId!!)
             )
-        addExpenseUseCase.invoke(addExpenseParameters)
+        viewModelScope.launch {
+            addExpenseUseCase.invoke(addExpenseParameters)
+        }
     }
 
     fun saveExpense() {
-        val actualExpenseId = addOrEditExpenseFormState.value.actualExpenseId
+        viewModelScope.launch {
+            val actualExpenseId = addOrEditExpenseFormState.value.actualExpenseId
 
+            if (actualExpenseId == null) {
 
-        if (actualExpenseId == null) {
-
-            val addExpenseParameters =
-                AddExpenseParameters(
-                    amount = addOrEditExpenseFormState.value.amount.toBigDecimal(),
-                    description = addOrEditExpenseFormState.value.description,
-                    paidAt = addOrEditExpenseFormState.value.paidAt.fromUserLocalTimeZoneToUTCInstant(),
-                    categoryId = CategoryId(addOrEditExpenseFormState.value.category.categoryId!!)
-                )
-            addExpenseUseCase.invoke(addExpenseParameters)
-        } else {
-            val updatedExpense =
-                ExpenseV2(
-                    expenseId = ExpenseId(actualExpenseId),
-                    amount = addOrEditExpenseFormState.value.amount.toBigDecimal(),
-                    description = addOrEditExpenseFormState.value.description,
-                    categoryId = CategoryId(addOrEditExpenseFormState.value.category.categoryId!!),
-                    paidAt = addOrEditExpenseFormState.value.paidAt.fromUserLocalTimeZoneToUTCInstant(),
-                )
-            updateExpenseUseCase.invoke(updatedExpense)
+                val addExpenseParameters =
+                    AddExpenseParameters(
+                        amount = addOrEditExpenseFormState.value.amount.toBigDecimal(),
+                        description = addOrEditExpenseFormState.value.description,
+                        paidAt = addOrEditExpenseFormState.value.paidAt.fromUserLocalTimeZoneToUTCInstant(),
+                        categoryId = CategoryId(addOrEditExpenseFormState.value.category.categoryId!!)
+                    )
+                addExpenseUseCase.invoke(addExpenseParameters)
+            } else {
+                val updatedExpense =
+                    ExpenseV2(
+                        expenseId = ExpenseId(actualExpenseId),
+                        amount = addOrEditExpenseFormState.value.amount.toBigDecimal(),
+                        description = addOrEditExpenseFormState.value.description,
+                        categoryId = CategoryId(addOrEditExpenseFormState.value.category.categoryId!!),
+                        paidAt = addOrEditExpenseFormState.value.paidAt.fromUserLocalTimeZoneToUTCInstant(),
+                    )
+                updateExpenseUseCase.invoke(updatedExpense)
+            }
         }
     }
 

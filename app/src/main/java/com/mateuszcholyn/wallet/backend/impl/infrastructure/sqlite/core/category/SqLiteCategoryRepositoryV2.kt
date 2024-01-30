@@ -3,42 +3,58 @@ package com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.categor
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRepositoryV2
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.coroutineDispatcher.DispatcherProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class SqLiteCategoryRepositoryV2(
     private val categoryV2Dao: CategoryV2Dao,
+    private val dispatcherProvider: DispatcherProvider,
 ) : CategoryRepositoryV2 {
-    override fun create(category: CategoryV2): CategoryV2 =
-        category
-            .toEntity()
-            .also { categoryV2Dao.create(it) }
-            .toDomain()
+    override suspend fun create(category: CategoryV2): CategoryV2 =
+        withContext(Dispatchers.IO) {
+            category
+                .toEntity()
+                .also { categoryV2Dao.create(it) }
+                .toDomain()
+        }
 
-    override fun update(category: CategoryV2): CategoryV2 =
-        category
-            .toEntity()
-            .also { categoryV2Dao.update(it) }
-            .toDomain()
+    override suspend fun update(category: CategoryV2): CategoryV2 =
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            category
+                .toEntity()
+                .also { categoryV2Dao.update(it) }
+                .toDomain()
+        }
 
-    override fun getAllCategories(): List<CategoryV2> =
-        categoryV2Dao
-            .getAll()
-            .map { it.toDomain() }
+    override suspend fun getAllCategories(): List<CategoryV2> =
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            categoryV2Dao
+                .getAll()
+                .map { it.toDomain() }
+        }
 
-    override fun getById(categoryId: CategoryId): CategoryV2? =
-        categoryV2Dao
-            .getByCategoryId(categoryId.id)
-            ?.toDomain()
+    override suspend fun getById(categoryId: CategoryId): CategoryV2? =
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            categoryV2Dao
+                .getByCategoryId(categoryId.id)
+                ?.toDomain()
+        }
 
-    override fun remove(categoryId: CategoryId, onExpensesExistAction: (CategoryId) -> Unit) {
-        try {
-            categoryV2Dao.remove(categoryId.id)
-        } catch (t: Throwable) {
-            onExpensesExistAction.invoke(categoryId)
+    override suspend fun remove(categoryId: CategoryId, onExpensesExistAction: (CategoryId) -> Unit) {
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            try {
+                categoryV2Dao.remove(categoryId.id)
+            } catch (t: Throwable) {
+                onExpensesExistAction.invoke(categoryId)
+            }
         }
     }
 
-    override fun removeAllCategories() {
-        categoryV2Dao.removeAll()
+    override suspend fun removeAllCategories() {
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            categoryV2Dao.removeAll()
+        }
     }
 }
 

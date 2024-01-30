@@ -15,7 +15,12 @@ import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.frontend.domain.appstate.AppIsConfigured
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
-import com.mateuszcholyn.wallet.frontend.view.dropdown.*
+import com.mateuszcholyn.wallet.frontend.view.dropdown.GroupElement
+import com.mateuszcholyn.wallet.frontend.view.dropdown.QuickRangeDataV2
+import com.mateuszcholyn.wallet.frontend.view.dropdown.SortElement
+import com.mateuszcholyn.wallet.frontend.view.dropdown.groupingDataXD
+import com.mateuszcholyn.wallet.frontend.view.dropdown.quickRanges
+import com.mateuszcholyn.wallet.frontend.view.dropdown.sortingElements
 import com.mateuszcholyn.wallet.frontend.view.screen.addoreditexpense.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
@@ -44,7 +49,7 @@ data class SummarySearchForm(
 )
 
 sealed class SummaryState {
-    object Loading : SummaryState()
+    data object Loading : SummaryState()
     data class Success(val summarySuccessContent: SummarySuccessContent) : SummaryState()
     data class Error(val errorMessage: String) : SummaryState()
 }
@@ -59,12 +64,9 @@ data class SummarySuccessContent(
 class SummaryViewModel @Inject constructor(
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
     private val searchServiceUseCase: SearchServiceUseCase,
+    // TODO: Ensuring that all works, don't know if still needed
     private val appIsConfigured: AppIsConfigured,
 ) : ViewModel() {
-
-    fun initScreen() {
-        refreshScreen()
-    }
 
     private val _searchForm = mutableStateOf(SummarySearchForm())
     val summarySearchForm: SummarySearchForm
@@ -74,9 +76,14 @@ class SummaryViewModel @Inject constructor(
     val summaryState: State<SummaryState>
         get() = _summaryState
 
-    fun readCategoriesList(): List<CategoryView> =
-        listOf(initialCategory()) +
-                getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
+
+    private var _readCategoriesList: MutableState<List<CategoryView>> = mutableStateOf(emptyList())
+    val readCategoriesList: State<List<CategoryView>> =
+        _readCategoriesList
+
+    fun initScreen() {
+        refreshScreen()
+    }
 
     fun updateSelectedCategory(newSelectedCategory: CategoryView) {
         _searchForm.value = _searchForm.value.copy(selectedCategory = newSelectedCategory)
@@ -114,6 +121,7 @@ class SummaryViewModel @Inject constructor(
     }
 
     fun refreshScreen() {
+        // TODO: czemu to się odpala 3x jak klikam dodajWydatek XDD
         viewModelScope.launch {
             try {
                 _summaryState.value = SummaryState.Loading
@@ -125,7 +133,8 @@ class SummaryViewModel @Inject constructor(
         }
     }
 
-    private fun prepareSummarySuccessContent(): SummarySuccessContent {
+    private suspend fun prepareSummarySuccessContent(): SummarySuccessContent {
+        readCategoriesList()
         val summaryResult = searchServiceUseCase.invoke(summarySearchForm.toSearchCriteria())
         val expenses = summaryResult.expenses
 
@@ -135,6 +144,11 @@ class SummaryViewModel @Inject constructor(
             summaryResultText = summaryResult.averageExpenseResult.asTextSummary(),
         )
     }
+
+    private fun readCategoriesList() =
+        viewModelScope.launch {
+            _readCategoriesList.value = listOf(initialCategory()) + getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
+        }
 
 }
 

@@ -8,7 +8,7 @@ class UpdateExpenseUseCase(
     private val expenseCoreService: ExpenseCoreServiceAPI,
 ) : UseCase {
 
-    fun invoke(updatedExpense: ExpenseV2): ExpenseV2 =
+    suspend fun invoke(updatedExpense: ExpenseV2): ExpenseV2 =
         expenseCoreService.update(updatedExpense)
 
 }

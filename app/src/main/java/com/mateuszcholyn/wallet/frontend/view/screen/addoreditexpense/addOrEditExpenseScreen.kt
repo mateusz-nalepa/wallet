@@ -2,7 +2,6 @@ package com.mateuszcholyn.wallet.frontend.view.screen.addoreditexpense
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.frontend.view.dropdown.DropdownElement
@@ -15,7 +14,7 @@ fun NewAddOrEditExpenseScreen(
     screenMode: String? = null,
     addOrEditExpenseViewModel: AddOrEditExpenseViewModel = hiltViewModel()
 ) {
-    val categoryNameOptions by remember { mutableStateOf(addOrEditExpenseViewModel.categoryOptions()) }
+    val categoryNameOptions by remember { addOrEditExpenseViewModel.categoryOptions }
     if (categoryNameOptions.isEmpty()) {
         NoCategoryPresentInfo(onMissingCategoriesNavigate)
         return

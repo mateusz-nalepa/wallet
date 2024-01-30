@@ -7,7 +7,7 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
 class ExpenseRepositoryFacade(
     private val expenseRepositoryV2: ExpenseRepositoryV2,
 ) {
-    fun create(
+    suspend fun create(
         expense: ExpenseV2,
     ): ExpenseV2 =
         expenseRepositoryV2.create(
@@ -17,7 +17,7 @@ class ExpenseRepositoryFacade(
             }
         )
 
-    fun update(
+    suspend fun update(
         expense: ExpenseV2,
     ): ExpenseV2 =
         expenseRepositoryV2.update(
@@ -27,21 +27,21 @@ class ExpenseRepositoryFacade(
             }
         )
 
-    fun getAllExpenses(): List<ExpenseV2> =
+    suspend fun getAllExpenses(): List<ExpenseV2> =
         expenseRepositoryV2.getAllExpenses()
 
-    fun getById(expenseId: ExpenseId): ExpenseV2? =
+    suspend fun getById(expenseId: ExpenseId): ExpenseV2? =
         expenseRepositoryV2.getById(expenseId)
 
-    fun getByIdOrThrow(expenseId: ExpenseId): ExpenseV2 =
+    suspend fun getByIdOrThrow(expenseId: ExpenseId): ExpenseV2 =
         getById(expenseId)
             ?: throw ExpenseNotFoundException(expenseId)
 
-    fun remove(expenseId: ExpenseId) {
+    suspend fun remove(expenseId: ExpenseId) {
         expenseRepositoryV2.remove(expenseId)
     }
 
-    fun removeAll() {
+    suspend fun removeAll() {
         expenseRepositoryV2.removeAllExpenses()
     }
 

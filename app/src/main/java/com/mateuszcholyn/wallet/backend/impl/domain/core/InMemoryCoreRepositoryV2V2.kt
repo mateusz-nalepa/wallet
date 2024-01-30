@@ -13,25 +13,25 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
     private val categories: MutableMap<CategoryId, CategoryV2> = ConcurrentHashMap()
     private val expenses: MutableMap<ExpenseId, ExpenseV2> = ConcurrentHashMap()
 
-    override fun create(category: CategoryV2): CategoryV2 {
+    override suspend fun create(category: CategoryV2): CategoryV2 {
         categories[category.id] = category
         return category
     }
 
-    override fun update(category: CategoryV2): CategoryV2 {
+    override suspend fun update(category: CategoryV2): CategoryV2 {
         categories[category.id] = category
         return category
     }
 
-    override fun getAllCategories(): List<CategoryV2> {
+    override suspend fun getAllCategories(): List<CategoryV2> {
         return categories.values.toList()
     }
 
-    override fun getById(categoryId: CategoryId): CategoryV2? {
+    override suspend fun getById(categoryId: CategoryId): CategoryV2? {
         return categories[categoryId]
     }
 
-    override fun remove(
+    override suspend fun remove(
         categoryId: CategoryId,
         onExpensesExistAction: (CategoryId) -> Unit,
     ) {
@@ -46,7 +46,7 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
         categories.remove(categoryId)
     }
 
-    override fun removeAllCategories() {
+    override suspend fun removeAllCategories() {
         val ids = categories.values.toList().map { it.id }
 
         ids.forEach {
@@ -54,7 +54,7 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
         }
     }
 
-    override fun removeAllExpenses() {
+    override suspend fun removeAllExpenses() {
         val ids = expenses.values.toList().map { it.expenseId }
 
         ids.forEach {
@@ -62,7 +62,7 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
         }
     }
 
-    override fun create(
+    override suspend fun create(
         expense: ExpenseV2,
         onNonExistingCategoryAction: (CategoryId) -> Unit,
     ): ExpenseV2 {
@@ -76,21 +76,21 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
         return expense
     }
 
-    override fun update(
+    override suspend fun update(
         expense: ExpenseV2,
         onNonExistingCategoryAction: (CategoryId) -> Unit,
     ): ExpenseV2 =
         create(expense, onNonExistingCategoryAction)
 
-    override fun getAllExpenses(): List<ExpenseV2> {
+    override suspend fun getAllExpenses(): List<ExpenseV2> {
         return expenses.values.toList()
     }
 
-    override fun getById(expenseId: ExpenseId): ExpenseV2? {
+    override suspend fun getById(expenseId: ExpenseId): ExpenseV2? {
         return expenses[expenseId]
     }
 
-    override fun remove(expenseId: ExpenseId) {
+    override suspend fun remove(expenseId: ExpenseId) {
         expenses.remove(expenseId)
     }
 }

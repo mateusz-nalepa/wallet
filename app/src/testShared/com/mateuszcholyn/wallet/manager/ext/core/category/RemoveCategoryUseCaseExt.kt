@@ -4,6 +4,7 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.CategoryRemovedStatus
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
 import com.mateuszcholyn.wallet.manager.randomCategoryId
+import kotlinx.coroutines.runBlocking
 
 fun ExpenseAppManager.removeCategoryUseCase(
     scope: RemoveCategoryUseCaseScope.() -> Unit,
@@ -14,10 +15,11 @@ fun ExpenseAppManager.removeCategoryUseCase(
             .apply(scope)
             .toRemoveCategoryParameters()
 
-    return this
-        .expenseAppUseCases
-        .removeCategoryUseCase
-        .invoke(categoryId)
+    return runBlocking {
+        expenseAppUseCases
+            .removeCategoryUseCase
+            .invoke(categoryId)
+    }
 }
 
 class RemoveCategoryUseCaseScope {

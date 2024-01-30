@@ -27,7 +27,7 @@ class CategoryImport(
         }
     }
 
-    private fun addNewCategoryWhichHasBeenProbablyRemoved(): SavedCategoryFromDb {
+    private suspend fun addNewCategoryWhichHasBeenProbablyRemoved(): SavedCategoryFromDb {
 
         validateIdIsUUID(backupCategoryV1.id) {
             "Invalid categoryId: [${backupCategoryV1.id}]. Have it been modified manually in file with backup data?"
@@ -56,7 +56,7 @@ class CategoryImport(
     private suspend fun askUserWhatToDoWhenCategoryNameChanged(
         categoryFromDb: CategoryV2,
     ): SavedCategoryFromDb {
-        val deferred = CompletableDeferred<() -> SavedCategoryFromDb>()
+        val deferred = CompletableDeferred<suspend () -> SavedCategoryFromDb>()
 
         importV1Parameters
             .onCategoryNameChangedAction
@@ -77,7 +77,7 @@ class CategoryImport(
         return deferred.await().invoke()
     }
 
-    private fun updateCategoryByUsingDataFromBackup(
+    private suspend fun updateCategoryByUsingDataFromBackup(
         categoryFromDb: CategoryV2,
     ): SavedCategoryFromDb =
         categoryFromDb

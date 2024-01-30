@@ -18,6 +18,7 @@ import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceI
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceRepository
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.minikafka.core.category.MiniKafkaCategoryPublisher
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.minikafka.core.expense.MiniKafkaExpensePublisher
+import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -95,12 +96,14 @@ object HiltServicesModuleV2 {
     fun provideExpenseCoreServiceAPI(
         expenseRepositoryV2: ExpenseRepositoryV2,
         miniKafka: MiniKafka,
-        categoryCoreServiceAPI: CategoryCoreServiceAPI
+        categoryCoreServiceAPI: CategoryCoreServiceAPI,
+        transactionManager: TransactionManager,
     ): ExpenseCoreServiceAPI =
         ExpenseCoreServiceIMPL(
             expenseRepositoryFacade = ExpenseRepositoryFacade(expenseRepositoryV2),
             expensePublisher = MiniKafkaExpensePublisher(miniKafka),
             categoryCoreServiceAPI = categoryCoreServiceAPI,
+            transactionManager = transactionManager,
         )
 
     @Provides
@@ -108,10 +111,12 @@ object HiltServicesModuleV2 {
     fun provideCategoryCoreServiceAPI(
         categoryRepositoryV2: CategoryRepositoryV2,
         miniKafka: MiniKafka,
+        transactionManager: TransactionManager,
     ): CategoryCoreServiceAPI =
         CategoryCoreServiceIMPL(
             categoryRepositoryFacade = CategoryRepositoryFacade(categoryRepositoryV2),
             categoryPublisher = MiniKafkaCategoryPublisher(miniKafka),
+            transactionManager = transactionManager,
         )
 
     @Provides

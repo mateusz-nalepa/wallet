@@ -15,22 +15,22 @@ class SearchServiceIMPL(
     private val searchServiceRepository: SearchServiceRepository,
     private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
 ) : SearchServiceAPI {
-    override fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent) {
+    override suspend fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent) {
         searchServiceRepository.remove(expenseRemovedEvent.expenseId)
     }
 
-    override fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent) {
+    override suspend fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent) {
         searchServiceRepository
             .getById(expenseId = expenseUpdatedEvent.expenseId)
             ?.updateUsing(expenseUpdatedEvent)
             ?.also { searchServiceRepository.saveExpense(it) }
     }
 
-    override fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent) {
+    override suspend fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent) {
         searchServiceRepository.saveExpense(expenseAddedEvent.toSearchSingleResult())
     }
 
-    override fun getAll(
+    override suspend fun getAll(
         searchCriteria: SearchCriteria,
     ): SearchServiceResult {
         val allCategories = categoryCoreServiceAPI.getAll()
@@ -40,7 +40,7 @@ class SearchServiceIMPL(
             .toSearchServiceResult(allCategories, searchCriteria)
     }
 
-    override fun removeAll() {
+    override suspend fun removeAll() {
         searchServiceRepository.removeAll()
     }
 

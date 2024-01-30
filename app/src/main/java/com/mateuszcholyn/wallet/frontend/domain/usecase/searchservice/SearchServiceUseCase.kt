@@ -9,7 +9,7 @@ class SearchServiceUseCase(
     private val searchService: SearchServiceAPI,
 ) : UseCase {
 
-    fun invoke(searchCriteria: SearchCriteria): SearchServiceResult =
+    suspend fun invoke(searchCriteria: SearchCriteria): SearchServiceResult =
         searchService.getAll(searchCriteria)
 
 }

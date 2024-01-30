@@ -6,13 +6,13 @@ import java.time.Instant
 
 // TODO: powydzielaj useCasy też po stronie backendu xD
 interface ExpenseCoreServiceAPI {
-    fun add(addExpenseParameters: AddExpenseParameters): ExpenseV2
-    fun remove(expenseId: ExpenseId)
-    fun getAll(): List<ExpenseV2>
-    fun update(updateExpenseParameters: ExpenseV2): ExpenseV2
-    fun getExpenseWithCategoryDetails(expenseId: ExpenseId): ExpenseV2WithCategory
-    fun getById(expenseId: ExpenseId): ExpenseV2?
-    fun removeAll()
+    suspend fun add(addExpenseParameters: AddExpenseParameters): ExpenseV2
+    suspend fun remove(expenseId: ExpenseId)
+    suspend fun getAll(): List<ExpenseV2>
+    suspend fun update(updateExpenseParameters: ExpenseV2): ExpenseV2
+    suspend fun getExpenseWithCategoryDetails(expenseId: ExpenseId): ExpenseV2WithCategory
+    suspend fun getById(expenseId: ExpenseId): ExpenseV2?
+    suspend fun removeAll()
 }
 
 data class AddExpenseParameters(

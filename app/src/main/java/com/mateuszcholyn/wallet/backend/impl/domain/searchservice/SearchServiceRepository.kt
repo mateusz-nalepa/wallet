@@ -17,25 +17,25 @@ data class SearchSingleResultRepo(
 )
 
 interface SearchServiceRepository {
-    fun getById(expenseId: ExpenseId): SearchSingleResultRepo?
-    fun saveExpense(searchSingleResultRepo: SearchSingleResultRepo): SearchSingleResultRepo
-    fun getAll(searchCriteria: SearchCriteria): List<SearchSingleResultRepo>
-    fun remove(expenseId: ExpenseId)
-    fun removeAll()
+    suspend fun getById(expenseId: ExpenseId): SearchSingleResultRepo?
+    suspend fun saveExpense(searchSingleResultRepo: SearchSingleResultRepo): SearchSingleResultRepo
+    suspend fun getAll(searchCriteria: SearchCriteria): List<SearchSingleResultRepo>
+    suspend fun remove(expenseId: ExpenseId)
+    suspend fun removeAll()
 }
 
 class InMemorySearchServiceRepository : SearchServiceRepository {
     private val storage: MutableMap<ExpenseId, SearchSingleResultRepo> = mutableMapOf()
 
-    override fun getById(expenseId: ExpenseId): SearchSingleResultRepo? =
+    override suspend fun getById(expenseId: ExpenseId): SearchSingleResultRepo? =
         storage[expenseId]
 
-    override fun saveExpense(searchSingleResultRepo: SearchSingleResultRepo): SearchSingleResultRepo {
+    override suspend fun saveExpense(searchSingleResultRepo: SearchSingleResultRepo): SearchSingleResultRepo {
         storage[searchSingleResultRepo.expenseId] = searchSingleResultRepo
         return searchSingleResultRepo
     }
 
-    override fun getAll(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> =
+    override suspend fun getAll(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> =
         storage
             .values
             .toList()
@@ -46,11 +46,11 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
             .filterByToAmount(searchCriteria)
             .sort(searchCriteria)
 
-    override fun remove(expenseId: ExpenseId) {
+    override suspend fun remove(expenseId: ExpenseId) {
         storage.remove(expenseId)
     }
 
-    override fun removeAll() {
+    override suspend fun removeAll() {
         val ids = storage.values.toList().map { it.expenseId }
 
         ids.forEach {

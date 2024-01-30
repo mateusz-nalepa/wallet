@@ -4,6 +4,7 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.ExpenseRemovedStatus
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
 import com.mateuszcholyn.wallet.manager.randomExpenseId
+import kotlinx.coroutines.runBlocking
 
 fun ExpenseAppManager.removeExpenseUseCase(
     scope: RemoveExpenseUseCaseScope.() -> Unit,
@@ -14,10 +15,11 @@ fun ExpenseAppManager.removeExpenseUseCase(
             .apply(scope)
             .toRemoveExpenseParameters()
 
-    return this
-        .expenseAppUseCases
-        .removeExpenseUseCase
-        .invoke(expenseId)
+    return runBlocking {
+        expenseAppUseCases
+            .removeExpenseUseCase
+            .invoke(expenseId)
+    }
 }
 
 class RemoveExpenseUseCaseScope {

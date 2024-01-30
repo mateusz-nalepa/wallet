@@ -11,7 +11,7 @@ class AddExpenseUseCase(
     private val expenseCoreService: ExpenseCoreServiceAPI,
 ) : UseCase {
 
-    fun invoke(addExpenseParameters: AddExpenseParameters): ExpenseV2 =
+    suspend fun invoke(addExpenseParameters: AddExpenseParameters): ExpenseV2 =
         expenseCoreService.add(addExpenseParameters)
 
 }

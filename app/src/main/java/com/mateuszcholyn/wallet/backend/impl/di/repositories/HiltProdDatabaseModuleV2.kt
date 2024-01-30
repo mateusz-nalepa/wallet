@@ -7,6 +7,8 @@ import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryReposi
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepositoryV2
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.InMemorySearchServiceRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceRepository
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.coroutineDispatcher.DefaultDispatcherProvider
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.coroutineDispatcher.DispatcherProvider
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabaseV2
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.categoriesquicksummary.SqLiteCategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.SqLiteCategoryRepositoryV2
@@ -25,6 +27,11 @@ object HiltProdDatabaseModuleV2 {
 
     @Provides
     @Singleton
+    fun provideDispatcherProvider(): DispatcherProvider =
+        DefaultDispatcherProvider()
+
+    @Provides
+    @Singleton
     fun provideInMemoryCoreRepositoryV2(): InMemoryCoreRepositoryV2 =
         InMemoryCoreRepositoryV2()
 
@@ -34,11 +41,15 @@ object HiltProdDatabaseModuleV2 {
         inMemoryCoreRepositoryV2: InMemoryCoreRepositoryV2,
         appDatabaseV2: AppDatabaseV2,
         demoAppSwitcher: DemoAppSwitcher,
+        dispatcherProvider: DispatcherProvider,
     ): CategoryRepositoryV2 =
         if (demoAppSwitcher.isDemoModeEnabled()) {
             inMemoryCoreRepositoryV2
         } else {
-            SqLiteCategoryRepositoryV2(appDatabaseV2.categoryV2Dao())
+            SqLiteCategoryRepositoryV2(
+                categoryV2Dao = appDatabaseV2.categoryV2Dao(),
+                dispatcherProvider = dispatcherProvider,
+            )
         }
 
     @Provides
@@ -47,11 +58,15 @@ object HiltProdDatabaseModuleV2 {
         inMemoryCoreRepositoryV2: InMemoryCoreRepositoryV2,
         appDatabaseV2: AppDatabaseV2,
         demoAppSwitcher: DemoAppSwitcher,
+        dispatcherProvider: DispatcherProvider,
     ): ExpenseRepositoryV2 =
         if (demoAppSwitcher.isDemoModeEnabled()) {
             inMemoryCoreRepositoryV2
         } else {
-            SqLiteExpenseRepositoryV2(appDatabaseV2.expenseV2Dao())
+            SqLiteExpenseRepositoryV2(
+                expenseV2Dao = appDatabaseV2.expenseV2Dao(),
+                dispatcherProvider = dispatcherProvider,
+            )
         }
 
     @Provides
@@ -59,11 +74,15 @@ object HiltProdDatabaseModuleV2 {
     fun provideCategoriesQuickSummaryRepository(
         appDatabaseV2: AppDatabaseV2,
         demoAppSwitcher: DemoAppSwitcher,
+        dispatcherProvider: DispatcherProvider,
     ): CategoriesQuickSummaryRepository =
         if (demoAppSwitcher.isDemoModeEnabled()) {
             InMemoryCategoriesQuickSummaryRepository()
         } else {
-            SqLiteCategoriesQuickSummaryRepository(appDatabaseV2.categoriesQuickSummaryDao())
+            SqLiteCategoriesQuickSummaryRepository(
+                categoriesQuickSummaryDao = appDatabaseV2.categoriesQuickSummaryDao(),
+                dispatcherProvider = dispatcherProvider,
+            )
         }
 
     @Provides
@@ -71,11 +90,15 @@ object HiltProdDatabaseModuleV2 {
     fun provideSearchServiceRepository(
         appDatabaseV2: AppDatabaseV2,
         demoAppSwitcher: DemoAppSwitcher,
+        dispatcherProvider: DispatcherProvider,
     ): SearchServiceRepository =
         if (demoAppSwitcher.isDemoModeEnabled()) {
             InMemorySearchServiceRepository()
         } else {
-            SqLiteSearchServiceRepository(appDatabaseV2.searchServiceDao())
+            SqLiteSearchServiceRepository(
+                searchServiceDao = appDatabaseV2.searchServiceDao(),
+                dispatcherProvider = dispatcherProvider,
+            )
         }
 
 }

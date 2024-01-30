@@ -10,10 +10,10 @@ import androidx.room.Query
 interface CategoriesQuickSummaryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(categoriesQuickSummaryEntity: CategoriesQuickSummaryEntity)
+    suspend fun save(categoriesQuickSummaryEntity: CategoriesQuickSummaryEntity)
 
     @Query("SELECT * FROM categories_quick_summary")
-    fun getAll(): List<CategoriesQuickSummaryEntity>
+    suspend fun getAll(): List<CategoriesQuickSummaryEntity>
 
     @Query(
         """SELECT * 
@@ -21,12 +21,12 @@ interface CategoriesQuickSummaryDao {
               WHERE category_id =:categoryId
               """
     )
-    fun findByCategoryId(categoryId: String): CategoriesQuickSummaryEntity?
+    suspend fun findByCategoryId(categoryId: String): CategoriesQuickSummaryEntity?
 
     @Query("delete from categories_quick_summary where category_id = :categoryId")
-    fun remove(categoryId: String): Int
+    suspend fun remove(categoryId: String): Int
 
     @Query("delete from categories_quick_summary")
-    fun removeAll()
+    suspend fun removeAll()
 
 }

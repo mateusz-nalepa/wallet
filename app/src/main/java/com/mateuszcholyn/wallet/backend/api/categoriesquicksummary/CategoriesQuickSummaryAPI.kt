@@ -9,13 +9,13 @@ import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseUpdatedE
 
 
 interface CategoriesQuickSummaryAPI {
-    fun handleCategoryAdded(categoryAddedEvent: CategoryAddedEvent)
-    fun handleCategoryRemoved(categoryRemovedEvent: CategoryRemovedEvent)
-    fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent)
-    fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent)
-    fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent)
-    fun getQuickSummary(): QuickSummaryList
-    fun removeAll()
+    suspend fun handleCategoryAdded(categoryAddedEvent: CategoryAddedEvent)
+    suspend fun handleCategoryRemoved(categoryRemovedEvent: CategoryRemovedEvent)
+    suspend fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent)
+    suspend fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent)
+    suspend fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent)
+    suspend fun getQuickSummary(): QuickSummaryList
+    suspend fun removeAll()
 }
 
 data class QuickSummaryList(

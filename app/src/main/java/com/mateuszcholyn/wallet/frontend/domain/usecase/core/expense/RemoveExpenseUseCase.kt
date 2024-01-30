@@ -12,7 +12,7 @@ class RemoveExpenseUseCase(
     private val expenseCoreService: ExpenseCoreServiceAPI,
 ) : UseCase {
 
-    fun invoke(expenseId: ExpenseId): ExpenseRemovedStatus {
+    suspend fun invoke(expenseId: ExpenseId): ExpenseRemovedStatus {
         expenseCoreService.remove(expenseId)
         return ExpenseRemovedStatus.SUCCESS
     }

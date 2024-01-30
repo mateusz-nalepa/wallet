@@ -9,7 +9,7 @@ class GetCategoriesQuickSummaryUseCase(
     private val categoriesQuickSummary: CategoriesQuickSummaryAPI,
 ) : UseCase {
 
-    fun invoke(): QuickSummaryList =
+    suspend fun invoke(): QuickSummaryList =
         categoriesQuickSummary.getQuickSummary()
 
 }

@@ -43,10 +43,17 @@ class BackupScreenViewModel @Inject constructor(
     val importState: State<ImportState>
         get() = _importState
 
-    fun createBackupV1JsonString(): String =
-        exportV1UseCase
-            .invoke()
-            .let { BackupV1JsonCreator.createBackupWalletV1AsString(it) }
+    fun createBackupV1JsonString(
+        fileReadyAction: (String) -> Unit,
+    ) {
+        viewModelScope.launch {
+            exportV1UseCase
+                .invoke()
+                .let { BackupV1JsonCreator.createBackupWalletV1AsString(it) }
+                .let(fileReadyAction)
+        }
+    }
+
 
     // TODO: export jak export, ale to weź mocno obtestuj xD
     fun importBackupV1JsonString(
@@ -54,8 +61,8 @@ class BackupScreenViewModel @Inject constructor(
         onCategoryChangedAction: (OnCategoryChangedInput) -> Unit,
         onExpanseChangedAction: (OnExpanseChangedInput) -> Unit,
     ) {
-        try {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 val backupWalletV1 =
                     BackupV1JsonReader
                         .readBackupWalletV1(fileWithBackupCopy.bufferedReader().readText())
@@ -71,11 +78,10 @@ class BackupScreenViewModel @Inject constructor(
                 _importState.value = ImportState.Loading
                 val importV1Summary = importV1UseCase.invoke(importV1Parameters)
                 _importState.value = ImportState.Success(importV1Summary)
+
+            } catch (e: Exception) {
+                _importState.value = ImportState.Error(e.message ?: "Unknown error sad times")
             }
-
-        } catch (e: Exception) {
-            _importState.value = ImportState.Error(e.message ?: "Unknown error sad times")
         }
-
     }
 }

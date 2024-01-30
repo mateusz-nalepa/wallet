@@ -9,15 +9,15 @@ import com.mateuszcholyn.wallet.backend.impl.domain.minikafka.MiniKafka
 class MiniKafkaExpensePublisher(
     private val miniKafka: MiniKafka,
 ) : ExpensePublisher {
-    override fun publishExpenseAddedEvent(expenseAddedEvent: ExpenseAddedEvent) {
+    override suspend fun publishExpenseAddedEvent(expenseAddedEvent: ExpenseAddedEvent) {
         miniKafka.expenseAddedEventTopic.publish(expenseAddedEvent)
     }
 
-    override fun publishExpenseUpdatedEvent(expenseUpdatedEvent: ExpenseUpdatedEvent) {
+    override suspend fun publishExpenseUpdatedEvent(expenseUpdatedEvent: ExpenseUpdatedEvent) {
         miniKafka.expenseUpdatedEventTopic.publish(expenseUpdatedEvent)
     }
 
-    override fun publishExpenseRemovedEvent(expenseRemovedEvent: ExpenseRemovedEvent) {
+    override suspend fun publishExpenseRemovedEvent(expenseRemovedEvent: ExpenseRemovedEvent) {
         miniKafka.expenseRemovedEventTopic.publish(expenseRemovedEvent)
     }
 }

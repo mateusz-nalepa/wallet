@@ -4,6 +4,7 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2WithCategory
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
 import com.mateuszcholyn.wallet.manager.randomExpenseId
+import kotlinx.coroutines.runBlocking
 
 fun ExpenseAppManager.getExpenseUseCase(
     scope: GetExpenseUseCaseScope.() -> Unit,
@@ -14,10 +15,11 @@ fun ExpenseAppManager.getExpenseUseCase(
             .apply(scope)
             .toGetExpenseParameters()
 
-    return this
-        .expenseAppUseCases
-        .getExpenseUseCase
-        .invoke(getExpenseParameters)
+    return runBlocking {
+        expenseAppUseCases
+            .getExpenseUseCase
+            .invoke(getExpenseParameters)
+    }
 }
 
 class GetExpenseUseCaseScope {

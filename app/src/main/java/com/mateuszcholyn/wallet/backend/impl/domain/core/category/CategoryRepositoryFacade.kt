@@ -6,23 +6,23 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
 class CategoryRepositoryFacade(
     private val categoryRepositoryV2: CategoryRepositoryV2,
 ) {
-    fun create(category: CategoryV2): CategoryV2 =
+    suspend fun create(category: CategoryV2): CategoryV2 =
         categoryRepositoryV2.create(category)
 
-    fun update(category: CategoryV2): CategoryV2 =
+    suspend fun update(category: CategoryV2): CategoryV2 =
         categoryRepositoryV2.update(category)
 
-    fun getAllCategories(): List<CategoryV2> =
+    suspend fun getAllCategories(): List<CategoryV2> =
         categoryRepositoryV2.getAllCategories()
 
-    fun getById(categoryId: CategoryId): CategoryV2? =
+    suspend fun getById(categoryId: CategoryId): CategoryV2? =
         categoryRepositoryV2.getById(categoryId)
 
-    fun getByIdOrThrow(categoryId: CategoryId): CategoryV2 =
+    suspend fun getByIdOrThrow(categoryId: CategoryId): CategoryV2 =
         getById(categoryId)
             ?: throw CategoryNotFoundException(categoryId)
 
-    fun remove(categoryId: CategoryId) {
+    suspend fun remove(categoryId: CategoryId) {
         categoryRepositoryV2
             .remove(
                 categoryId = categoryId,
@@ -32,7 +32,7 @@ class CategoryRepositoryFacade(
             )
     }
 
-    fun removeAll() {
+    suspend fun removeAll() {
         categoryRepositoryV2
             .removeAllCategories()
     }

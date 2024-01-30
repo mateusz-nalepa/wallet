@@ -10,6 +10,9 @@ import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseReposito
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.InMemorySearchServiceRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceRepository
 import com.mateuszcholyn.wallet.frontend.domain.usecase.ExpenseAppUseCases
+import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.EmptyTransactionManager
+import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
+import kotlinx.coroutines.runBlocking
 
 
 class ExpenseAppManager(
@@ -24,17 +27,20 @@ data class ExpenseAppDependencies(
     val expenseRepositoryV2: ExpenseRepositoryV2 = inMemoryCoreRepository,
     val categoriesQuickSummaryRepository: CategoriesQuickSummaryRepository = InMemoryCategoriesQuickSummaryRepository(),
     val searchServiceRepository: SearchServiceRepository = InMemorySearchServiceRepository(),
+    val transactionManager: TransactionManager = EmptyTransactionManager(),
 )
 
 
 fun ExpenseAppManager.getAllCoreCategories(): List<CategoryV2> =
-    this
-        .expenseAppDependencies
-        .categoryRepositoryV2
-        .getAllCategories()
+    runBlocking {
+        expenseAppDependencies
+            .categoryRepositoryV2
+            .getAllCategories()
+    }
 
 fun ExpenseAppManager.getAllCoreExpenses(): List<ExpenseV2> =
-    this
-        .expenseAppDependencies
-        .expenseRepositoryV2
-        .getAllExpenses()
+    runBlocking {
+        expenseAppDependencies
+            .expenseRepositoryV2
+            .getAllExpenses()
+    }

@@ -9,7 +9,7 @@ class GetExpenseUseCase(
     private val expenseCoreService: ExpenseCoreServiceAPI,
 ) : UseCase {
 
-    fun invoke(expenseId: ExpenseId): ExpenseV2WithCategory =
+    suspend fun invoke(expenseId: ExpenseId): ExpenseV2WithCategory =
         expenseCoreService.getExpenseWithCategoryDetails(expenseId)
 
 }

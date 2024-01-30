@@ -4,6 +4,7 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
 import com.mateuszcholyn.wallet.manager.randomCategoryId
 import com.mateuszcholyn.wallet.manager.randomCategoryName
+import kotlinx.coroutines.runBlocking
 
 fun ExpenseAppManager.updateCategoryUseCase(
     scope: UpdateCategoryUseCaseScope.() -> Unit,
@@ -14,10 +15,11 @@ fun ExpenseAppManager.updateCategoryUseCase(
             .apply(scope)
             .toCategory()
 
-    return this
-        .expenseAppUseCases
-        .updateCategoryUseCase
-        .invoke(updateCategoryUseCaseParameters)
+    return runBlocking {
+        expenseAppUseCases
+            .updateCategoryUseCase
+            .invoke(updateCategoryUseCaseParameters)
+    }
 }
 
 class UpdateCategoryUseCaseScope {

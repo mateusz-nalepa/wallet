@@ -10,31 +10,33 @@ import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import java.io.File
 import java.io.FileOutputStream
 
+data class FileExportParameters(
+    val fileName: String,
+    val fileContent: String,
+    val title: String,
+    val mediaType: String = WalletMediaType.APPLICATION_JSON,
+)
+
 class FileExporterLauncher(
-    private val launcher: () -> Unit,
+    private val launcher: (FileExportParameters) -> Unit,
 ) {
-    fun launch() {
-        launcher.invoke()
+    fun launch(fileExportParameters: FileExportParameters) {
+        launcher.invoke(fileExportParameters)
     }
 }
 
 @Composable
-fun fileExporter(
-    fileName: String,
-    fileContent: String,
-    title: String,
-    mediaType: String = WalletMediaType.APPLICATION_JSON,
-): FileExporterLauncher {
+fun fileExporter(): FileExporterLauncher {
     val context = currentAppContext()
 
-    return FileExporterLauncher {
+    return FileExporterLauncher { fileExportParameters ->
         try {
             unsafeFileExporter(
                 context = context,
-                fileName = fileName,
-                fileContent = fileContent,
-                title = title,
-                mediaType = mediaType,
+                fileName = fileExportParameters.fileName,
+                fileContent = fileExportParameters.fileContent,
+                title = fileExportParameters.title,
+                mediaType = fileExportParameters.mediaType,
             )
         } catch (e: Exception) {
             println(e)

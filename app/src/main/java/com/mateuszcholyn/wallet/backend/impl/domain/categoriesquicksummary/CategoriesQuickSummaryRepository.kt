@@ -3,11 +3,11 @@ package com.mateuszcholyn.wallet.backend.impl.domain.categoriesquicksummary
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 
 interface CategoriesQuickSummaryRepository {
-    fun saveQuickSummaryResult(categoryQuickSummaryResult: CategoryQuickSummaryResult): CategoryQuickSummaryResult
-    fun getQuickSummaries(): List<CategoryQuickSummaryResult>
-    fun remove(categoryId: CategoryId)
-    fun findByCategoryId(categoryId: CategoryId): CategoryQuickSummaryResult?
-    fun removeAll()
+    suspend fun saveQuickSummaryResult(categoryQuickSummaryResult: CategoryQuickSummaryResult): CategoryQuickSummaryResult
+    suspend fun getQuickSummaries(): List<CategoryQuickSummaryResult>
+    suspend fun remove(categoryId: CategoryId)
+    suspend fun findByCategoryId(categoryId: CategoryId): CategoryQuickSummaryResult?
+    suspend fun removeAll()
 }
 
 data class CategoryQuickSummaryResult(

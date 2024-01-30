@@ -6,32 +6,45 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchSingleResultRepo
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.coroutineDispatcher.DispatcherProvider
+import kotlinx.coroutines.withContext
 
 class SqLiteSearchServiceRepository(
     private val searchServiceDao: SearchServiceDao,
+    private val dispatcherProvider: DispatcherProvider,
 ) : SearchServiceRepository {
-    override fun getById(expenseId: ExpenseId): SearchSingleResultRepo? =
-        searchServiceDao
-            .findByExpenseId(expenseId.id)
-            ?.toDomain()
+    override suspend fun getById(expenseId: ExpenseId): SearchSingleResultRepo? =
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            searchServiceDao
+                .findByExpenseId(expenseId.id)
+                ?.toDomain()
+        }
 
-    override fun saveExpense(searchSingleResultRepo: SearchSingleResultRepo): SearchSingleResultRepo =
-        searchSingleResultRepo
-            .toEntity()
-            .also { searchServiceDao.save(it) }
-            .toDomain()
+    override suspend fun saveExpense(searchSingleResultRepo: SearchSingleResultRepo): SearchSingleResultRepo =
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            searchSingleResultRepo
+                .toEntity()
+                .also { searchServiceDao.save(it) }
+                .toDomain()
+        }
 
-    override fun getAll(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> =
-        searchServiceDao
-            .getAll(SimpleSQLiteQuery(SearchServiceQueryHelper.prepareSearchQuery(searchCriteria)))
-            .map { it.toDomain() }
+    override suspend fun getAll(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> =
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            searchServiceDao
+                .getAll(SimpleSQLiteQuery(SearchServiceQueryHelper.prepareSearchQuery(searchCriteria)))
+                .map { it.toDomain() }
+        }
 
-    override fun remove(expenseId: ExpenseId) {
-        searchServiceDao.remove(expenseId.id)
+    override suspend fun remove(expenseId: ExpenseId) {
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            searchServiceDao.remove(expenseId.id)
+        }
     }
 
-    override fun removeAll() {
-        searchServiceDao.removeAll()
+    override suspend fun removeAll() {
+        withContext(dispatcherProvider.provideIODispatcher()) {
+            searchServiceDao.removeAll()
+        }
     }
 }
 

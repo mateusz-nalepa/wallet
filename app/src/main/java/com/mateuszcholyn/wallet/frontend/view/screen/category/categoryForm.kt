@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.category
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -49,6 +50,7 @@ fun EditCategoryForm(
 
 typealias NewCategoryName = String
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 private fun CategoryFormStateless(
     textFieldLabel: String,
@@ -60,11 +62,10 @@ private fun CategoryFormStateless(
 
     var newCategoryNameText by remember { mutableStateOf(initialCategoryName) }
 
-    val isFormValid by remember {
-        derivedStateOf {
+    val isFormValid by derivedStateOf {
             !categoryIsInvalid(newCategoryNameText)
         }
-    }
+
 
     var categoryAlreadyExists by remember { mutableStateOf(false) }
 

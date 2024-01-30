@@ -8,11 +8,11 @@ import com.mateuszcholyn.wallet.backend.impl.domain.minikafka.MiniKafka
 class MiniKafkaCategoryPublisher(
     private val miniKafka: MiniKafka,
 ) : CategoryPublisher {
-    override fun publishCategoryAddedEvent(categoryAddedEvent: CategoryAddedEvent) {
+    override suspend fun publishCategoryAddedEvent(categoryAddedEvent: CategoryAddedEvent) {
         miniKafka.categoryAddedEventTopic.publish(categoryAddedEvent)
     }
 
-    override fun publishCategoryRemovedEvent(categoryRemovedEvent: CategoryRemovedEvent) {
+    override suspend fun publishCategoryRemovedEvent(categoryRemovedEvent: CategoryRemovedEvent) {
         miniKafka.categoryRemovedEventTopic.publish(categoryRemovedEvent)
     }
 }

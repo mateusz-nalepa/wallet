@@ -15,7 +15,7 @@ private val monthAndYearDateFormat: DateTimeFormatter = DateTimeFormatter.ofPatt
 fun String.toLocalDateTime(): LocalDateTime =
     LocalDateTime.parse(this, simpleDateFormat)
 
-fun LocalDateTime.toHumanText(): String =
+fun LocalDateTime.toHumanDateTimeText(): String =
     simpleDateFormat.format(this)
 
 fun LocalDateTime.toHumanDateText(): String =

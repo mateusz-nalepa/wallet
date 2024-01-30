@@ -15,13 +15,14 @@ class MiniKafka {
     val categoryRemovedEventTopic: Topic<CategoryRemovedEvent> = TopicImpl()
 }
 
-interface Topic<T> {
-    fun publish(t: T)
-    fun addSubscription(subscription: Subscription<T>)
-}
 
 fun interface Subscription<T> {
-    fun onMessagePublished(t: T)
+    suspend fun onMessagePublished(t: T)
+}
+
+interface Topic<T> {
+    suspend fun publish(t: T)
+    fun addSubscription(subscription: Subscription<T>)
 }
 
 class TopicImpl<T> : Topic<T> {
@@ -31,7 +32,7 @@ class TopicImpl<T> : Topic<T> {
         subscriptions.add(subscription)
     }
 
-    override fun publish(t: T) {
+    override suspend fun publish(t: T) {
         subscriptions.forEach { it.onMessagePublished(t) }
     }
 

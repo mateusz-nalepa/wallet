@@ -20,7 +20,6 @@ import com.mateuszcholyn.wallet.userConfig.theme.LocalWalletThemeComposition
 import com.mateuszcholyn.wallet.userConfig.theme.WalletThemeSelectedByUser
 import com.mateuszcholyn.wallet.userConfig.theme.resolveThemeColors
 import com.mateuszcholyn.wallet.userConfig.theme.resolveThemeName
-import com.mateuszcholyn.wallet.util.permissionchecker.verifyStoragePermissions
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -32,7 +31,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // TODO: przenieś to w inne miejsce XD
-        verifyStoragePermissions(this)
 
         installSplashScreen().setKeepOnScreenCondition {
             WalletThemeSelectedByUser.value == null

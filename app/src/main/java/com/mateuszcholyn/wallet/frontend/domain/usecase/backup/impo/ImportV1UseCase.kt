@@ -4,6 +4,7 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.frontend.domain.usecase.UseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import java.util.UUID
 
@@ -12,12 +13,13 @@ class ImportV1UseCase(
     private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
     private val expenseCoreServiceAPI: ExpenseCoreServiceAPI,
     private val allExpensesRemover: AllExpensesRemover,
+    private val transactionManager: TransactionManager,
 ) : UseCase {
 
-    // TODO: odpal w transakcji i generalnie zrób sealed klase ImportResult
-    suspend fun invoke(importV1Parameters: ImportV1Parameters): ImportV1Summary {
-        return unsafeImportAllData(importV1Parameters)
-    }
+    suspend fun invoke(importV1Parameters: ImportV1Parameters): ImportV1Summary =
+        transactionManager.runInTransaction {
+            unsafeImportAllData(importV1Parameters)
+        }
 
     private suspend fun unsafeImportAllData(
         importV1Parameters: ImportV1Parameters,
@@ -30,7 +32,7 @@ class ImportV1UseCase(
             .toImportV1Summary()
     }
 
-    private fun removeAllIfNecessary(importV1Parameters: ImportV1Parameters) {
+    private suspend fun removeAllIfNecessary(importV1Parameters: ImportV1Parameters) {
         if (importV1Parameters.removeAllBeforeImport) {
             allExpensesRemover.removeAll()
         }

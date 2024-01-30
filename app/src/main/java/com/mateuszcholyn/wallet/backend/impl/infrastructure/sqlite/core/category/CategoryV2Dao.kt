@@ -10,13 +10,13 @@ import androidx.room.Update
 interface CategoryV2Dao {
 
     @Insert
-    fun create(categoryEntityV2: CategoryEntityV2)
+    suspend fun create(categoryEntityV2: CategoryEntityV2)
 
     @Update
-    fun update(categoryEntityV2: CategoryEntityV2)
+    suspend fun update(categoryEntityV2: CategoryEntityV2)
 
     @Query("SELECT * FROM categories")
-    fun getAll(): List<CategoryEntityV2>
+    suspend fun getAll(): List<CategoryEntityV2>
 
     @Query(
         """SELECT * 
@@ -24,11 +24,11 @@ interface CategoryV2Dao {
               WHERE category_id =:categoryId
               """
     )
-    fun getByCategoryId(categoryId: String): CategoryEntityV2?
+    suspend fun getByCategoryId(categoryId: String): CategoryEntityV2?
 
     @Query("delete from categories where category_id = :categoryId")
-    fun remove(categoryId: String): Int
+    suspend fun remove(categoryId: String): Int
 
     @Query("delete from categories")
-    fun removeAll()
+    suspend fun removeAll()
 }

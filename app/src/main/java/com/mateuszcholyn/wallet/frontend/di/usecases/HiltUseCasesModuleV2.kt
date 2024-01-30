@@ -17,6 +17,7 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.GetExpenseU
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -97,10 +98,12 @@ object HiltUseCasesModuleV2 {
     fun provideExportV1UseCase(
         expenseCoreServiceAPI: ExpenseCoreServiceAPI,
         categoryCoreServiceAPI: CategoryCoreServiceAPI,
+        transactionManager: TransactionManager,
     ): ExportV1UseCase =
         ExportV1UseCase(
             categoryCoreServiceAPI = categoryCoreServiceAPI,
             expenseCoreServiceAPI = expenseCoreServiceAPI,
+            transactionManager = transactionManager,
         )
 
     @Provides
@@ -124,11 +127,13 @@ object HiltUseCasesModuleV2 {
         expenseCoreServiceAPI: ExpenseCoreServiceAPI,
         categoryCoreServiceAPI: CategoryCoreServiceAPI,
         allExpensesRemover: AllExpensesRemover,
+        transactionManager: TransactionManager,
     ): ImportV1UseCase =
         ImportV1UseCase(
             categoryCoreServiceAPI = categoryCoreServiceAPI,
             expenseCoreServiceAPI = expenseCoreServiceAPI,
             allExpensesRemover = allExpensesRemover,
+            transactionManager = transactionManager,
         )
 
     @Provides

@@ -12,7 +12,7 @@ class AllExpensesRemover(
     private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
 ) {
 
-    fun removeAll() {
+    suspend fun removeAll() {
         searchServiceAPI.removeAll()
         categoriesQuickSummaryAPI.removeAll()
         expenseCoreServiceAPI.removeAll()

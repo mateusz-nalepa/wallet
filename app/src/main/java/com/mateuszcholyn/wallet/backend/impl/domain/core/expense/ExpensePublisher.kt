@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.backend.impl.domain.core.expense
 
 interface ExpensePublisher {
-    fun publishExpenseAddedEvent(expenseAddedEvent: ExpenseAddedEvent)
-    fun publishExpenseUpdatedEvent(expenseUpdatedEvent: ExpenseUpdatedEvent)
-    fun publishExpenseRemovedEvent(expenseRemovedEvent: ExpenseRemovedEvent)
+    suspend fun publishExpenseAddedEvent(expenseAddedEvent: ExpenseAddedEvent)
+    suspend fun publishExpenseUpdatedEvent(expenseUpdatedEvent: ExpenseUpdatedEvent)
+    suspend fun publishExpenseRemovedEvent(expenseRemovedEvent: ExpenseRemovedEvent)
 }

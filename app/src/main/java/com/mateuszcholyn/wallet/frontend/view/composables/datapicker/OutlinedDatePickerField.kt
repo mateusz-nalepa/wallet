@@ -8,7 +8,7 @@ import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.composables.ComposeDateTimePicker
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
-import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanText
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.toLocalDateTime
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.time.LocalDateTime
@@ -21,14 +21,14 @@ fun OutlinedDatePickerField(
     val datePickerDialogState = rememberMaterialDialogState()
     ComposeDateTimePicker(
         dialogState = datePickerDialogState,
-        value = value.toHumanText(),
+        value = value.toHumanDateTimeText(),
         onValueChange = {
             onValueChange(it.toLocalDateTime())
         },
     )
 
     OutlinedTextField(
-        value = value.toHumanText(),
+        value = value.toHumanDateTimeText(),
         onValueChange = {},
         label = { Text(stringResource(R.string.date)) },
         modifier = defaultModifier.clickable {

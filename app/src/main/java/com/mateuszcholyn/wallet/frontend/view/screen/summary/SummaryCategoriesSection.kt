@@ -3,7 +3,6 @@ package com.mateuszcholyn.wallet.frontend.view.screen.summary
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -15,7 +14,7 @@ import com.mateuszcholyn.wallet.frontend.view.dropdown.WalletDropdown
 fun SummaryCategoriesSection(
     summaryViewModel: SummaryViewModel = hiltViewModel()
 ) {
-    val availableCategories by remember { mutableStateOf(summaryViewModel.readCategoriesList()) }
+    val availableCategories by remember { summaryViewModel.readCategoriesList }
 
     WalletDropdown(
         dropdownName = stringResource(R.string.category),

@@ -57,6 +57,7 @@ internal fun createFrom(
         CategoryCoreServiceIMPL(
             categoryRepositoryFacade = CategoryRepositoryFacade(deps.categoryRepositoryV2),
             categoryPublisher = MiniKafkaCategoryPublisher(miniKafka),
+            transactionManager = deps.transactionManager,
         )
 
     val expenseCoreService: ExpenseCoreServiceAPI =
@@ -64,6 +65,7 @@ internal fun createFrom(
             expenseRepositoryFacade = ExpenseRepositoryFacade(deps.expenseRepositoryV2),
             expensePublisher = MiniKafkaExpensePublisher(miniKafka),
             categoryCoreServiceAPI = categoryCoreService,
+            transactionManager = deps.transactionManager,
         )
 
     val categoriesQuickSummary: CategoriesQuickSummaryAPI =
@@ -117,8 +119,8 @@ internal fun createFrom(
         exportV1UseCase = ExportV1UseCase(
             categoryCoreServiceAPI = categoryCoreService,
             expenseCoreServiceAPI = expenseCoreService,
-
-            ),
+            transactionManager = deps.transactionManager,
+        ),
         importV1UseCase = ImportV1UseCase(
             categoryCoreServiceAPI = categoryCoreService,
             expenseCoreServiceAPI = expenseCoreService,
@@ -127,7 +129,8 @@ internal fun createFrom(
                 expenseCoreServiceAPI = expenseCoreService,
                 categoriesQuickSummaryAPI = categoriesQuickSummary,
                 searchServiceAPI = searchService,
-            )
+            ),
+            transactionManager = deps.transactionManager,
         ),
     )
 }

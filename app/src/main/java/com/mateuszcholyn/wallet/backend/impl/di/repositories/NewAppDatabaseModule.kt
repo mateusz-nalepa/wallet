@@ -2,6 +2,7 @@ package com.mateuszcholyn.wallet.backend.impl.di.repositories
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabaseV2
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.MIGRATION_1_2
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.MIGRATION_2_3
@@ -26,12 +27,13 @@ object NewAppDatabaseModule {
                 AppDatabaseV2::class.java,
                 "wallet_database.db",
             )
-            .allowMainThreadQueries() // HODOR this should be fixed!!
-            .addMigrations(
-                MIGRATION_1_2,
-                MIGRATION_2_3,
-            )
+            .customizeRoomDatabase()
             .build()
 }
 
+fun RoomDatabase.Builder<AppDatabaseV2>.customizeRoomDatabase(): RoomDatabase.Builder<AppDatabaseV2> =
+    addMigrations(
+        MIGRATION_1_2,
+        MIGRATION_2_3,
+    )
 

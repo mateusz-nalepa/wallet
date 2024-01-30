@@ -10,24 +10,24 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.screen.addoreditexpense.NewAddOrEditExpenseScreen
-import com.mateuszcholyn.wallet.frontend.view.screen.category.NewCategoryScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.BackupDataScreen
+import com.mateuszcholyn.wallet.frontend.view.screen.category.NewCategoryScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.settings.SettingsScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.NewSummaryScreen
 import com.mateuszcholyn.wallet.frontend.view.wellness.WellnessScreenRunner
 
 sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslationKey: Int) {
-    object Category : NavDrawerItem("category", R.drawable.ic_home, R.string.menuItem_Category)
-    object AddOrEditExpense : NavDrawerItem(
+    data object Category : NavDrawerItem("category", R.drawable.ic_home, R.string.menuItem_Category)
+    data object AddOrEditExpense : NavDrawerItem(
         "addOrEditExpense?expenseId={expenseId}&mode={mode}",
         R.drawable.ic_music,
         R.string.menuItem_AddOrEditExpense
     )
 
-    object SummaryScreen : NavDrawerItem("summary", R.drawable.ic_movie, R.string.menuItem_Summary)
-    object Settings : NavDrawerItem("settings", R.drawable.ic_book, R.string.menuItem_Settings)
-    object Wellness : NavDrawerItem("wellness", R.drawable.ic_book, R.string.menuItem_Wellness)
-    object Dummy : NavDrawerItem("dummy", R.drawable.ic_book, R.string.menuItem_Dummy)
+    data object SummaryScreen : NavDrawerItem("summary", R.drawable.ic_movie, R.string.menuItem_Summary)
+    data object Settings : NavDrawerItem("settings", R.drawable.ic_book, R.string.menuItem_Settings)
+    data object Wellness : NavDrawerItem("wellness", R.drawable.ic_book, R.string.menuItem_Wellness)
+    data object Dummy : NavDrawerItem("dummy", R.drawable.ic_book, R.string.menuItem_Dummy)
 }
 
 fun NavDrawerItem.AddOrEditExpense.routeWithoutId(): String =

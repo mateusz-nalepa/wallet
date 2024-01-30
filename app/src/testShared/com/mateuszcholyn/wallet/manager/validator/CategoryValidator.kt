@@ -5,17 +5,20 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import com.mateuszcholyn.wallet.manager.CategoryScope
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
+import kotlinx.coroutines.runBlocking
 
 fun ExpenseAppManager.validate(
     categoryId: CategoryId,
     validateBlock: FullCategoryValidator.() -> Unit,
 ) {
-    val category = this.expenseAppDependencies.categoryRepositoryV2.getById(categoryId)
-    requireNotNull(category) { "Category with id $categoryId should exist" }
+    runBlocking {
+        val category = expenseAppDependencies.categoryRepositoryV2.getById(categoryId)
+        requireNotNull(category) { "Category with id $categoryId should exist" }
 
-    FullCategoryValidator(
-        category = category,
-    ).apply(validateBlock)
+        FullCategoryValidator(
+            category = category,
+        ).apply(validateBlock)
+    }
 }
 
 

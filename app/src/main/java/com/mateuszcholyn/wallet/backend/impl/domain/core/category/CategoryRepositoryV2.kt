@@ -4,14 +4,14 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
 
 interface CategoryRepositoryV2 {
-    fun create(category: CategoryV2): CategoryV2
-    fun update(category: CategoryV2): CategoryV2
-    fun getAllCategories(): List<CategoryV2>
-    fun getById(categoryId: CategoryId): CategoryV2?
-    fun remove(
+    suspend fun create(category: CategoryV2): CategoryV2
+    suspend fun update(category: CategoryV2): CategoryV2
+    suspend fun getAllCategories(): List<CategoryV2>
+    suspend fun getById(categoryId: CategoryId): CategoryV2?
+    suspend fun remove(
         categoryId: CategoryId,
         onExpensesExistAction: (CategoryId) -> Unit,
     )
 
-    fun removeAllCategories()
+    suspend fun removeAllCategories()
 }

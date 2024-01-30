@@ -4,6 +4,7 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
 import com.mateuszcholyn.wallet.frontend.domain.usecase.ExpenseAppUseCases
+import kotlinx.coroutines.runBlocking
 
 
 class ExpenseAppInitializer(
@@ -11,16 +12,18 @@ class ExpenseAppInitializer(
     val expenseAppUseCases: ExpenseAppUseCases,
 ) {
     fun init() {
-        addCategories()
+        runBlocking {
+            addCategories()
+        }
     }
 
-    private fun addCategories() {
+    private suspend fun addCategories() {
         expenseAppManagerScope
             .categoriesScope
             .forEach { addCategory(it) }
     }
 
-    private fun addCategory(categoryScope: CategoryScope) {
+    private suspend fun addCategory(categoryScope: CategoryScope) {
         val createCategoryParameters =
             CreateCategoryParameters(
                 name = categoryScope.categoryName
@@ -33,7 +36,7 @@ class ExpenseAppInitializer(
         addExpenses(categoryScope)
     }
 
-    private fun addExpenses(categoryScope: CategoryScope) {
+    private suspend fun addExpenses(categoryScope: CategoryScope) {
         categoryScope
             .expensesScope
             .forEach { expenseScope ->
@@ -41,7 +44,7 @@ class ExpenseAppInitializer(
             }
     }
 
-    private fun addExpense(categoryId: CategoryId, expenseScope: ExpenseScope) {
+    private suspend fun addExpense(categoryId: CategoryId, expenseScope: ExpenseScope) {
         val addExpenseParameters =
             AddExpenseParameters(
                 amount = expenseScope.amount,

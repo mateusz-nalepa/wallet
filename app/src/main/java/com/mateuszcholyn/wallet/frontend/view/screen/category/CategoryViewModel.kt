@@ -30,13 +30,15 @@ data class CategorySuccessContent(
     val categoryNamesOnly: List<String>,
 )
 
+// TODO: wszędzie gdzie jest ViewModelScope daj jakiś Loading?
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     private val createCategoryUseCase: CreateCategoryUseCase,
     private val removeCategoryUseCase: RemoveCategoryUseCase,
     private val updateCategoryUseCase: UpdateCategoryUseCase,
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
-) : ViewModel() {
+
+    ) : ViewModel() {
 
     private var _categoryState: MutableState<CategoryState> = mutableStateOf(CategoryState.Loading)
     val categoryState: State<CategoryState>
@@ -47,29 +49,35 @@ class CategoryViewModel @Inject constructor(
     }
 
     fun addCategory(newCategoryName: NewCategoryName) {
-        val createCategoryParameters =
-            CreateCategoryParameters(
-                name = newCategoryName,
-            )
-        createCategoryUseCase.invoke(createCategoryParameters)
-        refreshScreen()
+        viewModelScope.launch {
+            val createCategoryParameters =
+                CreateCategoryParameters(
+                    name = newCategoryName,
+                )
+            createCategoryUseCase.invoke(createCategoryParameters)
+            refreshScreen()
+        }
     }
 
     fun deleteCategory(categoryId: CategoryId) {
-        removeCategoryUseCase.invoke(categoryId)
-        refreshScreen()
+        viewModelScope.launch {
+            removeCategoryUseCase.invoke(categoryId)
+            refreshScreen()
+        }
     }
 
     fun updateCategory(categoryQuickSummary: CategoryQuickSummary) {
-        val updatedCategory =
-            CategoryV2(
-                id = categoryQuickSummary.categoryId,
-                name = categoryQuickSummary.categoryName,
-            )
+        viewModelScope.launch {
+            val updatedCategory =
+                CategoryV2(
+                    id = categoryQuickSummary.categoryId,
+                    name = categoryQuickSummary.categoryName,
+                )
 
-        updateCategoryUseCase.invoke(updatedCategory)
+            updateCategoryUseCase.invoke(updatedCategory)
 
-        refreshScreen()
+            refreshScreen()
+        }
     }
 
     fun refreshScreen() {
@@ -86,7 +94,7 @@ class CategoryViewModel @Inject constructor(
         }
     }
 
-    private fun prepareCategorySuccessContent(): CategorySuccessContent {
+    private suspend fun prepareCategorySuccessContent(): CategorySuccessContent {
         val quickSummaries = getCategoriesQuickSummaryUseCase.invoke().quickSummaries
         val categoryNamesOnly = quickSummaries.map { it.categoryName }
 

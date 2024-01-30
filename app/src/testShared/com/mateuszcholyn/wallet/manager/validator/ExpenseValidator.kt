@@ -8,6 +8,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalle
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
 import com.mateuszcholyn.wallet.manager.ExpenseScope
 import com.mateuszcholyn.wallet.manager.validator.LocalDateTimeValidator.assertInstant
+import kotlinx.coroutines.runBlocking
 import java.math.BigDecimal
 import java.time.Instant
 
@@ -15,9 +16,11 @@ fun ExpenseAppManager.validate(
     expenseId: ExpenseId,
     validateBlock: SimpleExpenseValidator.() -> Unit,
 ) {
-    val expense = this.expenseAppDependencies.expenseRepositoryV2.getById(expenseId)
-    requireNotNull(expense) { "Expense with id $expenseId should exist" }
-    expense.validate(validateBlock)
+    runBlocking {
+        val expense = expenseAppDependencies.expenseRepositoryV2.getById(expenseId)
+        requireNotNull(expense) { "Expense with id $expenseId should exist" }
+        expense.validate(validateBlock)
+    }
 }
 
 

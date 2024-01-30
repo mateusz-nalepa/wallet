@@ -1,13 +1,13 @@
 package com.mateuszcholyn.wallet.backend.api.core.category
 
 interface CategoryCoreServiceAPI {
-    fun add(createCategoryParameters: CreateCategoryParameters): CategoryV2
-    fun getAll(): List<CategoryV2>
-    fun getByIdOrThrow(categoryId: CategoryId): CategoryV2
-    fun getById(categoryId: CategoryId): CategoryV2?
-    fun remove(categoryId: CategoryId)
-    fun update(updateCategoryParameters: CategoryV2): CategoryV2
-    fun removeAll()
+    suspend fun add(createCategoryParameters: CreateCategoryParameters): CategoryV2
+    suspend fun getAll(): List<CategoryV2>
+    suspend fun getByIdOrThrow(categoryId: CategoryId): CategoryV2
+    suspend fun getById(categoryId: CategoryId): CategoryV2?
+    suspend fun remove(categoryId: CategoryId)
+    suspend fun update(updateCategoryParameters: CategoryV2): CategoryV2
+    suspend fun removeAll()
 }
 
 data class CreateCategoryParameters(

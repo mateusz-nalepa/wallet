@@ -12,7 +12,7 @@ class RemoveCategoryUseCase(
     private val categoryCoreService: CategoryCoreServiceAPI,
 ) : UseCase {
 
-    fun invoke(categoryId: CategoryId): CategoryRemovedStatus {
+    suspend fun invoke(categoryId: CategoryId): CategoryRemovedStatus {
         categoryCoreService.remove(categoryId)
         return CategoryRemovedStatus.SUCCESS
     }

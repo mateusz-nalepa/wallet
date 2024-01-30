@@ -5,18 +5,22 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
 import com.mateuszcholyn.wallet.frontend.domain.usecase.UseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 
 class ExportV1UseCase(
     private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
     private val expenseCoreServiceAPI: ExpenseCoreServiceAPI,
+    private val transactionManager: TransactionManager,
 ) : UseCase {
 
-    fun invoke(): BackupWalletV1 =
-        BackupV1Creator.createBackupWalletV1(
-            categories = categoryCoreServiceAPI.getAll(),
-            expenses = expenseCoreServiceAPI.getAll(),
-        )
+    suspend fun invoke(): BackupWalletV1 =
+        transactionManager.runInTransaction {
+            BackupV1Creator.createBackupWalletV1(
+                categories = categoryCoreServiceAPI.getAll(),
+                expenses = expenseCoreServiceAPI.getAll(),
+            )
+        }
 
 }
 

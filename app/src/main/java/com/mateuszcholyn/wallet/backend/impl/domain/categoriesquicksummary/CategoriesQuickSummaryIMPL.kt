@@ -18,26 +18,26 @@ class CategoriesQuickSummaryIMPL(
     private val categoriesQuickSummaryRepository: CategoriesQuickSummaryRepository,
     private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
 ) : CategoriesQuickSummaryAPI {
-    override fun handleCategoryAdded(categoryAddedEvent: CategoryAddedEvent) {
+    override suspend fun handleCategoryAdded(categoryAddedEvent: CategoryAddedEvent) {
         categoryAddedEvent
             .toQuickSummaryResult()
             .also { categoriesQuickSummaryRepository.saveQuickSummaryResult(it) }
     }
 
-    override fun handleCategoryRemoved(categoryRemovedEvent: CategoryRemovedEvent) {
+    override suspend fun handleCategoryRemoved(categoryRemovedEvent: CategoryRemovedEvent) {
         categoriesQuickSummaryRepository.remove(categoryRemovedEvent.categoryId)
     }
 
-    override fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent) {
+    override suspend fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent) {
         incWithOne(expenseAddedEvent.categoryId)
     }
 
-    override fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent) {
+    override suspend fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent) {
         decWithOne(expenseUpdatedEvent.oldCategoryId)
         incWithOne(expenseUpdatedEvent.newCategoryId)
     }
 
-    override fun getQuickSummary(): QuickSummaryList {
+    override suspend fun getQuickSummary(): QuickSummaryList {
         val allCategories = categoryCoreServiceAPI.getAll()
         return categoriesQuickSummaryRepository
             .getQuickSummaries()
@@ -46,7 +46,7 @@ class CategoriesQuickSummaryIMPL(
             .let { QuickSummaryList(it) }
     }
 
-    override fun removeAll() {
+    override suspend fun removeAll() {
         categoriesQuickSummaryRepository.removeAll()
     }
 
@@ -59,7 +59,7 @@ class CategoriesQuickSummaryIMPL(
             numberOfExpenses = numberOfExpenses,
         )
 
-    override fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent) {
+    override suspend fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent) {
         decWithOne(expenseRemovedEvent.categoryId)
     }
 
@@ -69,14 +69,14 @@ class CategoriesQuickSummaryIMPL(
             numberOfExpenses = 0,
         )
 
-    private fun incWithOne(categoryId: CategoryId) {
+    private suspend fun incWithOne(categoryId: CategoryId) {
         categoriesQuickSummaryRepository
             .findByCategoryIdOrThrow(categoryId)
             .incWithOne()
             .also { categoriesQuickSummaryRepository.saveQuickSummaryResult(it) }
     }
 
-    private fun decWithOne(categoryId: CategoryId) {
+    private suspend fun decWithOne(categoryId: CategoryId) {
         categoriesQuickSummaryRepository
             .findByCategoryIdOrThrow(categoryId)
             .decWithOne()
@@ -85,7 +85,7 @@ class CategoriesQuickSummaryIMPL(
 
 }
 
-private fun CategoriesQuickSummaryRepository.findByCategoryIdOrThrow(categoryId: CategoryId) =
+private suspend fun CategoriesQuickSummaryRepository.findByCategoryIdOrThrow(categoryId: CategoryId) =
     this.findByCategoryId(categoryId)
         ?: throw CategoryQuickSummaryNotFoundException(categoryId)
 

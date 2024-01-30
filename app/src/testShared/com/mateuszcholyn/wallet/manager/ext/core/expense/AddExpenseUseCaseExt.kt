@@ -8,6 +8,7 @@ import com.mateuszcholyn.wallet.manager.randomAmount
 import com.mateuszcholyn.wallet.manager.randomCategoryId
 import com.mateuszcholyn.wallet.manager.randomDescription
 import com.mateuszcholyn.wallet.manager.randomPaidAt
+import kotlinx.coroutines.runBlocking
 import java.math.BigDecimal
 import java.time.Instant
 
@@ -20,10 +21,11 @@ fun ExpenseAppManager.addExpenseUseCase(
             .apply(scope)
             .toAddExpenseParameters()
 
-    return this
-        .expenseAppUseCases
-        .addExpenseUseCase
-        .invoke(addExpenseParameters)
+    return runBlocking {
+        expenseAppUseCases
+            .addExpenseUseCase
+            .invoke(addExpenseParameters)
+    }
 }
 
 class AddExpenseUseCaseScope {

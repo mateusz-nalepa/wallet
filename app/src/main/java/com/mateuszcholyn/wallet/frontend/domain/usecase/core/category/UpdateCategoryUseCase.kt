@@ -8,7 +8,7 @@ class UpdateCategoryUseCase(
     private val categoryCoreService: CategoryCoreServiceAPI,
 ) : UseCase {
 
-    fun invoke(updatedCategory: CategoryV2): CategoryV2 =
+    suspend fun invoke(updatedCategory: CategoryV2): CategoryV2 =
         categoryCoreService.update(updatedCategory)
 
 }

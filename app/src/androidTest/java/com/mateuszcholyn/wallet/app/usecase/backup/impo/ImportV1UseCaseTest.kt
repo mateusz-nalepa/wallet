@@ -23,6 +23,7 @@ import com.mateuszcholyn.wallet.manager.randomExpenseId
 import com.mateuszcholyn.wallet.manager.validator.LocalDateTimeValidator.assertInstant
 import com.mateuszcholyn.wallet.manager.validator.validate
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 @HiltAndroidTest
@@ -513,42 +514,44 @@ class ImportV1UseCaseTest : BaseIntegrationTest() {
 
     @Test
     fun importedDataContainsExpensePaidAtInInstantFormat() {
-        // given
-        val givenRandomBackupExpense = randomBackupExpenseV1()
+        runBlocking {
+            // given
+            val givenRandomBackupExpense = randomBackupExpenseV1()
 
-        val givenRandomBackupCategoryV1 =
-            randomBackupCategoryV1(expenses = listOf(givenRandomBackupExpense))
+            val givenRandomBackupCategoryV1 =
+                randomBackupCategoryV1(expenses = listOf(givenRandomBackupExpense))
 
-        val givenBackupWalletV1 =
-            BackupWalletV1(
-                version = 1,
-                categories = listOf(givenRandomBackupCategoryV1),
-            )
+            val givenBackupWalletV1 =
+                BackupWalletV1(
+                    version = 1,
+                    categories = listOf(givenRandomBackupCategoryV1),
+                )
 
-        val manager = initExpenseAppManager {}
+            val manager = initExpenseAppManager {}
 
-        // when
-        manager.importV1UseCase {
-            backupWalletV1 = givenBackupWalletV1
-        }
+            // when
+            manager.importV1UseCase {
+                backupWalletV1 = givenBackupWalletV1
+            }
 
-        // then
-        val expenseFromDb =
-            manager
-                .expenseAppDependencies
-                .expenseRepositoryV2
-                .getAllExpenses()
-                .first()
+            // then
+            val expenseFromDb =
+                manager
+                    .expenseAppDependencies
+                    .expenseRepositoryV2
+                    .getAllExpenses()
+                    .first()
 
-        val expensePaidAtFromBackup = InstantConverter.toInstant(givenRandomBackupExpense.paidAt)
+            val expensePaidAtFromBackup = InstantConverter.toInstant(givenRandomBackupExpense.paidAt)
 
-        assertInstant(
-            expenseFromDb.paidAt,
-            expensePaidAtFromBackup,
-        ) {
-            """Expected date as: ${expensePaidAtFromBackup}.
+            assertInstant(
+                expenseFromDb.paidAt,
+                expensePaidAtFromBackup,
+            ) {
+                """Expected date as: ${expensePaidAtFromBackup}.
                 Got: ${expenseFromDb.paidAt}
                 """
+            }
         }
     }
 

@@ -10,13 +10,13 @@ import androidx.room.Update
 interface ExpenseV2Dao {
 
     @Insert
-    fun create(expenseEntityV2: ExpenseEntityV2)
+    suspend fun create(expenseEntityV2: ExpenseEntityV2)
 
     @Update
-    fun update(expenseEntityV2: ExpenseEntityV2)
+    suspend fun update(expenseEntityV2: ExpenseEntityV2)
 
     @Query("SELECT * FROM expenses")
-    fun getAll(): List<ExpenseEntityV2>
+    suspend fun getAll(): List<ExpenseEntityV2>
 
     @Query(
         """SELECT * 
@@ -24,13 +24,13 @@ interface ExpenseV2Dao {
               WHERE expense_id =:expenseId
               """
     )
-    fun getByExpenseId(expenseId: String): ExpenseEntityV2?
+    suspend fun getByExpenseId(expenseId: String): ExpenseEntityV2?
 
     @Query("delete from expenses where expense_id = :expenseId")
-    fun remove(expenseId: String): Int
+    suspend fun remove(expenseId: String): Int
 
     @Query("delete from expenses")
-    fun removeAll(): Int
+    suspend fun removeAll(): Int
 
 }
 

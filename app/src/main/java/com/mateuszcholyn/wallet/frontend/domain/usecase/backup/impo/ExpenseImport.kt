@@ -42,7 +42,7 @@ class ExpenseImport(
                 && expenseFromDb.amount == backupExpenseV1.amount
 
 
-    private fun addNewExpenseWhichWasProbablyRemoved() {
+    private suspend fun addNewExpenseWhichWasProbablyRemoved() {
         validateIdIsUUID(backupExpenseV1.expenseId) {
             "Invalid expenseId: [${backupExpenseV1.expenseId}]. Have it been modified manually in file with backup data?"
         }
@@ -63,7 +63,7 @@ class ExpenseImport(
     }
 
     private suspend fun askUserWhatToDoWhenExpenseChanged(expenseFromDb: ExpenseV2) {
-        val deferred = CompletableDeferred<() -> Unit>()
+        val deferred = CompletableDeferred<suspend () -> Unit>()
 
         importV1Parameters
             .onExpanseChangedAction
@@ -80,7 +80,7 @@ class ExpenseImport(
         deferred.await().invoke()
     }
 
-    private fun updateExpenseByUsingDataFromBackup(expenseFromDb: ExpenseV2) {
+    private suspend fun updateExpenseByUsingDataFromBackup(expenseFromDb: ExpenseV2) {
         expenseFromDb
             .copy(
                 amount = backupExpenseV1.amount,

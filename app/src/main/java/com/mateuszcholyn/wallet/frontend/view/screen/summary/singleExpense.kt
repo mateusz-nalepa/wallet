@@ -30,12 +30,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
-import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.view.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.frontend.view.skeleton.NavDrawerItem
 import com.mateuszcholyn.wallet.frontend.view.skeleton.copyExpense
@@ -43,20 +40,8 @@ import com.mateuszcholyn.wallet.frontend.view.skeleton.routeWithId
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone
-import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanText
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText
 
-@HiltViewModel
-class ShowExpenseModel @Inject constructor(
-    private val removeExpenseUseCase: RemoveExpenseUseCase,
-) : ViewModel() {
-
-
-    fun removeExpenseById(expenseId: ExpenseId) {
-        removeExpenseUseCase.invoke(expenseId)
-    }
-}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -66,7 +51,7 @@ fun ShowExpense(
     navController: NavHostController,
     refreshFunction: () -> Unit,
     initialDetailsAreVisible: Boolean = false,
-    showExpenseModel: ShowExpenseModel = hiltViewModel()
+    showSingleExpenseViewModel: ShowSingleExpenseViewModel = hiltViewModel()
 ) {
 
     var detailsAreVisible by remember { mutableStateOf(initialDetailsAreVisible) }
@@ -114,7 +99,7 @@ fun ShowExpense(
                     )
                     Text(
                         text = searchSingleResult.paidAt.fromUTCInstantToUserLocalTimeZone()
-                            .toHumanText()
+                            .toHumanDateTimeText()
                     )
                 }
 
@@ -156,7 +141,7 @@ fun ShowExpense(
                     YesOrNoDialog(
                         openDialog = openDialog,
                         onConfirm = {
-                            showExpenseModel.removeExpenseById(expenseId = searchSingleResult.expenseId)
+                            showSingleExpenseViewModel.removeExpenseById(expenseId = searchSingleResult.expenseId)
                             refreshFunction()
                             detailsAreVisible = false
 

@@ -9,6 +9,7 @@ import com.mateuszcholyn.wallet.manager.randomCategoryId
 import com.mateuszcholyn.wallet.manager.randomDescription
 import com.mateuszcholyn.wallet.manager.randomExpenseId
 import com.mateuszcholyn.wallet.manager.randomPaidAt
+import kotlinx.coroutines.runBlocking
 import java.math.BigDecimal
 import java.time.Instant
 
@@ -21,10 +22,11 @@ fun ExpenseAppManager.updateExpenseUseCase(
             .apply(scope)
             .toExpense()
 
-    return this
-        .expenseAppUseCases
-        .updateExpenseUseCase
-        .invoke(updateExpenseUseCaseParameters)
+    return runBlocking {
+        expenseAppUseCases
+            .updateExpenseUseCase
+            .invoke(updateExpenseUseCaseParameters)
+    }
 }
 
 class UpdateExpenseUseCaseScope {
@@ -32,6 +34,7 @@ class UpdateExpenseUseCaseScope {
     var newAmount: BigDecimal = randomAmount()
     var newDescription: String = randomDescription()
     var newPaidAt: Instant = randomPaidAt()
+
     // TODO: this should be lateinitVar??
     var newCategoryId: CategoryId = randomCategoryId()
 

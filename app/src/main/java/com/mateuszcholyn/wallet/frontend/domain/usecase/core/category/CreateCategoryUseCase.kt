@@ -9,7 +9,7 @@ class CreateCategoryUseCase(
     private val categoryCoreService: CategoryCoreServiceAPI,
 ) : UseCase {
 
-    fun invoke(createCategoryParameters: CreateCategoryParameters): CategoryV2 =
+    suspend fun invoke(createCategoryParameters: CreateCategoryParameters): CategoryV2 =
         categoryCoreService.add(createCategoryParameters)
 
 }
