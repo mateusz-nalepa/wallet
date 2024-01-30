@@ -1,6 +1,5 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.backup
 
-import android.Manifest
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material.Button
@@ -8,7 +7,6 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,10 +14,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
-import com.google.accompanist.permissions.shouldShowRationale
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.file.export.FileExportParameters
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.file.export.fileExporter
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.file.impo.fileSelector
@@ -89,35 +83,8 @@ fun BackupExport(
     }
 }
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun BackupDataScreen() {
-
-    val writePermissionState = rememberPermissionState(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
-    LaunchedEffect(writePermissionState) {
-        writePermissionState.launchPermissionRequest()
-    }
-
-    when {
-        writePermissionState.status.isGranted -> {
-            BackupScreenPermissionsGranted()
-        }
-
-        writePermissionState.status.shouldShowRationale -> {
-            Text(text = "Brak uprawnień, nic nie zrobisz, a musisz mieć uprawnienia")
-        }
-
-        else -> {
-            Text(text = "Nie nadałęś uprawnień, nic nie zrobię XD")
-        }
-    }
-
-
-}
-
-@Composable
-fun BackupScreenPermissionsGranted(
+fun BackupDataScreen(
     backupScreenViewModel: BackupScreenViewModel = hiltViewModel(),
 ) {
     val context = currentAppContext()
