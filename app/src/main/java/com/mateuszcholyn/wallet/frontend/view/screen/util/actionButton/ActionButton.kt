@@ -11,7 +11,6 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
 sealed interface ErrorModalState {
     data object NotVisible : ErrorModalState
     data class Visible(val message: String) : ErrorModalState
-
 }
 
 sealed interface SuccessModalState {

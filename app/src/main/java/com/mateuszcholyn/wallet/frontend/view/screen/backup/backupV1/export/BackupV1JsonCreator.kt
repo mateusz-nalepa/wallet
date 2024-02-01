@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.export
 
-import com.mateuszcholyn.wallet.frontend.view.screen.backup.BackupObjectMapper
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupObjectMapper
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 
 

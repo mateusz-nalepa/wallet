@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.backup
+package com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper

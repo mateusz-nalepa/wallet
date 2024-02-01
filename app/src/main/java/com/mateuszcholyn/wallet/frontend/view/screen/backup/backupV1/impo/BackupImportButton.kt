@@ -55,18 +55,12 @@ fun BackupImport(
 
     ActionButton(
         text = "Importuj dane",
-        onClick = {
-            fileSelector.launch()
-        },
+        onClick = { fileSelector.launch() },
         isLoading = buttonIsLoading,
         errorModalState = errorState,
-        onErrorModalClose = {
-            errorState = ErrorModalState.NotVisible
-        },
+        onErrorModalClose = { errorState = ErrorModalState.NotVisible },
         successModalState = successState,
-        onSuccessModalClose = {
-            successState = SuccessModalState.NotVisible
-        }
+        onSuccessModalClose = { successState = SuccessModalState.NotVisible }
     )
 }
 

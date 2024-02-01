@@ -43,9 +43,7 @@ fun BackupExport(
         onClick = onClickAction,
         isLoading = buttonIsLoading,
         errorModalState = errorState,
-        onErrorModalClose = {
-            errorState = ErrorModalState.NotVisible
-        }
+        onErrorModalClose = { errorState = ErrorModalState.NotVisible }
     )
 }
 
