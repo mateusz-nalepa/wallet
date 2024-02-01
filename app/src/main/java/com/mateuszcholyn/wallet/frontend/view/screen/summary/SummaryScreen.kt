@@ -13,8 +13,6 @@ import com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.SummaryFilt
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.results.SummarySearchResult
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
-// TODO: dodaj modala jak jest tryb demo, co i jak XD
-
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable

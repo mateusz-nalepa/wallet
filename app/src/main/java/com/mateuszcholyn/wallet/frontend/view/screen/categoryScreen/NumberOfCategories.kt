@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.category
+package com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

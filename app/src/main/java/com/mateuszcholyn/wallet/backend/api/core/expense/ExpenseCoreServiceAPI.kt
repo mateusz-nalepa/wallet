@@ -4,7 +4,6 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import java.math.BigDecimal
 import java.time.Instant
 
-// TODO: powydzielaj useCasy też po stronie backendu xD
 interface ExpenseCoreServiceAPI {
     suspend fun add(addExpenseParameters: AddExpenseParameters): ExpenseV2
     suspend fun remove(expenseId: ExpenseId)

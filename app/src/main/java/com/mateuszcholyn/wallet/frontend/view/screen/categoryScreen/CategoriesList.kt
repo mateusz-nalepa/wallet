@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.category
+package com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -8,19 +8,17 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
+import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.singleCategoryDetails.SingleCategory
 
 @Composable
 fun CategoriesList(
+    refreshScreenFunction: () -> Unit,
     categorySuccessContent: CategorySuccessContent,
-    categoryViewModel: CategoryViewModel = hiltViewModel(),
 ) {
     CategoriesListStateless(
+        refreshScreenFunction = refreshScreenFunction,
         categoryListOptions = categorySuccessContent.categoriesList,
-        onDeleteFunction = { categoryId -> categoryViewModel.deleteCategory(categoryId) },
-        onUpdateCategory = { updatedCategory -> categoryViewModel.updateCategory(updatedCategory) },
         categorySuccessContent = categorySuccessContent,
     )
 }
@@ -28,9 +26,8 @@ fun CategoriesList(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun CategoriesListStateless(
+    refreshScreenFunction: () -> Unit,
     categoryListOptions: List<CategoryQuickSummary>,
-    onDeleteFunction: (CategoryId) -> Unit,
-    onUpdateCategory: (CategoryQuickSummary) -> Unit,
     categorySuccessContent: CategorySuccessContent,
 ) {
     LazyColumn(
@@ -38,12 +35,10 @@ private fun CategoriesListStateless(
         Modifier
             .fillMaxWidth()
             .padding(horizontal = 4.dp),
-
-        ) {
+    ) {
         items(categoryListOptions) { categoryQuickSummary ->
             SingleCategory(
-                onDeleteFunction = onDeleteFunction,
-                onUpdateCategoryFunction = onUpdateCategory,
+                refreshScreenFunction = refreshScreenFunction,
                 categoryQuickSummary = categoryQuickSummary,
                 categorySuccessContent = categorySuccessContent,
             )

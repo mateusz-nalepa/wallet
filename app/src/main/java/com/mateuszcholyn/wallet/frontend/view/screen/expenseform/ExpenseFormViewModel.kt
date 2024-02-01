@@ -16,6 +16,7 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.AddExpenseU
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.GetExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.toCategoryView
+import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ButtonActions
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.asFormattedAmount
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone
@@ -89,32 +90,51 @@ class ExpenseFormViewModel @Inject constructor(
         updateDate(LocalDateTime.now())
     }
 
-    fun screenVisible() {
-        _expenseScreenState.value = ExpenseFormScreenState.Show
+    fun copyExpense(buttonActions: ButtonActions) {
+        genericSaveExpense(
+            buttonActions,
+            "Error podczas kopiowania",
+        )
     }
 
-    fun addCopiedExpense() {
-        genericSaveExpense()
+    fun addNewExpense(
+        buttonActions: ButtonActions,
+    ) {
+        genericSaveExpense(
+            buttonActions,
+            "Error podczas dodawania",
+        )
     }
 
-    fun addNewExpense() {
-        genericSaveExpense()
-    }
-
-    fun updateExpense() {
-        genericSaveExpense {
+    fun updateExpense(
+        buttonActions: ButtonActions,
+    ) {
+        genericSaveExpense(
+            buttonActions,
+            "Error podczas aktualizacji",
+        ) {
             expenseFormState.value.actualExpenseId
                 ?: throw RuntimeException("Cannot update. Missing id!")
         }
     }
 
-    private fun genericSaveExpense(expenseIdProvider: () -> String? = { null }) {
-        viewModelScope.launch {
-            val expenseId = expenseIdProvider.invoke()
-            if (expenseId == null) {
-                addExpense()
-            } else {
-                updateExpense(expenseId)
+    private fun genericSaveExpense(
+        buttonActions: ButtonActions,
+        errorMessage: String,
+        expenseIdProvider: () -> String? = { null },
+    ) {
+        viewModelScope.launch { // DONE
+            try {
+                val expenseId = expenseIdProvider.invoke()
+                if (expenseId == null) {
+                    addExpense()
+                } else {
+                    updateExpense(expenseId)
+                }
+                buttonActions.onSuccessAction.invoke()
+            } catch (t: Throwable) {
+                println(t)
+                buttonActions.onErrorAction.invoke(errorMessage)
             }
         }
     }
@@ -142,9 +162,6 @@ class ExpenseFormViewModel @Inject constructor(
         updateExpenseUseCase.invoke(updatedExpense)
     }
 
-    private fun String.customToBigDecimal(): BigDecimal =
-        this.replace(",", ".").toBigDecimal()
-
 
     fun initExpenseScreen(expenseId: String? = null) {
         viewModelScope.launch { // DONE
@@ -155,7 +172,6 @@ class ExpenseFormViewModel @Inject constructor(
                 if (expenseId != null) {
                     updateExpenseFormFromDatabase(expenseId)
                 }
-                println("XDD")
                 _expenseScreenState.value = ExpenseFormScreenState.Show
             } catch (t: Throwable) {
                 Log.d("BK", "Exception: ${t.message}")
@@ -184,3 +200,6 @@ private fun ExpenseV2WithCategory.toCategoryView(): CategoryView =
         categoryId = categoryId.id,
         name = categoryName,
     )
+
+fun String.customToBigDecimal(): BigDecimal =
+    this.replace(",", ".").toBigDecimal()

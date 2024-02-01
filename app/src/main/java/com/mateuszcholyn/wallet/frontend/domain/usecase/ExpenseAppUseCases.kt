@@ -12,9 +12,6 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpen
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
 
-// TODO: dobrze jakby każdy z tych expense zwracał klasę w stylu Result,
-//  żeby był success z value
-//  albo Error z jakimś Throwable
 data class ExpenseAppUseCases(
     // Category
     val createCategoryUseCase: CreateCategoryUseCase,

@@ -8,6 +8,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
 
+data class ButtonActions(
+    val onSuccessAction: () -> Unit,
+    val onErrorAction: (String) -> Unit,
+)
+
 sealed interface ErrorModalState {
     data object NotVisible : ErrorModalState
     data class Visible(val message: String) : ErrorModalState

@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.category
+package com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
@@ -7,22 +7,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.CreateCategoryUseCase
-import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.RemoveCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.UpdateCategoryUseCase
+import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ButtonActions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-sealed class CategoryState {
-    data object Loading : CategoryState()
-    data class Success(val categorySuccessContent: CategorySuccessContent) : CategoryState()
-    data class Error(val errorMessage: String) : CategoryState()
+sealed class CategoryScreenState {
+    data object Loading : CategoryScreenState()
+    data class Success(val categorySuccessContent: CategorySuccessContent) : CategoryScreenState()
+    data class Error(val errorMessage: String) : CategoryScreenState()
 }
 
 data class CategorySuccessContent(
@@ -30,26 +29,30 @@ data class CategorySuccessContent(
     val categoryNamesOnly: List<String>,
 )
 
-// TODO: wszędzie gdzie jest ViewModelScope daj jakiś Loading?
 @HiltViewModel
-class CategoryViewModel @Inject constructor(
+class CategoryScreenViewModel @Inject constructor(
     private val createCategoryUseCase: CreateCategoryUseCase,
-    private val removeCategoryUseCase: RemoveCategoryUseCase,
     private val updateCategoryUseCase: UpdateCategoryUseCase,
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
 
     ) : ViewModel() {
 
-    private var _categoryState: MutableState<CategoryState> = mutableStateOf(CategoryState.Loading)
-    val categoryState: State<CategoryState>
-        get() = _categoryState
+    private var _categoryScreenState: MutableState<CategoryScreenState> = mutableStateOf(CategoryScreenState.Loading)
+    val categoryScreenState: State<CategoryScreenState>
+        get() = _categoryScreenState
 
     init {
         refreshScreen()
     }
 
-    fun addCategory(newCategoryName: NewCategoryName) {
-        viewModelScope.launch {
+    fun addCategory(
+        newCategoryName: String,
+        buttonActions: ButtonActions,
+    ) {
+        userInputAction(
+            buttonActions,
+            "Error podczas add",
+        ) {
             val createCategoryParameters =
                 CreateCategoryParameters(
                     name = newCategoryName,
@@ -59,37 +62,49 @@ class CategoryViewModel @Inject constructor(
         }
     }
 
-    fun deleteCategory(categoryId: CategoryId) {
-        viewModelScope.launch {
-            removeCategoryUseCase.invoke(categoryId)
-            refreshScreen()
-        }
-    }
-
-    fun updateCategory(categoryQuickSummary: CategoryQuickSummary) {
-        viewModelScope.launch {
+    fun updateCategory(
+        categoryQuickSummary: CategoryQuickSummary,
+        buttonActions: ButtonActions,
+    ) {
+        userInputAction(
+            buttonActions,
+            "Error podczas update",
+        ) {
             val updatedCategory =
                 CategoryV2(
                     id = categoryQuickSummary.categoryId,
                     name = categoryQuickSummary.categoryName,
                 )
-
             updateCategoryUseCase.invoke(updatedCategory)
+        }
+    }
 
-            refreshScreen()
+    private fun userInputAction(
+        buttonActions: ButtonActions,
+        errorMessage: String,
+        actionToBeExecutedBeforeRefresh: suspend () -> Unit,
+    ) {
+        viewModelScope.launch {// DONE
+            try {
+                actionToBeExecutedBeforeRefresh()
+                buttonActions.onSuccessAction.invoke()
+            } catch (e: Exception) {
+                buttonActions.onErrorAction.invoke(errorMessage)
+            }
         }
     }
 
     fun refreshScreen() {
         // w sumie takie coś można by wszędie dać i korytyny by działały od razu XD
         // to tak odnośnie usuwania mainThreadQueries XD
-        viewModelScope.launch {
+        viewModelScope.launch { // DONE
             try {
-                _categoryState.value = CategoryState.Loading
-                _categoryState.value = CategoryState.Success(prepareCategorySuccessContent())
+                _categoryScreenState.value = CategoryScreenState.Loading
+                _categoryScreenState.value = CategoryScreenState.Success(prepareCategorySuccessContent())
             } catch (e: Exception) {
                 Log.d("BK", "Exception: ${e.message}")
-                _categoryState.value = CategoryState.Error(e.message ?: "Unknown error sad times")
+                _categoryScreenState.value = CategoryScreenState.Error(e.message
+                    ?: "Unknown error sad times")
             }
         }
     }

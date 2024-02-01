@@ -9,7 +9,6 @@ fun ExpenseAppManager.validate(
     ExpenseAppManagerValidator(this).apply(validateBlock)
 }
 
-// TODO: all tests should have runBlocking, actually it's hidden in every ext function :D
 class ExpenseAppManagerValidator(
     private val expenseAppManager: ExpenseAppManager
 ) {

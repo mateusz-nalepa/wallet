@@ -9,9 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.ExpenseScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.BackupDataScreen
-import com.mateuszcholyn.wallet.frontend.view.screen.category.CategoryScreen
+import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryScreen
+import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.ExpenseScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.settings.SettingsScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreen
 import com.mateuszcholyn.wallet.frontend.view.wellness.WellnessScreenRunner

@@ -8,7 +8,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +22,8 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.composables.ValidatedTextField
 import com.mateuszcholyn.wallet.frontend.view.composables.datapicker.OutlinedDatePickerField
 import com.mateuszcholyn.wallet.frontend.view.dropdown.WalletDropdown
+import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
+import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialog
 import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 import java.time.LocalDateTime
@@ -29,6 +33,9 @@ import java.time.LocalDateTime
 @Composable
 @OptIn(ExperimentalMaterialApi::class)
 fun ExpenseFormStateless(
+    submitButtonIsLoading: Boolean,
+    errorModalState: ErrorModalState,
+    onErrorModalClose: () -> Unit,
     onMissingCategoriesNavigate: () -> Unit,
     categoryNameOptions: List<CategoryView>,
     onFormSubmit: () -> Unit,
@@ -45,7 +52,7 @@ fun ExpenseFormStateless(
     }
 
     val isFormValid by derivedStateOf {
-        !formState.amount.isAmountInValid()
+        formState.amount.isAmountValid()
     }
 
     val state = rememberScrollState()
@@ -61,7 +68,7 @@ fun ExpenseFormStateless(
                 textFieldLabel = stringResource(R.string.amount),
                 value = formState.amount,
                 onValueChange = { onAmountChange(it) },
-                isValueInValidFunction = { it.isAmountInValid() },
+                isValueInValidFunction = { !it.isAmountValid() },
                 valueInvalidText = stringResource(R.string.incorrectAmount),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
@@ -82,26 +89,34 @@ fun ExpenseFormStateless(
             )
         }
         Row(modifier = defaultModifier) {
+            if (errorModalState is ErrorModalState.Visible) {
+                MyErrorDialog(
+                    errorMessage = errorModalState.message,
+                    onClose = onErrorModalClose
+                )
+            }
             Button(
                 enabled = isFormValid,
                 onClick = { onFormSubmit() },
                 modifier = defaultButtonModifier,
             ) {
-                Text(submitButtonLabel)
+                if (submitButtonIsLoading) {
+                    CircularProgressIndicator(color = MaterialTheme.colors.onPrimary)
+                } else {
+                    Text(submitButtonLabel)
+                }
             }
         }
     }
 }
 
-private fun String.isAmountInValid(): Boolean =
-    this.isBlank()
-        || this.startsWith("-")
-        && (this.replace(",", ".").cannotConvertToDouble() || this.cannotConvertToDouble())
+private fun String.isAmountValid(): Boolean =
+    canConvertToBigDecimal()
 
-private fun String.cannotConvertToDouble(): Boolean =
-    !kotlin
+private fun String.canConvertToBigDecimal(): Boolean =
+    kotlin
         .runCatching {
-            this.toDouble()
+            customToBigDecimal()
             true
         }
         .getOrDefault(false)

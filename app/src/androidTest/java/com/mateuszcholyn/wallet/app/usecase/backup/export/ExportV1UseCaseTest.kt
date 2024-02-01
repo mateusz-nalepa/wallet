@@ -108,6 +108,5 @@ fun assertExportedExpenseEqualToExpenseFromDb(
     assert(exportedExpense.amount == expenseFromDb.amount) { "amount not equal" }
     assert(exportedExpense.description == expenseFromDb.description) { "description not equal" }
     assert(exportedExpense.paidAt == InstantConverter.toLong(expenseFromDb.paidAt)) { "paidAt not equal" }
-    // TODO: check category? XD
     assert(categoryId == expenseFromDb.categoryId) { "categoryId not equal" }
 }
