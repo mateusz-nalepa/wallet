@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.ShowExpense
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.ShowSingleExpense
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 import java.math.BigDecimal
@@ -46,7 +46,7 @@ fun GroupedExpenses(
                 }
             }
             itemsIndexed(items = expensesInGroup) { id, searchSingleResult ->
-                ShowExpense(
+                ShowSingleExpense(
                     id = id,
                     searchSingleResult = searchSingleResult,
                     navController = navController,

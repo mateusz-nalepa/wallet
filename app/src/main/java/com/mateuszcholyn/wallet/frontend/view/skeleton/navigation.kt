@@ -9,11 +9,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.frontend.view.screen.addoreditexpense.NewAddOrEditExpenseScreen
+import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.ExpenseScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.BackupDataScreen
-import com.mateuszcholyn.wallet.frontend.view.screen.category.NewCategoryScreen
+import com.mateuszcholyn.wallet.frontend.view.screen.category.CategoryScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.settings.SettingsScreen
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.NewSummaryScreen
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreen
 import com.mateuszcholyn.wallet.frontend.view.wellness.WellnessScreenRunner
 
 sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslationKey: Int) {
@@ -62,7 +62,7 @@ fun Navigation(
 
             ),
         ) { backStackEntry ->
-            NewAddOrEditExpenseScreen(
+            ExpenseScreen(
                 onFormSubmitNavigate = { navController.navigate(NavDrawerItem.SummaryScreen.route) },
                 onMissingCategoriesNavigate = { navController.navigate(NavDrawerItem.Category.route) },
                 actualExpenseId = backStackEntry.arguments?.getString("expenseId"),
@@ -70,10 +70,10 @@ fun Navigation(
             )
         }
         composable(NavDrawerItem.Category.route) {
-            NewCategoryScreen()
+            CategoryScreen()
         }
         composable(NavDrawerItem.SummaryScreen.route) {
-            NewSummaryScreen(navController = navController)
+            SummaryScreen(navController = navController)
         }
         composable(NavDrawerItem.Settings.route) {
             SettingsScreen()

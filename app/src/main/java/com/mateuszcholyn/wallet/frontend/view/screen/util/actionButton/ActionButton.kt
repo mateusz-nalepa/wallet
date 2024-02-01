@@ -57,6 +57,19 @@ fun ActionButton(
 
 
 @Composable
+fun MyErrorDialogV2(
+    errorModalState: ErrorModalState,
+    onErrorModalClose: () -> Unit,
+) {
+    if (errorModalState is ErrorModalState.Visible) {
+        MyErrorDialog(
+            errorMessage = errorModalState.message,
+            onClose = onErrorModalClose
+        )
+    }
+}
+
+@Composable
 fun MyErrorDialog(
     errorMessage: String,
     onClose: () -> Unit,

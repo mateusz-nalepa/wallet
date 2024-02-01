@@ -8,9 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchAverageExpenseResult
-import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.frontend.domain.appstate.AppIsConfigured
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
@@ -18,14 +16,9 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServ
 import com.mateuszcholyn.wallet.frontend.view.dropdown.GroupElement
 import com.mateuszcholyn.wallet.frontend.view.dropdown.QuickRangeDataV2
 import com.mateuszcholyn.wallet.frontend.view.dropdown.SortElement
-import com.mateuszcholyn.wallet.frontend.view.dropdown.groupingDataXD
-import com.mateuszcholyn.wallet.frontend.view.dropdown.quickRanges
-import com.mateuszcholyn.wallet.frontend.view.dropdown.sortingElements
-import com.mateuszcholyn.wallet.frontend.view.screen.addoreditexpense.CategoryView
+import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
-import com.mateuszcholyn.wallet.frontend.view.util.toDoubleOrDefaultZero
-import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,21 +30,10 @@ fun initialCategory(): CategoryView =
         categoryId = null,
     )
 
-data class SummarySearchForm(
-    val selectedCategory: CategoryView = initialCategory(),
-    val selectedQuickRangeData: QuickRangeDataV2 = quickRanges().first(),
-    val selectedSortElement: SortElement = sortingElements().first(),
-    val amountRangeStart: String = 0.toString(),
-    val amountRangeEnd: String = Int.MAX_VALUE.toString(),
-    //
-    val isGroupingEnabled: Boolean = false,
-    val selectedGroupElement: GroupElement = groupingDataXD().first(),
-)
-
-sealed class SummaryState {
-    data object Loading : SummaryState()
-    data class Success(val summarySuccessContent: SummarySuccessContent) : SummaryState()
-    data class Error(val errorMessage: String) : SummaryState()
+sealed class SummaryResultState {
+    data object Loading : SummaryResultState()
+    data class Success(val summarySuccessContent: SummarySuccessContent) : SummaryResultState()
+    data class Error(val errorMessage: String) : SummaryResultState()
 }
 
 data class SummarySuccessContent(
@@ -61,7 +43,7 @@ data class SummarySuccessContent(
 )
 
 @HiltViewModel
-class SummaryViewModel @Inject constructor(
+class SummaryScreenViewModel @Inject constructor(
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
     private val searchServiceUseCase: SearchServiceUseCase,
     // TODO: Ensuring that all works, don't know if still needed
@@ -72,63 +54,64 @@ class SummaryViewModel @Inject constructor(
     val summarySearchForm: SummarySearchForm
         get() = _searchForm.value
 
-    private var _summaryState: MutableState<SummaryState> = mutableStateOf(SummaryState.Loading)
-    val summaryState: State<SummaryState>
-        get() = _summaryState
+    private var _summaryResultState: MutableState<SummaryResultState> = mutableStateOf(SummaryResultState.Loading)
+    val summaryResultState: State<SummaryResultState>
+        get() = _summaryResultState
 
 
-    private var _readCategoriesList: MutableState<List<CategoryView>> = mutableStateOf(emptyList())
-    val readCategoriesList: State<List<CategoryView>> =
-        _readCategoriesList
+    private var _categoriesList: MutableState<List<CategoryView>> = mutableStateOf(emptyList())
+    val categoriesList: State<List<CategoryView>> =
+        _categoriesList
 
     fun initScreen() {
-        refreshScreen()
+        refreshResults()
     }
 
     fun updateSelectedCategory(newSelectedCategory: CategoryView) {
         _searchForm.value = _searchForm.value.copy(selectedCategory = newSelectedCategory)
-        refreshScreen()
+        refreshResults()
     }
 
     fun updateQuickRangeData(newQuickRangeDataV2: QuickRangeDataV2) {
         _searchForm.value = _searchForm.value.copy(selectedQuickRangeData = newQuickRangeDataV2)
-        refreshScreen()
+        refreshResults()
     }
 
     fun updateSortElement(newSortElement: SortElement) {
         _searchForm.value = _searchForm.value.copy(selectedSortElement = newSortElement)
-        refreshScreen()
+        refreshResults()
     }
 
     fun groupingCheckBoxChecked(newValue: Boolean) {
         _searchForm.value = _searchForm.value.copy(isGroupingEnabled = newValue)
-        refreshScreen()
+        refreshResults()
     }
 
     fun updateGroupElement(groupElement: GroupElement) {
         _searchForm.value = _searchForm.value.copy(selectedGroupElement = groupElement)
-        refreshScreen()
+        refreshResults()
     }
 
     fun updateAmountRangeStart(newAmountRangeStart: String) {
         _searchForm.value = _searchForm.value.copy(amountRangeStart = newAmountRangeStart)
-        refreshScreen()
+        refreshResults()
     }
 
     fun updateAmountRangeEnd(newAmountRangeEnd: String) {
         _searchForm.value = _searchForm.value.copy(amountRangeEnd = newAmountRangeEnd)
-        refreshScreen()
+        refreshResults()
     }
 
-    fun refreshScreen() {
+    fun refreshResults() {
         // TODO: czemu to się odpala 3x jak klikam dodajWydatek XDD
-        viewModelScope.launch {
+        viewModelScope.launch { // DONE
             try {
-                _summaryState.value = SummaryState.Loading
-                _summaryState.value = SummaryState.Success(prepareSummarySuccessContent())
+                _summaryResultState.value = SummaryResultState.Loading
+                _summaryResultState.value = SummaryResultState.Success(prepareSummarySuccessContent())
             } catch (e: Exception) {
                 Log.d("BK", "Exception: ${e.message}")
-                _summaryState.value = SummaryState.Error(e.message ?: "Unknown error sad times")
+                _summaryResultState.value = SummaryResultState.Error(e.message
+                    ?: "Unknown error sad times")
             }
         }
     }
@@ -145,22 +128,12 @@ class SummaryViewModel @Inject constructor(
         )
     }
 
-    private fun readCategoriesList() =
-        viewModelScope.launch {
-            _readCategoriesList.value = listOf(initialCategory()) + getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
-        }
+    private suspend fun readCategoriesList() {
+        _categoriesList.value = listOf(initialCategory()) + getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
+    }
 
 }
 
-private fun SummarySearchForm.toSearchCriteria(): SearchCriteria =
-    SearchCriteria(
-        categoryId = selectedCategory.categoryId?.let { CategoryId(it) },
-        beginDate = selectedQuickRangeData.beginDate?.fromUserLocalTimeZoneToUTCInstant(),
-        endDate = selectedQuickRangeData.endDate?.fromUserLocalTimeZoneToUTCInstant(),
-        fromAmount = amountRangeStart.toDoubleOrDefaultZero().toBigDecimal(),
-        toAmount = amountRangeEnd.toDoubleOrDefaultZero().toBigDecimal(),
-        sort = selectedSortElement.sort,
-    )
 
 fun SearchSingleResult.descriptionOrDefault(defaultDescription: String): String =
     if (description == EMPTY_STRING) defaultDescription else description

@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.summary
+package com.mateuszcholyn.wallet.frontend.view.screen.summary.filters
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -9,21 +9,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.dropdown.WalletDropdown
-import com.mateuszcholyn.wallet.frontend.view.dropdown.quickRanges
+import com.mateuszcholyn.wallet.frontend.view.dropdown.quickDateRanges
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SummaryQuickRangeSection(
-    summaryViewModel: SummaryViewModel = hiltViewModel(),
+fun SummaryQuickDateRangeSection(
+    summaryScreenViewModel: SummaryScreenViewModel = hiltViewModel(),
 ) {
-    val availableQuickRangeData by remember { mutableStateOf(quickRanges()) }
+    val availableQuickRangeData by remember { mutableStateOf(quickDateRanges()) }
 
     WalletDropdown(
         dropdownName = stringResource(R.string.range),
-        selectedElement = summaryViewModel.summarySearchForm.selectedQuickRangeData,
+        selectedElement = summaryScreenViewModel.summarySearchForm.selectedQuickRangeData,
         availableElements = availableQuickRangeData,
         onItemSelected = { newQuickRangeData ->
-            summaryViewModel.updateQuickRangeData(newQuickRangeData)
+            summaryScreenViewModel.updateQuickRangeData(newQuickRangeData)
         },
     )
 }

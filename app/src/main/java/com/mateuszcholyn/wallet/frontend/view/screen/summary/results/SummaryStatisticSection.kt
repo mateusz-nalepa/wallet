@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.summary
+package com.mateuszcholyn.wallet.frontend.view.screen.summary.results
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummarySuccessContent
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 @Composable

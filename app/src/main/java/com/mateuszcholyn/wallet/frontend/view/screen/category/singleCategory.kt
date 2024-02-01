@@ -45,9 +45,7 @@ fun SingleCategory(
     categorySuccessContent: CategorySuccessContent,
 ) {
     val currentContext = currentAppContext()
-
     var detailsAreVisible by remember { mutableStateOf(initialDetailsAreVisible) }
-
     var editCategoryNameIsVisible by remember { mutableStateOf(initialEditCategoryNameIsVisible) }
 
     ListItem(
@@ -78,7 +76,6 @@ fun SingleCategory(
     )
 
     if (detailsAreVisible) {
-        val notImplementedText = stringResource(R.string.notImplemented)
         Row(
             modifier = defaultModifier.padding(top = 0.dp),
             horizontalArrangement = Arrangement.End

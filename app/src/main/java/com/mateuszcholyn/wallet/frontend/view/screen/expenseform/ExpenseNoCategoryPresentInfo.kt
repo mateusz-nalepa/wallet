@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.addoreditexpense
+package com.mateuszcholyn.wallet.frontend.view.screen.expenseform
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +15,7 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 @Composable
-fun NoCategoryPresentInfo(
+fun ExpenseNoCategoryPresentInfo(
     onMissingCategoriesNavigate: () -> Unit,
 ) {
     Column(

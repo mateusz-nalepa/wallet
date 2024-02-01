@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.summary.advancedFilters
+package com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.advancedFilters
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -10,21 +10,21 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.dropdown.WalletDropdown
 import com.mateuszcholyn.wallet.frontend.view.dropdown.sortingElements
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryViewModel
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SummarySortingSection(
-    summaryViewModel: SummaryViewModel = hiltViewModel(),
+    summaryScreenViewModel: SummaryScreenViewModel = hiltViewModel(),
 ) {
     val availableSortingElements by remember { mutableStateOf(sortingElements()) }
 
     WalletDropdown(
         dropdownName = stringResource(R.string.Sorting),
-        selectedElement = summaryViewModel.summarySearchForm.selectedSortElement,
+        selectedElement = summaryScreenViewModel.summarySearchForm.selectedSortElement,
         availableElements = availableSortingElements,
         onItemSelected = { newSortElement ->
-            summaryViewModel.updateSortElement(newSortElement)
+            summaryScreenViewModel.updateSortElement(newSortElement)
         },
     )
 }

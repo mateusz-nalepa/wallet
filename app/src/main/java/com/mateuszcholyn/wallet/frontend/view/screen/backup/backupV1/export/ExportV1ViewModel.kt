@@ -21,7 +21,7 @@ class ExportV1ViewModel @Inject constructor(
         onFileReadyAction: (FileExportParameters) -> Unit,
         onErrorTextProvider: (String) -> Unit,
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch { // DONE
             try {
                 val fileUri =
                     exportV1UseCase

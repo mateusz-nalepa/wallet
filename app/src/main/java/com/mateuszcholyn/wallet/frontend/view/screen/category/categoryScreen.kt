@@ -7,29 +7,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.ScreenLoading
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryError
+import com.mateuszcholyn.wallet.frontend.view.screen.util.screenError.ScreenError
+import com.mateuszcholyn.wallet.frontend.view.screen.util.screenLoading.ScreenLoading
 
 @Composable
-fun NewCategoryScreen(
+fun CategoryScreen(
     categoryViewModel: CategoryViewModel = hiltViewModel(),
 ) {
     categoryViewModel.refreshScreen()
-    NewCategoryScreenContent()
-}
-
-
-@Composable
-fun NewCategoryScreenContent(
-    categoryViewModel: CategoryViewModel = hiltViewModel(),
-) {
 
     val categoryState by remember { categoryViewModel.categoryState }
 
     Column {
         when (val categoryStateTemp = categoryState) {
-            is CategoryState.Error -> SummaryError(categoryStateTemp.errorMessage)
-            is CategoryState.Loading -> ScreenLoading("Category Loading")
+            is CategoryState.Error -> ScreenError(categoryStateTemp.errorMessage)
+            is CategoryState.Loading -> ScreenLoading()
             is CategoryState.Success -> SuccessCategoryScreen(categoryStateTemp.categorySuccessContent)
         }
     }
@@ -47,6 +39,6 @@ fun SuccessCategoryScreen(categorySuccessContent: CategorySuccessContent) {
 @Preview(showBackground = true)
 @Composable
 fun NewCategoryScreenPreview() {
-    NewCategoryScreen()
+    CategoryScreen()
 }
 

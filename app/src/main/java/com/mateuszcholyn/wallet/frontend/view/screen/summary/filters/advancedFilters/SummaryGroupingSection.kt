@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.summary.advancedFilters
+package com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.advancedFilters
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -10,12 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryViewModel
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenViewModel
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 @Composable
 fun SummaryGroupingSection(
-    summaryViewModel: SummaryViewModel = hiltViewModel(),
+    summaryScreenViewModel: SummaryScreenViewModel = hiltViewModel(),
 ) {
     Row(
         modifier = defaultModifier,
@@ -33,9 +33,9 @@ fun SummaryGroupingSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                checked = summaryViewModel.summarySearchForm.isGroupingEnabled,
+                checked = summaryScreenViewModel.summarySearchForm.isGroupingEnabled,
                 onCheckedChange = { newValue ->
-                    summaryViewModel.groupingCheckBoxChecked(newValue)
+                    summaryScreenViewModel.groupingCheckBoxChecked(newValue)
                 })
             Text(text = stringResource(R.string.group))
         }

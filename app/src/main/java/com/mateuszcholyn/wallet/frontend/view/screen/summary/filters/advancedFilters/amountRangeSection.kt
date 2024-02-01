@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.summary.advancedFilters
+package com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.advancedFilters
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.text.KeyboardOptions
@@ -9,25 +9,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryViewModel
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenViewModel
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 @Composable
 fun AmountRangeSection(
-    summaryViewModel: SummaryViewModel = hiltViewModel(),
+    summaryScreenViewModel: SummaryScreenViewModel = hiltViewModel(),
 ) {
     Row(modifier = defaultModifier) {
         OutlinedTextField(
-            value = summaryViewModel.summarySearchForm.amountRangeStart,
-            onValueChange = { summaryViewModel.updateAmountRangeStart(it) },
+            value = summaryScreenViewModel.summarySearchForm.amountRangeStart,
+            onValueChange = { summaryScreenViewModel.updateAmountRangeStart(it) },
             label = { Text(stringResource(R.string.amountFrom)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = defaultModifier.weight(1f),
             singleLine = true,
         )
         OutlinedTextField(
-            value = summaryViewModel.summarySearchForm.amountRangeEnd,
-            onValueChange = { summaryViewModel.updateAmountRangeEnd(it) },
+            value = summaryScreenViewModel.summarySearchForm.amountRangeEnd,
+            onValueChange = { summaryScreenViewModel.updateAmountRangeEnd(it) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             label = { Text(stringResource(R.string.amountTo)) },
             modifier = defaultModifier.weight(1f),

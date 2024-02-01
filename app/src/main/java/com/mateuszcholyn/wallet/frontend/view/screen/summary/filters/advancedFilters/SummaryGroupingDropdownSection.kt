@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.summary.advancedFilters
+package com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.advancedFilters
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -10,22 +10,22 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.dropdown.WalletDropdown
 import com.mateuszcholyn.wallet.frontend.view.dropdown.groupingDataXD
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryViewModel
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SummaryGroupingDropdownSection(
-    summaryViewModel: SummaryViewModel = hiltViewModel(),
+    summaryScreenViewModel: SummaryScreenViewModel = hiltViewModel(),
 ) {
     val availableGroupElements by remember { mutableStateOf(groupingDataXD()) }
 
     WalletDropdown(
         dropdownName = stringResource(R.string.grouping),
-        selectedElement = summaryViewModel.summarySearchForm.selectedGroupElement,
+        selectedElement = summaryScreenViewModel.summarySearchForm.selectedGroupElement,
         availableElements = availableGroupElements,
         onItemSelected = { newGroupElement ->
-            summaryViewModel.updateGroupElement(newGroupElement)
+            summaryScreenViewModel.updateGroupElement(newGroupElement)
         },
-        isEnabled = summaryViewModel.summarySearchForm.isGroupingEnabled,
+        isEnabled = summaryScreenViewModel.summarySearchForm.isGroupingEnabled,
     )
 }

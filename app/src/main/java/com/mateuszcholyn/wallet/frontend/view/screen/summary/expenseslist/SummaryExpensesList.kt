@@ -5,27 +5,27 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummarySuccessContent
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryViewModel
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SummaryExpensesList(
     navController: NavHostController,
     summarySuccessContent: SummarySuccessContent,
-    summaryViewModel: SummaryViewModel = hiltViewModel()
+    summaryScreenViewModel: SummaryScreenViewModel = hiltViewModel()
 ) {
 
-    if (summaryViewModel.summarySearchForm.isGroupingEnabled) {
+    if (summaryScreenViewModel.summarySearchForm.isGroupingEnabled) {
         GroupedExpenses(
             navController = navController,
-            refreshFunction = { summaryViewModel.refreshScreen() },
+            refreshFunction = { summaryScreenViewModel.refreshResults() },
             expensesListGrouped = summarySuccessContent.expensesGrouped,
-            groupNameFunction = summaryViewModel.summarySearchForm.selectedGroupElement.groupFunctionName,
+            groupNameFunction = summaryScreenViewModel.summarySearchForm.selectedGroupElement.groupFunctionName,
         )
     } else {
         ExpensesList(
             navController = navController,
-            refreshFunction = { summaryViewModel.refreshScreen() },
+            refreshFunction = { summaryScreenViewModel.refreshResults() },
             expensesList = summarySuccessContent.expensesList,
         )
     }

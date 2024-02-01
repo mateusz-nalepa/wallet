@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.ShowExpense
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.ShowSingleExpense
 
 @Composable
 fun ExpensesList(
@@ -25,7 +25,7 @@ fun ExpensesList(
 
         ) {
         itemsIndexed(items = expensesList) { id, searchSingleResult ->
-            ShowExpense(
+            ShowSingleExpense(
                 id = id,
                 searchSingleResult = searchSingleResult,
                 navController = navController,

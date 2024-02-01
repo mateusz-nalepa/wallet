@@ -29,7 +29,7 @@ class ImportV1ViewModel @Inject constructor(
         onSuccessAction: (ImportV1Summary) -> Unit,
         onErrorTextProvider: (String) -> Unit,
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch { // DONE
             try {
                 val backupWalletV1 =
                     context

@@ -1,25 +1,17 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.addoreditexpense
+package com.mateuszcholyn.wallet.frontend.view.screen.expenseform
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.frontend.view.dropdown.DropdownElement
 
 @Composable
-fun NewAddOrEditExpenseScreen(
+fun ExpenseScreen(
     onFormSubmitNavigate: () -> Unit,
     onMissingCategoriesNavigate: () -> Unit,
     actualExpenseId: String? = null,
     screenMode: String? = null,
-    addOrEditExpenseViewModel: AddOrEditExpenseViewModel = hiltViewModel()
 ) {
-    val categoryNameOptions by remember { addOrEditExpenseViewModel.categoryOptions }
-    if (categoryNameOptions.isEmpty()) {
-        NoCategoryPresentInfo(onMissingCategoriesNavigate)
-        return
-    }
-    ShowAddOrEditExpenseScreenContent(
+    ExpenseScreenStateless(
+        onMissingCategoriesNavigate = onMissingCategoriesNavigate,
         onFormSubmit = onFormSubmitNavigate,
         actualExpenseId = actualExpenseId,
         screenMode = screenMode,
@@ -27,7 +19,8 @@ fun NewAddOrEditExpenseScreen(
 }
 
 @Composable
-fun ShowAddOrEditExpenseScreenContent(
+fun ExpenseScreenStateless(
+    onMissingCategoriesNavigate: () -> Unit,
     onFormSubmit: () -> Unit,
     actualExpenseId: String?,
     screenMode: String? = null,
@@ -35,15 +28,18 @@ fun ShowAddOrEditExpenseScreenContent(
 
     if (screenMode == "copy" && actualExpenseId != null) {
         CopyExpenseScreen(
+            onMissingCategoriesNavigate = onMissingCategoriesNavigate,
             onFormSubmitNavigateAction = onFormSubmit,
             actualExpenseId = actualExpenseId,
         )
     } else if (actualExpenseId == null) {
         AddExpenseScreen(
+            onMissingCategoriesNavigate = onMissingCategoriesNavigate,
             onFormSubmitNavigateAction = onFormSubmit,
         )
     } else {
         EditExpenseScreen(
+            onMissingCategoriesNavigate = onMissingCategoriesNavigate,
             onFormSubmitNavigateAction = onFormSubmit,
             actualExpenseId = actualExpenseId,
         )

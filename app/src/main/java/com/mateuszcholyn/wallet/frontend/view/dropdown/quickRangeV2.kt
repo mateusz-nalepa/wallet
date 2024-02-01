@@ -15,7 +15,7 @@ class QuickRangeDataV2(
     val endDate: LocalDateTime?,
 ) : DropdownElement
 
-fun quickRanges(): List<QuickRangeDataV2> {
+fun quickDateRanges(): List<QuickRangeDataV2> {
     return listOf(
         QuickRangeDataV2(
             name = "R.string.today",
