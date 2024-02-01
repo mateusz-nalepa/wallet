@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.backup.file
+package com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils
 
 import java.io.File
 

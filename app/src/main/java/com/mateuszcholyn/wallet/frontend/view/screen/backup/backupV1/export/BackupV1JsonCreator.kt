@@ -1,6 +1,7 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1
+package com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.export
 
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.BackupObjectMapper
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 
 
 object BackupV1JsonCreator {
