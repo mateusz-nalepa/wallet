@@ -27,7 +27,7 @@ class ImportV1UseCase(
         removeAllIfNecessary(importV1Parameters)
 
         return ImportV1SummaryGenerator
-            .from(importV1Parameters.backupWalletV1)
+            .from(importV1Parameters)
             .also { importBackup(importV1Parameters, it) }
             .toImportV1Summary()
     }

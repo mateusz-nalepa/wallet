@@ -14,19 +14,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Summary
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.CategoryChangedModal
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.ExpenseChangedModal
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ActionButton
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
-import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MySuccessDialog
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.SuccessModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.impo.fileSelector
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnDarkPreview
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnLightPreview
+import com.mateuszcholyn.wallet.frontend.view.util.buttonPadding
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
+import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 @Composable
 fun BackupImport(
@@ -60,6 +61,8 @@ fun BackupImport(
         onUseExpenseFromBackup,
     )
 
+    var importV1SummaryProgressState by remember { mutableStateOf<ImportV1Summary?>(null) }
+
     val fileSelector =
         fileSelector(
             onExternalFileSelected = { externalFileUri ->
@@ -67,6 +70,9 @@ fun BackupImport(
                 importV1ViewModel.importBackupV1(
                     context = context,
                     externalFileUri = externalFileUri,
+                    onImportProgress = { importV1SummaryProgress ->
+                        importV1SummaryProgressState = importV1SummaryProgress
+                    },
                     onCategoryChangedAction = {
                         onKeepCategoryFromDatabase = it.keepCategoryFromDatabase
                         onUseCategoryFromBackup = it.useCategoryFromBackup
@@ -82,92 +88,107 @@ fun BackupImport(
                             ImportSummaryStateless(it)
                         }
                         buttonIsLoading = false
+                        importV1SummaryProgressState = null
                     },
                     onErrorTextProvider = {
                         errorState = ErrorModalState.Visible(it)
                         buttonIsLoading = false
+                        importV1SummaryProgressState = null
                     }
                 )
             }
         )
 
-    ActionButton(
-        text = "Importuj dane",
-        onClick = { fileSelector.launch() },
-        isLoading = buttonIsLoading,
+    BackupImportButtonStateless(
+        onImportClick = { fileSelector.launch() },
+        buttonIsLoading = buttonIsLoading,
         errorModalState = errorState,
         onErrorModalClose = { errorState = ErrorModalState.NotVisible },
         successModalState = successState,
-        onSuccessModalClose = { successState = SuccessModalState.NotVisible }
+        onSuccessModalClose = { successState = SuccessModalState.NotVisible },
+        importV1SummaryProgressState = importV1SummaryProgressState,
     )
 }
 
 @Composable
-fun ImportSummaryStateless(importV1Summary: ImportV1Summary) {
-    Column {
-        ImportSummaryRowStateless("Categories total", importV1Summary.numberOfCategories)
-        ImportSummaryRowStateless("Expenses total", importV1Summary.numberOfExpenses)
-        ImportSummaryRowStateless("Imported categories", importV1Summary.numberOfImportedCategories)
-        ImportSummaryRowStateless("Skipped categories", importV1Summary.numberOfSkippedCategories)
-        ImportSummaryRowStateless("Imported expenses", importV1Summary.numberOfImportedExpenses)
-        ImportSummaryRowStateless("Skipped expenses", importV1Summary.numberOfSkippedExpenses)
+fun BackupImportButtonStateless(
+    buttonIsLoading: Boolean,
+    onImportClick: () -> Unit,
+    errorModalState: ErrorModalState,
+    onErrorModalClose: () -> Unit,
+    successModalState: SuccessModalState,
+    onSuccessModalClose: () -> Unit,
+    importV1SummaryProgressState: ImportV1Summary?,
+) {
+    Column(modifier = defaultModifier) {
+        ActionButton(
+            text = "Importuj dane",
+            onClick = { onImportClick.invoke() },
+            isLoading = buttonIsLoading,
+            errorModalState = errorModalState,
+            onErrorModalClose = { onErrorModalClose.invoke() },
+            successModalState = successModalState,
+            onSuccessModalClose = { onSuccessModalClose.invoke() }
+        )
+        ImportV1SummaryProgressStateless(importV1SummaryProgressState)
     }
 }
 
 @Composable
-private fun ImportSummaryRowStateless(
-    text: String,
-    number: Int,
+fun ImportV1SummaryProgressStateless(
+    importV1SummaryProgressState: ImportV1Summary?,
 ) {
+    if (importV1SummaryProgressState == null) {
+        return
+    }
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(1.dp)
+            .padding(horizontal = buttonPadding)
     ) {
-        Text(text = text)
-        Text(text = "$number")
+        Text(text = "Imported records")
+        Text(text = importV1SummaryProgressState.categoriesProgress())
     }
     Divider()
 }
 
+private fun ImportV1Summary.categoriesProgress() =
+    "${
+        numberOfImportedCategories + numberOfSkippedCategories +
+            numberOfImportedExpenses + numberOfSkippedExpenses
+    } of ${numberOfCategories + numberOfExpenses}"
+
+
 @Preview(showBackground = true)
 @Composable
-fun MySuccessDialogDarkPreview() {
-    val importV1Summary =
-        ImportV1Summary(
-            1,
-            2,
-            3,
-            4,
-            5, 6
-        )
+fun BackupImportButtonStatelessDarkPreview(@PreviewParameter(ImportV1SummaryProvider::class) importV1Summary: ImportV1Summary) {
     SetContentOnDarkPreview {
-        MySuccessDialog(
-            onClose = {},
-        ) {
-            ImportSummaryStateless(importV1Summary)
-        }
+        BackupImportButtonStateless(
+            buttonIsLoading = false,
+            onImportClick = {},
+            errorModalState = ErrorModalState.NotVisible,
+            onErrorModalClose = { },
+            successModalState = SuccessModalState.NotVisible,
+            onSuccessModalClose = {},
+            importV1SummaryProgressState = importV1Summary
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun MySuccessDialogLightPreview() {
-    val importV1Summary =
-        ImportV1Summary(
-            1,
-            2,
-            3,
-            4,
-            5, 6
-        )
+fun BackupImportButtonStatelessLightPreview(@PreviewParameter(ImportV1SummaryProvider::class) importV1Summary: ImportV1Summary) {
     SetContentOnLightPreview {
-        MySuccessDialog(
-            onClose = {},
-        ) {
-            ImportSummaryStateless(importV1Summary)
-        }
+        BackupImportButtonStateless(
+            buttonIsLoading = false,
+            onImportClick = {},
+            errorModalState = ErrorModalState.NotVisible,
+            onErrorModalClose = { },
+            successModalState = SuccessModalState.NotVisible,
+            onSuccessModalClose = {},
+            importV1SummaryProgressState = importV1Summary
+        )
     }
 }
 

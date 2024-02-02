@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.export.BackupExport
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.impo.BackupImport
+import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnDarkPreview
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 
@@ -25,6 +26,7 @@ fun BackupDataScreen() {
 @Preview(showBackground = true)
 @Composable
 fun DummyScreenPreview() {
-    BackupDataScreen()
+    SetContentOnDarkPreview {
+        BackupDataScreen()
+    }
 }
-

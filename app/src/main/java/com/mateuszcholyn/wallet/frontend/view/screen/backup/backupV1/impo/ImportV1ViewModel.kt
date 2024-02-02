@@ -28,6 +28,7 @@ class ImportV1ViewModel @Inject constructor(
         onExpanseChangedAction: (OnExpanseChangedInput) -> Unit,
         onSuccessAction: (ImportV1Summary) -> Unit,
         onErrorTextProvider: (String) -> Unit,
+        onImportProgress: (ImportV1Summary) -> Unit,
     ) {
         viewModelScope.launch { // DONE
             try {
@@ -36,9 +37,9 @@ class ImportV1ViewModel @Inject constructor(
                         .externalFileToInternal(externalFileUri)
                         .readFileContent()
                         .let { BackupV1JsonReader.readBackupWalletV1(it) }
-
                 val importV1Parameters =
                     ImportV1Parameters(
+                        onImportProgress = onImportProgress,
                         backupWalletV1 = backupWalletV1,
                         removeAllBeforeImport = false,
                         onCategoryNameChangedAction = onCategoryChangedAction,

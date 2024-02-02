@@ -5,6 +5,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalle
 data class ImportV1Parameters(
     val backupWalletV1: BackupWalletV1,
     val removeAllBeforeImport: Boolean,
+    val onImportProgress: (ImportV1Summary) -> Unit,
     val onCategoryNameChangedAction: (OnCategoryChangedInput) -> Unit,
     val onExpanseChangedAction: (OnExpanseChangedInput) -> Unit,
 )

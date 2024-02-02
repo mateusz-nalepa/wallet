@@ -11,8 +11,10 @@ val defaultModifier =
         .padding(4.dp)
         .fillMaxWidth()
 
+val buttonPadding = 4.dp
+
 val defaultButtonModifier =
     Modifier
-        .padding(4.dp)
+        .padding(buttonPadding)
         .height(60.dp)
         .fillMaxWidth()

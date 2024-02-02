@@ -35,6 +35,7 @@ class ImportV1ParametersScope {
     var onExpanseChangedAction: (OnExpanseChangedInput) -> Unit = {
         throw RuntimeException("not used")
     }
+    var onImportProgress: (ImportV1Summary) -> Unit = {}
 
     fun toV1Parameters(): ImportV1Parameters =
         ImportV1Parameters(
@@ -42,5 +43,6 @@ class ImportV1ParametersScope {
             removeAllBeforeImport = removeAllBeforeImport,
             onCategoryNameChangedAction = onCategoryChangedAction,
             onExpanseChangedAction = onExpanseChangedAction,
+            onImportProgress = onImportProgress,
         )
 }
