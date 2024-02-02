@@ -74,6 +74,7 @@ fun MyErrorDialogV2(
     }
 }
 
+// TODO: obramowanie, bo na czarnym tle się wszystko zlewa XD
 @Composable
 fun MyErrorDialog(
     errorMessage: String,

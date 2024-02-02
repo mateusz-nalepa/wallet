@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo
 
+import android.util.Log
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
@@ -19,6 +20,7 @@ class ExpenseImport(
 ) {
 
     suspend fun addExpense() {
+        Log.d("XD", "Expense")
         val expenseFromDb =
             expenseCoreServiceAPI
                 .getById(ExpenseId(backupExpenseV1.expenseId))

@@ -8,8 +8,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Summary
-import com.mateuszcholyn.wallet.frontend.view.screen.backup.categoryChangedModal
-import com.mateuszcholyn.wallet.frontend.view.screen.backup.expenseChangedModal
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.CategoryChangedModal
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.ExpenseChangedModal
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ActionButton
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.SuccessModalState
@@ -26,8 +26,27 @@ fun BackupImport(
     var errorState by remember { mutableStateOf<ErrorModalState>(ErrorModalState.NotVisible) }
     var successState by remember { mutableStateOf<SuccessModalState>(SuccessModalState.NotVisible) }
 
-    val categoryChangedModal = categoryChangedModal()
-    val expenseChangedModal = expenseChangedModal()
+
+    val categoryModalDialogIsVisible = remember { mutableStateOf(false) }
+    var onKeepCategoryFromDatabase: () -> Unit by remember { mutableStateOf({}) }
+    var onUseCategoryFromBackup: () -> Unit by remember { mutableStateOf({}) }
+
+    CategoryChangedModal(
+        categoryModalDialogIsVisible,
+        onKeepCategoryFromDatabase,
+        onUseCategoryFromBackup,
+    )
+
+    val expenseModalDialogIsVisible = remember { mutableStateOf(false) }
+    var onKeepExpenseFromDatabase: () -> Unit by remember { mutableStateOf({}) }
+    var onUseExpenseFromBackup: () -> Unit by remember { mutableStateOf({}) }
+
+
+    ExpenseChangedModal(
+        expenseModalDialogIsVisible,
+        onKeepExpenseFromDatabase,
+        onUseExpenseFromBackup,
+    )
 
     val fileSelector =
         fileSelector(
@@ -36,8 +55,16 @@ fun BackupImport(
                 importV1ViewModel.importBackupV1(
                     context = context,
                     externalFileUri = externalFileUri,
-                    onCategoryChangedAction = { categoryChangedModal.open(it) },
-                    onExpanseChangedAction = { expenseChangedModal.open(it) },
+                    onCategoryChangedAction = {
+                        onKeepCategoryFromDatabase = it.keepCategoryFromDatabase
+                        onUseCategoryFromBackup = it.useCategoryFromBackup
+                        categoryModalDialogIsVisible.value = true
+                    },
+                    onExpanseChangedAction = {
+                        onKeepExpenseFromDatabase = it.keepExpenseFromDatabase
+                        onUseExpenseFromBackup = it.useExpenseFromBackup
+                        categoryModalDialogIsVisible.value = true
+                    },
                     onSuccessAction = {
                         successState = SuccessModalState.Visible {
                             ImportSummaryStateless(it)
@@ -47,7 +74,6 @@ fun BackupImport(
                     onErrorTextProvider = {
                         errorState = ErrorModalState.Visible(it)
                         buttonIsLoading = false
-
                     }
                 )
             }

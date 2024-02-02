@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo
 
+import android.util.Log
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
@@ -15,6 +16,8 @@ class CategoryImport(
 ) {
 
     suspend fun getOrCreateCategory(): SavedCategoryFromDb {
+        Log.d("XD", "category")
+
         val categoryFromDb =
             categoryCoreServiceAPI
                 .getById(CategoryId(backupCategoryV1.id))

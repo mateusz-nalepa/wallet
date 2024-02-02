@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -20,8 +21,10 @@ fun SummaryScreen(
     navController: NavHostController,
     summaryScreenViewModel: SummaryScreenViewModel = hiltViewModel(),
 ) {
-
-    summaryScreenViewModel.initScreen()
+    DisposableEffect(key1 = Unit, effect = {
+        summaryScreenViewModel.initScreen()
+        onDispose { }
+    })
     Column(modifier = defaultModifier) {
         SummaryFilters()
         Divider()
