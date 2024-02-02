@@ -5,6 +5,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.runtime.Composable
@@ -13,8 +14,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.frontend.view.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
@@ -39,6 +42,9 @@ fun RemoveSingleExpenseIconButton(
 
     YesOrNoDialog(
         openDialog = removeConfirmationDialog,
+        content = {
+            Text(text = stringResource(R.string.areYouReadyToRemoveExpense))
+        },
         onConfirm = {
             isDeleteLoading = true
             removeSingleExpenseViewModel.removeExpenseById(

@@ -5,6 +5,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.runtime.Composable
@@ -71,8 +72,10 @@ fun RemoveSingleCategoryIconButton(
     val categoryRemoveConfirmationDialog = remember { mutableStateOf(false) }
 
     YesOrNoDialog(
-        message = stringResource(R.string.reallyHardRemoveCategory),
         openDialog = categoryRemoveConfirmationDialog,
+        content = {
+            Text(text = stringResource(R.string.reallyHardRemoveCategory))
+        },
         onConfirm = {
             if (categoryQuickSummary.numberOfExpenses == 0L) {
                 onConfirmRemovalAction()

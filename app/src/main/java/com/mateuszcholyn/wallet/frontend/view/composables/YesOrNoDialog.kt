@@ -22,9 +22,9 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 @Composable
 fun YesOrNoDialog(
     openDialog: MutableState<Boolean>,
+    content: @Composable () -> Unit,
     onConfirm: () -> Unit,
     onCancel: () -> Unit = {},
-    message: String = stringResource(R.string.areYouReadyToRemoveExpense),
     cancelText: String = stringResource(R.string.yesOrNoCancel),
     confirmText: String = stringResource(R.string.yesOrNoConfirm),
 ) {
@@ -34,7 +34,7 @@ fun YesOrNoDialog(
                 openDialog.value = false
             },
             title = {
-                Text(text = message)
+                content.invoke()
             },
             buttons = {
                 Row(
@@ -47,7 +47,7 @@ fun YesOrNoDialog(
                             openDialog.value = false
                             onCancel.invoke()
                         },
-                        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.onError),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.error),
                     ) {
                         Text(cancelText)
                     }
@@ -57,7 +57,7 @@ fun YesOrNoDialog(
                             openDialog.value = false
                             onConfirm.invoke()
                         },
-                        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.error),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
                     ) {
                         Text(confirmText)
                     }
@@ -72,6 +72,9 @@ fun YesOrNoDialog(
 fun YesOrNoDialogPreview() {
     YesOrNoDialog(
         openDialog = remember { mutableStateOf(true) },
+        content = {
+            Text(text = "XD")
+        },
         onConfirm = {},
     )
 }
