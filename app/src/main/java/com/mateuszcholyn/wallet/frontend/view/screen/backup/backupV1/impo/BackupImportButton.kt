@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -120,7 +119,7 @@ fun BackupImportButtonStateless(
     onSuccessModalClose: () -> Unit,
     importV1SummaryProgressState: ImportV1Summary?,
 ) {
-    Column(modifier = defaultModifier) {
+    Column {
         ActionButton(
             text = "Importuj dane",
             onClick = { onImportClick.invoke() },
@@ -142,23 +141,34 @@ fun ImportV1SummaryProgressStateless(
         return
     }
     Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
+        horizontalArrangement = Arrangement.Center,
+        modifier = defaultModifier
             .fillMaxWidth()
             .padding(horizontal = buttonPadding)
     ) {
-        Text(text = "Imported records")
-        Text(text = importV1SummaryProgressState.categoriesProgress())
+        Text(text = "Progress ${importV1SummaryProgressState.progress()}")
     }
     Divider()
 }
 
-private fun ImportV1Summary.categoriesProgress() =
-    "${
-        numberOfImportedCategories + numberOfSkippedCategories +
-            numberOfImportedExpenses + numberOfSkippedExpenses
-    } of ${numberOfCategories + numberOfExpenses}"
+private fun ImportV1Summary.progress(): String {
+    val recordsProgress =
+        numberOfImportedCategories +
+            numberOfSkippedCategories +
+            numberOfImportedExpenses +
+            numberOfSkippedExpenses
 
+    val recordsTotal = numberOfCategories + numberOfExpenses
+    return "${calculatePercentage(recordsProgress, recordsTotal)}%"
+}
+
+private fun calculatePercentage(
+    actual: Int,
+    total: Int
+): Int {
+    val percentage = (actual.toDouble() / total) * 100
+    return percentage.toInt()
+}
 
 @Preview(showBackground = true)
 @Composable

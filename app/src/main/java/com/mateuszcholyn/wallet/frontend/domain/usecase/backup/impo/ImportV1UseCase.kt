@@ -6,6 +6,7 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.frontend.domain.usecase.UseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
+import kotlinx.coroutines.delay
 import java.util.UUID
 
 
@@ -55,6 +56,7 @@ class ImportV1UseCase(
         importV1Parameters: ImportV1Parameters,
         summaryGenerator: ImportV1SummaryGenerator,
     ) {
+        delay(1)
         val savedCategoryFromDb =
             CategoryImport(
                 categoryCoreServiceAPI,
@@ -66,6 +68,7 @@ class ImportV1UseCase(
         backupCategory
             .expenses
             .forEach { backupExpense ->
+                delay(2)
                 ExpenseImport(
                     expenseCoreServiceAPI,
                     backupCategory,
