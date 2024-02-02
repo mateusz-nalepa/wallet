@@ -5,8 +5,13 @@ import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.darkColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
+import com.mateuszcholyn.wallet.userConfig.theme.LocalWalletThemeComposition
 
 data class ButtonActions(
     val onSuccessAction: () -> Unit,
@@ -58,57 +63,4 @@ fun ActionButton(
             Text(text)
         }
     }
-}
-
-
-@Composable
-fun MyErrorDialogProxy(
-    errorModalState: ErrorModalState,
-    onErrorModalClose: () -> Unit,
-) {
-    if (errorModalState is ErrorModalState.Visible) {
-        MyErrorDialog(
-            errorMessage = errorModalState.message,
-            onClose = onErrorModalClose
-        )
-    }
-}
-
-// TODO: obramowanie, bo na czarnym tle się wszystko zlewa XD
-@Composable
-fun MyErrorDialog(
-    errorMessage: String,
-    onClose: () -> Unit,
-) {
-    AlertDialog(
-        onDismissRequest = onClose,
-        title = { Text("Błąd") },
-        text = { Text(errorMessage) },
-        confirmButton = {
-            Button(onClick = onClose) {
-                Text("Zamknij")
-            }
-        }
-    )
-}
-
-@Composable
-fun MySuccessDialog(
-    successContent: @Composable () -> Unit,
-    onClose: () -> Unit,
-) {
-    AlertDialog(
-        onDismissRequest = onClose,
-        // TODO: title nie jest wymagane
-        title = { Text("Sukces!") },
-        // TODO: tutaj może być dowolny composable
-        text = {
-            successContent()
-        },
-        confirmButton = {
-            Button(onClick = onClose) {
-                Text("Zamknij")
-            }
-        }
-    )
 }
