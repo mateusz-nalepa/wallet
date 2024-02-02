@@ -103,7 +103,6 @@ class SummaryScreenViewModel @Inject constructor(
     }
 
     fun refreshResults() {
-        // TODO: czemu to się odpala 3x jak klikam dodajWydatek XDD
         viewModelScope.launch { // DONE
             try {
                 _summaryResultState.value = SummaryResultState.Loading

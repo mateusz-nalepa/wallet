@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.R
 
 // TODO: accessability dla całej apki
-// TODO: klikając tutaj zrób tak, żeby dało się opuścić tryb
 @Composable
 fun TopBarStatelessContent(
     isDemoModeEnabled: Boolean,

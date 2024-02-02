@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // TODO: przenieś to w inne miejsce XD
 
         installSplashScreen().setKeepOnScreenCondition {
             WalletThemeSelectedByUser.value == null

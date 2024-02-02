@@ -3,12 +3,6 @@ package com.mateuszcholyn.wallet.userConfig.demoMode
 import android.content.Context
 import androidx.core.content.edit
 
-/*
-  This class is used only in:
-  -> DemoAppSwitcherModule to get actual mode
-  -> DemoAppSwitcher implementations to switch between demo / regular mode
-  In other places you should use: DemoAppSwitcher bean
- */
 object DemoModeConfig {
     private const val SHARED_PREFERENCES_NAME = "walletPreferences"
     private const val IS_IN_DEMO_MODE_PREFERENCE_KEY = "isInDemoMode"
