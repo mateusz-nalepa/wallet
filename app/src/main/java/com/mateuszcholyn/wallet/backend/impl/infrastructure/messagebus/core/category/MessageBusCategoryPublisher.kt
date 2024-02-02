@@ -1,18 +1,18 @@
-package com.mateuszcholyn.wallet.backend.impl.infrastructure.minikafka.core.category
+package com.mateuszcholyn.wallet.backend.impl.infrastructure.messagebus.core.category
 
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryAddedEvent
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryPublisher
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRemovedEvent
-import com.mateuszcholyn.wallet.backend.impl.domain.minikafka.MiniKafka
+import com.mateuszcholyn.wallet.backend.impl.domain.messagebus.MessageBus
 
-class MiniKafkaCategoryPublisher(
-    private val miniKafka: MiniKafka,
+class MessageBusCategoryPublisher(
+    private val messageBus: MessageBus,
 ) : CategoryPublisher {
     override suspend fun publishCategoryAddedEvent(categoryAddedEvent: CategoryAddedEvent) {
-        miniKafka.categoryAddedEventTopic.publish(categoryAddedEvent)
+        messageBus.categoryAddedEventTopic.publish(categoryAddedEvent)
     }
 
     override suspend fun publishCategoryRemovedEvent(categoryRemovedEvent: CategoryRemovedEvent) {
-        miniKafka.categoryRemovedEventTopic.publish(categoryRemovedEvent)
+        messageBus.categoryRemovedEventTopic.publish(categoryRemovedEvent)
     }
 }

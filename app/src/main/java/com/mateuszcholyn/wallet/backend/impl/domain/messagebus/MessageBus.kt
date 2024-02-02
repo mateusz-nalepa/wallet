@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.backend.impl.domain.minikafka
+package com.mateuszcholyn.wallet.backend.impl.domain.messagebus
 
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryAddedEvent
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRemovedEvent
@@ -6,8 +6,7 @@ import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseAddedEve
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRemovedEvent
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseUpdatedEvent
 
-// TODO: change name from kafka to sth else XD
-class MiniKafka {
+class MessageBus {
     val expenseAddedEventTopic: Topic<ExpenseAddedEvent> = TopicImpl()
     val expenseUpdatedEventTopic: Topic<ExpenseUpdatedEvent> = TopicImpl()
     val expenseRemovedEventTopic: Topic<ExpenseRemovedEvent> = TopicImpl()

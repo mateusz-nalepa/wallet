@@ -9,10 +9,10 @@ import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryCoreSe
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRepositoryFacade
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseCoreServiceIMPL
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepositoryFacade
-import com.mateuszcholyn.wallet.backend.impl.domain.minikafka.MiniKafka
+import com.mateuszcholyn.wallet.backend.impl.domain.messagebus.MessageBus
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceIMPL
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.minikafka.core.category.MiniKafkaCategoryPublisher
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.minikafka.core.expense.MiniKafkaExpensePublisher
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.messagebus.core.category.MessageBusCategoryPublisher
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.messagebus.core.expense.MessageBusExpensePublisher
 import com.mateuszcholyn.wallet.frontend.domain.usecase.ExpenseAppUseCases
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.export.ExportV1UseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.AllExpensesRemover
@@ -51,19 +51,19 @@ fun initExpenseAppManager(scope: ExpenseAppManagerScope.() -> Unit): ExpenseAppM
 internal fun createFrom(
     deps: ExpenseAppDependencies,
 ): ExpenseAppUseCases {
-    val miniKafka = MiniKafka()
+    val messageBus = MessageBus()
 
     val categoryCoreService: CategoryCoreServiceAPI =
         CategoryCoreServiceIMPL(
             categoryRepositoryFacade = CategoryRepositoryFacade(deps.categoryRepositoryV2),
-            categoryPublisher = MiniKafkaCategoryPublisher(miniKafka),
+            categoryPublisher = MessageBusCategoryPublisher(messageBus),
             transactionManager = deps.transactionManager,
         )
 
     val expenseCoreService: ExpenseCoreServiceAPI =
         ExpenseCoreServiceIMPL(
             expenseRepositoryFacade = ExpenseRepositoryFacade(deps.expenseRepositoryV2),
-            expensePublisher = MiniKafkaExpensePublisher(miniKafka),
+            expensePublisher = MessageBusExpensePublisher(messageBus),
             categoryCoreServiceAPI = categoryCoreService,
             transactionManager = deps.transactionManager,
         )
@@ -80,9 +80,9 @@ internal fun createFrom(
             categoryCoreServiceAPI = categoryCoreService,
         )
 
-    MiniKafkaConfigurator(
-        MiniKafkaConfigParameters(
-            miniKafka = miniKafka,
+    MessageBusConfigurator(
+        MessageBusConfigParameters(
+            messageBus = messageBus,
             searchService = searchService,
             categoriesQuickSummary = categoriesQuickSummary,
         )

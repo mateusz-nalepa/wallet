@@ -13,11 +13,11 @@ import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryReposi
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseCoreServiceIMPL
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepositoryFacade
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepositoryV2
-import com.mateuszcholyn.wallet.backend.impl.domain.minikafka.MiniKafka
+import com.mateuszcholyn.wallet.backend.impl.domain.messagebus.MessageBus
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceIMPL
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceRepository
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.minikafka.core.category.MiniKafkaCategoryPublisher
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.minikafka.core.expense.MiniKafkaExpensePublisher
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.messagebus.core.category.MessageBusCategoryPublisher
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.messagebus.core.expense.MessageBusExpensePublisher
 import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
 import dagger.Module
 import dagger.Provides
@@ -31,15 +31,15 @@ object HiltServicesModuleV2 {
 
     @Provides
     @Singleton
-    fun provideMiniKafka(): MiniKafka =
-        MiniKafka()
+    fun provideMessageBus(): MessageBus =
+        MessageBus()
 
 
     @Provides
     @Singleton
     fun provideCategoriesQuickSummaryAPI(
         categoriesQuickSummaryRepository: CategoriesQuickSummaryRepository,
-        miniKafka: MiniKafka,
+        messageBus: MessageBus,
         categoryCoreServiceAPI: CategoryCoreServiceAPI,
     ): CategoriesQuickSummaryAPI {
         val categoriesQuickSummary = CategoriesQuickSummaryIMPL(
@@ -47,19 +47,19 @@ object HiltServicesModuleV2 {
             categoryCoreServiceAPI = categoryCoreServiceAPI,
         )
 
-        miniKafka.expenseAddedEventTopic.addSubscription {
+        messageBus.expenseAddedEventTopic.addSubscription {
             categoriesQuickSummary.handleEventExpenseAdded(it)
         }
-        miniKafka.expenseUpdatedEventTopic.addSubscription {
+        messageBus.expenseUpdatedEventTopic.addSubscription {
             categoriesQuickSummary.handleEventExpenseUpdated(it)
         }
-        miniKafka.expenseRemovedEventTopic.addSubscription {
+        messageBus.expenseRemovedEventTopic.addSubscription {
             categoriesQuickSummary.handleEventExpenseRemoved(it)
         }
-        miniKafka.categoryAddedEventTopic.addSubscription {
+        messageBus.categoryAddedEventTopic.addSubscription {
             categoriesQuickSummary.handleCategoryAdded(it)
         }
-        miniKafka.categoryRemovedEventTopic.addSubscription {
+        messageBus.categoryRemovedEventTopic.addSubscription {
             categoriesQuickSummary.handleCategoryRemoved(it)
         }
 
@@ -70,7 +70,7 @@ object HiltServicesModuleV2 {
     @Singleton
     fun provideSearchServiceAPI(
         searchServiceRepository: SearchServiceRepository,
-        miniKafka: MiniKafka,
+        messageBus: MessageBus,
         categoryCoreServiceAPI: CategoryCoreServiceAPI,
     ): SearchServiceAPI {
         val searchService = SearchServiceIMPL(
@@ -78,13 +78,13 @@ object HiltServicesModuleV2 {
             categoryCoreServiceAPI = categoryCoreServiceAPI,
         )
 
-        miniKafka.expenseAddedEventTopic.addSubscription {
+        messageBus.expenseAddedEventTopic.addSubscription {
             searchService.handleEventExpenseAdded(it)
         }
-        miniKafka.expenseUpdatedEventTopic.addSubscription {
+        messageBus.expenseUpdatedEventTopic.addSubscription {
             searchService.handleEventExpenseUpdated(it)
         }
-        miniKafka.expenseRemovedEventTopic.addSubscription {
+        messageBus.expenseRemovedEventTopic.addSubscription {
             searchService.handleEventExpenseRemoved(it)
         }
 
@@ -95,13 +95,13 @@ object HiltServicesModuleV2 {
     @Singleton
     fun provideExpenseCoreServiceAPI(
         expenseRepositoryV2: ExpenseRepositoryV2,
-        miniKafka: MiniKafka,
+        messageBus: MessageBus,
         categoryCoreServiceAPI: CategoryCoreServiceAPI,
         transactionManager: TransactionManager,
     ): ExpenseCoreServiceAPI =
         ExpenseCoreServiceIMPL(
             expenseRepositoryFacade = ExpenseRepositoryFacade(expenseRepositoryV2),
-            expensePublisher = MiniKafkaExpensePublisher(miniKafka),
+            expensePublisher = MessageBusExpensePublisher(messageBus),
             categoryCoreServiceAPI = categoryCoreServiceAPI,
             transactionManager = transactionManager,
         )
@@ -110,12 +110,12 @@ object HiltServicesModuleV2 {
     @Singleton
     fun provideCategoryCoreServiceAPI(
         categoryRepositoryV2: CategoryRepositoryV2,
-        miniKafka: MiniKafka,
+        messageBus: MessageBus,
         transactionManager: TransactionManager,
     ): CategoryCoreServiceAPI =
         CategoryCoreServiceIMPL(
             categoryRepositoryFacade = CategoryRepositoryFacade(categoryRepositoryV2),
-            categoryPublisher = MiniKafkaCategoryPublisher(miniKafka),
+            categoryPublisher = MessageBusCategoryPublisher(messageBus),
             transactionManager = transactionManager,
         )
 
