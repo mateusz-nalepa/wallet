@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo
 import android.util.Log
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import kotlinx.coroutines.CompletableDeferred
@@ -52,12 +52,12 @@ class CategoryImport(
             .also { importV1SummaryGenerator.markCategorySkipped() }
 
     private fun categoryChangedAfterExport(
-        categoryFromDb: CategoryV2,
+        categoryFromDb: Category,
     ): Boolean =
         categoryFromDb.name != backupCategoryV1.name
 
     private suspend fun askUserWhatToDoWhenCategoryNameChanged(
-        categoryFromDb: CategoryV2,
+        categoryFromDb: Category,
     ): SavedCategoryFromDb {
         val deferred = CompletableDeferred<suspend () -> SavedCategoryFromDb>()
 
@@ -81,7 +81,7 @@ class CategoryImport(
     }
 
     private suspend fun updateCategoryByUsingDataFromBackup(
-        categoryFromDb: CategoryV2,
+        categoryFromDb: Category,
     ): SavedCategoryFromDb =
         categoryFromDb
             .copy(name = backupCategoryV1.name)

@@ -2,7 +2,7 @@ package com.mateuszcholyn.wallet.manager.validator
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
+import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
@@ -17,19 +17,19 @@ fun ExpenseAppManager.validate(
     validateBlock: SimpleExpenseValidator.() -> Unit,
 ) {
     runBlocking {
-        val expense = expenseAppDependencies.expenseRepositoryV2.getById(expenseId)
+        val expense = expenseAppDependencies.expenseRepository.getById(expenseId)
         requireNotNull(expense) { "Expense with id $expenseId should exist" }
         expense.validate(validateBlock)
     }
 }
 
 
-fun ExpenseV2.validate(validateBlock: SimpleExpenseValidator.() -> Unit) {
+fun Expense.validate(validateBlock: SimpleExpenseValidator.() -> Unit) {
     SimpleExpenseValidator(this).apply(validateBlock)
 }
 
 class SimpleExpenseValidator(
-    private val expense: ExpenseV2,
+    private val expense: Expense,
 ) {
 
     fun isSameAsExpenseFromDatabase(

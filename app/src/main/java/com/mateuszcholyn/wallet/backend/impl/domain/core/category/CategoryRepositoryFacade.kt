@@ -1,29 +1,29 @@
 package com.mateuszcholyn.wallet.backend.impl.domain.core.category
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 
 class CategoryRepositoryFacade(
-    private val categoryRepositoryV2: CategoryRepositoryV2,
+    private val categoryRepository: CategoryRepository,
 ) {
-    suspend fun create(category: CategoryV2): CategoryV2 =
-        categoryRepositoryV2.create(category)
+    suspend fun create(category: Category): Category =
+        categoryRepository.create(category)
 
-    suspend fun update(category: CategoryV2): CategoryV2 =
-        categoryRepositoryV2.update(category)
+    suspend fun update(category: Category): Category =
+        categoryRepository.update(category)
 
-    suspend fun getAllCategories(): List<CategoryV2> =
-        categoryRepositoryV2.getAllCategories()
+    suspend fun getAllCategories(): List<Category> =
+        categoryRepository.getAllCategories()
 
-    suspend fun getById(categoryId: CategoryId): CategoryV2? =
-        categoryRepositoryV2.getById(categoryId)
+    suspend fun getById(categoryId: CategoryId): Category? =
+        categoryRepository.getById(categoryId)
 
-    suspend fun getByIdOrThrow(categoryId: CategoryId): CategoryV2 =
+    suspend fun getByIdOrThrow(categoryId: CategoryId): Category =
         getById(categoryId)
             ?: throw CategoryNotFoundException(categoryId)
 
     suspend fun remove(categoryId: CategoryId) {
-        categoryRepositoryV2
+        categoryRepository
             .remove(
                 categoryId = categoryId,
                 onExpensesExistAction = {
@@ -33,7 +33,7 @@ class CategoryRepositoryFacade(
     }
 
     suspend fun removeAll() {
-        categoryRepositoryV2
+        categoryRepository
             .removeAllCategories()
     }
 

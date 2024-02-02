@@ -2,25 +2,25 @@ package com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
-import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepositoryV2
+import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
+import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.coroutineDispatcher.DispatcherProvider
 import kotlinx.coroutines.withContext
 
-class SqLiteExpenseRepositoryV2(
-    private val expenseV2Dao: ExpenseV2Dao,
+class SqLiteExpenseRepository(
+    private val expenseDao: ExpenseDao,
     private val dispatcherProvider: DispatcherProvider,
-) : ExpenseRepositoryV2 {
+) : ExpenseRepository {
 
     override suspend fun create(
-        expense: ExpenseV2,
+        expense: Expense,
         onNonExistingCategoryAction: (CategoryId) -> Unit,
-    ): ExpenseV2 =
+    ): Expense =
         withContext(dispatcherProvider.provideIODispatcher()) {
             try {
                 expense
                     .toEntity()
-                    .also { expenseV2Dao.create(it) }
+                    .also { expenseDao.create(it) }
                     .toDomain()
             } catch (t: Throwable) {
                 onNonExistingCategoryAction.invoke(expense.categoryId)
@@ -29,14 +29,14 @@ class SqLiteExpenseRepositoryV2(
         }
 
     override suspend fun update(
-        expense: ExpenseV2,
+        expense: Expense,
         onNonExistingCategoryAction: (CategoryId) -> Unit
-    ): ExpenseV2 =
+    ): Expense =
         withContext(dispatcherProvider.provideIODispatcher()) {
             try {
                 expense
                     .toEntity()
-                    .also { expenseV2Dao.update(it) }
+                    .also { expenseDao.update(it) }
                     .toDomain()
             } catch (t: Throwable) {
                 onNonExistingCategoryAction.invoke(expense.categoryId)
@@ -44,36 +44,36 @@ class SqLiteExpenseRepositoryV2(
             }
         }
 
-    override suspend fun getAllExpenses(): List<ExpenseV2> =
+    override suspend fun getAllExpenses(): List<Expense> =
         withContext(dispatcherProvider.provideIODispatcher()) {
-            expenseV2Dao
+            expenseDao
                 .getAll()
                 .map { it.toDomain() }
         }
 
-    override suspend fun getById(expenseId: ExpenseId): ExpenseV2? =
+    override suspend fun getById(expenseId: ExpenseId): Expense? =
         withContext(dispatcherProvider.provideIODispatcher()) {
-            expenseV2Dao
+            expenseDao
                 .getByExpenseId(expenseId.id)
                 ?.toDomain()
         }
 
     override suspend fun remove(expenseId: ExpenseId) {
         withContext(dispatcherProvider.provideIODispatcher()) {
-            expenseV2Dao.remove(expenseId.id)
+            expenseDao.remove(expenseId.id)
         }
     }
 
     override suspend fun removeAllExpenses() {
         withContext(dispatcherProvider.provideIODispatcher()) {
 
-            expenseV2Dao.removeAll()
+            expenseDao.removeAll()
         }
     }
 }
 
-private fun ExpenseV2.toEntity(): ExpenseEntityV2 =
-    ExpenseEntityV2(
+private fun Expense.toEntity(): ExpenseEntity =
+    ExpenseEntity(
         expenseId = expenseId.id,
         amount = amount,
         description = description,
@@ -81,8 +81,8 @@ private fun ExpenseV2.toEntity(): ExpenseEntityV2 =
         fkCategoryId = categoryId.id,
     )
 
-private fun ExpenseEntityV2.toDomain(): ExpenseV2 =
-    ExpenseV2(
+private fun ExpenseEntity.toDomain(): Expense =
+    Expense(
         expenseId = ExpenseId(expenseId),
         amount = amount,
         description = description,

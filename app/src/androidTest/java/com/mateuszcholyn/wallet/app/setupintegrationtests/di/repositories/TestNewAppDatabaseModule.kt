@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.mateuszcholyn.wallet.backend.impl.di.repositories.NewAppDatabaseModule
 import com.mateuszcholyn.wallet.backend.impl.di.repositories.customizeRoomDatabase
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabaseV2
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -23,9 +23,9 @@ object TestNewAppDatabaseModule {
     @Singleton
     fun provideAppDatabase(
         @ApplicationContext context: Context,
-    ): AppDatabaseV2 =
+    ): AppDatabase =
         Room
-            .inMemoryDatabaseBuilder(context, AppDatabaseV2::class.java)
+            .inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             .customizeRoomDatabase()
             .build()
 }

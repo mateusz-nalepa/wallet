@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager
 
 import androidx.room.withTransaction
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabaseV2
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabase
 
 
 // TODO: poprzenosc impl w dobre miejsca
@@ -17,11 +17,11 @@ class EmptyTransactionManager : TransactionManager {
 
 
 class SqLiteTransactionManager(
-    private val appDatabaseV2: AppDatabaseV2
+    private val appDatabase: AppDatabase
 ) : TransactionManager {
 
     override suspend fun <T> runInTransaction(block: suspend () -> T): T =
-        appDatabaseV2.withTransaction {
+        appDatabase.withTransaction {
             block()
         }
 

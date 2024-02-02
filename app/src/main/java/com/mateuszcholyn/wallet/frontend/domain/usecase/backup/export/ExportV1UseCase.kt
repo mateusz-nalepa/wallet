@@ -1,9 +1,9 @@
 package com.mateuszcholyn.wallet.frontend.domain.usecase.backup.export
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
+import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.frontend.domain.usecase.UseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
@@ -27,8 +27,8 @@ class ExportV1UseCase(
 object BackupV1Creator {
 
     fun createBackupWalletV1(
-        categories: List<CategoryV2>,
-        expenses: List<ExpenseV2>,
+        categories: List<Category>,
+        expenses: List<Expense>,
     ): BackupWalletV1 =
         BackupWalletV1(
             version = 1,

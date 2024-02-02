@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.di.usecases
 
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabaseV2
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.SqLiteTransactionManager
 import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
 import dagger.Module
@@ -16,9 +16,9 @@ object HiltTransactionManager {
     @Provides
     @Singleton
     fun provideTransactionManager(
-        appDatabaseV2: AppDatabaseV2,
+        appDatabase: AppDatabase,
     ): TransactionManager =
         SqLiteTransactionManager(
-            appDatabaseV2 = appDatabaseV2,
+            appDatabase = appDatabase,
         )
 }

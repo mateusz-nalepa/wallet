@@ -19,7 +19,7 @@ const val CATEGORIES_TABLE_CATEGORY_ID_COLUMN = "category_id"
         Index(CATEGORIES_TABLE_CATEGORY_ID_COLUMN, unique = true),
     ]
 )
-data class CategoryEntityV2(
+data class CategoryEntity(
 
     @PrimaryKey
     @ColumnInfo(name = CATEGORIES_TABLE_CATEGORY_ID_COLUMN)

@@ -1,6 +1,6 @@
 package com.mateuszcholyn.wallet.manager.ext.core.category
 
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
 import com.mateuszcholyn.wallet.manager.randomCategoryName
@@ -9,7 +9,7 @@ import kotlinx.coroutines.runBlocking
 
 fun ExpenseAppManager.createCategoryUseCase(
     scope: CreateCategoryUseCaseScope.() -> Unit,
-): CategoryV2 {
+): Category {
 
     val createCategoryParameters =
         CreateCategoryUseCaseScope()

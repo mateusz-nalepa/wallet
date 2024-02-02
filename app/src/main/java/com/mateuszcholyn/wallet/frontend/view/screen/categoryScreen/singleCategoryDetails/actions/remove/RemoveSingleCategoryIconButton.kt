@@ -21,7 +21,7 @@ import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuick
 import com.mateuszcholyn.wallet.frontend.view.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ButtonActions
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
-import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogV2
+import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogProxy
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.showShortText
 
@@ -62,7 +62,7 @@ fun RemoveSingleCategoryIconButton(
         )
     }
 
-    MyErrorDialogV2(
+    MyErrorDialogProxy(
         errorModalState = deleteErrorState,
         onErrorModalClose = { deleteErrorState = ErrorModalState.NotVisible },
     )

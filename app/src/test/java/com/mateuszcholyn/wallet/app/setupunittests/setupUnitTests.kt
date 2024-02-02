@@ -55,14 +55,14 @@ internal fun createFrom(
 
     val categoryCoreService: CategoryCoreServiceAPI =
         CategoryCoreServiceIMPL(
-            categoryRepositoryFacade = CategoryRepositoryFacade(deps.categoryRepositoryV2),
+            categoryRepositoryFacade = CategoryRepositoryFacade(deps.categoryRepository),
             categoryPublisher = MessageBusCategoryPublisher(messageBus),
             transactionManager = deps.transactionManager,
         )
 
     val expenseCoreService: ExpenseCoreServiceAPI =
         ExpenseCoreServiceIMPL(
-            expenseRepositoryFacade = ExpenseRepositoryFacade(deps.expenseRepositoryV2),
+            expenseRepositoryFacade = ExpenseRepositoryFacade(deps.expenseRepository),
             expensePublisher = MessageBusExpensePublisher(messageBus),
             categoryCoreServiceAPI = categoryCoreService,
             transactionManager = deps.transactionManager,

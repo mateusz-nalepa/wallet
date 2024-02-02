@@ -2,7 +2,7 @@ package com.mateuszcholyn.wallet.manager.ext.core.expense
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
+import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
 import com.mateuszcholyn.wallet.manager.randomAmount
 import com.mateuszcholyn.wallet.manager.randomCategoryId
@@ -14,7 +14,7 @@ import java.time.Instant
 
 fun ExpenseAppManager.addExpenseUseCase(
     scope: AddExpenseUseCaseScope.() -> Unit,
-): ExpenseV2 {
+): Expense {
 
     val addExpenseParameters =
         AddExpenseUseCaseScope()

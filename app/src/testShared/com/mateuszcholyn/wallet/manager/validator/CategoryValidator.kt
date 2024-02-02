@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.manager.validator
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import com.mateuszcholyn.wallet.manager.CategoryScope
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
@@ -12,7 +12,7 @@ fun ExpenseAppManager.validate(
     validateBlock: FullCategoryValidator.() -> Unit,
 ) {
     runBlocking {
-        val category = expenseAppDependencies.categoryRepositoryV2.getById(categoryId)
+        val category = expenseAppDependencies.categoryRepository.getById(categoryId)
         requireNotNull(category) { "Category with id $categoryId should exist" }
 
         FullCategoryValidator(
@@ -23,19 +23,19 @@ fun ExpenseAppManager.validate(
 
 
 class FullCategoryValidator(
-    private val category: CategoryV2,
+    private val category: Category,
 ) {
     fun nameEqualTo(expectedCategoryName: String) {
         SimpleCategoryValidator(category).nameEqualTo(expectedCategoryName)
     }
 }
 
-fun CategoryV2.validate(validateBlock: SimpleCategoryValidator.() -> Unit) {
+fun Category.validate(validateBlock: SimpleCategoryValidator.() -> Unit) {
     SimpleCategoryValidator(this).apply(validateBlock)
 }
 
 class SimpleCategoryValidator(
-    private val category: CategoryV2,
+    private val category: Category,
 ) {
 
     fun isSameAsCategoryFromBackup(

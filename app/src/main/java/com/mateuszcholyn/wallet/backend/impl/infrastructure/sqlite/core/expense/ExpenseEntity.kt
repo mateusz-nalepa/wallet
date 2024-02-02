@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.CategoryEntityV2
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.CategoryEntity
 import java.math.BigDecimal
 import java.time.Instant
 
@@ -17,7 +17,7 @@ const val EXPENSES_FK_CATEGORY_ID_NAME = "fk_category_id"
     tableName = EXPENSES_TABLE_NAME,
     foreignKeys = [
         ForeignKey(
-            entity = CategoryEntityV2::class,
+            entity = CategoryEntity::class,
             parentColumns = arrayOf("category_id"),
             childColumns = arrayOf(EXPENSES_FK_CATEGORY_ID_NAME)
         )
@@ -27,7 +27,7 @@ const val EXPENSES_FK_CATEGORY_ID_NAME = "fk_category_id"
         Index(EXPENSES_FK_CATEGORY_ID_NAME, unique = false),
     ]
 )
-data class ExpenseEntityV2(
+data class ExpenseEntity(
 
     @PrimaryKey
     @ColumnInfo(name = "expense_id")

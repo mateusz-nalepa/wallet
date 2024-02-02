@@ -7,16 +7,16 @@ import androidx.room.Update
 
 
 @Dao
-interface CategoryV2Dao {
+interface CategoryDao {
 
     @Insert
-    suspend fun create(categoryEntityV2: CategoryEntityV2)
+    suspend fun create(categoryEntity: CategoryEntity)
 
     @Update
-    suspend fun update(categoryEntityV2: CategoryEntityV2)
+    suspend fun update(categoryEntity: CategoryEntity)
 
     @Query("SELECT * FROM categories")
-    suspend fun getAll(): List<CategoryEntityV2>
+    suspend fun getAll(): List<CategoryEntity>
 
     @Query(
         """SELECT * 
@@ -24,7 +24,7 @@ interface CategoryV2Dao {
               WHERE category_id =:categoryId
               """
     )
-    suspend fun getByCategoryId(categoryId: String): CategoryEntityV2?
+    suspend fun getByCategoryId(categoryId: String): CategoryEntity?
 
     @Query("delete from categories where category_id = :categoryId")
     suspend fun remove(categoryId: String): Int

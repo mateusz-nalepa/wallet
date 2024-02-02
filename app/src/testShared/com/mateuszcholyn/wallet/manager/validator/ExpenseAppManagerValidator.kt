@@ -17,7 +17,7 @@ class ExpenseAppManagerValidator(
             val actualNumberOfExpenses =
                 expenseAppManager
                     .expenseAppDependencies
-                    .expenseRepositoryV2
+                    .expenseRepository
                     .getAllExpenses()
                     .size
 
@@ -32,7 +32,7 @@ class ExpenseAppManagerValidator(
             val actualNumberOfCategories =
                 expenseAppManager
                     .expenseAppDependencies
-                    .categoryRepositoryV2
+                    .categoryRepository
                     .getAllCategories()
                     .size
 

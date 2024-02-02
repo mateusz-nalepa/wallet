@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.backend.impl.di.repositories
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabaseV2
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabase
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.MIGRATION_1_2
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.MIGRATION_2_3
 import dagger.Module
@@ -20,18 +20,18 @@ object NewAppDatabaseModule {
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabaseV2 =
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase =
         Room
             .databaseBuilder(
                 context,
-                AppDatabaseV2::class.java,
+                AppDatabase::class.java,
                 "wallet_database.db",
             )
             .customizeRoomDatabase()
             .build()
 }
 
-fun RoomDatabase.Builder<AppDatabaseV2>.customizeRoomDatabase(): RoomDatabase.Builder<AppDatabaseV2> =
+fun RoomDatabase.Builder<AppDatabase>.customizeRoomDatabase(): RoomDatabase.Builder<AppDatabase> =
     addMigrations(
         MIGRATION_1_2,
         MIGRATION_2_3,

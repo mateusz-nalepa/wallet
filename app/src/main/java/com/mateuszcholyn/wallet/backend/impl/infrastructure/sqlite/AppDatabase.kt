@@ -10,12 +10,12 @@ import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.categoriesqui
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.categoriesquicksummary.CategoriesQuickSummaryEntity
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.BigDecimalDoubleTypeConverter
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.CategoryEntityV2
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.CategoryV2Dao
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.CategoryEntity
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.CategoryDao
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense.EXPENSES_FK_CATEGORY_ID_NAME
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense.EXPENSES_TABLE_NAME
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense.ExpenseEntityV2
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense.ExpenseV2Dao
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense.ExpenseEntity
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense.ExpenseDao
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservice.SearchServiceDao
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservice.SearchServiceEntity
 
@@ -43,8 +43,8 @@ val MIGRATION_2_3 =
     version = 3,
     entities = [
         CategoriesQuickSummaryEntity::class,
-        CategoryEntityV2::class,
-        ExpenseEntityV2::class,
+        CategoryEntity::class,
+        ExpenseEntity::class,
         SearchServiceEntity::class,
     ],
 )
@@ -54,10 +54,10 @@ val MIGRATION_2_3 =
         BigDecimalDoubleTypeConverter::class,
     ],
 )
-abstract class AppDatabaseV2 : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun categoriesQuickSummaryDao(): CategoriesQuickSummaryDao
-    abstract fun categoryV2Dao(): CategoryV2Dao
-    abstract fun expenseV2Dao(): ExpenseV2Dao
+    abstract fun categoryDao(): CategoryDao
+    abstract fun expenseDao(): ExpenseDao
     abstract fun searchServiceDao(): SearchServiceDao
 
     fun getSQLiteDB(): SupportSQLiteOpenHelper =

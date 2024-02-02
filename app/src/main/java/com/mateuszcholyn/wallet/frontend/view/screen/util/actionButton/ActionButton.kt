@@ -62,7 +62,7 @@ fun ActionButton(
 
 
 @Composable
-fun MyErrorDialogV2(
+fun MyErrorDialogProxy(
     errorModalState: ErrorModalState,
     onErrorModalClose: () -> Unit,
 ) {

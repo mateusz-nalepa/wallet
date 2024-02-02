@@ -5,12 +5,12 @@ import java.math.BigDecimal
 import java.time.Instant
 
 interface ExpenseCoreServiceAPI {
-    suspend fun add(addExpenseParameters: AddExpenseParameters): ExpenseV2
+    suspend fun add(addExpenseParameters: AddExpenseParameters): Expense
     suspend fun remove(expenseId: ExpenseId)
-    suspend fun getAll(): List<ExpenseV2>
-    suspend fun update(updateExpenseParameters: ExpenseV2): ExpenseV2
-    suspend fun getExpenseWithCategoryDetails(expenseId: ExpenseId): ExpenseV2WithCategory
-    suspend fun getById(expenseId: ExpenseId): ExpenseV2?
+    suspend fun getAll(): List<Expense>
+    suspend fun update(updateExpenseParameters: Expense): Expense
+    suspend fun getExpenseWithCategoryDetails(expenseId: ExpenseId): ExpenseWithCategory
+    suspend fun getById(expenseId: ExpenseId): Expense?
     suspend fun removeAll()
 }
 
@@ -26,7 +26,7 @@ data class ExpenseId(
     val id: String,
 )
 
-data class ExpenseV2(
+data class Expense(
     val expenseId: ExpenseId,
     val amount: BigDecimal,
     val description: String,
@@ -34,7 +34,7 @@ data class ExpenseV2(
     val categoryId: CategoryId
 )
 
-data class ExpenseV2WithCategory(
+data class ExpenseWithCategory(
     val expenseId: ExpenseId,
     val amount: BigDecimal,
     val description: String,

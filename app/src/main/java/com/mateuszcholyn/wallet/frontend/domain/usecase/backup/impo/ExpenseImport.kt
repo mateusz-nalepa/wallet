@@ -5,7 +5,7 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
+import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import kotlinx.coroutines.CompletableDeferred
@@ -34,10 +34,10 @@ class ExpenseImport(
         }
     }
 
-    private fun expenseChangedAfterExport(expenseFromDb: ExpenseV2): Boolean =
+    private fun expenseChangedAfterExport(expenseFromDb: Expense): Boolean =
         !expenseNotChangedAfterExport(expenseFromDb)
 
-    private fun expenseNotChangedAfterExport(expenseFromDb: ExpenseV2): Boolean =
+    private fun expenseNotChangedAfterExport(expenseFromDb: Expense): Boolean =
         expenseFromDb.categoryId.id == backupCategoryV1.id
                 && InstantConverter.toLong(expenseFromDb.paidAt) == backupExpenseV1.paidAt
                 && expenseFromDb.description == backupExpenseV1.description
@@ -64,7 +64,7 @@ class ExpenseImport(
         importV1SummaryGenerator.markExpenseSkipped()
     }
 
-    private suspend fun askUserWhatToDoWhenExpenseChanged(expenseFromDb: ExpenseV2) {
+    private suspend fun askUserWhatToDoWhenExpenseChanged(expenseFromDb: Expense) {
         val deferred = CompletableDeferred<suspend () -> Unit>()
 
         importV1Parameters
@@ -82,7 +82,7 @@ class ExpenseImport(
         deferred.await().invoke()
     }
 
-    private suspend fun updateExpenseByUsingDataFromBackup(expenseFromDb: ExpenseV2) {
+    private suspend fun updateExpenseByUsingDataFromBackup(expenseFromDb: Expense) {
         expenseFromDb
             .copy(
                 amount = backupExpenseV1.amount,

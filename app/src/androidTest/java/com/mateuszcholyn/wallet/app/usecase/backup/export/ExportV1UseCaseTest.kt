@@ -2,8 +2,8 @@ package com.mateuszcholyn.wallet.app.usecase.backup.export
 
 import com.mateuszcholyn.wallet.app.setupintegrationtests.BaseIntegrationTest
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
+import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import com.mateuszcholyn.wallet.manager.ExpenseScope
@@ -93,16 +93,16 @@ class ExportV1UseCaseTest : BaseIntegrationTest() {
 
 fun assertExportedCategoryEqualToCategoryFromDb(
     exportedExpense: BackupWalletV1.BackupCategoryV1,
-    categoryV2: CategoryV2,
+    category: Category,
 ) {
-    assert(exportedExpense.id == categoryV2.id.id) { "categoryId not equal" }
-    assert(exportedExpense.name == categoryV2.name) { "categoryName not equal" }
+    assert(exportedExpense.id == category.id.id) { "categoryId not equal" }
+    assert(exportedExpense.name == category.name) { "categoryName not equal" }
 }
 
 fun assertExportedExpenseEqualToExpenseFromDb(
     exportedExpense: BackupWalletV1.BackupCategoryV1.BackupExpenseV1,
     categoryId: CategoryId,
-    expenseFromDb: ExpenseV2,
+    expenseFromDb: Expense,
 ) {
     assert(exportedExpense.expenseId == expenseFromDb.expenseId.id) { "expenseId not equal" }
     assert(exportedExpense.amount == expenseFromDb.amount) { "amount not equal" }

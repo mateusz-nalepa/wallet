@@ -2,15 +2,15 @@ package com.mateuszcholyn.wallet.backend.impl.domain.core.expense
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
+import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 
 class ExpenseRepositoryFacade(
-    private val expenseRepositoryV2: ExpenseRepositoryV2,
+    private val expenseRepository: ExpenseRepository,
 ) {
     suspend fun create(
-        expense: ExpenseV2,
-    ): ExpenseV2 =
-        expenseRepositoryV2.create(
+        expense: Expense,
+    ): Expense =
+        expenseRepository.create(
             expense = expense,
             onNonExistingCategoryAction = { categoryId ->
                 throw CategoryWithGivenIdDoesNotExist(categoryId)
@@ -18,31 +18,31 @@ class ExpenseRepositoryFacade(
         )
 
     suspend fun update(
-        expense: ExpenseV2,
-    ): ExpenseV2 =
-        expenseRepositoryV2.update(
+        expense: Expense,
+    ): Expense =
+        expenseRepository.update(
             expense = expense,
             onNonExistingCategoryAction = { categoryId ->
                 throw CategoryWithGivenIdDoesNotExist(categoryId)
             }
         )
 
-    suspend fun getAllExpenses(): List<ExpenseV2> =
-        expenseRepositoryV2.getAllExpenses()
+    suspend fun getAllExpenses(): List<Expense> =
+        expenseRepository.getAllExpenses()
 
-    suspend fun getById(expenseId: ExpenseId): ExpenseV2? =
-        expenseRepositoryV2.getById(expenseId)
+    suspend fun getById(expenseId: ExpenseId): Expense? =
+        expenseRepository.getById(expenseId)
 
-    suspend fun getByIdOrThrow(expenseId: ExpenseId): ExpenseV2 =
+    suspend fun getByIdOrThrow(expenseId: ExpenseId): Expense =
         getById(expenseId)
             ?: throw ExpenseNotFoundException(expenseId)
 
     suspend fun remove(expenseId: ExpenseId) {
-        expenseRepositoryV2.remove(expenseId)
+        expenseRepository.remove(expenseId)
     }
 
     suspend fun removeAll() {
-        expenseRepositoryV2.removeAllExpenses()
+        expenseRepository.removeAllExpenses()
     }
 
 

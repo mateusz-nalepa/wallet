@@ -538,7 +538,7 @@ class ImportV1UseCaseTest : BaseIntegrationTest() {
             val expenseFromDb =
                 manager
                     .expenseAppDependencies
-                    .expenseRepositoryV2
+                    .expenseRepository
                     .getAllExpenses()
                     .first()
 

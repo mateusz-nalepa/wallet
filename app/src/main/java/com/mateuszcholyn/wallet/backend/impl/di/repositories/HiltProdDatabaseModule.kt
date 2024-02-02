@@ -2,17 +2,17 @@ package com.mateuszcholyn.wallet.backend.impl.di.repositories
 
 import com.mateuszcholyn.wallet.backend.impl.domain.categoriesquicksummary.CategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.categoriesquicksummary.InMemoryCategoriesQuickSummaryRepository
-import com.mateuszcholyn.wallet.backend.impl.domain.core.InMemoryCoreRepositoryV2
-import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRepositoryV2
-import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepositoryV2
+import com.mateuszcholyn.wallet.backend.impl.domain.core.InMemoryCoreRepository
+import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRepository
+import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.InMemorySearchServiceRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceRepository
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.coroutineDispatcher.DefaultDispatcherProvider
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.coroutineDispatcher.DispatcherProvider
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabaseV2
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabase
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.categoriesquicksummary.SqLiteCategoriesQuickSummaryRepository
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.SqLiteCategoryRepositoryV2
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense.SqLiteExpenseRepositoryV2
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.SqLiteCategoryRepository
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense.SqLiteExpenseRepository
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservice.SqLiteSearchServiceRepository
 import com.mateuszcholyn.wallet.frontend.domain.demomode.DemoAppSwitcher
 import dagger.Module
@@ -23,7 +23,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object HiltProdDatabaseModuleV2 {
+object HiltProdDatabaseModule {
 
     @Provides
     @Singleton
@@ -32,39 +32,39 @@ object HiltProdDatabaseModuleV2 {
 
     @Provides
     @Singleton
-    fun provideInMemoryCoreRepositoryV2(): InMemoryCoreRepositoryV2 =
-        InMemoryCoreRepositoryV2()
+    fun provideInMemoryCoreRepository(): InMemoryCoreRepository =
+        InMemoryCoreRepository()
 
     @Provides
     @Singleton
-    fun provideCategoryRepositoryV2(
-        inMemoryCoreRepositoryV2: InMemoryCoreRepositoryV2,
-        appDatabaseV2: AppDatabaseV2,
+    fun provideCategoryRepository(
+        inMemoryCoreRepository: InMemoryCoreRepository,
+        appDatabase: AppDatabase,
         demoAppSwitcher: DemoAppSwitcher,
         dispatcherProvider: DispatcherProvider,
-    ): CategoryRepositoryV2 =
+    ): CategoryRepository =
         if (demoAppSwitcher.isDemoModeEnabled()) {
-            inMemoryCoreRepositoryV2
+            inMemoryCoreRepository
         } else {
-            SqLiteCategoryRepositoryV2(
-                categoryV2Dao = appDatabaseV2.categoryV2Dao(),
+            SqLiteCategoryRepository(
+                categoryDao = appDatabase.categoryDao(),
                 dispatcherProvider = dispatcherProvider,
             )
         }
 
     @Provides
     @Singleton
-    fun provideExpenseRepositoryV2(
-        inMemoryCoreRepositoryV2: InMemoryCoreRepositoryV2,
-        appDatabaseV2: AppDatabaseV2,
+    fun provideExpenseRepository(
+        inMemoryCoreRepository: InMemoryCoreRepository,
+        appDatabase: AppDatabase,
         demoAppSwitcher: DemoAppSwitcher,
         dispatcherProvider: DispatcherProvider,
-    ): ExpenseRepositoryV2 =
+    ): ExpenseRepository =
         if (demoAppSwitcher.isDemoModeEnabled()) {
-            inMemoryCoreRepositoryV2
+            inMemoryCoreRepository
         } else {
-            SqLiteExpenseRepositoryV2(
-                expenseV2Dao = appDatabaseV2.expenseV2Dao(),
+            SqLiteExpenseRepository(
+                expenseDao = appDatabase.expenseDao(),
                 dispatcherProvider = dispatcherProvider,
             )
         }
@@ -72,7 +72,7 @@ object HiltProdDatabaseModuleV2 {
     @Provides
     @Singleton
     fun provideCategoriesQuickSummaryRepository(
-        appDatabaseV2: AppDatabaseV2,
+        appDatabase: AppDatabase,
         demoAppSwitcher: DemoAppSwitcher,
         dispatcherProvider: DispatcherProvider,
     ): CategoriesQuickSummaryRepository =
@@ -80,7 +80,7 @@ object HiltProdDatabaseModuleV2 {
             InMemoryCategoriesQuickSummaryRepository()
         } else {
             SqLiteCategoriesQuickSummaryRepository(
-                categoriesQuickSummaryDao = appDatabaseV2.categoriesQuickSummaryDao(),
+                categoriesQuickSummaryDao = appDatabase.categoriesQuickSummaryDao(),
                 dispatcherProvider = dispatcherProvider,
             )
         }
@@ -88,7 +88,7 @@ object HiltProdDatabaseModuleV2 {
     @Provides
     @Singleton
     fun provideSearchServiceRepository(
-        appDatabaseV2: AppDatabaseV2,
+        appDatabase: AppDatabase,
         demoAppSwitcher: DemoAppSwitcher,
         dispatcherProvider: DispatcherProvider,
     ): SearchServiceRepository =
@@ -96,7 +96,7 @@ object HiltProdDatabaseModuleV2 {
             InMemorySearchServiceRepository()
         } else {
             SqLiteSearchServiceRepository(
-                searchServiceDao = appDatabaseV2.searchServiceDao(),
+                searchServiceDao = appDatabase.searchServiceDao(),
                 dispatcherProvider = dispatcherProvider,
             )
         }

@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.CreateCategoryUseCase
@@ -71,7 +71,7 @@ class CategoryScreenViewModel @Inject constructor(
             "Error podczas update",
         ) {
             val updatedCategory =
-                CategoryV2(
+                Category(
                     id = categoryQuickSummary.categoryId,
                     name = categoryQuickSummary.categoryName,
                 )

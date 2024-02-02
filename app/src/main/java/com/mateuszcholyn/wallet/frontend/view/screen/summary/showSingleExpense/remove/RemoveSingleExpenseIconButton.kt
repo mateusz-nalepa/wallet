@@ -18,7 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.frontend.view.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
-import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogV2
+import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogProxy
 
 
 @Composable
@@ -32,7 +32,7 @@ fun RemoveSingleExpenseIconButton(
 
     var errorModalState by remember { mutableStateOf<ErrorModalState>(ErrorModalState.NotVisible) }
 
-    MyErrorDialogV2(
+    MyErrorDialogProxy(
         errorModalState = errorModalState,
         onErrorModalClose = { errorModalState = ErrorModalState.NotVisible }
     )

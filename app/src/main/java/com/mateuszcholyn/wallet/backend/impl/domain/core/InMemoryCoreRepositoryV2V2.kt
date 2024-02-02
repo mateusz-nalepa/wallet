@@ -1,33 +1,33 @@
 package com.mateuszcholyn.wallet.backend.impl.domain.core
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
-import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRepositoryV2
-import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepositoryV2
+import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
+import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRepository
+import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepository
 import java.util.concurrent.ConcurrentHashMap
 
-class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
+class InMemoryCoreRepository : CategoryRepository, ExpenseRepository {
 
-    private val categories: MutableMap<CategoryId, CategoryV2> = ConcurrentHashMap()
-    private val expenses: MutableMap<ExpenseId, ExpenseV2> = ConcurrentHashMap()
+    private val categories: MutableMap<CategoryId, Category> = ConcurrentHashMap()
+    private val expenses: MutableMap<ExpenseId, Expense> = ConcurrentHashMap()
 
-    override suspend fun create(category: CategoryV2): CategoryV2 {
+    override suspend fun create(category: Category): Category {
         categories[category.id] = category
         return category
     }
 
-    override suspend fun update(category: CategoryV2): CategoryV2 {
+    override suspend fun update(category: Category): Category {
         categories[category.id] = category
         return category
     }
 
-    override suspend fun getAllCategories(): List<CategoryV2> {
+    override suspend fun getAllCategories(): List<Category> {
         return categories.values.toList()
     }
 
-    override suspend fun getById(categoryId: CategoryId): CategoryV2? {
+    override suspend fun getById(categoryId: CategoryId): Category? {
         return categories[categoryId]
     }
 
@@ -63,9 +63,9 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
     }
 
     override suspend fun create(
-        expense: ExpenseV2,
+        expense: Expense,
         onNonExistingCategoryAction: (CategoryId) -> Unit,
-    ): ExpenseV2 {
+    ): Expense {
         val categoryOrNull = categories[expense.categoryId]
 
         if (categoryOrNull == null) {
@@ -77,16 +77,16 @@ class InMemoryCoreRepositoryV2 : CategoryRepositoryV2, ExpenseRepositoryV2 {
     }
 
     override suspend fun update(
-        expense: ExpenseV2,
+        expense: Expense,
         onNonExistingCategoryAction: (CategoryId) -> Unit,
-    ): ExpenseV2 =
+    ): Expense =
         create(expense, onNonExistingCategoryAction)
 
-    override suspend fun getAllExpenses(): List<ExpenseV2> {
+    override suspend fun getAllExpenses(): List<Expense> {
         return expenses.values.toList()
     }
 
-    override suspend fun getById(expenseId: ExpenseId): ExpenseV2? {
+    override suspend fun getById(expenseId: ExpenseId): Expense? {
         return expenses[expenseId]
     }
 

@@ -9,10 +9,10 @@ import com.mateuszcholyn.wallet.backend.impl.domain.categoriesquicksummary.Categ
 import com.mateuszcholyn.wallet.backend.impl.domain.categoriesquicksummary.CategoriesQuickSummaryRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryCoreServiceIMPL
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRepositoryFacade
-import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRepositoryV2
+import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseCoreServiceIMPL
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepositoryFacade
-import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepositoryV2
+import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.messagebus.MessageBus
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceIMPL
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceRepository
@@ -27,7 +27,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object HiltServicesModuleV2 {
+object HiltServicesModule {
 
     @Provides
     @Singleton
@@ -94,13 +94,13 @@ object HiltServicesModuleV2 {
     @Provides
     @Singleton
     fun provideExpenseCoreServiceAPI(
-        expenseRepositoryV2: ExpenseRepositoryV2,
+        expenseRepository: ExpenseRepository,
         messageBus: MessageBus,
         categoryCoreServiceAPI: CategoryCoreServiceAPI,
         transactionManager: TransactionManager,
     ): ExpenseCoreServiceAPI =
         ExpenseCoreServiceIMPL(
-            expenseRepositoryFacade = ExpenseRepositoryFacade(expenseRepositoryV2),
+            expenseRepositoryFacade = ExpenseRepositoryFacade(expenseRepository),
             expensePublisher = MessageBusExpensePublisher(messageBus),
             categoryCoreServiceAPI = categoryCoreServiceAPI,
             transactionManager = transactionManager,
@@ -109,12 +109,12 @@ object HiltServicesModuleV2 {
     @Provides
     @Singleton
     fun provideCategoryCoreServiceAPI(
-        categoryRepositoryV2: CategoryRepositoryV2,
+        categoryRepository: CategoryRepository,
         messageBus: MessageBus,
         transactionManager: TransactionManager,
     ): CategoryCoreServiceAPI =
         CategoryCoreServiceIMPL(
-            categoryRepositoryFacade = CategoryRepositoryFacade(categoryRepositoryV2),
+            categoryRepositoryFacade = CategoryRepositoryFacade(categoryRepository),
             categoryPublisher = MessageBusCategoryPublisher(messageBus),
             transactionManager = transactionManager,
         )

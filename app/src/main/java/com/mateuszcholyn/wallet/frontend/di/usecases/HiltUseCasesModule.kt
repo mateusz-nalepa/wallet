@@ -26,7 +26,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object HiltUseCasesModuleV2 {
+object HiltUseCasesModule {
 
     @Provides
     @Singleton

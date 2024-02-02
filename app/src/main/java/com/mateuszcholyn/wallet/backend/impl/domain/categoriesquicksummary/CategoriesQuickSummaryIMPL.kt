@@ -5,7 +5,7 @@ import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuick
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.QuickSummaryList
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.findOrThrow
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryAddedEvent
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRemovedEvent
@@ -51,7 +51,7 @@ class CategoriesQuickSummaryIMPL(
     }
 
     private fun CategoryQuickSummaryResult.toCategoryQuickSummary(
-        allCategories: List<CategoryV2>,
+        allCategories: List<Category>,
     ): CategoryQuickSummary =
         CategoryQuickSummary(
             categoryId = categoryId,

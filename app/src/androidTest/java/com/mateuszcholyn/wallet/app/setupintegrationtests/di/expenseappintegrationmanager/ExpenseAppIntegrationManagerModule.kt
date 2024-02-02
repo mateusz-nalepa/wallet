@@ -3,8 +3,8 @@ package com.mateuszcholyn.wallet.app.setupintegrationtests.di.expenseappintegrat
 import com.mateuszcholyn.wallet.app.setupintegrationtests.ExpenseAppIntegrationManager
 import com.mateuszcholyn.wallet.backend.api.AllBackendServices
 import com.mateuszcholyn.wallet.backend.impl.domain.categoriesquicksummary.CategoriesQuickSummaryRepository
-import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRepositoryV2
-import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepositoryV2
+import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRepository
+import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceRepository
 import com.mateuszcholyn.wallet.frontend.domain.usecase.ExpenseAppUseCases
 import dagger.Module
@@ -23,8 +23,8 @@ class ExpenseAppIntegrationManagerModule {
         expenseAppUseCases: ExpenseAppUseCases,
 
         // Dependencies
-        categoryRepositoryV2: CategoryRepositoryV2,
-        expenseRepositoryV2: ExpenseRepositoryV2,
+        categoryRepository: CategoryRepository,
+        expenseRepository: ExpenseRepository,
         categoriesQuickSummaryRepository: CategoriesQuickSummaryRepository,
         searchServiceRepository: SearchServiceRepository,
         allBackendServices: AllBackendServices,
@@ -34,8 +34,8 @@ class ExpenseAppIntegrationManagerModule {
             expenseAppUseCases = expenseAppUseCases,
 
             // Dependencies
-            categoryRepositoryV2 = categoryRepositoryV2,
-            expenseRepositoryV2 = expenseRepositoryV2,
+            categoryRepository = categoryRepository,
+            expenseRepository = expenseRepository,
             categoriesQuickSummaryRepository = categoriesQuickSummaryRepository,
             searchServiceRepository = searchServiceRepository,
 

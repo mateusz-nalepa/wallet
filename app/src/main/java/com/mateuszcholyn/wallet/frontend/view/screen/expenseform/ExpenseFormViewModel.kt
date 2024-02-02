@@ -9,8 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseV2WithCategory
+import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
+import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseWithCategory
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.AddExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.GetExpenseUseCase
@@ -22,7 +22,6 @@ import com.mateuszcholyn.wallet.frontend.view.util.asFormattedAmount
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -153,7 +152,7 @@ class ExpenseFormViewModel @Inject constructor(
 
     private suspend fun updateExpense(actualExpenseId: String) {
         val updatedExpense =
-            ExpenseV2(
+            Expense(
                 expenseId = ExpenseId(actualExpenseId),
                 amount = expenseFormState.value.amount.customToBigDecimal(),
                 description = expenseFormState.value.description,
@@ -196,7 +195,7 @@ class ExpenseFormViewModel @Inject constructor(
 
 }
 
-private fun ExpenseV2WithCategory.toCategoryView(): CategoryView =
+private fun ExpenseWithCategory.toCategoryView(): CategoryView =
     CategoryView(
         categoryId = categoryId.id,
         name = categoryName,

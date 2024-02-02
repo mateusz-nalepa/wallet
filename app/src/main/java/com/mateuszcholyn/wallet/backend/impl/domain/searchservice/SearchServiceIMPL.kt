@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.backend.impl.domain.searchservice
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryV2
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.findOrThrow
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchServiceAPI
@@ -45,7 +45,7 @@ class SearchServiceIMPL(
     }
 
     private fun List<SearchSingleResultRepo>.toSearchServiceResult(
-        allCategories: List<CategoryV2>,
+        allCategories: List<Category>,
         searchCriteria: SearchCriteria,
     ): SearchServiceResult {
 
@@ -81,7 +81,7 @@ class SearchServiceIMPL(
 }
 
 private fun SearchSingleResultRepo.toSearchSingleResult(
-    allCategories: List<CategoryV2>,
+    allCategories: List<Category>,
 ): SearchSingleResult =
     SearchSingleResult(
         expenseId = expenseId,

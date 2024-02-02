@@ -14,7 +14,7 @@ import com.mateuszcholyn.wallet.frontend.domain.appstate.AppIsConfigured
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
 import com.mateuszcholyn.wallet.frontend.view.dropdown.GroupElement
-import com.mateuszcholyn.wallet.frontend.view.dropdown.QuickRangeDataV2
+import com.mateuszcholyn.wallet.frontend.view.dropdown.QuickRangeData
 import com.mateuszcholyn.wallet.frontend.view.dropdown.SortElement
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
@@ -72,8 +72,8 @@ class SummaryScreenViewModel @Inject constructor(
         refreshResults()
     }
 
-    fun updateQuickRangeData(newQuickRangeDataV2: QuickRangeDataV2) {
-        _searchForm.value = _searchForm.value.copy(selectedQuickRangeData = newQuickRangeDataV2)
+    fun updateQuickRangeData(newQuickRangeData: QuickRangeData) {
+        _searchForm.value = _searchForm.value.copy(selectedQuickRangeData = newQuickRangeData)
         refreshResults()
     }
 

@@ -7,16 +7,16 @@ import androidx.room.Update
 
 
 @Dao
-interface ExpenseV2Dao {
+interface ExpenseDao {
 
     @Insert
-    suspend fun create(expenseEntityV2: ExpenseEntityV2)
+    suspend fun create(expenseEntity: ExpenseEntity)
 
     @Update
-    suspend fun update(expenseEntityV2: ExpenseEntityV2)
+    suspend fun update(expenseEntity: ExpenseEntity)
 
     @Query("SELECT * FROM expenses")
-    suspend fun getAll(): List<ExpenseEntityV2>
+    suspend fun getAll(): List<ExpenseEntity>
 
     @Query(
         """SELECT * 
@@ -24,7 +24,7 @@ interface ExpenseV2Dao {
               WHERE expense_id =:expenseId
               """
     )
-    suspend fun getByExpenseId(expenseId: String): ExpenseEntityV2?
+    suspend fun getByExpenseId(expenseId: String): ExpenseEntity?
 
     @Query("delete from expenses where expense_id = :expenseId")
     suspend fun remove(expenseId: String): Int

@@ -2,8 +2,8 @@ package com.mateuszcholyn.wallet.app.setupintegrationtests
 
 import com.mateuszcholyn.wallet.backend.api.AllBackendServices
 import com.mateuszcholyn.wallet.backend.impl.domain.categoriesquicksummary.CategoriesQuickSummaryRepository
-import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRepositoryV2
-import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepositoryV2
+import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRepository
+import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceRepository
 import com.mateuszcholyn.wallet.frontend.domain.usecase.ExpenseAppUseCases
 import com.mateuszcholyn.wallet.manager.ExpenseAppDependencies
@@ -14,8 +14,8 @@ class ExpenseAppIntegrationManager @Inject constructor(
     private val expenseAppUseCases: ExpenseAppUseCases,
 
     // Dependencies
-    private val categoryRepositoryV2: CategoryRepositoryV2,
-    private val expenseRepositoryV2: ExpenseRepositoryV2,
+    private val categoryRepository: CategoryRepository,
+    private val expenseRepository: ExpenseRepository,
     private val categoriesQuickSummaryRepository: CategoriesQuickSummaryRepository,
     private val searchServiceRepository: SearchServiceRepository,
 
@@ -28,8 +28,8 @@ class ExpenseAppIntegrationManager @Inject constructor(
 
     fun dependencies(): ExpenseAppDependencies =
         ExpenseAppDependencies(
-            categoryRepositoryV2 = categoryRepositoryV2,
-            expenseRepositoryV2 = expenseRepositoryV2,
+            categoryRepository = categoryRepository,
+            expenseRepository = expenseRepository,
             categoriesQuickSummaryRepository = categoriesQuickSummaryRepository,
             searchServiceRepository = searchServiceRepository,
         )
