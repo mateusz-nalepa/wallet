@@ -11,13 +11,13 @@ data class ImportV1Parameters(
 )
 
 data class OnCategoryChangedInput(
-    // TODO: pass category from backup and database
+    val categoriesToCompare: CategoriesToCompare,
     val keepCategoryFromDatabase: () -> Unit,
     val useCategoryFromBackup: () -> Unit,
 )
 
 data class OnExpanseChangedInput(
-    // TODO: pass expense from backup and database
+    val expensesToCompare: ExpensesToCompare,
     val keepExpenseFromDatabase: () -> Unit,
     val useExpenseFromBackup: () -> Unit,
 )

@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.descriptionOrDefault
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.orDefaultDescription
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.copy.CopySingleExpenseIconButton
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.edit.EditSingleExpenseIconButton
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.remove.RemoveSingleExpenseIconButton
@@ -39,7 +39,7 @@ fun ShowSingleExpenseDetails(
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
             )
-            Text(text = searchSingleResult.descriptionOrDefault(stringResource(R.string.noDescription)))
+            Text(text = searchSingleResult.description.orDefaultDescription(stringResource(R.string.noDescription)))
         }
         Row(
             modifier = defaultModifier.padding(bottom = 0.dp),

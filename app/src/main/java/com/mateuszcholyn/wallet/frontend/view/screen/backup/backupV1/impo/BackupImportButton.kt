@@ -16,17 +16,81 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Summary
-import com.mateuszcholyn.wallet.frontend.view.screen.backup.CategoryChangedModal
-import com.mateuszcholyn.wallet.frontend.view.screen.backup.ExpenseChangedModal
+import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.OnCategoryChangedInput
+import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.OnExpanseChangedInput
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.ComparableData
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.ComparatorModal
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.ComparatorModalParameters
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.orDefaultDescription
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ActionButton
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.SuccessModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.impo.fileSelector
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnDarkPreview
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnLightPreview
+import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import com.mateuszcholyn.wallet.frontend.view.util.buttonPadding
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText
+
+private fun OnCategoryChangedInput.toComparableDataModalParameters(): ComparatorModalParameters =
+    ComparatorModalParameters(
+        title = "Kategoria się zmieniła! Co zrobić?",
+        leftValuesQuickSummary = "Stan z kopii",
+        rightValuesQuickSummary = "Aktualny stan",
+
+        keepLeftText = "Użyj danych z kopii",
+        onKeepLeft = useCategoryFromBackup,
+
+        keepRightText = "Zachowaj istniejący",
+        onKeepRight = keepCategoryFromDatabase,
+
+        comparableData = listOf(
+            ComparableData(
+                "Nazwa",
+                categoriesToCompare.categoryFromBackup.categoryName,
+                categoriesToCompare.categoryFromDatabase.categoryName,
+            ),
+        ),
+    )
+
+private fun OnExpanseChangedInput.toComparableDataModalParameters(): ComparatorModalParameters =
+    ComparatorModalParameters(
+        title = "Wydatek się zmienił! Co zrobić?",
+        leftValuesQuickSummary = "Stan z kopii",
+        rightValuesQuickSummary = "Aktualny stan",
+
+        keepLeftText = "Użyj danych z kopii",
+        onKeepLeft = useExpenseFromBackup,
+
+        keepRightText = "Zachowaj istniejący",
+        onKeepRight = keepExpenseFromDatabase,
+
+        comparableData = listOf(
+            ComparableData(
+                "Kategoria",
+                expensesToCompare.expenseFromBackup.categoryName,
+                expensesToCompare.expenseFromDatabase.categoryName,
+            ),
+            ComparableData(
+                "Kwota",
+                expensesToCompare.expenseFromBackup.amount.asPrintableAmount(),
+                expensesToCompare.expenseFromDatabase.amount.asPrintableAmount(),
+            ),
+            ComparableData(
+                "Data",
+                expensesToCompare.expenseFromBackup.paidAt.fromUTCInstantToUserLocalTimeZone().toHumanDateTimeText(),
+                expensesToCompare.expenseFromDatabase.paidAt.fromUTCInstantToUserLocalTimeZone().toHumanDateTimeText(),
+            ),
+            ComparableData(
+                "Opis",
+                expensesToCompare.expenseFromBackup.description.orDefaultDescription("Brak opisu"),
+                expensesToCompare.expenseFromDatabase.description.orDefaultDescription("Brak opisu"),
+            ),
+        ),
+    )
 
 @Composable
 fun BackupImport(
@@ -34,30 +98,26 @@ fun BackupImport(
 ) {
     val context = currentAppContext()
 
+    // TODO: te wszystkie stany to kurdę z viewModelu powinny być brane XD
     var buttonIsLoading by remember { mutableStateOf(false) }
     var errorState by remember { mutableStateOf<ErrorModalState>(ErrorModalState.NotVisible) }
     var successState by remember { mutableStateOf<SuccessModalState>(SuccessModalState.NotVisible) }
 
 
     val categoryModalDialogIsVisible = remember { mutableStateOf(false) }
-    var onKeepCategoryFromDatabase: () -> Unit by remember { mutableStateOf({}) }
-    var onUseCategoryFromBackup: () -> Unit by remember { mutableStateOf({}) }
+    var compareCategoryModalParameters by remember { mutableStateOf<ComparatorModalParameters?>(null) }
 
-    CategoryChangedModal(
+    ComparatorModal(
         categoryModalDialogIsVisible,
-        onKeepCategoryFromDatabase,
-        onUseCategoryFromBackup,
+        compareCategoryModalParameters
     )
 
     val expenseModalDialogIsVisible = remember { mutableStateOf(false) }
-    var onKeepExpenseFromDatabase: () -> Unit by remember { mutableStateOf({}) }
-    var onUseExpenseFromBackup: () -> Unit by remember { mutableStateOf({}) }
+    var compareExpenseModalParameters by remember { mutableStateOf<ComparatorModalParameters?>(null) }
 
-
-    ExpenseChangedModal(
+    ComparatorModal(
         expenseModalDialogIsVisible,
-        onKeepExpenseFromDatabase,
-        onUseExpenseFromBackup,
+        compareExpenseModalParameters,
     )
 
     var importV1SummaryProgressState by remember { mutableStateOf<ImportV1Summary?>(null) }
@@ -73,14 +133,12 @@ fun BackupImport(
                         importV1SummaryProgressState = importV1SummaryProgress
                     },
                     onCategoryChangedAction = {
-                        onKeepCategoryFromDatabase = it.keepCategoryFromDatabase
-                        onUseCategoryFromBackup = it.useCategoryFromBackup
+                        compareCategoryModalParameters = it.toComparableDataModalParameters()
                         categoryModalDialogIsVisible.value = true
                     },
                     onExpanseChangedAction = {
-                        onKeepExpenseFromDatabase = it.keepExpenseFromDatabase
-                        onUseExpenseFromBackup = it.useExpenseFromBackup
-                        categoryModalDialogIsVisible.value = true
+                        compareExpenseModalParameters = it.toComparableDataModalParameters()
+                        expenseModalDialogIsVisible.value = true
                     },
                     onSuccessAction = {
                         successState = SuccessModalState.Visible {

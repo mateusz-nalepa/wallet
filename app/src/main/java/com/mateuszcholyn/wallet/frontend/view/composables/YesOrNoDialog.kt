@@ -2,7 +2,6 @@ package com.mateuszcholyn.wallet.frontend.view.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -12,17 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 @Composable
 fun YesOrNoDialog(
     openDialog: MutableState<Boolean>,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit = {},
     onConfirm: () -> Unit,
     onCancel: () -> Unit = {},
     cancelText: String = stringResource(R.string.yesOrNoCancel),
@@ -33,12 +30,10 @@ fun YesOrNoDialog(
             onDismissRequest = {
                 openDialog.value = false
             },
-            title = {
-                content.invoke()
-            },
+            text = content,
             buttons = {
                 Row(
-                    modifier = Modifier.padding(all = 8.dp),
+                    modifier = defaultModifier,
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Button(
@@ -47,7 +42,7 @@ fun YesOrNoDialog(
                             openDialog.value = false
                             onCancel.invoke()
                         },
-                        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.error),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.secondary),
                     ) {
                         Text(cancelText)
                     }

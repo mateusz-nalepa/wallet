@@ -1,17 +1,19 @@
 package com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo
 
 import android.util.Log
+import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
+import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import kotlinx.coroutines.CompletableDeferred
 
 class ExpenseImport(
     private val expenseCoreServiceAPI: ExpenseCoreServiceAPI,
+    private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
     private val backupCategoryV1: BackupWalletV1.BackupCategoryV1,
     private val importV1Parameters: ImportV1Parameters,
     private val savedCategoryFromDb: SavedCategoryFromDb,
@@ -39,9 +41,9 @@ class ExpenseImport(
 
     private fun expenseNotChangedAfterExport(expenseFromDb: Expense): Boolean =
         expenseFromDb.categoryId.id == backupCategoryV1.id
-                && InstantConverter.toLong(expenseFromDb.paidAt) == backupExpenseV1.paidAt
-                && expenseFromDb.description == backupExpenseV1.description
-                && expenseFromDb.amount == backupExpenseV1.amount
+            && InstantConverter.toLong(expenseFromDb.paidAt) == backupExpenseV1.paidAt
+            && expenseFromDb.description == backupExpenseV1.description
+            && expenseFromDb.amount == backupExpenseV1.amount
 
 
     private suspend fun addNewExpenseWhichWasProbablyRemoved() {
@@ -71,6 +73,20 @@ class ExpenseImport(
             .onExpanseChangedAction
             .invoke(
                 OnExpanseChangedInput(
+                    expensesToCompare = ExpensesToCompare(
+                        expenseFromBackup = ComparableExpense(
+                            categoryName = backupCategoryV1.name,
+                            amount = backupExpenseV1.amount,
+                            paidAt = InstantConverter.toInstant(backupExpenseV1.paidAt),
+                            description = backupExpenseV1.description,
+                        ),
+                        expenseFromDatabase = ComparableExpense(
+                            categoryName = categoryCoreServiceAPI.getByIdOrThrow(expenseFromDb.categoryId).name,
+                            amount = expenseFromDb.amount,
+                            paidAt = expenseFromDb.paidAt,
+                            description = expenseFromDb.description,
+                        )
+                    ),
                     keepExpenseFromDatabase = {
                         deferred.complete { useExistingExpense(importV1SummaryGenerator) }
                     },

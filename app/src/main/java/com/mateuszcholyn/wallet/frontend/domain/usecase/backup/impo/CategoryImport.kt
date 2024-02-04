@@ -1,9 +1,9 @@
 package com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo
 
 import android.util.Log
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import kotlinx.coroutines.CompletableDeferred
@@ -65,6 +65,14 @@ class CategoryImport(
             .onCategoryNameChangedAction
             .invoke(
                 OnCategoryChangedInput(
+                    categoriesToCompare = CategoriesToCompare(
+                        categoryFromBackup = ComparableCategory(
+                            categoryName = backupCategoryV1.name,
+                        ),
+                        categoryFromDatabase = ComparableCategory(
+                            categoryName = categoryFromDb.name,
+                        )
+                    ),
                     keepCategoryFromDatabase = {
                         deferred.complete {
                             useExistingCategoryResult()
@@ -90,3 +98,13 @@ class CategoryImport(
             .also { importV1SummaryGenerator.markCategoryImported() }
 
 }
+
+
+data class CategoriesToCompare(
+    val categoryFromBackup: ComparableCategory,
+    val categoryFromDatabase: ComparableCategory,
+)
+
+data class ComparableCategory(
+    val categoryName: String,
+)

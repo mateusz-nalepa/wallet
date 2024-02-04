@@ -7,6 +7,8 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.UseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import kotlinx.coroutines.delay
+import java.math.BigDecimal
+import java.time.Instant
 import java.util.UUID
 
 
@@ -71,6 +73,7 @@ class ImportV1UseCase(
                 delay(2)
                 ExpenseImport(
                     expenseCoreServiceAPI,
+                    categoryCoreServiceAPI,
                     backupCategory,
                     importV1Parameters,
                     savedCategoryFromDb,
@@ -92,4 +95,16 @@ fun validateIdIsUUID(id: String, lazyMessage: () -> String) {
 
 data class SavedCategoryFromDb(
     val categoryId: CategoryId,
+)
+
+data class ExpensesToCompare(
+    val expenseFromBackup: ComparableExpense,
+    val expenseFromDatabase: ComparableExpense,
+)
+
+data class ComparableExpense(
+    val categoryName: String,
+    val amount: BigDecimal,
+    val paidAt: Instant,
+    val description: String,
 )

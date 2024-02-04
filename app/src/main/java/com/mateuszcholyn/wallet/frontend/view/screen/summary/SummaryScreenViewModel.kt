@@ -134,8 +134,8 @@ class SummaryScreenViewModel @Inject constructor(
 }
 
 
-fun SearchSingleResult.descriptionOrDefault(defaultDescription: String): String =
-    if (description == EMPTY_STRING) defaultDescription else description
+fun String.orDefaultDescription(defaultDescription: String): String =
+    if (this == EMPTY_STRING) defaultDescription else this
 
 
 fun SearchAverageExpenseResult.asTextSummary(): String =
