@@ -26,6 +26,7 @@ sealed interface ErrorModalState {
 
 sealed interface SuccessModalState {
     data object NotVisible : SuccessModalState
+    // TODO tu pewnie nie powinno być na sztywno ImportV1Summary XD
     data class Visible(val importV1Summary: ImportV1Summary) : SuccessModalState
 }
 

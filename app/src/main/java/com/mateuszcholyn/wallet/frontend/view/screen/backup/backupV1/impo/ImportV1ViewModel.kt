@@ -8,10 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Parameters
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Summary
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1UseCase
-import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.OnCategoryChangedInput
-import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.OnExpanseChangedInput
 import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDelegate
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.ComparatorModalDialogState
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.impo.PercentageCalculator.calculatePercentage
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.SuccessModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.impo.externalFileToInternal
@@ -55,19 +55,52 @@ class ImportV1ViewModel @Inject constructor(
         uiState = uiState.copy(compareModalParameters = ComparatorModalDialogState.NotVisible)
     }
 
+
     fun importBackupV1(
         context: Context,
         externalFileUri: Uri,
     ) {
-        uiState = uiState.copy(buttonIsLoading = true)
+        viewModelScope.launch { // DONE
+            try {
+                uiState = uiState.copy(buttonIsLoading = false)
+                val importV1Summary = unsafeImportData(context, externalFileUri)
+                uiState = uiState.copy(
+                    successState = SuccessModalState.Visible(importV1Summary),
+                    buttonIsLoading = false,
+                    importV1SummaryProgressState = null,
+                )
+            } catch (e: Exception) {
+                uiState = uiState.copy(
+                    errorState = ErrorModalState.Visible("Nieznany błąd podczas importu danych"),
+                    buttonIsLoading = false,
+                    importV1SummaryProgressState = null,
+                )
+            }
+        }
+    }
 
-        importBackupV1(
-            context = context,
-            externalFileUri = externalFileUri,
-            onImportProgress = { importV1Summary ->
-                uiState = uiState.copy(importV1SummaryProgressState = importV1Summary.toImportV1SummaryProgressState())
+    private suspend fun unsafeImportData(
+        context: Context,
+        externalFileUri: Uri,
+    ): ImportV1Summary {
+        val backupWalletV1 =
+            context
+                .externalFileToInternal(externalFileUri)
+                .readFileContent()
+                .let { BackupV1JsonReader.readBackupWalletV1(it) }
+        return importV1UseCase.invoke(createImportV1Parameters(backupWalletV1))
+    }
+
+    private fun createImportV1Parameters(
+        backupWalletV1: BackupWalletV1,
+    ): ImportV1Parameters =
+        ImportV1Parameters(
+            onImportProgress = {
+                uiState = uiState.copy(importV1SummaryProgressState = it.toImportV1SummaryProgressState())
             },
-            onCategoryChangedAction = {
+            backupWalletV1 = backupWalletV1,
+            removeAllBeforeImport = false,
+            onCategoryNameChangedAction = {
                 uiState = uiState.copy(
                     compareModalParameters = ComparatorModalDialogState.Visible(it.toComparableDataModalParameters())
                 )
@@ -77,58 +110,7 @@ class ImportV1ViewModel @Inject constructor(
                     compareModalParameters = ComparatorModalDialogState.Visible(it.toComparableDataModalParameters())
                 )
             },
-            onSuccessAction = {
-                uiState = uiState.copy(
-                    successState = SuccessModalState.Visible(it),
-                    buttonIsLoading = false,
-                    importV1SummaryProgressState = null,
-                )
-            },
-            onErrorTextProvider = {
-                uiState = uiState.copy(
-                    errorState = ErrorModalState.Visible(it),
-                    buttonIsLoading = false,
-                    importV1SummaryProgressState = null,
-                )
-            }
         )
-    }
-
-    private fun importBackupV1(
-        context: Context,
-        externalFileUri: Uri,
-        onCategoryChangedAction: (OnCategoryChangedInput) -> Unit,
-        onExpanseChangedAction: (OnExpanseChangedInput) -> Unit,
-        onSuccessAction: (ImportV1Summary) -> Unit,
-        onErrorTextProvider: (String) -> Unit,
-        onImportProgress: (ImportV1Summary) -> Unit,
-    ) {
-        viewModelScope.launch { // DONE
-            try {
-                println(uiState)
-                uiState = uiState.copy(buttonIsLoading = false)
-
-                val backupWalletV1 =
-                    context
-                        .externalFileToInternal(externalFileUri)
-                        .readFileContent()
-                        .let { BackupV1JsonReader.readBackupWalletV1(it) }
-                val importV1Parameters =
-                    ImportV1Parameters(
-                        onImportProgress = onImportProgress,
-                        backupWalletV1 = backupWalletV1,
-                        removeAllBeforeImport = false,
-                        onCategoryNameChangedAction = onCategoryChangedAction,
-                        onExpanseChangedAction = onExpanseChangedAction,
-                    )
-                val importV1Summary = importV1UseCase.invoke(importV1Parameters)
-                onSuccessAction.invoke(importV1Summary)
-            } catch (e: Exception) {
-                onErrorTextProvider.invoke("Nieznany błąd podczas importu danych")
-            }
-        }
-    }
-
 }
 
 private fun ImportV1Summary.toImportV1SummaryProgressState(): ImportV1SummaryProgressState {
@@ -143,10 +125,12 @@ private fun ImportV1Summary.toImportV1SummaryProgressState(): ImportV1SummaryPro
     return ImportV1SummaryProgressState(percentageProgress = calculatePercentage(recordsProgress, recordsTotal))
 }
 
-private fun calculatePercentage(
-    actual: Int,
-    total: Int
-): Int {
-    val percentage = (actual.toDouble() / total) * 100
-    return percentage.toInt()
+object PercentageCalculator {
+    fun calculatePercentage(
+        actual: Int,
+        total: Int
+    ): Int {
+        val percentage = (actual.toDouble() / total) * 100
+        return percentage.toInt()
+    }
 }

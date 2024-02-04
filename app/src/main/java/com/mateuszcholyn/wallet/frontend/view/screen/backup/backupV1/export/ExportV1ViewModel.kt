@@ -24,7 +24,7 @@ class ExportV1ViewModel @Inject constructor(
         private set
     private var uiState by MutableStateDelegate(exportedUiState)
 
-    fun onErrorModalClose() {
+    fun closeErrorModal() {
         uiState = uiState.copy(errorModalState = ErrorModalState.NotVisible)
     }
 
