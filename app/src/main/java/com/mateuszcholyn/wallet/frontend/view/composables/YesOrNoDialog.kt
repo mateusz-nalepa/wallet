@@ -8,9 +8,6 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.mateuszcholyn.wallet.R
@@ -18,17 +15,18 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 @Composable
 fun YesOrNoDialog(
-    openDialog: MutableState<Boolean>,
+    openDialog: Boolean,
+    onDialogClosed: () -> Unit,
     content: @Composable () -> Unit = {},
     onConfirm: () -> Unit,
     onCancel: () -> Unit = {},
     cancelText: String = stringResource(R.string.yesOrNoCancel),
     confirmText: String = stringResource(R.string.yesOrNoConfirm),
 ) {
-    if (openDialog.value) {
+    if (openDialog) {
         AlertDialog(
             onDismissRequest = {
-                openDialog.value = false
+                onDialogClosed.invoke()
             },
             text = content,
             buttons = {
@@ -39,7 +37,7 @@ fun YesOrNoDialog(
                     Button(
                         modifier = defaultModifier.weight(1f),
                         onClick = {
-                            openDialog.value = false
+                            onDialogClosed.invoke()
                             onCancel.invoke()
                         },
                         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.secondary),
@@ -49,7 +47,7 @@ fun YesOrNoDialog(
                     Button(
                         modifier = defaultModifier.weight(1f),
                         onClick = {
-                            openDialog.value = false
+                            onDialogClosed.invoke()
                             onConfirm.invoke()
                         },
                         colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
@@ -66,7 +64,8 @@ fun YesOrNoDialog(
 @Composable
 fun YesOrNoDialogPreview() {
     YesOrNoDialog(
-        openDialog = remember { mutableStateOf(true) },
+        openDialog = true,
+        onDialogClosed = {},
         content = {
             Text(text = "XD")
         },

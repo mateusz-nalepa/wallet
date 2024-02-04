@@ -2,6 +2,7 @@ package com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.impo
 
 import android.content.Context
 import android.net.Uri
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Parameters
@@ -9,6 +10,10 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Summ
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1UseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.OnCategoryChangedInput
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.OnExpanseChangedInput
+import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDelegate
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.ComparatorModalDialogState
+import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
+import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.SuccessModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.impo.externalFileToInternal
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.impo.readFileContent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,12 +21,80 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
+data class ImportV1SummaryProgressState(
+    val percentageProgress: Int,
+)
+
+data class BackupImportUiState(
+    val buttonIsLoading: Boolean = false,
+    val errorState: ErrorModalState = ErrorModalState.NotVisible,
+    val successState: SuccessModalState = SuccessModalState.NotVisible,
+
+    val compareModalParameters: ComparatorModalDialogState = ComparatorModalDialogState.NotVisible,
+
+    val importV1SummaryProgressState: ImportV1SummaryProgressState? = null,
+)
+
 @HiltViewModel
 class ImportV1ViewModel @Inject constructor(
     private val importV1UseCase: ImportV1UseCase,
 ) : ViewModel() {
+    var exportedUiState = mutableStateOf(BackupImportUiState())
+        private set
+    private var uiState by MutableStateDelegate(exportedUiState)
+
+    fun closeSuccessStateModal() {
+        uiState = uiState.copy(successState = SuccessModalState.NotVisible)
+    }
+
+    fun closeErrorStateModal() {
+        uiState = uiState.copy(errorState = ErrorModalState.NotVisible)
+    }
+
+    fun closeComparatorModalDialog() {
+        uiState = uiState.copy(compareModalParameters = ComparatorModalDialogState.NotVisible)
+    }
 
     fun importBackupV1(
+        context: Context,
+        externalFileUri: Uri,
+    ) {
+        uiState = uiState.copy(buttonIsLoading = true)
+
+        importBackupV1(
+            context = context,
+            externalFileUri = externalFileUri,
+            onImportProgress = { importV1Summary ->
+                uiState = uiState.copy(importV1SummaryProgressState = importV1Summary.toImportV1SummaryProgressState())
+            },
+            onCategoryChangedAction = {
+                uiState = uiState.copy(
+                    compareModalParameters = ComparatorModalDialogState.Visible(it.toComparableDataModalParameters())
+                )
+            },
+            onExpanseChangedAction = {
+                uiState = uiState.copy(
+                    compareModalParameters = ComparatorModalDialogState.Visible(it.toComparableDataModalParameters())
+                )
+            },
+            onSuccessAction = {
+                uiState = uiState.copy(
+                    successState = SuccessModalState.Visible(it),
+                    buttonIsLoading = false,
+                    importV1SummaryProgressState = null,
+                )
+            },
+            onErrorTextProvider = {
+                uiState = uiState.copy(
+                    errorState = ErrorModalState.Visible(it),
+                    buttonIsLoading = false,
+                    importV1SummaryProgressState = null,
+                )
+            }
+        )
+    }
+
+    private fun importBackupV1(
         context: Context,
         externalFileUri: Uri,
         onCategoryChangedAction: (OnCategoryChangedInput) -> Unit,
@@ -32,6 +105,9 @@ class ImportV1ViewModel @Inject constructor(
     ) {
         viewModelScope.launch { // DONE
             try {
+                println(uiState)
+                uiState = uiState.copy(buttonIsLoading = false)
+
                 val backupWalletV1 =
                     context
                         .externalFileToInternal(externalFileUri)
@@ -52,4 +128,25 @@ class ImportV1ViewModel @Inject constructor(
             }
         }
     }
+
+}
+
+private fun ImportV1Summary.toImportV1SummaryProgressState(): ImportV1SummaryProgressState {
+    val recordsProgress =
+        numberOfImportedCategories +
+            numberOfSkippedCategories +
+            numberOfImportedExpenses +
+            numberOfSkippedExpenses
+
+    val recordsTotal = numberOfCategories + numberOfExpenses
+
+    return ImportV1SummaryProgressState(percentageProgress = calculatePercentage(recordsProgress, recordsTotal))
+}
+
+private fun calculatePercentage(
+    actual: Int,
+    total: Int
+): Int {
+    val percentage = (actual.toDouble() / total) * 100
+    return percentage.toInt()
 }

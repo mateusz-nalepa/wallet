@@ -69,10 +69,13 @@ fun RemoveSingleCategoryIconButton(
     )
 
     // Remove Confirmation Dialog
-    val categoryRemoveConfirmationDialog = remember { mutableStateOf(false) }
+    var categoryRemoveConfirmationDialog by remember { mutableStateOf(false) }
 
     YesOrNoDialog(
         openDialog = categoryRemoveConfirmationDialog,
+        onDialogClosed = {
+            categoryRemoveConfirmationDialog = false
+        },
         content = {
             Text(text = stringResource(R.string.reallyHardRemoveCategory))
         },
@@ -87,7 +90,7 @@ fun RemoveSingleCategoryIconButton(
     RemoveSingleExpenseIconButtonStateless(
         isDeleteLoading = deleteButtonIsLoading,
         onClickAction = {
-            categoryRemoveConfirmationDialog.value = true
+            categoryRemoveConfirmationDialog = true
         }
     )
 }

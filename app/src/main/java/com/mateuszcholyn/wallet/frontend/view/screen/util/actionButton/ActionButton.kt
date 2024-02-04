@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Summary
 import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.userConfig.theme.LocalWalletThemeComposition
 
@@ -25,7 +26,7 @@ sealed interface ErrorModalState {
 
 sealed interface SuccessModalState {
     data object NotVisible : SuccessModalState
-    data class Visible(val unit: @Composable () -> Unit) : SuccessModalState
+    data class Visible(val importV1Summary: ImportV1Summary) : SuccessModalState
 }
 
 @Composable
@@ -36,6 +37,7 @@ fun ActionButton(
     errorModalState: ErrorModalState,
     onErrorModalClose: () -> Unit,
     successModalState: SuccessModalState = SuccessModalState.NotVisible,
+    successModalContent: @Composable  ()-> Unit = {},
     onSuccessModalClose: () -> Unit = {},
 ) {
 
@@ -48,7 +50,7 @@ fun ActionButton(
 
     if (successModalState is SuccessModalState.Visible) {
         MySuccessDialog(
-            successContent = successModalState.unit,
+            successContent = successModalContent,
             onClose = onSuccessModalClose
         )
     }

@@ -11,12 +11,19 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.frontend.view.composables.YesOrNoDialog
+
+
+sealed interface ComparatorModalDialogState {
+    data object NotVisible : ComparatorModalDialogState
+    data class Visible(
+        val comparatorModalParameters: ComparatorModalParameters,
+    ) : ComparatorModalDialogState
+}
 
 
 data class ComparatorModalParameters(
@@ -38,29 +45,34 @@ data class ComparableData(
 
 @Composable
 fun ComparatorModal(
-    expenseModalDialogIsVisible: MutableState<Boolean>,
-    comparatorModalParameters: ComparatorModalParameters?,
+    onComparatorModalDialogClosed: () -> Unit,
+    comparatorModalDialogState: ComparatorModalDialogState,
 ) {
-    if (comparatorModalParameters == null) {
-        return
+    when (comparatorModalDialogState) {
+        is ComparatorModalDialogState.NotVisible -> {}
+        is ComparatorModalDialogState.Visible -> {
+            YesOrNoDialog(
+                content = {
+                    Comparator(
+                        comparatorModalDialogState.comparatorModalParameters
+                    )
+                },
+                confirmText = comparatorModalDialogState.comparatorModalParameters.keepRightText,
+                cancelText = comparatorModalDialogState.comparatorModalParameters.keepLeftText,
+                openDialog = true,
+                onCancel = {
+                    comparatorModalDialogState.comparatorModalParameters.onKeepLeft.invoke()
+                },
+                onConfirm = {
+                    comparatorModalDialogState.comparatorModalParameters.onKeepRight.invoke()
+                },
+                onDialogClosed = onComparatorModalDialogClosed,
+            )
+
+        }
     }
 
-    YesOrNoDialog(
-        content = {
-            Comparator(
-                comparatorModalParameters
-            )
-        },
-        confirmText = comparatorModalParameters.keepRightText,
-        cancelText = comparatorModalParameters.keepLeftText,
-        openDialog = expenseModalDialogIsVisible,
-        onCancel = {
-            comparatorModalParameters.onKeepLeft.invoke()
-        },
-        onConfirm = {
-            comparatorModalParameters.onKeepRight.invoke()
-        },
-    )
+
 }
 
 @Composable

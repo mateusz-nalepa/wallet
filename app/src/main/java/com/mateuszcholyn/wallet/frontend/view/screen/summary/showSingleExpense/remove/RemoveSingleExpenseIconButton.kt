@@ -30,7 +30,7 @@ fun RemoveSingleExpenseIconButton(
     expenseId: ExpenseId,
     onSuccessAction: () -> Unit,
 ) {
-    val removeConfirmationDialog = remember { mutableStateOf(false) }
+    var removeConfirmationDialogVisible by remember { mutableStateOf(false) }
     var isDeleteLoading by remember { mutableStateOf(false) }
 
     var errorModalState by remember { mutableStateOf<ErrorModalState>(ErrorModalState.NotVisible) }
@@ -41,7 +41,10 @@ fun RemoveSingleExpenseIconButton(
     )
 
     YesOrNoDialog(
-        openDialog = removeConfirmationDialog,
+        openDialog = removeConfirmationDialogVisible,
+        onDialogClosed = {
+            removeConfirmationDialogVisible = false
+        },
         content = {
             Text(text = stringResource(R.string.areYouReadyToRemoveExpense))
         },
@@ -64,7 +67,7 @@ fun RemoveSingleExpenseIconButton(
     RemoveSingleExpenseIconButtonStateless(
         isDeleteLoading = isDeleteLoading,
         onClickAction = {
-            removeConfirmationDialog.value = true
+            removeConfirmationDialogVisible = true
         }
     )
 }
