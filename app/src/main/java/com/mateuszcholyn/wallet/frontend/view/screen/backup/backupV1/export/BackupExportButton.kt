@@ -2,16 +2,17 @@ package com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.export
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ActionButton
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.export.fileExporter
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
-import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText
-import java.time.LocalDateTime
+
+data class BackupExportUiState(
+    val isLoading: Boolean = false,
+    val errorModalState: ErrorModalState = ErrorModalState.NotVisible,
+)
 
 @Composable
 fun BackupExport(
@@ -19,31 +20,19 @@ fun BackupExport(
 ) {
     val context = currentAppContext()
     val fileExporter = fileExporter()
-    var buttonIsLoading by remember { mutableStateOf(false) }
-    var errorState by remember { mutableStateOf<ErrorModalState>(ErrorModalState.NotVisible) }
 
-    val onClickAction = {
-        buttonIsLoading = true
-        exportV1ViewModel.exportBackupV1(
-            context = context,
-            fileName = "wallet-backup-${LocalDateTime.now().toHumanDateTimeText()}.json",
-            onFileReadyAction = {
-                fileExporter.launch(it)
-                buttonIsLoading = false
-            },
-            onErrorTextProvider = {
-                errorState = ErrorModalState.Visible(it)
-                buttonIsLoading = false
-            }
-        )
-    }
+    val backupExportUiState by remember { exportV1ViewModel.exportedUiState }
 
     ActionButton(
         text = "Eksportuj dane",
-        onClick = onClickAction,
-        isLoading = buttonIsLoading,
-        errorModalState = errorState,
-        onErrorModalClose = { errorState = ErrorModalState.NotVisible }
+        onClick = {
+            exportV1ViewModel.exportBackupV1(
+                context = context,
+                onFileReadyAction = { fileExporter.launch(it) },
+            )
+        },
+        isLoading = backupExportUiState.isLoading,
+        errorModalState = backupExportUiState.errorModalState,
+        onErrorModalClose = { exportV1ViewModel.onErrorModalClose() }
     )
 }
-
