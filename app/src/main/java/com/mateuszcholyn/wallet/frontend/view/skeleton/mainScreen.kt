@@ -27,6 +27,7 @@ fun MainScreen() {
         drawerContent = {
             Drawer(scope = scope, scaffoldState = scaffoldState, navController = navController)
         },
+        // TODO: zrób tak, żeby była dolna nawigacja, bo tak, to czasami ten AddExpense najeżdzą na inne rzeczy XD
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = { FloatingButton(scope = scope, navController = navController) },
     ) {

@@ -18,6 +18,7 @@ class DemoModeInitializer(
         initBecauseDemoModeIsEnabled()
     }
 
+    // TODO: dodaj tutaj zdecydowanie więcej przykładów, żeby można było coś sensownego pokazać
     private fun initBecauseDemoModeIsEnabled() {
         initDemoApp {
             category {
