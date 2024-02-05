@@ -32,7 +32,7 @@ class ExportV1ViewModel @Inject constructor(
         context: Context,
         onFileReadyAction: (FileExportParameters) -> Unit,
     ) {
-        viewModelScope.launch { // DONE
+        viewModelScope.launch { // DONE UI State
             try {
                 uiState = uiState.copy(isLoading = true)
                 unsafeExportData(context, onFileReadyAction)

@@ -1,21 +1,22 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.summary
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchAverageExpenseResult
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.frontend.domain.appstate.AppIsConfigured
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
+import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDelegate
 import com.mateuszcholyn.wallet.frontend.view.dropdown.GroupElement
 import com.mateuszcholyn.wallet.frontend.view.dropdown.QuickRangeData
 import com.mateuszcholyn.wallet.frontend.view.dropdown.SortElement
+import com.mateuszcholyn.wallet.frontend.view.dropdown.groupingElements
+import com.mateuszcholyn.wallet.frontend.view.dropdown.quickDateRanges
+import com.mateuszcholyn.wallet.frontend.view.dropdown.sortingElements
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
@@ -23,12 +24,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-fun initialCategory(): CategoryView =
-    CategoryView(
-        name = "Wszystkie kategorie",
-        nameKey = R.string.summaryScreen_allCategories,
-        categoryId = null,
-    )
+
+sealed interface WholeSummaryScreenState {
+    data class Error(val message: String) : WholeSummaryScreenState
+    data object Loading : WholeSummaryScreenState
+    data object Visible : WholeSummaryScreenState
+}
 
 sealed class SummaryResultState {
     data object Loading : SummaryResultState()
@@ -50,73 +51,88 @@ class SummaryScreenViewModel @Inject constructor(
     private val appIsConfigured: AppIsConfigured,
 ) : ViewModel() {
 
-    private val _searchForm = mutableStateOf(SummarySearchForm())
-    val summarySearchForm: SummarySearchForm
-        get() = _searchForm.value
 
-    private var _summaryResultState: MutableState<SummaryResultState> = mutableStateOf(SummaryResultState.Loading)
-    val summaryResultState: State<SummaryResultState>
-        get() = _summaryResultState
+    val exposedWholeSummaryScreenState: MutableState<WholeSummaryScreenState> = mutableStateOf(WholeSummaryScreenState.Loading)
+    private var wholeSummaryScreenState by MutableStateDelegate(exposedWholeSummaryScreenState)
 
 
-    private var _categoriesList: MutableState<List<CategoryView>> = mutableStateOf(emptyList())
-    val categoriesList: State<List<CategoryView>> =
-        _categoriesList
+    val exposedSummarySearchForm: MutableState<SummarySearchForm> = mutableStateOf(SummarySearchForm())
+    private var summarySearchForm by MutableStateDelegate(exposedSummarySearchForm)
+//
 
-    fun initScreen() {
-        refreshResults()
-    }
+    val exposedSummaryResultState: MutableState<SummaryResultState> = mutableStateOf(SummaryResultState.Loading)
+    private var summaryResultState by MutableStateDelegate(exposedSummaryResultState)
 
     fun updateSelectedCategory(newSelectedCategory: CategoryView) {
-        _searchForm.value = _searchForm.value.copy(selectedCategory = newSelectedCategory)
-        refreshResults()
+        summarySearchForm = summarySearchForm.copy(selectedCategory = newSelectedCategory)
+        loadResultsFromDb()
     }
 
     fun updateQuickRangeData(newQuickRangeData: QuickRangeData) {
-        _searchForm.value = _searchForm.value.copy(selectedQuickRangeData = newQuickRangeData)
-        refreshResults()
+        summarySearchForm = summarySearchForm.copy(selectedQuickRangeData = newQuickRangeData)
+        loadResultsFromDb()
     }
 
     fun updateSortElement(newSortElement: SortElement) {
-        _searchForm.value = _searchForm.value.copy(selectedSortElement = newSortElement)
-        refreshResults()
+        summarySearchForm = summarySearchForm.copy(selectedSortElement = newSortElement)
+        loadResultsFromDb()
     }
 
     fun groupingCheckBoxChecked(newValue: Boolean) {
-        _searchForm.value = _searchForm.value.copy(isGroupingEnabled = newValue)
-        refreshResults()
+        summarySearchForm = summarySearchForm.copy(isGroupingEnabled = newValue)
+        loadResultsFromDb()
     }
 
     fun updateGroupElement(groupElement: GroupElement) {
-        _searchForm.value = _searchForm.value.copy(selectedGroupElement = groupElement)
-        refreshResults()
+        summarySearchForm = summarySearchForm.copy(selectedGroupElement = groupElement)
+        loadResultsFromDb()
     }
 
     fun updateAmountRangeStart(newAmountRangeStart: String) {
-        _searchForm.value = _searchForm.value.copy(amountRangeStart = newAmountRangeStart)
-        refreshResults()
+        summarySearchForm = summarySearchForm.copy(amountRangeStart = newAmountRangeStart)
+        loadResultsFromDb()
     }
 
     fun updateAmountRangeEnd(newAmountRangeEnd: String) {
-        _searchForm.value = _searchForm.value.copy(amountRangeEnd = newAmountRangeEnd)
-        refreshResults()
+        summarySearchForm = summarySearchForm.copy(amountRangeEnd = newAmountRangeEnd)
+        loadResultsFromDb()
     }
 
-    fun refreshResults() {
-        viewModelScope.launch { // DONE
+    fun initScreen() {
+        viewModelScope.launch { // DONE UI State
             try {
-                _summaryResultState.value = SummaryResultState.Loading
-                _summaryResultState.value = SummaryResultState.Success(prepareSummarySuccessContent())
+                summarySearchForm =
+                    summarySearchForm.copy(
+                        categoriesList = readCategoriesList(),
+                        quickDataRanges = quickDateRanges(),
+                        sortElements = sortingElements(),
+                        groupingElements = groupingElements(),
+                    )
+                wholeSummaryScreenState = WholeSummaryScreenState.Visible
+                loadResultsFromDb()
+            } catch (t: Throwable) {
+                wholeSummaryScreenState = WholeSummaryScreenState.Error("Error podczas ładowania ekranu")
+
+            }
+        }
+    }
+
+    private suspend fun readCategoriesList(): List<CategoryView> {
+        return listOf(CategoryView.default) + getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
+    }
+
+    fun loadResultsFromDb() {
+        viewModelScope.launch { // DONE UI State
+            try {
+                summaryResultState = SummaryResultState.Loading
+                summaryResultState = SummaryResultState.Success(prepareSummarySuccessContent())
             } catch (e: Exception) {
-                Log.d("BK", "Exception: ${e.message}")
-                _summaryResultState.value = SummaryResultState.Error(e.message
-                    ?: "Unknown error sad times")
+                summaryResultState = SummaryResultState.Error("Nie udało się wczytać wyników")
             }
         }
     }
 
     private suspend fun prepareSummarySuccessContent(): SummarySuccessContent {
-        readCategoriesList()
         val summaryResult = searchServiceUseCase.invoke(summarySearchForm.toSearchCriteria())
         val expenses = summaryResult.expenses
 
@@ -125,10 +141,6 @@ class SummaryScreenViewModel @Inject constructor(
             expensesGrouped = expenses.groupBy(summarySearchForm.selectedGroupElement.groupFunction),
             summaryResultText = summaryResult.averageExpenseResult.asTextSummary(),
         )
-    }
-
-    private suspend fun readCategoriesList() {
-        _categoriesList.value = listOf(initialCategory()) + getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
     }
 
 }

@@ -3,19 +3,25 @@ package com.mateuszcholyn.wallet.frontend.view.dropdown
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.searchservice.NewSort
 
+
 data class SortElement(
     override val name: String,
     override val nameKey: Int? = null,
     val sort: NewSort,
-) : DropdownElement
+) : DropdownElement {
+    companion object {
+        val default: SortElement =
+            SortElement(
+                name = "R.string.dataOdNajmlodszych",
+                nameKey = R.string.dataOdNajmlodszych,
+                sort = NewSort(NewSort.Field.DATE, NewSort.Order.DESC),
+            )
+    }
+}
 
 fun sortingElements(): List<SortElement> =
     listOf(
-        SortElement(
-            name = "R.string.dataOdNajmlodszych",
-            nameKey = R.string.dataOdNajmlodszych,
-            sort = NewSort(NewSort.Field.DATE, NewSort.Order.DESC),
-        ),
+        SortElement.default,
         SortElement(
             name = "R.string.dataOdNajstarszych",
             nameKey = R.string.dataOdNajstarszych,

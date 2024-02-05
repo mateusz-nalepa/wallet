@@ -20,18 +20,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenActions
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 
 @Composable
 fun ShowSingleExpense(
+    summaryScreenActions: SummaryScreenActions,
     id: Int,
     searchSingleResult: SearchSingleResult,
-    navController: NavHostController,
-    refreshFunction: () -> Unit,
 ) {
     var detailsAreVisible by remember { mutableStateOf(false) }
     QuickExpenseSummary(
@@ -44,8 +43,7 @@ fun ShowSingleExpense(
     if (detailsAreVisible) {
         ShowSingleExpenseDetails(
             searchSingleResult,
-            navController,
-            refreshFunction,
+            summaryScreenActions,
         )
     }
     Divider()

@@ -11,7 +11,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummarySuccessConte
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 @Composable
-fun SummaryStatisticSection(
+fun SummaryStatisticSectionStateless(
     summarySuccessContent: SummarySuccessContent,
 ) {
     Row(modifier = defaultModifier.padding(bottom = 0.dp)) {

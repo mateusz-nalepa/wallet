@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.BackupDataScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.ExpenseScreen
@@ -33,11 +34,11 @@ sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslatio
 fun NavDrawerItem.AddOrEditExpense.routeWithoutId(): String =
     "addOrEditExpense"
 
-fun NavDrawerItem.AddOrEditExpense.routeWithId(expenseId: String): String =
-    "addOrEditExpense?expenseId=$expenseId"
+fun NavDrawerItem.AddOrEditExpense.routeWithId(expenseId: ExpenseId): String =
+    "addOrEditExpense?expenseId=${expenseId.id}"
 
-fun NavDrawerItem.AddOrEditExpense.copyExpense(expenseId: String): String =
-    "addOrEditExpense?mode=copy&expenseId=$expenseId"
+fun NavDrawerItem.AddOrEditExpense.copyExpense(expenseId: ExpenseId): String =
+    "addOrEditExpense?mode=copy&expenseId=${expenseId.id}"
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -73,7 +74,7 @@ fun Navigation(
             CategoryScreen()
         }
         composable(NavDrawerItem.SummaryScreen.route) {
-            SummaryScreen(navController = navController)
+            SummaryScreen(navHostController = navController)
         }
         composable(NavDrawerItem.Settings.route) {
             SettingsScreen()

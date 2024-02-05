@@ -2,27 +2,24 @@ package com.mateuszcholyn.wallet.frontend.view.screen.summary.filters
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.dropdown.WalletDropdown
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenViewModel
+import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.CategoryView
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SummaryCategoriesSection(
-    summaryScreenViewModel: SummaryScreenViewModel = hiltViewModel()
+    categoriesList: List<CategoryView>,
+    selectedCategory: CategoryView,
+    onCategorySelected: (CategoryView) -> Unit,
 ) {
-    val availableCategories by remember { summaryScreenViewModel.categoriesList }
-
     WalletDropdown(
         dropdownName = stringResource(R.string.category),
-        selectedElement = summaryScreenViewModel.summarySearchForm.selectedCategory,
-        availableElements = availableCategories,
+        selectedElement = selectedCategory,
+        availableElements = categoriesList,
         onItemSelected = { newSelectedCategory ->
-            summaryScreenViewModel.updateSelectedCategory(newSelectedCategory)
+            onCategorySelected.invoke(newSelectedCategory)
         },
     )
 }

@@ -60,7 +60,7 @@ class ImportV1ViewModel @Inject constructor(
         context: Context,
         externalFileUri: Uri,
     ) {
-        viewModelScope.launch { // DONE
+        viewModelScope.launch { // DONE UI State
             try {
                 uiState = uiState.copy(buttonIsLoading = false)
                 val importV1Summary = unsafeImportData(context, externalFileUri)

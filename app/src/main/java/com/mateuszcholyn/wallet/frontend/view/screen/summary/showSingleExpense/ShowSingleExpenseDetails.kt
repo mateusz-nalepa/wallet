@@ -15,12 +15,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenActions
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.orDefaultDescription
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.copy.CopySingleExpenseIconButton
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.edit.EditSingleExpenseIconButton
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.copy.CopySingleExpenseIconButtonStateless
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.edit.EditSingleExpenseIconButtonStateless
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.remove.RemoveSingleExpenseIconButton
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone
@@ -29,8 +29,7 @@ import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText
 @Composable
 fun ShowSingleExpenseDetails(
     searchSingleResult: SearchSingleResult,
-    navController: NavHostController,
-    refreshFunction: () -> Unit,
+    summaryScreenActions: SummaryScreenActions,
 ) {
     Column {
         Row(modifier = defaultModifier.padding(bottom = 0.dp)) {
@@ -46,7 +45,6 @@ fun ShowSingleExpenseDetails(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-
             Row(horizontalArrangement = Arrangement.Start) {
                 Icon(
                     Icons.Filled.Event,
@@ -62,8 +60,7 @@ fun ShowSingleExpenseDetails(
             Row(horizontalArrangement = Arrangement.End) {
                 SingleExpenseDetailsActions(
                     searchSingleResult,
-                    navController,
-                    refreshFunction,
+                    summaryScreenActions,
                 )
             }
         }
@@ -73,23 +70,18 @@ fun ShowSingleExpenseDetails(
 @Composable
 fun SingleExpenseDetailsActions(
     searchSingleResult: SearchSingleResult,
-    navController: NavHostController,
-    refreshFunction: () -> Unit,
+    summaryScreenActions: SummaryScreenActions,
 ) {
-    CopySingleExpenseIconButton(
-        navHostController = navController,
+    CopySingleExpenseIconButtonStateless(
         expenseId = searchSingleResult.expenseId,
+        summaryScreenActions = summaryScreenActions,
     )
-    EditSingleExpenseIconButton(
-        navController = navController,
+    EditSingleExpenseIconButtonStateless(
         expenseId = searchSingleResult.expenseId,
+        summaryScreenActions = summaryScreenActions,
     )
     RemoveSingleExpenseIconButton(
         expenseId = searchSingleResult.expenseId,
-        onSuccessAction = {
-            refreshFunction()
-            // TODO: to chyba niepotrzebne
-            //                        detailsAreVisible = false
-        }
+        summaryScreenActions = summaryScreenActions,
     )
 }

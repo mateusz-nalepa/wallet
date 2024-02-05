@@ -7,29 +7,32 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenActions
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.ShowSingleExpense
 
 @Composable
-fun ExpensesList(
-    navController: NavHostController,
-    refreshFunction: () -> Unit,
+fun ExpensesListStateless(
+    summaryScreenActions: SummaryScreenActions,
     expensesList: List<SearchSingleResult>,
 ) {
+
+//    TODO coś takiego zrób dla tej listy XD
+//    val sortedContacts = remember(contacts, comparator) {
+//        contacts.sortedWith(comparator)
+//    }
+
     LazyColumn(
         modifier =
         Modifier
             .fillMaxWidth()
             .padding(horizontal = 4.dp),
-
-        ) {
+    ) {
         itemsIndexed(items = expensesList) { id, searchSingleResult ->
             ShowSingleExpense(
                 id = id,
                 searchSingleResult = searchSingleResult,
-                navController = navController,
-                refreshFunction = refreshFunction,
+                summaryScreenActions = summaryScreenActions,
             )
         }
     }

@@ -8,14 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenViewModel
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenActions
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummarySearchForm
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 @Composable
-fun SummaryGroupingSection(
-    summaryScreenViewModel: SummaryScreenViewModel = hiltViewModel(),
+fun SummaryGroupingSectionStateless(
+    summarySearchForm: SummarySearchForm,
+    summaryScreenActions: SummaryScreenActions,
 ) {
     Row(
         modifier = defaultModifier,
@@ -24,7 +25,10 @@ fun SummaryGroupingSection(
     ) {
 
         Row(modifier = Modifier.weight(4f)) {
-            SummaryGroupingDropdownSection()
+            SummaryGroupingDropdownSectionStateless(
+                summarySearchForm = summarySearchForm,
+                summaryScreenActions = summaryScreenActions,
+            )
         }
 
         Row(
@@ -33,9 +37,9 @@ fun SummaryGroupingSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                checked = summaryScreenViewModel.summarySearchForm.isGroupingEnabled,
+                checked = summarySearchForm.isGroupingEnabled,
                 onCheckedChange = { newValue ->
-                    summaryScreenViewModel.groupingCheckBoxChecked(newValue)
+                    summaryScreenActions.onGroupingCheckboxChanged(newValue)
                 })
             Text(text = stringResource(R.string.group))
         }

@@ -13,16 +13,21 @@ class QuickRangeData(
     override val nameKey: Int? = null,
     val beginDate: LocalDateTime?,
     val endDate: LocalDateTime?,
-) : DropdownElement
+) : DropdownElement {
+    companion object {
+        val default =
+            QuickRangeData(
+                name = "R.string.today",
+                nameKey = R.string.today,
+                beginDate = LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
+                endDate = LocalDateTime.now().plusHours(1),
+            )
+    }
+}
 
 fun quickDateRanges(): List<QuickRangeData> {
     return listOf(
-        QuickRangeData(
-            name = "R.string.today",
-            nameKey = R.string.today,
-            beginDate = LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
-            endDate = LocalDateTime.now().plusHours(1),
-        ),
+        QuickRangeData.default,
         QuickRangeData(
             name = "R.string.yesterday",
             nameKey = R.string.yesterday,

@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.expenseform
 
 import androidx.compose.runtime.Composable
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.dropdown.DropdownElement
 
 @Composable
@@ -50,5 +51,14 @@ data class CategoryView(
     override val name: String,
     override val nameKey: Int? = null,
     val categoryId: String? = null,
-) : DropdownElement
+) : DropdownElement {
+    companion object {
+        val default =
+            CategoryView(
+                name = "Wszystkie kategorie",
+                nameKey = R.string.summaryScreen_allCategories,
+                categoryId = null,
+            )
+    }
+}
 

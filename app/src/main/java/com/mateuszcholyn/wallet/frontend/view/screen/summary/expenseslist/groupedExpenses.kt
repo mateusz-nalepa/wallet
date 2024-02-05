@@ -6,14 +6,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.ShowSingleExpense
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenActions
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 import java.math.BigDecimal
@@ -21,9 +19,9 @@ import java.math.BigDecimal
 
 @ExperimentalFoundationApi
 @Composable
+// TODO: jak jest grupowanie i sortowanie to ten widok generalnie nie ma sensu XDD
 fun GroupedExpenses(
-    navController: NavHostController,
-    refreshFunction: () -> Unit,
+    summaryScreenActions: SummaryScreenActions,
     expensesListGrouped: Map<String, List<SearchSingleResult>>,
     groupNameFunction: (SearchSingleResult) -> String,
 ) {
@@ -45,18 +43,23 @@ fun GroupedExpenses(
                     )
                 }
             }
-            itemsIndexed(items = expensesInGroup) { id, searchSingleResult ->
-                ShowSingleExpense(
-                    id = id,
-                    searchSingleResult = searchSingleResult,
-                    navController = navController,
-                    refreshFunction = { refreshFunction() }
-                )
-            }
+            // TODO: czy ja aby na pewno tego potrzebuje? XD
+            // bez tego w sumie to wygląda jak podsumowanie i też jest fajnie w sumie XD
+            // ewentualnie booleana na to czy wyświetlać to czy nie XD
+
+
+//            itemsIndexed(items = expensesInGroup) { id, searchSingleResult ->
+//                ShowSingleExpense(
+//                    id = id,
+//                    searchSingleResult = searchSingleResult,
+//                    summaryScreenActions = summaryScreenActions,
+//                )
+//            }
         }
     }
 }
 
+// TODO: ta funkcja nie powinna tutaj być XD
 private fun List<SearchSingleResult>.sumExpensesAmount(): BigDecimal =
     if (this.isNotEmpty()) {
         this.map { it.amount }.reduce { acc, bigDecimal -> acc.add(bigDecimal) }

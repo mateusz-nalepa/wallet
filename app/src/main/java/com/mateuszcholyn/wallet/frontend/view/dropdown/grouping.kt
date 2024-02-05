@@ -13,22 +13,27 @@ data class GroupElement(
     override val nameKey: Int? = null,
     val groupFunctionName: (SearchSingleResult) -> String,
     val groupFunction: (SearchSingleResult) -> String,
-) : DropdownElement
+) : DropdownElement {
+    companion object {
+        val default =
+            GroupElement(
+                name = "R.string.wgdnia",
+                nameKey = R.string.wgdnia,
+                groupFunctionName = {
+                    it.paidAt.fromUTCInstantToUserLocalTimeZone().truncatedTo(ChronoUnit.DAYS)
+                        .toHumanDateText()
+                },
+                groupFunction = {
+                    it.paidAt.fromUTCInstantToUserLocalTimeZone().truncatedTo(ChronoUnit.DAYS)
+                        .toString()
+                },
+            )
+    }
+}
 
-fun groupingDataXD(): List<GroupElement> {
+fun groupingElements(): List<GroupElement> {
     return listOf(
-        GroupElement(
-            name = "R.string.wgdnia",
-            nameKey = R.string.wgdnia,
-            groupFunctionName = {
-                it.paidAt.fromUTCInstantToUserLocalTimeZone().truncatedTo(ChronoUnit.DAYS)
-                    .toHumanDateText()
-            },
-            groupFunction = {
-                it.paidAt.fromUTCInstantToUserLocalTimeZone().truncatedTo(ChronoUnit.DAYS)
-                    .toString()
-            },
-        ),
+        GroupElement.default,
         GroupElement(
             name = "R.string.wgmiesiaca",
             nameKey = R.string.wgmiesiaca,
