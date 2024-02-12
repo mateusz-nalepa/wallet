@@ -1,18 +1,14 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen
 
-import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
-import com.mateuszcholyn.wallet.backend.api.core.category.Category
-import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
+import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
-import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.CreateCategoryUseCase
-import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.UpdateCategoryUseCase
-import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ButtonActions
+import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.RemoveCategoryUseCase
+import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDelegate
+import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,68 +25,75 @@ data class CategorySuccessContent(
     val categoryNamesOnly: List<String>,
 )
 
+
+data class RemoveCategoryState(
+    val categoryRemoveConfirmationDialogIsVisible: Boolean = false,
+    val errorModalState: ErrorModalState = ErrorModalState.NotVisible,
+)
+
 @HiltViewModel
 class CategoryScreenViewModel @Inject constructor(
-    private val createCategoryUseCase: CreateCategoryUseCase,
-    private val updateCategoryUseCase: UpdateCategoryUseCase,
+    private val removeCategoryUseCase: RemoveCategoryUseCase,
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
 ) : ViewModel() {
 
-    private var _categoryScreenState: MutableState<CategoryScreenState> = mutableStateOf(CategoryScreenState.Loading)
-    val categoryScreenState: State<CategoryScreenState>
-        get() = _categoryScreenState
+    var exportedCategoryScreenState = mutableStateOf<CategoryScreenState>(CategoryScreenState.Loading)
+        private set
+    private var categoryScreenState by MutableStateDelegate(exportedCategoryScreenState)
+
+    var exportedRemoveCategoryState = mutableStateOf(RemoveCategoryState())
+        private set
+    private var removeCategoryState by MutableStateDelegate(exportedRemoveCategoryState)
 
     init {
         refreshScreen()
     }
 
-    fun addCategory(
-        newCategoryName: String,
-        buttonActions: ButtonActions,
-    ) {
-        userInputAction(
-            buttonActions,
-            "Error podczas add",
-        ) {
-            val createCategoryParameters =
-                CreateCategoryParameters(
-                    name = newCategoryName,
-                )
-            createCategoryUseCase.invoke(createCategoryParameters)
-            refreshScreen()
-        }
-    }
-
-    fun updateCategory(
-        categoryQuickSummary: CategoryQuickSummary,
-        buttonActions: ButtonActions,
-    ) {
-        userInputAction(
-            buttonActions,
-            "Error podczas update",
-        ) {
-            val updatedCategory =
-                Category(
-                    id = categoryQuickSummary.categoryId,
-                    name = categoryQuickSummary.categoryName,
-                )
-            updateCategoryUseCase.invoke(updatedCategory)
-        }
-    }
-
-    private fun userInputAction(
-        buttonActions: ButtonActions,
-        errorMessage: String,
-        actionToBeExecutedBeforeRefresh: suspend () -> Unit,
-    ) {
-        viewModelScope.launch {// DONE
+    fun removeCategory(categoryId: CategoryId) {
+        viewModelScope.launch { // DONE
             try {
-                actionToBeExecutedBeforeRefresh()
-                buttonActions.onSuccessAction.invoke()
+                unsafeRemoveCategory(categoryId)
             } catch (e: Exception) {
-                buttonActions.onErrorAction.invoke(errorMessage)
+                removeCategoryState =
+                    removeCategoryState.copy(
+                        errorModalState = ErrorModalState.Visible("error podczas usuwania")
+                    )
             }
         }
+    }
+
+    private suspend fun unsafeRemoveCategory(categoryId: CategoryId) {
+        val screenState = categoryScreenState as CategoryScreenState.Success
+        if (screenState.categorySuccessContent.categoriesList.find { it.categoryId == categoryId }!!.numberOfExpenses == 0L) {
+            removeCategoryUseCase.invoke(categoryId)
+            refreshScreen()
+        } else {
+            removeCategoryState =
+                removeCategoryState.copy(
+                    errorModalState = ErrorModalState.Visible("Nie możesz usunąć kategorii gdzie są wydatki")
+                )
+        }
+    }
+
+    fun onRemoveCategoryModalOpen() {
+        removeCategoryState =
+            removeCategoryState.copy(
+                categoryRemoveConfirmationDialogIsVisible = true
+            )
+    }
+
+    fun onRemoveCategoryModalClose() {
+        removeCategoryState =
+            removeCategoryState.copy(
+                categoryRemoveConfirmationDialogIsVisible = false
+            )
+    }
+
+    fun closeErrorModal() {
+        removeCategoryState =
+            removeCategoryState.copy(
+                errorModalState = ErrorModalState.NotVisible
+            )
     }
 
     fun refreshScreen() {
@@ -98,12 +101,11 @@ class CategoryScreenViewModel @Inject constructor(
         // to tak odnośnie usuwania mainThreadQueries XD
         viewModelScope.launch { // DONE
             try {
-                _categoryScreenState.value = CategoryScreenState.Loading
-                _categoryScreenState.value = CategoryScreenState.Success(prepareCategorySuccessContent())
+                categoryScreenState = CategoryScreenState.Loading
+                categoryScreenState = CategoryScreenState.Success(prepareCategorySuccessContent())
             } catch (e: Exception) {
-                Log.d("BK", "Exception: ${e.message}")
-                _categoryScreenState.value = CategoryScreenState.Error(e.message
-                    ?: "Unknown error sad times")
+                categoryScreenState =
+                    CategoryScreenState.Error(e.message ?: "Unknown error sad times")
             }
         }
     }

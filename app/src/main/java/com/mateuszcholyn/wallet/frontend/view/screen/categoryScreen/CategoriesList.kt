@@ -15,6 +15,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.singleCatego
 fun CategoriesList(
     categorySuccessContent: CategorySuccessContent,
     categoryScreenActions: CategoryScreenActions,
+    removeCategoryState: RemoveCategoryState,
 ) {
     LazyColumn(
         modifier =
@@ -24,6 +25,7 @@ fun CategoriesList(
     ) {
         items(categorySuccessContent.categoriesList) { categoryQuickSummary ->
             SingleCategory(
+                removeCategoryState = removeCategoryState,
                 categoryScreenActions = categoryScreenActions,
                 categoryQuickSummary = categoryQuickSummary,
             )

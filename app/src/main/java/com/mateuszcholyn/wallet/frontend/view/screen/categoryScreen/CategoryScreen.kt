@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
+import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogProxy
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenError.ScreenError
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenLoading.ScreenLoading
 import com.mateuszcholyn.wallet.frontend.view.skeleton.categoryFormScreenRoute
@@ -21,6 +22,14 @@ data class CategoryScreenActions(
     val onRefreshScreenActions: () -> Unit,
     val onAddCategoryAction: () -> Unit,
     val onUpdateCategoryAction: (CategoryId) -> Unit,
+
+
+    val onCategoryRemoveModalOpen: () -> Unit,
+    val onCategoryRemoveModalClose: () -> Unit,
+    val onCategoryRemoveAction: (CategoryId) -> Unit,
+
+
+    val onErrorModalClose: () -> Unit,
 )
 
 @Composable
@@ -34,7 +43,8 @@ fun CategoryScreen(
         onDispose { }
     })
 
-    val categoryScreenState by remember { categoryScreenViewModel.categoryScreenState }
+    val categoryScreenState by remember { categoryScreenViewModel.exportedCategoryScreenState }
+    val removeCategoryState by remember { categoryScreenViewModel.exportedRemoveCategoryState }
 
     val categoryScreenActions =
         CategoryScreenActions(
@@ -46,10 +56,23 @@ fun CategoryScreen(
             },
             onUpdateCategoryAction = {
                 navHostController.navigate(categoryFormScreenRoute(it))
-            }
+            },
+            onCategoryRemoveAction = {
+                categoryScreenViewModel.removeCategory(it)
+            },
+            onErrorModalClose = {
+                categoryScreenViewModel.closeErrorModal()
+            },
+            onCategoryRemoveModalOpen = {
+                categoryScreenViewModel.onRemoveCategoryModalOpen()
+            },
+            onCategoryRemoveModalClose = {
+                categoryScreenViewModel.onRemoveCategoryModalClose()
+            },
         )
 
     CategoryScreenStateless(
+        removeCategoryState = removeCategoryState,
         categoryScreenState = categoryScreenState,
         categoryScreenActions = categoryScreenActions,
     )
@@ -57,9 +80,17 @@ fun CategoryScreen(
 
 @Composable
 fun CategoryScreenStateless(
+    removeCategoryState: RemoveCategoryState,
     categoryScreenState: CategoryScreenState,
     categoryScreenActions: CategoryScreenActions,
 ) {
+
+
+    MyErrorDialogProxy(
+        errorModalState = removeCategoryState.errorModalState,
+        onErrorModalClose = { categoryScreenActions.onErrorModalClose.invoke() },
+    )
+
     Column {
         when (categoryScreenState) {
             is CategoryScreenState.Error -> ScreenError(categoryScreenState.errorMessage)
@@ -67,6 +98,7 @@ fun CategoryScreenStateless(
             is CategoryScreenState.Success -> SuccessCategoryScreen(
                 categorySuccessContent = categoryScreenState.categorySuccessContent,
                 categoryScreenActions = categoryScreenActions,
+                removeCategoryState = removeCategoryState,
             )
         }
     }
@@ -77,6 +109,7 @@ fun CategoryScreenStateless(
 fun SuccessCategoryScreen(
     categorySuccessContent: CategorySuccessContent,
     categoryScreenActions: CategoryScreenActions,
+    removeCategoryState: RemoveCategoryState,
 ) {
     RedirectToCategoryFormButton(categoryScreenActions)
     NumberOfCategories(categorySuccessContent)
@@ -84,6 +117,7 @@ fun SuccessCategoryScreen(
     CategoriesList(
         categorySuccessContent = categorySuccessContent,
         categoryScreenActions = categoryScreenActions,
+        removeCategoryState = removeCategoryState,
     )
 }
 
