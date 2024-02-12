@@ -8,27 +8,13 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.singleCategoryDetails.SingleCategory
-
-@Composable
-fun CategoriesList(
-    refreshScreenFunction: () -> Unit,
-    categorySuccessContent: CategorySuccessContent,
-) {
-    CategoriesListStateless(
-        refreshScreenFunction = refreshScreenFunction,
-        categoryListOptions = categorySuccessContent.categoriesList,
-        categorySuccessContent = categorySuccessContent,
-    )
-}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun CategoriesListStateless(
-    refreshScreenFunction: () -> Unit,
-    categoryListOptions: List<CategoryQuickSummary>,
+fun CategoriesList(
     categorySuccessContent: CategorySuccessContent,
+    categoryScreenActions: CategoryScreenActions,
 ) {
     LazyColumn(
         modifier =
@@ -36,13 +22,11 @@ private fun CategoriesListStateless(
             .fillMaxWidth()
             .padding(horizontal = 4.dp),
     ) {
-        items(categoryListOptions) { categoryQuickSummary ->
+        items(categorySuccessContent.categoriesList) { categoryQuickSummary ->
             SingleCategory(
-                refreshScreenFunction = refreshScreenFunction,
+                categoryScreenActions = categoryScreenActions,
                 categoryQuickSummary = categoryQuickSummary,
-                categorySuccessContent = categorySuccessContent,
             )
         }
     }
-
 }

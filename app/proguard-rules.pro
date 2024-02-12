@@ -19,3 +19,17 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+
+#
+#-keepclassmembers class com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1 {
+#    *;
+#}
+#
+#-keepclassmembers class com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1.BackupCategoryV1$* {
+#    *;
+#}
+#
+#-keepclassmembers class com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1.BackupCategoryV1.BackupExpenseV1$* {
+#    *;
+#}

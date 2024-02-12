@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
 import com.mateuszcholyn.wallet.frontend.view.composables.YesOrNoDialog
+import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryScreenActions
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ButtonActions
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogProxy
@@ -30,8 +31,8 @@ import com.mateuszcholyn.wallet.frontend.view.util.showShortText
 @Composable
 fun RemoveSingleCategoryIconButton(
     removeSingleCategoryViewModel: RemoveSingleCategoryViewModel = hiltViewModel(),
+    categoryScreenActions: CategoryScreenActions,
     categoryQuickSummary: CategoryQuickSummary,
-    refreshScreenFunction: () -> Unit,
 ) {
     val context = currentAppContext()
     var deleteButtonIsLoading by remember { mutableStateOf(false) }
@@ -53,7 +54,7 @@ fun RemoveSingleCategoryIconButton(
                         context,
                         categoryRemovedText + " ${categoryQuickSummary.categoryName}"
                     )
-                    refreshScreenFunction.invoke()
+                    categoryScreenActions.onRefreshScreenActions.invoke()
                 },
                 onErrorAction = {
                     deleteErrorState = ErrorModalState.Visible(it)

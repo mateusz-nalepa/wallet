@@ -12,8 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
-import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategorySuccessContent
-import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.singleCategoryDetails.actions.edit.EditCategoryForm
+import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryScreenActions
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.singleCategoryDetails.actions.edit.EditSingleCategoryIconButton
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.singleCategoryDetails.actions.remove.RemoveSingleCategoryIconButton
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
@@ -22,12 +21,10 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 @ExperimentalMaterialApi
 @Composable
 fun SingleCategory(
-    refreshScreenFunction: () -> Unit,
+    categoryScreenActions: CategoryScreenActions,
     categoryQuickSummary: CategoryQuickSummary,
-    categorySuccessContent: CategorySuccessContent,
 ) {
     var detailsAreVisible by remember { mutableStateOf(false) }
-    var editCategoryNameIsVisible by remember { mutableStateOf(false) }
 
     SingleCategoryQuickInfo(
         categoryQuickSummary = categoryQuickSummary,
@@ -38,36 +35,42 @@ fun SingleCategory(
     )
 
     if (detailsAreVisible) {
-        Row(
-            modifier = defaultModifier.padding(top = 0.dp),
-            horizontalArrangement = Arrangement.End
-        ) {
-            // refreshScreen?
-            EditSingleCategoryIconButton(
-                onClick = {
-                    editCategoryNameIsVisible = !editCategoryNameIsVisible
-                },
-            )
-            // refreshScreen?
-            RemoveSingleCategoryIconButton(
-                categoryQuickSummary = categoryQuickSummary,
-                refreshScreenFunction = refreshScreenFunction,
-            )
-
-        }
-        if (editCategoryNameIsVisible) {
-            EditCategoryForm(
-                categoryQuickSummary = categoryQuickSummary,
-                actualCategoryName = categoryQuickSummary.categoryName,
-                onFormSubmitted = {
-                    editCategoryNameIsVisible = false
-                    detailsAreVisible = false
-                },
-                categorySuccessContent = categorySuccessContent,
-                refreshScreenFunction = refreshScreenFunction,
-            )
-        }
+        SingleCategoryDetails(
+            categoryScreenActions = categoryScreenActions,
+            categoryQuickSummary = categoryQuickSummary,
+        )
     }
-
     Divider()
+}
+
+@ExperimentalMaterialApi
+@Composable
+fun SingleCategoryDetails(
+    categoryScreenActions: CategoryScreenActions,
+    categoryQuickSummary: CategoryQuickSummary,
+) {
+    Row(
+        modifier = defaultModifier.padding(top = 0.dp),
+        horizontalArrangement = Arrangement.End
+    ) {
+        CategoryActionsStateless(
+            categoryScreenActions = categoryScreenActions,
+            categoryQuickSummary = categoryQuickSummary,
+        )
+    }
+}
+
+@Composable
+fun CategoryActionsStateless(
+    categoryScreenActions: CategoryScreenActions,
+    categoryQuickSummary: CategoryQuickSummary,
+) {
+    EditSingleCategoryIconButton(
+        categoryQuickSummary = categoryQuickSummary,
+        categoryScreenActions = categoryScreenActions,
+    )
+    RemoveSingleCategoryIconButton(
+        categoryQuickSummary = categoryQuickSummary,
+        categoryScreenActions = categoryScreenActions,
+    )
 }

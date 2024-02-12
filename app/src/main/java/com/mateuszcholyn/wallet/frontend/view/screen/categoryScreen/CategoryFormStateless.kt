@@ -7,87 +7,78 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import com.mateuszcholyn.wallet.frontend.view.composables.ValidatedTextField
+import com.mateuszcholyn.wallet.frontend.view.composables.ValidatedTextFieldV2
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
-import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialog
+import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogProxy
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
+
+enum class CategorySubmitButton {
+    DISABLED,
+    ENABLED,
+    LOADING,
+}
+
+data class CategoryFormUiState(
+    val categoryName: String = EMPTY_STRING,
+    val isFormInvalid: Boolean = false,
+    val submitButtonState: CategorySubmitButton = CategorySubmitButton.DISABLED,
+    val showCategoryAlreadyExistsWarning: Boolean = false,
+    val errorModalState: ErrorModalState = ErrorModalState.NotVisible,
+    val buttonLabel: String = "Dodaj",
+)
+
+data class CategoryFormUiActions(
+    val onCategoryValueChanged: (String) -> Unit,
+    val onErrorModalClose: () -> Unit,
+    val onFormSubmit: () -> Unit,
+)
+
+
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun CategoryFormStateless(
-    submitButtonIsLoading: Boolean,
-    errorModalState: ErrorModalState,
-    onErrorModalClose: () -> Unit,
-    textFieldLabel: String,
-    buttonLabel: String,
-    initialCategoryName: String = EMPTY_STRING,
-    categoryNamesOnly: List<String> = emptyList(),
-    onFormSubmit: (String) -> Unit,
+    categoryFormUiState: CategoryFormUiState,
+    categoryFormUiActions: CategoryFormUiActions,
 ) {
-
-    var newCategoryNameText by remember { mutableStateOf(initialCategoryName) }
-
-    val isFormValid by derivedStateOf {
-        !categoryIsInvalid(newCategoryNameText)
-    }
-
-
-    var categoryAlreadyExists by remember { mutableStateOf(false) }
-
     Column(modifier = defaultModifier) {
-        ValidatedTextField(
-            textFieldLabel = textFieldLabel,
-            value = newCategoryNameText,
+        ValidatedTextFieldV2(
+            textFieldLabel = "Kategoria",
+            value = categoryFormUiState.categoryName,
             onValueChange = {
-                categoryAlreadyExists = shouldShowCategoryWarning(it, categoryNamesOnly)
-                newCategoryNameText = it
+                categoryFormUiActions.onCategoryValueChanged.invoke(it)
             },
-            isValueInValidFunction = {
-                categoryIsInvalid(it)
-            },
+            isValueInvalid = categoryFormUiState.isFormInvalid,
             valueInvalidText = "Nieprawidłowa nazwa kategorii",
             modifier = defaultModifier,
         )
-        if (categoryAlreadyExists) {
+        if (categoryFormUiState.showCategoryAlreadyExistsWarning) {
             Text(
-                text = "Kategoria o takiej nazwie już istnieje. Wciąż jednak możesz dodać kolejną kategorię o takiej nazwie, jeśli chcesz.",
+                text = "Kategoria o takiej nazwie już istnieje.",
                 color = MaterialTheme.colors.primary,
                 modifier = defaultModifier,
             )
         }
 
-        if (errorModalState is ErrorModalState.Visible) {
-            MyErrorDialog(
-                errorMessage = errorModalState.message,
-                onClose = onErrorModalClose
-            )
-        }
+        MyErrorDialogProxy(
+            errorModalState = categoryFormUiState.errorModalState,
+            onErrorModalClose = categoryFormUiActions.onErrorModalClose
+        )
+
         Button(
-            enabled = isFormValid,
+            enabled = categoryFormUiState.submitButtonState == CategorySubmitButton.ENABLED,
             onClick = {
-                onFormSubmit.invoke(newCategoryNameText)
-                newCategoryNameText = EMPTY_STRING
+                categoryFormUiActions.onFormSubmit.invoke()
             },
             modifier = defaultButtonModifier,
         ) {
-            if (submitButtonIsLoading) {
+            if (categoryFormUiState.submitButtonState == CategorySubmitButton.LOADING) {
                 CircularProgressIndicator(color = MaterialTheme.colors.onPrimary)
             } else {
-                Text(buttonLabel)
+                Text(categoryFormUiState.buttonLabel)
             }
         }
     }
 }
-
-private fun categoryIsInvalid(category: String): Boolean =
-    category.isBlank()
-
-private fun shouldShowCategoryWarning(category: String, categories: List<String>): Boolean =
-    category != "" && category in categories

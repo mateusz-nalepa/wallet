@@ -9,8 +9,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.BackupDataScreen
+import com.mateuszcholyn.wallet.frontend.view.screen.category.CategoryFormScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.ExpenseScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.settings.SettingsScreen
@@ -37,6 +39,12 @@ fun NavDrawerItem.AddOrEditExpense.routeWithoutId(): String =
 fun NavDrawerItem.AddOrEditExpense.routeWithId(expenseId: ExpenseId): String =
     "addOrEditExpense?expenseId=${expenseId.id}"
 
+fun categoryFormScreenRoute(): String =
+    "category-form"
+
+fun categoryFormScreenRoute(categoryId: CategoryId): String =
+    "category-form?existingCategoryId=${categoryId.id}"
+
 fun NavDrawerItem.AddOrEditExpense.copyExpense(expenseId: ExpenseId): String =
     "addOrEditExpense?mode=copy&expenseId=${expenseId.id}"
 
@@ -46,6 +54,7 @@ fun NavDrawerItem.AddOrEditExpense.copyExpense(expenseId: ExpenseId): String =
 fun Navigation(
     navController: NavHostController,
 ) {
+//    NavHost(navController, startDestination = "category-form") {
     NavHost(navController, startDestination = NavDrawerItem.SummaryScreen.route) {
         composable(
             route = NavDrawerItem.AddOrEditExpense.route,
@@ -60,7 +69,6 @@ fun Navigation(
                     defaultValue = null
                     type = NavType.StringType
                 }
-
             ),
         ) { backStackEntry ->
             ExpenseScreen(
@@ -71,7 +79,22 @@ fun Navigation(
             )
         }
         composable(NavDrawerItem.Category.route) {
-            CategoryScreen()
+            CategoryScreen(navHostController = navController)
+        }
+        composable(
+            route = "category-form?existingCategoryId={existingCategoryId}",
+            arguments = listOf(
+                navArgument("existingCategoryId") {
+                    nullable = true
+                    defaultValue = null
+                    type = NavType.StringType
+                },
+            ),
+        ) { backStackEntry ->
+            CategoryFormScreen(
+                existingCategoryId = backStackEntry.arguments?.getString("existingCategoryId"),
+                navHostController = navController,
+            )
         }
         composable(NavDrawerItem.SummaryScreen.route) {
             SummaryScreen(navHostController = navController)

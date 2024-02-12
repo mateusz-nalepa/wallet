@@ -34,8 +34,7 @@ class CategoryScreenViewModel @Inject constructor(
     private val createCategoryUseCase: CreateCategoryUseCase,
     private val updateCategoryUseCase: UpdateCategoryUseCase,
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
-
-    ) : ViewModel() {
+) : ViewModel() {
 
     private var _categoryScreenState: MutableState<CategoryScreenState> = mutableStateOf(CategoryScreenState.Loading)
     val categoryScreenState: State<CategoryScreenState>

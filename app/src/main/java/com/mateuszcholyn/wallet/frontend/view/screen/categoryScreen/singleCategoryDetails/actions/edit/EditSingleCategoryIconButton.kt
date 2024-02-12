@@ -8,13 +8,18 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
+import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryScreenActions
 
 @Composable
 fun EditSingleCategoryIconButton(
-    onClick: () -> Unit,
+    categoryQuickSummary: CategoryQuickSummary,
+    categoryScreenActions: CategoryScreenActions,
 ) {
     IconButton(
-        onClick = onClick
+        onClick = {
+            categoryScreenActions.onUpdateCategoryAction.invoke(categoryQuickSummary.categoryId)
+        }
     ) {
         Icon(
             Icons.Filled.Edit,
