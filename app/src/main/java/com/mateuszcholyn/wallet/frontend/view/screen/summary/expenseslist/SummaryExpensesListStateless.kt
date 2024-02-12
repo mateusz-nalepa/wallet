@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenActions
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummarySearchForm
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummarySuccessContent
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.remove.RemoveSingleExpenseUiState
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -12,6 +13,7 @@ fun SummaryExpensesListStateless(
     summarySearchForm: SummarySearchForm,
     summaryScreenActions: SummaryScreenActions,
     successContent: SummarySuccessContent,
+    removeSingleExpenseUiState: RemoveSingleExpenseUiState,
 ) {
     if (summarySearchForm.isGroupingEnabled) {
         GroupedExpenses(
@@ -23,6 +25,7 @@ fun SummaryExpensesListStateless(
         ExpensesListStateless(
             summaryScreenActions = summaryScreenActions,
             expensesList = successContent.expensesList,
+            removeSingleExpenseUiState = removeSingleExpenseUiState,
         )
     }
 }

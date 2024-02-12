@@ -17,6 +17,8 @@ import com.mateuszcholyn.wallet.frontend.view.dropdown.SortElement
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.SummaryFilters
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.results.SummarySearchResultStateless
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.remove.RemoveSingleExpenseUiState
+import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogProxy
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenError.ScreenError
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenLoading.ScreenLoading
 import com.mateuszcholyn.wallet.frontend.view.skeleton.NavDrawerItem
@@ -37,9 +39,13 @@ data class SummaryScreenActions(
     // Edit
     val onEditSingleExpenseAction: (ExpenseId) -> Unit,
     // Remove - TO BE DONE
-//    val removeAction: () -> Unit,
+    val onShowRemovalDialog: () -> Unit,
+    val onConfirmRemoveAction: (ExpenseId) -> Unit,
+    val onRemovalDialogClosed: () -> Unit,
     // Refresh results
     val refreshResultsAction: () -> Unit,
+    // Error
+    val onErrorModalClose: () -> Unit,
 )
 
 @ExperimentalMaterialApi
@@ -52,6 +58,7 @@ fun SummaryScreen(
     val wholeSummaryScreenState by remember { summaryScreenViewModel.exposedWholeSummaryScreenState }
     val exposedSummarySearchForm by remember { summaryScreenViewModel.exposedSummarySearchForm }
     val summaryResultState by remember { summaryScreenViewModel.exposedSummaryResultState }
+    val removeSingleExpenseUiState by remember { summaryScreenViewModel.exposedRemoveUiState }
 
     DisposableEffect(key1 = Unit, effect = {
         summaryScreenViewModel.initScreen()
@@ -93,7 +100,19 @@ fun SummaryScreen(
         },
         refreshResultsAction = {
             summaryScreenViewModel.loadResultsFromDb()
-        }
+        },
+        onShowRemovalDialog = {
+            summaryScreenViewModel.showRemoveConfirmationDialog()
+        },
+        onConfirmRemoveAction = {
+            summaryScreenViewModel.removeExpenseById(it)
+        },
+        onRemovalDialogClosed = {
+            summaryScreenViewModel.closeRemoveModalDialog()
+        },
+        onErrorModalClose = {
+            summaryScreenViewModel.closeErrorModalDialog()
+        },
     )
 
     SummaryScreenStateless(
@@ -101,6 +120,7 @@ fun SummaryScreen(
         exposedSummarySearchForm = exposedSummarySearchForm,
         summaryResultState = summaryResultState,
         summaryScreenActions = summaryScreenActions,
+        removeSingleExpenseUiState = removeSingleExpenseUiState,
     )
 }
 
@@ -110,6 +130,7 @@ fun SummaryScreenStateless(
     exposedSummarySearchForm: SummarySearchForm,
     summaryResultState: SummaryResultState,
     summaryScreenActions: SummaryScreenActions,
+    removeSingleExpenseUiState: RemoveSingleExpenseUiState,
 ) {
     when (wholeSummaryScreenState) {
         is WholeSummaryScreenState.Error -> ScreenError(wholeSummaryScreenState.message)
@@ -119,6 +140,7 @@ fun SummaryScreenStateless(
                 summarySearchForm = exposedSummarySearchForm,
                 summaryResultState = summaryResultState,
                 summaryScreenActions = summaryScreenActions,
+                removeSingleExpenseUiState = removeSingleExpenseUiState,
             )
         }
     }
@@ -129,7 +151,13 @@ fun SummaryScreenStateless(
     summarySearchForm: SummarySearchForm,
     summaryResultState: SummaryResultState,
     summaryScreenActions: SummaryScreenActions,
+    removeSingleExpenseUiState: RemoveSingleExpenseUiState,
 ) {
+
+    MyErrorDialogProxy(
+        errorModalState = removeSingleExpenseUiState.errorModalState,
+        onErrorModalClose = summaryScreenActions.onErrorModalClose,
+    )
     Column(modifier = defaultModifier) {
         SummaryFilters(
             summarySearchForm = summarySearchForm,
@@ -140,6 +168,7 @@ fun SummaryScreenStateless(
             summarySearchForm = summarySearchForm,
             summaryResultState = summaryResultState,
             summaryScreenActions = summaryScreenActions,
+            removeSingleExpenseUiState = removeSingleExpenseUiState,
         )
     }
 }

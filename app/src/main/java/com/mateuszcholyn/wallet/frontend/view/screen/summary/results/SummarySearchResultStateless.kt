@@ -7,6 +7,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenAction
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummarySearchForm
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummarySuccessContent
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.expenseslist.SummaryExpensesListStateless
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.remove.RemoveSingleExpenseUiState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenError.ScreenError
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenLoading.ScreenLoading
 
@@ -15,6 +16,7 @@ fun SummarySearchResultStateless(
     summarySearchForm: SummarySearchForm,
     summaryResultState: SummaryResultState,
     summaryScreenActions: SummaryScreenActions,
+    removeSingleExpenseUiState: RemoveSingleExpenseUiState,
 ) {
     when (summaryResultState) {
         is SummaryResultState.Error -> ScreenError(summaryResultState.errorMessage)
@@ -23,7 +25,8 @@ fun SummarySearchResultStateless(
             SuccessSearchResultStateless(
                 summarySearchForm = summarySearchForm,
                 summaryScreenActions = summaryScreenActions,
-                successContent = summaryResultState.summarySuccessContent
+                successContent = summaryResultState.summarySuccessContent,
+                removeSingleExpenseUiState = removeSingleExpenseUiState
             )
         }
     }
@@ -35,6 +38,7 @@ fun SuccessSearchResultStateless(
     summarySearchForm: SummarySearchForm,
     summaryScreenActions: SummaryScreenActions,
     successContent: SummarySuccessContent,
+    removeSingleExpenseUiState: RemoveSingleExpenseUiState,
 ) {
     SummaryStatisticSectionStateless(successContent)
     Divider()
@@ -42,6 +46,7 @@ fun SuccessSearchResultStateless(
         summarySearchForm = summarySearchForm,
         summaryScreenActions = summaryScreenActions,
         successContent = successContent,
+        removeSingleExpenseUiState = removeSingleExpenseUiState,
     )
 }
 

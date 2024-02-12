@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenActions
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.remove.RemoveSingleExpenseUiState
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
@@ -31,6 +32,7 @@ fun ShowSingleExpense(
     summaryScreenActions: SummaryScreenActions,
     id: Int,
     searchSingleResult: SearchSingleResult,
+    removeSingleExpenseUiState: RemoveSingleExpenseUiState,
 ) {
     var detailsAreVisible by remember { mutableStateOf(false) }
     QuickExpenseSummary(
@@ -44,6 +46,7 @@ fun ShowSingleExpense(
         ShowSingleExpenseDetails(
             searchSingleResult,
             summaryScreenActions,
+            removeSingleExpenseUiState,
         )
     }
     Divider()

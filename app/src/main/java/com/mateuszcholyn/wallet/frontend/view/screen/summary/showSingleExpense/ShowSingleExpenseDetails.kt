@@ -22,6 +22,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.summary.orDefaultDescriptio
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.copy.CopySingleExpenseIconButtonStateless
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.edit.EditSingleExpenseIconButtonStateless
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.remove.RemoveSingleExpenseIconButton
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.remove.RemoveSingleExpenseUiState
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText
@@ -30,6 +31,7 @@ import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText
 fun ShowSingleExpenseDetails(
     searchSingleResult: SearchSingleResult,
     summaryScreenActions: SummaryScreenActions,
+    removeSingleExpenseUiState: RemoveSingleExpenseUiState,
 ) {
     Column {
         Row(modifier = defaultModifier.padding(bottom = 0.dp)) {
@@ -61,6 +63,7 @@ fun ShowSingleExpenseDetails(
                 SingleExpenseDetailsActions(
                     searchSingleResult,
                     summaryScreenActions,
+                    removeSingleExpenseUiState,
                 )
             }
         }
@@ -71,6 +74,7 @@ fun ShowSingleExpenseDetails(
 fun SingleExpenseDetailsActions(
     searchSingleResult: SearchSingleResult,
     summaryScreenActions: SummaryScreenActions,
+    removeSingleExpenseUiState: RemoveSingleExpenseUiState,
 ) {
     CopySingleExpenseIconButtonStateless(
         expenseId = searchSingleResult.expenseId,
@@ -83,5 +87,6 @@ fun SingleExpenseDetailsActions(
     RemoveSingleExpenseIconButton(
         expenseId = searchSingleResult.expenseId,
         summaryScreenActions = summaryScreenActions,
+        removeSingleExpenseUiState = removeSingleExpenseUiState,
     )
 }

@@ -5,10 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
+import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchAverageExpenseResult
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.frontend.domain.appstate.AppIsConfigured
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
 import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDelegate
 import com.mateuszcholyn.wallet.frontend.view.dropdown.GroupElement
@@ -18,9 +20,12 @@ import com.mateuszcholyn.wallet.frontend.view.dropdown.groupingElements
 import com.mateuszcholyn.wallet.frontend.view.dropdown.quickDateRanges
 import com.mateuszcholyn.wallet.frontend.view.dropdown.sortingElements
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.CategoryView
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.remove.RemoveSingleExpenseUiState
+import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,10 +48,12 @@ data class SummarySuccessContent(
     val summaryResultText: String,
 )
 
+// TODO: przy copy jest zła data, nie ma nowej tylko stara XD
 @HiltViewModel
 class SummaryScreenViewModel @Inject constructor(
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
     private val searchServiceUseCase: SearchServiceUseCase,
+    private val removeExpenseUseCase: RemoveExpenseUseCase,
     // TODO: Ensuring that all works, don't know if still needed
     private val appIsConfigured: AppIsConfigured,
 ) : ViewModel() {
@@ -125,6 +132,7 @@ class SummaryScreenViewModel @Inject constructor(
         viewModelScope.launch { // DONE UI State
             try {
                 summaryResultState = SummaryResultState.Loading
+                delay(500)
                 summaryResultState = SummaryResultState.Success(prepareSummarySuccessContent())
             } catch (e: Exception) {
                 summaryResultState = SummaryResultState.Error("Nie udało się wczytać wyników")
@@ -142,6 +150,40 @@ class SummaryScreenViewModel @Inject constructor(
             summaryResultText = summaryResult.averageExpenseResult.asTextSummary(),
         )
     }
+
+
+    val exposedRemoveUiState: MutableState<RemoveSingleExpenseUiState> = mutableStateOf(RemoveSingleExpenseUiState())
+    private var removeUiState by MutableStateDelegate(exposedRemoveUiState)
+
+    fun closeRemoveModalDialog() {
+        removeUiState = removeUiState.copy(isRemovalDialogVisible = false)
+    }
+
+    fun closeErrorModalDialog() {
+        removeUiState = removeUiState.copy(errorModalState = ErrorModalState.NotVisible)
+    }
+
+    fun showRemoveConfirmationDialog() {
+        removeUiState = removeUiState.copy(isRemovalDialogVisible = true)
+    }
+
+    fun removeExpenseById(
+        expenseId: ExpenseId,
+    ) {
+        viewModelScope.launch { // DONE UI State - tak częściowo XD
+            try {
+                removeExpenseUseCase.invoke(expenseId)
+                removeUiState = removeUiState.copy(isRemovalDialogVisible = false)
+                loadResultsFromDb()
+            } catch (t: Throwable) {
+                removeUiState = removeUiState.copy(
+                    isRemovalDialogVisible = false,
+                    errorModalState = ErrorModalState.Visible("usuwanie się nie udało")
+                )
+            }
+        }
+    }
+
 
 }
 
