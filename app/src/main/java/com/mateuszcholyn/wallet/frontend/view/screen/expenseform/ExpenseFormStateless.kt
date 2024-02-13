@@ -73,7 +73,6 @@ data class ExpenseFormDetailsUiState(
     val paidAt: LocalDateTime = LocalDateTime.now(),
 
     val submitButtonLabel: String = EMPTY_STRING,
-    val submitButtonIsLoading: Boolean = false,
     val expenseSubmitButtonState: ExpenseSubmitButtonState = ExpenseSubmitButtonState.DISABLED,
 
     val errorModalState: ErrorModalState = ErrorModalState.NotVisible,

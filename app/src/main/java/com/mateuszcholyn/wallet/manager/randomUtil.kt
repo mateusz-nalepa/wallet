@@ -1,7 +1,10 @@
 package com.mateuszcholyn.wallet.manager
 
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.randomCategoryQuickSummary
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
+import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseWithCategory
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
@@ -55,3 +58,18 @@ fun randomBackupExpenseV1(
         paidAt = InstantConverter.toLong(randomPaidAt()),
     )
 
+
+fun randomExpenseWithCategory(
+    expenseId: ExpenseId = randomExpenseId(),
+    amount: BigDecimal = randomAmount(),
+    paidAt: Instant = randomPaidAt(),
+    categoryQuickSummary: CategoryQuickSummary = randomCategoryQuickSummary(),
+): ExpenseWithCategory =
+    ExpenseWithCategory(
+        expenseId = expenseId,
+        amount = amount,
+        description = "torquent",
+        paidAt = paidAt,
+        categoryId = categoryQuickSummary.categoryId,
+        categoryName = categoryQuickSummary.categoryName,
+    )

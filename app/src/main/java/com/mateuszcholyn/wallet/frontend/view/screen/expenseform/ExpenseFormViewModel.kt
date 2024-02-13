@@ -26,20 +26,6 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class DupaFormViewModel(
-    private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
-) : ViewModel() {
-    var expenseScreenMode: ExpenseScreenMode = ExpenseScreenMode.Add
-
-
-    fun initScreen() {
-        viewModelScope.launch {
-            val categories = getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
-        }
-    }
-}
-
-
 sealed interface ExpenseScreenMode {
     data object Add : ExpenseScreenMode
     data class Update(val expenseId: ExpenseId) : ExpenseScreenMode
@@ -104,7 +90,7 @@ class ExpenseFormViewModel @Inject constructor(
                     }
                 }
             } catch (t: Throwable) {
-                expenseFormScreenState = ExpenseFormScreenState.Error("brak expense XD")
+                expenseFormScreenState = ExpenseFormScreenState.Error("error on init XD")
             }
         }
     }
@@ -186,11 +172,10 @@ class ExpenseFormViewModel @Inject constructor(
 
     fun updateCategory(newCategory: CategoryView) {
         expenseFormDetailsUiState = expenseFormDetailsUiState.copy(selectedCategory = newCategory)
-
     }
 
     fun updateAmount(newAmount: String) {
-        val isAmountValid = isAmountInvalid(newAmount)
+        val isAmountValid = newAmount.isAmountInvalid()
 
         expenseFormDetailsUiState = expenseFormDetailsUiState.copy(
             amount = newAmount,
@@ -231,7 +216,7 @@ class ExpenseFormViewModel @Inject constructor(
         genericSaveExpense(errorMessage) {
             val addExpenseParameters =
                 AddExpenseParameters(
-                    amount = customToBigDecimal(expenseFormDetailsUiState.amount),
+                    amount = expenseFormDetailsUiState.amount.customToBigDecimal(),
                     description = expenseFormDetailsUiState.description,
                     paidAt = expenseFormDetailsUiState.paidAt.fromUserLocalTimeZoneToUTCInstant(),
                     categoryId = CategoryId(expenseFormDetailsUiState.selectedCategory?.categoryId!!)
@@ -245,7 +230,7 @@ class ExpenseFormViewModel @Inject constructor(
             val updatedExpense =
                 Expense(
                     expenseId = (expenseScreenMode as ExpenseScreenMode.Update).expenseId,
-                    amount = customToBigDecimal(expenseFormDetailsUiState.amount),
+                    amount = expenseFormDetailsUiState.amount.customToBigDecimal(),
                     description = expenseFormDetailsUiState.description,
                     categoryId = CategoryId(expenseFormDetailsUiState.selectedCategory?.categoryId!!),
                     paidAt = expenseFormDetailsUiState.paidAt.fromUserLocalTimeZoneToUTCInstant(),
@@ -264,6 +249,7 @@ class ExpenseFormViewModel @Inject constructor(
                 buttonAction.invoke()
                 onButtonSubmittedAction.invoke()
             } catch (t: Throwable) {
+                println(t)
                 expenseFormDetailsUiState = expenseFormDetailsUiState.copy(
                     errorModalState = ErrorModalState.Visible(errorMessage),
                     expenseSubmitButtonState = ExpenseSubmitButtonState.ENABLED,
@@ -281,16 +267,16 @@ private fun ExpenseWithCategory.toCategoryView(): CategoryView =
     )
 
 
-private fun isAmountInvalid(amount: String): Boolean =
-    !canConvertToBigDecimal(amount)
+private fun String.isAmountInvalid(): Boolean =
+    !this.canConvertToBigDecimal()
 
 // TODO: sprawdz czy w druga strone też jest ok XD
-private fun canConvertToBigDecimal(amount: String): Boolean =
+private fun String.canConvertToBigDecimal(): Boolean =
     runCatching {
-        customToBigDecimal(amount)
+        this.customToBigDecimal()
         true
     }
         .getOrDefault(false)
 
-fun customToBigDecimal(amount: String): BigDecimal =
-    amount.replace(",", ".").toBigDecimal()
+fun String.customToBigDecimal(): BigDecimal =
+    this.replace(",", ".").toBigDecimal()
