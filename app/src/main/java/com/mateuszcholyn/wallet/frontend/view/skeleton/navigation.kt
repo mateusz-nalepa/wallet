@@ -14,7 +14,7 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.BackupDataScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.category.CategoryFormScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryScreen
-import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.ExpenseScreen
+import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.ExpenseFormScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.settings.SettingsScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreen
 import com.mateuszcholyn.wallet.frontend.view.wellness.WellnessScreenRunner
@@ -71,9 +71,8 @@ fun Navigation(
                 }
             ),
         ) { backStackEntry ->
-            ExpenseScreen(
-                onFormSubmitNavigate = { navController.navigate(NavDrawerItem.SummaryScreen.route) },
-                onMissingCategoriesNavigate = { navController.navigate(NavDrawerItem.Category.route) },
+            ExpenseFormScreen(
+                navHostController = navController,
                 actualExpenseId = backStackEntry.arguments?.getString("expenseId"),
                 screenMode = backStackEntry.arguments?.getString("mode")
             )

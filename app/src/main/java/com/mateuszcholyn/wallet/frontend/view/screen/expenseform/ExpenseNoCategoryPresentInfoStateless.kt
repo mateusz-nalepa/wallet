@@ -15,7 +15,7 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 @Composable
-fun ExpenseNoCategoryPresentInfo(
+fun ExpenseNoCategoryPresentInfoStateless(
     onMissingCategoriesNavigate: () -> Unit,
 ) {
     Column(

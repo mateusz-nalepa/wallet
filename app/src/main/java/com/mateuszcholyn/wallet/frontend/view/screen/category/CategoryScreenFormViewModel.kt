@@ -24,12 +24,6 @@ sealed class CategoryScreenFormState {
     data class Error(val errorMessage: String) : CategoryScreenFormState()
 }
 
-sealed interface CategoryFormButtonState {
-    data object Visible : CategoryFormButtonState
-    data object Loading : CategoryFormButtonState
-    data class Error(val errorMessage: String) : CategoryFormButtonState
-}
-
 
 sealed interface CategoryScreenMode {
     data object Add : CategoryScreenMode
@@ -43,7 +37,7 @@ class CategoryScreenFormViewModel @Inject constructor(
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
 ) : ViewModel() {
 
-    private lateinit var onSubmitButton: () -> Unit
+    private lateinit var onButtonSubmittedAction: () -> Unit
     private var categoryScreenMode: CategoryScreenMode = CategoryScreenMode.Add
 
     var exportedCategoryScreenFormState = mutableStateOf<CategoryScreenFormState>(CategoryScreenFormState.Loading)
@@ -57,9 +51,9 @@ class CategoryScreenFormViewModel @Inject constructor(
 
     fun initCategoryFormScreen(
         existingCategoryId: String? = null,
-        onSubmitButton: () -> Unit,
+        onButtonSubmittedAction: () -> Unit,
     ) {
-        this.onSubmitButton = onSubmitButton
+        this.onButtonSubmittedAction = onButtonSubmittedAction
         viewModelScope.launch {
             try {
                 val categoryQuickSummary = getCategoriesQuickSummaryUseCase.invoke().quickSummaries
@@ -91,7 +85,6 @@ class CategoryScreenFormViewModel @Inject constructor(
             }
         }
     }
-
 
     fun updateCategoryFormName(categoryNameFromForm: String) {
         val categoryIsInvalid = categoryIsInvalid(categoryNameFromForm)
@@ -167,7 +160,7 @@ class CategoryScreenFormViewModel @Inject constructor(
         viewModelScope.launch {// DONE
             try {
                 userAction()
-                onSubmitButton.invoke()
+                onButtonSubmittedAction.invoke()
             } catch (e: Exception) {
                 categoryFormUiState =
                     categoryFormUiState.copy(

@@ -19,13 +19,12 @@ import com.mateuszcholyn.wallet.frontend.view.dropdown.SortElement
 import com.mateuszcholyn.wallet.frontend.view.dropdown.groupingElements
 import com.mateuszcholyn.wallet.frontend.view.dropdown.quickDateRanges
 import com.mateuszcholyn.wallet.frontend.view.dropdown.sortingElements
-import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.CategoryView
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.remove.RemoveSingleExpenseUiState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -115,8 +114,8 @@ class SummaryScreenViewModel @Inject constructor(
                         sortElements = sortingElements(),
                         groupingElements = groupingElements(),
                     )
-                wholeSummaryScreenState = WholeSummaryScreenState.Visible
                 loadResultsFromDb()
+                wholeSummaryScreenState = WholeSummaryScreenState.Visible
             } catch (t: Throwable) {
                 wholeSummaryScreenState = WholeSummaryScreenState.Error("Error podczas ładowania ekranu")
 
@@ -132,7 +131,6 @@ class SummaryScreenViewModel @Inject constructor(
         viewModelScope.launch { // DONE UI State
             try {
                 summaryResultState = SummaryResultState.Loading
-                delay(500)
                 summaryResultState = SummaryResultState.Success(prepareSummarySuccessContent())
             } catch (e: Exception) {
                 summaryResultState = SummaryResultState.Error("Nie udało się wczytać wyników")

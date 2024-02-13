@@ -14,7 +14,7 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.frontend.view.dropdown.GroupElement
 import com.mateuszcholyn.wallet.frontend.view.dropdown.QuickRangeData
 import com.mateuszcholyn.wallet.frontend.view.dropdown.SortElement
-import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.CategoryView
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.SummaryFilters
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.results.SummarySearchResultStateless
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.showSingleExpense.remove.RemoveSingleExpenseUiState

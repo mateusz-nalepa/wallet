@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.dropdown.WalletDropdown
-import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.CategoryView
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

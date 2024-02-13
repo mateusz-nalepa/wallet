@@ -6,7 +6,7 @@ import com.mateuszcholyn.wallet.frontend.view.dropdown.GroupElement
 import com.mateuszcholyn.wallet.frontend.view.dropdown.QuickRangeData
 import com.mateuszcholyn.wallet.frontend.view.dropdown.SortElement
 import com.mateuszcholyn.wallet.frontend.view.dropdown.groupingElements
-import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.CategoryView
+import com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.util.toDoubleOrDefaultZero
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
 

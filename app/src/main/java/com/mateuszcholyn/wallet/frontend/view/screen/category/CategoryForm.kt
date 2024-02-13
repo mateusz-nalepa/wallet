@@ -23,7 +23,7 @@ fun CategoryFormScreen(
     DisposableEffect(key1 = Unit, effect = {
         categoryScreenFormViewModel.initCategoryFormScreen(
             existingCategoryId = existingCategoryId,
-            onSubmitButton = {
+            onButtonSubmittedAction = {
                 navHostController.navigate(NavDrawerItem.Category.route)
             }
         )
@@ -51,8 +51,7 @@ fun CategoryFormScreen(
         categoryScreenFormState = categoryScreenFormState,
         categoryFormUiState = categoryFormUiState,
         categoryFormUiActions = categoryFormUiActions,
-
-        )
+    )
 }
 
 

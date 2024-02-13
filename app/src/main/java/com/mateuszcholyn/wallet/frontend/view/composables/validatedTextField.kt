@@ -10,10 +10,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -52,49 +48,6 @@ fun ValidatedTextFieldV2(
             isError = isValueInvalid,
         )
         if (isValueInvalid) {
-            Text(
-                text = valueInvalidText,
-                color = MaterialTheme.colors.error,
-                style = MaterialTheme.typography.caption,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }
-    }
-
-}
-
-@Composable
-fun ValidatedTextField(
-    textFieldLabel: String = stringResource(R.string.amount),
-    value: String,
-    onValueChange: (String) -> Unit,
-    valueInvalidText: String = stringResource(R.string.incorrectValue),
-    isValueInValidFunction: (String) -> Boolean,
-    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-    modifier: Modifier = defaultModifier,
-) {
-
-    var isValueInValid by remember { mutableStateOf(false) }
-
-    Column {
-        OutlinedTextField(
-            value = value,
-            onValueChange = {
-                isValueInValid = isValueInValidFunction(it)
-                onValueChange.invoke(it)
-            },
-            keyboardOptions = keyboardOptions,
-            label = { Text(textFieldLabel) },
-            modifier = modifier,
-            singleLine = true,
-            trailingIcon = {
-                if (isValueInValid) {
-                    Icon(Icons.Filled.Error, stringResource(R.string.iconError))
-                }
-            },
-            isError = isValueInValid,
-        )
-        if (isValueInValid) {
             Text(
                 text = valueInvalidText,
                 color = MaterialTheme.colors.error,
