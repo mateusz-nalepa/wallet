@@ -12,6 +12,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreenAction
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummarySearchForm
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
+// FIXME: there is no validation for those fields
 @Composable
 fun AmountRangeSectionStateless(
     summarySearchForm: SummarySearchForm,

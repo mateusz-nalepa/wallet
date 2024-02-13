@@ -266,6 +266,7 @@ private fun ExpenseWithCategory.toCategoryView(): CategoryView =
 private fun isAmountInvalid(amount: String): Boolean =
     !canConvertToBigDecimal(amount)
 
+// TODO: sprawdz czy w druga strone też jest ok XD
 private fun canConvertToBigDecimal(amount: String): Boolean =
     runCatching {
         customToBigDecimal(amount)
