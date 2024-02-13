@@ -5,17 +5,16 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.categoriesquicksummary.CategoriesQuickSummaryDao
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.categoriesquicksummary.CategoriesQuickSummaryEntity
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.BigDecimalDoubleTypeConverter
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.CategoryEntity
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.CategoryDao
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.category.CategoryEntity
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense.EXPENSES_FK_CATEGORY_ID_NAME
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense.EXPENSES_TABLE_NAME
-import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense.ExpenseEntity
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense.ExpenseDao
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.core.expense.ExpenseEntity
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservice.SearchServiceDao
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservice.SearchServiceEntity
 
@@ -60,6 +59,4 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun expenseDao(): ExpenseDao
     abstract fun searchServiceDao(): SearchServiceDao
 
-    fun getSQLiteDB(): SupportSQLiteOpenHelper =
-        openHelper
 }
