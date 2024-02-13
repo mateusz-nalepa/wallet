@@ -5,11 +5,16 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseWithCategory
 import com.mateuszcholyn.wallet.frontend.domain.usecase.UseCase
 
-class GetExpenseUseCase(
-    private val expenseCoreService: ExpenseCoreServiceAPI,
-) : UseCase {
+interface GetExpenseUseCase: UseCase {
+    suspend fun invoke(expenseId: ExpenseId): ExpenseWithCategory
+}
 
-    suspend fun invoke(expenseId: ExpenseId): ExpenseWithCategory =
+
+class DefaultGetExpenseUseCase(
+    private val expenseCoreService: ExpenseCoreServiceAPI,
+) : GetExpenseUseCase {
+
+    override suspend fun invoke(expenseId: ExpenseId): ExpenseWithCategory =
         expenseCoreService.getExpenseWithCategoryDetails(expenseId)
 
 }

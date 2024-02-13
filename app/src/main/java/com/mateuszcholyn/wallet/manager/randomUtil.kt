@@ -26,6 +26,8 @@ fun randomInt(): Int =
 //    from 5 to 15?
     Random().nextInt(10) + 5
 
+fun randomLong(): Long = randomInt().toLong()
+
 fun randomExpenseId(): ExpenseId = ExpenseId(randomUUID())
 
 fun BigDecimal.plusRandomValue(): BigDecimal = this + randomAmount()

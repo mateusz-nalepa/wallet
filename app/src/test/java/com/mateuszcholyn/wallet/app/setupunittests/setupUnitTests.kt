@@ -17,14 +17,14 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.ExpenseAppUseCases
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.export.ExportV1UseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.AllExpensesRemover
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1UseCase
-import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.DefaultGetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.CreateCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.RemoveCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.UpdateCategoryUseCase
-import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.AddExpenseUseCase
-import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.GetExpenseUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.DefaultAddExpenseUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.DefaultGetExpenseUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.DefaultUpdateExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
-import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
 import com.mateuszcholyn.wallet.manager.ExpenseAppDependencies
 import com.mateuszcholyn.wallet.manager.ExpenseAppInitializer
@@ -98,19 +98,19 @@ internal fun createFrom(
         removeCategoryUseCase = RemoveCategoryUseCase(
             categoryCoreService = categoryCoreService,
         ),
-        addExpenseUseCase = AddExpenseUseCase(
+        addExpenseUseCase = DefaultAddExpenseUseCase(
             expenseCoreService = expenseCoreService,
         ),
-        getExpenseUseCase = GetExpenseUseCase(
+        getExpenseUseCase = DefaultGetExpenseUseCase(
             expenseCoreService = expenseCoreService,
         ),
-        updateExpenseUseCase = UpdateExpenseUseCase(
+        updateExpenseUseCase = DefaultUpdateExpenseUseCase(
             expenseCoreService = expenseCoreService,
         ),
         removeExpenseUseCase = RemoveExpenseUseCase(
             expenseCoreService = expenseCoreService,
         ),
-        getCategoriesQuickSummaryUseCase = GetCategoriesQuickSummaryUseCase(
+        getCategoriesQuickSummaryUseCase = DefaultGetCategoriesQuickSummaryUseCase(
             categoriesQuickSummary = categoriesQuickSummary,
         ),
         searchServiceUseCase = SearchServiceUseCase(

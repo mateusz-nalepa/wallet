@@ -69,7 +69,7 @@ data class ExpenseFormDetailsUiState(
     val amount: String = EMPTY_STRING,
     val isAmountInvalid: Boolean = false,
     val description: String = EMPTY_STRING,
-    val category: CategoryView? = null,
+    val selectedCategory: CategoryView? = null,
     val paidAt: LocalDateTime = LocalDateTime.now(),
 
     val submitButtonLabel: String = EMPTY_STRING,
@@ -181,7 +181,7 @@ fun ShowExpenseFormStateless(
     Column(modifier = defaultModifier.verticalScroll(state)) {
         WalletDropdown(
             dropdownName = stringResource(R.string.category),
-            selectedElement = formState.category!!,
+            selectedElement = formState.selectedCategory!!,
             availableElements = categoryNameOptions,
             onItemSelected = { expenseFormActions.onCategorySelected(it) },
         )

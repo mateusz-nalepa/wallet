@@ -6,6 +6,9 @@ import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRemove
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRemovedEvent
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseUpdatedEvent
+import com.mateuszcholyn.wallet.manager.randomCategoryId
+import com.mateuszcholyn.wallet.manager.randomCategoryName
+import com.mateuszcholyn.wallet.manager.randomLong
 
 
 interface CategoriesQuickSummaryAPI {
@@ -27,3 +30,10 @@ data class CategoryQuickSummary(
     val categoryName: String,
     val numberOfExpenses: Long,
 )
+
+fun randomCategoryQuickSummary(): CategoryQuickSummary =
+    CategoryQuickSummary(
+        randomCategoryId(),
+        randomCategoryName(),
+        randomLong(),
+    )

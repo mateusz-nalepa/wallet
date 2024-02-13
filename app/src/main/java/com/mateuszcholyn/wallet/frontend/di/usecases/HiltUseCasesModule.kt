@@ -8,11 +8,15 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.ExpenseAppUseCases
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.export.ExportV1UseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.AllExpensesRemover
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1UseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.DefaultGetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.CreateCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.RemoveCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.UpdateCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.AddExpenseUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.DefaultAddExpenseUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.DefaultGetExpenseUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.DefaultUpdateExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.GetExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.UpdateExpenseUseCase
@@ -22,11 +26,28 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import java.time.LocalDateTime
 import javax.inject.Singleton
+
+interface LocalDateTimeProvider {
+    fun now(): LocalDateTime
+}
+
+class DefaultLocalDateTimeProvider : LocalDateTimeProvider {
+    override fun now(): LocalDateTime =
+        LocalDateTime.now()
+}
+
+
 
 @Module
 @InstallIn(SingletonComponent::class)
 object HiltUseCasesModule {
+
+    @Provides
+    @Singleton
+    fun provideLocalDateTimeProvider(): LocalDateTimeProvider =
+        DefaultLocalDateTimeProvider()
 
     @Provides
     @Singleton
@@ -53,21 +74,21 @@ object HiltUseCasesModule {
     @Provides
     @Singleton
     fun provideAddExpenseUseCase(expenseCoreServiceAPI: ExpenseCoreServiceAPI): AddExpenseUseCase =
-        AddExpenseUseCase(
+        DefaultAddExpenseUseCase(
             expenseCoreService = expenseCoreServiceAPI,
         )
 
     @Provides
     @Singleton
     fun provideGetExpenseUseCase(expenseCoreServiceAPI: ExpenseCoreServiceAPI): GetExpenseUseCase =
-        GetExpenseUseCase(
+        DefaultGetExpenseUseCase(
             expenseCoreService = expenseCoreServiceAPI,
         )
 
     @Provides
     @Singleton
     fun provideUpdateExpenseUseCase(expenseCoreServiceAPI: ExpenseCoreServiceAPI): UpdateExpenseUseCase =
-        UpdateExpenseUseCase(
+        DefaultUpdateExpenseUseCase(
             expenseCoreService = expenseCoreServiceAPI,
         )
 
@@ -82,7 +103,7 @@ object HiltUseCasesModule {
     @Provides
     @Singleton
     fun provideGetCategoriesQuickSummaryUseCase(categoriesQuickSummaryAPI: CategoriesQuickSummaryAPI): GetCategoriesQuickSummaryUseCase =
-        GetCategoriesQuickSummaryUseCase(
+        DefaultGetCategoriesQuickSummaryUseCase(
             categoriesQuickSummary = categoriesQuickSummaryAPI,
         )
 

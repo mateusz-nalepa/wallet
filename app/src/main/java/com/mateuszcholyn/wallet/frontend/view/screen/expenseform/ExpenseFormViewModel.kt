@@ -8,6 +8,7 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseWithCategory
+import com.mateuszcholyn.wallet.frontend.di.usecases.LocalDateTimeProvider
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.AddExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.GetExpenseUseCase
@@ -25,6 +26,20 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 import javax.inject.Inject
 
+class DupaFormViewModel(
+    private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
+) : ViewModel() {
+    var expenseScreenMode: ExpenseScreenMode = ExpenseScreenMode.Add
+
+
+    fun initScreen() {
+        viewModelScope.launch {
+            val categories = getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
+        }
+    }
+}
+
+
 sealed interface ExpenseScreenMode {
     data object Add : ExpenseScreenMode
     data class Update(val expenseId: ExpenseId) : ExpenseScreenMode
@@ -34,6 +49,7 @@ sealed interface ExpenseScreenMode {
 
 @HiltViewModel
 class ExpenseFormViewModel @Inject constructor(
+    private val localDateTimeProvider: LocalDateTimeProvider,
     private val addExpenseUseCase: AddExpenseUseCase,
     private val updateExpenseUseCase: UpdateExpenseUseCase,
     private val getExpenseUseCase: GetExpenseUseCase,
@@ -61,7 +77,6 @@ class ExpenseFormViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val categories = getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
-
 
                 when {
                     categories.isEmpty() -> {
@@ -101,7 +116,7 @@ class ExpenseFormViewModel @Inject constructor(
         expenseFormDetailsUiState = expenseFormDetailsUiState.copy(
             submitButtonLabel = "Dodaj wydatek",
             categories = categories,
-            category = categories.first(),
+            selectedCategory = categories.first(),
         )
         setDateToToday()
         expenseFormScreenState = ExpenseFormScreenState.Show
@@ -146,7 +161,7 @@ class ExpenseFormViewModel @Inject constructor(
                 actualExpenseId = existingExpense.expenseId.id,
                 amount = existingExpense.amount.asFormattedAmount().toString(),
                 description = existingExpense.description,
-                category = existingExpense.toCategoryView(),
+                selectedCategory = existingExpense.toCategoryView(),
                 paidAt = existingExpense.paidAt.fromUTCInstantToUserLocalTimeZone(),
             )
     }
@@ -157,17 +172,20 @@ class ExpenseFormViewModel @Inject constructor(
         )
     }
 
-    private fun checkIsFormValid() {
+    private fun markSubmitButtonState() {
         expenseFormDetailsUiState =
-            if (expenseFormDetailsUiState.isAmountInvalid) {
+            if (isFormValid()) {
                 expenseFormDetailsUiState.copy(expenseSubmitButtonState = ExpenseSubmitButtonState.DISABLED)
             } else {
                 expenseFormDetailsUiState.copy(expenseSubmitButtonState = ExpenseSubmitButtonState.ENABLED)
             }
     }
 
+    private fun isFormValid(): Boolean =
+        expenseFormDetailsUiState.isAmountInvalid
+
     fun updateCategory(newCategory: CategoryView) {
-        expenseFormDetailsUiState = expenseFormDetailsUiState.copy(category = newCategory)
+        expenseFormDetailsUiState = expenseFormDetailsUiState.copy(selectedCategory = newCategory)
 
     }
 
@@ -178,7 +196,7 @@ class ExpenseFormViewModel @Inject constructor(
             amount = newAmount,
             isAmountInvalid = isAmountValid,
         )
-        checkIsFormValid()
+        markSubmitButtonState()
     }
 
     fun updateDescription(newDescription: String) {
@@ -190,7 +208,7 @@ class ExpenseFormViewModel @Inject constructor(
     }
 
     private fun setDateToToday() {
-        updateDate(LocalDateTime.now())
+        updateDate(localDateTimeProvider.now())
     }
 
     fun saveExpense() {
@@ -216,7 +234,7 @@ class ExpenseFormViewModel @Inject constructor(
                     amount = customToBigDecimal(expenseFormDetailsUiState.amount),
                     description = expenseFormDetailsUiState.description,
                     paidAt = expenseFormDetailsUiState.paidAt.fromUserLocalTimeZoneToUTCInstant(),
-                    categoryId = CategoryId(expenseFormDetailsUiState.category?.categoryId!!)
+                    categoryId = CategoryId(expenseFormDetailsUiState.selectedCategory?.categoryId!!)
                 )
             addExpenseUseCase.invoke(addExpenseParameters)
         }
@@ -229,7 +247,7 @@ class ExpenseFormViewModel @Inject constructor(
                     expenseId = (expenseScreenMode as ExpenseScreenMode.Update).expenseId,
                     amount = customToBigDecimal(expenseFormDetailsUiState.amount),
                     description = expenseFormDetailsUiState.description,
-                    categoryId = CategoryId(expenseFormDetailsUiState.category?.categoryId!!),
+                    categoryId = CategoryId(expenseFormDetailsUiState.selectedCategory?.categoryId!!),
                     paidAt = expenseFormDetailsUiState.paidAt.fromUserLocalTimeZoneToUTCInstant(),
                 )
             updateExpenseUseCase.invoke(updatedExpense)

@@ -5,11 +5,15 @@ import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.QuickSummaryL
 import com.mateuszcholyn.wallet.frontend.domain.usecase.UseCase
 
 
-class GetCategoriesQuickSummaryUseCase(
-    private val categoriesQuickSummary: CategoriesQuickSummaryAPI,
-) : UseCase {
+interface GetCategoriesQuickSummaryUseCase : UseCase {
+    suspend fun invoke(): QuickSummaryList
+}
 
-    suspend fun invoke(): QuickSummaryList =
+class DefaultGetCategoriesQuickSummaryUseCase(
+    private val categoriesQuickSummary: CategoriesQuickSummaryAPI,
+) : GetCategoriesQuickSummaryUseCase {
+
+    override suspend fun invoke(): QuickSummaryList =
         categoriesQuickSummary.getQuickSummary()
 
 }
