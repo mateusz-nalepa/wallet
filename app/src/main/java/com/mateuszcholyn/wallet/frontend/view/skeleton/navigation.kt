@@ -12,7 +12,7 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.BackupDataScreen
-import com.mateuszcholyn.wallet.frontend.view.screen.category.CategoryFormScreen
+import com.mateuszcholyn.wallet.frontend.view.screen.categoryForm.CategoryFormScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.ExpenseFormScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.settings.SettingsScreen

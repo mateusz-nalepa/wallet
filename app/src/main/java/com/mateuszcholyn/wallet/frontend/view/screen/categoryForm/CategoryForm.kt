@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.category
+package com.mateuszcholyn.wallet.frontend.view.screen.categoryForm
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect

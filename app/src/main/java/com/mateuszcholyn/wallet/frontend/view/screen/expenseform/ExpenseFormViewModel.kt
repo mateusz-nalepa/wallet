@@ -40,7 +40,7 @@ class ExpenseFormViewModel @Inject constructor(
     private val updateExpenseUseCase: UpdateExpenseUseCase,
     private val getExpenseUseCase: GetExpenseUseCase,
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
-) : ViewModel() {
+) : ViewModel() { // done tests XD
 
     private lateinit var onButtonSubmittedAction: () -> Unit
     private var expenseScreenMode: ExpenseScreenMode = ExpenseScreenMode.Add

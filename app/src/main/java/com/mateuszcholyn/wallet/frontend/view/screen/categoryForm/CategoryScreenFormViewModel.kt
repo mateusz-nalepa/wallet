@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.category
+package com.mateuszcholyn.wallet.frontend.view.screen.categoryForm
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -35,7 +35,7 @@ class CategoryScreenFormViewModel @Inject constructor(
     private val createCategoryUseCase: CreateCategoryUseCase,
     private val updateCategoryUseCase: UpdateCategoryUseCase,
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
-) : ViewModel() {
+) : ViewModel() { // done tests XD
 
     private lateinit var onButtonSubmittedAction: () -> Unit
     private var categoryScreenMode: CategoryScreenMode = CategoryScreenMode.Add

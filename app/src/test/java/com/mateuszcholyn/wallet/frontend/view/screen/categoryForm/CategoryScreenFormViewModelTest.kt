@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.category
+package com.mateuszcholyn.wallet.frontend.view.screen.categoryForm
 
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.randomCategoryQuickSummary
 import com.mateuszcholyn.wallet.backend.api.core.category.Category
