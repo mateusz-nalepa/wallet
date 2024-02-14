@@ -31,9 +31,11 @@ data class CategoryQuickSummary(
     val numberOfExpenses: Long,
 )
 
-fun randomCategoryQuickSummary(): CategoryQuickSummary =
+fun randomCategoryQuickSummary(
+    categoryName: String = randomCategoryName(),
+): CategoryQuickSummary =
     CategoryQuickSummary(
         randomCategoryId(),
-        randomCategoryName(),
+        categoryName,
         randomLong(),
     )
