@@ -196,5 +196,5 @@ fun SearchAverageExpenseResult.asTextSummary(): String =
 fun CategoryQuickSummary.toCategoryView(): CategoryView =
     CategoryView(
         categoryId = categoryId.id,
-        name = categoryName,
+        name = this.categoryName,
     )

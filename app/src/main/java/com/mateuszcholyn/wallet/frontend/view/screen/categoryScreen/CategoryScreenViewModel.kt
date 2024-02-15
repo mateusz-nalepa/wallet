@@ -45,10 +45,6 @@ class CategoryScreenViewModel @Inject constructor(
         private set
     private var removeCategoryState by MutableStateDelegate(exportedRemoveCategoryState)
 
-    init {
-        refreshScreen()
-    }
-
     fun removeCategory(categoryId: CategoryId) {
         viewModelScope.launch { // DONE
             try {
@@ -105,7 +101,7 @@ class CategoryScreenViewModel @Inject constructor(
                 categoryScreenState = CategoryScreenState.Success(prepareCategorySuccessContent())
             } catch (e: Exception) {
                 categoryScreenState =
-                    CategoryScreenState.Error(e.message ?: "Unknown error sad times")
+                    CategoryScreenState.Error("Unknown error sad times")
             }
         }
     }

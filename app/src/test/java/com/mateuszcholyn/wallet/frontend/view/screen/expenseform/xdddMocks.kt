@@ -22,7 +22,7 @@ class TestGetCategoriesQuickSummaryUseCase : GetCategoriesQuickSummaryUseCase {
 
     override suspend fun invoke(): QuickSummaryList {
         if (willThrowException) {
-            TODO("Not yet implemented")
+            throw RuntimeException()
         }
 
         return QuickSummaryList(
