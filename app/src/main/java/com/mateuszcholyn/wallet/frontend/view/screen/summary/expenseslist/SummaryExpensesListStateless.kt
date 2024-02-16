@@ -19,7 +19,7 @@ fun SummaryExpensesListStateless(
         GroupedExpenses(
             summaryScreenActions = summaryScreenActions,
             expensesListGrouped = successContent.expensesGrouped,
-            groupNameFunction = summarySearchForm.selectedGroupElement.groupFunctionName,
+            groupNameFunction = summarySearchForm.selectedGroupingElement.groupFunctionName,
         )
     } else {
         ExpensesListStateless(

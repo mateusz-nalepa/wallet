@@ -47,7 +47,6 @@ data class SummarySuccessContent(
     val summaryResultText: String,
 )
 
-// TODO: przy copy jest zła data, nie ma nowej tylko stara XD
 @HiltViewModel
 class SummaryScreenViewModel @Inject constructor(
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
@@ -84,13 +83,18 @@ class SummaryScreenViewModel @Inject constructor(
         loadResultsFromDb()
     }
 
-    fun groupingCheckBoxChecked(newValue: Boolean) {
+    fun updateAdvancedFiltersVisible(newValue: Boolean) {
+        summarySearchForm = summarySearchForm.copy(advancedFiltersVisible = newValue)
+        loadResultsFromDb()
+    }
+
+    fun updateGroupingCheckBoxChecked(newValue: Boolean) {
         summarySearchForm = summarySearchForm.copy(isGroupingEnabled = newValue)
         loadResultsFromDb()
     }
 
     fun updateGroupElement(groupElement: GroupElement) {
-        summarySearchForm = summarySearchForm.copy(selectedGroupElement = groupElement)
+        summarySearchForm = summarySearchForm.copy(selectedGroupingElement = groupElement)
         loadResultsFromDb()
     }
 
@@ -144,7 +148,7 @@ class SummaryScreenViewModel @Inject constructor(
 
         return SummarySuccessContent(
             expensesList = expenses,
-            expensesGrouped = expenses.groupBy(summarySearchForm.selectedGroupElement.groupFunction),
+            expensesGrouped = expenses.groupBy(summarySearchForm.selectedGroupingElement.groupFunction),
             summaryResultText = summaryResult.averageExpenseResult.asTextSummary(),
         )
     }

@@ -27,6 +27,8 @@ import com.mateuszcholyn.wallet.frontend.view.skeleton.routeWithId
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 data class SummaryScreenActions(
+    val onAdvancedFiltersVisible: (Boolean) -> Unit,
+
     val onCategorySelected: (CategoryView) -> Unit,
     val onQuickRangeDataSelected: (QuickRangeData) -> Unit,
     val onSortElementSelected: (SortElement) -> Unit,
@@ -76,7 +78,7 @@ fun SummaryScreen(
             summaryScreenViewModel.updateSortElement(it)
         },
         onGroupingCheckboxChanged = {
-            summaryScreenViewModel.groupingCheckBoxChecked(it)
+            summaryScreenViewModel.updateGroupingCheckBoxChecked(it)
         },
         onGroupingElementSelected = {
             summaryScreenViewModel.updateGroupElement(it)
@@ -113,6 +115,9 @@ fun SummaryScreen(
         onErrorModalClose = {
             summaryScreenViewModel.closeErrorModalDialog()
         },
+        onAdvancedFiltersVisible = {
+            summaryScreenViewModel.updateAdvancedFiltersVisible(it)
+        }
     )
 
     SummaryScreenStateless(

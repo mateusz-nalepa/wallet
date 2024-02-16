@@ -8,12 +8,13 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-class QuickRangeData(
+data class QuickRangeData(
     override val name: String,
     override val nameKey: Int? = null,
     val beginDate: LocalDateTime?,
     val endDate: LocalDateTime?,
 ) : DropdownElement {
+
     companion object {
         val default =
             QuickRangeData(

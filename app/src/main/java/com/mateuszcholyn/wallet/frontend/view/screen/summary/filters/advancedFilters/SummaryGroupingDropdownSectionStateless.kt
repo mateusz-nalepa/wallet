@@ -16,7 +16,7 @@ fun SummaryGroupingDropdownSectionStateless(
 ) {
     WalletDropdown(
         dropdownName = stringResource(R.string.grouping),
-        selectedElement = summarySearchForm.selectedGroupElement,
+        selectedElement = summarySearchForm.selectedGroupingElement,
         availableElements = summarySearchForm.groupingElements,
         onItemSelected = { newGroupElement ->
             summaryScreenActions.onGroupingElementSelected.invoke(newGroupElement)
