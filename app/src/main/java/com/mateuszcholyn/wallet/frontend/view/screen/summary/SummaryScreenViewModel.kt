@@ -85,7 +85,6 @@ class SummaryScreenViewModel @Inject constructor(
 
     fun updateAdvancedFiltersVisible(newValue: Boolean) {
         summarySearchForm = summarySearchForm.copy(advancedFiltersVisible = newValue)
-        loadResultsFromDb()
     }
 
     fun updateGroupingCheckBoxChecked(newValue: Boolean) {

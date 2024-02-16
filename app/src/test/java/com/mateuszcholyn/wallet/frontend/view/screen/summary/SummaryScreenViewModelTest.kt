@@ -102,6 +102,18 @@ class SummaryScreenViewModelTest {
     }
 
     @Test
+    fun `should always call searchService on initScreen`() = runTest {
+        // given
+        testGetCategoriesQuickSummaryUseCase.willReturnCategories(emptyList())
+
+        // when
+        viewModel.initScreen()
+
+        // then
+        coVerify(exactly = 1) { searchServiceUseCase.invoke(any()) }
+    }
+
+    @Test
     fun `should update selected category and load results from db`() = runTest {
         // given
         val givenNewCategory =
@@ -109,7 +121,6 @@ class SummaryScreenViewModelTest {
                 name = "nazwa",
                 categoryId = randomCategoryId().id,
             )
-        viewModel.initScreen()
 
         // when
         viewModel.updateSelectedCategory(givenNewCategory)
@@ -118,13 +129,13 @@ class SummaryScreenViewModelTest {
         viewModel.exposedSummarySearchForm.value.run {
             selectedCategory shouldBe givenNewCategory
         }
+        coVerify(exactly = 1) { searchServiceUseCase.invoke(any()) }
     }
 
     @Test
     fun `should update selected quick ranges and load results from db`() = runTest {
         // given
         val givenQuickRangeData = quickDateRanges().shuffled().first()
-        viewModel.initScreen()
 
         // when
         viewModel.updateQuickRangeData(givenQuickRangeData)
@@ -133,13 +144,13 @@ class SummaryScreenViewModelTest {
         viewModel.exposedSummarySearchForm.value.run {
             selectedQuickRangeData shouldBe givenQuickRangeData
         }
+        coVerify(exactly = 1) { searchServiceUseCase.invoke(any()) }
     }
 
     @Test
     fun `should update selected sort element and load results from db`() = runTest {
         // given
         val givenSortElement = sortingElements().shuffled().first()
-        viewModel.initScreen()
 
         // when
         viewModel.updateSortElement(givenSortElement)
@@ -148,13 +159,13 @@ class SummaryScreenViewModelTest {
         viewModel.exposedSummarySearchForm.value.run {
             selectedSortElement shouldBe givenSortElement
         }
+        coVerify(exactly = 1) { searchServiceUseCase.invoke(any()) }
     }
 
     @Test
     fun `should update grouping checkbox enabled and load results from db`() = runTest {
         // given
         val givenGroupingCheckboxEnabled = Random().nextBoolean()
-        viewModel.initScreen()
 
         // when
         viewModel.updateGroupingCheckBoxChecked(givenGroupingCheckboxEnabled)
@@ -163,13 +174,13 @@ class SummaryScreenViewModelTest {
         viewModel.exposedSummarySearchForm.value.run {
             isGroupingEnabled shouldBe givenGroupingCheckboxEnabled
         }
+        coVerify(exactly = 1) { searchServiceUseCase.invoke(any()) }
     }
 
     @Test
-    fun `should update advanced filters visible and load results from db`() = runTest {
+    fun `should update advanced filters visible and not load results from db`() = runTest {
         // given
         val givenAdvancedFiltersVisible = Random().nextBoolean()
-        viewModel.initScreen()
 
         // when
         viewModel.updateAdvancedFiltersVisible(givenAdvancedFiltersVisible)
@@ -178,13 +189,13 @@ class SummaryScreenViewModelTest {
         viewModel.exposedSummarySearchForm.value.run {
             advancedFiltersVisible shouldBe givenAdvancedFiltersVisible
         }
+        coVerify(exactly = 0) { searchServiceUseCase.invoke(any()) }
     }
 
     @Test
     fun `should update group element and load results from db`() = runTest {
         // given
         val givenGroupElement = groupingElements().shuffled().first()
-        viewModel.initScreen()
 
         // when
         viewModel.updateGroupElement(givenGroupElement)
@@ -193,12 +204,12 @@ class SummaryScreenViewModelTest {
         viewModel.exposedSummarySearchForm.value.run {
             selectedGroupingElement shouldBe givenGroupElement
         }
+        coVerify(exactly = 1) { searchServiceUseCase.invoke(any()) }
     }
 
     @Test
     fun `should update amount start and load results from db`() = runTest {
         // given
-        viewModel.initScreen()
 
         // when
         viewModel.updateAmountRangeStart("5")
@@ -207,13 +218,12 @@ class SummaryScreenViewModelTest {
         viewModel.exposedSummarySearchForm.value.run {
             amountRangeStart shouldBe "5"
         }
+        coVerify(exactly = 1) { searchServiceUseCase.invoke(any()) }
     }
 
     @Test
     fun `should update amount end and load results from db`() = runTest {
         // given
-        viewModel.initScreen()
-
         // when
         viewModel.updateAmountRangeEnd("5")
 
@@ -221,6 +231,7 @@ class SummaryScreenViewModelTest {
         viewModel.exposedSummarySearchForm.value.run {
             amountRangeEnd shouldBe "5"
         }
+        coVerify(exactly = 1) { searchServiceUseCase.invoke(any()) }
     }
 
     @Test

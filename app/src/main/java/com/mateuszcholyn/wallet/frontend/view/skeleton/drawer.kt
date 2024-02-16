@@ -30,6 +30,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
+// TODO: to zrób stateless jak się da XD albo olej XD
 @Composable
 fun Drawer(
     scope: CoroutineScope,

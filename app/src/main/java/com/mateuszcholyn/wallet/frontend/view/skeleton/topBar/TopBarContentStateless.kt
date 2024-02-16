@@ -18,7 +18,7 @@ import com.mateuszcholyn.wallet.R
 
 // TODO: accessability dla całej apki
 @Composable
-fun TopBarStatelessContent(
+fun TopBarContentStateless(
     isDemoModeEnabled: Boolean,
 ) {
     val weight = if (isDemoModeEnabled) 0.5f else 1.0f
@@ -52,7 +52,7 @@ fun TopBarStatelessContent(
 @Composable
 fun TopBarContentWithDemoEnabledPreview() {
     MaterialTheme {
-        TopBarStatelessContent(true)
+        TopBarContentStateless(true)
     }
 }
 
@@ -60,6 +60,6 @@ fun TopBarContentWithDemoEnabledPreview() {
 @Composable
 fun TopBarContentWithDemoDisabledPreview() {
     MaterialTheme {
-        TopBarStatelessContent(false)
+        TopBarContentStateless(false)
     }
 }
