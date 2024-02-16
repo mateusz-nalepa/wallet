@@ -17,7 +17,6 @@ import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryScre
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.ExpenseFormScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.settings.SettingsScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.SummaryScreen
-import com.mateuszcholyn.wallet.frontend.view.wellness.WellnessScreenRunner
 
 sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslationKey: Int) {
     data object Category : NavDrawerItem("category", R.drawable.ic_home, R.string.menuItem_Category)
@@ -29,7 +28,6 @@ sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslatio
 
     data object SummaryScreen : NavDrawerItem("summary", R.drawable.ic_movie, R.string.menuItem_Summary)
     data object Settings : NavDrawerItem("settings", R.drawable.ic_book, R.string.menuItem_Settings)
-    data object Wellness : NavDrawerItem("wellness", R.drawable.ic_book, R.string.menuItem_Wellness)
     data object Dummy : NavDrawerItem("dummy", R.drawable.ic_book, R.string.menuItem_Dummy)
 }
 
@@ -100,9 +98,6 @@ fun Navigation(
         }
         composable(NavDrawerItem.Settings.route) {
             SettingsScreen()
-        }
-        composable(NavDrawerItem.Wellness.route) {
-            WellnessScreenRunner()
         }
         composable(NavDrawerItem.Dummy.route) {
             BackupDataScreen()

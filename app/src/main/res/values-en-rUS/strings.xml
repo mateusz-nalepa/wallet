@@ -103,7 +103,6 @@
     <string name="menuItem_Summary">Podsumowanie</string>
     <string name="menuItem_Settings">Ustawienia</string>
     <string name="menuItem_Dummy">Import/Eksport</string>
-    <string name="menuItem_Wellness">Wellness</string>
     <string name="startDemoMode">Start demo mode</string>
     <string name="leaveDemoMode">Leave demo mode</string>
 
