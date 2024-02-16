@@ -33,9 +33,10 @@ data class CategoryQuickSummary(
 
 fun randomCategoryQuickSummary(
     categoryName: String = randomCategoryName(),
+    numberOfExpenses: Long = randomLong(),
 ): CategoryQuickSummary =
     CategoryQuickSummary(
         randomCategoryId(),
         categoryName,
-        randomLong(),
+        numberOfExpenses,
     )

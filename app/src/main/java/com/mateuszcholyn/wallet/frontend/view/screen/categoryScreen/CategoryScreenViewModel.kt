@@ -22,7 +22,6 @@ sealed class CategoryScreenState {
 
 data class CategorySuccessContent(
     val categoriesList: List<CategoryQuickSummary>,
-    val categoryNamesOnly: List<String>,
 )
 
 
@@ -35,7 +34,7 @@ data class RemoveCategoryState(
 class CategoryScreenViewModel @Inject constructor(
     private val removeCategoryUseCase: RemoveCategoryUseCase,
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
-) : ViewModel() {
+) : ViewModel() { // done tests XD
 
     var exportedCategoryScreenState = mutableStateOf<CategoryScreenState>(CategoryScreenState.Loading)
         private set
@@ -108,11 +107,9 @@ class CategoryScreenViewModel @Inject constructor(
 
     private suspend fun prepareCategorySuccessContent(): CategorySuccessContent {
         val quickSummaries = getCategoriesQuickSummaryUseCase.invoke().quickSummaries
-        val categoryNamesOnly = quickSummaries.map { it.categoryName }
 
         return CategorySuccessContent(
             categoriesList = quickSummaries,
-            categoryNamesOnly = categoryNamesOnly,
         )
     }
 
