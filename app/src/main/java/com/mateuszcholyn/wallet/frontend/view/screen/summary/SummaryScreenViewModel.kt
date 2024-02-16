@@ -54,7 +54,7 @@ class SummaryScreenViewModel @Inject constructor(
     private val removeExpenseUseCase: RemoveExpenseUseCase,
     // TODO: Ensuring that all works, don't know if still needed
     private val appIsConfigured: AppIsConfigured,
-) : ViewModel() {
+) : ViewModel() { // done tests XD
 
 
     val exposedWholeSummaryScreenState: MutableState<WholeSummaryScreenState> = mutableStateOf(WholeSummaryScreenState.Loading)
