@@ -32,6 +32,7 @@ class CategoryImport(
 
     private suspend fun addNewCategoryWhichHasBeenProbablyRemoved(): SavedCategoryFromDb {
 
+        // TODO remove me XD
         validateIdIsUUID(backupCategoryV1.id) {
             "Invalid categoryId: [${backupCategoryV1.id}]. Have it been modified manually in file with backup data?"
         }

@@ -12,7 +12,6 @@ import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModa
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.export.fileExporter
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnDarkPreview
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnLightPreview
-import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 
 data class BackupExportUiState(
     val isLoading: Boolean = false,
@@ -23,7 +22,6 @@ data class BackupExportUiState(
 fun BackupExport(
     exportV1ViewModel: ExportV1ViewModel = hiltViewModel(),
 ) {
-    val context = currentAppContext()
     val fileExporter = fileExporter()
 
     val backupExportUiState by remember { exportV1ViewModel.exportedUiState }
@@ -32,7 +30,6 @@ fun BackupExport(
         backupExportUiState = backupExportUiState,
         onClick = {
             exportV1ViewModel.exportBackupV1(
-                context = context,
                 onFileReadyAction = { fileExporter.launch(it) },
             )
         },

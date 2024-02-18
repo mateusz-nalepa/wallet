@@ -1,14 +1,13 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.export
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.WalletMediaType
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 
 data class FileExportParameters(
     val fileName: String,
-    val fileUri: Uri,
+    val fileContent: String,
     val title: String,
     val mediaType: String = WalletMediaType.APPLICATION_JSON,
 )
@@ -26,10 +25,16 @@ fun fileExporter(): FileExporterLauncher {
     val context = currentAppContext()
 
     return FileExporterLauncher { fileExportParameters ->
+        val fileUri =
+            context.internalFileToExternal(
+                fileName = fileExportParameters.fileName,
+                fileContent = fileExportParameters.fileContent,
+            )
+
         val sendIntent: Intent =
             Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_STREAM, fileExportParameters.fileUri)
+                putExtra(Intent.EXTRA_STREAM, fileUri)
                 type = fileExportParameters.mediaType
                 flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
             }

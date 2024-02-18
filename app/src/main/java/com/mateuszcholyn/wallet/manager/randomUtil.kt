@@ -59,6 +59,15 @@ fun randomBackupExpenseV1(
     )
 
 
+fun randomBackupWalletV1(): BackupWalletV1 =
+    BackupWalletV1(
+        version = 1,
+        categories = listOf(
+            randomBackupCategoryV1(),
+        )
+    )
+
+
 fun randomExpenseWithCategory(
     expenseId: ExpenseId = randomExpenseId(),
     amount: BigDecimal = randomAmount(),
