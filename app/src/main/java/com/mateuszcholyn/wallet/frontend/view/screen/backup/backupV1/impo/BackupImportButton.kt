@@ -19,7 +19,9 @@ import com.mateuszcholyn.wallet.frontend.view.screen.backup.ComparatorModalDialo
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ActionButton
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.SuccessModalState
+import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.impo.externalFileToInternal
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.impo.fileSelector
+import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.impo.readFileContent
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnDarkPreview
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnLightPreview
 import com.mateuszcholyn.wallet.frontend.view.util.buttonPadding
@@ -36,10 +38,11 @@ fun BackupImport(
     val fileSelector =
         fileSelector(
             onExternalFileSelected = { externalFileUri ->
-                importV1ViewModel.importBackupV1(
-                    context = context,
-                    externalFileUri = externalFileUri,
-                )
+                importV1ViewModel.importBackupV1 {
+                    context
+                        .externalFileToInternal(externalFileUri)
+                        .readFileContent()
+                }
             }
         )
 

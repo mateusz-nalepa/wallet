@@ -46,7 +46,7 @@ class ExportV1ViewModelTest {
 
         // then
         viewModel.exportedUiState.value.run {
-            this.errorModalState shouldBe ErrorModalState.Visible("Nieznany błąd podczas exportu danych")
+            errorModalState shouldBe ErrorModalState.Visible("Nieznany błąd podczas exportu danych")
         }
         // and
         verify(exactly = 0) { onFileReadyActionMock.invoke(any()) }
@@ -56,7 +56,7 @@ class ExportV1ViewModelTest {
 
         // and then
         viewModel.exportedUiState.value.run {
-            this.errorModalState shouldBe ErrorModalState.NotVisible
+            errorModalState shouldBe ErrorModalState.NotVisible
         }
     }
 

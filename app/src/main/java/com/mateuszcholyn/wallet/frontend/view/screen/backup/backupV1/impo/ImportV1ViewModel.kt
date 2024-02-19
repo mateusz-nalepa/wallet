@@ -1,7 +1,5 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.impo
 
-import android.content.Context
-import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,11 +9,9 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1UseC
 import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDelegate
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.ComparatorModalDialogState
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
-import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.impo.PercentageCalculator.calculatePercentage
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.SuccessModalState
-import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.impo.externalFileToInternal
-import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.impo.readFileContent
+import com.mateuszcholyn.wallet.frontend.view.util.PercentageCalculator.calculatePercentage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,7 +34,7 @@ data class BackupImportUiState(
 @HiltViewModel
 class ImportV1ViewModel @Inject constructor(
     private val importV1UseCase: ImportV1UseCase,
-) : ViewModel() {
+) : ViewModel() { // done tests XD
     var exportedUiState = mutableStateOf(BackupImportUiState())
         private set
     private var uiState by MutableStateDelegate(exportedUiState)
@@ -55,15 +51,13 @@ class ImportV1ViewModel @Inject constructor(
         uiState = uiState.copy(compareModalParameters = ComparatorModalDialogState.NotVisible)
     }
 
-
     fun importBackupV1(
-        context: Context,
-        externalFileUri: Uri,
+        fileContentReader: () -> String,
     ) {
         viewModelScope.launch { // DONE UI State
             try {
                 uiState = uiState.copy(buttonIsLoading = false)
-                val importV1Summary = unsafeImportData(context, externalFileUri)
+                val importV1Summary = unsafeImportData(fileContentReader.invoke())
                 uiState = uiState.copy(
                     successState = SuccessModalState.Visible(importV1Summary),
                     buttonIsLoading = false,
@@ -80,14 +74,9 @@ class ImportV1ViewModel @Inject constructor(
     }
 
     private suspend fun unsafeImportData(
-        context: Context,
-        externalFileUri: Uri,
+        fileContent: String,
     ): ImportV1Summary {
-        val backupWalletV1 =
-            context
-                .externalFileToInternal(externalFileUri)
-                .readFileContent()
-                .let { BackupV1JsonReader.readBackupWalletV1(it) }
+        val backupWalletV1 = BackupV1JsonReader.readBackupWalletV1(fileContent)
         return importV1UseCase.invoke(createImportV1Parameters(backupWalletV1))
     }
 
@@ -123,14 +112,4 @@ private fun ImportV1Summary.toImportV1SummaryProgressState(): ImportV1SummaryPro
     val recordsTotal = numberOfCategories + numberOfExpenses
 
     return ImportV1SummaryProgressState(percentageProgress = calculatePercentage(recordsProgress, recordsTotal))
-}
-
-object PercentageCalculator {
-    fun calculatePercentage(
-        actual: Int,
-        total: Int
-    ): Int {
-        val percentage = (actual.toDouble() / total) * 100
-        return percentage.toInt()
-    }
 }

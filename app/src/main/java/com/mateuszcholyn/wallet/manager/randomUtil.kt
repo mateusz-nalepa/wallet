@@ -6,6 +6,7 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseWithCategory
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
+import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Summary
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
 import com.mateuszcholyn.wallet.util.randomuuid.randomUUID
@@ -67,6 +68,15 @@ fun randomBackupWalletV1(): BackupWalletV1 =
         )
     )
 
+fun randomImportV1Summary(): ImportV1Summary =
+    ImportV1Summary(
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+    )
 
 fun randomExpenseWithCategory(
     expenseId: ExpenseId = randomExpenseId(),
