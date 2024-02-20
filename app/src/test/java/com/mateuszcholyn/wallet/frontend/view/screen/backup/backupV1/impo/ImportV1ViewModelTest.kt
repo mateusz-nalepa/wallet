@@ -36,7 +36,7 @@ class ImportV1ViewModelTest {
     }
 
     @Test
-    fun `should show error modal when unable to import backup file`() = runTest {
+    fun `should show error modal when unable to read file content as BackupWalletV1`() = runTest {
         // given
         coEvery { importV1UseCase.invoke(any()) }.throws(RuntimeException())
 

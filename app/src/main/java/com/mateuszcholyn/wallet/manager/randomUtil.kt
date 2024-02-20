@@ -62,9 +62,12 @@ fun randomBackupExpenseV1(
 
 fun randomBackupWalletV1(): BackupWalletV1 =
     BackupWalletV1(
-        version = 1,
         categories = listOf(
-            randomBackupCategoryV1(),
+            randomBackupCategoryV1(
+                expenses = listOf(
+                    randomBackupExpenseV1(),
+                )
+            ),
         )
     )
 
