@@ -8,12 +8,6 @@ import androidx.compose.runtime.Composable
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Summary
 import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
 
-// TODO: pewnie do wywalenia ta klasa
-data class ButtonActions(
-    val onSuccessAction: () -> Unit,
-    val onErrorAction: (String) -> Unit,
-)
-
 sealed interface ErrorModalState {
     data object NotVisible : ErrorModalState
     data class Visible(val message: String) : ErrorModalState
@@ -22,7 +16,7 @@ sealed interface ErrorModalState {
 sealed interface SuccessModalState {
     data object NotVisible : SuccessModalState
 
-    // TODO tu pewnie nie powinno być na sztywno ImportV1Summary XD
+    // FIXME: val importV1Summary: ImportV1Summary should not be here XD
     data class Visible(val importV1Summary: ImportV1Summary) : SuccessModalState
 }
 

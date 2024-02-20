@@ -19,9 +19,7 @@ fun MySuccessDialog(
 ) {
     AlertDialog(
         onDismissRequest = onClose,
-        // TODO: title nie jest wymagane
         title = { Text("Sukces!") },
-        // TODO: tutaj może być dowolny composable
         text = {
             successContent()
         },

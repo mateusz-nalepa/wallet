@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.manager.ext.core.expense
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
+import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
 import com.mateuszcholyn.wallet.manager.randomAmount
 import com.mateuszcholyn.wallet.manager.randomCategoryId
@@ -35,7 +35,6 @@ class UpdateExpenseUseCaseScope {
     var newDescription: String = randomDescription()
     var newPaidAt: Instant = randomPaidAt()
 
-    // TODO: this should be lateinitVar??
     var newCategoryId: CategoryId = randomCategoryId()
 
     fun toExpense(): Expense =

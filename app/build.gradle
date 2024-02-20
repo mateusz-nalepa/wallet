@@ -42,8 +42,6 @@ android {
             minifyEnabled true
             shrinkResources true
 
-            // TODO: pewnie po obfuskacji dobrze żeby nazwy pól w jsonach od kopii nie były usuwane
-//            pewnie trzeba coś w stylu KeepFieldNames
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

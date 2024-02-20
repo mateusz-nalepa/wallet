@@ -15,9 +15,7 @@ fun BackupDataScreen() {
     Column(
         modifier = defaultModifier.fillMaxHeight(),
     ) {
-        // TODO: dodaj testy na import pliku, że jakis skopany
         // TODO: dopisz export do CSV
-        // TODO: zrob tak, zeby było podsumowanie osobno
         BackupImport()
         BackupExport()
     }

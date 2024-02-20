@@ -3,8 +3,16 @@ package com.mateuszcholyn.wallet.app.usecase.core.expense.updateexpense
 import com.mateuszcholyn.wallet.app.setupintegrationtests.BaseIntegrationTest
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.CategoryWithGivenIdDoesNotExist
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseNotFoundException
-import com.mateuszcholyn.wallet.manager.*
+import com.mateuszcholyn.wallet.manager.CategoryScope
+import com.mateuszcholyn.wallet.manager.ExpenseScope
+import com.mateuszcholyn.wallet.manager.category
+import com.mateuszcholyn.wallet.manager.expense
 import com.mateuszcholyn.wallet.manager.ext.core.expense.updateExpenseUseCase
+import com.mateuszcholyn.wallet.manager.randomAmount
+import com.mateuszcholyn.wallet.manager.randomCategoryId
+import com.mateuszcholyn.wallet.manager.randomDescription
+import com.mateuszcholyn.wallet.manager.randomExpenseId
+import com.mateuszcholyn.wallet.manager.randomPaidAt
 import com.mateuszcholyn.wallet.manager.validator.validate
 import com.mateuszcholyn.wallet.util.throwable.catchThrowable
 import com.mateuszcholyn.wallet.util.throwable.validate
@@ -60,11 +68,15 @@ class UpdateExpenseUseCaseTest : BaseIntegrationTest() {
     fun shouldThrowExceptionWhenTryingToUpdateNonExistingExpense() {
         // given
         val nonExistingExpenseId = randomExpenseId()
-        val manager = initExpenseAppManager {}
+        lateinit var categoryScope: CategoryScope
+        val manager = initExpenseAppManager {
+            categoryScope = category {  }
+        }
 
         // when
         val throwable = catchThrowable {
             manager.updateExpenseUseCase {
+                newCategoryId = categoryScope.categoryId
                 existingExpenseId = nonExistingExpenseId
             }
         }

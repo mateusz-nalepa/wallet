@@ -30,14 +30,8 @@ class CategoryImport(
         }
     }
 
-    private suspend fun addNewCategoryWhichHasBeenProbablyRemoved(): SavedCategoryFromDb {
-
-        // TODO remove me XD
-        validateIdIsUUID(backupCategoryV1.id) {
-            "Invalid categoryId: [${backupCategoryV1.id}]. Have it been modified manually in file with backup data?"
-        }
-
-        return categoryCoreServiceAPI
+    private suspend fun addNewCategoryWhichHasBeenProbablyRemoved(): SavedCategoryFromDb =
+        categoryCoreServiceAPI
             .add(
                 CreateCategoryParameters(
                     categoryId = CategoryId(backupCategoryV1.id),
@@ -46,7 +40,6 @@ class CategoryImport(
             )
             .let { SavedCategoryFromDb(categoryId = it.id) }
             .also { importV1SummaryGenerator.markCategoryImported() }
-    }
 
     private fun useExistingCategoryResult(): SavedCategoryFromDb =
         SavedCategoryFromDb(CategoryId(backupCategoryV1.id))

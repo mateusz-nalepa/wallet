@@ -30,7 +30,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
-// TODO: to zrób stateless jak się da XD albo olej XD
+// FIXME: make drawer stateless and add viewModel for it
 @Composable
 fun Drawer(
     scope: CoroutineScope,

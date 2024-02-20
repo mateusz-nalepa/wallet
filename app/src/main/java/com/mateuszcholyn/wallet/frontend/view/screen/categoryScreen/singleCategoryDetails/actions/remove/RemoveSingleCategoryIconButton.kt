@@ -16,7 +16,6 @@ import com.mateuszcholyn.wallet.frontend.view.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryScreenActions
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.RemoveCategoryState
 
-// TODO: to w sumie takie samo jak RemoveSingleExpenseIconButtonStateless
 @Composable
 fun RemoveSingleCategoryIconButton(
     categoryScreenActions: CategoryScreenActions,

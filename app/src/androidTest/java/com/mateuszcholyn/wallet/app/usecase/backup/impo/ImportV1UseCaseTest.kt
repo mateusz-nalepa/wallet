@@ -39,7 +39,6 @@ class ImportV1UseCaseTest : BaseIntegrationTest() {
 
         val givenBackupWalletV1 =
             BackupWalletV1(
-                version = 1,
                 categories = listOf(givenRandomBackupCategoryV1),
             )
 
@@ -80,7 +79,6 @@ class ImportV1UseCaseTest : BaseIntegrationTest() {
         // given
         val givenBackupWalletV1 =
             BackupWalletV1(
-                version = 1,
                 categories = listOf(
                     randomBackupCategoryV1(
                         expenses = listOf(randomBackupExpenseV1())
@@ -185,7 +183,6 @@ class ImportV1UseCaseTest : BaseIntegrationTest() {
 
         val givenBackupWalletV1 =
             BackupWalletV1(
-                version = 1,
                 categories = listOf(givenRandomBackupCategoryV1),
             )
 
@@ -348,7 +345,6 @@ class ImportV1UseCaseTest : BaseIntegrationTest() {
 
         val givenBackupWalletV1 =
             BackupWalletV1(
-                version = 1,
                 categories = listOf(
                     randomBackupCategoryV1(
                         expenses = listOf(randomBackupExpenseV1(expenseId = givenExpenseIdFromBackupFile))
@@ -523,7 +519,6 @@ class ImportV1UseCaseTest : BaseIntegrationTest() {
 
             val givenBackupWalletV1 =
                 BackupWalletV1(
-                    version = 1,
                     categories = listOf(givenRandomBackupCategoryV1),
                 )
 
@@ -568,7 +563,6 @@ class ImportV1UseCaseTest : BaseIntegrationTest() {
 
         val givenBackupWalletV1 =
             BackupWalletV1(
-                version = 1,
                 categories = listOf(
                     randomBackupCategoryV1(
                         categoryId = randomCategoryId(),

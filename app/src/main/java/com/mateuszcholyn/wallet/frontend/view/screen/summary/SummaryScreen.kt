@@ -89,7 +89,6 @@ fun SummaryScreen(
         onAmountRangeEndChanged = {
             summaryScreenViewModel.updateAmountRangeEnd(it)
         },
-        // TODO: data nie jest taka jak powinna XD
         onCopySingleExpenseAction = { expenseId ->
             navHostController.navigate(
                 NavDrawerItem.AddOrEditExpense.copyExpense(expenseId = expenseId)

@@ -35,7 +35,6 @@ object SearchAverageExpenseResultCalculator {
             BigDecimal.ZERO
         }
 
-    // TODO: fix tests XD
     private fun resolveNumberOfDays(
         expenses: List<SearchSingleResult>,
         searchCriteria: SearchCriteria,
