@@ -23,13 +23,12 @@ fun MainScreen() {
         scaffoldState = scaffoldState,
         topBar = { TopBar(scope = scope, scaffoldState = scaffoldState) },
         drawerBackgroundColor = MaterialTheme.colors.background,
-//        drawerScrimColor = Color.Red,  // Color for the fade background when you open/close the drawer
         drawerContent = {
             Drawer(scope = scope, scaffoldState = scaffoldState, navController = navController)
         },
-        // TODO: zrób tak, żeby była dolna nawigacja, bo tak, to czasami ten AddExpense najeżdzą na inne rzeczy XD
-        floatingActionButtonPosition = FabPosition.Center,
-        floatingActionButton = { FloatingButton(scope = scope, navController = navController) },
+        bottomBar = {
+            BottomBarContent(scope = scope, navController = navController)
+        },
     ) {
         Navigation(
             navController = navController,
