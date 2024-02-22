@@ -15,6 +15,7 @@ import java.time.LocalDateTime
 
 @Composable
 fun OutlinedDatePickerField(
+    text: String = stringResource(R.string.date),
     value: LocalDateTime,
     onValueChange: (LocalDateTime) -> Unit,
 ) {
@@ -30,7 +31,7 @@ fun OutlinedDatePickerField(
     OutlinedTextField(
         value = value.toHumanDateTimeText(),
         onValueChange = {},
-        label = { Text(stringResource(R.string.date)) },
+        label = { Text(text = text) },
         modifier = defaultModifier.clickable {
             datePickerDialogState.show()
         },

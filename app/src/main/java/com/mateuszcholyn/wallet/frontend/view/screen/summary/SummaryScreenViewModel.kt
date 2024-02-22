@@ -8,6 +8,7 @@ import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuick
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchAverageExpenseResult
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
+import com.mateuszcholyn.wallet.frontend.di.usecases.LocalDateTimeProvider
 import com.mateuszcholyn.wallet.frontend.domain.appstate.DemoModeAppIsConfigured
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
@@ -26,6 +27,7 @@ import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 
@@ -53,6 +55,7 @@ class SummaryScreenViewModel @Inject constructor(
     private val searchServiceUseCase: SearchServiceUseCase,
     private val removeExpenseUseCase: RemoveExpenseUseCase,
     private val demoModeAppIsConfigured: DemoModeAppIsConfigured,
+    private val timeProvider: LocalDateTimeProvider,
 ) : ViewModel() { // done tests XD
 
 
@@ -72,7 +75,37 @@ class SummaryScreenViewModel @Inject constructor(
     }
 
     fun updateQuickRangeData(newQuickRangeData: QuickRangeData) {
-        summarySearchForm = summarySearchForm.copy(selectedQuickRangeData = newQuickRangeData)
+        val now = timeProvider.now()
+        summarySearchForm =
+            if (newQuickRangeData.isCustomRangeData) {
+                summarySearchForm.copy(
+                    selectedQuickRangeData = newQuickRangeData,
+                    beginDate = now.minusDays(7),
+                    endDate = now,
+                    showCustomRangeDates = true,
+                )
+            } else {
+                summarySearchForm.copy(
+                    selectedQuickRangeData = newQuickRangeData,
+                    beginDate = newQuickRangeData.beginDate,
+                    endDate = newQuickRangeData.endDate,
+                    showCustomRangeDates = false,
+                )
+            }
+        loadResultsFromDb()
+    }
+
+    fun updateBeginDate(newBeginDate: LocalDateTime) {
+        summarySearchForm = summarySearchForm.copy(
+            beginDate = newBeginDate,
+        )
+        loadResultsFromDb()
+    }
+
+    fun updateEndDate(newEndDate: LocalDateTime) {
+        summarySearchForm = summarySearchForm.copy(
+            endDate = newEndDate,
+        )
         loadResultsFromDb()
     }
 

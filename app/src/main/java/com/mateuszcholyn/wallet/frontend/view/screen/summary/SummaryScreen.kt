@@ -25,12 +25,16 @@ import com.mateuszcholyn.wallet.frontend.view.skeleton.NavDrawerItem
 import com.mateuszcholyn.wallet.frontend.view.skeleton.copyExpense
 import com.mateuszcholyn.wallet.frontend.view.skeleton.routeWithId
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
+import java.time.LocalDateTime
 
 data class SummaryScreenActions(
     val onAdvancedFiltersVisible: (Boolean) -> Unit,
 
     val onCategorySelected: (CategoryView) -> Unit,
     val onQuickRangeDataSelected: (QuickRangeData) -> Unit,
+    val onBeginDateChanged: (LocalDateTime) -> Unit,
+    val onEndDateChanged: (LocalDateTime) -> Unit,
+
     val onSortElementSelected: (SortElement) -> Unit,
     val onGroupingCheckboxChanged: (Boolean) -> Unit,
     val onGroupingElementSelected: (GroupElement) -> Unit,
@@ -73,6 +77,12 @@ fun SummaryScreen(
         },
         onQuickRangeDataSelected = {
             summaryScreenViewModel.updateQuickRangeData(it)
+        },
+        onBeginDateChanged = {
+            summaryScreenViewModel.updateBeginDate(it)
+        },
+        onEndDateChanged = {
+            summaryScreenViewModel.updateEndDate(it)
         },
         onSortElementSelected = {
             summaryScreenViewModel.updateSortElement(it)

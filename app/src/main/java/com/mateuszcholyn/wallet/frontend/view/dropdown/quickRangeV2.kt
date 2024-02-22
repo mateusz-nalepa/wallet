@@ -13,6 +13,7 @@ data class QuickRangeData(
     override val nameKey: Int? = null,
     val beginDate: LocalDateTime?,
     val endDate: LocalDateTime?,
+    val isCustomRangeData: Boolean = false,
 ) : DropdownElement {
 
     companion object {
@@ -76,6 +77,13 @@ fun quickDateRanges(): List<QuickRangeData> {
             nameKey = R.string.allExpenses,
             beginDate = null,
             endDate = null,
+        ),
+        QuickRangeData(
+            name = "R.string.custom",
+            nameKey = R.string.custom,
+            beginDate = null,
+            endDate = null,
+            isCustomRangeData = true,
         ),
     )
 

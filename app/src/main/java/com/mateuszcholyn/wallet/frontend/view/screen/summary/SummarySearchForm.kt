@@ -8,6 +8,7 @@ import com.mateuszcholyn.wallet.frontend.view.dropdown.SortElement
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.util.toDoubleOrDefaultZero
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
+import java.time.LocalDateTime
 
 data class SummarySearchForm(
     val advancedFiltersVisible: Boolean = false,
@@ -17,6 +18,10 @@ data class SummarySearchForm(
 
     val quickDataRanges: List<QuickRangeData> = emptyList(),
     val selectedQuickRangeData: QuickRangeData = QuickRangeData.default,
+
+    val beginDate: LocalDateTime? = selectedQuickRangeData.beginDate,
+    val endDate: LocalDateTime? = selectedQuickRangeData.endDate,
+    val showCustomRangeDates: Boolean = false,
 
     val sortElements: List<SortElement> = emptyList(),
     val selectedSortElement: SortElement = SortElement.default,
@@ -33,8 +38,8 @@ data class SummarySearchForm(
 fun SummarySearchForm.toSearchCriteria(): SearchCriteria =
     SearchCriteria(
         categoryId = selectedCategory.categoryId?.let { CategoryId(it) },
-        beginDate = selectedQuickRangeData.beginDate?.fromUserLocalTimeZoneToUTCInstant(),
-        endDate = selectedQuickRangeData.endDate?.fromUserLocalTimeZoneToUTCInstant(),
+        beginDate = beginDate?.fromUserLocalTimeZoneToUTCInstant(),
+        endDate = endDate?.fromUserLocalTimeZoneToUTCInstant(),
         fromAmount = amountRangeStart.toDoubleOrDefaultZero().toBigDecimal(),
         toAmount = amountRangeEnd.toDoubleOrDefaultZero().toBigDecimal(),
         sort = selectedSortElement.sort,

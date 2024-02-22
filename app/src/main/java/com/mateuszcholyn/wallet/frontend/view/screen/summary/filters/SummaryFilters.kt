@@ -16,9 +16,8 @@ fun SummaryFilters(
         onCategorySelected = summaryScreenActions.onCategorySelected,
     )
     SummaryQuickDateRangeSection(
-        quickDateRanges = summarySearchForm.quickDataRanges,
-        selectedQuickDateRange = summarySearchForm.selectedQuickRangeData,
-        onQuickRangeDataSelected = summaryScreenActions.onQuickRangeDataSelected,
+        summarySearchForm = summarySearchForm,
+        summaryScreenActions = summaryScreenActions,
     )
     AdvancedFiltersSectionStateless(
         summarySearchForm = summarySearchForm,

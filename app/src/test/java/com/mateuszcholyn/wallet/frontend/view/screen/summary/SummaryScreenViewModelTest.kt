@@ -10,6 +10,7 @@ import com.mateuszcholyn.wallet.frontend.view.dropdown.quickDateRanges
 import com.mateuszcholyn.wallet.frontend.view.dropdown.sortingElements
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.MainDispatcherRule
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.TestGetCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.TestLocalDateTimeProvider
 import com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.manager.randomCategoryId
@@ -22,6 +23,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.time.LocalDateTime
 import java.util.Random
 
 class SummaryScreenViewModelTest {
@@ -35,6 +37,7 @@ class SummaryScreenViewModelTest {
     private lateinit var removeExpenseUseCase: RemoveExpenseUseCase
     private lateinit var searchServiceUseCase: SearchServiceUseCase
     private lateinit var demoModeAppIsConfigured: DemoModeAppIsConfigured
+    private val timeProvider: TestLocalDateTimeProvider = TestLocalDateTimeProvider()
 
     @Before
     fun setUp() {
@@ -48,6 +51,7 @@ class SummaryScreenViewModelTest {
                 searchServiceUseCase = searchServiceUseCase,
                 getCategoriesQuickSummaryUseCase = testGetCategoriesQuickSummaryUseCase,
                 demoModeAppIsConfigured = demoModeAppIsConfigured,
+                timeProvider = timeProvider,
             )
     }
 
@@ -135,7 +139,7 @@ class SummaryScreenViewModelTest {
     @Test
     fun `should update selected quick ranges and load results from db`() = runTest {
         // given
-        val givenQuickRangeData = quickDateRanges().shuffled().first()
+        val givenQuickRangeData = quickDateRanges().first()
 
         // when
         viewModel.updateQuickRangeData(givenQuickRangeData)
@@ -143,6 +147,59 @@ class SummaryScreenViewModelTest {
         // then
         viewModel.exposedSummarySearchForm.value.run {
             selectedQuickRangeData shouldBe givenQuickRangeData
+            beginDate shouldBe givenQuickRangeData.beginDate
+            endDate shouldBe givenQuickRangeData.endDate
+            showCustomRangeDates shouldBe false
+        }
+        coVerify(exactly = 1) { searchServiceUseCase.invoke(any()) }
+    }
+
+    @Test
+    fun `should set selected quick ranges to custom and load results from db`() = runTest {
+        // given
+        val actualTime = LocalDateTime.now()
+        timeProvider.willReturnTime(actualTime)
+        val givenQuickRangeData = quickDateRanges().last()
+
+        // when
+        viewModel.updateQuickRangeData(givenQuickRangeData)
+
+        // then
+        viewModel.exposedSummarySearchForm.value.run {
+            selectedQuickRangeData shouldBe givenQuickRangeData
+            beginDate shouldBe actualTime.minusDays(7)
+            endDate shouldBe actualTime
+            showCustomRangeDates shouldBe true
+        }
+        coVerify(exactly = 1) { searchServiceUseCase.invoke(any()) }
+    }
+
+    @Test
+    fun `should update begin Date`() = runTest {
+        // given
+        val givenBeginDate = LocalDateTime.now()
+
+        // when
+        viewModel.updateBeginDate(givenBeginDate)
+
+        // then
+        viewModel.exposedSummarySearchForm.value.run {
+            beginDate shouldBe givenBeginDate
+        }
+        coVerify(exactly = 1) { searchServiceUseCase.invoke(any()) }
+    }
+
+    @Test
+    fun `should update end Date`() = runTest {
+        // given
+        val givenEndDate = LocalDateTime.now()
+
+        // when
+        viewModel.updateEndDate(givenEndDate)
+
+        // then
+        viewModel.exposedSummarySearchForm.value.run {
+            endDate shouldBe givenEndDate
         }
         coVerify(exactly = 1) { searchServiceUseCase.invoke(any()) }
     }
@@ -250,6 +307,7 @@ class SummaryScreenViewModelTest {
             categoriesList shouldBe listOf(CategoryView.default)
 
             quickDataRanges.map { it.name } shouldBe quickDateRanges().map { it.name }
+            showCustomRangeDates shouldBe false
 
             sortElements shouldBe sortingElements()
             selectedSortElement shouldBe SortElement.default
