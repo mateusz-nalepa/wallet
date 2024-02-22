@@ -5,7 +5,9 @@ import com.mateuszcholyn.wallet.manager.ExpenseAppInitializer
 import com.mateuszcholyn.wallet.manager.ExpenseAppManagerScope
 import com.mateuszcholyn.wallet.manager.category
 import com.mateuszcholyn.wallet.manager.expense
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.minusDays
 import java.math.BigDecimal
+import java.time.Instant
 
 class DemoModeInitializer(
     private val demoAppSwitcher: DemoAppSwitcher,
@@ -18,7 +20,6 @@ class DemoModeInitializer(
         initBecauseDemoModeIsEnabled()
     }
 
-    // TODO: dodaj tutaj zdecydowanie więcej przykładów, żeby można było coś sensownego pokazać
     private fun initBecauseDemoModeIsEnabled() {
         initDemoApp {
             category {
@@ -29,6 +30,30 @@ class DemoModeInitializer(
                 expense {
                     amount = BigDecimal("5.96")
                     description = "Bułki"
+                }
+                expense {
+                    amount = BigDecimal("12.95")
+                    paidAt = Instant.now().minusDays(1)
+                }
+                expense {
+                    amount = BigDecimal("15.95")
+                    paidAt = Instant.now().minusDays(2)
+                }
+                expense {
+                    amount = BigDecimal("17.95")
+                    paidAt = Instant.now().minusDays(3)
+                }
+                expense {
+                    amount = BigDecimal("17.95")
+                    paidAt = Instant.now().minusDays(60)
+                }
+                expense {
+                    amount = BigDecimal("55.95")
+                    paidAt = Instant.now().minusDays(90)
+                }
+                expense {
+                    amount = BigDecimal("20.95")
+                    paidAt = Instant.now().minusDays(400)
                 }
             }
             category {

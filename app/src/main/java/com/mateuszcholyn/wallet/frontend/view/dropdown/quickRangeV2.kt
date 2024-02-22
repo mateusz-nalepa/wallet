@@ -66,17 +66,17 @@ fun quickDateRanges(): List<QuickRangeData> {
             endDate = LocalDateTime.now(),
         ),
         QuickRangeData(
+            name = "R.string.allExpensesUpToToday",
+            nameKey = R.string.allExpensesUpToToday,
+            beginDate = null,
+            endDate = LocalDateTime.now().atEndOfTheDay(),
+        ),
+        QuickRangeData(
             name = "R.string.allExpenses",
             nameKey = R.string.allExpenses,
             beginDate = null,
             endDate = null,
         ),
-        QuickRangeData(
-            name = "R.string.allExpensesUpToToday",
-            nameKey = R.string.allExpensesUpToToday,
-            beginDate = null,
-            endDate = LocalDateTime.now().atEndOfTheDay(),
-        )
     )
 
 }
