@@ -14,7 +14,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
-class SearchServiceUseCaseDateTest : BaseIntegrationTest() {
+class SearchServiceUseCaseDateIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun searchServiceShouldIgnoreExpensesThatAreOlderThanSearchCriteria() {

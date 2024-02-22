@@ -34,7 +34,7 @@ class RemoveCategoryUseCaseTest {
             }
 
         // then
-        throwable.validate {
+        throwable.cause?.validate {
             isInstanceOf(CategoryHasExpensesException::class)
             hasMessage("Category with id ${categoryScope.categoryId.id} has expenses and cannot be removed")
         }

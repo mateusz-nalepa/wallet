@@ -11,7 +11,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
-class SearchServiceUseCaseCategoryTest : BaseIntegrationTest() {
+class SearchServiceUseCaseCategoryIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun shouldSearchOnlyGivenCategoryId() {

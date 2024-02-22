@@ -15,7 +15,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
-class RemoveExpenseUseCaseTest : BaseIntegrationTest() {
+class RemoveExpenseUseCaseIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun shouldRemoveExpense() {
@@ -63,7 +63,7 @@ class RemoveExpenseUseCaseTest : BaseIntegrationTest() {
             }
 
         // then
-        throwable.validate {
+        throwable.cause?.validate {
             isInstanceOf(ExpenseNotFoundException::class)
             hasMessage("Expense with id ${nonExistingExpenseId.id} does not exist")
         }

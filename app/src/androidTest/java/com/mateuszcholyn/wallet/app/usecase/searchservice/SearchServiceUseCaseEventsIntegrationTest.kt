@@ -1,16 +1,23 @@
 package com.mateuszcholyn.wallet.app.usecase.searchservice
 
 import com.mateuszcholyn.wallet.app.setupintegrationtests.BaseIntegrationTest
-import com.mateuszcholyn.wallet.manager.*
+import com.mateuszcholyn.wallet.manager.CategoryScope
+import com.mateuszcholyn.wallet.manager.ExpenseScope
+import com.mateuszcholyn.wallet.manager.category
+import com.mateuszcholyn.wallet.manager.expense
 import com.mateuszcholyn.wallet.manager.ext.core.expense.removeExpenseUseCase
 import com.mateuszcholyn.wallet.manager.ext.core.expense.updateExpenseUseCase
 import com.mateuszcholyn.wallet.manager.ext.searchservice.searchServiceUseCase
+import com.mateuszcholyn.wallet.manager.randomAmount
+import com.mateuszcholyn.wallet.manager.randomDescription
+import com.mateuszcholyn.wallet.manager.randomInt
+import com.mateuszcholyn.wallet.manager.randomPaidAt
 import com.mateuszcholyn.wallet.manager.validator.validate
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
-class SearchServiceUseCaseEventsTest : BaseIntegrationTest() {
+class SearchServiceUseCaseEventsIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun searchServiceShouldHaveInformationAboutAddedExpenses() {

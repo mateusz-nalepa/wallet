@@ -14,7 +14,7 @@ import com.mateuszcholyn.wallet.util.throwable.validate
 import org.junit.Test
 
 
-class UpdateCategoryUseCaseIntegrationTest {
+class UpdateCategoryUseCaseTest {
 
     @Test
     fun shouldUpdateExpense() {
@@ -57,7 +57,7 @@ class UpdateCategoryUseCaseIntegrationTest {
         }
 
         // then
-        throwable.validate {
+        throwable.cause?.validate {
             isInstanceOf(CategoryNotFoundException::class)
             hasMessage("Category with id ${nonExistingCategoryId.id} does not exist")
         }

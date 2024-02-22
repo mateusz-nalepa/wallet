@@ -27,7 +27,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 @HiltAndroidTest
-class ImportV1UseCaseTest : BaseIntegrationTest() {
+class ImportV1UseCaseIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun shouldImportV1DataWhenDatabaseIsEmpty() {

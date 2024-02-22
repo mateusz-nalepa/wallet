@@ -57,7 +57,7 @@ class UpdateCategoryUseCaseIntegrationTest : BaseIntegrationTest() {
         }
 
         // then
-        throwable.validate {
+        throwable.cause?.validate {
             isInstanceOf(CategoryNotFoundException::class)
             hasMessage("Category with id ${nonExistingCategoryId.id} does not exist")
         }

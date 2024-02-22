@@ -10,7 +10,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
-class AddExpenseUseCaseScopeTest : BaseIntegrationTest() {
+class AddExpenseUseCaseIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun shouldAddExpense() {

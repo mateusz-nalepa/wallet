@@ -20,7 +20,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
-class UpdateExpenseUseCaseTest : BaseIntegrationTest() {
+class UpdateExpenseUseCaseIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun shouldUpdateExpense() {
@@ -82,7 +82,7 @@ class UpdateExpenseUseCaseTest : BaseIntegrationTest() {
         }
 
         // then
-        throwable.validate {
+        throwable.cause?.validate {
             isInstanceOf(ExpenseNotFoundException::class)
             hasMessage("Expense with id ${nonExistingExpenseId.id} does not exist")
         }
@@ -109,7 +109,7 @@ class UpdateExpenseUseCaseTest : BaseIntegrationTest() {
         }
 
         // then
-        throwable.validate {
+        throwable.cause?.validate {
             isInstanceOf(CategoryWithGivenIdDoesNotExist::class)
             hasMessage("Category with id ${nonExistingCategoryId.id} does not exist")
         }

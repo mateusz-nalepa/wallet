@@ -4,8 +4,16 @@ package com.mateuszcholyn.wallet.app.usecase.core.expense.updateexpense
 import com.mateuszcholyn.wallet.app.setupunittests.initExpenseAppManager
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.CategoryWithGivenIdDoesNotExist
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseNotFoundException
-import com.mateuszcholyn.wallet.manager.*
+import com.mateuszcholyn.wallet.manager.CategoryScope
+import com.mateuszcholyn.wallet.manager.ExpenseScope
+import com.mateuszcholyn.wallet.manager.category
+import com.mateuszcholyn.wallet.manager.expense
 import com.mateuszcholyn.wallet.manager.ext.core.expense.updateExpenseUseCase
+import com.mateuszcholyn.wallet.manager.randomAmount
+import com.mateuszcholyn.wallet.manager.randomCategoryId
+import com.mateuszcholyn.wallet.manager.randomDescription
+import com.mateuszcholyn.wallet.manager.randomExpenseId
+import com.mateuszcholyn.wallet.manager.randomPaidAt
 import com.mateuszcholyn.wallet.manager.validator.validate
 import com.mateuszcholyn.wallet.util.throwable.catchThrowable
 import com.mateuszcholyn.wallet.util.throwable.validate
@@ -70,7 +78,7 @@ class UpdateExpenseUseCaseTest {
         }
 
         // then
-        throwable.validate {
+        throwable.cause?.validate {
             isInstanceOf(ExpenseNotFoundException::class)
             hasMessage("Expense with id ${nonExistingExpenseId.id} does not exist")
         }
@@ -97,7 +105,7 @@ class UpdateExpenseUseCaseTest {
         }
 
         // then
-        throwable.validate {
+        throwable.cause?.validate {
             isInstanceOf(CategoryWithGivenIdDoesNotExist::class)
             hasMessage("Category with id ${nonExistingCategoryId.id} does not exist")
         }

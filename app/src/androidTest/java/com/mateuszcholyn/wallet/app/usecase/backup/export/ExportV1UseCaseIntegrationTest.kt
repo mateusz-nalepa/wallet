@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.app.usecase.backup.export
 
 import com.mateuszcholyn.wallet.app.setupintegrationtests.BaseIntegrationTest
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.Category
+import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
@@ -16,7 +16,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
 @HiltAndroidTest
-class ExportV1UseCaseTest : BaseIntegrationTest() {
+class ExportV1UseCaseIntegrationTest : BaseIntegrationTest() {
 
     @Test
     fun shouldExportV1Data() {

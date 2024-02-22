@@ -14,7 +14,7 @@ import org.junit.Test
 import javax.inject.Inject
 
 @HiltAndroidTest
-class TransactionManagerTest : BaseIntegrationTest() {
+class TransactionManagerIntegrationTest : BaseIntegrationTest() {
 
     @Inject
     lateinit var transactionManager: TransactionManager

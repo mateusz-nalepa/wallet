@@ -63,7 +63,7 @@ class RemoveExpenseUseCaseTest {
             }
 
         // then
-        throwable.validate {
+        throwable.cause?.validate {
             isInstanceOf(ExpenseNotFoundException::class)
             hasMessage("Expense with id ${nonExistingExpenseId.id} does not exist")
         }
