@@ -2,6 +2,7 @@ package com.mateuszcholyn.wallet.manager
 
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.randomCategoryQuickSummary
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseWithCategory
@@ -17,6 +18,12 @@ import java.util.Random
 
 fun randomCategoryId(): CategoryId = CategoryId(randomUUID())
 fun randomCategoryName(): String = "categoryName-${randomUUID()}"
+
+fun randomCategory(): Category =
+    Category(
+        id = randomCategoryId(),
+        name = randomCategoryName(),
+    )
 
 // from 5 to 25??
 fun randomAmount(): BigDecimal = BigDecimal.valueOf(Random().nextInt(20) + 5.toLong().toDouble())
