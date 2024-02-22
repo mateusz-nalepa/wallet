@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
+import com.mateuszcholyn.wallet.frontend.view.screen.about.AboutScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.BackupDataScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryForm.CategoryFormScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryScreen
@@ -28,7 +29,8 @@ sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslatio
 
     data object History : NavDrawerItem("history", R.drawable.ic_movie, R.string.menuItem_History)
     data object Settings : NavDrawerItem("settings", R.drawable.ic_book, R.string.menuItem_Settings)
-    data object Dummy : NavDrawerItem("dummy", R.drawable.ic_book, R.string.menuItem_Dummy)
+    data object Backup : NavDrawerItem("backup", R.drawable.ic_book, R.string.menuItem_Backup)
+    data object About : NavDrawerItem("about", R.drawable.ic_book, R.string.menuItem_About)
 }
 
 fun expenseFormRoute(): String =
@@ -99,8 +101,11 @@ fun Navigation(
         composable(NavDrawerItem.Settings.route) {
             SettingsScreen()
         }
-        composable(NavDrawerItem.Dummy.route) {
+        composable(NavDrawerItem.Backup.route) {
             BackupDataScreen()
+        }
+        composable(NavDrawerItem.About.route) {
+            AboutScreen()
         }
     }
 }

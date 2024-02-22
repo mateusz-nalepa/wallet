@@ -44,7 +44,6 @@
     <string name="theme">Motyw</string>
     <string name="useGivenTheme">Zastosuj dany motyw</string>
     <string name="newExpense">Nowy wydatek</string>
-    <string name="dummyView">Dummy View</string>
     <string name="quantity">Qualche</string>
     <string name="group">Grupuj</string>
     <string name="grouping">Grupowanie</string>
@@ -101,7 +100,7 @@
     <string name="menuItem_AddOrEditExpense">Aggiungere Spesa</string>
     <string name="menuItem_History">Historia</string>
     <string name="menuItem_Settings">Ustawienia</string>
-    <string name="menuItem_Dummy">Import/Eksport</string>
+    <string name="menuItem_Backup">Import/Eksport</string>
     <string name="startDemoMode">Avvia la modalità demo</string>
     <string name="leaveDemoMode">Uscire dalla modalità demo</string>
 

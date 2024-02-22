@@ -16,7 +16,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +24,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.mateuszcholyn.wallet.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -44,7 +42,8 @@ fun Drawer(
         NavDrawerItem.AddOrEditExpense,
         NavDrawerItem.History,
         NavDrawerItem.Settings,
-        NavDrawerItem.Dummy,
+        NavDrawerItem.Backup,
+        NavDrawerItem.About,
     )
     Column {
         // Header
@@ -100,16 +99,6 @@ fun Drawer(
                 }
             })
         }
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = stringResource(R.string.developerBy),
-//            color = MaterialTheme.colors.primary,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .padding(12.dp)
-                .align(Alignment.CenterHorizontally)
-        )
     }
 }
 
