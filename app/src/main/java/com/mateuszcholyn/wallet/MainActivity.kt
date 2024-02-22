@@ -23,6 +23,7 @@ import com.mateuszcholyn.wallet.userConfig.theme.resolveThemeName
 import dagger.hilt.android.AndroidEntryPoint
 
 
+// FIXME: add accessibility support for app
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint

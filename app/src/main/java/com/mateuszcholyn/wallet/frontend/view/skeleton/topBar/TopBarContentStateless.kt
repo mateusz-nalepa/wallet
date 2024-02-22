@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.R
 
-// TODO: accessability dla całej apki
 @Composable
 fun TopBarContentStateless(
     isDemoModeEnabled: Boolean,
