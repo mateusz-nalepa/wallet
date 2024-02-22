@@ -3,8 +3,8 @@ package com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
+import com.mateuszcholyn.wallet.backend.impl.domain.transaction.TransactionManager
 import com.mateuszcholyn.wallet.frontend.domain.usecase.UseCase
-import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import kotlinx.coroutines.delay
 import java.math.BigDecimal

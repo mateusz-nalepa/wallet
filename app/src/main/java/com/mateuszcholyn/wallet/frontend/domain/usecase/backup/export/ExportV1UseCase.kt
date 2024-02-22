@@ -4,8 +4,8 @@ import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
+import com.mateuszcholyn.wallet.backend.impl.domain.transaction.TransactionManager
 import com.mateuszcholyn.wallet.frontend.domain.usecase.UseCase
-import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 
 class ExportV1UseCase(

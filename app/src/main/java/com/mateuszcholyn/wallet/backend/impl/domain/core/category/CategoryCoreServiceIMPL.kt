@@ -1,10 +1,10 @@
 package com.mateuszcholyn.wallet.backend.impl.domain.core.category
 
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
-import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
+import com.mateuszcholyn.wallet.backend.impl.domain.transaction.TransactionManager
 import com.mateuszcholyn.wallet.util.randomuuid.randomUUID
 
 class CategoryCoreServiceIMPL(

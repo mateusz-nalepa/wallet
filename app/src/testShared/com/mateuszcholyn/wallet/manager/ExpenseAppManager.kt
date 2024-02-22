@@ -9,9 +9,9 @@ import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryReposi
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.InMemorySearchServiceRepository
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceRepository
+import com.mateuszcholyn.wallet.backend.impl.domain.transaction.EmptyTransactionManager
+import com.mateuszcholyn.wallet.backend.impl.domain.transaction.TransactionManager
 import com.mateuszcholyn.wallet.frontend.domain.usecase.ExpenseAppUseCases
-import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.EmptyTransactionManager
-import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
 import kotlinx.coroutines.runBlocking
 
 

@@ -4,6 +4,7 @@ import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoriesQui
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchServiceAPI
+import com.mateuszcholyn.wallet.backend.impl.domain.transaction.TransactionManager
 import com.mateuszcholyn.wallet.frontend.domain.usecase.ExpenseAppUseCases
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.export.ExportV1UseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.AllExpensesRemover
@@ -21,7 +22,6 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.GetExpenseU
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
-import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,7 +37,6 @@ class DefaultLocalDateTimeProvider : LocalDateTimeProvider {
     override fun now(): LocalDateTime =
         LocalDateTime.now()
 }
-
 
 
 @Module

@@ -2,11 +2,11 @@ package com.mateuszcholyn.wallet.backend.impl.domain.core.expense
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
+import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseWithCategory
-import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
+import com.mateuszcholyn.wallet.backend.impl.domain.transaction.TransactionManager
 import com.mateuszcholyn.wallet.util.randomuuid.randomUUID
 
 class ExpenseCoreServiceIMPL(

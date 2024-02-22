@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.frontend.di.usecases
 
+import com.mateuszcholyn.wallet.backend.impl.domain.transaction.TransactionManager
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabase
-import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.SqLiteTransactionManager
-import com.mateuszcholyn.wallet.frontend.domain.usecase.transactionManager.TransactionManager
+import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.transaction.SqLiteTransactionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
