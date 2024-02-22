@@ -22,6 +22,8 @@ import com.mateuszcholyn.wallet.userConfig.theme.resolveThemeColors
 import com.mateuszcholyn.wallet.userConfig.theme.resolveThemeName
 import dagger.hilt.android.AndroidEntryPoint
 
+// TODO: app icon
+// TODO: translations
 
 // FIXME: add accessibility support for app
 // FIXME: fix all compilation errors
