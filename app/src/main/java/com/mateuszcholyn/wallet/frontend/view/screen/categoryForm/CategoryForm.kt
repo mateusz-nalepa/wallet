@@ -63,7 +63,7 @@ fun CategoryFormScreenStateless(
 ) {
     when (categoryScreenFormState) {
         CategoryScreenFormState.Loading -> ScreenLoading()
-        is CategoryScreenFormState.Error -> ScreenError(errorMsg = "XDD")
+        is CategoryScreenFormState.Error -> ScreenError(errorMessage = "XDD")
         is CategoryScreenFormState.Success -> {
             CategoryFormStateless(
                 categoryFormUiState = categoryFormUiState,

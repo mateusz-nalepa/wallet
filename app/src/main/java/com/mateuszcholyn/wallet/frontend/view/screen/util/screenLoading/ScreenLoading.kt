@@ -1,18 +1,35 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.util.screenLoading
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnLightPreview
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 @Composable
 fun ScreenLoading() {
-    Row(
-        modifier = defaultModifier.fillMaxSize(),
-        horizontalArrangement = Arrangement.Center
+    Column(
+        modifier = defaultModifier
+            .fillMaxSize()
+            .padding(horizontal = 20.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text = "Loading")
+        CircularProgressIndicator(color = MaterialTheme.colors.primary)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ScreenLoadingLightPreview() {
+    SetContentOnLightPreview {
+        ScreenLoading()
     }
 }
