@@ -260,10 +260,10 @@ class HistoryScreenViewModel @Inject constructor(
         val fileContent =
             historyToCsvGenerator.generate(
                 HeaderNames(
-                    "Kategoria",
-                    "Data wydatku",
-                    "Opis",
-                    "Kwota",
+                    categoryNameLabel = "Kategoria",
+                    amountLabel = "Kwota",
+                    descriptionLabel = "Opis",
+                    paidAtLabel = "Data wydatku",
                 ),
                 successResultState.historySuccessContent.expensesList,
             )

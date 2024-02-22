@@ -7,9 +7,9 @@ import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText
 
 data class HeaderNames(
     val categoryNameLabel: String,
-    val paidAtLabel: String,
-    val descriptionLabel: String,
     val amountLabel: String,
+    val descriptionLabel: String,
+    val paidAtLabel: String,
 )
 
 interface HistoryToCsvGenerator {
@@ -35,16 +35,16 @@ class HistoryToCsvFileGenerator : HistoryToCsvGenerator {
     ): String =
         "${headerNames.categoryNameLabel}$SEPARATOR" +
             "${headerNames.amountLabel}$SEPARATOR" +
-            "${headerNames.paidAtLabel}$SEPARATOR" +
-            headerNames.descriptionLabel
+            "${headerNames.descriptionLabel}$SEPARATOR" +
+            headerNames.paidAtLabel
 
     private fun generateRow(
         searchSingleResult: SearchSingleResult,
     ): String =
         "${searchSingleResult.categoryName.replaceSemicolonToPipe()}$SEPARATOR" +
             "${searchSingleResult.amount.asPrintableAmount()}$SEPARATOR" +
-            "${searchSingleResult.paidAt.fromUTCInstantToUserLocalTimeZone().toHumanDateTimeText()}$SEPARATOR" +
-            searchSingleResult.description.replaceSemicolonToPipe()
+            "${searchSingleResult.description.replaceSemicolonToPipe()}$SEPARATOR" +
+            searchSingleResult.paidAt.fromUTCInstantToUserLocalTimeZone().toHumanDateTimeText()
 
 
     private fun String.replaceSemicolonToPipe(): String =

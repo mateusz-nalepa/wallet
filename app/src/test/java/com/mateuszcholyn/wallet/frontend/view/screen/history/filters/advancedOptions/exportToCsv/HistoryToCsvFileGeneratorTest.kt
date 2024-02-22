@@ -14,10 +14,10 @@ class HistoryToCsvFileGeneratorTest {
 
     private val headerNames =
         HeaderNames(
-            "Category",
-            "Paid at",
-            "Description",
-            "Amount",
+            categoryNameLabel = "Category",
+            amountLabel = "Amount",
+            descriptionLabel = "Description",
+            paidAtLabel = "Paid at",
         )
 
     private val generator = HistoryToCsvFileGenerator()
@@ -32,7 +32,7 @@ class HistoryToCsvFileGeneratorTest {
             )
 
         // expect
-        headerContent shouldBe "Category;Amount;Paid at;Description\n"
+        headerContent shouldBe "Category;Amount;Description;Paid at\n"
     }
 
 
@@ -63,9 +63,9 @@ class HistoryToCsvFileGeneratorTest {
 
         // then
         csvFileContent shouldBe """
-            Category;Amount;Paid at;Description
-            categoryXD;50.00 zł;23.02.2024 00:39;
-            categoryXD 2;55.00 zł;01.03.2024 00:39;some description
+            Category;Amount;Description;Paid at
+            categoryXD;50.00 zł;;23.02.2024 00:39
+            categoryXD 2;55.00 zł;some description;01.03.2024 00:39
         """.trimIndent()
     }
 
@@ -91,8 +91,8 @@ class HistoryToCsvFileGeneratorTest {
 
         // then
         csvFileContent shouldBe """
-            Category;Amount;Paid at;Description
-            categoryXD|2;55.00 zł;23.02.2024 00:39;some|desc
+            Category;Amount;Description;Paid at
+            categoryXD|2;55.00 zł;some|desc;23.02.2024 00:39
         """.trimIndent()
     }
 
