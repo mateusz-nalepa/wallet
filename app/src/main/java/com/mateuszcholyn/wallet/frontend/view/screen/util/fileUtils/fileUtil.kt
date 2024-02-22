@@ -13,4 +13,5 @@ fun File.clearDirectory() {
 
 object WalletMediaType {
     const val APPLICATION_JSON = "application/json"
+    const val TEXT_CSV = "text/csv"
 }

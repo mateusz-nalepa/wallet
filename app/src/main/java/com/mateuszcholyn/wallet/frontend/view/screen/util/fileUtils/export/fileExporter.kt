@@ -2,14 +2,13 @@ package com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.export
 
 import android.content.Intent
 import androidx.compose.runtime.Composable
-import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.WalletMediaType
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 
 data class FileExportParameters(
     val fileName: String,
     val fileContent: String,
     val title: String,
-    val mediaType: String = WalletMediaType.APPLICATION_JSON,
+    val mediaType: String,
 )
 
 class FileExporterLauncher(

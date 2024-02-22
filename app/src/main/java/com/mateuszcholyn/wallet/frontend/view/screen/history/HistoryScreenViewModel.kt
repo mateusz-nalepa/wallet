@@ -25,6 +25,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOpt
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.HistoryToCsvGenerator
 import com.mateuszcholyn.wallet.frontend.view.screen.history.showSingleExpense.remove.RemoveSingleExpenseUiState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
+import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.WalletMediaType
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.export.FileExportParameters
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
@@ -273,6 +274,7 @@ class HistoryScreenViewModel @Inject constructor(
                 fileName = fileName,
                 fileContent = fileContent,
                 title = "Eksport danych",
+                mediaType = WalletMediaType.TEXT_CSV,
             )
         )
     }

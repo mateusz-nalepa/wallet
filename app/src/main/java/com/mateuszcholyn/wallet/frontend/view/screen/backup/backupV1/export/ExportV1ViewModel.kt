@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.export.ExportV1UseCase
 import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDelegate
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
+import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.WalletMediaType
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.export.FileExportParameters
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -58,6 +59,7 @@ class ExportV1ViewModel @Inject constructor(
                 fileName = fileName,
                 fileContent = fileContent,
                 title = "Eksport danych",
+                mediaType = WalletMediaType.APPLICATION_JSON,
             )
         )
     }
