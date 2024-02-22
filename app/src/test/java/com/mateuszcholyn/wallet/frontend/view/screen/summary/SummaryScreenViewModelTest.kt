@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.summary
 
+import com.mateuszcholyn.wallet.frontend.domain.appstate.DemoModeAppIsConfigured
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
 import com.mateuszcholyn.wallet.frontend.view.dropdown.GroupElement
@@ -33,17 +34,20 @@ class SummaryScreenViewModelTest {
     private val testGetCategoriesQuickSummaryUseCase: TestGetCategoriesQuickSummaryUseCase = TestGetCategoriesQuickSummaryUseCase()
     private lateinit var removeExpenseUseCase: RemoveExpenseUseCase
     private lateinit var searchServiceUseCase: SearchServiceUseCase
+    private lateinit var demoModeAppIsConfigured: DemoModeAppIsConfigured
 
     @Before
     fun setUp() {
         removeExpenseUseCase = mockk<RemoveExpenseUseCase>(relaxed = true)
         searchServiceUseCase = mockk<SearchServiceUseCase>(relaxed = true)
+        demoModeAppIsConfigured = mockk<DemoModeAppIsConfigured>(relaxed = true)
 
         viewModel =
             SummaryScreenViewModel(
                 removeExpenseUseCase = removeExpenseUseCase,
                 searchServiceUseCase = searchServiceUseCase,
                 getCategoriesQuickSummaryUseCase = testGetCategoriesQuickSummaryUseCase,
+                demoModeAppIsConfigured = demoModeAppIsConfigured,
             )
     }
 

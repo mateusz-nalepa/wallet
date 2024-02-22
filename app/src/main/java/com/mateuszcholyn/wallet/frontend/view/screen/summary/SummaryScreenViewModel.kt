@@ -8,6 +8,7 @@ import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuick
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchAverageExpenseResult
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
+import com.mateuszcholyn.wallet.frontend.domain.appstate.DemoModeAppIsConfigured
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
@@ -51,6 +52,7 @@ class SummaryScreenViewModel @Inject constructor(
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
     private val searchServiceUseCase: SearchServiceUseCase,
     private val removeExpenseUseCase: RemoveExpenseUseCase,
+    private val demoModeAppIsConfigured: DemoModeAppIsConfigured,
 ) : ViewModel() { // done tests XD
 
 
