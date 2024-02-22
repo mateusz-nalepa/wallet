@@ -21,6 +21,7 @@ import com.mateuszcholyn.wallet.frontend.view.dropdown.groupingElements
 import com.mateuszcholyn.wallet.frontend.view.dropdown.quickDateRanges
 import com.mateuszcholyn.wallet.frontend.view.dropdown.sortingElements
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryView
+import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.HeaderNames
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.HistoryToCsvGenerator
 import com.mateuszcholyn.wallet.frontend.view.screen.history.showSingleExpense.remove.RemoveSingleExpenseUiState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
@@ -29,7 +30,6 @@ import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -240,7 +240,6 @@ class HistoryScreenViewModel @Inject constructor(
         viewModelScope.launch { // DONE UI State
             try {
                 exportUiState = exportUiState.copy(isLoading = true)
-                delay(2000)
                 unsafeExportHistoryToCsv(onFileReadyAction)
                 exportUiState = exportUiState.copy(isLoading = false)
             } catch (t: Throwable) {
@@ -258,7 +257,16 @@ class HistoryScreenViewModel @Inject constructor(
         val successResultState = historyResultState as HistoryResultState.Success
 
         val fileName = "history-${LocalDateTime.now().toHumanDateTimeText()}.csv"
-        val fileContent = historyToCsvGenerator.generate(successResultState.historySuccessContent)
+        val fileContent =
+            historyToCsvGenerator.generate(
+                HeaderNames(
+                    "Kategoria",
+                    "Data wydatku",
+                    "Opis",
+                    "Kwota",
+                ),
+                successResultState.historySuccessContent.expensesList,
+            )
 
         onFileReadyAction.invoke(
             FileExportParameters(

@@ -397,7 +397,7 @@ class HistoryScreenViewModelTest {
     @Test
     fun `should show error modal when unable to generate backup file`() = runTest {
         // given
-        coEvery { historyToCsvGenerator.generate(any()) }.throws(RuntimeException())
+        coEvery { historyToCsvGenerator.generate(any(), any()) }.throws(RuntimeException())
         val onFileReadyActionMock = mockk<(FileExportParameters) -> Unit>()
 
         // when
