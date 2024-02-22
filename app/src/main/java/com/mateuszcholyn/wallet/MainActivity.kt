@@ -24,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 // FIXME: add accessibility support for app
+// FIXME: fix all compilation errors
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
