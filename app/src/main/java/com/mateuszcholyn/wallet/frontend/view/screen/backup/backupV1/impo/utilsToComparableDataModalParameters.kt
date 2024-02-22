@@ -4,7 +4,7 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.OnCategoryCh
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.OnExpanseChangedInput
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.ComparableData
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.ComparatorModalParameters
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.orDefaultDescription
+import com.mateuszcholyn.wallet.frontend.view.screen.history.orDefaultDescription
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText

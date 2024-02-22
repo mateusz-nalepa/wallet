@@ -14,8 +14,8 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.AddExpenseU
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.GetExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDelegate
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.CategoryView
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.toCategoryView
+import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryView
+import com.mateuszcholyn.wallet.frontend.view.screen.history.toCategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.util.asFormattedAmount
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone

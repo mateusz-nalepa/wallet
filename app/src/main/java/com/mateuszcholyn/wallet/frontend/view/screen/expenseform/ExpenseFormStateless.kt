@@ -25,7 +25,7 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.composables.ValidatedTextFieldV2
 import com.mateuszcholyn.wallet.frontend.view.composables.datapicker.OutlinedDatePickerField
 import com.mateuszcholyn.wallet.frontend.view.dropdown.WalletDropdown
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.CategoryView
+import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogProxy
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenError.ScreenError
@@ -91,7 +91,7 @@ fun ExpenseFormScreen(
             actualExpenseId = actualExpenseId,
             screenMode = screenMode,
             onButtonSubmittedAction = {
-                navHostController.navigate(NavDrawerItem.SummaryScreen.route)
+                navHostController.navigate(NavDrawerItem.History.route)
             },
         )
         onDispose { }

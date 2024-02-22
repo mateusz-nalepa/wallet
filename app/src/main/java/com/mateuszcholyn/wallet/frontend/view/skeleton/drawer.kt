@@ -42,7 +42,7 @@ fun Drawer(
     val items = listOf(
         NavDrawerItem.Category,
         NavDrawerItem.AddOrEditExpense,
-        NavDrawerItem.SummaryScreen,
+        NavDrawerItem.History,
         NavDrawerItem.Settings,
         NavDrawerItem.Dummy,
     )

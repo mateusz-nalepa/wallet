@@ -6,8 +6,8 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.AddExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.GetExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.UpdateExpenseUseCase
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.filters.CategoryView
-import com.mateuszcholyn.wallet.frontend.view.screen.summary.toCategoryView
+import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryView
+import com.mateuszcholyn.wallet.frontend.view.screen.history.toCategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.asFormattedAmount
