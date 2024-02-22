@@ -21,7 +21,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.settings.SettingsScreen
 sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslationKey: Int) {
     data object Category : NavDrawerItem("category", R.drawable.ic_home, R.string.menuItem_Category)
     data object AddOrEditExpense : NavDrawerItem(
-        "addOrEditExpense?expenseId={expenseId}&mode={mode}",
+        "expense-form?expenseId={expenseId}&mode={mode}",
         R.drawable.ic_music,
         R.string.menuItem_AddOrEditExpense
     )
@@ -31,20 +31,20 @@ sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslatio
     data object Dummy : NavDrawerItem("dummy", R.drawable.ic_book, R.string.menuItem_Dummy)
 }
 
-fun NavDrawerItem.AddOrEditExpense.routeWithoutId(): String =
-    "addOrEditExpense"
+fun expenseFormRoute(): String =
+    "expense-form"
 
-fun NavDrawerItem.AddOrEditExpense.routeWithId(expenseId: ExpenseId): String =
-    "addOrEditExpense?expenseId=${expenseId.id}"
+fun editExpenseRoute(expenseId: ExpenseId): String =
+    "expense-form?expenseId=${expenseId.id}"
+
+fun copyExpenseRoute(expenseId: ExpenseId): String =
+    "expense-form?mode=copy&expenseId=${expenseId.id}"
 
 fun categoryFormScreenRoute(): String =
     "category-form"
 
 fun categoryFormScreenRoute(categoryId: CategoryId): String =
     "category-form?existingCategoryId=${categoryId.id}"
-
-fun NavDrawerItem.AddOrEditExpense.copyExpense(expenseId: ExpenseId): String =
-    "addOrEditExpense?mode=copy&expenseId=${expenseId.id}"
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi

@@ -28,7 +28,7 @@ fun BottomBarContent(scope: CoroutineScope, navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    if (currentRoute != null && currentRoute.contains(NavDrawerItem.AddOrEditExpense.routeWithoutId())) {
+    if (currentRoute != null && currentRoute.contains(expenseFormRoute())) {
         return
     }
 
@@ -38,7 +38,7 @@ fun BottomBarContent(scope: CoroutineScope, navController: NavHostController) {
         BottomBarContentStateless(
             onClick = {
                 scope.launch {
-                    navController.navigate(NavDrawerItem.AddOrEditExpense.routeWithoutId()) {
+                    navController.navigate(expenseFormRoute()) {
                         // Pop up to the start destination of the graph to
                         // avoid building up a large stack of destinations
                         // on the back stack as users select items

@@ -21,9 +21,8 @@ import com.mateuszcholyn.wallet.frontend.view.screen.history.showSingleExpense.r
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogProxy
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenError.ScreenError
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenLoading.ScreenLoading
-import com.mateuszcholyn.wallet.frontend.view.skeleton.NavDrawerItem
-import com.mateuszcholyn.wallet.frontend.view.skeleton.copyExpense
-import com.mateuszcholyn.wallet.frontend.view.skeleton.routeWithId
+import com.mateuszcholyn.wallet.frontend.view.skeleton.copyExpenseRoute
+import com.mateuszcholyn.wallet.frontend.view.skeleton.editExpenseRoute
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 import java.time.LocalDateTime
 
@@ -101,12 +100,12 @@ fun HistoryScreen(
         },
         onCopySingleExpenseAction = { expenseId ->
             navHostController.navigate(
-                NavDrawerItem.AddOrEditExpense.copyExpense(expenseId = expenseId)
+                copyExpenseRoute(expenseId = expenseId)
             )
         },
         onEditSingleExpenseAction = { expenseId ->
             navHostController.navigate(
-                NavDrawerItem.AddOrEditExpense.routeWithId(expenseId = expenseId)
+                editExpenseRoute(expenseId = expenseId)
             )
         },
         refreshResultsAction = {
