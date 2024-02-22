@@ -8,7 +8,6 @@ import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuick
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchAverageExpenseResult
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
-import com.mateuszcholyn.wallet.frontend.domain.appstate.AppIsConfigured
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
@@ -52,8 +51,6 @@ class SummaryScreenViewModel @Inject constructor(
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
     private val searchServiceUseCase: SearchServiceUseCase,
     private val removeExpenseUseCase: RemoveExpenseUseCase,
-    // TODO: Ensuring that all works, don't know if still needed
-    private val appIsConfigured: AppIsConfigured,
 ) : ViewModel() { // done tests XD
 
 
@@ -63,7 +60,6 @@ class SummaryScreenViewModel @Inject constructor(
 
     val exposedSummarySearchForm: MutableState<SummarySearchForm> = mutableStateOf(SummarySearchForm())
     private var summarySearchForm by MutableStateDelegate(exposedSummarySearchForm)
-//
 
     val exposedSummaryResultState: MutableState<SummaryResultState> = mutableStateOf(SummaryResultState.Loading)
     private var summaryResultState by MutableStateDelegate(exposedSummaryResultState)
