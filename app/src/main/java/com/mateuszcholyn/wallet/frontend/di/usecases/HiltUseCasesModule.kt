@@ -22,6 +22,8 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.GetExpenseU
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
+import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.HistoryToCsvFileGenerator
+import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.HistoryToCsvGenerator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,6 +44,12 @@ class DefaultLocalDateTimeProvider : LocalDateTimeProvider {
 @Module
 @InstallIn(SingletonComponent::class)
 object HiltUseCasesModule {
+
+    @Provides
+    @Singleton
+    fun provideHistoryToCsvGenerator(): HistoryToCsvGenerator =
+        HistoryToCsvFileGenerator()
+
 
     @Provides
     @Singleton

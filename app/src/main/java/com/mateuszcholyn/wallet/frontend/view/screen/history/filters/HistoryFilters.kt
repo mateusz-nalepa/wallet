@@ -1,14 +1,16 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.history.filters
 
 import androidx.compose.runtime.Composable
+import com.mateuszcholyn.wallet.frontend.view.screen.history.ExportToCsvUiState
 import com.mateuszcholyn.wallet.frontend.view.screen.history.HistoryScreenActions
 import com.mateuszcholyn.wallet.frontend.view.screen.history.HistorySearchForm
-import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedFilters.AdvancedFiltersSectionStateless
+import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.AdvancedFiltersSectionStateless
 
 @Composable
 fun HistoryFilters(
     historySearchForm: HistorySearchForm,
     historyScreenActions: HistoryScreenActions,
+    exportUiState: ExportToCsvUiState,
 ) {
     HistoryCategoriesSection(
         categoriesList = historySearchForm.categoriesList,
@@ -22,5 +24,6 @@ fun HistoryFilters(
     AdvancedFiltersSectionStateless(
         historySearchForm = historySearchForm,
         historyScreenActions = historyScreenActions,
+        exportUiState = exportUiState,
     )
 }

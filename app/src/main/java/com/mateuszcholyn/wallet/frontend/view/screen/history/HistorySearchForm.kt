@@ -11,7 +11,7 @@ import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToU
 import java.time.LocalDateTime
 
 data class HistorySearchForm(
-    val advancedFiltersVisible: Boolean = false,
+    val advancedOptionsVisible: Boolean = false,
 
     val categoriesList: List<CategoryView> = emptyList(),
     val selectedCategory: CategoryView = CategoryView.default,

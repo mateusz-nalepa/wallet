@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedFilters
+package com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

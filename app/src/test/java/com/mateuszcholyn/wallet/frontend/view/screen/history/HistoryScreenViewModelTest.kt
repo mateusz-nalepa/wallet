@@ -12,13 +12,16 @@ import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.MainDispatcherR
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.TestGetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.TestLocalDateTimeProvider
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryView
+import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.HistoryToCsvGenerator
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
+import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.export.FileExportParameters
 import com.mateuszcholyn.wallet.manager.randomCategoryId
 import com.mateuszcholyn.wallet.manager.randomExpenseId
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -38,12 +41,14 @@ class HistoryScreenViewModelTest {
     private lateinit var searchServiceUseCase: SearchServiceUseCase
     private lateinit var demoModeAppIsConfigured: DemoModeAppIsConfigured
     private val timeProvider: TestLocalDateTimeProvider = TestLocalDateTimeProvider()
+    private lateinit var historyToCsvGenerator: HistoryToCsvGenerator
 
     @Before
     fun setUp() {
         removeExpenseUseCase = mockk<RemoveExpenseUseCase>(relaxed = true)
         searchServiceUseCase = mockk<SearchServiceUseCase>(relaxed = true)
         demoModeAppIsConfigured = mockk<DemoModeAppIsConfigured>(relaxed = true)
+        historyToCsvGenerator = mockk<HistoryToCsvGenerator>(relaxed = true)
 
         viewModel =
             HistoryScreenViewModel(
@@ -52,6 +57,7 @@ class HistoryScreenViewModelTest {
                 getCategoriesQuickSummaryUseCase = testGetCategoriesQuickSummaryUseCase,
                 demoModeAppIsConfigured = demoModeAppIsConfigured,
                 timeProvider = timeProvider,
+                historyToCsvGenerator = historyToCsvGenerator,
             )
     }
 
@@ -244,7 +250,7 @@ class HistoryScreenViewModelTest {
 
         // then
         viewModel.exposedHistorySearchForm.value.run {
-            advancedFiltersVisible shouldBe givenAdvancedFiltersVisible
+            advancedOptionsVisible shouldBe givenAdvancedFiltersVisible
         }
         coVerify(exactly = 0) { searchServiceUseCase.invoke(any()) }
     }
@@ -301,7 +307,7 @@ class HistoryScreenViewModelTest {
 
         // then
         viewModel.exposedHistorySearchForm.value.run {
-            advancedFiltersVisible shouldBe false
+            advancedOptionsVisible shouldBe false
 
             selectedCategory shouldBe CategoryView.default
             categoriesList shouldBe listOf(CategoryView.default)
@@ -384,6 +390,33 @@ class HistoryScreenViewModelTest {
 
         // and then
         viewModel.exposedRemoveUiState.value.run {
+            errorModalState shouldBe ErrorModalState.NotVisible
+        }
+    }
+
+    @Test
+    fun `should show error modal when unable to generate backup file`() = runTest {
+        // given
+        coEvery { historyToCsvGenerator.generate(any()) }.throws(RuntimeException())
+        val onFileReadyActionMock = mockk<(FileExportParameters) -> Unit>()
+
+        // when
+        viewModel.exportToCsv(
+            onFileReadyAction = onFileReadyActionMock,
+        )
+
+        // then
+        viewModel.exportedExportUiState.value.run {
+            errorModalState shouldBe ErrorModalState.Visible("Nieznany błąd podczas exportu danych")
+        }
+        // and
+        verify(exactly = 0) { onFileReadyActionMock.invoke(any()) }
+
+        // and should close error modal
+        viewModel.closeExportErrorModalDialog()
+
+        // and then
+        viewModel.exportedExportUiState.value.run {
             errorModalState shouldBe ErrorModalState.NotVisible
         }
     }

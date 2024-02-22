@@ -19,6 +19,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.HistoryFilt
 import com.mateuszcholyn.wallet.frontend.view.screen.history.results.HistorySearchResultStateless
 import com.mateuszcholyn.wallet.frontend.view.screen.history.showSingleExpense.remove.RemoveSingleExpenseUiState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogProxy
+import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.export.fileExporter
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenError.ScreenError
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenLoading.ScreenLoading
 import com.mateuszcholyn.wallet.frontend.view.skeleton.copyExpenseRoute
@@ -51,6 +52,9 @@ data class HistoryScreenActions(
     val refreshResultsAction: () -> Unit,
     // Error
     val onErrorModalClose: () -> Unit,
+    // Export
+    val onExportHistory: () -> Unit,
+    val onExportErrorModalClose: () -> Unit,
 )
 
 @ExperimentalMaterialApi
@@ -60,10 +64,13 @@ fun HistoryScreen(
     navHostController: NavHostController,
     historyScreenViewModel: HistoryScreenViewModel = hiltViewModel(),
 ) {
+    val fileExporter = fileExporter()
+
     val wholeSummaryScreenState by remember { historyScreenViewModel.exposedHistoryScreenState }
     val exposedSummarySearchForm by remember { historyScreenViewModel.exposedHistorySearchForm }
     val summaryResultState by remember { historyScreenViewModel.exposedHistoryResultState }
     val removeSingleExpenseUiState by remember { historyScreenViewModel.exposedRemoveUiState }
+    val exportUiState by remember { historyScreenViewModel.exportedExportUiState }
 
     DisposableEffect(key1 = Unit, effect = {
         historyScreenViewModel.initScreen()
@@ -125,7 +132,18 @@ fun HistoryScreen(
         },
         onAdvancedFiltersVisible = {
             historyScreenViewModel.updateAdvancedFiltersVisible(it)
+        },
+        onExportHistory = {
+            historyScreenViewModel.exportToCsv(
+                onFileReadyAction = {
+                    fileExporter.launch(it)
+                }
+            )
+        },
+        onExportErrorModalClose = {
+            historyScreenViewModel.closeExportErrorModalDialog()
         }
+
     )
 
     HistoryScreenStateless(
@@ -134,6 +152,7 @@ fun HistoryScreen(
         historyResultState = summaryResultState,
         historyScreenActions = historyScreenActions,
         removeSingleExpenseUiState = removeSingleExpenseUiState,
+        exportUiState = exportUiState,
     )
 }
 
@@ -144,6 +163,7 @@ fun HistoryScreenStateless(
     historyResultState: HistoryResultState,
     historyScreenActions: HistoryScreenActions,
     removeSingleExpenseUiState: RemoveSingleExpenseUiState,
+    exportUiState: ExportToCsvUiState,
 ) {
     when (historyScreenState) {
         is HistoryScreenState.Error -> ScreenError(historyScreenState.message)
@@ -154,6 +174,7 @@ fun HistoryScreenStateless(
                 historyResultState = historyResultState,
                 historyScreenActions = historyScreenActions,
                 removeSingleExpenseUiState = removeSingleExpenseUiState,
+                exportUiState = exportUiState,
             )
         }
     }
@@ -165,16 +186,22 @@ fun HistoryScreenStateless(
     historyResultState: HistoryResultState,
     historyScreenActions: HistoryScreenActions,
     removeSingleExpenseUiState: RemoveSingleExpenseUiState,
+    exportUiState: ExportToCsvUiState,
 ) {
 
     MyErrorDialogProxy(
         errorModalState = removeSingleExpenseUiState.errorModalState,
         onErrorModalClose = historyScreenActions.onErrorModalClose,
     )
+    MyErrorDialogProxy(
+        errorModalState = exportUiState.errorModalState,
+        onErrorModalClose = historyScreenActions.onExportErrorModalClose,
+    )
     Column(modifier = defaultModifier) {
         HistoryFilters(
             historySearchForm = historySearchForm,
             historyScreenActions = historyScreenActions,
+            exportUiState = exportUiState,
         )
         Divider()
         HistorySearchResultStateless(
