@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.history.expenseslist
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,6 +12,7 @@ import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.frontend.view.screen.history.HistoryScreenActions
 import com.mateuszcholyn.wallet.frontend.view.screen.history.showSingleExpense.ShowSingleExpense
 import com.mateuszcholyn.wallet.frontend.view.screen.history.showSingleExpense.remove.RemoveSingleExpenseUiState
+import com.mateuszcholyn.wallet.frontend.view.util.BOTTOM_BAR_HEIGHT
 
 @Composable
 fun ExpensesListStateless(
@@ -18,13 +20,8 @@ fun ExpensesListStateless(
     expensesList: List<SearchSingleResult>,
     removeSingleExpenseUiState: RemoveSingleExpenseUiState,
 ) {
-
-//    TODO coś takiego zrób dla tej listy XD
-//    val sortedContacts = remember(contacts, comparator) {
-//        contacts.sortedWith(comparator)
-//    }
-
     LazyColumn(
+        contentPadding = PaddingValues(bottom = BOTTOM_BAR_HEIGHT),
         modifier =
         Modifier
             .fillMaxWidth()

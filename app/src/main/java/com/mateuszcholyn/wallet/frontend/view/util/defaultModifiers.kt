@@ -18,3 +18,6 @@ val defaultButtonModifier =
         .padding(buttonPadding)
         .height(60.dp)
         .fillMaxWidth()
+
+
+val BOTTOM_BAR_HEIGHT = 56.dp
