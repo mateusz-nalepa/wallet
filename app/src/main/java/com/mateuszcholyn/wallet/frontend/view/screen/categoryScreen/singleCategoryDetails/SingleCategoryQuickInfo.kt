@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
+import com.mateuszcholyn.wallet.frontend.view.screen.util.expandIcon.ExpandIcon
 
 @ExperimentalMaterialApi
 @Composable
@@ -30,7 +31,7 @@ fun SingleCategoryQuickInfo(
         text = { Text("$index. ${categoryQuickSummary.categoryName}") },
         secondaryText = { Text(stringResource(R.string.amountOfExpenses) + " ${categoryQuickSummary.numberOfExpenses}") },
         trailing = {
-            SingleCategoryTrailingIcon(detailsAreVisible)
+            ExpandIcon(detailsAreVisible)
         }
     )
 

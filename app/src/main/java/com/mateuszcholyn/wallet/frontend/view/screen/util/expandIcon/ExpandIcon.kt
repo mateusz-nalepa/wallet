@@ -1,4 +1,4 @@
-package com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.singleCategoryDetails
+package com.mateuszcholyn.wallet.frontend.view.screen.util.expandIcon
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SingleCategoryTrailingIcon(
+fun ExpandIcon(
     detailsAreVisible: Boolean,
 ) {
     if (detailsAreVisible) {

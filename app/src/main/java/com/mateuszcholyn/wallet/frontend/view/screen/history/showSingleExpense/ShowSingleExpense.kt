@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.frontend.view.screen.history.HistoryScreenActions
 import com.mateuszcholyn.wallet.frontend.view.screen.history.showSingleExpense.remove.RemoveSingleExpenseUiState
+import com.mateuszcholyn.wallet.frontend.view.screen.util.expandIcon.ExpandIcon
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutDollar
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
@@ -39,6 +40,7 @@ fun ShowSingleExpense(
         onClickAction = {
             detailsAreVisible = !detailsAreVisible
         },
+        detailsAreVisible = detailsAreVisible,
         index = index,
         searchSingleResult = searchSingleResult,
     )
@@ -55,6 +57,7 @@ fun ShowSingleExpense(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun QuickExpenseSummary(
+    detailsAreVisible: Boolean,
     onClickAction: () -> Unit,
     index: Int,
     searchSingleResult: SearchSingleResult,
@@ -72,6 +75,7 @@ fun QuickExpenseSummary(
                     contentDescription = null,
                     modifier = Modifier.size(24.dp),
                 )
+                ExpandIcon(detailsAreVisible)
             }
         },
         modifier = defaultModifier.clickable {
