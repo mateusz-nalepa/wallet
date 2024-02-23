@@ -37,6 +37,7 @@ private fun Locale.toLanguageDropdownElement(): LanguageDropdownElement =
         WalletLanguage.ENGLISH.locale -> WalletLanguage.ENGLISH
         WalletLanguage.POLISH.locale -> WalletLanguage.POLISH
         WalletLanguage.ITALIAN.locale -> WalletLanguage.ITALIAN
+        WalletLanguage.HODOR.locale -> WalletLanguage.HODOR
         else -> WalletLanguage.ENGLISH
     }
         .toLanguageDropdownElement()

@@ -23,6 +23,10 @@ enum class WalletLanguage(
         R.string.settings_language_italiano,
         Locale("it", "IT"),
     ),
+    HODOR(
+        R.string.settings_language_hodor,
+        Locale("ho", "HO"),
+    ),
 }
 
 private val supportedLocales =

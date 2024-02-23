@@ -1,0 +1,155 @@
+<resources>
+    <string name="app_name">Hodor</string>
+
+    <!--Settings - Language-->
+    <string name="settings_language">Hodor</string>
+    <!--Settings - Available languages - Do not translate it-->
+    <string name="settings_language_polish">Hodor</string>
+    <string name="settings_language_english">Hodor</string>
+    <string name="settings_language_italiano">Hodor</string>
+    <string name="settings_language_hodor">Hodor</string>
+
+    <!--Settings - Theme-->
+    <string name="settings_theme_darkTheme">Hodor</string>
+    <string name="settings_theme_lightTheme">Hodor</string>
+    <string name="settings_theme_useSystemTheme">Hodor</string>
+    <string name="settings_dropdown_theme">Hodor</string>
+
+    <!--Settings - Demo mode-->
+    <string name="settings_startDemoMode">Hodor</string>
+    <string name="settings_leaveDemoMode">Hodor</string>
+
+    <!--History Screen-->
+    <string name="csv_file_name_prefix">Hodor</string>
+    <string name="historyScreen_grouping">Hodor</string>
+    <string name="historyScreen_group">Hodor</string>
+    <string name="historyScreen_sorting">Hodor</string>
+    <string name="historyScreen_showLess">Hodor</string>
+    <string name="historyScreen_showMore">Hodor</string>
+    <string name="historyScreen_defaultSummaryResultText">Hodor</string>
+    <string name="historyScreen_amountFrom">Hodor</string>
+    <string name="historyScreen_amountTo">Hodor</string>
+    <string name="historyScreen_dateFrom">Hodor</string>
+    <string name="historyScreen_dateTo">Hodor</string>
+
+    <!--Action Buttons-->
+    <string name="button_addFirstCategory">Hodor</string>
+    <string name="button_addCategory">Hodor</string>
+    <string name="button_updateCategory">Hodor</string>
+    <string name="button_addExpense">Hodor</string>
+    <string name="button_copyExpense">Hodor</string>
+    <string name="button_editExpense">Hodor</string>
+    <string name="button_export_to_csv">Hodor</string>
+
+    <!--Category Screen-->
+    <string name="categoryScreen_categories">Hodor</string>
+    <string name="categoryScreen_singleCategoryQuickInfoNumberOfExpenses">Hodor</string>
+
+    <!--Common-->
+    <string name="common_close">Hodor</string>
+    <string name="common_cancel">Hodor</string>
+    <string name="common_confirm">Hodor</string>
+    <string name="common_ok">Hodor</string>
+    <string name="common_noDescription">Hodor</string>
+    <string name="common_range">Hodor</string>
+    <string name="common_quantity">Hodor</string>
+    <string name="common_category">Hodor</string>
+    <string name="common_amount">Hodor</string>
+    <string name="common_description">Hodor</string>
+    <string name="common_date">Hodor</string>
+    <string name="common_export_data">Hodor</string>
+
+    <!--Errors-->
+    <string name="error_label">Hodor</string>
+    <string name="success_label">Hodor</string>
+    <string name="error_unable_to_load_expense_form">Hodor</string>
+    <string name="error_unable_to_load_category_form">Hodor</string>
+
+    <string name="error_unable_to_addCategory">Hodor</string>
+    <string name="error_unable_to_updateCategory">Hodor</string>
+
+    <string name="error_unable_to_addExpense">Hodor</string>
+    <string name="error_unable_to_updateExpense">Hodor</string>
+    <string name="error_unable_to_copyExpense">Hodor</string>
+
+    <string name="error_unable_to_load_history_screen">Hodor</string>
+    <string name="error_unable_to_load_expenses">Hodor</string>
+    <string name="error_unable_to_load_categories">Hodor</string>
+    <string name="error_unable_to_remove_expense">Hodor</string>
+    <string name="error_unable_to_export_data">Hodor</string>
+    <string name="error_unable_to_import_data">Hodor</string>
+    <string name="error_unable_to_remove_category">Hodor</string>
+    <string name="error_unable_to_remove_category_where_are_expenses">Hodor</string>
+
+    <!--Validation-->
+    <string name="validation_incorrectAmount">Hodor</string>
+    <string name="validation_categoryRequiredToAddExpense">Hodor</string>
+    <string name="validation_incorrectValue">Hodor</string>
+    <string name="validation_incorrectCategoryName">Hodor</string>
+    <string name="validation_warning_category_already_exists">Hodor</string>
+
+    <!--Grouping-->
+    <string name="group_byDay">Hodor</string>
+    <string name="group_byMonth">Hodor</string>
+    <string name="group_byYear">Hodor</string>
+
+    <!--Sort-->
+    <string name="sort_data_fromTheYoungest">Hodor</string>
+    <string name="sort_data_fromTheOldest">Hodor</string>
+    <string name="sort_price_fromTheHighest">Hodor</string>
+    <string name="sort_price_fromTheLowest">Hodor</string>
+
+    <!--Quick Range Data-->
+    <string name="quickRange_today">Hodor</string>
+    <string name="quickRange_yesterday">Hodor</string>
+    <string name="quickRange_dayBeforeYesterday">Hodor</string>
+    <string name="quickRange_lastWeek">Hodor</string>
+    <string name="quickRange_thisMonth">Hodor</string>
+    <string name="quickRange_lastMonth">Hodor</string>
+    <string name="quickRange_lastThreeMonths">Hodor</string>
+    <string name="quickRange_allExpenses">Hodor</string>
+    <string name="quickRange_custom">Hodor</string>
+
+    <!--Menu items-->
+    <string name="menuItem_categories">Hodor</string>
+    <string name="menuItem_addExpense">Hodor</string>
+    <string name="menuItem_History">Hodor</string>
+    <string name="menuItem_Settings">Hodor</string>
+    <string name="menuItem_Backup">Hodor</string>
+    <string name="menuItem_About">Hodor</string>
+
+    <!--Backup Screen-->
+    <string name="export_file_name_prefix">Hodor</string>
+
+    <string name="backupScreen_export_data">Hodor</string>
+    <string name="backupScreen_import_data">Hodor</string>
+    <string name="backupScreen_import_progress">Hodor</string>
+    <string name="backupScreen_import_summary_categories">Hodor</string>
+    <string name="backupScreen_import_summary_imported_categories">Hodor</string>
+    <string name="backupScreen_import_summary_skipped_categories">Hodor</string>
+    <string name="backupScreen_import_summary_expenses">Hodor</string>
+    <string name="backupScreen_import_summary_imported_expenses">Hodor</string>
+    <string name="backupScreen_import_summary_skipped_expenses">Hodor</string>
+
+    <string name="backupScreen_category_has_changed">Hodor</string>
+    <string name="backupScreen_expense_has_changed">Hodor</string>
+    <string name="backupScreen_category_name_label">Hodor</string>
+
+    <string name="backupScreen_actual_state">Hodor</string>
+    <string name="backupScreen_backup_state">Hodor</string>
+    <string name="backupScreen_use_data_from_backup">Hodor</string>
+    <string name="backupScreen_keep_existing">Hodor</string>
+
+    <!--About Screen-->
+    <string name="aboutScreen_author">Hodor</string>
+    <string name="aboutScreen_logoCreator">Hodor</string>
+    <string name="aboutScreen_consultations">Hodor</string>
+    <string name="aboutScreen_thanks">Hodor</string>
+    <string name="aboutScreen_thanks_text">Hodor</string>
+
+    <!--SOME unknown-->
+    <string name="icons_iconError">Hodor</string>
+    <string name="history_screen_allCategories">Hodor</string>
+    <string name="areYouSureYouWantToRemoveCategory">Hodor</string>
+    <string name="areYouSureYouWantToRemoveExpense">Hodor</string>
+</resources>
