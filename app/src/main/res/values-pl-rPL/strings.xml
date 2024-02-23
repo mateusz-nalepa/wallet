@@ -1,1 +1,154 @@
-<resources></resources>
+<resources>
+    <string name="app_name">Simple Wallet</string>
+
+    <!--Settings - Language-->
+    <string name="settings_language">Język</string>
+    <!--Settings - Available languages - Do not translate it-->
+    <string name="settings_language_polish">Polski</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_italiano">Italiano</string>
+
+    <!--Settings - Theme-->
+    <string name="settings_theme_darkTheme">Ciemny motyw</string>
+    <string name="settings_theme_lightTheme">Jasny motyw</string>
+    <string name="settings_theme_useSystemTheme">Użyj systemowego motywu</string>
+    <string name="settings_dropdown_theme">Motyw</string>
+
+    <!--Settings - Demo mode-->
+    <string name="settings_startDemoMode">Włącz tryb demo</string>
+    <string name="settings_leaveDemoMode">Opuść tryb demo</string>
+
+    <!--History Screen-->
+    <string name="csv_file_name_prefix">simple-wallet-historia</string>
+    <string name="historyScreen_grouping">Grupowanie</string>
+    <string name="historyScreen_group">Grupa</string>
+    <string name="historyScreen_sorting">Sortowanie</string>
+    <string name="historyScreen_showLess">Pokaż mniej</string>
+    <string name="historyScreen_showMore">Pokaż więcej</string>
+    <string name="historyScreen_defaultSummaryResultText">0$ / 1d = 0 $/d</string>
+    <string name="historyScreen_amountFrom">Od $</string>
+    <string name="historyScreen_amountTo">Do $</string>
+    <string name="historyScreen_dateFrom">Data od</string>
+    <string name="historyScreen_dateTo">Data do</string>
+
+    <!--Action Buttons-->
+    <string name="button_addFirstCategory">Dodaj pierwszą kategorię</string>
+    <string name="button_addCategory">Dodaj kategorię</string>
+    <string name="button_updateCategory">Aktualizuj kategorię</string>
+    <string name="button_addExpense">Dodaj wydatek</string>
+    <string name="button_copyExpense">Dodaj skopiowany wydatek</string>
+    <string name="button_editExpense">Edytuj wydatek</string>
+    <string name="button_export_to_csv">Eksportuj do CSV</string>
+
+    <!--Category Screen-->
+    <string name="categoryScreen_categories">Kategorie</string>
+    <string name="categoryScreen_singleCategoryQuickInfoNumberOfExpenses">Liczba wydatków:</string>
+
+    <!--Common-->
+    <string name="common_close">Zamknij</string>
+    <string name="common_cancel">Anuluj</string>
+    <string name="common_confirm">Potwierdź</string>
+    <string name="common_ok">OK</string>
+    <string name="common_noDescription">Brak opisu</string>
+    <string name="common_range">Zakres</string>
+    <string name="common_quantity">Ilość:</string>
+    <string name="common_category">Kategoria</string>
+    <string name="common_amount">Kwota</string>
+    <string name="common_description">Opis</string>
+    <string name="common_date">Data</string>
+    <string name="common_export_data">Eksportuj dane</string>
+
+    <!--Errors-->
+    <string name="error_label">Błąd</string>
+    <string name="success_label">Sukces</string>
+    <string name="error_unable_to_load_expense_form">Nie udało się załadować formularza. Spróbuj ponownie.</string>
+    <string name="error_unable_to_load_category_form">Nie udało się załadować formularza. Spróbuj ponownie.</string>
+
+    <string name="error_unable_to_addCategory">Nie udało się dodać kategorii. Spróbuj ponownie.</string>
+    <string name="error_unable_to_updateCategory">Nie udało się zaktualizować kategorii. Spróbuj ponownie.</string>
+
+    <string name="error_unable_to_addExpense">Nie udało się dodać wydatku. Spróbuj ponownie.</string>
+    <string name="error_unable_to_updateExpense">Nie udało się zaktualizować wydatku. Spróbuj ponownie.</string>
+    <string name="error_unable_to_copyExpense">Nie udało się dodać skopiowanego wydatku. Spróbuj ponownie.</string>
+
+    <string name="error_unable_to_load_history_screen">Nie udało się załadować historii. Spróbuj ponownie.</string>
+    <string name="error_unable_to_load_expenses">Nie udało się załadować wydatków. Spróbuj ponownie.</string>
+    <string name="error_unable_to_load_categories">Nie udało się załadować kategorii. Spróbuj ponownie.</string>
+    <string name="error_unable_to_remove_expense">Nie udało się usunąć wydatku. Spróbuj ponownie.</string>
+    <string name="error_unable_to_export_data">Nie udało się wyeksportować danych. Spróbuj ponownie.</string>
+    <string name="error_unable_to_import_data">Nie udało się zaimportować danych. Spróbuj ponownie.</string>
+    <string name="error_unable_to_remove_category">Nie udało się usunąć kategorii. Spróbuj ponownie.</string>
+    <string name="error_unable_to_remove_category_where_are_expenses">Nie można usunąć kategorii zawierającej wydatki</string>
+
+    <!--Validation-->
+    <string name="validation_incorrectAmount">Nieprawidłowa kwota</string>
+    <string name="validation_categoryRequiredToAddExpense">Aby dodać wydatek, musisz najpierw dodać kategorię</string>
+    <string name="validation_incorrectValue">Nieprawidłowa wartość</string>
+    <string name="validation_incorrectCategoryName">Nieprawidłowa nazwa kategorii</string>
+    <string name="validation_warning_category_already_exists">Kategoria o tej nazwie już istnieje.</string>
+
+    <!--Grouping-->
+    <string name="group_byDay">wg. dnia</string>
+    <string name="group_byMonth">wg. miesiąca</string>
+    <string name="group_byYear">wg. roku</string>
+
+    <!--Sort-->
+    <string name="sort_data_fromTheYoungest">data: od najmłodszych</string>
+    <string name="sort_data_fromTheOldest">data: od najstarszych</string>
+    <string name="sort_price_fromTheHighest">cena: od najwyższej</string>
+    <string name="sort_price_fromTheLowest">cena: od najniższej</string>
+
+    <!--Quick Range Data-->
+    <string name="quickRange_today">Dzisiaj</string>
+    <string name="quickRange_yesterday">Wczoraj</string>
+    <string name="quickRange_dayBeforeYesterday">Dwa dni temu</string>
+    <string name="quickRange_lastWeek">Ostatni tydzień</string>
+    <string name="quickRange_thisMonth">Ten miesiąc</string>
+    <string name="quickRange_lastMonth">Ostatni miesiąc</string>
+    <string name="quickRange_lastThreeMonths">Ostatnie 3 miesiące</string>
+    <string name="quickRange_allExpenses">Wszystkie wydatki</string>
+    <string name="quickRange_custom">Własny</string>
+
+    <!--Menu items-->
+    <string name="menuItem_categories">Kategorie</string>
+    <string name="menuItem_addExpense">Dodaj wydatek</string>
+    <string name="menuItem_History">Historia</string>
+    <string name="menuItem_Settings">Ustawienia</string>
+    <string name="menuItem_Backup">Kopia zapasowa</string>
+    <string name="menuItem_About">O aplikacji</string>
+
+    <!--Backup Screen-->
+    <string name="export_file_name_prefix">simple-wallet-kopia</string>
+
+    <string name="backupScreen_export_data">Eksportuj dane</string>
+    <string name="backupScreen_import_data">Importuj dane</string>
+    <string name="backupScreen_import_progress">Postęp</string>
+    <string name="backupScreen_import_summary_categories">Kategorie</string>
+    <string name="backupScreen_import_summary_imported_categories">Zaimportowane kategorie</string>
+    <string name="backupScreen_import_summary_skipped_categories">Pominięte kategorie</string>
+    <string name="backupScreen_import_summary_expenses">Wydatki</string>
+    <string name="backupScreen_import_summary_imported_expenses">Zaimportowane wydatki</string>
+    <string name="backupScreen_import_summary_skipped_expenses">Pominięte wydatki</string>
+
+    <string name="backupScreen_category_has_changed">Kategoria się zmieniła! Co teraz?</string>
+    <string name="backupScreen_expense_has_changed">Wydatek się zmienił! Co teraz?</string>
+    <string name="backupScreen_category_name_label">Nazwa</string>
+
+    <string name="backupScreen_actual_state">Aktualny stan</string>
+    <string name="backupScreen_backup_state">Stan z kopii zapasowej</string>
+    <string name="backupScreen_use_data_from_backup">Użyj danych z kopii zapasowej</string>
+    <string name="backupScreen_keep_existing">Zachowaj istniejące</string>
+
+    <!--About Screen-->
+    <string name="aboutScreen_author">Autor</string>
+    <string name="aboutScreen_logoCreator">Twórca logo</string>
+    <string name="aboutScreen_consultations">Konsultacje</string>
+    <string name="aboutScreen_thanks">Podziękowania</string>
+    <string name="aboutScreen_thanks_text">Specjalne podziękowania dla wszystkich moich przyjaciół za testowanie i inspiracje!</string>
+
+    <!--SOME unknown-->
+    <string name="icons_iconError">Błąd</string>
+    <string name="history_screen_allCategories">Wszystkie kategorie</string>
+    <string name="areYouSureYouWantToRemoveCategory">Czy na pewno chcesz usunąć kategorię?</string>
+    <string name="areYouSureYouWantToRemoveExpense">Czy na pewno chcesz usunąć wydatek?</string>
+</resources>

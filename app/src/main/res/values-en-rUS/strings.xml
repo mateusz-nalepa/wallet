@@ -1,1 +1,154 @@
-<resources></resources>
+<resources>
+    <string name="app_name">Simple Wallet</string>
+
+    <!--Settings - Language-->
+    <string name="settings_language">Language</string>
+    <!--Settings - Available languages - Do not translate it-->
+    <string name="settings_language_polish">Polski</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_italiano">Italiano</string>
+
+    <!--Settings - Theme-->
+    <string name="settings_theme_darkTheme">Dark theme</string>
+    <string name="settings_theme_lightTheme">Light theme</string>
+    <string name="settings_theme_useSystemTheme">Use system theme</string>
+    <string name="settings_dropdown_theme">Theme</string>
+
+    <!--Settings - Demo mode-->
+    <string name="settings_startDemoMode">Start demo mode</string>
+    <string name="settings_leaveDemoMode">Leave demo mode</string>
+
+    <!--History Screen-->
+    <string name="csv_file_name_prefix">simple-wallet-history</string>
+    <string name="historyScreen_grouping">Grouping</string>
+    <string name="historyScreen_group">Group</string>
+    <string name="historyScreen_sorting">Sorting</string>
+    <string name="historyScreen_showLess">Show less</string>
+    <string name="historyScreen_showMore">Show more</string>
+    <string name="historyScreen_defaultSummaryResultText">0$ / 1d = 0 $/d</string>
+    <string name="historyScreen_amountFrom">From $</string>
+    <string name="historyScreen_amountTo">To $</string>
+    <string name="historyScreen_dateFrom">Date from</string>
+    <string name="historyScreen_dateTo">Date to</string>
+
+    <!--Action Buttons-->
+    <string name="button_addFirstCategory">Add first category</string>
+    <string name="button_addCategory">Add category</string>
+    <string name="button_updateCategory">Update category</string>
+    <string name="button_addExpense">Add expense</string>
+    <string name="button_copyExpense">Add copied expense</string>
+    <string name="button_editExpense">Edit expense</string>
+    <string name="button_export_to_csv">Export to CSV</string>
+
+    <!--Category Screen-->
+    <string name="categoryScreen_categories">Categories</string>
+    <string name="categoryScreen_singleCategoryQuickInfoNumberOfExpenses">Number of expenses:</string>
+
+    <!--Common-->
+    <string name="common_close">Close</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_confirm">Confirm</string>
+    <string name="common_ok">OK</string>
+    <string name="common_noDescription">No description</string>
+    <string name="common_range">Range</string>
+    <string name="common_quantity">Quantity:</string>
+    <string name="common_category">Category</string>
+    <string name="common_amount">Amount</string>
+    <string name="common_description">Description</string>
+    <string name="common_date">Date</string>
+    <string name="common_export_data">Export data</string>
+
+    <!--Errors-->
+    <string name="error_label">Error</string>
+    <string name="success_label">Success</string>
+    <string name="error_unable_to_load_expense_form">The form failed to load. Try again.</string>
+    <string name="error_unable_to_load_category_form">The form failed to load. Try again.</string>
+
+    <string name="error_unable_to_addCategory">Failed to add category. Try again.</string>
+    <string name="error_unable_to_updateCategory">Failed to update category. Try again.</string>
+
+    <string name="error_unable_to_addExpense">Failed to add expense. Try again.</string>
+    <string name="error_unable_to_updateExpense">Failed to update expense. Try again.</string>
+    <string name="error_unable_to_copyExpense">Failed to add copied expense. Try again.</string>
+
+    <string name="error_unable_to_load_history_screen">Failed to load history. Try again.</string>
+    <string name="error_unable_to_load_expenses">Failed to load expenses. Try again.</string>
+    <string name="error_unable_to_load_categories">Failed to load categories. Try again.</string>
+    <string name="error_unable_to_remove_expense">Failed to remove expense. Try again.</string>
+    <string name="error_unable_to_export_data">Failed to export data. Try again.</string>
+    <string name="error_unable_to_import_data">Failed to import data. Try again.</string>
+    <string name="error_unable_to_remove_category">Failed to remove category. Try again.</string>
+    <string name="error_unable_to_remove_category_where_are_expenses">You cannot delete categories containing expenses</string>
+
+    <!--Validation-->
+    <string name="validation_incorrectAmount">Incorrect amount</string>
+    <string name="validation_categoryRequiredToAddExpense">To add an expense, you must first add a category</string>
+    <string name="validation_incorrectValue">Incorrect value</string>
+    <string name="validation_incorrectCategoryName">Incorrect category name</string>
+    <string name="validation_warning_category_already_exists">A category with this name already exists.</string>
+
+    <!--Grouping-->
+    <string name="group_byDay">by day</string>
+    <string name="group_byMonth">by month</string>
+    <string name="group_byYear">by year</string>
+
+    <!--Sort-->
+    <string name="sort_data_fromTheYoungest">date: from the youngest</string>
+    <string name="sort_data_fromTheOldest">date: from the oldest</string>
+    <string name="sort_price_fromTheHighest">price: from the highest</string>
+    <string name="sort_price_fromTheLowest">price: from the lowest</string>
+
+    <!--Quick Range Data-->
+    <string name="quickRange_today">Today</string>
+    <string name="quickRange_yesterday">Yesterday</string>
+    <string name="quickRange_dayBeforeYesterday">Two days ago</string>
+    <string name="quickRange_lastWeek">Last week</string>
+    <string name="quickRange_thisMonth">This month</string>
+    <string name="quickRange_lastMonth">Last month</string>
+    <string name="quickRange_lastThreeMonths">Last 3 months</string>
+    <string name="quickRange_allExpenses">All expenses</string>
+    <string name="quickRange_custom">Custom</string>
+
+    <!--Menu items-->
+    <string name="menuItem_categories">Categories</string>
+    <string name="menuItem_addExpense">Add expense</string>
+    <string name="menuItem_History">History</string>
+    <string name="menuItem_Settings">Settings</string>
+    <string name="menuItem_Backup">Backup</string>
+    <string name="menuItem_About">About</string>
+
+    <!--Backup Screen-->
+    <string name="export_file_name_prefix">simple-wallet-backup</string>
+
+    <string name="backupScreen_export_data">Export data</string>
+    <string name="backupScreen_import_data">Import data</string>
+    <string name="backupScreen_import_progress">Progress</string>
+    <string name="backupScreen_import_summary_categories">Categories</string>
+    <string name="backupScreen_import_summary_imported_categories">Imported categories</string>
+    <string name="backupScreen_import_summary_skipped_categories">Skipped categories</string>
+    <string name="backupScreen_import_summary_expenses">Expenses</string>
+    <string name="backupScreen_import_summary_imported_expenses">Imported expenses</string>
+    <string name="backupScreen_import_summary_skipped_expenses">Skipped expenses</string>
+
+    <string name="backupScreen_category_has_changed">The category has changed! What\'s now?</string>
+    <string name="backupScreen_expense_has_changed">The expense has changed! What\'s now?</string>
+    <string name="backupScreen_category_name_label">Name</string>
+
+    <string name="backupScreen_actual_state">Actual state</string>
+    <string name="backupScreen_backup_state">State from backup</string>
+    <string name="backupScreen_use_data_from_backup">Use data from backup</string>
+    <string name="backupScreen_keep_existing">Keep existing</string>
+
+    <!--About Screen-->
+    <string name="aboutScreen_author">Author</string>
+    <string name="aboutScreen_logoCreator">Logo creator</string>
+    <string name="aboutScreen_consultations">Consultations</string>
+    <string name="aboutScreen_thanks">Thanks</string>
+    <string name="aboutScreen_thanks_text">Special thanks to all my friends for testing and inspirations!</string>
+
+    <!--SOME unknown-->
+    <string name="icons_iconError">Error</string>
+    <string name="history_screen_allCategories">All Categories</string>
+    <string name="areYouSureYouWantToRemoveCategory">Are you sure you want to delete the category?</string>
+    <string name="areYouSureYouWantToRemoveExpense">Are you sure you want to delete the expense?</string>
+</resources>

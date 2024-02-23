@@ -31,7 +31,6 @@
     <string name="historyScreen_dateFrom">Date from</string>
     <string name="historyScreen_dateTo">Date to</string>
 
-
     <!--Action Buttons-->
     <string name="button_addFirstCategory">Add first category</string>
     <string name="button_addCategory">Add category</string>
@@ -59,7 +58,6 @@
     <string name="common_date">Date</string>
     <string name="common_export_data">Export data</string>
 
-
     <!--Errors-->
     <string name="error_label">Error</string>
     <string name="success_label">Success</string>
@@ -73,11 +71,10 @@
     <string name="error_unable_to_updateExpense">Failed to update expense. Try again.</string>
     <string name="error_unable_to_copyExpense">Failed to add copied expense. Try again.</string>
 
-
-    <string name="error_unable_to_load_history_screen">Unable to load history. Try again.</string>
-    <string name="error_unable_to_load_expenses">Unable to load expenses. Try again.</string>
-    <string name="error_unable_to_load_categories">Unable to load categories. Try again.</string>
-    <string name="error_unable_to_remove_expense">The expense could not be deleted. Try again.</string>
+    <string name="error_unable_to_load_history_screen">Failed to load history. Try again.</string>
+    <string name="error_unable_to_load_expenses">Failed to load expenses. Try again.</string>
+    <string name="error_unable_to_load_categories">Failed to load categories. Try again.</string>
+    <string name="error_unable_to_remove_expense">Failed to remove expense. Try again.</string>
     <string name="error_unable_to_export_data">Failed to export data. Try again.</string>
     <string name="error_unable_to_import_data">Failed to import data. Try again.</string>
     <string name="error_unable_to_remove_category">Failed to remove category. Try again.</string>
@@ -148,7 +145,6 @@
     <string name="aboutScreen_consultations">Consultations</string>
     <string name="aboutScreen_thanks">Thanks</string>
     <string name="aboutScreen_thanks_text">Special thanks to all my friends for testing and inspirations!</string>
-
 
     <!--SOME unknown-->
     <string name="icons_iconError">Error</string>
