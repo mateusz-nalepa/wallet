@@ -34,6 +34,7 @@ fun BottomBarContent(scope: CoroutineScope, navController: NavHostController) {
 
     BottomAppBar(
         backgroundColor = MaterialTheme.colors.onPrimary,
+        elevation = 0.dp,
     ) {
         BottomBarContentStateless(
             onClick = {
