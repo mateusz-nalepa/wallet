@@ -7,8 +7,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnDarkPreview
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnLightPreview
 
@@ -19,13 +21,13 @@ fun MySuccessDialog(
 ) {
     AlertDialog(
         onDismissRequest = onClose,
-        title = { Text("Sukces!") },
+        title = { Text(stringResource(R.string.success_label)) },
         text = {
             successContent()
         },
         confirmButton = {
             Button(onClick = onClose) {
-                Text("Zamknij")
+                Text(stringResource(R.string.common_close))
             }
         },
         modifier = Modifier.border(2.dp, MaterialTheme.colors.primary)

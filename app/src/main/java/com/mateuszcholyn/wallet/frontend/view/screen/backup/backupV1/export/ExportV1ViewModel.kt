@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.export
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.export.ExportV1UseCase
 import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDelegate
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
@@ -28,16 +29,18 @@ class ExportV1ViewModel @Inject constructor(
     }
 
     fun exportBackupV1(
+        exportLabel: String,
+        exportFileNamePrefix: String,
         onFileReadyAction: (FileExportParameters) -> Unit,
     ) {
         viewModelScope.launch { // DONE UI State
             try {
                 uiState = uiState.copy(isLoading = true)
-                unsafeExportData(onFileReadyAction)
+                unsafeExportData(exportLabel, exportFileNamePrefix, onFileReadyAction)
                 uiState = uiState.copy(isLoading = false)
             } catch (t: Throwable) {
                 uiState = uiState.copy(
-                    errorModalState = ErrorModalState.Visible("Nieznany błąd podczas exportu danych"),
+                    errorModalState = ErrorModalState.Visible(R.string.error_unable_to_export_data),
                     isLoading = false,
                 )
             }
@@ -45,10 +48,12 @@ class ExportV1ViewModel @Inject constructor(
     }
 
     private suspend fun unsafeExportData(
+        exportLabel: String,
+        exportFileNamePrefix: String,
         onFileReadyAction: (FileExportParameters) -> Unit,
     ) {
         uiState = uiState.copy(isLoading = true)
-        val fileName = "wallet-backup-${LocalDateTime.now().toHumanDateTimeText()}.json"
+        val fileName = "${exportFileNamePrefix}-${LocalDateTime.now().toHumanDateTimeText()}.json"
         val fileContent =
             exportV1UseCase
                 .invoke()
@@ -58,7 +63,7 @@ class ExportV1ViewModel @Inject constructor(
             FileExportParameters(
                 fileName = fileName,
                 fileContent = fileContent,
-                title = "Eksport danych",
+                title = exportLabel,
                 mediaType = WalletMediaType.APPLICATION_JSON,
             )
         )

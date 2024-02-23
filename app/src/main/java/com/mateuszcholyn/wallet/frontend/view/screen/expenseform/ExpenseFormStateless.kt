@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.expenseform
 
 
-import android.annotation.SuppressLint
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
@@ -72,7 +72,8 @@ data class ExpenseFormDetailsUiState(
     val selectedCategory: CategoryView? = null,
     val paidAt: LocalDateTime = LocalDateTime.now(),
 
-    val submitButtonLabel: String = EMPTY_STRING,
+    @StringRes
+    val submitButtonLabelKey: Int = 0,
     val expenseSubmitButtonState: ExpenseSubmitButtonState = ExpenseSubmitButtonState.DISABLED,
 
     val errorModalState: ErrorModalState = ErrorModalState.NotVisible,
@@ -150,7 +151,7 @@ fun ExpenseFormStateless(
     )
 
     when (expenseFormScreenState) {
-        is ExpenseFormScreenState.Error -> ScreenError("nie nie pokazę forma XD")
+        is ExpenseFormScreenState.Error -> ScreenError(R.string.error_unable_to_load_expense_form)
         ExpenseFormScreenState.Loading -> ScreenLoading()
         ExpenseFormScreenState.NoCategories -> {
             ExpenseNoCategoryPresentInfoStateless(expenseFormActions.onMissingCategoriesNavigate)
@@ -167,7 +168,6 @@ fun ExpenseFormStateless(
 }
 
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
 @OptIn(ExperimentalMaterialApi::class)
 fun ShowExpenseFormStateless(
@@ -179,18 +179,18 @@ fun ShowExpenseFormStateless(
     val state = rememberScrollState()
     Column(modifier = defaultModifier.verticalScroll(state)) {
         WalletDropdown(
-            dropdownName = stringResource(R.string.category),
+            dropdownName = stringResource(R.string.common_category),
             selectedElement = formState.selectedCategory!!,
             availableElements = categoryNameOptions,
             onItemSelected = { expenseFormActions.onCategorySelected(it) },
         )
         Row(modifier = defaultModifier) {
             ValidatedTextFieldV2(
-                textFieldLabel = stringResource(R.string.amount),
+                textFieldLabel = stringResource(R.string.common_amount),
                 value = formState.amount,
                 onValueChange = { expenseFormActions.onAmountChange(it) },
                 isValueInvalid = formState.isAmountInvalid,
-                valueInvalidText = stringResource(R.string.incorrectAmount),
+                valueInvalidText = stringResource(R.string.validation_incorrectAmount),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
         }
@@ -198,7 +198,7 @@ fun ShowExpenseFormStateless(
             OutlinedTextField(
                 value = formState.description,
                 onValueChange = { expenseFormActions.onDescriptionChange(it) },
-                label = { Text(stringResource(R.string.description)) },
+                label = { Text(stringResource(R.string.common_description)) },
                 modifier = defaultModifier,
                 maxLines = 5,
             )
@@ -218,7 +218,7 @@ fun ShowExpenseFormStateless(
                 if (formState.expenseSubmitButtonState == ExpenseSubmitButtonState.LOADING) {
                     CircularProgressIndicator(color = MaterialTheme.colors.onPrimary)
                 } else {
-                    Text(formState.submitButtonLabel)
+                    Text(stringResource(formState.submitButtonLabelKey))
                 }
             }
         }

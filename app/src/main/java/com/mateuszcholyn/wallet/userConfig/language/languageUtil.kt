@@ -1,23 +1,26 @@
 package com.mateuszcholyn.wallet.userConfig.language
 
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
+import com.mateuszcholyn.wallet.R
 import java.util.Locale
 
 enum class WalletLanguage(
-    val language: String,
+    @StringRes
+    val nameKey: Int,
     val locale: Locale,
 ) {
     POLISH(
-        "Polski",
+        R.string.settings_language_polish,
         Locale("pl", "PL"),
     ),
     ENGLISH(
-        "English",
+        R.string.settings_language_english,
         Locale("en", "US"),
     ),
     ITALIAN(
-        "Italiano",
+        R.string.settings_language_italiano,
         Locale("it", "IT"),
     ),
 }

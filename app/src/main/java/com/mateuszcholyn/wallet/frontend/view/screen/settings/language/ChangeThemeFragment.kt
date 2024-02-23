@@ -23,7 +23,7 @@ fun ChangeThemeFragment() {
 
     var selectedTheme by remember { mutableStateOf(availableThemes.find { it.walletTheme.themeName == WalletThemeSelectedByUser.value }!!) }
     WalletDropdown(
-        dropdownName = stringResource(R.string.theme),
+        dropdownName = stringResource(R.string.settings_dropdown_theme),
         selectedElement = selectedTheme,
         availableElements = availableThemes,
         onItemSelected = {

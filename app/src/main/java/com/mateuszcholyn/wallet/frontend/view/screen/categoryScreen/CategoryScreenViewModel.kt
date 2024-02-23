@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
@@ -17,7 +18,7 @@ import javax.inject.Inject
 sealed class CategoryScreenState {
     data object Loading : CategoryScreenState()
     data class Success(val categorySuccessContent: CategorySuccessContent) : CategoryScreenState()
-    data class Error(val errorMessage: String) : CategoryScreenState()
+    data class Error(val errorMessageKey: Int) : CategoryScreenState()
 }
 
 data class CategorySuccessContent(
@@ -51,7 +52,7 @@ class CategoryScreenViewModel @Inject constructor(
             } catch (e: Exception) {
                 removeCategoryState =
                     removeCategoryState.copy(
-                        errorModalState = ErrorModalState.Visible("error podczas usuwania")
+                        errorModalState = ErrorModalState.Visible(R.string.error_unable_to_remove_category)
                     )
             }
         }
@@ -65,7 +66,7 @@ class CategoryScreenViewModel @Inject constructor(
         } else {
             removeCategoryState =
                 removeCategoryState.copy(
-                    errorModalState = ErrorModalState.Visible("Nie możesz usunąć kategorii gdzie są wydatki")
+                    errorModalState = ErrorModalState.Visible(R.string.error_unable_to_remove_category_where_are_expenses)
                 )
         }
     }
@@ -92,15 +93,13 @@ class CategoryScreenViewModel @Inject constructor(
     }
 
     fun refreshScreen() {
-        // w sumie takie coś można by wszędie dać i korytyny by działały od razu XD
-        // to tak odnośnie usuwania mainThreadQueries XD
         viewModelScope.launch { // DONE
             try {
                 categoryScreenState = CategoryScreenState.Loading
                 categoryScreenState = CategoryScreenState.Success(prepareCategorySuccessContent())
             } catch (e: Exception) {
                 categoryScreenState =
-                    CategoryScreenState.Error("Unknown error sad times")
+                    CategoryScreenState.Error(R.string.error_unable_to_load_categories)
             }
         }
     }

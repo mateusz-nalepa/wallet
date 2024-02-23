@@ -10,7 +10,7 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
 
 sealed interface ErrorModalState {
     data object NotVisible : ErrorModalState
-    data class Visible(val message: String) : ErrorModalState
+    data class Visible(val messageKey: Int) : ErrorModalState
 }
 
 sealed interface SuccessModalState {
@@ -34,7 +34,7 @@ fun ActionButton(
 
     if (errorModalState is ErrorModalState.Visible) {
         MyErrorDialog(
-            errorMessage = errorModalState.message,
+            errorMessageKey = errorModalState.messageKey,
             onClose = onErrorModalClose
         )
     }

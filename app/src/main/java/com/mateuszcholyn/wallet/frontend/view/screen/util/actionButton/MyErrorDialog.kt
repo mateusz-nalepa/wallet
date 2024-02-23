@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.border
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
@@ -7,8 +8,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnDarkPreview
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnLightPreview
 
@@ -19,7 +22,7 @@ fun MyErrorDialogProxy(
 ) {
     if (errorModalState is ErrorModalState.Visible) {
         MyErrorDialog(
-            errorMessage = errorModalState.message,
+            errorMessageKey = errorModalState.messageKey,
             onClose = onErrorModalClose
         )
     }
@@ -27,16 +30,17 @@ fun MyErrorDialogProxy(
 
 @Composable
 fun MyErrorDialog(
-    errorMessage: String,
+    @StringRes
+    errorMessageKey: Int,
     onClose: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onClose,
-        title = { Text("Błąd") },
-        text = { Text(errorMessage) },
+        title = { Text(stringResource(R.string.error_label)) },
+        text = { Text(stringResource(errorMessageKey)) },
         confirmButton = {
             Button(onClick = onClose) {
-                Text("Zamknij")
+                Text(stringResource(R.string.common_close))
             }
         },
         modifier = Modifier.border(2.dp, MaterialTheme.colors.error)
@@ -48,7 +52,7 @@ fun MyErrorDialog(
 fun MyErrorDialogDarkPreview() {
     SetContentOnDarkPreview {
         MyErrorDialog(
-            errorMessage = "Some Error Message",
+            errorMessageKey = R.string.common_export_data,
             onClose = {},
         )
     }
@@ -59,7 +63,7 @@ fun MyErrorDialogDarkPreview() {
 fun MyErrorDialogLightPreview() {
     SetContentOnLightPreview {
         MyErrorDialog(
-            errorMessage = "Some Error Message",
+            errorMessageKey = R.string.common_export_data,
             onClose = {},
         )
     }

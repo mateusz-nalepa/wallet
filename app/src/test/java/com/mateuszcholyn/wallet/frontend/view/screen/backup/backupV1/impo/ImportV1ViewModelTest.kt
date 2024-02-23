@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.impo
 
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1UseCase
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.export.BackupV1JsonCreator
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.MainDispatcherRule
@@ -45,7 +46,7 @@ class ImportV1ViewModelTest {
 
         // then
         viewModel.exportedUiState.value.run {
-            errorState shouldBe ErrorModalState.Visible("Nieznany błąd podczas importu danych")
+            errorState shouldBe ErrorModalState.Visible(R.string.error_unable_to_import_data)
             buttonIsLoading shouldBe false
             importV1SummaryProgressState shouldBe null
         }

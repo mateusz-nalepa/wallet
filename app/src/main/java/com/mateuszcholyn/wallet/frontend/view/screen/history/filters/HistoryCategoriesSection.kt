@@ -14,7 +14,7 @@ fun HistoryCategoriesSection(
     onCategorySelected: (CategoryView) -> Unit,
 ) {
     WalletDropdown(
-        dropdownName = stringResource(R.string.category),
+        dropdownName = stringResource(R.string.common_category),
         selectedElement = selectedCategory,
         availableElements = categoriesList,
         onItemSelected = { newSelectedCategory ->

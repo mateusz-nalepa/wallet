@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.expenseform
 
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.randomCategoryQuickSummary
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
@@ -106,7 +107,7 @@ class ExpenseFormViewModelTest {
         // then
 
         viewModel.exportedExpenseFormDetailsUiState.value.run {
-            assert(submitButtonLabel == "Dodaj wydatek")
+            assert(submitButtonLabelKey == R.string.button_addExpense)
             assert(categories == givenCategories.map { it.toCategoryView() })
             assert(selectedCategory == givenCategories.first().toCategoryView())
             assert(paidAt == actualTime)
@@ -126,7 +127,7 @@ class ExpenseFormViewModelTest {
 
         // then
         viewModel.exportedExpenseFormDetailsUiState.value.run {
-            errorModalState shouldBe ErrorModalState.Visible("wywaliło się podczas dodawania")
+            errorModalState shouldBe ErrorModalState.Visible(R.string.error_unable_to_addExpense)
             expenseSubmitButtonState shouldBe ExpenseSubmitButtonState.ENABLED
         }
 
@@ -226,7 +227,7 @@ class ExpenseFormViewModelTest {
             addExpenseUseCase.invoke(any())
         }
         viewModel.exportedExpenseFormDetailsUiState.value.run {
-            errorModalState shouldBe ErrorModalState.Visible("wywaliło się podczas dodawania")
+            errorModalState shouldBe ErrorModalState.Visible(R.string.error_unable_to_addExpense)
             expenseSubmitButtonState shouldBe ExpenseSubmitButtonState.ENABLED
         }
     }
@@ -258,7 +259,7 @@ class ExpenseFormViewModelTest {
             )
             paidAt shouldBe expenseToBeUpdated.paidAt.fromUTCInstantToUserLocalTimeZone()
 
-            submitButtonLabel shouldBe "Edytuj wydatek"
+            submitButtonLabelKey shouldBe R.string.button_editExpense
             expenseSubmitButtonState shouldBe ExpenseSubmitButtonState.ENABLED
         }
     }
@@ -328,7 +329,7 @@ class ExpenseFormViewModelTest {
             )
             paidAt shouldBe time
 
-            submitButtonLabel shouldBe "Dodaj skopiowany wydatek"
+            submitButtonLabelKey shouldBe R.string.button_copyExpense
             expenseSubmitButtonState shouldBe ExpenseSubmitButtonState.ENABLED
         }
     }

@@ -27,9 +27,9 @@ fun AdvancedFiltersSectionStateless(
     ) {
         Text(
             text = if (historySearchForm.advancedOptionsVisible) {
-                stringResource(R.string.hideFilters)
+                stringResource(R.string.historyScreen_showLess)
             } else {
-                stringResource(R.string.showFilters)
+                stringResource(R.string.historyScreen_showMore)
             }
         )
         Checkbox(checked = historySearchForm.advancedOptionsVisible, onCheckedChange = {

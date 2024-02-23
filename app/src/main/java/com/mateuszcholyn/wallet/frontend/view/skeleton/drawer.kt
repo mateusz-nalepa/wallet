@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +26,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.BuildConfig
+import com.mateuszcholyn.wallet.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -38,8 +40,8 @@ fun Drawer(
 ) {
 
     val items = listOf(
-        NavDrawerItem.Category,
-        NavDrawerItem.AddOrEditExpense,
+        NavDrawerItem.Categories,
+        NavDrawerItem.AddExpenseForm,
         NavDrawerItem.History,
         NavDrawerItem.Backup,
         NavDrawerItem.Settings,
@@ -48,7 +50,7 @@ fun Drawer(
     Column {
         // Header
         Text(
-            text = "Simple Wallet",
+            text = stringResource(R.string.app_name),
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
             fontSize = 30.sp,

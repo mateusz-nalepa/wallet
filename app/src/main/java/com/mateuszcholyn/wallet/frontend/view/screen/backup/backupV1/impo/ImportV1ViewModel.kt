@@ -3,6 +3,7 @@ package com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.impo
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Parameters
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Summary
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1UseCase
@@ -52,12 +53,13 @@ class ImportV1ViewModel @Inject constructor(
     }
 
     fun importBackupV1(
+        noDescriptionLabel: String,
         fileContentReader: () -> String,
     ) {
         viewModelScope.launch { // DONE UI State
             try {
                 uiState = uiState.copy(buttonIsLoading = false)
-                val importV1Summary = unsafeImportData(fileContentReader.invoke())
+                val importV1Summary = unsafeImportData(noDescriptionLabel, fileContentReader.invoke())
                 uiState = uiState.copy(
                     successState = SuccessModalState.Visible(importV1Summary),
                     buttonIsLoading = false,
@@ -65,7 +67,7 @@ class ImportV1ViewModel @Inject constructor(
                 )
             } catch (e: Exception) {
                 uiState = uiState.copy(
-                    errorState = ErrorModalState.Visible("Nieznany błąd podczas importu danych"),
+                    errorState = ErrorModalState.Visible(R.string.error_unable_to_import_data),
                     buttonIsLoading = false,
                     importV1SummaryProgressState = null,
                 )
@@ -74,13 +76,15 @@ class ImportV1ViewModel @Inject constructor(
     }
 
     private suspend fun unsafeImportData(
+        noDescriptionLabel: String,
         fileContent: String,
     ): ImportV1Summary {
         val backupWalletV1 = BackupV1JsonReader.readBackupWalletV1(fileContent)
-        return importV1UseCase.invoke(createImportV1Parameters(backupWalletV1))
+        return importV1UseCase.invoke(createImportV1Parameters(noDescriptionLabel, backupWalletV1))
     }
 
     private fun createImportV1Parameters(
+        noDescriptionLabel: String,
         backupWalletV1: BackupWalletV1,
     ): ImportV1Parameters =
         ImportV1Parameters(
@@ -96,7 +100,7 @@ class ImportV1ViewModel @Inject constructor(
             },
             onExpanseChangedAction = {
                 uiState = uiState.copy(
-                    compareModalParameters = ComparatorModalDialogState.Visible(it.toComparableDataModalParameters())
+                    compareModalParameters = ComparatorModalDialogState.Visible(it.toComparableDataModalParameters(noDescriptionLabel))
                 )
             },
         )

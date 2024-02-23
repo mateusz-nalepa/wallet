@@ -1,8 +1,10 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.categoryForm
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
@@ -21,7 +23,10 @@ import javax.inject.Inject
 sealed class CategoryScreenFormState {
     data object Loading : CategoryScreenFormState()
     data class Success(val categoryNames: List<String>) : CategoryScreenFormState()
-    data class Error(val errorMessage: String) : CategoryScreenFormState()
+    data class Error(
+        @StringRes
+        val errorMessageKey: Int,
+    ) : CategoryScreenFormState()
 }
 
 
@@ -62,7 +67,7 @@ class CategoryScreenFormViewModel @Inject constructor(
                         categoryScreenMode = CategoryScreenMode.Add
                         categoryFormUiState =
                             categoryFormUiState.copy(
-                                buttonLabel = "Dodaj kategorię",
+                                buttonLabelKey = R.string.button_addCategory,
                                 submitButtonState = CategorySubmitButton.DISABLED,
                             )
                     }
@@ -71,7 +76,7 @@ class CategoryScreenFormViewModel @Inject constructor(
                         categoryScreenMode = CategoryScreenMode.Update(CategoryId(existingCategoryId))
                         categoryFormUiState =
                             categoryFormUiState.copy(
-                                buttonLabel = "Aktualizuj kategorię",
+                                buttonLabelKey = R.string.button_updateCategory,
                                 categoryName = categoryQuickSummary.find { it.categoryId == CategoryId(existingCategoryId) }!!.categoryName,
                                 submitButtonState = CategorySubmitButton.ENABLED,
                             )
@@ -80,7 +85,7 @@ class CategoryScreenFormViewModel @Inject constructor(
 
                 categoryScreenFormState = CategoryScreenFormState.Success(categoryQuickSummary.map { it.categoryName })
             } catch (t: Throwable) {
-                categoryScreenFormState = CategoryScreenFormState.Error("xdd dupa")
+                categoryScreenFormState = CategoryScreenFormState.Error(R.string.error_unable_to_load_category_form)
 
             }
         }
@@ -132,7 +137,7 @@ class CategoryScreenFormViewModel @Inject constructor(
     }
 
     private fun addCategory() {
-        userInputAction(errorMessage = "Error na add") {
+        userInputAction(errorMessageKey = R.string.error_unable_to_addCategory) {
             val createCategoryParameters =
                 CreateCategoryParameters(
                     name = categoryFormUiState.categoryName,
@@ -142,7 +147,7 @@ class CategoryScreenFormViewModel @Inject constructor(
     }
 
     private fun updateCategory(categoryId: CategoryId) {
-        userInputAction(errorMessage = "Error na update") {
+        userInputAction(errorMessageKey = R.string.error_unable_to_updateCategory) {
             val updatedCategory =
                 Category(
                     id = categoryId,
@@ -154,7 +159,8 @@ class CategoryScreenFormViewModel @Inject constructor(
 
 
     private fun userInputAction(
-        errorMessage: String,
+        @StringRes
+        errorMessageKey: Int,
         userAction: suspend () -> Unit,
     ) {
         viewModelScope.launch {// DONE
@@ -164,7 +170,7 @@ class CategoryScreenFormViewModel @Inject constructor(
             } catch (e: Exception) {
                 categoryFormUiState =
                     categoryFormUiState.copy(
-                        errorModalState = ErrorModalState.Visible(errorMessage),
+                        errorModalState = ErrorModalState.Visible(errorMessageKey),
                         submitButtonState = CategorySubmitButton.ENABLED
                     )
             }

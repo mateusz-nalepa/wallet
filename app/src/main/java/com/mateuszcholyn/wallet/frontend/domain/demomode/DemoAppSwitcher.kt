@@ -18,7 +18,7 @@ class DemoModeEnabled : DemoAppSwitcher {
         true
 
     override fun buttonMessageKey(): Int =
-        R.string.leaveDemoMode
+        R.string.settings_leaveDemoMode
 
     override fun switch(context: Context) {
         DemoModeConfig.setDemoModeFlag(context, false)
@@ -32,7 +32,7 @@ class DemoModeDisabled : DemoAppSwitcher {
         false
 
     override fun buttonMessageKey(): Int =
-        R.string.startDemoMode
+        R.string.settings_startDemoMode
 
     override fun switch(context: Context) {
         DemoModeConfig.setDemoModeFlag(context, true)

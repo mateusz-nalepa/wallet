@@ -8,10 +8,11 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.mateuszcholyn.wallet.userConfig.theme.LocalWalletThemeComposition
+import com.mateuszcholyn.wallet.userConfig.theme.WalletTheme
 
 @Composable
 fun SetContentOnDarkPreview(content: @Composable () -> Unit) {
-    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf("dark") }) {
+    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf(WalletTheme.DARK.themeName) }) {
         MaterialTheme(colors = darkColors()) {
             content()
         }
@@ -20,7 +21,7 @@ fun SetContentOnDarkPreview(content: @Composable () -> Unit) {
 
 @Composable
 fun SetContentOnLightPreview(content: @Composable () -> Unit) {
-    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf("light") }) {
+    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf(WalletTheme.LIGHT.themeName) }) {
         MaterialTheme(colors = lightColors()) {
             content()
         }

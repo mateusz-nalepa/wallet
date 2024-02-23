@@ -1,7 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.dropdown
 
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.util.localDateTimeUtils.atEndOfTheDay
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.atStartOfTheDay
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.atStartOfTheMonth
 import java.time.LocalDate
@@ -9,8 +8,8 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 data class QuickRangeData(
-    override val name: String,
-    override val nameKey: Int? = null,
+    override val name: String? = null,
+    override val nameKey: Int,
     val beginDate: LocalDateTime?,
     val endDate: LocalDateTime?,
     val isCustomRangeData: Boolean = false,
@@ -19,10 +18,9 @@ data class QuickRangeData(
     companion object {
         val default =
             QuickRangeData(
-                name = "R.string.today",
-                nameKey = R.string.today,
+                nameKey = R.string.quickRange_today,
                 beginDate = LocalDateTime.of(LocalDate.now(), LocalTime.MIN),
-                endDate = LocalDateTime.now().plusHours(1),
+                endDate = LocalDateTime.of(LocalDate.now(), LocalTime.MAX),
             )
     }
 }
@@ -31,56 +29,42 @@ fun quickDateRanges(): List<QuickRangeData> {
     return listOf(
         QuickRangeData.default,
         QuickRangeData(
-            name = "R.string.yesterday",
-            nameKey = R.string.yesterday,
+            nameKey = R.string.quickRange_yesterday,
             beginDate = LocalDateTime.now().minusDays(1).atStartOfTheDay(),
             endDate = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MAX),
         ),
         QuickRangeData(
-            name = "R.string.dayBeforeYesterday",
-            nameKey = R.string.dayBeforeYesterday,
+            nameKey = R.string.quickRange_dayBeforeYesterday,
             beginDate = LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.MIN),
             endDate = LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.MAX),
         ),
         QuickRangeData(
-            name = "R.string.lastWeek",
-            nameKey = R.string.lastWeek,
+            nameKey = R.string.quickRange_lastWeek,
             beginDate = LocalDateTime.now().minusDays(7),
             endDate = LocalDateTime.now(),
         ),
         QuickRangeData(
-            name = "R.string.thisMonth",
-            nameKey = R.string.thisMonth,
+            nameKey = R.string.quickRange_thisMonth,
             beginDate = LocalDateTime.now().atStartOfTheMonth(),
             endDate = LocalDateTime.now(),
         ),
         QuickRangeData(
-            name = "R.string.lastMonth",
-            nameKey = R.string.lastMonth,
+            nameKey = R.string.quickRange_lastMonth,
             beginDate = LocalDateTime.now().minusMonths(1),
             endDate = LocalDateTime.now(),
         ),
         QuickRangeData(
-            name = "R.string.lastThreeMonths",
-            nameKey = R.string.lastThreeMonths,
+            nameKey = R.string.quickRange_lastThreeMonths,
             beginDate = LocalDateTime.now().minusMonths(3),
             endDate = LocalDateTime.now(),
         ),
         QuickRangeData(
-            name = "R.string.allExpensesUpToToday",
-            nameKey = R.string.allExpensesUpToToday,
-            beginDate = null,
-            endDate = LocalDateTime.now().atEndOfTheDay(),
-        ),
-        QuickRangeData(
-            name = "R.string.allExpenses",
-            nameKey = R.string.allExpenses,
+            nameKey = R.string.quickRange_allExpenses,
             beginDate = null,
             endDate = null,
         ),
         QuickRangeData(
-            name = "R.string.custom",
-            nameKey = R.string.custom,
+            nameKey = R.string.quickRange_custom,
             beginDate = null,
             endDate = null,
             isCustomRangeData = true,

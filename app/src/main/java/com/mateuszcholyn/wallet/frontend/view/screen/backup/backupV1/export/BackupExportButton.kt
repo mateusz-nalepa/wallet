@@ -3,10 +3,12 @@ package com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.export
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ActionButton
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.export.fileExporter
@@ -26,10 +28,15 @@ fun BackupExport(
 
     val backupExportUiState by remember { exportV1ViewModel.exportedUiState }
 
+    val exportLabel = stringResource(R.string.common_export_data)
+    val exportFileNamePrefix = stringResource(R.string.export_file_name_prefix)
+
     BackupExportStateless(
         backupExportUiState = backupExportUiState,
         onClick = {
             exportV1ViewModel.exportBackupV1(
+                exportLabel = exportLabel,
+                exportFileNamePrefix = exportFileNamePrefix,
                 onFileReadyAction = { fileExporter.launch(it) },
             )
         },
@@ -47,7 +54,7 @@ private fun BackupExportStateless(
     onErrorModalClose: () -> Unit,
 ) {
     ActionButton(
-        text = "Eksportuj dane",
+        text = stringResource(R.string.backupScreen_export_data),
         onClick = onClick,
         isLoading = backupExportUiState.isLoading,
         errorModalState = backupExportUiState.errorModalState,

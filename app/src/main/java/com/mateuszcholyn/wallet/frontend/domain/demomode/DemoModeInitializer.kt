@@ -23,13 +23,13 @@ class DemoModeInitializer(
     private fun initBecauseDemoModeIsEnabled() {
         initDemoApp {
             category {
-                categoryName = "Zakupy"
+                categoryName = "test 1"
                 expense {
                     amount = BigDecimal("8.45")
                 }
                 expense {
                     amount = BigDecimal("5.96")
-                    description = "Bułki"
+                    description = "test"
                 }
                 expense {
                     amount = BigDecimal("12.95")
@@ -57,10 +57,10 @@ class DemoModeInitializer(
                 }
             }
             category {
-                categoryName = "Paliwo"
+                categoryName = "test 2"
                 expense {
                     amount = BigDecimal("128.94")
-                    description = "gaz\n2.96"
+                    description = "test test"
                 }
             }
         }

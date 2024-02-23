@@ -15,7 +15,7 @@ fun HistorySortingSectionStateless(
     historyScreenActions: HistoryScreenActions,
 ) {
     WalletDropdown(
-        dropdownName = stringResource(R.string.Sorting),
+        dropdownName = stringResource(R.string.historyScreen_sorting),
         selectedElement = historySearchForm.selectedSortElement,
         availableElements = historySearchForm.sortElements,
         onItemSelected = { newSortElement ->

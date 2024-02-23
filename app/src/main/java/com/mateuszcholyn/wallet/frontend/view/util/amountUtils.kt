@@ -9,7 +9,7 @@ fun BigDecimal.asFormattedAmount(): BigDecimal =
 
 fun BigDecimal.asPrintableAmount(): String = run {
     asFormattedAmount()
-        .toString() + " $"
+        .toString() + "$"
 }
 
 fun BigDecimal.asPrintableAmountWithoutDollar(): String = run {

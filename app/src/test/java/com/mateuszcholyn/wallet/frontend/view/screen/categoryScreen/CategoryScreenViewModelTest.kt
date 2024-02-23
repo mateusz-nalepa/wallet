@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen
 
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.randomCategoryQuickSummary
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.RemoveCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.MainDispatcherRule
@@ -50,7 +51,7 @@ class CategoryScreenViewModelTest {
         viewModel.refreshScreen()
 
         // then
-        viewModel.exportedCategoryScreenState.value shouldBe CategoryScreenState.Error("Unknown error sad times")
+        viewModel.exportedCategoryScreenState.value shouldBe CategoryScreenState.Error(R.string.error_unable_to_load_categories)
     }
 
     @Test
@@ -144,7 +145,7 @@ class CategoryScreenViewModelTest {
 
         // then
         viewModel.exportedRemoveCategoryState.value.run {
-            errorModalState shouldBe ErrorModalState.Visible("Nie możesz usunąć kategorii gdzie są wydatki")
+            errorModalState shouldBe ErrorModalState.Visible(R.string.error_unable_to_remove_category_where_are_expenses)
         }
         coVerify(exactly = 0) { removeCategoryUseCase.invoke(givenCategory.categoryId) }
 
@@ -171,7 +172,7 @@ class CategoryScreenViewModelTest {
 
         // then
         viewModel.exportedRemoveCategoryState.value.run {
-            errorModalState shouldBe ErrorModalState.Visible("error podczas usuwania")
+            errorModalState shouldBe ErrorModalState.Visible(R.string.error_unable_to_remove_category)
         }
         coVerify(exactly = 1) { removeCategoryUseCase.invoke(givenCategory.categoryId) }
 

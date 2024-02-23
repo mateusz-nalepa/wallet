@@ -24,11 +24,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: app icon
 // TODO: translations
-// TODO: info about libraries used
 // TODO: before release on Google Play check if sth else is missing / should be fixed
 
 // FIXME: add accessibility support for app
 // FIXME: fix all compilation errors
+// FIXME: info about libraries used
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint

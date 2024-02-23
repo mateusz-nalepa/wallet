@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.categoryForm
 
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.randomCategoryQuickSummary
 import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
@@ -81,7 +82,7 @@ class CategoryScreenFormViewModelTest {
             submitButtonState shouldBe CategorySubmitButton.DISABLED
             showCategoryAlreadyExistsWarning shouldBe false
             errorModalState shouldBe ErrorModalState.NotVisible
-            buttonLabel shouldBe "Dodaj kategorię"
+            buttonLabelKey shouldBe R.string.button_addCategory
         }
     }
 
@@ -129,7 +130,7 @@ class CategoryScreenFormViewModelTest {
         // expect
         viewModel.exportedCategoryScreenFormState.value is CategoryScreenFormState.Success
         viewModel.exportedCategoryFormUiState.value.run {
-            errorModalState shouldBe ErrorModalState.Visible("Error na add")
+            errorModalState shouldBe ErrorModalState.Visible(R.string.error_unable_to_addCategory)
         }
         coVerify(exactly = 0) { onButtonSubmittedActionMock.invoke() }
 
@@ -189,7 +190,7 @@ class CategoryScreenFormViewModelTest {
             submitButtonState shouldBe CategorySubmitButton.ENABLED
             showCategoryAlreadyExistsWarning shouldBe false
             errorModalState shouldBe ErrorModalState.NotVisible
-            buttonLabel shouldBe "Aktualizuj kategorię"
+            buttonLabelKey shouldBe R.string.button_updateCategory
         }
     }
 
@@ -211,7 +212,7 @@ class CategoryScreenFormViewModelTest {
         // expect
         viewModel.exportedCategoryScreenFormState.value is CategoryScreenFormState.Success
         viewModel.exportedCategoryFormUiState.value.run {
-            errorModalState shouldBe ErrorModalState.Visible("Error na update")
+            errorModalState shouldBe ErrorModalState.Visible(R.string.error_unable_to_updateCategory)
         }
         coVerify(exactly = 0) { onButtonSubmittedActionMock.invoke() }
 

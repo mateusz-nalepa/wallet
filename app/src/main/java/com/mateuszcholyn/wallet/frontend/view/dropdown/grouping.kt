@@ -9,16 +9,15 @@ import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
 
 data class GroupElement(
-    override val name: String,
-    override val nameKey: Int? = null,
+    override val name: String? = null,
+    override val nameKey: Int,
     val groupFunctionName: (SearchSingleResult) -> String,
     val groupFunction: (SearchSingleResult) -> String,
 ) : DropdownElement {
     companion object {
         val default =
             GroupElement(
-                name = "R.string.wgdnia",
-                nameKey = R.string.wgdnia,
+                nameKey = R.string.group_byDay,
                 groupFunctionName = {
                     it.paidAt.fromUTCInstantToUserLocalTimeZone().truncatedTo(ChronoUnit.DAYS)
                         .toHumanDateText()
@@ -35,8 +34,7 @@ fun groupingElements(): List<GroupElement> {
     return listOf(
         GroupElement.default,
         GroupElement(
-            name = "R.string.wgmiesiaca",
-            nameKey = R.string.wgmiesiaca,
+            nameKey = R.string.group_byMonth,
             groupFunctionName = {
                 it.paidAt.fromUTCInstantToUserLocalTimeZone()
                     .with(TemporalAdjusters.firstDayOfMonth()).truncatedTo(ChronoUnit.DAYS)
@@ -49,8 +47,7 @@ fun groupingElements(): List<GroupElement> {
             },
         ),
         GroupElement(
-            name = "R.string.wgroku",
-            nameKey = R.string.wgroku,
+            nameKey = R.string.group_byYear,
             groupFunctionName = { it.paidAt.fromUTCInstantToUserLocalTimeZone().year.toString() },
             groupFunction = { it.paidAt.fromUTCInstantToUserLocalTimeZone().year.toString() },
         ),

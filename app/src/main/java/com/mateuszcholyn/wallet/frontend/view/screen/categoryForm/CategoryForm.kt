@@ -24,7 +24,7 @@ fun CategoryFormScreen(
         categoryScreenFormViewModel.initCategoryFormScreen(
             existingCategoryId = existingCategoryId,
             onButtonSubmittedAction = {
-                navHostController.navigate(NavDrawerItem.Category.route)
+                navHostController.navigate(NavDrawerItem.Categories.route)
             }
         )
         onDispose { }
@@ -63,7 +63,7 @@ fun CategoryFormScreenStateless(
 ) {
     when (categoryScreenFormState) {
         CategoryScreenFormState.Loading -> ScreenLoading()
-        is CategoryScreenFormState.Error -> ScreenError(errorMessage = "XDD")
+        is CategoryScreenFormState.Error -> ScreenError(categoryScreenFormState.errorMessageKey)
         is CategoryScreenFormState.Success -> {
             CategoryFormStateless(
                 categoryFormUiState = categoryFormUiState,

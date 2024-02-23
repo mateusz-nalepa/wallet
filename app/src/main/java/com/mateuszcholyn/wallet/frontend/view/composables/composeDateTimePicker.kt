@@ -26,8 +26,8 @@ fun ComposeDateTimePicker(
     MaterialDialog(
         dialogState = timePickerDialogState,
         buttons = {
-            positiveButton(stringResource(R.string.datePickerOk))
-            negativeButton(stringResource(R.string.datePickerCancel))
+            positiveButton(stringResource(R.string.common_ok))
+            negativeButton(stringResource(R.string.common_cancel))
         }
     )
     {
@@ -43,8 +43,8 @@ fun ComposeDateTimePicker(
     MaterialDialog(
         dialogState = dialogState,
         buttons = {
-            positiveButton(stringResource(R.string.datePickerOk))
-            negativeButton(stringResource(R.string.datePickerCancel))
+            positiveButton(stringResource(R.string.common_ok))
+            negativeButton(stringResource(R.string.common_cancel))
         },
     )
     {

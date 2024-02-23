@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.userConfig.theme.LocalWalletThemeComposition
+import com.mateuszcholyn.wallet.userConfig.theme.WalletTheme
 
 private fun Modifier.backgroundIfSelected(selected: Boolean): Modifier =
     composed {
@@ -49,6 +50,7 @@ fun DrawerItem(item: NavDrawerItem, selected: Boolean, onItemClick: (NavDrawerIt
     ) {
         Icon(
             imageVector = item.imageVector,
+            // FIXME: add description for accessibility
             contentDescription = "",
             modifier = Modifier
                 .height(30.dp)
@@ -65,9 +67,9 @@ fun DrawerItem(item: NavDrawerItem, selected: Boolean, onItemClick: (NavDrawerIt
 @Preview(showBackground = true)
 @Composable
 fun LightDrawerItemPreviewSelectedWithBackground() {
-    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf("light") }) {
+    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf(WalletTheme.LIGHT.themeName) }) {
         MaterialTheme(colors = lightColors()) {
-            DrawerItem(item = NavDrawerItem.Category, selected = true, onItemClick = {})
+            DrawerItem(item = NavDrawerItem.Categories, selected = true, onItemClick = {})
         }
     }
 }
@@ -75,9 +77,9 @@ fun LightDrawerItemPreviewSelectedWithBackground() {
 @Preview(showBackground = true)
 @Composable
 fun LightDrawerItemPreviewNotSelectedWithBackground() {
-    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf("light") }) {
+    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf(WalletTheme.LIGHT.themeName) }) {
         MaterialTheme(colors = lightColors()) {
-            DrawerItem(item = NavDrawerItem.Category, selected = false, onItemClick = {})
+            DrawerItem(item = NavDrawerItem.Categories, selected = false, onItemClick = {})
         }
     }
 }
@@ -85,9 +87,9 @@ fun LightDrawerItemPreviewNotSelectedWithBackground() {
 @Preview(showBackground = true)
 @Composable
 fun DarkDrawerItemPreviewSelectedWithBackground() {
-    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf("dark") }) {
+    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf(WalletTheme.DARK.themeName) }) {
         MaterialTheme(colors = darkColors()) {
-            DrawerItem(item = NavDrawerItem.Category, selected = true, onItemClick = {})
+            DrawerItem(item = NavDrawerItem.Categories, selected = true, onItemClick = {})
         }
     }
 }
@@ -95,9 +97,9 @@ fun DarkDrawerItemPreviewSelectedWithBackground() {
 @Preview(showBackground = true)
 @Composable
 fun DarkDrawerItemPreviewNotSelectedWithBackground() {
-    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf("dark") }) {
+    CompositionLocalProvider(LocalWalletThemeComposition provides remember { mutableStateOf(WalletTheme.DARK.themeName) }) {
         MaterialTheme(colors = darkColors()) {
-            DrawerItem(item = NavDrawerItem.Category, selected = false, onItemClick = {})
+            DrawerItem(item = NavDrawerItem.Categories, selected = false, onItemClick = {})
         }
     }
 }

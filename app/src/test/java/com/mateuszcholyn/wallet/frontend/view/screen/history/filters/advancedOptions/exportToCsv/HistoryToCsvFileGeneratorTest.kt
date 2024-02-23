@@ -10,15 +10,18 @@ import org.junit.Test
 import java.math.BigDecimal
 import java.time.Instant
 
-class HistoryToCsvFileGeneratorTest {
 
-    private val headerNames =
-        HeaderNames(
-            categoryNameLabel = "Category",
-            amountLabel = "Amount",
-            descriptionLabel = "Description",
-            paidAtLabel = "Paid at",
-        )
+val testCsvFileLabels =
+    CsvFileLabels(
+        categoryNameLabel = "Category",
+        amountLabel = "Amount",
+        descriptionLabel = "Description",
+        paidAtLabel = "Paid at",
+        exportTitleLabel = "Export data",
+        fileNamePrefix = "simple-wallet-csv",
+    )
+
+class HistoryToCsvFileGeneratorTest {
 
     private val generator = HistoryToCsvFileGenerator()
 
@@ -27,7 +30,7 @@ class HistoryToCsvFileGeneratorTest {
         // given
         val headerContent =
             generator.generate(
-                headerNames,
+                testCsvFileLabels,
                 expensesList = emptyList(),
             )
 
@@ -44,7 +47,7 @@ class HistoryToCsvFileGeneratorTest {
         // when
         val csvFileContent =
             generator.generate(
-                headerNames,
+                testCsvFileLabels,
                 expensesList = listOf(
                     createSearchSingleResult(
                         categoryName = "categoryXD",
@@ -64,8 +67,8 @@ class HistoryToCsvFileGeneratorTest {
         // then
         csvFileContent shouldBe """
             Category;Amount;Description;Paid at
-            categoryXD;50.00 $;;23.02.2024 00:39
-            categoryXD 2;55.00 $;some description;01.03.2024 00:39
+            categoryXD;50.00;;23.02.2024 00:39
+            categoryXD 2;55.00;some description;01.03.2024 00:39
         """.trimIndent()
     }
 
@@ -78,7 +81,7 @@ class HistoryToCsvFileGeneratorTest {
         // when
         val csvFileContent =
             generator.generate(
-                headerNames,
+                testCsvFileLabels,
                 expensesList = listOf(
                     createSearchSingleResult(
                         categoryName = "categoryXD;2",
@@ -92,7 +95,7 @@ class HistoryToCsvFileGeneratorTest {
         // then
         csvFileContent shouldBe """
             Category;Amount;Description;Paid at
-            categoryXD|2;55.00 $;some|desc;23.02.2024 00:39
+            categoryXD|2;55.00;some|desc;23.02.2024 00:39
         """.trimIndent()
     }
 

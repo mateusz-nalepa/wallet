@@ -1,14 +1,13 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.settings.language
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.dropdown.DropdownElement
 import com.mateuszcholyn.wallet.userConfig.theme.WalletTheme
 
 data class ThemeDropdownElement(
-    override val name: String,
-    override val nameKey: Int? = null,
+    override val name: String? = null,
+    override val nameKey: Int,
     val walletTheme: WalletTheme,
 ) : DropdownElement
 
@@ -16,15 +15,15 @@ data class ThemeDropdownElement(
 fun themeDropdownElements(): List<ThemeDropdownElement> =
     listOf(
         ThemeDropdownElement(
-            name = stringResource(R.string.useSystemTheme),
+            nameKey = R.string.settings_theme_useSystemTheme,
             walletTheme = WalletTheme.SYSTEM,
         ),
         ThemeDropdownElement(
-            name = stringResource(R.string.lightTheme),
+            nameKey = R.string.settings_theme_lightTheme,
             walletTheme = WalletTheme.LIGHT,
         ),
         ThemeDropdownElement(
-            name = stringResource(R.string.darkTheme),
+            nameKey = R.string.settings_theme_darkTheme,
             walletTheme = WalletTheme.DARK,
         )
     )

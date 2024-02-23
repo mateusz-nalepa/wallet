@@ -8,14 +8,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.frontend.view.dropdown.GroupElement
 import com.mateuszcholyn.wallet.frontend.view.dropdown.QuickRangeData
 import com.mateuszcholyn.wallet.frontend.view.dropdown.SortElement
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.HistoryFilters
+import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.CsvFileLabels
 import com.mateuszcholyn.wallet.frontend.view.screen.history.results.HistorySearchResultStateless
 import com.mateuszcholyn.wallet.frontend.view.screen.history.showSingleExpense.remove.RemoveSingleExpenseUiState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogProxy
@@ -77,6 +80,17 @@ fun HistoryScreen(
         onDispose { }
     })
 
+
+    val csvFileLabels =
+        CsvFileLabels(
+            categoryNameLabel = stringResource(id = R.string.common_category),
+            amountLabel = stringResource(id = R.string.common_amount),
+            descriptionLabel = stringResource(id = R.string.common_description),
+            paidAtLabel = stringResource(id = R.string.common_date),
+            exportTitleLabel = stringResource(id = R.string.common_export_data),
+            fileNamePrefix = stringResource(id = R.string.csv_file_name_prefix),
+        )
+
     val historyScreenActions = HistoryScreenActions(
         onCategorySelected = {
             historyScreenViewModel.updateSelectedCategory(it)
@@ -135,6 +149,7 @@ fun HistoryScreen(
         },
         onExportHistory = {
             historyScreenViewModel.exportToCsv(
+                csvFileLabels = csvFileLabels,
                 onFileReadyAction = {
                     fileExporter.launch(it)
                 }
@@ -166,7 +181,7 @@ fun HistoryScreenStateless(
     exportUiState: ExportToCsvUiState,
 ) {
     when (historyScreenState) {
-        is HistoryScreenState.Error -> ScreenError(historyScreenState.message)
+        is HistoryScreenState.Error -> ScreenError(historyScreenState.messageKey)
         HistoryScreenState.Loading -> ScreenLoading()
         is HistoryScreenState.Visible -> {
             HistoryScreenStateless(

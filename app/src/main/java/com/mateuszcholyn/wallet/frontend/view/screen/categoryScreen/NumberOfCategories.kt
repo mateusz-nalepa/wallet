@@ -13,9 +13,9 @@ fun NumberOfCategories(
     categorySuccessContent: CategorySuccessContent,
 ) {
     Row(modifier = defaultModifier, horizontalArrangement = Arrangement.SpaceBetween) {
-        Text(text = stringResource(R.string.categories), modifier = defaultModifier.weight(1f))
+        Text(text = stringResource(R.string.categoryScreen_categories), modifier = defaultModifier.weight(1f))
         Text(
-            text = stringResource(R.string.quantity) + " ${categorySuccessContent.categoriesList.size}",
+            text = stringResource(R.string.common_quantity) + " ${categorySuccessContent.categoriesList.size}",
             modifier = defaultModifier.weight(1f)
         )
     }

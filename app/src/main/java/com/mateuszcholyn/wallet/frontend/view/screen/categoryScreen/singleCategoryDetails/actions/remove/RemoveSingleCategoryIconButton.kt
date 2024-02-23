@@ -29,7 +29,7 @@ fun RemoveSingleCategoryIconButton(
             categoryScreenActions.onErrorModalClose.invoke()
         },
         content = {
-            Text(text = stringResource(R.string.reallyHardRemoveCategory))
+            Text(text = stringResource(R.string.areYouSureYouWantToRemoveCategory))
         },
         onConfirm = {
             categoryScreenActions.onCategoryRemoveAction.invoke(categoryQuickSummary.categoryId)

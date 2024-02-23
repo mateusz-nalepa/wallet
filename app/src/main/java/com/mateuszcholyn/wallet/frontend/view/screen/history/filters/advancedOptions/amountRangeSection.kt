@@ -22,7 +22,7 @@ fun AmountRangeSectionStateless(
         OutlinedTextField(
             value = historySearchForm.amountRangeStart,
             onValueChange = { historyScreenActions.onAmountRangeStartChanged(it) },
-            label = { Text(stringResource(R.string.amountFrom)) },
+            label = { Text(stringResource(R.string.historyScreen_amountFrom)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = defaultModifier.weight(1f),
             singleLine = true,
@@ -31,7 +31,7 @@ fun AmountRangeSectionStateless(
             value = historySearchForm.amountRangeEnd,
             onValueChange = { historyScreenActions.onAmountRangeEndChanged(it) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            label = { Text(stringResource(R.string.amountTo)) },
+            label = { Text(stringResource(R.string.historyScreen_amountTo)) },
             modifier = defaultModifier.weight(1f),
             singleLine = true,
         )

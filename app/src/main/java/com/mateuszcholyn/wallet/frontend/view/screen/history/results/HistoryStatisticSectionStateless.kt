@@ -16,7 +16,7 @@ fun HistoryStatisticSectionStateless(
 ) {
     Row(modifier = defaultModifier.padding(bottom = 0.dp)) {
         Text(
-            text = stringResource(R.string.quantity) + " ${historySuccessContent.expensesList.size}",
+            text = stringResource(R.string.common_quantity) + " ${historySuccessContent.expensesList.size}",
             modifier = defaultModifier.weight(1f)
         )
     }

@@ -16,7 +16,7 @@ import java.time.LocalDateTime
 
 @Composable
 fun OutlinedDatePickerField(
-    text: String = stringResource(R.string.date),
+    text: String = stringResource(R.string.common_date),
     value: LocalDateTime,
     onValueChange: (LocalDateTime) -> Unit,
     modifier: Modifier = Modifier,

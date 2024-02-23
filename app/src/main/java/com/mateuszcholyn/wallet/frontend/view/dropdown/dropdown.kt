@@ -1,16 +1,24 @@
 package com.mateuszcholyn.wallet.frontend.view.dropdown
 
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ExposedDropdownMenuBox
+import androidx.compose.material.ExposedDropdownMenuDefaults
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 
 interface DropdownElement {
-    val name: String
+    val name: String?
     val nameKey: Int?
 }
-
 
 @ExperimentalMaterialApi
 @Composable
@@ -67,16 +75,12 @@ fun <T> WalletDropdown(
             }
         }
     }
-
 }
 
 @Composable
-private fun resolveName(name: String, nameKey: Int?): String {
-    val resolvedName =
-        if (name.contains("R.string")) {
-            stringResource(nameKey!!)
-        } else {
-            name
-        }
-    return resolvedName
-}
+private fun resolveName(
+    name: String?,
+    nameKey: Int?,
+): String =
+    name
+        ?: stringResource(id = nameKey!!)

@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.history
 
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.domain.appstate.DemoModeAppIsConfigured
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
@@ -13,6 +14,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.TestGetCategori
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.TestLocalDateTimeProvider
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.HistoryToCsvGenerator
+import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.testCsvFileLabels
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.export.FileExportParameters
 import com.mateuszcholyn.wallet.manager.randomCategoryId
@@ -77,7 +79,7 @@ class HistoryScreenViewModelTest {
 
         // then
         viewModel.exposedHistoryScreenState.value shouldBe
-            HistoryScreenState.Error("Error podczas ładowania ekranu")
+            HistoryScreenState.Error(R.string.error_unable_to_load_history_screen)
     }
 
     @Test
@@ -93,7 +95,7 @@ class HistoryScreenViewModelTest {
         viewModel.exposedHistoryScreenState.value shouldBe HistoryScreenState.Visible
 
         // and should show load results error
-        viewModel.exposedHistoryResultState.value shouldBe HistoryResultState.Error("Nie udało się wczytać wyników")
+        viewModel.exposedHistoryResultState.value shouldBe HistoryResultState.Error(R.string.error_unable_to_load_expenses)
     }
 
     @Test
@@ -381,7 +383,7 @@ class HistoryScreenViewModelTest {
 
         // then
         viewModel.exposedRemoveUiState.value.run {
-            errorModalState shouldBe ErrorModalState.Visible("usuwanie się nie udało")
+            errorModalState shouldBe ErrorModalState.Visible(R.string.error_unable_to_remove_expense)
         }
         coVerify(exactly = 1) { removeExpenseUseCase.invoke(any()) }
 
@@ -402,12 +404,13 @@ class HistoryScreenViewModelTest {
 
         // when
         viewModel.exportToCsv(
+            csvFileLabels = testCsvFileLabels,
             onFileReadyAction = onFileReadyActionMock,
         )
 
         // then
         viewModel.exportedExportUiState.value.run {
-            errorModalState shouldBe ErrorModalState.Visible("Nieznany błąd podczas exportu danych")
+            errorModalState shouldBe ErrorModalState.Visible(R.string.error_unable_to_export_data)
         }
         // and
         verify(exactly = 0) { onFileReadyActionMock.invoke(any()) }

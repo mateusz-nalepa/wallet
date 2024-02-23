@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.skeleton
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
@@ -27,12 +28,17 @@ import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.ExpenseFormScre
 import com.mateuszcholyn.wallet.frontend.view.screen.history.HistoryScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.settings.SettingsScreen
 
-sealed class NavDrawerItem(var route: String, var imageVector: ImageVector, var titleTranslationKey: Int) {
-    data object Category : NavDrawerItem("category", Icons.Rounded.Category, R.string.menuItem_Category)
-    data object AddOrEditExpense : NavDrawerItem(
+sealed class NavDrawerItem(
+    val route: String,
+    val imageVector: ImageVector,
+    @StringRes
+    val titleTranslationKey: Int,
+) {
+    data object Categories : NavDrawerItem("category", Icons.Rounded.Category, R.string.menuItem_categories)
+    data object AddExpenseForm : NavDrawerItem(
         "expense-form?expenseId={expenseId}&mode={mode}",
         Icons.Rounded.ShoppingCart,
-        R.string.menuItem_AddOrEditExpense
+        R.string.menuItem_addExpense,
     )
 
     data object History : NavDrawerItem("history", Icons.Rounded.Summarize, R.string.menuItem_History)
@@ -62,10 +68,9 @@ fun categoryFormScreenRoute(categoryId: CategoryId): String =
 fun Navigation(
     navController: NavHostController,
 ) {
-//    NavHost(navController, startDestination = "category-form") {
     NavHost(navController, startDestination = NavDrawerItem.History.route) {
         composable(
-            route = NavDrawerItem.AddOrEditExpense.route,
+            route = NavDrawerItem.AddExpenseForm.route,
             arguments = listOf(
                 navArgument("expenseId") {
                     nullable = true
@@ -85,7 +90,7 @@ fun Navigation(
                 screenMode = backStackEntry.arguments?.getString("mode")
             )
         }
-        composable(NavDrawerItem.Category.route) {
+        composable(NavDrawerItem.Categories.route) {
             CategoryScreen(navHostController = navController)
         }
         composable(

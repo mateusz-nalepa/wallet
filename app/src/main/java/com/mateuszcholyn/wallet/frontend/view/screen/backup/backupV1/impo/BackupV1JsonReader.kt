@@ -28,7 +28,9 @@ data class BackupWalletVersionReader(
     val version: Int,
 )
 
-class BackupWalletV1NotSupportedVersionException(version: Int) :
+class BackupWalletV1NotSupportedVersionException(
+    val version: Int,
+) :
     RuntimeException(
         "Not supported backup version. Expected 1. Got: $version"
     )

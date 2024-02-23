@@ -41,7 +41,7 @@ fun HistoryGroupingSectionStateless(
                 onCheckedChange = { newValue ->
                     historyScreenActions.onGroupingCheckboxChanged(newValue)
                 })
-            Text(text = stringResource(R.string.group))
+            Text(text = stringResource(R.string.historyScreen_group))
         }
     }
 

@@ -9,10 +9,12 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Summary
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MySuccessDialog
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnDarkPreview
@@ -21,12 +23,12 @@ import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnLi
 @Composable
 fun ImportSummaryStateless(importV1Summary: ImportV1Summary) {
     Column {
-        ImportSummaryRowStateless("Categories total", importV1Summary.numberOfCategories)
-        ImportSummaryRowStateless("Expenses total", importV1Summary.numberOfExpenses)
-        ImportSummaryRowStateless("Imported categories", importV1Summary.numberOfImportedCategories)
-        ImportSummaryRowStateless("Skipped categories", importV1Summary.numberOfSkippedCategories)
-        ImportSummaryRowStateless("Imported expenses", importV1Summary.numberOfImportedExpenses)
-        ImportSummaryRowStateless("Skipped expenses", importV1Summary.numberOfSkippedExpenses)
+        ImportSummaryRowStateless(stringResource(R.string.backupScreen_import_summary_categories), importV1Summary.numberOfCategories)
+        ImportSummaryRowStateless(stringResource(R.string.backupScreen_import_summary_imported_categories), importV1Summary.numberOfImportedCategories)
+        ImportSummaryRowStateless(stringResource(R.string.backupScreen_import_summary_skipped_categories), importV1Summary.numberOfSkippedCategories)
+        ImportSummaryRowStateless(stringResource(R.string.backupScreen_import_summary_expenses), importV1Summary.numberOfExpenses)
+        ImportSummaryRowStateless(stringResource(R.string.backupScreen_import_summary_imported_expenses), importV1Summary.numberOfImportedExpenses)
+        ImportSummaryRowStateless(stringResource(R.string.backupScreen_import_summary_skipped_expenses), importV1Summary.numberOfSkippedExpenses)
     }
 }
 

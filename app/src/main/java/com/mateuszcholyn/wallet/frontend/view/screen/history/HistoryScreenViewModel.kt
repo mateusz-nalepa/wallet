@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchAverageExpenseResult
@@ -21,7 +22,7 @@ import com.mateuszcholyn.wallet.frontend.view.dropdown.groupingElements
 import com.mateuszcholyn.wallet.frontend.view.dropdown.quickDateRanges
 import com.mateuszcholyn.wallet.frontend.view.dropdown.sortingElements
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryView
-import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.HeaderNames
+import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.CsvFileLabels
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.HistoryToCsvGenerator
 import com.mateuszcholyn.wallet.frontend.view.screen.history.showSingleExpense.remove.RemoveSingleExpenseUiState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
@@ -37,7 +38,7 @@ import javax.inject.Inject
 
 
 sealed interface HistoryScreenState {
-    data class Error(val message: String) : HistoryScreenState
+    data class Error(val messageKey: Int) : HistoryScreenState
     data object Loading : HistoryScreenState
     data object Visible : HistoryScreenState
 }
@@ -45,7 +46,7 @@ sealed interface HistoryScreenState {
 sealed class HistoryResultState {
     data object Loading : HistoryResultState()
     data class Success(val historySuccessContent: HistorySuccessContent) : HistoryResultState()
-    data class Error(val errorMessage: String) : HistoryResultState()
+    data class Error(val errorMessageKey: Int) : HistoryResultState()
 }
 
 data class HistorySuccessContent(
@@ -166,7 +167,7 @@ class HistoryScreenViewModel @Inject constructor(
                 loadResultsFromDb()
                 historyScreenState = HistoryScreenState.Visible
             } catch (t: Throwable) {
-                historyScreenState = HistoryScreenState.Error("Error podczas ładowania ekranu")
+                historyScreenState = HistoryScreenState.Error(R.string.error_unable_to_load_history_screen)
 
             }
         }
@@ -182,7 +183,7 @@ class HistoryScreenViewModel @Inject constructor(
                 historyResultState = HistoryResultState.Loading
                 historyResultState = HistoryResultState.Success(prepareSummarySuccessContent())
             } catch (e: Exception) {
-                historyResultState = HistoryResultState.Error("Nie udało się wczytać wyników")
+                historyResultState = HistoryResultState.Error(R.string.error_unable_to_load_expenses)
             }
         }
     }
@@ -225,7 +226,7 @@ class HistoryScreenViewModel @Inject constructor(
             } catch (t: Throwable) {
                 removeUiState = removeUiState.copy(
                     isRemovalDialogVisible = false,
-                    errorModalState = ErrorModalState.Visible("usuwanie się nie udało")
+                    errorModalState = ErrorModalState.Visible(R.string.error_unable_to_remove_expense)
                 )
             }
         }
@@ -236,16 +237,17 @@ class HistoryScreenViewModel @Inject constructor(
     }
 
     fun exportToCsv(
+        csvFileLabels: CsvFileLabels,
         onFileReadyAction: (FileExportParameters) -> Unit,
     ) {
         viewModelScope.launch { // DONE UI State
             try {
                 exportUiState = exportUiState.copy(isLoading = true)
-                unsafeExportHistoryToCsv(onFileReadyAction)
+                unsafeExportHistoryToCsv(csvFileLabels, onFileReadyAction)
                 exportUiState = exportUiState.copy(isLoading = false)
             } catch (t: Throwable) {
                 exportUiState = exportUiState.copy(
-                    errorModalState = ErrorModalState.Visible("Nieznany błąd podczas exportu danych"),
+                    errorModalState = ErrorModalState.Visible(R.string.error_unable_to_export_data),
                     isLoading = false,
                 )
             }
@@ -253,27 +255,23 @@ class HistoryScreenViewModel @Inject constructor(
     }
 
     private fun unsafeExportHistoryToCsv(
+        csvFileLabels: CsvFileLabels,
         onFileReadyAction: (FileExportParameters) -> Unit,
     ) {
         val successResultState = historyResultState as HistoryResultState.Success
 
-        val fileName = "history-${LocalDateTime.now().toHumanDateTimeText()}.csv"
+        val fileName = "${csvFileLabels.fileNamePrefix}-${LocalDateTime.now().toHumanDateTimeText()}.csv"
         val fileContent =
             historyToCsvGenerator.generate(
-                HeaderNames(
-                    categoryNameLabel = "Kategoria",
-                    amountLabel = "Kwota",
-                    descriptionLabel = "Opis",
-                    paidAtLabel = "Data wydatku",
-                ),
-                successResultState.historySuccessContent.expensesList,
+                csvFileLabels = csvFileLabels,
+                expensesList = successResultState.historySuccessContent.expensesList,
             )
 
         onFileReadyAction.invoke(
             FileExportParameters(
                 fileName = fileName,
                 fileContent = fileContent,
-                title = "Eksport danych",
+                title = csvFileLabels.exportTitleLabel,
                 mediaType = WalletMediaType.TEXT_CSV,
             )
         )

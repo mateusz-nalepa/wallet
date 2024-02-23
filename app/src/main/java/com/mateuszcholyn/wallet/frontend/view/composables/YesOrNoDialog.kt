@@ -20,8 +20,8 @@ fun YesOrNoDialog(
     content: @Composable () -> Unit = {},
     onConfirm: () -> Unit,
     onCancel: () -> Unit = {},
-    cancelText: String = stringResource(R.string.yesOrNoCancel),
-    confirmText: String = stringResource(R.string.yesOrNoConfirm),
+    cancelText: String = stringResource(R.string.common_cancel),
+    confirmText: String = stringResource(R.string.common_confirm),
 ) {
     if (openDialog) {
         AlertDialog(
@@ -67,7 +67,7 @@ fun YesOrNoDialogPreview() {
         openDialog = true,
         onDialogClosed = {},
         content = {
-            Text(text = "XD")
+            Text(text = "some example yes or no content")
         },
         onConfirm = {},
     )

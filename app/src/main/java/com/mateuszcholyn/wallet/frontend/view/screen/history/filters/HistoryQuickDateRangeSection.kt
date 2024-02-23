@@ -19,7 +19,7 @@ fun HistoryQuickDateRangeSection(
     historyScreenActions: HistoryScreenActions,
 ) {
     WalletDropdown(
-        dropdownName = stringResource(R.string.range),
+        dropdownName = stringResource(R.string.common_range),
         selectedElement = historySearchForm.selectedQuickRangeData,
         availableElements = historySearchForm.quickDataRanges,
         onItemSelected = { newQuickRangeData ->
@@ -44,13 +44,13 @@ fun DateRangeSectionStateless(
         modifier = defaultModifier
     ) {
         OutlinedDatePickerField(
-            text = "Data od",
+            text = stringResource(R.string.historyScreen_dateFrom),
             value = historySearchForm.beginDate!!,
             onValueChange = { historyScreenActions.onBeginDateChanged.invoke(it) },
             modifier = Modifier.weight(0.5f),
         )
         OutlinedDatePickerField(
-            text = "Data do",
+            text = stringResource(R.string.historyScreen_dateTo),
             value = historySearchForm.endDate!!,
             onValueChange = { historyScreenActions.onEndDateChanged.invoke(it) },
             modifier = Modifier.weight(0.5f),

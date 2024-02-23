@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.util.screenError
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +21,10 @@ import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 @Composable
-fun ScreenError(errorMessage: String) {
+fun ScreenError(
+    @StringRes
+    errorMessageKey: Int,
+) {
     Column(
         modifier = defaultModifier
             .fillMaxSize()
@@ -28,11 +32,11 @@ fun ScreenError(errorMessage: String) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Icon(Icons.Rounded.Error, stringResource(R.string.iconError))
+        Icon(Icons.Rounded.Error, stringResource(R.string.icons_iconError))
         Text(text = EMPTY_STRING)
         Text(
             fontSize = 24.sp,
-            text = errorMessage,
+            text = stringResource(errorMessageKey),
         )
     }
 }
@@ -41,6 +45,6 @@ fun ScreenError(errorMessage: String) {
 @Composable
 fun ScreenErrorLightPreview() {
     SetContentOnLightPreview {
-        ScreenError("something went wrong")
+        ScreenError(R.string.error_unable_to_load_expense_form)
     }
 }

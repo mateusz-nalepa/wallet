@@ -20,11 +20,11 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 @Composable
 fun ValidatedTextFieldV2(
-    textFieldLabel: String = stringResource(R.string.amount),
+    textFieldLabel: String = stringResource(R.string.common_amount),
     value: String,
     onValueChange: (String) -> Unit,
     isValueInvalid: Boolean = false,
-    valueInvalidText: String = stringResource(R.string.incorrectValue),
+    valueInvalidText: String = stringResource(R.string.validation_incorrectValue),
     keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
     modifier: Modifier = defaultModifier,
 ) {
@@ -42,7 +42,7 @@ fun ValidatedTextFieldV2(
             singleLine = true,
             trailingIcon = {
                 if (isValueInvalid) {
-                    Icon(Icons.Filled.Error, stringResource(R.string.iconError))
+                    Icon(Icons.Filled.Error, stringResource(R.string.icons_iconError))
                 }
             },
             isError = isValueInvalid,

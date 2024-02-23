@@ -40,7 +40,7 @@ fun ShowSingleExpenseDetails(
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
             )
-            Text(text = searchSingleResult.description.orDefaultDescription(stringResource(R.string.noDescription)))
+            Text(text = searchSingleResult.description.orDefaultDescription(stringResource(R.string.common_noDescription)))
         }
         Row(
             modifier = defaultModifier.padding(bottom = 0.dp),

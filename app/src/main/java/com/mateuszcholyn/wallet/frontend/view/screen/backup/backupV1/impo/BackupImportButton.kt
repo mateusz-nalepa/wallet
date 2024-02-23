@@ -10,10 +10,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.ComparatorModal
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.ComparatorModalDialogState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ActionButton
@@ -35,10 +37,14 @@ fun BackupImport(
     val context = currentAppContext()
     val backupImportUiState by remember { importV1ViewModel.exportedUiState }
 
+    val noDescriptionLabel = stringResource(R.string.common_noDescription)
+
     val fileSelector =
         fileSelector(
             onExternalFileSelected = { externalFileUri ->
-                importV1ViewModel.importBackupV1 {
+                importV1ViewModel.importBackupV1(
+                    noDescriptionLabel = noDescriptionLabel,
+                ) {
                     context
                         .externalFileToInternal(externalFileUri)
                         .readFileContent()
@@ -70,7 +76,7 @@ fun BackupImportButtonStateless(
 
     Column {
         ActionButton(
-            text = "Importuj dane",
+            text = stringResource(R.string.backupScreen_import_data),
             onClick = onImportClick,
             isLoading = backupImportUiState.buttonIsLoading,
             errorModalState = backupImportUiState.errorState,
@@ -96,7 +102,7 @@ fun ImportV1SummaryProgressStateless(
             .fillMaxWidth()
             .padding(horizontal = buttonPadding)
     ) {
-        Text(text = "Progress ${importV1SummaryProgressState.percentageProgress}%")
+        Text(text = "${stringResource(R.string.backupScreen_import_progress)} ${importV1SummaryProgressState.percentageProgress}%")
     }
     Divider()
 }

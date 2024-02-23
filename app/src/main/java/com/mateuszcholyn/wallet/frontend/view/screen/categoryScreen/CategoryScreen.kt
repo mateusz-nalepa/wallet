@@ -8,8 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogProxy
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenError.ScreenError
@@ -93,7 +95,7 @@ fun CategoryScreenStateless(
 
     Column {
         when (categoryScreenState) {
-            is CategoryScreenState.Error -> ScreenError(categoryScreenState.errorMessage)
+            is CategoryScreenState.Error -> ScreenError(categoryScreenState.errorMessageKey)
             is CategoryScreenState.Loading -> ScreenLoading()
             is CategoryScreenState.Success -> SuccessCategoryScreen(
                 categorySuccessContent = categoryScreenState.categorySuccessContent,
@@ -133,7 +135,7 @@ fun RedirectToCategoryFormButton(
             },
             modifier = defaultButtonModifier,
         ) {
-            Text("Dodaj xDD")
+            Text(stringResource(R.string.button_addCategory))
         }
 
     }

@@ -29,7 +29,7 @@ fun SingleCategoryQuickInfo(
             },
 
         text = { Text("$index. ${categoryQuickSummary.categoryName}") },
-        secondaryText = { Text(stringResource(R.string.amountOfExpenses) + " ${categoryQuickSummary.numberOfExpenses}") },
+        secondaryText = { Text(stringResource(R.string.categoryScreen_singleCategoryQuickInfoNumberOfExpenses) + " ${categoryQuickSummary.numberOfExpenses}") },
         trailing = {
             ExpandIcon(detailsAreVisible)
         }

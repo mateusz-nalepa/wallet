@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.backup
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,8 @@ import androidx.compose.material.icons.filled.Error
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.frontend.view.composables.YesOrNoDialog
@@ -27,18 +30,24 @@ sealed interface ComparatorModalDialogState {
 
 
 data class ComparatorModalParameters(
-    val title: String,
-    val keepLeftText: String,
+    @StringRes
+    val titleKey: Int,
+    @StringRes
+    val keepLeftTextKey: Int,
     val onKeepLeft: () -> Unit,
-    val keepRightText: String,
+    @StringRes
+    val keepRightTextKey: Int,
     val onKeepRight: () -> Unit,
-    val leftValuesQuickSummary: String,
-    val rightValuesQuickSummary: String,
+    @StringRes
+    val leftValuesQuickSummaryKey: Int,
+    @StringRes
+    val rightValuesQuickSummaryKey: Int,
     val comparableData: List<ComparableData>,
 )
 
 data class ComparableData(
-    val valueTitle: String,
+    @StringRes
+    val valueTitleKey: Int,
     val leftValue: String,
     val rightValue: String,
 )
@@ -57,8 +66,8 @@ fun ComparatorModal(
                         comparatorModalDialogState.comparatorModalParameters
                     )
                 },
-                confirmText = comparatorModalDialogState.comparatorModalParameters.keepRightText,
-                cancelText = comparatorModalDialogState.comparatorModalParameters.keepLeftText,
+                confirmText = stringResource(comparatorModalDialogState.comparatorModalParameters.keepRightTextKey),
+                cancelText = stringResource(comparatorModalDialogState.comparatorModalParameters.keepLeftTextKey),
                 openDialog = true,
                 onCancel = {
                     comparatorModalDialogState.comparatorModalParameters.onKeepLeft.invoke()
@@ -82,7 +91,7 @@ private fun Comparator(
     Column {
         Row(horizontalArrangement = Arrangement.SpaceAround) {
             Text(
-                text = comparatorModalParameters.title,
+                text = stringResource(comparatorModalParameters.titleKey),
                 color = MaterialTheme.colors.onSurface,
                 fontSize = 16.sp,
             )
@@ -93,8 +102,16 @@ private fun Comparator(
             thickness = 5.dp,
         )
         Row(horizontalArrangement = Arrangement.SpaceAround) {
-            Text(text = comparatorModalParameters.leftValuesQuickSummary, modifier = Modifier.weight(1f))
-            Text(text = comparatorModalParameters.rightValuesQuickSummary, modifier = Modifier.weight(1f))
+            Text(
+                text = stringResource(comparatorModalParameters.leftValuesQuickSummaryKey),
+                modifier = Modifier.weight(1f),
+                fontWeight = FontWeight.Bold,
+            )
+            Text(
+                text = stringResource(comparatorModalParameters.rightValuesQuickSummaryKey),
+                modifier = Modifier.weight(1f),
+                fontWeight = FontWeight.Bold,
+            )
         }
         Divider()
         Divider(
@@ -120,7 +137,7 @@ private fun ComparableRow(
 
     Row {
         Text(
-            text = comparableData.valueTitle,
+            text = stringResource(comparableData.valueTitleKey),
             color = color,
         )
         if (color == MaterialTheme.colors.error) {
@@ -138,57 +155,3 @@ private fun ComparableRow(
     Divider()
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun ExpenseChangedModalDarkPreview(
-//    @PreviewParameter(ExpensesToCompareParameterProvider::class) expensesToCompare: ExpensesToCompare,
-//) {
-//    SetContentOnDarkPreview {
-//        ExpenseChangedModal(
-//            remember {
-//                mutableStateOf(true)
-//            },
-//            onKeepExpenseFromDatabase = {},
-//            onUseExpenseFromBackup = {},
-//            expensesToCompare = expensesToCompare,
-//        )
-//    }
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun ExpenseChangedModalLightPreview(
-//    @PreviewParameter(ExpensesToCompareParameterProvider::class) expensesToCompare: ExpensesToCompare,
-//) {
-//    SetContentOnLightPreview {
-//        ExpenseChangedModal(
-//            remember {
-//                mutableStateOf(true)
-//            },
-//            onKeepExpenseFromDatabase = {},
-//            onUseExpenseFromBackup = {},
-//            expensesToCompare = expensesToCompare,
-//        )
-//    }
-//}
-//
-//class ExpensesToCompareParameterProvider : PreviewParameterProvider<ComparableDataModalParameters> {
-//    private val now = Instant.now()
-//    override val values: Sequence<ComparableDataModalParameters> =
-//        sequenceOf(
-//            ComparableDataModalParameters(
-//                expenseFromBackup = ComparableExpense(
-//                    categoryName = "Zakupy",
-//                    amount = BigDecimal.valueOf(50),
-//                    paidAt = now,
-//                    description = "",
-//                ),
-//                expenseFromDatabase = ComparableExpense(
-//                    categoryName = "Paliwo",
-//                    amount = BigDecimal.valueOf(50),
-//                    paidAt = now,
-//                    description = "",
-//                )
-//            )
-//        )
-//}

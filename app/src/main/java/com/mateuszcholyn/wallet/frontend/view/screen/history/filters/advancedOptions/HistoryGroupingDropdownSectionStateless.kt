@@ -15,7 +15,7 @@ fun HistoryGroupingDropdownSectionStateless(
     historyScreenActions: HistoryScreenActions,
 ) {
     WalletDropdown(
-        dropdownName = stringResource(R.string.grouping),
+        dropdownName = stringResource(R.string.historyScreen_grouping),
         selectedElement = historySearchForm.selectedGroupingElement,
         availableElements = historySearchForm.groupingElements,
         onItemSelected = { newGroupElement ->

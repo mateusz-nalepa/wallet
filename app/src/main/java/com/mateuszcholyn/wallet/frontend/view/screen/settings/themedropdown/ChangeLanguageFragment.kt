@@ -22,7 +22,7 @@ fun ChangeLanguageFragment() {
         mutableStateOf(LocaleService.getCurrentAppLanguage().toLanguageDropdownElement())
     }
     WalletDropdown(
-        dropdownName = stringResource(R.string.language),
+        dropdownName = stringResource(R.string.settings_language),
         selectedElement = selectedLanguage,
         availableElements = availableLanguages,
         onItemSelected = {

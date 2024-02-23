@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.export
 
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.export.ExportV1UseCase
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.MainDispatcherRule
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
@@ -41,12 +42,14 @@ class ExportV1ViewModelTest {
 
         // when
         viewModel.exportBackupV1(
+            exportLabel = "exportLabel",
+            exportFileNamePrefix = "exportFileNamePrefix",
             onFileReadyAction = onFileReadyActionMock,
         )
 
         // then
         viewModel.exportedUiState.value.run {
-            errorModalState shouldBe ErrorModalState.Visible("Nieznany błąd podczas exportu danych")
+            errorModalState shouldBe ErrorModalState.Visible(R.string.error_unable_to_export_data)
         }
         // and
         verify(exactly = 0) { onFileReadyActionMock.invoke(any()) }
@@ -69,6 +72,8 @@ class ExportV1ViewModelTest {
 
         // when
         viewModel.exportBackupV1(
+            exportLabel = "exportLabel",
+            exportFileNamePrefix = "exportFileNamePrefix",
             onFileReadyAction = onFileReadyActionMock,
         )
 

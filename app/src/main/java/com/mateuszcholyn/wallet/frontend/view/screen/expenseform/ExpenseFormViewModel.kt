@@ -1,8 +1,10 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.expenseform
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
@@ -100,7 +102,7 @@ class ExpenseFormViewModel @Inject constructor(
     ) {
         expenseScreenMode = ExpenseScreenMode.Add
         expenseFormDetailsUiState = expenseFormDetailsUiState.copy(
-            submitButtonLabel = "Dodaj wydatek",
+            submitButtonLabelKey = R.string.button_addExpense,
             categories = categories,
             selectedCategory = categories.first(),
         )
@@ -114,7 +116,7 @@ class ExpenseFormViewModel @Inject constructor(
     ) {
         expenseScreenMode = ExpenseScreenMode.Update(actualExpenseId)
         expenseFormDetailsUiState = expenseFormDetailsUiState.copy(
-            submitButtonLabel = "Edytuj wydatek",
+            submitButtonLabelKey = R.string.button_editExpense,
             categories = categories,
             expenseSubmitButtonState = ExpenseSubmitButtonState.ENABLED,
         )
@@ -129,7 +131,7 @@ class ExpenseFormViewModel @Inject constructor(
         expenseScreenMode = ExpenseScreenMode.Copy(actualExpenseId)
 
         expenseFormDetailsUiState = expenseFormDetailsUiState.copy(
-            submitButtonLabel = "Dodaj skopiowany wydatek",
+            submitButtonLabelKey = R.string.button_copyExpense,
             categories = categories,
             expenseSubmitButtonState = ExpenseSubmitButtonState.ENABLED,
         )
@@ -199,7 +201,7 @@ class ExpenseFormViewModel @Inject constructor(
     fun saveExpense() {
         when (expenseScreenMode) {
             ExpenseScreenMode.Add -> {
-                addNewExpense("wywaliło się podczas dodawania")
+                addNewExpense(R.string.error_unable_to_addExpense)
             }
 
             is ExpenseScreenMode.Update -> {
@@ -207,13 +209,16 @@ class ExpenseFormViewModel @Inject constructor(
             }
 
             is ExpenseScreenMode.Copy -> {
-                addNewExpense("wywaliło się podczas kopiowania")
+                addNewExpense(R.string.error_unable_to_copyExpense)
             }
         }
     }
 
-    private fun addNewExpense(errorMessage: String) {
-        genericSaveExpense(errorMessage) {
+    private fun addNewExpense(
+        @StringRes
+        errorMessageKey: Int,
+    ) {
+        genericSaveExpense(errorMessageKey) {
             val addExpenseParameters =
                 AddExpenseParameters(
                     amount = expenseFormDetailsUiState.amount.customToBigDecimal(),
@@ -226,7 +231,7 @@ class ExpenseFormViewModel @Inject constructor(
     }
 
     private fun updateExpense() {
-        genericSaveExpense("Error podczas aktualizacji") {
+        genericSaveExpense(R.string.error_unable_to_updateExpense) {
             val updatedExpense =
                 Expense(
                     expenseId = (expenseScreenMode as ExpenseScreenMode.Update).expenseId,
@@ -240,7 +245,8 @@ class ExpenseFormViewModel @Inject constructor(
     }
 
     private fun genericSaveExpense(
-        errorMessage: String,
+        @StringRes
+        errorMessageKey: Int,
         buttonAction: suspend () -> Unit,
     ) {
         viewModelScope.launch { // DONE
@@ -251,7 +257,7 @@ class ExpenseFormViewModel @Inject constructor(
             } catch (t: Throwable) {
                 println(t)
                 expenseFormDetailsUiState = expenseFormDetailsUiState.copy(
-                    errorModalState = ErrorModalState.Visible(errorMessage),
+                    errorModalState = ErrorModalState.Visible(errorMessageKey),
                     expenseSubmitButtonState = ExpenseSubmitButtonState.ENABLED,
                 )
             }

@@ -72,7 +72,7 @@ fun BottomBarContentStateless(
     ) {
         ExtendedFloatingActionButton(
             icon = { Icon(Icons.Filled.ShoppingCart, EMPTY_STRING) },
-            text = { Text(stringResource(R.string.addExpense)) },
+            text = { Text(stringResource(R.string.button_addExpense)) },
             onClick = onClick,
             elevation = FloatingActionButtonDefaults.elevation(8.dp)
         )

@@ -46,11 +46,11 @@ fun AboutScreen() {
     ) {
         Text(
             fontSize = 24.sp,
-            text = "Author",
+            text = stringResource(R.string.aboutScreen_author),
             fontWeight = FontWeight.Bold,
         )
         Row {
-            Icon(Icons.Rounded.TagFaces, stringResource(R.string.iconError))
+            Icon(Icons.Rounded.TagFaces, stringResource(R.string.icons_iconError))
             Text(text = " ")
             ClickableText(
                 text = "Mateusz Nalepa",
@@ -60,11 +60,11 @@ fun AboutScreen() {
         Text(text = "")
         Text(
             fontSize = 24.sp,
-            text = "Logo creator",
+            text = stringResource(R.string.aboutScreen_logoCreator),
             fontWeight = FontWeight.Bold,
         )
         Row {
-            Icon(Icons.Rounded.TagFaces, stringResource(R.string.iconError))
+            Icon(Icons.Rounded.TagFaces, stringResource(R.string.icons_iconError))
             Text(text = " ")
             ClickableText(
                 text = "Sebastian Kaleta",
@@ -74,11 +74,11 @@ fun AboutScreen() {
         Text(text = "")
         Text(
             fontSize = 24.sp,
-            text = "Consulations",
+            text = stringResource(R.string.aboutScreen_consultations),
             fontWeight = FontWeight.Bold,
         )
         Row {
-            Icon(Icons.Rounded.TagFaces, stringResource(R.string.iconError))
+            Icon(Icons.Rounded.TagFaces, stringResource(R.string.icons_iconError))
             Text(text = " ")
             ClickableText(
                 text = "Piotr Liszka",
@@ -88,23 +88,16 @@ fun AboutScreen() {
         Text(text = "")
         Text(
             fontSize = 24.sp,
-            text = "Thanks",
+            text = stringResource(R.string.aboutScreen_thanks),
             fontWeight = FontWeight.Bold,
         )
         Text(
-            text = "Special thanks to all my friends for testing and inspirations!",
+            text = stringResource(R.string.aboutScreen_thanks_text),
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 50.dp),
         )
-        Icon(Icons.Rounded.TagFaces, stringResource(R.string.iconError))
-        Text(text = "")
-        Text(
-            fontSize = 24.sp,
-            text = "Libraries used",
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-        )
+        Icon(Icons.Rounded.TagFaces, stringResource(R.string.icons_iconError))
     }
 }
 

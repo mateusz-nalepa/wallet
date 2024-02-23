@@ -19,7 +19,7 @@ fun HistorySearchResultStateless(
     removeSingleExpenseUiState: RemoveSingleExpenseUiState,
 ) {
     when (historyResultState) {
-        is HistoryResultState.Error -> ScreenError(historyResultState.errorMessage)
+        is HistoryResultState.Error -> ScreenError(historyResultState.errorMessageKey)
         is HistoryResultState.Loading -> ScreenLoading()
         is HistoryResultState.Success -> {
             SuccessSearchResultStateless(
