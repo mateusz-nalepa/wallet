@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.frontend.view.dropdown
 
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.atEndOfTheDay
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.atStartOfTheDay
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.atStartOfTheMonth
 import java.time.LocalDate
@@ -57,6 +58,11 @@ fun quickDateRanges(): List<QuickRangeData> {
             nameKey = R.string.quickRange_lastThreeMonths,
             beginDate = LocalDateTime.now().minusMonths(3),
             endDate = LocalDateTime.now(),
+        ),
+        QuickRangeData(
+            nameKey = R.string.quickRange_allExpensesToThisDay,
+            beginDate = null,
+            endDate = LocalDateTime.now().atEndOfTheDay(),
         ),
         QuickRangeData(
             nameKey = R.string.quickRange_allExpenses,

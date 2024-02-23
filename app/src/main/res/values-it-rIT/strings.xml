@@ -107,6 +107,7 @@
     <string name="quickRange_thisMonth">Questo mese</string>
     <string name="quickRange_lastMonth">Mese scorso</string>
     <string name="quickRange_lastThreeMonths">Ultimi 3 mesi</string>
+    <string name="quickRange_allExpensesToThisDay">Tutte le spese fino ad oggi</string>
     <string name="quickRange_allExpenses">Tutte le spese</string>
     <string name="quickRange_custom">Personalizzato</string>
 

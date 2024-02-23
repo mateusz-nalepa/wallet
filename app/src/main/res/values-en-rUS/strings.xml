@@ -107,6 +107,7 @@
     <string name="quickRange_thisMonth">This month</string>
     <string name="quickRange_lastMonth">Last month</string>
     <string name="quickRange_lastThreeMonths">Last 3 months</string>
+    <string name="quickRange_allExpensesToThisDay">All expenses to this day</string>
     <string name="quickRange_allExpenses">All expenses</string>
     <string name="quickRange_custom">Custom</string>
 
