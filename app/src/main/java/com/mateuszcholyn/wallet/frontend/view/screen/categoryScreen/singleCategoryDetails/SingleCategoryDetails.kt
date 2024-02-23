@@ -22,6 +22,7 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 @ExperimentalMaterialApi
 @Composable
 fun SingleCategory(
+    index: Int,
     categoryScreenActions: CategoryScreenActions,
     categoryQuickSummary: CategoryQuickSummary,
     removeCategoryState: RemoveCategoryState,
@@ -29,6 +30,7 @@ fun SingleCategory(
     var detailsAreVisible by remember { mutableStateOf(false) }
 
     SingleCategoryQuickInfo(
+        index = index,
         categoryQuickSummary = categoryQuickSummary,
         detailsAreVisible = detailsAreVisible,
         onClick = {

@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,8 +23,9 @@ fun CategoriesList(
             .fillMaxWidth()
             .padding(horizontal = 4.dp),
     ) {
-        items(categorySuccessContent.categoriesList) { categoryQuickSummary ->
+        itemsIndexed(categorySuccessContent.categoriesList) {index,  categoryQuickSummary ->
             SingleCategory(
+                index = index + 1,
                 removeCategoryState = removeCategoryState,
                 categoryScreenActions = categoryScreenActions,
                 categoryQuickSummary = categoryQuickSummary,

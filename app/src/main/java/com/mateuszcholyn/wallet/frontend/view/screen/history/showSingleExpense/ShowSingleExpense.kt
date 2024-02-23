@@ -30,7 +30,7 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 @Composable
 fun ShowSingleExpense(
     historyScreenActions: HistoryScreenActions,
-    id: Int,
+    index: Int,
     searchSingleResult: SearchSingleResult,
     removeSingleExpenseUiState: RemoveSingleExpenseUiState,
 ) {
@@ -39,7 +39,7 @@ fun ShowSingleExpense(
         onClickAction = {
             detailsAreVisible = !detailsAreVisible
         },
-        id = id,
+        index = index,
         searchSingleResult = searchSingleResult,
     )
     if (detailsAreVisible) {
@@ -56,11 +56,11 @@ fun ShowSingleExpense(
 @Composable
 fun QuickExpenseSummary(
     onClickAction: () -> Unit,
-    id: Int,
+    index: Int,
     searchSingleResult: SearchSingleResult,
 ) {
     ListItem(
-        text = { Text("${id + 1}. ${searchSingleResult.categoryName}") },
+        text = { Text("${index}. ${searchSingleResult.categoryName}") },
         trailing = {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,

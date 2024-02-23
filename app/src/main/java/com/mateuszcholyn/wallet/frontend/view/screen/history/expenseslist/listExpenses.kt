@@ -30,9 +30,9 @@ fun ExpensesListStateless(
             .fillMaxWidth()
             .padding(horizontal = 4.dp),
     ) {
-        itemsIndexed(items = expensesList) { id, searchSingleResult ->
+        itemsIndexed(items = expensesList) { index, searchSingleResult ->
             ShowSingleExpense(
-                id = id,
+                index = index + 1,
                 searchSingleResult = searchSingleResult,
                 historyScreenActions = historyScreenActions,
                 removeSingleExpenseUiState = removeSingleExpenseUiState,

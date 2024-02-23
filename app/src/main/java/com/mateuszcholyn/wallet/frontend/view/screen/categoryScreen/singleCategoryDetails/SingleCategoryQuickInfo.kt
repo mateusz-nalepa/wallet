@@ -14,6 +14,7 @@ import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuick
 @ExperimentalMaterialApi
 @Composable
 fun SingleCategoryQuickInfo(
+    index: Int,
     categoryQuickSummary: CategoryQuickSummary,
     detailsAreVisible: Boolean,
     onClick: () -> Unit,
@@ -26,7 +27,7 @@ fun SingleCategoryQuickInfo(
                 onClick.invoke()
             },
 
-        text = { Text(categoryQuickSummary.categoryName) },
+        text = { Text("$index. ${categoryQuickSummary.categoryName}") },
         secondaryText = { Text(stringResource(R.string.amountOfExpenses) + " ${categoryQuickSummary.numberOfExpenses}") },
         trailing = {
             SingleCategoryTrailingIcon(detailsAreVisible)
