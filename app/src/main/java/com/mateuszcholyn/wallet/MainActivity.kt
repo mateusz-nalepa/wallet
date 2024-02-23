@@ -23,7 +23,6 @@ import com.mateuszcholyn.wallet.userConfig.theme.resolveThemeName
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: app icon
-// TODO: translations
 // TODO: before release on Google Play check if sth else is missing / should be fixed
 
 // FIXME: add accessibility support for app

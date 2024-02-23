@@ -14,7 +14,6 @@ data class CsvFileLabels(
     val fileNamePrefix: String,
 )
 
-// TODO: csv needs to have "," when comma exists XD
 interface HistoryToCsvGenerator {
     fun generate(
         csvFileLabels: CsvFileLabels,
