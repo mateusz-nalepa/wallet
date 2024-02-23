@@ -2,7 +2,15 @@ package com.mateuszcholyn.wallet.frontend.view.skeleton
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Backup
+import androidx.compose.material.icons.rounded.Category
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.ShoppingCart
+import androidx.compose.material.icons.rounded.Summarize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -19,18 +27,18 @@ import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.ExpenseFormScre
 import com.mateuszcholyn.wallet.frontend.view.screen.history.HistoryScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.settings.SettingsScreen
 
-sealed class NavDrawerItem(var route: String, var icon: Int, var titleTranslationKey: Int) {
-    data object Category : NavDrawerItem("category", R.drawable.ic_home, R.string.menuItem_Category)
+sealed class NavDrawerItem(var route: String, var imageVector: ImageVector, var titleTranslationKey: Int) {
+    data object Category : NavDrawerItem("category", Icons.Rounded.Category, R.string.menuItem_Category)
     data object AddOrEditExpense : NavDrawerItem(
         "expense-form?expenseId={expenseId}&mode={mode}",
-        R.drawable.ic_music,
+        Icons.Rounded.ShoppingCart,
         R.string.menuItem_AddOrEditExpense
     )
 
-    data object History : NavDrawerItem("history", R.drawable.ic_movie, R.string.menuItem_History)
-    data object Settings : NavDrawerItem("settings", R.drawable.ic_book, R.string.menuItem_Settings)
-    data object Backup : NavDrawerItem("backup", R.drawable.ic_book, R.string.menuItem_Backup)
-    data object About : NavDrawerItem("about", R.drawable.ic_book, R.string.menuItem_About)
+    data object History : NavDrawerItem("history", Icons.Rounded.Summarize, R.string.menuItem_History)
+    data object Settings : NavDrawerItem("settings", Icons.Rounded.Settings, R.string.menuItem_Settings)
+    data object Backup : NavDrawerItem("backup", Icons.Rounded.Backup, R.string.menuItem_Backup)
+    data object About : NavDrawerItem("about", Icons.Rounded.Info, R.string.menuItem_About)
 }
 
 fun expenseFormRoute(): String =
