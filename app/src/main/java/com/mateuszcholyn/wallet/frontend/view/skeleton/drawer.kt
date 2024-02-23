@@ -41,8 +41,8 @@ fun Drawer(
         NavDrawerItem.Category,
         NavDrawerItem.AddOrEditExpense,
         NavDrawerItem.History,
-        NavDrawerItem.Settings,
         NavDrawerItem.Backup,
+        NavDrawerItem.Settings,
         NavDrawerItem.About,
     )
     Column {
@@ -55,17 +55,7 @@ fun Drawer(
             modifier = Modifier
                 .padding(12.dp)
                 .align(Alignment.CenterHorizontally)
-//                .background(MaterialTheme.colors.onBackground)
         )
-//        Image(
-//            painter = painterResource(id = R.drawable.logo),
-//            contentDescription = R.drawable.logo.toString(),
-//            modifier = Modifier
-//                .height(100.dp)
-//                .fillMaxWidth()
-//                .padding(10.dp)
-//        )
-        // Space between
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
