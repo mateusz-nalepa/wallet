@@ -13,7 +13,6 @@ fun BackupDataScreen() {
     Column(
         modifier = defaultModifier.fillMaxHeight(),
     ) {
-        // TODO: dopisz export do CSV
         BackupImport()
         BackupExport()
     }
