@@ -152,4 +152,8 @@
     <string name="history_screen_allCategories">Hodor</string>
     <string name="areYouSureYouWantToRemoveCategory">Hodor</string>
     <string name="areYouSureYouWantToRemoveExpense">Hodor</string>
+
+    <!--For fun-->
+    <string name="hodor_language_available">Hodor</string>
+    <string name="hodor_touches_still">Hodor</string>
 </resources>

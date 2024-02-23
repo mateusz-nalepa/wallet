@@ -15,6 +15,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.TagFaces
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -32,6 +36,10 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnLightPreview
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
+import com.mateuszcholyn.wallet.frontend.view.util.showLongText
+import com.mateuszcholyn.wallet.frontend.view.util.showShortText
+import com.mateuszcholyn.wallet.userConfig.hodorLanguage.HodorLanguageConfig
+import com.mateuszcholyn.wallet.userConfig.hodorLanguage.numberOfClicksToHaveHodorLanguage
 
 @Composable
 fun AboutScreen() {
@@ -44,11 +52,7 @@ fun AboutScreen() {
             .background(MaterialTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            fontSize = 24.sp,
-            text = stringResource(R.string.aboutScreen_author),
-            fontWeight = FontWeight.Bold,
-        )
+        Author()
         Row {
             Icon(Icons.Rounded.TagFaces, stringResource(R.string.icons_iconError))
             Text(text = " ")
@@ -101,6 +105,42 @@ fun AboutScreen() {
     }
 }
 
+@Composable
+private fun Author() {
+
+    val context = currentAppContext()
+    val isHodorAvailable = !HodorLanguageConfig.isHodorLanguageNotAvailable(context)
+
+    var numberOfClicks by remember { mutableIntStateOf(0) }
+
+    val hodorLanguageReadyText = stringResource(id = R.string.hodor_language_available)
+    val touchesStill = stringResource(id = R.string.hodor_touches_still)
+
+    val modifier =
+        if (isHodorAvailable) {
+            Modifier
+        } else {
+            Modifier.clickable {
+                if (numberOfClicks + 1 >= numberOfClicksToHaveHodorLanguage) {
+                    showLongText(context, hodorLanguageReadyText)
+                    HodorLanguageConfig.setHodorLanguageToAvailable(context)
+                } else {
+                    numberOfClicks++
+                    showShortText(
+                        context,
+                        "$touchesStill ${numberOfClicksToHaveHodorLanguage - numberOfClicks}..."
+                    )
+                }
+            }
+        }
+
+    Text(
+        fontSize = 24.sp,
+        text = stringResource(R.string.aboutScreen_author),
+        fontWeight = FontWeight.Bold,
+        modifier = modifier,
+    )
+}
 
 @Composable
 fun ClickableText(

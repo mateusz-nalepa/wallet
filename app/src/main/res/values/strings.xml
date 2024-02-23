@@ -152,4 +152,8 @@
     <string name="history_screen_allCategories">All Categories</string>
     <string name="areYouSureYouWantToRemoveCategory">Are you sure you want to delete the category?</string>
     <string name="areYouSureYouWantToRemoveExpense">Are you sure you want to delete the expense?</string>
+
+    <!--For fun-->
+    <string name="hodor_language_available">Hodor language available!</string>
+    <string name="hodor_touches_still">Still</string>
 </resources>

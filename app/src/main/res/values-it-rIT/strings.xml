@@ -152,4 +152,8 @@
     <string name="history_screen_allCategories">Tutte le categorie</string>
     <string name="areYouSureYouWantToRemoveCategory">Sei sicuro di voler rimuovere la categoria?</string>
     <string name="areYouSureYouWantToRemoveExpense">Sei sicuro di voler rimuovere la spesa?</string>
+
+    <!--For fun-->
+    <string name="hodor_language_available">Lingua Hodor disponibile!</string>
+    <string name="hodor_touches_still">Ancora</string>
 </resources>

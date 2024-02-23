@@ -152,4 +152,8 @@
     <string name="history_screen_allCategories">Wszystkie kategorie</string>
     <string name="areYouSureYouWantToRemoveCategory">Czy na pewno chcesz usunąć kategorię?</string>
     <string name="areYouSureYouWantToRemoveExpense">Czy na pewno chcesz usunąć wydatek?</string>
+
+    <!--For fun-->
+    <string name="hodor_language_available">Język hodor dostępny!</string>
+    <string name="hodor_touches_still">Jeszcze</string>
 </resources>

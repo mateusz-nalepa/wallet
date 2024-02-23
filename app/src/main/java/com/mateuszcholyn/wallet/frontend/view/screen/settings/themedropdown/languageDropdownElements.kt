@@ -9,11 +9,15 @@ data class LanguageDropdownElement(
     val walletLanguage: WalletLanguage,
 ) : DropdownElement
 
-fun languageDropdownElements(): List<LanguageDropdownElement> =
+fun languageDropdownElements(isHodorLanguageNotAvailable: Boolean): List<LanguageDropdownElement> =
     WalletLanguage
         .entries
         .toList()
+        .filter {
+            !(isHodorLanguageNotAvailable && it == WalletLanguage.HODOR)
+        }
         .map { it.toLanguageDropdownElement() }
+
 
 fun WalletLanguage.toLanguageDropdownElement(): LanguageDropdownElement =
     LanguageDropdownElement(
