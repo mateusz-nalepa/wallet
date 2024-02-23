@@ -135,7 +135,18 @@ class HistoryScreenViewModel @Inject constructor(
     }
 
     fun updateGroupingCheckBoxChecked(newValue: Boolean) {
-        historySearchForm = historySearchForm.copy(isGroupingEnabled = newValue)
+        historySearchForm =
+            if (newValue) {
+                historySearchForm.copy(
+                    isGroupingEnabled = newValue,
+                    selectedSortElement = SortElement.default,
+                )
+            } else {
+                historySearchForm.copy(
+                    isGroupingEnabled = newValue,
+                )
+            }
+
         loadResultsFromDb()
     }
 

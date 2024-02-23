@@ -228,9 +228,9 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should update grouping checkbox enabled and load results from db`() = runTest {
+    fun `should update grouping checkbox to enabled and load results from db`() = runTest {
         // given
-        val givenGroupingCheckboxEnabled = Random().nextBoolean()
+        val givenGroupingCheckboxEnabled = true
 
         // when
         viewModel.updateGroupingCheckBoxChecked(givenGroupingCheckboxEnabled)
@@ -240,6 +240,32 @@ class HistoryScreenViewModelTest {
             isGroupingEnabled shouldBe givenGroupingCheckboxEnabled
         }
         coVerify(exactly = 1) { searchServiceUseCase.invoke(any()) }
+        // and selected sort is default
+        viewModel.exposedHistorySearchForm.value.run {
+            selectedSortElement shouldBe SortElement.default
+        }
+    }
+
+    @Test
+    fun `should update grouping checkbox to disabled and load results from db`() = runTest {
+        // given
+        val givenGroupingCheckboxEnabled = false
+        val existingSortElement: SortElement = sortingElements().last()
+
+        // when
+        viewModel.updateSortElement(existingSortElement)
+        viewModel.updateGroupingCheckBoxChecked(givenGroupingCheckboxEnabled)
+
+        // then
+        viewModel.exposedHistorySearchForm.value.run {
+            isGroupingEnabled shouldBe givenGroupingCheckboxEnabled
+        }
+        // 2, cause first invoke is when updating sort element
+        coVerify(exactly = 2) { searchServiceUseCase.invoke(any()) }
+        // and selected sort is not changed
+        viewModel.exposedHistorySearchForm.value.run {
+            selectedSortElement shouldBe existingSortElement
+        }
     }
 
     @Test

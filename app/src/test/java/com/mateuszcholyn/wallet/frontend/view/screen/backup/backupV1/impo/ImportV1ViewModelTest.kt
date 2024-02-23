@@ -42,7 +42,7 @@ class ImportV1ViewModelTest {
         coEvery { importV1UseCase.invoke(any()) }.throws(RuntimeException())
 
         // when
-        viewModel.importBackupV1 { "SOME INVALID FILE CONTENT" }
+        viewModel.importBackupV1("no description label") { "SOME INVALID FILE CONTENT" }
 
         // then
         viewModel.exportedUiState.value.run {
@@ -66,7 +66,7 @@ class ImportV1ViewModelTest {
         coEvery { importV1UseCase.invoke(any()) }.returns(givenRandomV1Summary)
 
         // when
-        viewModel.importBackupV1 { BackupV1JsonCreator.createBackupWalletV1AsString(randomBackupWalletV1()) }
+        viewModel.importBackupV1("no description label") { BackupV1JsonCreator.createBackupWalletV1AsString(randomBackupWalletV1()) }
 
         // then
         viewModel.exportedUiState.value.run {
