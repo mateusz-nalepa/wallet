@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.mateuszcholyn.wallet.BuildConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -35,7 +36,6 @@ fun Drawer(
     scaffoldState: ScaffoldState,
     navController: NavController,
 ) {
-
 
     val items = listOf(
         NavDrawerItem.Category,
@@ -49,7 +49,6 @@ fun Drawer(
         // Header
         Text(
             text = "Simple Wallet",
-//            color = MaterialTheme.colors.primaryVariant,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
             fontSize = 30.sp,
@@ -99,6 +98,15 @@ fun Drawer(
                 }
             })
         }
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = "v${BuildConfig.VERSION_NAME}",
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(12.dp)
+                .align(Alignment.CenterHorizontally)
+        )
     }
 }
 

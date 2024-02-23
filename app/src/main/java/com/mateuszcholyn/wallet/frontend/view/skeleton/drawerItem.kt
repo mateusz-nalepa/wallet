@@ -51,8 +51,8 @@ fun DrawerItem(item: NavDrawerItem, selected: Boolean, onItemClick: (NavDrawerIt
             imageVector = item.imageVector,
             contentDescription = "",
             modifier = Modifier
-                .height(35.dp)
-                .width(35.dp),
+                .height(30.dp)
+                .width(30.dp),
         )
         Spacer(modifier = Modifier.width(7.dp))
         Text(

@@ -12,11 +12,12 @@ android {
 
     defaultConfig {
         applicationId "com.mateuszcholyn.wallet"
-//        buildToolsVersion "34.0.0"
         compileSdk 34
         minSdkVersion 33
         targetSdkVersion 34
+        // for internal application use
         versionCode 2
+        // shown to users
         versionName "2.0"
         testInstrumentationRunner 'com.mateuszcholyn.wallet.app.setupintegrationtests.CustomTestRunner'
         configurations.configureEach {
