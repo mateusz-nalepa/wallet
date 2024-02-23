@@ -53,9 +53,9 @@
     <string name="hideFilters">Pokaż mniej</string>
     <string name="showFilters">Pokaż więcej</string>
     <string name="range">Zakres</string>
-    <string name="defaultSummaryResultText">0 zł / 1 d = 0 zł/d</string>
-    <string name="amountFrom">Od zł</string>
-    <string name="amountTo">Do zł</string>
+    <string name="defaultSummaryResultText">0 $ / 1 d = 0 $/d</string>
+    <string name="amountFrom">Od $</string>
+    <string name="amountTo">Do $</string>
     <string name="noDescription">Brak opisu</string>
     <string name="amountOfExpenses">Ilość wydatków:</string>
     <string name="notImplemented">NOT IMPLEMENTED!</string>

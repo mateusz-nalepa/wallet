@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.frontend.view.screen.history.HistoryScreenActions
 import com.mateuszcholyn.wallet.frontend.view.screen.history.showSingleExpense.remove.RemoveSingleExpenseUiState
-import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
+import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutDollar
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 
@@ -66,7 +66,7 @@ fun QuickExpenseSummary(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(text = searchSingleResult.amount.asPrintableAmount(), fontSize = 16.sp)
+                Text(text = searchSingleResult.amount.asPrintableAmountWithoutDollar(), fontSize = 16.sp)
                 Icon(
                     Icons.Filled.Paid,
                     contentDescription = null,

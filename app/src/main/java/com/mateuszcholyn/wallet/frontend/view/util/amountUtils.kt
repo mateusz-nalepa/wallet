@@ -12,6 +12,11 @@ fun BigDecimal.asPrintableAmount(): String = run {
         .toString() + " $"
 }
 
+fun BigDecimal.asPrintableAmountWithoutDollar(): String = run {
+    asFormattedAmount()
+        .toString()
+}
+
 fun String.toDoubleOrDefaultZero(): Double =
     kotlin.runCatching { this.toDouble() }
         .getOrDefault(0.0)
