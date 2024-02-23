@@ -65,11 +65,9 @@ class HistoryToCsvFileGeneratorTest {
             )
 
         // then
-        csvFileContent shouldBe """
-            Category,Amount,Description,Paid at
-            categoryXD,50.00,,23.02.2024 00:39
-            categoryXD 2,55.00,some description,01.03.2024 00:39
-        """.trimIndent()
+        csvFileContent shouldBe "Category,Amount,Description,Paid at\n" +
+            "categoryXD,50.00,,23.02.2024 00:39\n" +
+            "categoryXD 2,55.00,some description,01.03.2024 00:39"
     }
 
     @Test
@@ -93,10 +91,8 @@ class HistoryToCsvFileGeneratorTest {
             )
 
         // then
-        csvFileContent shouldBe """
-            Category,Amount,Description,Paid at
-            "categoryXD,2",55.00,"some,desc",23.02.2024 00:39
-        """.trimIndent()
+        csvFileContent shouldBe "Category,Amount,Description,Paid at\n" +
+            "\"categoryXD,2\",55.00,\"some,desc\",23.02.2024 00:39"
     }
 
 }
