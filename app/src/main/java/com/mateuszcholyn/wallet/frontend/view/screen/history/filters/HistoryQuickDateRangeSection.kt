@@ -1,8 +1,9 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.history.filters
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.composables.datapicker.OutlinedDatePickerField
@@ -39,18 +40,20 @@ fun DateRangeSectionStateless(
     if (!historySearchForm.showCustomRangeDates) {
         return
     }
-    Column(
-        modifier = defaultModifier,
+    Row(
+        modifier = defaultModifier
     ) {
         OutlinedDatePickerField(
             text = "Data od",
             value = historySearchForm.beginDate!!,
             onValueChange = { historyScreenActions.onBeginDateChanged.invoke(it) },
+            modifier = Modifier.weight(0.5f),
         )
         OutlinedDatePickerField(
             text = "Data do",
             value = historySearchForm.endDate!!,
             onValueChange = { historyScreenActions.onEndDateChanged.invoke(it) },
+            modifier = Modifier.weight(0.5f),
         )
     }
 }
