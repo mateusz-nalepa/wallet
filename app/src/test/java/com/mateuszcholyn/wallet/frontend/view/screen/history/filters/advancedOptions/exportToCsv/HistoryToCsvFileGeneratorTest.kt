@@ -35,7 +35,7 @@ class HistoryToCsvFileGeneratorTest {
             )
 
         // expect
-        headerContent shouldBe "Category;Amount;Description;Paid at\n"
+        headerContent shouldBe "Category,Amount,Description,Paid at\n"
     }
 
 
@@ -66,15 +66,15 @@ class HistoryToCsvFileGeneratorTest {
 
         // then
         csvFileContent shouldBe """
-            Category;Amount;Description;Paid at
-            categoryXD;50.00;;23.02.2024 00:39
-            categoryXD 2;55.00;some description;01.03.2024 00:39
+            Category,Amount,Description,Paid at
+            categoryXD,50.00,,23.02.2024 00:39
+            categoryXD 2,55.00,some description,01.03.2024 00:39
         """.trimIndent()
     }
 
     @Test
-    fun `should replace semicolon to pipe`() {
-        // change ; to |
+    fun `should wrapInQuoteIfHasComa`() {
+        // change , to ","
         // given
         val date = Instant.ofEpochSecond(1708645149)
 
@@ -84,18 +84,18 @@ class HistoryToCsvFileGeneratorTest {
                 testCsvFileLabels,
                 expensesList = listOf(
                     createSearchSingleResult(
-                        categoryName = "categoryXD;2",
+                        categoryName = "categoryXD,2",
                         amount = BigDecimal("55"),
                         paidAt = date,
-                        description = "some;desc",
+                        description = "some,desc",
                     )
                 )
             )
 
         // then
         csvFileContent shouldBe """
-            Category;Amount;Description;Paid at
-            categoryXD|2;55.00;some|desc;23.02.2024 00:39
+            Category,Amount,Description,Paid at
+            "categoryXD,2",55.00,"some,desc",23.02.2024 00:39
         """.trimIndent()
     }
 

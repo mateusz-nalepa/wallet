@@ -24,32 +24,40 @@ interface HistoryToCsvGenerator {
 
 class HistoryToCsvFileGenerator : HistoryToCsvGenerator {
 
-    private val SEPARATOR = ";"
+    private val SEPARATOR = ","
 
     override fun generate(
         csvFileLabels: CsvFileLabels,
         expensesList: List<SearchSingleResult>,
     ): String =
-        generateHeader(csvFileLabels) + "\n" + expensesList.joinToString(separator = "\n") { generateRow(it) }
+        generateHeader(csvFileLabels) + "\n" + expensesList.joinToString(separator = "\n") {
+            generateRow(
+                it
+            )
+        }
 
 
     private fun generateHeader(
         csvFileLabels: CsvFileLabels,
     ): String =
-        "${csvFileLabels.categoryNameLabel}$SEPARATOR" +
-            "${csvFileLabels.amountLabel}$SEPARATOR" +
-            "${csvFileLabels.descriptionLabel}$SEPARATOR" +
-            csvFileLabels.paidAtLabel
+        "${csvFileLabels.categoryNameLabel.wrapInQuoteIfHasComa()}$SEPARATOR" +
+            "${csvFileLabels.amountLabel.wrapInQuoteIfHasComa()}$SEPARATOR" +
+            "${csvFileLabels.descriptionLabel.wrapInQuoteIfHasComa()}$SEPARATOR" +
+            csvFileLabels.paidAtLabel.wrapInQuoteIfHasComa()
 
     private fun generateRow(
         searchSingleResult: SearchSingleResult,
     ): String =
-        "${searchSingleResult.categoryName.replaceSemicolonToPipe()}$SEPARATOR" +
+        "${searchSingleResult.categoryName.wrapInQuoteIfHasComa()}$SEPARATOR" +
             "${searchSingleResult.amount.asPrintableAmountWithoutDollar()}$SEPARATOR" +
-            "${searchSingleResult.description.replaceSemicolonToPipe()}$SEPARATOR" +
+            "${searchSingleResult.description.wrapInQuoteIfHasComa()}$SEPARATOR" +
             searchSingleResult.paidAt.fromUTCInstantToUserLocalTimeZone().toHumanDateTimeText()
 
 
-    private fun String.replaceSemicolonToPipe(): String =
-        this.replace(";", "|")
+    private fun String.wrapInQuoteIfHasComa(): String =
+        if (this.contains(",")) {
+            "\"$this\""
+        } else {
+            this
+        }
 }
