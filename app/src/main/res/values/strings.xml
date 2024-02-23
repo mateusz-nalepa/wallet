@@ -85,7 +85,7 @@
     <string name="validation_categoryRequiredToAddExpense">To add an expense, you must first add a category</string>
     <string name="validation_incorrectValue">Incorrect value</string>
     <string name="validation_incorrectCategoryName">Incorrect category name</string>
-    <string name="validation_warning_category_already_exists">A category with this name already exists.</string>
+    <string name="validation_warning_category_already_exists">A category with this name already exists</string>
 
     <!--Grouping-->
     <string name="group_byDay">by day</string>

@@ -85,7 +85,7 @@
     <string name="validation_categoryRequiredToAddExpense">Aby dodać wydatek, musisz najpierw dodać kategorię</string>
     <string name="validation_incorrectValue">Nieprawidłowa wartość</string>
     <string name="validation_incorrectCategoryName">Nieprawidłowa nazwa kategorii</string>
-    <string name="validation_warning_category_already_exists">Kategoria o tej nazwie już istnieje.</string>
+    <string name="validation_warning_category_already_exists">Kategoria o tej nazwie już istnieje</string>
 
     <!--Grouping-->
     <string name="group_byDay">wg. dnia</string>
