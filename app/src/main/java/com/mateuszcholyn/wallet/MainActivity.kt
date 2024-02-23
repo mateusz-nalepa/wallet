@@ -24,6 +24,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: app icon
 // TODO: translations
+// TODO: icons for Navigation Drawer
+// TODO: before release on Google Play check if sth else is missing / should be fixed
 
 // FIXME: add accessibility support for app
 // FIXME: fix all compilation errors
