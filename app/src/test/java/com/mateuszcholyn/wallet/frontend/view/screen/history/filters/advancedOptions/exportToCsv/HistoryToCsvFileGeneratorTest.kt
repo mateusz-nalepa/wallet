@@ -4,11 +4,13 @@ import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.manager.randomCategoryId
 import com.mateuszcholyn.wallet.manager.randomExpenseId
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.plusDays
 import io.kotest.matchers.shouldBe
 import org.junit.Test
 import java.math.BigDecimal
 import java.time.Instant
+import java.time.LocalDateTime
 
 
 val testCsvFileLabels =
@@ -42,7 +44,7 @@ class HistoryToCsvFileGeneratorTest {
     @Test
     fun `generate csv file`() {
         // given
-        val date = Instant.ofEpochSecond(1708645149)
+        val date = LocalDateTime.of(2024, 2, 23, 22, 15).fromUserLocalTimeZoneToUTCInstant()
 
         // when
         val csvFileContent =
@@ -66,15 +68,15 @@ class HistoryToCsvFileGeneratorTest {
 
         // then
         csvFileContent shouldBe "Category,Amount,Description,Paid at\n" +
-            "categoryXD,50.00,,23.02.2024 00:39\n" +
-            "categoryXD 2,55.00,some description,01.03.2024 00:39"
+            "categoryXD,50.00,,23.02.2024 22:15\n" +
+            "categoryXD 2,55.00,some description,01.03.2024 22:15"
     }
 
     @Test
     fun `should wrapInQuoteIfHasComa`() {
         // change , to ","
         // given
-        val date = Instant.ofEpochSecond(1708645149)
+        val date = LocalDateTime.of(2024, 2, 23, 22, 15).fromUserLocalTimeZoneToUTCInstant()
 
         // when
         val csvFileContent =
@@ -92,7 +94,7 @@ class HistoryToCsvFileGeneratorTest {
 
         // then
         csvFileContent shouldBe "Category,Amount,Description,Paid at\n" +
-            "\"categoryXD,2\",55.00,\"some,desc\",23.02.2024 00:39"
+            "\"categoryXD,2\",55.00,\"some,desc\",23.02.2024 22:15"
     }
 
 }
