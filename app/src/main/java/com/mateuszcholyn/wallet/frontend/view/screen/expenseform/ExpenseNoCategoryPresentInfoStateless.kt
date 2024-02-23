@@ -27,7 +27,10 @@ fun ExpenseNoCategoryPresentInfoStateless(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(stringResource(R.string.validation_categoryRequiredToAddExpense))
+        Text(
+            text = stringResource(R.string.validation_categoryRequiredToAddExpense),
+            modifier = defaultModifier,
+        )
         Button(
             onClick = { onMissingCategoriesNavigate() },
             modifier = defaultButtonModifier,

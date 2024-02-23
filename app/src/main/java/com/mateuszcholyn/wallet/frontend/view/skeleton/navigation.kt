@@ -36,7 +36,7 @@ sealed class NavDrawerItem(
 ) {
     data object Categories : NavDrawerItem("category", Icons.Rounded.Category, R.string.menuItem_categories)
     data object AddExpenseForm : NavDrawerItem(
-        "expense-form?expenseId={expenseId}&mode={mode}",
+        expenseFormRoute(),
         Icons.Rounded.ShoppingCart,
         R.string.menuItem_addExpense,
     )
@@ -70,7 +70,7 @@ fun Navigation(
 ) {
     NavHost(navController, startDestination = NavDrawerItem.History.route) {
         composable(
-            route = NavDrawerItem.AddExpenseForm.route,
+            route = "expense-form?expenseId={expenseId}&mode={mode}",
             arguments = listOf(
                 navArgument("expenseId") {
                     nullable = true
