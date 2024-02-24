@@ -3,6 +3,8 @@ package com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen
 import android.annotation.SuppressLint
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
@@ -47,7 +49,8 @@ fun CategoryFormStateless(
     categoryFormUiState: CategoryFormUiState,
     categoryFormUiActions: CategoryFormUiActions,
 ) {
-    Column(modifier = defaultModifier) {
+    val state = rememberScrollState()
+    Column(modifier = defaultModifier.verticalScroll(state)) {
         ValidatedTextFieldV2(
             textFieldLabel = stringResource(R.string.common_category),
             value = categoryFormUiState.categoryName,
