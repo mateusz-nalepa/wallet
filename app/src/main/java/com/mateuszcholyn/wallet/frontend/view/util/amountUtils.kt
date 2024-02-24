@@ -8,13 +8,13 @@ fun BigDecimal.asFormattedAmount(): BigDecimal =
     this.setScale(2, BigDecimal.ROUND_HALF_UP)
 
 fun BigDecimal.asPrintableAmount(): String = run {
-    asFormattedAmount()
-        .toString() + "$"
+    asPrintableAmountWithoutDollar() + "$"
 }
 
 fun BigDecimal.asPrintableAmountWithoutDollar(): String = run {
     asFormattedAmount()
         .toString()
+        .replace(".", ",")
 }
 
 fun String.toDoubleOrDefaultZero(): Double =
