@@ -2,8 +2,6 @@ package com.mateuszcholyn.wallet.frontend.view.screen.history
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -214,8 +212,7 @@ fun HistoryScreenStateless(
         errorModalState = exportUiState.errorModalState,
         onErrorModalClose = historyScreenActions.onExportErrorModalClose,
     )
-    val state = rememberScrollState()
-    Column(modifier = defaultModifier.verticalScroll(state)) {
+    Column(modifier = defaultModifier) {
         HistoryFilters(
             historySearchForm = historySearchForm,
             historyScreenActions = historyScreenActions,

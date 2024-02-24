@@ -1,8 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -95,8 +93,7 @@ fun CategoryScreenStateless(
         onErrorModalClose = { categoryScreenActions.onErrorModalClose.invoke() },
     )
 
-    val state = rememberScrollState()
-    Column(modifier = defaultModifier.verticalScroll(state)) {
+    Column {
         when (categoryScreenState) {
             is CategoryScreenState.Error -> ScreenError(categoryScreenState.errorMessageKey)
             is CategoryScreenState.Loading -> ScreenLoading()
