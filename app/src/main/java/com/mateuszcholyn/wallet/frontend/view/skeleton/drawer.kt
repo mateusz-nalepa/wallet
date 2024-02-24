@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.ScaffoldState
@@ -29,7 +27,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mateuszcholyn.wallet.BuildConfig
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -50,8 +47,7 @@ fun Drawer(
         NavDrawerItem.Settings,
         NavDrawerItem.About,
     )
-    val state = rememberScrollState()
-    Column(modifier = defaultModifier.verticalScroll(state)) {
+    Column {
         // Header
         Text(
             text = stringResource(R.string.app_name),
