@@ -56,7 +56,7 @@ fun AboutScreen() {
         Author()
         ClickableText(
             text = "Mateusz Nalepa",
-            link = "https://copilot.microsoft.com/",
+            link = "https://www.linkedin.com/in/mateusz-nalepa-5742a112b/",
         )
         Text(text = "")
         Text(
@@ -66,7 +66,7 @@ fun AboutScreen() {
         )
         ClickableText(
             text = "Sebastian Kaleta",
-            link = "https://copilot.microsoft.com/",
+            link = "https://www.linkedin.com/in/sebastiankaleta",
         )
         Text(text = "")
         Text(
@@ -76,7 +76,7 @@ fun AboutScreen() {
         )
         ClickableText(
             text = "Piotr Liszka",
-            link = "https://copilot.microsoft.com/",
+            link = "https://www.linkedin.com/in/piotr-liszka-pl",
         )
         Text(text = "")
         Text(
