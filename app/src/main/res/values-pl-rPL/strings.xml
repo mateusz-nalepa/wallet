@@ -147,6 +147,8 @@
     <string name="aboutScreen_consultations">Konsultacje</string>
     <string name="aboutScreen_thanks">Podziękowania</string>
     <string name="aboutScreen_thanks_text">Specjalne podziękowania dla wszystkich moich przyjaciół za testowanie i inspiracje!</string>
+    <string name="aboutScreen_support">Wsparcie</string>
+    <string name="aboutScreen_support_text">Jeśli podoba Ci się ta aplikacja, kup mi kawę!</string>
 
     <!--SOME unknown-->
     <string name="icons_iconError">Błąd</string>

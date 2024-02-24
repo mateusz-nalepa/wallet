@@ -4,7 +4,6 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -13,7 +12,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.TagFaces
+import androidx.compose.material.icons.rounded.Coffee
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -27,7 +26,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,42 +51,30 @@ fun AboutScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Author()
-        Row {
-            Icon(Icons.Rounded.TagFaces, stringResource(R.string.icons_iconError))
-            Text(text = " ")
-            ClickableText(
-                text = "Mateusz Nalepa",
-                link = "https://copilot.microsoft.com/",
-            )
-        }
+        ClickableText(
+            text = "Mateusz Nalepa",
+            link = "https://copilot.microsoft.com/",
+        )
         Text(text = "")
         Text(
             fontSize = 24.sp,
             text = stringResource(R.string.aboutScreen_logoCreator),
             fontWeight = FontWeight.Bold,
         )
-        Row {
-            Icon(Icons.Rounded.TagFaces, stringResource(R.string.icons_iconError))
-            Text(text = " ")
-            ClickableText(
-                text = "Sebastian Kaleta",
-                link = "https://copilot.microsoft.com/",
-            )
-        }
+        ClickableText(
+            text = "Sebastian Kaleta",
+            link = "https://copilot.microsoft.com/",
+        )
         Text(text = "")
         Text(
             fontSize = 24.sp,
             text = stringResource(R.string.aboutScreen_consultations),
             fontWeight = FontWeight.Bold,
         )
-        Row {
-            Icon(Icons.Rounded.TagFaces, stringResource(R.string.icons_iconError))
-            Text(text = " ")
-            ClickableText(
-                text = "Piotr Liszka",
-                link = "https://copilot.microsoft.com/",
-            )
-        }
+        ClickableText(
+            text = "Piotr Liszka",
+            link = "https://copilot.microsoft.com/",
+        )
         Text(text = "")
         Text(
             fontSize = 24.sp,
@@ -97,11 +83,21 @@ fun AboutScreen() {
         )
         Text(
             text = stringResource(R.string.aboutScreen_thanks_text),
-            fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
+            fontSize = 20.sp,
             modifier = Modifier.padding(horizontal = 50.dp),
         )
-        Icon(Icons.Rounded.TagFaces, stringResource(R.string.icons_iconError))
+        Text(text = "")
+        Text(
+            fontSize = 24.sp,
+            text = stringResource(R.string.aboutScreen_support),
+            fontWeight = FontWeight.Bold,
+        )
+        ClickableText(
+            text = stringResource(R.string.aboutScreen_support_text),
+            link = "https://www.buymeacoffee.com/mateusz.nalepa",
+        )
+        Icon(Icons.Rounded.Coffee, stringResource(R.string.icons_iconError))
     }
 }
 
@@ -161,12 +157,16 @@ fun ClickableText(
 
     Text(
         text = annotatedText,
-        fontSize = 16.sp,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        modifier = Modifier.clickable {
-            CustomTabsIntent.Builder().build().launchUrl(context, link.toUri())
-        },
+        fontSize = 20.sp,
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+            .padding(horizontal = 50.dp)
+            .clickable {
+                CustomTabsIntent
+                    .Builder()
+                    .build()
+                    .launchUrl(context, link.toUri())
+            },
     )
 }
 

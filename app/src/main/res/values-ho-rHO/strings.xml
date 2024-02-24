@@ -147,6 +147,8 @@
     <string name="aboutScreen_consultations">Hodor</string>
     <string name="aboutScreen_thanks">Hodor</string>
     <string name="aboutScreen_thanks_text">Hodor</string>
+    <string name="aboutScreen_support">Hodor</string>
+    <string name="aboutScreen_support_text">Hodor</string>
 
     <!--SOME unknown-->
     <string name="icons_iconError">Hodor</string>
