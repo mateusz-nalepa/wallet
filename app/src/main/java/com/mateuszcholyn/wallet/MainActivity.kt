@@ -26,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // TODO: before release on Google Play check if sth else is missing / should be fixed
 // TODO: test json export on release app, exactly field names
 // TODO: add link to buy me an coffee XD
+// TODO: add link to linkedin profiles XD
 // TODO: in visible amounts show `,` instead of `.` XD
 
 // FIXME: add accessibility support for app
