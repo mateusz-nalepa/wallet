@@ -1,9 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-//apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
-//apply plugin: 'com.google.dagger.hilt.android'
 
 apply from: "$rootProjectDir/build_config/dependencies_version.gradle"
 
@@ -18,7 +16,7 @@ android {
         // for internal application use
         versionCode 2
         // shown to users
-        versionName "2.0"
+        versionName "1.0"
         testInstrumentationRunner 'com.mateuszcholyn.wallet.app.setupintegrationtests.CustomTestRunner'
         configurations.configureEach {
             resolutionStrategy {
@@ -26,9 +24,7 @@ android {
                 exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
             }
         }
-        // kapt??
         kapt {
-//            arg("room.schemaLocation", "$projectDir/schemas")
             correctErrorTypes = true
             arguments {
                 arg("room.schemaLocation", "$projectDir/schemas")
@@ -57,10 +53,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
-//        freeCompilerArgs += [
-//                //remove me after update kotlin??
-//                "-Xjvm-default=all",
-//        ]
     }
 
     buildFeatures {
@@ -68,9 +60,6 @@ android {
         compose true
     }
     composeOptions {
-//        kotlinCompilerExtensionVersion '1.2.0-beta02'
-        // https://developer.android.com/jetpack/androidx/releases/compose-compiler
-//        zmien na najnowszy XD
         kotlinCompilerExtensionVersion = "1.5.2"
     }
     lint {
@@ -135,7 +124,7 @@ dependencies {
 
     implementation 'androidx.compose.runtime:runtime-livedata:1.5.4'
 
-// Preferences DataStore (SharedPreferences like APIs)
+    // Preferences DataStore (SharedPreferences like APIs)
     implementation "androidx.datastore:datastore-preferences:1.0.0"
     implementation "androidx.datastore:datastore:1.0.0"
 
@@ -146,10 +135,8 @@ dependencies {
     // kapt?
     kapt("com.google.dagger:hilt-android-compiler:2.50")
 
-
     // Hilt Jetpack Integrations
     implementation 'androidx.hilt:hilt-navigation-compose:1.1.0'
-
 
     // UI Tests
     testImplementation "junit:junit:$junit"
@@ -167,10 +154,7 @@ dependencies {
     // Hilt Testing
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.50")
     // ...with Kotlin.
-    // kapt??
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.50")
 
-    //
     implementation 'com.tngtech.archunit:archunit:0.23.1'
-
 }
