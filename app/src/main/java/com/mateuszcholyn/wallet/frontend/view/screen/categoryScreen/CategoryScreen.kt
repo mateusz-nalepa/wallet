@@ -1,6 +1,8 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -113,9 +115,12 @@ fun SuccessCategoryScreen(
     categoryScreenActions: CategoryScreenActions,
     removeCategoryState: RemoveCategoryState,
 ) {
-    RedirectToCategoryFormButton(categoryScreenActions)
-    NumberOfCategories(categorySuccessContent)
-    Divider()
+    val state = rememberScrollState()
+    Column(modifier = defaultModifier.verticalScroll(state)) {
+        RedirectToCategoryFormButton(categoryScreenActions)
+        NumberOfCategories(categorySuccessContent)
+        Divider()
+    }
     CategoriesList(
         categorySuccessContent = categorySuccessContent,
         categoryScreenActions = categoryScreenActions,
