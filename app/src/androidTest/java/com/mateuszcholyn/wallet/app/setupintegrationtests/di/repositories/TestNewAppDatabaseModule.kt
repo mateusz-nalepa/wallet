@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.app.setupintegrationtests.di.repositories
 import android.content.Context
 import androidx.room.Room
 import com.mateuszcholyn.wallet.backend.impl.di.repositories.NewAppDatabaseModule
-import com.mateuszcholyn.wallet.backend.impl.di.repositories.customizeRoomDatabase
+import com.mateuszcholyn.wallet.backend.impl.di.repositories.addDatabaseMigrations
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -26,7 +26,7 @@ object TestNewAppDatabaseModule {
     ): AppDatabase =
         Room
             .inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .customizeRoomDatabase()
+            .addDatabaseMigrations()
             .build()
 }
 

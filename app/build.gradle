@@ -87,6 +87,7 @@ android {
         androidTest {
             main.java.srcDirs += "$projectDir/src/testShared"
         }
+        getByName("androidTest").assets.srcDir("$projectDir/schemas")
     }
 }
 
@@ -157,6 +158,8 @@ dependencies {
 
     testImplementation 'io.kotest:kotest-assertions-core-jvm:5.8.0'
     androidTestImplementation 'io.kotest:kotest-assertions-core-jvm:5.8.0'
+
+    androidTestImplementation 'androidx.room:room-testing:2.6.1'
 
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.5.4'
     debugImplementation 'androidx.compose.ui:ui-test-manifest:1.5.4'

@@ -27,11 +27,11 @@ object NewAppDatabaseModule {
                 AppDatabase::class.java,
                 "wallet_database.db",
             )
-            .customizeRoomDatabase()
+            .addDatabaseMigrations()
             .build()
 }
 
-fun RoomDatabase.Builder<AppDatabase>.customizeRoomDatabase(): RoomDatabase.Builder<AppDatabase> =
+fun RoomDatabase.Builder<AppDatabase>.addDatabaseMigrations(): RoomDatabase.Builder<AppDatabase> =
     addMigrations(
         MIGRATION_1_2,
         MIGRATION_2_3,
