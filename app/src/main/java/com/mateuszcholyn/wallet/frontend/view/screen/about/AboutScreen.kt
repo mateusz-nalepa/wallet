@@ -4,6 +4,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnLightPreview
+import com.mateuszcholyn.wallet.frontend.view.util.BOTTOM_BAR_HEIGHT
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 import com.mateuszcholyn.wallet.frontend.view.util.showLongText
@@ -47,7 +49,8 @@ fun AboutScreen() {
         defaultModifier
             .fillMaxSize()
             .verticalScroll(state)
-            .background(MaterialTheme.colors.background),
+            .background(MaterialTheme.colors.background)
+            .padding(PaddingValues(bottom = BOTTOM_BAR_HEIGHT)),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Author()
