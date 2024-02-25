@@ -5,7 +5,8 @@ import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
-import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupCategoryV1
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupExpenseV1
 import com.mateuszcholyn.wallet.manager.ExpenseScope
 import com.mateuszcholyn.wallet.manager.category
 import com.mateuszcholyn.wallet.manager.expense
@@ -92,7 +93,7 @@ class ExportV1UseCaseIntegrationTest : BaseIntegrationTest() {
 
 
 fun assertExportedCategoryEqualToCategoryFromDb(
-    exportedExpense: BackupWalletV1.BackupCategoryV1,
+    exportedExpense: BackupCategoryV1,
     category: Category,
 ) {
     assert(exportedExpense.id == category.id.id) { "categoryId not equal" }
@@ -100,7 +101,7 @@ fun assertExportedCategoryEqualToCategoryFromDb(
 }
 
 fun assertExportedExpenseEqualToExpenseFromDb(
-    exportedExpense: BackupWalletV1.BackupCategoryV1.BackupExpenseV1,
+    exportedExpense: BackupExpenseV1,
     categoryId: CategoryId,
     expenseFromDb: Expense,
 ) {

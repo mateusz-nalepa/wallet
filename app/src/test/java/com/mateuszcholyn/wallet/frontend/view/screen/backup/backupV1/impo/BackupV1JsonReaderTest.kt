@@ -1,5 +1,7 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.impo
 
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupCategoryV1
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupExpenseV1
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -33,11 +35,11 @@ class BackupV1JsonReaderTest {
         val expectedBackupWalletV1 =
             BackupWalletV1(
                 categories = listOf(
-                    BackupWalletV1.BackupCategoryV1(
+                    BackupCategoryV1(
                         id = "categoryId",
                         name = "categoryName",
                         expenses = listOf(
-                            BackupWalletV1.BackupCategoryV1.BackupExpenseV1(
+                            BackupExpenseV1(
                                 expenseId = "expenseId",
                                 amount = BigDecimal("50"), description = "desc",
                                 paidAt = 7,
