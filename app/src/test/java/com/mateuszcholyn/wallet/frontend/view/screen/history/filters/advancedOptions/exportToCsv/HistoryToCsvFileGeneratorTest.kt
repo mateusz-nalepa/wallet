@@ -68,8 +68,8 @@ class HistoryToCsvFileGeneratorTest {
 
         // then
         csvFileContent shouldBe "Category,Amount,Description,Paid at\n" +
-            "categoryXD,50,00,,23.02.2024 22:15\n" +
-            "categoryXD 2,55,00,some description,01.03.2024 22:15"
+            "categoryXD,\"50,00\",,23.02.2024 22:15\n" +
+            "categoryXD 2,\"55,00\",some description,01.03.2024 22:15"
     }
 
     @Test
@@ -94,7 +94,32 @@ class HistoryToCsvFileGeneratorTest {
 
         // then
         csvFileContent shouldBe "Category,Amount,Description,Paid at\n" +
-            "\"categoryXD,2\",55,00,\"some,desc\",23.02.2024 22:15"
+            "\"categoryXD,2\",\"55,00\",\"some,desc\",23.02.2024 22:15"
+    }
+
+    @Test
+    fun `should replaceNewLineWithSpace`() {
+        // change new line to ""
+        // given
+        val date = LocalDateTime.of(2024, 2, 23, 22, 15).fromUserLocalTimeZoneToUTCInstant()
+
+        // when
+        val csvFileContent =
+            generator.generate(
+                testCsvFileLabels,
+                expensesList = listOf(
+                    createSearchSingleResult(
+                        categoryName = "categoryXD\n2",
+                        amount = BigDecimal("55"),
+                        paidAt = date,
+                        description = "some\ndesc",
+                    )
+                )
+            )
+
+        // then
+        csvFileContent shouldBe "Category,Amount,Description,Paid at\n" +
+            "categoryXD 2,\"55,00\",some desc,23.02.2024 22:15"
     }
 
 }

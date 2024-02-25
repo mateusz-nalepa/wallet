@@ -29,33 +29,48 @@ class HistoryToCsvFileGenerator : HistoryToCsvGenerator {
         csvFileLabels: CsvFileLabels,
         expensesList: List<SearchSingleResult>,
     ): String =
-        generateHeader(csvFileLabels) + "\n" + expensesList.joinToString(separator = "\n") {
-            generateRow(
-                it
-            )
-        }
+        generateHeader(csvFileLabels) + "\n" +
+            expensesList.joinToString(separator = "\n") { generateRow(it) }
 
 
     private fun generateHeader(
         csvFileLabels: CsvFileLabels,
     ): String =
-        "${csvFileLabels.categoryNameLabel.wrapInQuoteIfHasComa()}$SEPARATOR" +
-            "${csvFileLabels.amountLabel.wrapInQuoteIfHasComa()}$SEPARATOR" +
-            "${csvFileLabels.descriptionLabel.wrapInQuoteIfHasComa()}$SEPARATOR" +
-            csvFileLabels.paidAtLabel.wrapInQuoteIfHasComa()
+        "${csvFileLabels.categoryNameLabel.prepareToCsv()}$SEPARATOR" +
+            "${csvFileLabels.amountLabel.prepareToCsv()}$SEPARATOR" +
+            "${csvFileLabels.descriptionLabel.prepareToCsv()}$SEPARATOR" +
+            csvFileLabels.paidAtLabel.prepareToCsv()
 
     private fun generateRow(
         searchSingleResult: SearchSingleResult,
     ): String =
-        "${searchSingleResult.categoryName.wrapInQuoteIfHasComa()}$SEPARATOR" +
-            "${searchSingleResult.amount.asPrintableAmountWithoutDollar()}$SEPARATOR" +
-            "${searchSingleResult.description.wrapInQuoteIfHasComa()}$SEPARATOR" +
-            searchSingleResult.paidAt.fromUTCInstantToUserLocalTimeZone().toHumanDateTimeText()
+        "${searchSingleResult.categoryName.prepareToCsv()}$SEPARATOR" +
+            "${
+                searchSingleResult.amount
+                    .asPrintableAmountWithoutDollar()
+                    .prepareToCsv()
+            }$SEPARATOR" +
+            "${searchSingleResult.description.prepareToCsv()}$SEPARATOR" +
+            searchSingleResult.paidAt
+                .fromUTCInstantToUserLocalTimeZone()
+                .toHumanDateTimeText()
+                .prepareToCsv()
 
+
+    private fun String.prepareToCsv(): String =
+        wrapInQuoteIfHasComa()
+            .replaceNewLineWithString()
 
     private fun String.wrapInQuoteIfHasComa(): String =
         if (this.contains(",")) {
             "\"$this\""
+        } else {
+            this
+        }
+
+    private fun String.replaceNewLineWithString(): String =
+        if (this.contains("\n")) {
+            this.replace("\n", " ")
         } else {
             this
         }
