@@ -14,9 +14,9 @@ android {
         minSdkVersion 33
         targetSdkVersion 34
         // for internal application use
-        versionCode 3
+        versionCode 4
         // shown to users
-        versionName "1.0.1"
+        versionName "1.0.2"
         testInstrumentationRunner 'com.mateuszcholyn.wallet.app.setupintegrationtests.CustomTestRunner'
         configurations.configureEach {
             resolutionStrategy {
