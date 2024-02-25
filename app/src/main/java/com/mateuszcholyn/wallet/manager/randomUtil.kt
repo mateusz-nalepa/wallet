@@ -8,6 +8,8 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseWithCategory
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Summary
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupCategoryV1
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupExpenseV1
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
 import com.mateuszcholyn.wallet.util.randomuuid.randomUUID
@@ -48,9 +50,9 @@ fun BigDecimal.plusInt(int: Int): BigDecimal = this + BigDecimal(int)
 fun randomBackupCategoryV1(
     categoryId: CategoryId = randomCategoryId(),
     name: String = randomCategoryName(),
-    expenses: List<BackupWalletV1.BackupCategoryV1.BackupExpenseV1> = emptyList(),
-): BackupWalletV1.BackupCategoryV1 =
-    BackupWalletV1.BackupCategoryV1(
+    expenses: List<BackupExpenseV1> = emptyList(),
+): BackupCategoryV1 =
+    BackupCategoryV1(
         id = categoryId.id,
         name = name,
         expenses = expenses,
@@ -58,8 +60,8 @@ fun randomBackupCategoryV1(
 
 fun randomBackupExpenseV1(
     expenseId: ExpenseId = randomExpenseId(),
-): BackupWalletV1.BackupCategoryV1.BackupExpenseV1 =
-    BackupWalletV1.BackupCategoryV1.BackupExpenseV1(
+): BackupExpenseV1 =
+    BackupExpenseV1(
         expenseId = expenseId.id,
         amount = randomAmount(),
         description = randomDescription(),

@@ -1,10 +1,10 @@
 package com.mateuszcholyn.wallet.manager.validator
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
+import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
-import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupExpenseV1
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
 import com.mateuszcholyn.wallet.manager.ExpenseScope
 import com.mateuszcholyn.wallet.manager.validator.LocalDateTimeValidator.assertInstant
@@ -44,7 +44,7 @@ class SimpleExpenseValidator(
     }
 
     fun isSameAsExpenseFromBackup(
-        backupExpense: BackupWalletV1.BackupCategoryV1.BackupExpenseV1,
+        backupExpense: BackupExpenseV1,
         categoryId: CategoryId,
     ) {
         idIsEqualTo(ExpenseId(backupExpense.expenseId))

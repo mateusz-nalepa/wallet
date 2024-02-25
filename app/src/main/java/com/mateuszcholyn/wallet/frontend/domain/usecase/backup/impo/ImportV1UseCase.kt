@@ -5,7 +5,7 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.impl.domain.transaction.TransactionManager
 import com.mateuszcholyn.wallet.frontend.domain.usecase.UseCase
-import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupCategoryV1
 import kotlinx.coroutines.delay
 import java.math.BigDecimal
 import java.time.Instant
@@ -54,7 +54,7 @@ class ImportV1UseCase(
     }
 
     private suspend fun importSingleCategory(
-        backupCategory: BackupWalletV1.BackupCategoryV1,
+        backupCategory: BackupCategoryV1,
         importV1Parameters: ImportV1Parameters,
         summaryGenerator: ImportV1SummaryGenerator,
     ) {

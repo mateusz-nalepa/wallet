@@ -2,6 +2,7 @@ package com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.impo
 
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupObjectMapper
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletVersionReader
 
 
 object BackupV1JsonReader {
@@ -24,9 +25,6 @@ object BackupV1JsonReader {
 
 }
 
-data class BackupWalletVersionReader(
-    val version: Int,
-)
 
 class BackupWalletV1NotSupportedVersionException(
     val version: Int,

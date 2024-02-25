@@ -1,6 +1,5 @@
 package com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo
 
-import android.util.Log
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
@@ -8,21 +7,21 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
-import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupCategoryV1
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupExpenseV1
 import kotlinx.coroutines.CompletableDeferred
 
 class ExpenseImport(
     private val expenseCoreServiceAPI: ExpenseCoreServiceAPI,
     private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
-    private val backupCategoryV1: BackupWalletV1.BackupCategoryV1,
+    private val backupCategoryV1: BackupCategoryV1,
     private val importV1Parameters: ImportV1Parameters,
     private val savedCategoryFromDb: SavedCategoryFromDb,
-    private val backupExpenseV1: BackupWalletV1.BackupCategoryV1.BackupExpenseV1,
+    private val backupExpenseV1: BackupExpenseV1,
     private val importV1SummaryGenerator: ImportV1SummaryGenerator,
 ) {
 
     suspend fun addExpense() {
-        Log.d("XD", "Expense")
         val expenseFromDb =
             expenseCoreServiceAPI
                 .getById(ExpenseId(backupExpenseV1.expenseId))

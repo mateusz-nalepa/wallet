@@ -14,9 +14,9 @@ android {
         minSdkVersion 33
         targetSdkVersion 34
         // for internal application use
-        versionCode 2
+        versionCode 3
         // shown to users
-        versionName "1.0"
+        versionName "1.0.1"
         testInstrumentationRunner 'com.mateuszcholyn.wallet.app.setupintegrationtests.CustomTestRunner'
         configurations.configureEach {
             resolutionStrategy {
@@ -156,5 +156,5 @@ dependencies {
     // ...with Kotlin.
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.50")
 
-    implementation 'com.tngtech.archunit:archunit:0.23.1'
+    testImplementation 'com.tngtech.archunit:archunit:0.23.1'
 }

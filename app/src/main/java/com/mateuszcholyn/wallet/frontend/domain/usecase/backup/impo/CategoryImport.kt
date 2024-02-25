@@ -1,23 +1,20 @@
 package com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo
 
-import android.util.Log
 import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
-import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupCategoryV1
 import kotlinx.coroutines.CompletableDeferred
 
 class CategoryImport(
     private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
     private val importV1SummaryGenerator: ImportV1SummaryGenerator,
     private val importV1Parameters: ImportV1Parameters,
-    private val backupCategoryV1: BackupWalletV1.BackupCategoryV1
+    private val backupCategoryV1: BackupCategoryV1
 ) {
 
     suspend fun getOrCreateCategory(): SavedCategoryFromDb {
-        Log.d("XD", "category")
-
         val categoryFromDb =
             categoryCoreServiceAPI
                 .getById(CategoryId(backupCategoryV1.id))

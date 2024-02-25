@@ -59,7 +59,8 @@ class ImportV1ViewModel @Inject constructor(
         viewModelScope.launch { // DONE UI State
             try {
                 uiState = uiState.copy(buttonIsLoading = false)
-                val importV1Summary = unsafeImportData(noDescriptionLabel, fileContentReader.invoke())
+                val importV1Summary =
+                    unsafeImportData(noDescriptionLabel, fileContentReader.invoke())
                 uiState = uiState.copy(
                     successState = SuccessModalState.Visible(importV1Summary),
                     buttonIsLoading = false,
@@ -89,7 +90,8 @@ class ImportV1ViewModel @Inject constructor(
     ): ImportV1Parameters =
         ImportV1Parameters(
             onImportProgress = {
-                uiState = uiState.copy(importV1SummaryProgressState = it.toImportV1SummaryProgressState())
+                uiState =
+                    uiState.copy(importV1SummaryProgressState = it.toImportV1SummaryProgressState())
             },
             backupWalletV1 = backupWalletV1,
             removeAllBeforeImport = false,
@@ -100,7 +102,11 @@ class ImportV1ViewModel @Inject constructor(
             },
             onExpanseChangedAction = {
                 uiState = uiState.copy(
-                    compareModalParameters = ComparatorModalDialogState.Visible(it.toComparableDataModalParameters(noDescriptionLabel))
+                    compareModalParameters = ComparatorModalDialogState.Visible(
+                        it.toComparableDataModalParameters(
+                            noDescriptionLabel
+                        )
+                    )
                 )
             },
         )
@@ -115,5 +121,10 @@ private fun ImportV1Summary.toImportV1SummaryProgressState(): ImportV1SummaryPro
 
     val recordsTotal = numberOfCategories + numberOfExpenses
 
-    return ImportV1SummaryProgressState(percentageProgress = calculatePercentage(recordsProgress, recordsTotal))
+    return ImportV1SummaryProgressState(
+        percentageProgress = calculatePercentage(
+            recordsProgress,
+            recordsTotal
+        )
+    )
 }

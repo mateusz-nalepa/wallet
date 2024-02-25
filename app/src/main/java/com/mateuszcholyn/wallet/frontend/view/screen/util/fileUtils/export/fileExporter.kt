@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.export
 
+import android.content.ClipData
 import android.content.Intent
 import androidx.compose.runtime.Composable
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
@@ -33,6 +34,7 @@ fun fileExporter(): FileExporterLauncher {
         val sendIntent: Intent =
             Intent().apply {
                 action = Intent.ACTION_SEND
+                clipData = ClipData.newRawUri("", fileUri)
                 putExtra(Intent.EXTRA_STREAM, fileUri)
                 type = fileExportParameters.mediaType
                 flags = Intent.FLAG_GRANT_READ_URI_PERMISSION

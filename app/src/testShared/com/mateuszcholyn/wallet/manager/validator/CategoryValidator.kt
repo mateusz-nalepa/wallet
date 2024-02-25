@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.manager.validator
 
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.Category
-import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
+import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
+import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupCategoryV1
 import com.mateuszcholyn.wallet.manager.CategoryScope
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
 import kotlinx.coroutines.runBlocking
@@ -39,7 +39,7 @@ class SimpleCategoryValidator(
 ) {
 
     fun isSameAsCategoryFromBackup(
-        backupCategory: BackupWalletV1.BackupCategoryV1,
+        backupCategory: BackupCategoryV1,
     ) {
         nameEqualTo(backupCategory.name)
         idEqualTo(CategoryId(backupCategory.id))

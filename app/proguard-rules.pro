@@ -21,15 +21,18 @@
 #-renamesourcefileattribute SourceFile
 
 
-
--keepclassmembers class com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1 {
+-keep class com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletVersionReader {
     *;
 }
 
--keepclassmembers class com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1.BackupCategoryV1$* {
+-keep class com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1 {
     *;
 }
 
--keepclassmembers class com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1.BackupCategoryV1.BackupExpenseV1$* {
+-keep class com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupCategoryV1 {
+    *;
+}
+
+-keep class com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupExpenseV1 {
     *;
 }
