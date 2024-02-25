@@ -22,9 +22,7 @@ import com.mateuszcholyn.wallet.userConfig.theme.resolveThemeColors
 import com.mateuszcholyn.wallet.userConfig.theme.resolveThemeName
 import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: app icon
 // TODO: before release on Google Play check if sth else is missing / should be fixed
-// TODO: test json export on release app, exactly field names
 
 // FIXME: add accessibility support for app
 // FIXME: fix all compilation errors
