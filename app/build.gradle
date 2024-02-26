@@ -8,15 +8,21 @@ apply from: "$rootProjectDir/build_config/dependencies_version.gradle"
 
 android {
 
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     defaultConfig {
         applicationId "com.mateuszcholyn.wallet"
         compileSdk 34
         minSdkVersion 28
         targetSdkVersion 34
         // for internal application use
-        versionCode 7
+        versionCode 8
         // shown to users
-        versionName "1.0.5"
+        versionName "1.0.6"
         testInstrumentationRunner 'com.mateuszcholyn.wallet.app.setupintegrationtests.CustomTestRunner'
         configurations.configureEach {
             resolutionStrategy {
