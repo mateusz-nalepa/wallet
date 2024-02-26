@@ -12,7 +12,7 @@ import java.math.BigDecimal
 class BackupV1JsonReaderTest {
 
     @Test
-    fun `should read backup v1`() = runTest {
+    fun shouldReadBackupV1() = runTest {
         // given
         val backupJson = """{
   "categories" : [ {
@@ -53,7 +53,7 @@ class BackupV1JsonReaderTest {
     }
 
     @Test
-    fun `should throw exception on version greater than 1`() = runTest {
+    fun shouldThrowExceptionOnVersionGreaterThan1() = runTest {
         // given
         val backupJson = """{
   "version" : 2

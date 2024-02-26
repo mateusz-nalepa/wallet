@@ -37,7 +37,7 @@ class ImportV1ViewModelTest {
     }
 
     @Test
-    fun `should show error modal when unable to read file content as BackupWalletV1`() = runTest {
+    fun shouldShowErrorModalWhenUnableToReadFileContentAsBackupWalletV1() = runTest {
         // given
         coEvery { importV1UseCase.invoke(any()) }.throws(RuntimeException())
 
@@ -60,7 +60,7 @@ class ImportV1ViewModelTest {
     }
 
     @Test
-    fun `should import data and show summary`() = runTest {
+    fun shouldImportDataAndShowSummary() = runTest {
         // given
         val givenRandomV1Summary = randomImportV1Summary()
         coEvery { importV1UseCase.invoke(any()) }.returns(givenRandomV1Summary)

@@ -46,13 +46,13 @@ class CategoryScreenFormViewModelTest {
     }
 
     @Test
-    fun `default CategoryFromState should be loading`() = runTest {
+    fun defaultCategoryFromStateShouldBeLoading() = runTest {
         // expect
         viewModel.exportedCategoryScreenFormState.value is CategoryScreenFormState.Loading
     }
 
     @Test
-    fun `CategoryFromState should be error when unable to read categories list`() = runTest {
+    fun CategoryFromStateShouldBeErrorWhenUnableToReadCategoriesList() = runTest {
         // given
         testGetCategoriesQuickSummaryUseCase.willThrowException()
 
@@ -65,7 +65,7 @@ class CategoryScreenFormViewModelTest {
 
 
     @Test
-    fun `should open screen in add mode`() = runTest {
+    fun shouldOpenScreenInAddMode() = runTest {
         // given
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(emptyList())
 
@@ -87,7 +87,7 @@ class CategoryScreenFormViewModelTest {
     }
 
     @Test
-    fun `form should be in invalid state when updated category name is empty`() = runTest {
+    fun formShouldBeInInvalidStateWhenUpdatedCategoryNameIsEmpty() = runTest {
         // given
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(emptyList())
 
@@ -114,7 +114,7 @@ class CategoryScreenFormViewModelTest {
     }
 
     @Test
-    fun `should show error modal when unable to add category`() = runTest {
+    fun shouldShowErrorModalWhenUnableToAddCategory() = runTest {
         // given
         val onButtonSubmittedActionMock = mockk<() -> Unit>()
         coEvery { createCategoryUseCase.invoke(any()) }.throws(RuntimeException("XDDD"))
@@ -144,7 +144,7 @@ class CategoryScreenFormViewModelTest {
     }
 
     @Test
-    fun `should add new category`() = runTest {
+    fun shouldAddNewCategory() = runTest {
         val givenCategoryName = "some category"
         // given
         val onButtonSubmittedActionMock = mockk<() -> Unit>()
@@ -172,7 +172,7 @@ class CategoryScreenFormViewModelTest {
     }
 
     @Test
-    fun `should open screen in update mode`() = runTest {
+    fun shouldOpenScreenInUpdateMode() = runTest {
         // given
         val givenCategory = randomCategoryQuickSummary()
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(listOf(givenCategory))
@@ -195,7 +195,7 @@ class CategoryScreenFormViewModelTest {
     }
 
     @Test
-    fun `should show error modal when unable to update category`() = runTest {
+    fun shouldShowErrorModalWhenUnableToUpdateCategory() = runTest {
         // given
         val onButtonSubmittedActionMock = mockk<() -> Unit>()
         coEvery { updateCategoryUseCase.invoke(any()) }.throws(RuntimeException("XDDD"))
@@ -226,7 +226,7 @@ class CategoryScreenFormViewModelTest {
     }
 
     @Test
-    fun `should show message about existing category`() = runTest {
+    fun shouldShowMessageAboutExistingCategory() = runTest {
         // given
         val givenCategory = randomCategoryQuickSummary()
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(listOf(givenCategory))
@@ -253,7 +253,7 @@ class CategoryScreenFormViewModelTest {
     }
 
     @Test
-    fun `should update category`() = runTest {
+    fun shouldUpdateCategory() = runTest {
         // given
         val onButtonSubmittedActionMock = mockk<() -> Unit>()
         val givenCategory = randomCategoryQuickSummary(categoryName = "old category name")

@@ -37,13 +37,13 @@ class CategoryScreenViewModelTest {
     }
 
     @Test
-    fun `default CategoryScreenState should be loading`() = runTest {
+    fun defaultCategoryScreenStateShouldBeLoading() = runTest {
         // expect
         viewModel.exportedCategoryScreenState.value shouldBe CategoryScreenState.Loading
     }
 
     @Test
-    fun `state should be error when unable to load categories summary`() = runTest {
+    fun stateShouldBeErrorWhenUnableToLoadCategoriesSummary() = runTest {
         // given
         testGetCategoriesQuickSummaryUseCase.willThrowException()
 
@@ -55,7 +55,7 @@ class CategoryScreenViewModelTest {
     }
 
     @Test
-    fun `state should be success when loaded categories`() = runTest {
+    fun stateShouldBeSuccessWhenLoadedCategories() = runTest {
         // given
         val givenCategories =
             listOf(
@@ -74,7 +74,7 @@ class CategoryScreenViewModelTest {
     }
 
     @Test
-    fun `should open and close remove confirmation dialog`() = runTest {
+    fun shouldOpenAndCloseRemoveConfirmationDialog() = runTest {
         // given
         val givenCategory = randomCategoryQuickSummary(numberOfExpenses = 0)
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(listOf(givenCategory))
@@ -99,7 +99,7 @@ class CategoryScreenViewModelTest {
     }
 
     @Test
-    fun `should remove category when number of expenses is 0`() = runTest {
+    fun shouldRemoveCategoryWhenNumberOfExpensesIs0() = runTest {
         // given
         val givenCategory = randomCategoryQuickSummary(numberOfExpenses = 0)
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(listOf(givenCategory))
@@ -125,7 +125,7 @@ class CategoryScreenViewModelTest {
     }
 
     @Test
-    fun `should show error modal dialog when category has any expenses`() = runTest {
+    fun shouldShowErrorModalDialogWhenCategoryHasAnyExpenses() = runTest {
         // given
         val givenCategory = randomCategoryQuickSummary(numberOfExpenses = 5)
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(listOf(givenCategory))
@@ -159,7 +159,7 @@ class CategoryScreenViewModelTest {
     }
 
     @Test
-    fun `should show error modal dialog when removing expense causes and error`() = runTest {
+    fun shouldShowErrorModalDialogWhenRemovingExpenseCausesAndError() = runTest {
         // given
         val givenCategory = randomCategoryQuickSummary(numberOfExpenses = 0)
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(listOf(givenCategory))

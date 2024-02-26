@@ -32,7 +32,7 @@ class TopBarViewModelTest {
     }
 
     @Test
-    fun `default top bar ui state should show demo mode disabled`() = runTest {
+    fun defaultTopBarUiStateShouldShowDemoModeDisabled() = runTest {
         // expect
         viewModel.exposedTopBarUiState.value.run {
             isDemoModeEnabled shouldBe false
@@ -40,7 +40,7 @@ class TopBarViewModelTest {
     }
 
     @Test
-    fun `should show demo mode badge based on demo app switcher response`() = runTest {
+    fun shouldShowDemoModeBadgeBasedOnDemoAppSwitcherResponse() = runTest {
         // given
         val givenIsDemoModeEnabled = Random.nextBoolean()
         every { demoAppSwitcher.isDemoModeEnabled() }.returns(givenIsDemoModeEnabled)

@@ -28,7 +28,7 @@ class HistoryToCsvFileGeneratorTest {
     private val generator = HistoryToCsvFileGenerator()
 
     @Test
-    fun `should generate only header`() {
+    fun shouldGenerateOnlyHeader() {
         // given
         val headerContent =
             generator.generate(
@@ -40,9 +40,8 @@ class HistoryToCsvFileGeneratorTest {
         headerContent shouldBe "Category,Amount,Description,Paid at\n"
     }
 
-
     @Test
-    fun `generate csv file`() {
+    fun generateCsvFile() {
         // given
         val date = LocalDateTime.of(2024, 2, 23, 22, 15).fromUserLocalTimeZoneToUTCInstant()
 
@@ -73,7 +72,7 @@ class HistoryToCsvFileGeneratorTest {
     }
 
     @Test
-    fun `should wrapInQuoteIfHasComa`() {
+    fun shouldWrapInQuoteIfHasComa() {
         // change , to ","
         // given
         val date = LocalDateTime.of(2024, 2, 23, 22, 15).fromUserLocalTimeZoneToUTCInstant()
@@ -98,7 +97,7 @@ class HistoryToCsvFileGeneratorTest {
     }
 
     @Test
-    fun `should replaceNewLineWithSpace`() {
+    fun shouldReplaceNewLineWithSpace() {
         // change new line to ""
         // given
         val date = LocalDateTime.of(2024, 2, 23, 22, 15).fromUserLocalTimeZoneToUTCInstant()

@@ -24,7 +24,7 @@ class TransactionManagerIntegrationTest : BaseIntegrationTest() {
 
 
     @Test
-    fun `should not save any category when during transaction there is an error`() = runTest {
+    fun shouldNotSaveAnyCategoryWhenDuringTransactionThereIsAnError() = runTest {
         // when
         val throwable =
             shouldThrow<RuntimeException> {
@@ -41,7 +41,7 @@ class TransactionManagerIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `should save categories to db`() = runTest {
+    fun shouldSaveCategoriesToDb() = runTest {
         // given
         val givenNumberOfCategories = randomInt()
 

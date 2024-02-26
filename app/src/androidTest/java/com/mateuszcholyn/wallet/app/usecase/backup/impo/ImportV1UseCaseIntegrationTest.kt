@@ -75,7 +75,7 @@ class ImportV1UseCaseIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `import summary should show that nothing is imported after second import`() {
+    fun importSummaryShouldShowThatNothingIsImportedAfterSecondImport() {
         // given
         val givenBackupWalletV1 =
             BackupWalletV1(
@@ -121,7 +121,7 @@ class ImportV1UseCaseIntegrationTest : BaseIntegrationTest() {
 
 
     @Test
-    fun `should remove all expenses and then import from backup`() {
+    fun shouldRemoveAllExpensesAndThenImportFromBackup() {
         // given
         val numberOfExpensesInBackupData = 5
         val numberOfNewExpensesAfterBackup = 3
@@ -167,7 +167,7 @@ class ImportV1UseCaseIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `should add a new category next to existing category from db when categoryId is different`() {
+    fun shouldAddANewCategoryNextToExistingCategoryFromDbWhenCategoryIdIsDifferent() {
         // given
         lateinit var existingCategoryScope: CategoryScope
         val manager =
@@ -213,7 +213,7 @@ class ImportV1UseCaseIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `should not create new category when category from database and backup are the same`() {
+    fun shouldNotCreateNewCategoryWhenCategoryFromDatabaseAndBackupAreTheSame() {
         // given
         lateinit var existingCategoryScope: CategoryScope
         val manager =
@@ -246,7 +246,7 @@ class ImportV1UseCaseIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `should ask user what to do if category name changed after export and then keep category from database`() {
+    fun shouldAskUserWhatToDoIfCategoryNameChangedAfterExportAndThenKeepCategoryFromDatabase() {
         // given
         lateinit var existingCategoryScope: CategoryScope
         val manager =
@@ -289,7 +289,7 @@ class ImportV1UseCaseIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `should ask user what to do if category name changed after export and then keep category from backup`() {
+    fun shouldAskUserWhatToDoIfCategoryNameChangedAfterExportAndThenKeepCategoryFromBackup() {
         // given
         lateinit var existingCategoryScope: CategoryScope
         val manager =
@@ -330,7 +330,7 @@ class ImportV1UseCaseIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `should add a new expense next to existing expense from db when expense is different`() {
+    fun shouldAddANewExpenseNextToExistingExpenseFromDbWhenExpenseIsDifferent() {
         // given
         lateinit var existingCategoryScope: CategoryScope
         lateinit var existingExpenseScope: ExpenseScope
@@ -381,7 +381,7 @@ class ImportV1UseCaseIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `should not create new expense when expense from database and backup are the same`() {
+    fun shouldNotCreateNewExpenseWhenExpenseFromDatabaseAndBackupAreTheSame() {
         // given
         lateinit var existingCategoryScope: CategoryScope
         lateinit var existingExpenseScope: ExpenseScope
@@ -418,7 +418,7 @@ class ImportV1UseCaseIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `should ask user what to do if expense changed after export and then keep expense from database`() {
+    fun shouldAskUserWhatToDoIfExpenseChangedAfterExportAndThenKeepExpenseFromDatabase() {
         // given
         lateinit var existingCategoryScope: CategoryScope
         lateinit var existingExpenseScope: ExpenseScope
@@ -463,7 +463,7 @@ class ImportV1UseCaseIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `should ask user what to do if expense changed after export and then keep expense from backup`() {
+    fun shouldAskUserWhatToDoIfExpenseChangedAfterExportAndThenKeepExpenseFromBackup() {
         // given
         lateinit var existingCategoryScope: CategoryScope
         lateinit var existingExpenseScope: ExpenseScope
@@ -551,7 +551,7 @@ class ImportV1UseCaseIntegrationTest : BaseIntegrationTest() {
     }
 
     @Test
-    fun `there should be two categories with same name after import`() {
+    fun thereShouldBeTwoCategoriesWithSameNameAfterImport() {
         // given
         val givenCategoryName = randomCategoryName()
         val manager =

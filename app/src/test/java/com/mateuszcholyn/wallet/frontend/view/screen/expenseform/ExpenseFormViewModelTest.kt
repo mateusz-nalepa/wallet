@@ -59,13 +59,13 @@ class ExpenseFormViewModelTest {
     }
 
     @Test
-    fun `default ExpenseFormScreenState should be loading`() = runTest {
+    fun defaultExpenseFormScreenStateShouldBeLoading() = runTest {
         // expect
         assert(viewModel.exportedExpenseFormScreenState.value is ExpenseFormScreenState.Loading)
     }
 
     @Test
-    fun `expense form screen should be ExpenseFormScreenState - NoCategories when there is no categories`() = runTest {
+    fun expenseFormScreenShouldBeExpenseFormScreenStateNoCategoriesWhenThereIsNoCategories() = runTest {
         // given
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(emptyList())
 
@@ -77,7 +77,7 @@ class ExpenseFormViewModelTest {
     }
 
     @Test
-    fun `expense form screen should be ExpenseFormScreenState - Error when get categories throws error`() = runTest {
+    fun expenseFormScreenShouldBeExpenseFormScreenStateErrorWhenGetCategoriesThrowsError() = runTest {
         // given
         testGetCategoriesQuickSummaryUseCase.willThrowException()
 
@@ -90,7 +90,7 @@ class ExpenseFormViewModelTest {
 
 
     @Test
-    fun `should show expense form where there are categories present`() = runTest {
+    fun shouldShowExpenseFormWhereThereAreCategoriesPresent() = runTest {
         // given
         val actualTime = LocalDateTime.now()
         timeProvider.willReturnTime(actualTime)
@@ -116,7 +116,7 @@ class ExpenseFormViewModelTest {
     }
 
     @Test
-    fun `should throw exception when trying to save expense when amount is empty`() = runTest {
+    fun shouldThrowExceptionWhenTryingToSaveExpenseWhenAmountIsEmpty() = runTest {
         // given
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(listOf(randomCategoryQuickSummary()))
         viewModel.initExpenseFormScreenExt()
@@ -141,7 +141,7 @@ class ExpenseFormViewModelTest {
     }
 
     @Test
-    fun `should update category`() = runTest {
+    fun shouldUpdateCategory() = runTest {
         // given
         val categories =
             listOf(
@@ -162,7 +162,7 @@ class ExpenseFormViewModelTest {
     }
 
     @Test
-    fun `should add expense`() = runTest {
+    fun shouldAddExpense() = runTest {
         // given
         val onButtonSubmittedActionMock = mockk<() -> Unit>()
         val givenCategory = randomCategoryQuickSummary()
@@ -195,7 +195,7 @@ class ExpenseFormViewModelTest {
     }
 
     @Test
-    fun `should show info about invalid amount and button should be disabled`() = runTest {
+    fun shouldShowInfoAboutInvalidAmountAndButtonShouldBeDisabled() = runTest {
         // given
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(listOf(randomCategoryQuickSummary()))
         viewModel.initExpenseFormScreenExt()
@@ -211,7 +211,7 @@ class ExpenseFormViewModelTest {
     }
 
     @Test
-    fun `should show error state modal when adding expense throws error`() = runTest {
+    fun shouldShowErrorStateModalWhenAddingExpenseThrowsError() = runTest {
         // given
         val givenCategory = randomCategoryQuickSummary()
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(listOf(givenCategory))
@@ -233,7 +233,7 @@ class ExpenseFormViewModelTest {
     }
 
     @Test
-    fun `should open screen in update expense mode`() = runTest {
+    fun shouldOpenScreenInUpdateExpenseMode() = runTest {
         // given
         val givenCategory = randomCategoryQuickSummary()
         val expenseToBeUpdated =
@@ -265,7 +265,7 @@ class ExpenseFormViewModelTest {
     }
 
     @Test
-    fun `should update expense`() = runTest {
+    fun shouldUpdateExpense() = runTest {
         // given
         val onButtonSubmittedActionMock = mockk<() -> Unit>()
         val givenCategory = randomCategoryQuickSummary()
@@ -300,7 +300,7 @@ class ExpenseFormViewModelTest {
     }
 
     @Test
-    fun `should open screen in copy expense mode`() = runTest {
+    fun shouldOpenScreenInCopyExpenseMode() = runTest {
         // given
         val time = LocalDateTime.now()
         timeProvider.willReturnTime(time)
@@ -335,7 +335,7 @@ class ExpenseFormViewModelTest {
     }
 
     @Test
-    fun `should add a new expense when copying an expense`() = runTest {
+    fun shouldAddANewExpenseWhenCopyingAnExpense() = runTest {
         // given
         val time = LocalDateTime.now()
         timeProvider.willReturnTime(time)

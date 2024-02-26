@@ -11,7 +11,7 @@ import java.math.BigDecimal
 class BackupV1JsonCreatorTest {
 
     @Test
-    fun `should create backup v1`() = runTest {
+    fun shouldCreateBackupV1() = runTest {
         // given
         val givenRandomBackup =
             BackupWalletV1(

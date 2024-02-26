@@ -64,13 +64,13 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `default history search screen should be loading`() = runTest {
+    fun defaultHistorySearchScreenShouldBeLoading() = runTest {
         // expect
         viewModel.exposedHistoryScreenState.value shouldBe HistoryScreenState.Loading
     }
 
     @Test
-    fun `state should be error when unable to load categories list`() = runTest {
+    fun stateShouldBeErrorWhenUnableToLoadCategoriesList() = runTest {
         // given
         testGetCategoriesQuickSummaryUseCase.willThrowException()
 
@@ -83,7 +83,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `state should be visible even if unable to load results from db`() = runTest {
+    fun stateShouldBeVisibleEvenIfUnableToLoadResultsFromDb() = runTest {
         // given
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(emptyList())
         coEvery { searchServiceUseCase.invoke(any()) }.throws(RuntimeException())
@@ -99,7 +99,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `there always should be option to show results for all categories`() = runTest {
+    fun thereAlwaysShouldBeOptionToShowResultsForAllCategories() = runTest {
         // given
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(emptyList())
 
@@ -114,7 +114,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should always call searchService on initScreen`() = runTest {
+    fun shouldAlwaysCallSearchServiceOnInitScreen() = runTest {
         // given
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(emptyList())
 
@@ -126,7 +126,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should update selected category and load results from db`() = runTest {
+    fun shouldUpdateSelectedCategoryAndLoadResultsFromDb() = runTest {
         // given
         val givenNewCategory =
             CategoryView(
@@ -145,7 +145,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should update selected quick ranges and load results from db`() = runTest {
+    fun shouldUpdateSelectedQuickRangesAndLoadResultsFromDb() = runTest {
         // given
         val givenQuickRangeData = quickDateRanges().first()
 
@@ -163,7 +163,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should set selected quick ranges to custom and load results from db`() = runTest {
+    fun shouldSetSelectedQuickRangesToCustomAndLoadResultsFromDb() = runTest {
         // given
         val actualTime = LocalDateTime.now()
         timeProvider.willReturnTime(actualTime)
@@ -183,7 +183,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should update begin Date`() = runTest {
+    fun shouldUpdateBeginDate() = runTest {
         // given
         val givenBeginDate = LocalDateTime.now()
 
@@ -198,7 +198,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should update end Date`() = runTest {
+    fun shouldUpdateEndDate() = runTest {
         // given
         val givenEndDate = LocalDateTime.now()
 
@@ -213,7 +213,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should update selected sort element and load results from db`() = runTest {
+    fun shouldUpdateSelectedSortElementAndLoadResultsFromDb() = runTest {
         // given
         val givenSortElement = sortingElements().shuffled().first()
 
@@ -228,7 +228,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should update grouping checkbox to enabled and load results from db`() = runTest {
+    fun shouldUpdateGroupingCheckboxToEnabledAndLoadResultsFromDb() = runTest {
         // given
         val givenGroupingCheckboxEnabled = true
 
@@ -247,7 +247,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should update grouping checkbox to disabled and load results from db`() = runTest {
+    fun shouldUpdateGroupingCheckboxToDisabledAndLoadResultsFromDb() = runTest {
         // given
         val givenGroupingCheckboxEnabled = false
         val existingSortElement: SortElement = sortingElements().last()
@@ -269,7 +269,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should update advanced filters visible and not load results from db`() = runTest {
+    fun shouldUpdateAdvancedFiltersVisibleAndNotLoadResultsFromDb() = runTest {
         // given
         val givenAdvancedFiltersVisible = Random().nextBoolean()
 
@@ -284,7 +284,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should update group element and load results from db`() = runTest {
+    fun shouldUpdateGroupElementAndLoadResultsFromDb() = runTest {
         // given
         val givenGroupElement = groupingElements().shuffled().first()
 
@@ -299,7 +299,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should update amount start and load results from db`() = runTest {
+    fun shouldUpdateAmountStartAndLoadResultsFromDb() = runTest {
         // given
 
         // when
@@ -313,7 +313,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should update amount end and load results from db`() = runTest {
+    fun shouldUpdateAmountEndAndLoadResultsFromDb() = runTest {
         // given
         // when
         viewModel.updateAmountRangeEnd("5")
@@ -326,7 +326,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should show default search form`() = runTest {
+    fun shouldShowDefaultSearchForm() = runTest {
         // given
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(emptyList())
 
@@ -356,7 +356,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should open and close remove confirmation dialog`() = runTest {
+    fun shouldOpenAndCloseRemoveConfirmationDialog() = runTest {
         // given
         viewModel.initScreen()
 
@@ -379,7 +379,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should remove expense and refresh screen`() = runTest {
+    fun shouldRemoveExpenseAndRefreshScreen() = runTest {
         // given
         viewModel.initScreen()
 
@@ -398,7 +398,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should show error modal dialog when removing expense causes and error`() = runTest {
+    fun shouldShowErrorModalDialogWhenRemovingExpenseCausesAndError() = runTest {
         // given
         viewModel.initScreen()
         coEvery { removeExpenseUseCase.invoke(any()) }.throws(RuntimeException())
@@ -423,7 +423,7 @@ class HistoryScreenViewModelTest {
     }
 
     @Test
-    fun `should show error modal when unable to generate backup file`() = runTest {
+    fun shouldShowErrorModalWhenUnableToGenerateBackupFile() = runTest {
         // given
         coEvery { historyToCsvGenerator.generate(any(), any()) }.throws(RuntimeException())
         val onFileReadyActionMock = mockk<(FileExportParameters) -> Unit>()

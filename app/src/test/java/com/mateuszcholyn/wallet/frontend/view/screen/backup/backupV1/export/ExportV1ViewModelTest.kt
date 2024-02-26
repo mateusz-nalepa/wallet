@@ -35,7 +35,7 @@ class ExportV1ViewModelTest {
     }
 
     @Test
-    fun `should show error modal when unable to generate backup file`() = runTest {
+    fun shouldShowErrorModalWhenUnableToGenerateBackupFile() = runTest {
         // given
         coEvery { exportV1UseCase.invoke() }.throws(RuntimeException())
         val onFileReadyActionMock = mockk<(FileExportParameters) -> Unit>()
@@ -64,7 +64,7 @@ class ExportV1ViewModelTest {
     }
 
     @Test
-    fun `should export data`() = runTest {
+    fun shouldExportData() = runTest {
         // given
         val backupWalletV1 = randomBackupWalletV1()
         coEvery { exportV1UseCase.invoke() }.returns(backupWalletV1)

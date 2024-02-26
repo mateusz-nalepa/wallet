@@ -17,7 +17,7 @@ package architecture
 //            .importPackages(appPackage)
 //
 //    @Test
-//    fun `backend domain model should not know about external layers`() {
+//    fun backendDomainModelShouldNotKnowAboutExternalLayers() {
 //        // given
 //        val backendDomainDontKnowAboutExternalLayersRule =
 //            noClasses()

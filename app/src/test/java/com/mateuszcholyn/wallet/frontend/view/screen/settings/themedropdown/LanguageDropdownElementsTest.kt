@@ -9,7 +9,7 @@ import org.junit.Test
 class LanguageDropdownElementsTest {
 
     @Test
-    fun `should not return hodor language`() {
+    fun shouldNotReturnHodorLanguage() {
         // given
         val isHodorLanguageNotAvailable = true
 
@@ -21,7 +21,7 @@ class LanguageDropdownElementsTest {
     }
 
     @Test
-    fun `should return hodor language`() {
+    fun shouldReturnHodorLanguage() {
         // given
         val isHodorLanguageNotAvailable = false
 
