@@ -17,9 +17,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Paid
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -36,7 +33,7 @@ fun GroupedExpenses(
     expensesListGrouped: Map<String, List<SearchSingleResult>>,
     groupNameFunction: (SearchSingleResult) -> String,
 ) {
-    val expenses by remember { mutableStateOf(expensesListGrouped.toList()) }
+    val expenses = expensesListGrouped.toList()
 
     LazyColumn(
         contentPadding = PaddingValues(bottom = BOTTOM_BAR_HEIGHT),

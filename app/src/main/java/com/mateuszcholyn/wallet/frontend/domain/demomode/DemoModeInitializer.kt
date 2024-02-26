@@ -5,9 +5,10 @@ import com.mateuszcholyn.wallet.manager.ExpenseAppInitializer
 import com.mateuszcholyn.wallet.manager.ExpenseAppManagerScope
 import com.mateuszcholyn.wallet.manager.category
 import com.mateuszcholyn.wallet.manager.expense
+import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.minusDays
 import java.math.BigDecimal
-import java.time.Instant
+import java.time.LocalDateTime
 
 class DemoModeInitializer(
     private val demoAppSwitcher: DemoAppSwitcher,
@@ -21,39 +22,55 @@ class DemoModeInitializer(
     }
 
     private fun initBecauseDemoModeIsEnabled() {
+        val instantNow = LocalDateTime.now().fromUserLocalTimeZoneToUTCInstant()
+
         initDemoApp {
             category {
                 categoryName = "test 1"
                 expense {
                     amount = BigDecimal("8.45")
+                    paidAt = instantNow
+                    description = "test"
                 }
                 expense {
                     amount = BigDecimal("5.96")
+                    paidAt = instantNow.minusDays(1)
                     description = "test"
                 }
                 expense {
                     amount = BigDecimal("12.95")
-                    paidAt = Instant.now().minusDays(1)
+                    paidAt = instantNow.minusDays(1)
+                    description = "test"
                 }
                 expense {
                     amount = BigDecimal("15.95")
-                    paidAt = Instant.now().minusDays(2)
+                    paidAt = instantNow.minusDays(2)
+                    description = "test"
                 }
                 expense {
                     amount = BigDecimal("17.95")
-                    paidAt = Instant.now().minusDays(3)
-                }
-                expense {
-                    amount = BigDecimal("17.95")
-                    paidAt = Instant.now().minusDays(60)
-                }
-                expense {
-                    amount = BigDecimal("55.95")
-                    paidAt = Instant.now().minusDays(90)
+                    paidAt = instantNow.minusDays(3)
+                    description = "test"
                 }
                 expense {
                     amount = BigDecimal("20.95")
-                    paidAt = Instant.now().minusDays(400)
+                    paidAt = instantNow.minusDays(30)
+                    description = "test"
+                }
+                expense {
+                    amount = BigDecimal("17.95")
+                    paidAt = instantNow.minusDays(60)
+                    description = "test"
+                }
+                expense {
+                    amount = BigDecimal("55.95")
+                    paidAt = instantNow.minusDays(90)
+                    description = "test"
+                }
+                expense {
+                    amount = BigDecimal("20.95")
+                    paidAt = instantNow.minusDays(400)
+                    description = "test"
                 }
             }
             category {
@@ -61,6 +78,22 @@ class DemoModeInitializer(
                 expense {
                     amount = BigDecimal("128.94")
                     description = "test test"
+                    paidAt = instantNow
+                }
+                expense {
+                    amount = BigDecimal("2.94")
+                    description = "test test"
+                    paidAt = instantNow.minusDays(3)
+                }
+                expense {
+                    amount = BigDecimal("22.94")
+                    description = "test test"
+                    paidAt = instantNow.minusDays(30)
+                }
+                expense {
+                    amount = BigDecimal("24.94")
+                    description = "test test"
+                    paidAt = instantNow.minusDays(60)
                 }
             }
         }
