@@ -53,7 +53,12 @@ fun AboutScreen() {
             .padding(PaddingValues(bottom = BOTTOM_BAR_HEIGHT)),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Author()
+        EasterEgg()
+        Text(
+            fontSize = 24.sp,
+            text = stringResource(R.string.aboutScreen_author),
+            fontWeight = FontWeight.Bold,
+        )
         ClickableText(
             text = "Mateusz Nalepa",
             link = "https://www.linkedin.com/in/mateusz-nalepa-5742a112b/",
@@ -105,7 +110,7 @@ fun AboutScreen() {
 }
 
 @Composable
-private fun Author() {
+private fun EasterEgg() {
 
     val context = currentAppContext()
     val isHodorAvailable = !HodorLanguageConfig.isHodorLanguageNotAvailable(context)
@@ -116,29 +121,41 @@ private fun Author() {
     val touchesStill = stringResource(id = R.string.hodor_touches_still)
 
     val modifier =
-        if (isHodorAvailable) {
-            Modifier
-        } else {
-            Modifier.clickable {
-                if (numberOfClicks + 1 >= numberOfClicksToHaveHodorLanguage) {
-                    showLongText(context, hodorLanguageReadyText)
-                    HodorLanguageConfig.setHodorLanguageToAvailable(context)
-                } else {
-                    numberOfClicks++
-                    showShortText(
-                        context,
-                        "$touchesStill ${numberOfClicksToHaveHodorLanguage - numberOfClicks}..."
-                    )
-                }
+        Modifier.clickable {
+            if (numberOfClicks + 1 >= numberOfClicksToHaveHodorLanguage) {
+                showLongText(context, hodorLanguageReadyText)
+                HodorLanguageConfig.setHodorLanguageToAvailable(context)
+            } else {
+                numberOfClicks++
+                showShortText(
+                    context,
+                    "$touchesStill ${numberOfClicksToHaveHodorLanguage - numberOfClicks}..."
+                )
             }
         }
 
     Text(
         fontSize = 24.sp,
-        text = stringResource(R.string.aboutScreen_author),
+        text = "Easter Egg",
         fontWeight = FontWeight.Bold,
-        modifier = modifier,
     )
+    if (isHodorAvailable) {
+        Text(
+            text = stringResource(R.string.aboutScreen_easter_egg_unlocked_text),
+            textAlign = TextAlign.Center,
+            fontSize = 20.sp,
+        )
+    } else {
+        Text(
+            text = stringResource(R.string.aboutScreen_easter_egg_locked_text),
+            textAlign = TextAlign.Center,
+            fontSize = 20.sp,
+            modifier = Modifier
+                .padding(horizontal = 50.dp)
+                .then(modifier),
+        )
+    }
+    Text(text = "")
 }
 
 @Composable

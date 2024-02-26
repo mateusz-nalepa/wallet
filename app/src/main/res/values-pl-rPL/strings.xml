@@ -142,6 +142,9 @@
     <string name="backupScreen_keep_existing">Zachowaj istniejące</string>
 
     <!--About Screen-->
+    <string name="aboutScreen_easter_egg">Easter egg</string>
+    <string name="aboutScreen_easter_egg_unlocked_text">Easter egg odblokowany!</string>
+    <string name="aboutScreen_easter_egg_locked_text">Dotknij mnie i zobacz co się stanie!</string>
     <string name="aboutScreen_author">Autor</string>
     <string name="aboutScreen_logoCreator">Twórca logo</string>
     <string name="aboutScreen_consultations">Konsultacje</string>

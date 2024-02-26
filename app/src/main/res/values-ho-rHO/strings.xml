@@ -142,6 +142,9 @@
     <string name="backupScreen_keep_existing">Hodor</string>
 
     <!--About Screen-->
+    <string name="aboutScreen_easter_egg">Hodor</string>
+    <string name="aboutScreen_easter_egg_unlocked_text">Hodor</string>
+    <string name="aboutScreen_easter_egg_locked_text">Hodor</string>
     <string name="aboutScreen_author">Hodor</string>
     <string name="aboutScreen_logoCreator">Hodor</string>
     <string name="aboutScreen_consultations">Hodor</string>
