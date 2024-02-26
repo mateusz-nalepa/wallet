@@ -4,9 +4,9 @@
     <!--Settings - Language-->
     <string name="settings_language">Hodor</string>
     <!--Settings - Available languages - Do not translate it-->
-    <string name="settings_language_polish">Hodor</string>
-    <string name="settings_language_english">Hodor</string>
-    <string name="settings_language_italiano">Hodor</string>
+    <string name="settings_language_polish">Polski</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_italiano">Italiano</string>
     <string name="settings_language_hodor">Hodor</string>
 
     <!--Settings - Theme-->
