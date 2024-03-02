@@ -26,6 +26,8 @@ const val DESCRIPTION_FIELD_NAME = "description"
 )
 // TODO: zrób żeby dało się wyszukiwać po opisie XD
 // jakieś contains np XD
+
+// TODO zmien ikona apki na to nową xd
 data class SearchServiceEntity(
 
     @PrimaryKey
