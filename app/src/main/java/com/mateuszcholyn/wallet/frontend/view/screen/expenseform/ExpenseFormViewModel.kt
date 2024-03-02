@@ -19,7 +19,7 @@ import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDe
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.history.toCategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
-import com.mateuszcholyn.wallet.frontend.view.util.asFormattedAmount
+import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutCurrencySymbol
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,7 +47,8 @@ class ExpenseFormViewModel @Inject constructor(
     private lateinit var onButtonSubmittedAction: () -> Unit
     private var expenseScreenMode: ExpenseScreenMode = ExpenseScreenMode.Add
 
-    var exportedExpenseFormScreenState = mutableStateOf<ExpenseFormScreenState>(ExpenseFormScreenState.Loading)
+    var exportedExpenseFormScreenState =
+        mutableStateOf<ExpenseFormScreenState>(ExpenseFormScreenState.Loading)
         private set
     private var expenseFormScreenState by MutableStateDelegate(exportedExpenseFormScreenState)
 
@@ -64,7 +65,8 @@ class ExpenseFormViewModel @Inject constructor(
         this.onButtonSubmittedAction = onButtonSubmittedAction
         viewModelScope.launch {
             try {
-                val categories = getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
+                val categories =
+                    getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
 
                 when {
                     categories.isEmpty() -> {
@@ -147,7 +149,7 @@ class ExpenseFormViewModel @Inject constructor(
         expenseFormDetailsUiState =
             expenseFormDetailsUiState.copy(
                 actualExpenseId = existingExpense.expenseId.id,
-                amount = existingExpense.amount.asFormattedAmount().toString(),
+                amount = existingExpense.amount.asPrintableAmountWithoutCurrencySymbol(),
                 description = existingExpense.description,
                 selectedCategory = existingExpense.toCategoryView(),
                 paidAt = existingExpense.paidAt.fromUTCInstantToUserLocalTimeZone(),
@@ -221,7 +223,7 @@ class ExpenseFormViewModel @Inject constructor(
         genericSaveExpense(errorMessageKey) {
             val addExpenseParameters =
                 AddExpenseParameters(
-                    amount = expenseFormDetailsUiState.amount.customToBigDecimal(),
+                    amount = expenseFormDetailsUiState.amount.stringToBigDecimal(),
                     description = expenseFormDetailsUiState.description,
                     paidAt = expenseFormDetailsUiState.paidAt.fromUserLocalTimeZoneToUTCInstant(),
                     categoryId = CategoryId(expenseFormDetailsUiState.selectedCategory?.categoryId!!)
@@ -235,7 +237,7 @@ class ExpenseFormViewModel @Inject constructor(
             val updatedExpense =
                 Expense(
                     expenseId = (expenseScreenMode as ExpenseScreenMode.Update).expenseId,
-                    amount = expenseFormDetailsUiState.amount.customToBigDecimal(),
+                    amount = expenseFormDetailsUiState.amount.stringToBigDecimal(),
                     description = expenseFormDetailsUiState.description,
                     categoryId = CategoryId(expenseFormDetailsUiState.selectedCategory?.categoryId!!),
                     paidAt = expenseFormDetailsUiState.paidAt.fromUserLocalTimeZoneToUTCInstant(),
@@ -251,7 +253,8 @@ class ExpenseFormViewModel @Inject constructor(
     ) {
         viewModelScope.launch { // DONE
             try {
-                expenseFormDetailsUiState = expenseFormDetailsUiState.copy(expenseSubmitButtonState = ExpenseSubmitButtonState.LOADING)
+                expenseFormDetailsUiState =
+                    expenseFormDetailsUiState.copy(expenseSubmitButtonState = ExpenseSubmitButtonState.LOADING)
                 buttonAction.invoke()
                 onButtonSubmittedAction.invoke()
             } catch (t: Throwable) {
@@ -273,15 +276,19 @@ private fun ExpenseWithCategory.toCategoryView(): CategoryView =
     )
 
 
-private fun String.isAmountInvalid(): Boolean =
-    !this.canConvertToBigDecimal()
+private val AMOUNT_WITH_OPTIONAL_TWO_PLACES_AFTER_SEPARATOR_REGEX: Regex =
+    "^(\\d*)(,|.)?(\\d{0,2})\$".toRegex()
 
-private fun String.canConvertToBigDecimal(): Boolean =
+private fun String.isAmountInvalid(): Boolean =
+    !this.isAmountValid()
+
+fun String.isAmountValid(): Boolean =
     runCatching {
-        this.customToBigDecimal()
-        true
+        this.stringToBigDecimal()
+            .toString()
+            .matches(AMOUNT_WITH_OPTIONAL_TWO_PLACES_AFTER_SEPARATOR_REGEX)
     }
         .getOrDefault(false)
 
-fun String.customToBigDecimal(): BigDecimal =
+fun String.stringToBigDecimal(): BigDecimal =
     this.replace(",", ".").toBigDecimal()

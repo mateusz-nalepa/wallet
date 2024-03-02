@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.frontend.view.util.BOTTOM_BAR_HEIGHT
-import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutDollar
+import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutCurrencySymbol
 import java.math.BigDecimal
 
 
@@ -70,7 +70,8 @@ fun ShowSingleGroupedExpense(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = expensesInGroup.sumExpensesAmount().asPrintableAmountWithoutDollar(),
+                    text = expensesInGroup.sumExpensesAmount()
+                        .asPrintableAmountWithoutCurrencySymbol(),
                     fontSize = 16.sp,
                 )
                 Icon(

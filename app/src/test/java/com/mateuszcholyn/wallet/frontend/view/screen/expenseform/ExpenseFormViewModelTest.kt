@@ -11,7 +11,8 @@ import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryVie
 import com.mateuszcholyn.wallet.frontend.view.screen.history.toCategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
-import com.mateuszcholyn.wallet.frontend.view.util.asFormattedAmount
+import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutCurrencySymbol
+import com.mateuszcholyn.wallet.frontend.view.util.withTwoSignsPrecision
 import com.mateuszcholyn.wallet.manager.randomExpenseWithCategory
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
@@ -39,7 +40,8 @@ class ExpenseFormViewModelTest {
     private lateinit var updateExpenseUseCase: UpdateExpenseUseCase
     private lateinit var getExpenseUseCase: GetExpenseUseCase
 
-    private val testGetCategoriesQuickSummaryUseCase: TestGetCategoriesQuickSummaryUseCase = TestGetCategoriesQuickSummaryUseCase()
+    private val testGetCategoriesQuickSummaryUseCase: TestGetCategoriesQuickSummaryUseCase =
+        TestGetCategoriesQuickSummaryUseCase()
     private val timeProvider: TestLocalDateTimeProvider = TestLocalDateTimeProvider()
 
     @Before
@@ -65,28 +67,30 @@ class ExpenseFormViewModelTest {
     }
 
     @Test
-    fun expenseFormScreenShouldBeExpenseFormScreenStateNoCategoriesWhenThereIsNoCategories() = runTest {
-        // given
-        testGetCategoriesQuickSummaryUseCase.willReturnCategories(emptyList())
+    fun expenseFormScreenShouldBeExpenseFormScreenStateNoCategoriesWhenThereIsNoCategories() =
+        runTest {
+            // given
+            testGetCategoriesQuickSummaryUseCase.willReturnCategories(emptyList())
 
-        // when
-        viewModel.initExpenseFormScreenExt()
+            // when
+            viewModel.initExpenseFormScreenExt()
 
-        // then
-        assert(viewModel.exportedExpenseFormScreenState.value is ExpenseFormScreenState.NoCategories)
-    }
+            // then
+            assert(viewModel.exportedExpenseFormScreenState.value is ExpenseFormScreenState.NoCategories)
+        }
 
     @Test
-    fun expenseFormScreenShouldBeExpenseFormScreenStateErrorWhenGetCategoriesThrowsError() = runTest {
-        // given
-        testGetCategoriesQuickSummaryUseCase.willThrowException()
+    fun expenseFormScreenShouldBeExpenseFormScreenStateErrorWhenGetCategoriesThrowsError() =
+        runTest {
+            // given
+            testGetCategoriesQuickSummaryUseCase.willThrowException()
 
-        // when
-        viewModel.initExpenseFormScreenExt()
+            // when
+            viewModel.initExpenseFormScreenExt()
 
-        // then
-        viewModel.exportedExpenseFormScreenState.value shouldBe ExpenseFormScreenState.Error("error on init XD")
-    }
+            // then
+            viewModel.exportedExpenseFormScreenState.value shouldBe ExpenseFormScreenState.Error("error on init XD")
+        }
 
 
     @Test
@@ -241,7 +245,9 @@ class ExpenseFormViewModelTest {
                 categoryQuickSummary = givenCategory,
             )
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(listOf(givenCategory))
-        coEvery { getExpenseUseCase.invoke(expenseToBeUpdated.expenseId) }.returns(expenseToBeUpdated)
+        coEvery { getExpenseUseCase.invoke(expenseToBeUpdated.expenseId) }.returns(
+            expenseToBeUpdated
+        )
 
         // when
         viewModel.initExpenseFormScreenExt(
@@ -250,7 +256,7 @@ class ExpenseFormViewModelTest {
         // then
         viewModel.exportedExpenseFormDetailsUiState.value.run {
             actualExpenseId shouldBe expenseToBeUpdated.expenseId.id
-            amount shouldBe expenseToBeUpdated.amount.asFormattedAmount().toString()
+            amount shouldBe expenseToBeUpdated.amount.asPrintableAmountWithoutCurrencySymbol()
             isAmountInvalid shouldBe false
             description shouldBe expenseToBeUpdated.description
             selectedCategory shouldBe CategoryView(
@@ -274,7 +280,9 @@ class ExpenseFormViewModelTest {
                 categoryQuickSummary = givenCategory,
             )
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(listOf(givenCategory))
-        coEvery { getExpenseUseCase.invoke(expenseToBeUpdated.expenseId) }.returns(expenseToBeUpdated)
+        coEvery { getExpenseUseCase.invoke(expenseToBeUpdated.expenseId) }.returns(
+            expenseToBeUpdated
+        )
 
         viewModel.initExpenseFormScreenExt(
             actualExpenseId = expenseToBeUpdated.expenseId.id,
@@ -289,7 +297,7 @@ class ExpenseFormViewModelTest {
             updateExpenseUseCase.invoke(
                 Expense(
                     expenseId = expenseToBeUpdated.expenseId,
-                    amount = expenseToBeUpdated.amount.asFormattedAmount(),
+                    amount = expenseToBeUpdated.amount.withTwoSignsPrecision(),
                     description = expenseToBeUpdated.description,
                     paidAt = expenseToBeUpdated.paidAt,
                     categoryId = givenCategory.categoryId,
@@ -310,7 +318,9 @@ class ExpenseFormViewModelTest {
                 categoryQuickSummary = givenCategory,
             )
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(listOf(givenCategory))
-        coEvery { getExpenseUseCase.invoke(expenseToBeUpdated.expenseId) }.returns(expenseToBeUpdated)
+        coEvery { getExpenseUseCase.invoke(expenseToBeUpdated.expenseId) }.returns(
+            expenseToBeUpdated
+        )
 
         // when
         viewModel.initExpenseFormScreenExt(
@@ -320,7 +330,7 @@ class ExpenseFormViewModelTest {
         // then
         viewModel.exportedExpenseFormDetailsUiState.value.run {
             actualExpenseId shouldBe expenseToBeUpdated.expenseId.id
-            amount shouldBe expenseToBeUpdated.amount.asFormattedAmount().toString()
+            amount shouldBe expenseToBeUpdated.amount.asPrintableAmountWithoutCurrencySymbol()
             isAmountInvalid shouldBe false
             description shouldBe expenseToBeUpdated.description
             selectedCategory shouldBe CategoryView(
@@ -346,7 +356,9 @@ class ExpenseFormViewModelTest {
                 categoryQuickSummary = givenCategory,
             )
         testGetCategoriesQuickSummaryUseCase.willReturnCategories(listOf(givenCategory))
-        coEvery { getExpenseUseCase.invoke(expenseToBeUpdated.expenseId) }.returns(expenseToBeUpdated)
+        coEvery { getExpenseUseCase.invoke(expenseToBeUpdated.expenseId) }.returns(
+            expenseToBeUpdated
+        )
 
         viewModel.initExpenseFormScreenExt(
             actualExpenseId = expenseToBeUpdated.expenseId.id,
@@ -361,7 +373,7 @@ class ExpenseFormViewModelTest {
         coVerify(exactly = 1) {
             addExpenseUseCase.invoke(
                 AddExpenseParameters(
-                    amount = expenseToBeUpdated.amount.asFormattedAmount(),
+                    amount = expenseToBeUpdated.amount.withTwoSignsPrecision(),
                     description = expenseToBeUpdated.description,
                     paidAt = time.fromUserLocalTimeZoneToUTCInstant(),
                     categoryId = givenCategory.categoryId,

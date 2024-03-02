@@ -1,7 +1,7 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv
 
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
-import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutDollar
+import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutCurrencySymbol
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText
 
@@ -47,7 +47,7 @@ class HistoryToCsvFileGenerator : HistoryToCsvGenerator {
         "${searchSingleResult.categoryName.prepareToCsv()}$SEPARATOR" +
             "${
                 searchSingleResult.amount
-                    .asPrintableAmountWithoutDollar()
+                    .asPrintableAmountWithoutCurrencySymbol()
                     .prepareToCsv()
             }$SEPARATOR" +
             "${searchSingleResult.description.prepareToCsv()}$SEPARATOR" +
