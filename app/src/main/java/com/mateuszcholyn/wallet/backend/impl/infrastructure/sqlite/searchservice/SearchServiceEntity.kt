@@ -24,6 +24,8 @@ const val DESCRIPTION_FIELD_NAME = "description"
         Index(PAID_AT_FIELD_NAME),
     ]
 )
+// TODO: zrób żeby dało się wyszukiwać po opisie XD
+// jakieś contains np XD
 data class SearchServiceEntity(
 
     @PrimaryKey

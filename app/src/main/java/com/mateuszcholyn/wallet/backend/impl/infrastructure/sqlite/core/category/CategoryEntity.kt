@@ -19,6 +19,7 @@ const val CATEGORIES_TABLE_CATEGORY_ID_COLUMN = "category_id"
         Index(CATEGORIES_TABLE_CATEGORY_ID_COLUMN, unique = true),
     ]
 )
+// TODO: add subcategory
 data class CategoryEntity(
 
     @PrimaryKey

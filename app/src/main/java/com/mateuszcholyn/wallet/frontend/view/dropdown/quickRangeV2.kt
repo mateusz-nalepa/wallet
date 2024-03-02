@@ -69,6 +69,7 @@ fun quickDateRanges(): List<QuickRangeData> {
             beginDate = null,
             endDate = null,
         ),
+        // TODO: weź to na samą górę XD
         QuickRangeData(
             nameKey = R.string.quickRange_custom,
             beginDate = null,

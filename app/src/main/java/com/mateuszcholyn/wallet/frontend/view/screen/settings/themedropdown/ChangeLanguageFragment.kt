@@ -24,6 +24,7 @@ fun ChangeLanguageFragment() {
         languageDropdownElements(
             HodorLanguageConfig.isHodorLanguageNotAvailable(currentAppContext())
         )
+    // TODO: even if user has polish, the default language is shown as english XD
     var selectedLanguage by remember {
         mutableStateOf(LocaleService.getCurrentAppLanguage().toLanguageDropdownElement())
     }

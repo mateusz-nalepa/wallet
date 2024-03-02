@@ -36,6 +36,8 @@ fun String.toDoubleOrDefaultZero(): Double =
     kotlin.runCatching { this.toDouble() }
         .getOrDefault(0.0)
 
+// TODO: user should be able to select his own currency and separator XD
+// TODO: na formularzu dodawania dobrze jakby pole tekstowe miało: Kwota i symbol waluty XD
 
 data class PriceFormatterParameters(
     val currencySymbol: String = "$",
