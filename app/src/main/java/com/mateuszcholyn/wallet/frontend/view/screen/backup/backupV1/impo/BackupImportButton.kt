@@ -26,9 +26,11 @@ import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.impo.fileSel
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.impo.readFileContent
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnDarkPreview
 import com.mateuszcholyn.wallet.frontend.view.screen.util.preview.SetContentOnLightPreview
+import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import com.mateuszcholyn.wallet.frontend.view.util.buttonPadding
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
+import com.mateuszcholyn.wallet.userConfig.priceFormatterConfig.PriceFormatterParametersConfig
 
 @Composable
 fun BackupImport(
@@ -39,10 +41,16 @@ fun BackupImport(
 
     val noDescriptionLabel = stringResource(R.string.common_noDescription)
 
+    val priceFormatterParameters =
+        PriceFormatterParametersConfig.getPriceFormatterParameters(context)
+
     val fileSelector =
         fileSelector(
             onExternalFileSelected = { externalFileUri ->
                 importV1ViewModel.importBackupV1(
+                    bigDecimalAsFormattedAmountFunction = {
+                        it.asPrintableAmount(priceFormatterParameters)
+                    },
                     noDescriptionLabel = noDescriptionLabel,
                 ) {
                     context
@@ -82,7 +90,11 @@ fun BackupImportButtonStateless(
             errorModalState = backupImportUiState.errorState,
             onErrorModalClose = onErrorModalClose,
             successModalState = backupImportUiState.successState,
-            successModalContent = { if (backupImportUiState.successState is SuccessModalState.Visible) ImportSummaryStateless(importV1Summary = backupImportUiState.successState.importV1Summary) },
+            successModalContent = {
+                if (backupImportUiState.successState is SuccessModalState.Visible) ImportSummaryStateless(
+                    importV1Summary = backupImportUiState.successState.importV1Summary
+                )
+            },
             onSuccessModalClose = onSuccessModalClose,
         )
         ImportV1SummaryProgressStateless(backupImportUiState.importV1SummaryProgressState)

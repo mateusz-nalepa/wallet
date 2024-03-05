@@ -18,7 +18,7 @@ import com.mateuszcholyn.wallet.frontend.view.dropdown.QuickRangeData
 import com.mateuszcholyn.wallet.frontend.view.dropdown.SortElement
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.HistoryFilters
-import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.CsvFileLabels
+import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.CsvGeneratorParameters
 import com.mateuszcholyn.wallet.frontend.view.screen.history.results.HistorySearchResultStateless
 import com.mateuszcholyn.wallet.frontend.view.screen.history.showSingleExpense.remove.RemoveSingleExpenseUiState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogProxy
@@ -27,10 +27,17 @@ import com.mateuszcholyn.wallet.frontend.view.screen.util.screenError.ScreenErro
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenLoading.ScreenLoading
 import com.mateuszcholyn.wallet.frontend.view.skeleton.copyExpenseRoute
 import com.mateuszcholyn.wallet.frontend.view.skeleton.editExpenseRoute
+import com.mateuszcholyn.wallet.frontend.view.util.BigDecimalAsFormattedAmountFunction
+import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
+import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutCurrencySymbol
+import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
+import com.mateuszcholyn.wallet.userConfig.priceFormatterConfig.PriceFormatterParametersConfig
 import java.time.LocalDateTime
 
 data class HistoryScreenActions(
+    val onFormatPrice: BigDecimalAsFormattedAmountFunction,
+
     val onAdvancedFiltersVisible: (Boolean) -> Unit,
 
     val onCategorySelected: (CategoryView) -> Unit,
@@ -67,6 +74,7 @@ fun HistoryScreen(
     navHostController: NavHostController,
     historyScreenViewModel: HistoryScreenViewModel = hiltViewModel(),
 ) {
+    val context = currentAppContext()
     val fileExporter = fileExporter()
 
     val wholeSummaryScreenState by remember { historyScreenViewModel.exposedHistoryScreenState }
@@ -80,18 +88,26 @@ fun HistoryScreen(
         onDispose { }
     })
 
+    val priceFormatterParameters =
+        PriceFormatterParametersConfig.getPriceFormatterParameters(context)
 
-    val csvFileLabels =
-        CsvFileLabels(
+    val csvGeneratorParameters =
+        CsvGeneratorParameters(
             categoryNameLabel = stringResource(id = R.string.common_category),
             amountLabel = stringResource(id = R.string.common_amount),
             descriptionLabel = stringResource(id = R.string.common_description),
             paidAtLabel = stringResource(id = R.string.common_date),
             exportTitleLabel = stringResource(id = R.string.common_export_data),
             fileNamePrefix = stringResource(id = R.string.csv_file_name_prefix),
+            bigDecimalAsFormattedAmountFunction = { bigDecimalValue ->
+                bigDecimalValue.asPrintableAmountWithoutCurrencySymbol(priceFormatterParameters)
+            }
         )
 
     val historyScreenActions = HistoryScreenActions(
+        onFormatPrice = {
+            it.asPrintableAmount(priceFormatterParameters)
+        },
         onCategorySelected = {
             historyScreenViewModel.updateSelectedCategory(it)
         },
@@ -149,7 +165,7 @@ fun HistoryScreen(
         },
         onExportHistory = {
             historyScreenViewModel.exportToCsv(
-                csvFileLabels = csvFileLabels,
+                csvGeneratorParameters = csvGeneratorParameters,
                 onFileReadyAction = {
                     fileExporter.launch(it)
                 }

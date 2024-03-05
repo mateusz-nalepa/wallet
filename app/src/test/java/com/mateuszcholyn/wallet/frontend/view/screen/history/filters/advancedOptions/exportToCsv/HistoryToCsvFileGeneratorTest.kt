@@ -2,6 +2,8 @@ package com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOp
 
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
+import com.mateuszcholyn.wallet.frontend.view.util.PriceFormatterParameters
+import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutCurrencySymbol
 import com.mateuszcholyn.wallet.manager.randomCategoryId
 import com.mateuszcholyn.wallet.manager.randomExpenseId
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
@@ -13,14 +15,22 @@ import java.time.Instant
 import java.time.LocalDateTime
 
 
-val testCsvFileLabels =
-    CsvFileLabels(
+val testCsvGeneratorParameters =
+    CsvGeneratorParameters(
         categoryNameLabel = "Category",
         amountLabel = "Amount",
         descriptionLabel = "Description",
         paidAtLabel = "Paid at",
         exportTitleLabel = "Export data",
         fileNamePrefix = "simple-wallet-csv",
+        bigDecimalAsFormattedAmountFunction = {
+            it.asPrintableAmountWithoutCurrencySymbol(
+                PriceFormatterParameters(
+                    currencySymbol = Typography.dollar.toString(),
+                    separator = ",",
+                )
+            )
+        }
     )
 
 class HistoryToCsvFileGeneratorTest {
@@ -32,7 +42,7 @@ class HistoryToCsvFileGeneratorTest {
         // given
         val headerContent =
             generator.generate(
-                testCsvFileLabels,
+                testCsvGeneratorParameters,
                 expensesList = emptyList(),
             )
 
@@ -48,7 +58,7 @@ class HistoryToCsvFileGeneratorTest {
         // when
         val csvFileContent =
             generator.generate(
-                testCsvFileLabels,
+                testCsvGeneratorParameters,
                 expensesList = listOf(
                     createSearchSingleResult(
                         categoryName = "categoryXD",
@@ -80,7 +90,7 @@ class HistoryToCsvFileGeneratorTest {
         // when
         val csvFileContent =
             generator.generate(
-                testCsvFileLabels,
+                testCsvGeneratorParameters,
                 expensesList = listOf(
                     createSearchSingleResult(
                         categoryName = "categoryXD,2",
@@ -105,7 +115,7 @@ class HistoryToCsvFileGeneratorTest {
         // when
         val csvFileContent =
             generator.generate(
-                testCsvFileLabels,
+                testCsvGeneratorParameters,
                 expensesList = listOf(
                     createSearchSingleResult(
                         categoryName = "categoryXD\n2",

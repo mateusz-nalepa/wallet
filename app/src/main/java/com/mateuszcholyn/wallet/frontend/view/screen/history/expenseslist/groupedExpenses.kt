@@ -6,30 +6,27 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
 import androidx.compose.material.ListItem
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Paid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
+import com.mateuszcholyn.wallet.frontend.view.screen.history.HistoryScreenActions
 import com.mateuszcholyn.wallet.frontend.view.util.BOTTOM_BAR_HEIGHT
-import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutCurrencySymbol
 import java.math.BigDecimal
 
 
 @ExperimentalFoundationApi
 @Composable
 fun GroupedExpenses(
+    historyScreenActions: HistoryScreenActions,
     expensesListGrouped: Map<String, List<SearchSingleResult>>,
     groupNameFunction: (SearchSingleResult) -> String,
 ) {
@@ -44,6 +41,7 @@ fun GroupedExpenses(
     ) {
         itemsIndexed(items = expenses) { index, expensePair ->
             ShowSingleGroupedExpense(
+                historyScreenActions = historyScreenActions,
                 expensesInGroup = expensePair.second,
                 groupNameFunction = groupNameFunction,
             )
@@ -55,6 +53,7 @@ fun GroupedExpenses(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ShowSingleGroupedExpense(
+    historyScreenActions: HistoryScreenActions,
     expensesInGroup: List<SearchSingleResult>,
     groupNameFunction: (SearchSingleResult) -> String,
 ) {
@@ -70,14 +69,8 @@ fun ShowSingleGroupedExpense(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = expensesInGroup.sumExpensesAmount()
-                        .asPrintableAmountWithoutCurrencySymbol(),
+                    text = historyScreenActions.onFormatPrice.invoke(expensesInGroup.sumExpensesAmount()),
                     fontSize = 16.sp,
-                )
-                Icon(
-                    Icons.Filled.Paid,
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp),
                 )
             }
         },

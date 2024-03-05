@@ -15,6 +15,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.math.BigDecimal
 
 // FIXME: add tests for comparator modal dialog
 class ImportV1ViewModelTest {
@@ -42,7 +43,7 @@ class ImportV1ViewModelTest {
         coEvery { importV1UseCase.invoke(any()) }.throws(RuntimeException())
 
         // when
-        viewModel.importBackupV1("no description label") { "SOME INVALID FILE CONTENT" }
+        viewModel.importBackupV1Ext { "SOME INVALID FILE CONTENT" }
 
         // then
         viewModel.exportedUiState.value.run {
@@ -66,7 +67,11 @@ class ImportV1ViewModelTest {
         coEvery { importV1UseCase.invoke(any()) }.returns(givenRandomV1Summary)
 
         // when
-        viewModel.importBackupV1("no description label") { BackupV1JsonCreator.createBackupWalletV1AsString(randomBackupWalletV1()) }
+        viewModel.importBackupV1Ext {
+            BackupV1JsonCreator.createBackupWalletV1AsString(
+                randomBackupWalletV1()
+            )
+        }
 
         // then
         viewModel.exportedUiState.value.run {
@@ -83,4 +88,16 @@ class ImportV1ViewModelTest {
         }
     }
 
+}
+
+private fun ImportV1ViewModel.importBackupV1Ext(
+    bigDecimalAsFormattedAmountFunction: (BigDecimal) -> String = { it.toString() },
+    noDescriptionLabel: String = "no description label",
+    fileContentReader: () -> String,
+) {
+    importBackupV1(
+        bigDecimalAsFormattedAmountFunction = bigDecimalAsFormattedAmountFunction,
+        noDescriptionLabel = noDescriptionLabel,
+        fileContentReader = fileContentReader,
+    )
 }

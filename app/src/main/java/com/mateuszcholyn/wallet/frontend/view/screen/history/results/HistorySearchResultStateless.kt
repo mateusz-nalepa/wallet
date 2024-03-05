@@ -40,7 +40,10 @@ fun SuccessSearchResultStateless(
     successContent: HistorySuccessContent,
     removeSingleExpenseUiState: RemoveSingleExpenseUiState,
 ) {
-    HistoryStatisticSectionStateless(successContent)
+    HistoryStatisticSectionStateless(
+        historyScreenActions.onFormatPrice,
+        successContent,
+    )
     Divider()
     HistoryExpensesListStateless(
         historySearchForm = historySearchForm,

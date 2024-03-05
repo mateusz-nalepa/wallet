@@ -22,14 +22,13 @@ import com.mateuszcholyn.wallet.frontend.view.dropdown.groupingElements
 import com.mateuszcholyn.wallet.frontend.view.dropdown.quickDateRanges
 import com.mateuszcholyn.wallet.frontend.view.dropdown.sortingElements
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryView
-import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.CsvFileLabels
+import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.CsvGeneratorParameters
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.HistoryToCsvGenerator
 import com.mateuszcholyn.wallet.frontend.view.screen.history.showSingleExpense.remove.RemoveSingleExpenseUiState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.WalletMediaType
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.export.FileExportParameters
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
-import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -52,7 +51,7 @@ sealed class HistoryResultState {
 data class HistorySuccessContent(
     val expensesList: List<SearchSingleResult>,
     val expensesGrouped: Map<String, List<SearchSingleResult>>,
-    val summaryResultText: String,
+    val summaryResult: SearchAverageExpenseResult,
 )
 
 data class ExportToCsvUiState(
@@ -206,7 +205,7 @@ class HistoryScreenViewModel @Inject constructor(
         return HistorySuccessContent(
             expensesList = expenses,
             expensesGrouped = expenses.groupBy(historySearchForm.selectedGroupingElement.groupFunction),
-            summaryResultText = summaryResult.averageExpenseResult.asTextSummary(),
+            summaryResult = summaryResult.averageExpenseResult,
         )
     }
 
@@ -248,13 +247,13 @@ class HistoryScreenViewModel @Inject constructor(
     }
 
     fun exportToCsv(
-        csvFileLabels: CsvFileLabels,
+        csvGeneratorParameters: CsvGeneratorParameters,
         onFileReadyAction: (FileExportParameters) -> Unit,
     ) {
         viewModelScope.launch { // DONE UI State
             try {
                 exportUiState = exportUiState.copy(isLoading = true)
-                unsafeExportHistoryToCsv(csvFileLabels, onFileReadyAction)
+                unsafeExportHistoryToCsv(csvGeneratorParameters, onFileReadyAction)
                 exportUiState = exportUiState.copy(isLoading = false)
             } catch (t: Throwable) {
                 exportUiState = exportUiState.copy(
@@ -266,15 +265,15 @@ class HistoryScreenViewModel @Inject constructor(
     }
 
     private fun unsafeExportHistoryToCsv(
-        csvFileLabels: CsvFileLabels,
+        csvGeneratorParameters: CsvGeneratorParameters,
         onFileReadyAction: (FileExportParameters) -> Unit,
     ) {
         val successResultState = historyResultState as HistoryResultState.Success
 
-        val fileName = "${csvFileLabels.fileNamePrefix}-${LocalDateTime.now().toHumanDateTimeText()}.csv"
+        val fileName = "${csvGeneratorParameters.fileNamePrefix}-${LocalDateTime.now().toHumanDateTimeText()}.csv"
         val fileContent =
             historyToCsvGenerator.generate(
-                csvFileLabels = csvFileLabels,
+                csvGeneratorParameters = csvGeneratorParameters,
                 expensesList = successResultState.historySuccessContent.expensesList,
             )
 
@@ -282,7 +281,7 @@ class HistoryScreenViewModel @Inject constructor(
             FileExportParameters(
                 fileName = fileName,
                 fileContent = fileContent,
-                title = csvFileLabels.exportTitleLabel,
+                title = csvGeneratorParameters.exportTitleLabel,
                 mediaType = WalletMediaType.TEXT_CSV,
             )
         )
@@ -293,9 +292,6 @@ class HistoryScreenViewModel @Inject constructor(
 fun String.orDefaultDescription(defaultDescription: String): String =
     if (this == EMPTY_STRING) defaultDescription else this
 
-
-fun SearchAverageExpenseResult.asTextSummary(): String =
-    "${wholeAmount.asPrintableAmount()} / $days d = ${averageAmount.asPrintableAmount()}/d"
 
 fun CategoryQuickSummary.toCategoryView(): CategoryView =
     CategoryView(

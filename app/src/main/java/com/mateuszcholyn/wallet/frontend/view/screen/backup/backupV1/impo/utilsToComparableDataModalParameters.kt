@@ -6,7 +6,7 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.OnExpanseCha
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.ComparableData
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.ComparatorModalParameters
 import com.mateuszcholyn.wallet.frontend.view.screen.history.orDefaultDescription
-import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmount
+import com.mateuszcholyn.wallet.frontend.view.util.BigDecimalAsFormattedAmountFunction
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.toHumanDateTimeText
 
@@ -31,7 +31,10 @@ fun OnCategoryChangedInput.toComparableDataModalParameters(): ComparatorModalPar
         ),
     )
 
-fun OnExpanseChangedInput.toComparableDataModalParameters(noDescriptionLabel: String): ComparatorModalParameters =
+fun OnExpanseChangedInput.toComparableDataModalParameters(
+    bigDecimalAsFormattedAmountFunction: BigDecimalAsFormattedAmountFunction,
+    noDescriptionLabel: String,
+): ComparatorModalParameters =
     ComparatorModalParameters(
         titleKey = R.string.backupScreen_expense_has_changed,
         leftValuesQuickSummaryKey = R.string.backupScreen_backup_state,
@@ -51,18 +54,28 @@ fun OnExpanseChangedInput.toComparableDataModalParameters(noDescriptionLabel: St
             ),
             ComparableData(
                 R.string.common_amount,
-                expensesToCompare.expenseFromBackup.amount.asPrintableAmount(),
-                expensesToCompare.expenseFromDatabase.amount.asPrintableAmount(),
+                expensesToCompare.expenseFromBackup.amount.let {
+                    bigDecimalAsFormattedAmountFunction.invoke(it)
+                },
+                expensesToCompare.expenseFromDatabase.amount.let {
+                    bigDecimalAsFormattedAmountFunction.invoke(it)
+                },
             ),
             ComparableData(
                 R.string.common_date,
-                expensesToCompare.expenseFromBackup.paidAt.fromUTCInstantToUserLocalTimeZone().toHumanDateTimeText(),
-                expensesToCompare.expenseFromDatabase.paidAt.fromUTCInstantToUserLocalTimeZone().toHumanDateTimeText(),
+                expensesToCompare.expenseFromBackup.paidAt.fromUTCInstantToUserLocalTimeZone()
+                    .toHumanDateTimeText(),
+                expensesToCompare.expenseFromDatabase.paidAt.fromUTCInstantToUserLocalTimeZone()
+                    .toHumanDateTimeText(),
             ),
             ComparableData(
                 R.string.common_description,
-                expensesToCompare.expenseFromBackup.description.orDefaultDescription(noDescriptionLabel),
-                expensesToCompare.expenseFromDatabase.description.orDefaultDescription(noDescriptionLabel),
+                expensesToCompare.expenseFromBackup.description.orDefaultDescription(
+                    noDescriptionLabel
+                ),
+                expensesToCompare.expenseFromDatabase.description.orDefaultDescription(
+                    noDescriptionLabel
+                ),
             ),
         ),
     )

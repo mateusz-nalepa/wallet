@@ -19,6 +19,7 @@ import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDe
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.history.toCategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
+import com.mateuszcholyn.wallet.frontend.view.util.PriceFormatterParameters
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutCurrencySymbol
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
@@ -46,6 +47,7 @@ class ExpenseFormViewModel @Inject constructor(
 
     private lateinit var onButtonSubmittedAction: () -> Unit
     private var expenseScreenMode: ExpenseScreenMode = ExpenseScreenMode.Add
+    private lateinit var priceFormatterParameters: PriceFormatterParameters
 
     var exportedExpenseFormScreenState =
         mutableStateOf<ExpenseFormScreenState>(ExpenseFormScreenState.Loading)
@@ -58,11 +60,13 @@ class ExpenseFormViewModel @Inject constructor(
 
 
     fun initExpenseFormScreen(
+        priceFormatterParameters: PriceFormatterParameters,
         actualExpenseId: String?,
         screenMode: String?,
         onButtonSubmittedAction: () -> Unit,
     ) {
         this.onButtonSubmittedAction = onButtonSubmittedAction
+        this.priceFormatterParameters = priceFormatterParameters
         viewModelScope.launch {
             try {
                 val categories =
@@ -149,7 +153,9 @@ class ExpenseFormViewModel @Inject constructor(
         expenseFormDetailsUiState =
             expenseFormDetailsUiState.copy(
                 actualExpenseId = existingExpense.expenseId.id,
-                amount = existingExpense.amount.asPrintableAmountWithoutCurrencySymbol(),
+                amount = existingExpense.amount.asPrintableAmountWithoutCurrencySymbol(
+                    priceFormatterParameters
+                ),
                 description = existingExpense.description,
                 selectedCategory = existingExpense.toCategoryView(),
                 paidAt = existingExpense.paidAt.fromUTCInstantToUserLocalTimeZone(),
@@ -290,5 +296,6 @@ fun String.isAmountValid(): Boolean =
     }
         .getOrDefault(false)
 
+// FIXME: what, if there is other amount separator than "," and "."? :D
 fun String.stringToBigDecimal(): BigDecimal =
     this.replace(",", ".").toBigDecimal()

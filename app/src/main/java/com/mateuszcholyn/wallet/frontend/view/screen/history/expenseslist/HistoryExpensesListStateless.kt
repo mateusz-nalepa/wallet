@@ -18,6 +18,7 @@ fun HistoryExpensesListStateless(
     // FIXME: grouped expenses should be in Summary View
     if (historySearchForm.isGroupingEnabled) {
         GroupedExpenses(
+            historyScreenActions = historyScreenActions,
             expensesListGrouped = successContent.expensesGrouped,
             groupNameFunction = historySearchForm.selectedGroupingElement.groupFunctionName,
         )

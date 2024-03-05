@@ -14,7 +14,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.TestGetCategori
 import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.TestLocalDateTimeProvider
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.HistoryToCsvGenerator
-import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.testCsvFileLabels
+import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv.testCsvGeneratorParameters
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.fileUtils.export.FileExportParameters
 import com.mateuszcholyn.wallet.manager.randomCategoryId
@@ -430,7 +430,7 @@ class HistoryScreenViewModelTest {
 
         // when
         viewModel.exportToCsv(
-            csvFileLabels = testCsvFileLabels,
+            csvGeneratorParameters = testCsvGeneratorParameters,
             onFileReadyAction = onFileReadyActionMock,
         )
 

@@ -12,6 +12,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.backup.ComparatorModalDialo
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupWalletV1
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.SuccessModalState
+import com.mateuszcholyn.wallet.frontend.view.util.BigDecimalAsFormattedAmountFunction
 import com.mateuszcholyn.wallet.frontend.view.util.PercentageCalculator.calculatePercentage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -53,6 +54,7 @@ class ImportV1ViewModel @Inject constructor(
     }
 
     fun importBackupV1(
+        bigDecimalAsFormattedAmountFunction: BigDecimalAsFormattedAmountFunction,
         noDescriptionLabel: String,
         fileContentReader: () -> String,
     ) {
@@ -60,7 +62,11 @@ class ImportV1ViewModel @Inject constructor(
             try {
                 uiState = uiState.copy(buttonIsLoading = false)
                 val importV1Summary =
-                    unsafeImportData(noDescriptionLabel, fileContentReader.invoke())
+                    unsafeImportData(
+                        bigDecimalAsFormattedAmountFunction,
+                        noDescriptionLabel,
+                        fileContentReader.invoke()
+                    )
                 uiState = uiState.copy(
                     successState = SuccessModalState.Visible(importV1Summary),
                     buttonIsLoading = false,
@@ -77,14 +83,22 @@ class ImportV1ViewModel @Inject constructor(
     }
 
     private suspend fun unsafeImportData(
+        bigDecimalAsFormattedAmountFunction: BigDecimalAsFormattedAmountFunction,
         noDescriptionLabel: String,
         fileContent: String,
     ): ImportV1Summary {
         val backupWalletV1 = BackupV1JsonReader.readBackupWalletV1(fileContent)
-        return importV1UseCase.invoke(createImportV1Parameters(noDescriptionLabel, backupWalletV1))
+        return importV1UseCase.invoke(
+            createImportV1Parameters(
+                bigDecimalAsFormattedAmountFunction,
+                noDescriptionLabel,
+                backupWalletV1
+            )
+        )
     }
 
     private fun createImportV1Parameters(
+        bigDecimalAsFormattedAmountFunction: BigDecimalAsFormattedAmountFunction,
         noDescriptionLabel: String,
         backupWalletV1: BackupWalletV1,
     ): ImportV1Parameters =
@@ -104,6 +118,7 @@ class ImportV1ViewModel @Inject constructor(
                 uiState = uiState.copy(
                     compareModalParameters = ComparatorModalDialogState.Visible(
                         it.toComparableDataModalParameters(
+                            bigDecimalAsFormattedAmountFunction,
                             noDescriptionLabel
                         )
                     )

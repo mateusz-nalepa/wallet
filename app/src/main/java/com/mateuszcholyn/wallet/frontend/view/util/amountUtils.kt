@@ -4,18 +4,15 @@ import java.math.BigDecimal
 
 const val EMPTY_STRING = ""
 
+private const val BIG_DECIMAL_DEFAULT_SEPARATOR = "."
+
+
+fun interface BigDecimalAsFormattedAmountFunction {
+    fun invoke(bigDecimal: BigDecimal): String
+}
+
 fun BigDecimal.withTwoSignsPrecision(): BigDecimal =
     this.setScale(2, BigDecimal.ROUND_HALF_UP)
-
-fun BigDecimal.asPrintableAmount(): String = run {
-    asPrintableAmountWithoutCurrencySymbol() + "$"
-}
-
-fun BigDecimal.asPrintableAmountWithoutCurrencySymbol(): String = run {
-    withTwoSignsPrecision()
-        .toString()
-        .replace(".", ",")
-}
 
 fun BigDecimal.asPrintableAmount(
     priceFormatterParameters: PriceFormatterParameters,
@@ -28,7 +25,7 @@ fun BigDecimal.asPrintableAmountWithoutCurrencySymbol(
 ): String = run {
     withTwoSignsPrecision()
         .toString()
-        .replace(".", priceFormatterParameters.separator)
+        .replace(BIG_DECIMAL_DEFAULT_SEPARATOR, priceFormatterParameters.separator)
 }
 
 // TODO: nie wiem o co chodzi z tą funkcją poniżej :D

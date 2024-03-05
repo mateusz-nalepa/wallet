@@ -39,6 +39,7 @@ fun ChangeLanguageFragment() {
     )
 }
 
+// FIXME: zrób tak, żeby się nie kompilowało jak dodajesz nowy język
 private fun Locale.toLanguageDropdownElement(): LanguageDropdownElement =
     when (this) {
         WalletLanguage.ENGLISH.locale -> WalletLanguage.ENGLISH

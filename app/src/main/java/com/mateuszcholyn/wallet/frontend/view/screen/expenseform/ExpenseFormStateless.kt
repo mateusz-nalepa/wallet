@@ -32,9 +32,13 @@ import com.mateuszcholyn.wallet.frontend.view.screen.util.screenError.ScreenErro
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenLoading.ScreenLoading
 import com.mateuszcholyn.wallet.frontend.view.skeleton.NavDrawerItem
 import com.mateuszcholyn.wallet.frontend.view.skeleton.categoryFormScreenRoute
+import com.mateuszcholyn.wallet.frontend.view.util.BigDecimalAsFormattedAmountFunction
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
+import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutCurrencySymbol
+import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
+import com.mateuszcholyn.wallet.userConfig.priceFormatterConfig.PriceFormatterParametersConfig
 import java.time.LocalDateTime
 
 sealed class ExpenseFormScreenState {
@@ -46,6 +50,8 @@ sealed class ExpenseFormScreenState {
 }
 
 data class ExpenseFormActions(
+    val onFormatPrice: BigDecimalAsFormattedAmountFunction,
+
     val onCategorySelected: (CategoryView) -> Unit,
     val onAmountChange: (String) -> Unit,
     val onDescriptionChange: (String) -> Unit,
@@ -87,8 +93,14 @@ fun ExpenseFormScreen(
     screenMode: String? = null,
     expenseFormViewModel: ExpenseFormViewModel = hiltViewModel(),
 ) {
+    val context = currentAppContext()
+
+    val priceFormatterParameters =
+        PriceFormatterParametersConfig.getPriceFormatterParameters(context)
+
     DisposableEffect(key1 = Unit, effect = {
         expenseFormViewModel.initExpenseFormScreen(
+            priceFormatterParameters = priceFormatterParameters,
             actualExpenseId = actualExpenseId,
             screenMode = screenMode,
             onButtonSubmittedAction = {
@@ -98,12 +110,15 @@ fun ExpenseFormScreen(
         onDispose { }
     })
 
-
     val expenseScreenFormState by remember { expenseFormViewModel.exportedExpenseFormScreenState }
     val expenseFormDetailsUiState by remember { expenseFormViewModel.exportedExpenseFormDetailsUiState }
 
+
     val expenseFormActions =
         ExpenseFormActions(
+            onFormatPrice = {
+                it.asPrintableAmountWithoutCurrencySymbol(priceFormatterParameters)
+            },
             onCategorySelected = {
                 expenseFormViewModel.updateCategory(it)
             },
@@ -187,6 +202,7 @@ fun ShowExpenseFormStateless(
         Row(modifier = defaultModifier) {
             ValidatedTextFieldV2(
                 textFieldLabel = stringResource(R.string.common_amount),
+                // TODO: tutaj zawsze by default jest teraz 0,00 XD
                 value = formState.amount,
                 onValueChange = { expenseFormActions.onAmountChange(it) },
                 isValueInvalid = formState.isAmountInvalid,
