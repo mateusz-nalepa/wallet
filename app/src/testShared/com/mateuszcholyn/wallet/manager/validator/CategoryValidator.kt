@@ -7,7 +7,7 @@ import com.mateuszcholyn.wallet.manager.CategoryScope
 import com.mateuszcholyn.wallet.manager.ExpenseAppManager
 import kotlinx.coroutines.runBlocking
 
-fun ExpenseAppManager.validate(
+fun ExpenseAppManager.validateCategoryFromDatabase(
     categoryId: CategoryId,
     validateBlock: FullCategoryValidator.() -> Unit,
 ) {
@@ -27,6 +27,12 @@ class FullCategoryValidator(
 ) {
     fun nameEqualTo(expectedCategoryName: String) {
         SimpleCategoryValidator(category).nameEqualTo(expectedCategoryName)
+    }
+
+    fun parentCategoryIs(expectedParentCategory: Category?) {
+        assert(category.parentCategory == expectedParentCategory) {
+            "Expected parentCategory name is: $expectedParentCategory. Actual: ${category.parentCategory}"
+        }
     }
 }
 
@@ -55,6 +61,12 @@ class SimpleCategoryValidator(
     fun nameEqualTo(expectedCategoryName: String) {
         assert(category.name == expectedCategoryName) {
             "Expected category name is: $expectedCategoryName. Actual: ${category.name}"
+        }
+    }
+
+    fun parentCategoryIs(expectedParentCategory: Category?) {
+        assert(category.parentCategory == expectedParentCategory) {
+            "Expected parentCategory name is: $expectedParentCategory. Actual: ${category.parentCategory}"
         }
     }
 

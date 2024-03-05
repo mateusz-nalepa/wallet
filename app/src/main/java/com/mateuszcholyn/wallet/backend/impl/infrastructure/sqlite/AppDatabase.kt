@@ -37,7 +37,7 @@ val MIGRATION_2_3 =
     }
 
 @Database(
-    version = 3,
+    version = 4,
     entities = [
         CategoriesQuickSummaryEntity::class,
         CategoryEntity::class,

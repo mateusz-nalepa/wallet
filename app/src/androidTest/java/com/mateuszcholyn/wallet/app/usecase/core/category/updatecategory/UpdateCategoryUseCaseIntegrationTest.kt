@@ -8,6 +8,7 @@ import com.mateuszcholyn.wallet.manager.ext.core.category.updateCategoryUseCase
 import com.mateuszcholyn.wallet.manager.randomCategoryId
 import com.mateuszcholyn.wallet.manager.randomCategoryName
 import com.mateuszcholyn.wallet.manager.validator.validate
+import com.mateuszcholyn.wallet.manager.validator.validateCategoryFromDatabase
 import com.mateuszcholyn.wallet.util.throwable.catchThrowable
 import com.mateuszcholyn.wallet.util.throwable.validate
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -38,7 +39,7 @@ class UpdateCategoryUseCaseIntegrationTest : BaseIntegrationTest() {
         updatedCategory.validate {
             nameEqualTo(givenNewCategoryName)
         }
-        manager.validate(updatedCategory.id) {
+        manager.validateCategoryFromDatabase(updatedCategory.id) {
             nameEqualTo(givenNewCategoryName)
         }
     }

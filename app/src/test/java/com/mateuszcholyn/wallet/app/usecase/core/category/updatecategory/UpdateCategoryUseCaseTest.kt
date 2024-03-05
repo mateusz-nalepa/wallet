@@ -9,6 +9,7 @@ import com.mateuszcholyn.wallet.manager.ext.core.category.updateCategoryUseCase
 import com.mateuszcholyn.wallet.manager.randomCategoryId
 import com.mateuszcholyn.wallet.manager.randomCategoryName
 import com.mateuszcholyn.wallet.manager.validator.validate
+import com.mateuszcholyn.wallet.manager.validator.validateCategoryFromDatabase
 import com.mateuszcholyn.wallet.util.throwable.catchThrowable
 import com.mateuszcholyn.wallet.util.throwable.validate
 import org.junit.Test
@@ -38,7 +39,7 @@ class UpdateCategoryUseCaseTest {
         updatedCategory.validate {
             nameEqualTo(givenNewCategoryName)
         }
-        manager.validate(updatedCategory.id) {
+        manager.validateCategoryFromDatabase(updatedCategory.id) {
             nameEqualTo(givenNewCategoryName)
         }
     }

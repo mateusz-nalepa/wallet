@@ -5,6 +5,7 @@ import com.mateuszcholyn.wallet.app.setupunittests.initExpenseAppManager
 import com.mateuszcholyn.wallet.manager.ext.core.category.createCategoryUseCase
 import com.mateuszcholyn.wallet.manager.randomCategoryName
 import com.mateuszcholyn.wallet.manager.validator.validate
+import com.mateuszcholyn.wallet.manager.validator.validateCategoryFromDatabase
 import org.junit.Test
 
 
@@ -27,7 +28,7 @@ class CreateCategoryUseCaseTest {
             nameEqualTo(givenCategoryName)
         }
 
-        manager.validate(newCategory.id) {
+        manager.validateCategoryFromDatabase(newCategory.id) {
             nameEqualTo(givenCategoryName)
         }
     }

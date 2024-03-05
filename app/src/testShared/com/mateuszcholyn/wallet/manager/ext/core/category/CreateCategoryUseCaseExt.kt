@@ -25,9 +25,11 @@ fun ExpenseAppManager.createCategoryUseCase(
 
 class CreateCategoryUseCaseScope {
     var name: String = randomCategoryName()
+    var parentCategory: Category? = null
 
     fun toCreateCategoryParameters(): CreateCategoryParameters =
         CreateCategoryParameters(
             name = name,
+            parentCategory = parentCategory,
         )
 }

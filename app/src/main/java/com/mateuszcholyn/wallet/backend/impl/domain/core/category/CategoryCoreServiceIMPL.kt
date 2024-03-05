@@ -33,7 +33,13 @@ class CategoryCoreServiceIMPL(
         transactionManager.runInTransaction {
             categoryRepositoryFacade
                 .remove(categoryId)
-                .also { categoryPublisher.publishCategoryRemovedEvent(CategoryRemovedEvent(categoryId)) }
+                .also {
+                    categoryPublisher.publishCategoryRemovedEvent(
+                        CategoryRemovedEvent(
+                            categoryId
+                        )
+                    )
+                }
 
         }
     }
@@ -54,6 +60,7 @@ class CategoryCoreServiceIMPL(
         Category(
             id = this.categoryId ?: CategoryId(randomUUID()),
             name = name,
+            parentCategory = parentCategory,
         )
 
     private fun Category.toCategoryAddedEvent(): CategoryAddedEvent =

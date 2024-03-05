@@ -13,6 +13,8 @@ interface CategoryCoreServiceAPI {
 data class CreateCategoryParameters(
     val categoryId: CategoryId? = null,
     val name: String,
+    // TODO: remove tego null? XD
+    var parentCategory: Category? = null,
 )
 
 data class CategoryId(
@@ -22,6 +24,8 @@ data class CategoryId(
 data class Category(
     val id: CategoryId,
     val name: String,
+    // TODO: usun tego defaulta stąd XD
+    val parentCategory: Category? = null,
 )
 
 fun List<Category>.findOrThrow(categoryId: CategoryId): Category =
