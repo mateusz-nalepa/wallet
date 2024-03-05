@@ -12,6 +12,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.history.toCategoryView
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
 import com.mateuszcholyn.wallet.frontend.view.util.PriceFormatterParameters
+import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutCurrencySymbol
 import com.mateuszcholyn.wallet.frontend.view.util.withTwoSignsPrecision
 import com.mateuszcholyn.wallet.manager.randomExpenseWithCategory
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUTCInstantToUserLocalTimeZone
@@ -256,7 +257,7 @@ class ExpenseFormViewModelTest {
         // then
         viewModel.exportedExpenseFormDetailsUiState.value.run {
             actualExpenseId shouldBe expenseToBeUpdated.expenseId.id
-            amount shouldBe expenseToBeUpdated.amount
+            amount shouldBe expenseToBeUpdated.amount.testExtAsAmountWithoutCurrencySymbol()
             isAmountInvalid shouldBe false
             description shouldBe expenseToBeUpdated.description
             selectedCategory shouldBe CategoryView(
@@ -330,7 +331,7 @@ class ExpenseFormViewModelTest {
         // then
         viewModel.exportedExpenseFormDetailsUiState.value.run {
             actualExpenseId shouldBe expenseToBeUpdated.expenseId.id
-            amount shouldBe expenseToBeUpdated.amount
+            amount shouldBe expenseToBeUpdated.amount.testExtAsAmountWithoutCurrencySymbol()
             isAmountInvalid shouldBe false
             description shouldBe expenseToBeUpdated.description
             selectedCategory shouldBe CategoryView(
@@ -389,7 +390,7 @@ class ExpenseFormViewModelTest {
 }
 
 private fun ExpenseFormViewModel.initExpenseFormScreenExt(
-    priceFormatterParameters: PriceFormatterParameters = PriceFormatterParameters("$", ","),
+    priceFormatterParameters: PriceFormatterParameters = testPriceFormatterParameters(),
     actualExpenseId: String? = null,
     screenMode: String? = null,
     onButtonSubmittedAction: () -> Unit = {},
@@ -407,3 +408,12 @@ private fun ExpenseFormViewModel.fillFormWithDummyData(
     this.updateAmount("15")
     this.updateDescription("description")
 }
+
+fun BigDecimal.testExtAsAmountWithoutCurrencySymbol(): String =
+    asPrintableAmountWithoutCurrencySymbol(testPriceFormatterParameters())
+
+fun testPriceFormatterParameters(): PriceFormatterParameters =
+    PriceFormatterParameters(
+        currencySymbol = "$",
+        separator = ",",
+    )

@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.history.filters.advancedOptions.exportToCsv
 
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
+import com.mateuszcholyn.wallet.frontend.view.screen.expenseform.testPriceFormatterParameters
 import com.mateuszcholyn.wallet.frontend.view.util.EMPTY_STRING
-import com.mateuszcholyn.wallet.frontend.view.util.PriceFormatterParameters
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutCurrencySymbol
 import com.mateuszcholyn.wallet.manager.randomCategoryId
 import com.mateuszcholyn.wallet.manager.randomExpenseId
@@ -25,10 +25,7 @@ val testCsvGeneratorParameters =
         fileNamePrefix = "simple-wallet-csv",
         bigDecimalAsFormattedAmountFunction = {
             it.asPrintableAmountWithoutCurrencySymbol(
-                PriceFormatterParameters(
-                    currencySymbol = Typography.dollar.toString(),
-                    separator = ",",
-                )
+                testPriceFormatterParameters()
             )
         }
     )
