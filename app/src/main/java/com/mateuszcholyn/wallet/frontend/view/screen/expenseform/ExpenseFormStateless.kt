@@ -202,7 +202,6 @@ fun ShowExpenseFormStateless(
         Row(modifier = defaultModifier) {
             ValidatedTextFieldV2(
                 textFieldLabel = stringResource(R.string.common_amount),
-                // TODO: tutaj zawsze by default jest teraz 0,00 XD
                 value = formState.amount,
                 onValueChange = { expenseFormActions.onAmountChange(it) },
                 isValueInvalid = formState.isAmountInvalid,
