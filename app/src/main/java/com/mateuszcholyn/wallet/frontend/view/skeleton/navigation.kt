@@ -68,7 +68,8 @@ fun categoryFormScreenRoute(categoryId: CategoryId): String =
 fun Navigation(
     navController: NavHostController,
 ) {
-    NavHost(navController, startDestination = NavDrawerItem.History.route) {
+//    NavHost(navController, startDestination = NavDrawerItem.History.route) {
+    NavHost(navController, startDestination = NavDrawerItem.Categories.route) {
         composable(
             route = "expense-form?expenseId={expenseId}&mode={mode}",
             arguments = listOf(

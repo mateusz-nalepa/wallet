@@ -30,6 +30,7 @@ data class QuickSummaryListV2(
     val quickSummaries: List<MainCategoryQuickSummary>,
 )
 
+// TODO: deprecated??
 data class CategoryQuickSummary(
     val isMainCategory: Boolean = false,
     val categoryId: CategoryId,

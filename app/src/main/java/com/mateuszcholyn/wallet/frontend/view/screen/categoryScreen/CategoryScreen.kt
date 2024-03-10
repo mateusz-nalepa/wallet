@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.R
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.AbstractCategoryQuickSummary
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogProxy
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenError.ScreenError
@@ -30,7 +31,7 @@ data class CategoryScreenActions(
 
     val onCategoryRemoveModalOpen: () -> Unit,
     val onCategoryRemoveModalClose: () -> Unit,
-    val onCategoryRemoveAction: (CategoryId) -> Unit,
+    val onCategoryRemoveAction: (AbstractCategoryQuickSummary) -> Unit,
 
 
     val onErrorModalClose: () -> Unit,

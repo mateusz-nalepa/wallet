@@ -9,26 +9,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.AbstractCategoryQuickSummary
 import com.mateuszcholyn.wallet.frontend.view.screen.util.expandIcon.ExpandIcon
+import com.mateuszcholyn.wallet.frontend.view.util.subCategoryPaddingModifier
 
 @ExperimentalMaterialApi
 @Composable
 fun SingleCategoryQuickInfo(
     index: Int,
-    categoryQuickSummary: CategoryQuickSummary,
+    categoryQuickSummary: AbstractCategoryQuickSummary,
     detailsAreVisible: Boolean,
     onClick: () -> Unit,
 ) {
     ListItem(
         modifier =
         Modifier
-            .testTag("CategoryItem#${categoryQuickSummary.categoryId.id}")
+            .subCategoryPaddingModifier(categoryQuickSummary)
+            .testTag("CategoryItem#${categoryQuickSummary.id.id}")
             .clickable {
                 onClick.invoke()
             },
 
-        text = { Text("$index. ${categoryQuickSummary.categoryName}") },
+        text = { Text("$index. ${categoryQuickSummary.name}") },
         secondaryText = { Text(stringResource(R.string.categoryScreen_singleCategoryQuickInfoNumberOfExpenses) + " ${categoryQuickSummary.numberOfExpenses}") },
         trailing = {
             ExpandIcon(detailsAreVisible)

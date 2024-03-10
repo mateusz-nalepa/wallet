@@ -12,10 +12,24 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 fun NumberOfCategories(
     categorySuccessContent: CategorySuccessContent,
 ) {
+    NumberOfCategoriesStateless(
+        categoriesText = stringResource(R.string.categoryScreen_categories),
+        categoriesQuantitySizeText = stringResource(R.string.common_quantity) + " ${categorySuccessContent.categoriesList.size}",
+    )
+}
+
+@Composable
+fun NumberOfCategoriesStateless(
+    categoriesText: String,
+    categoriesQuantitySizeText: String,
+) {
     Row(modifier = defaultModifier, horizontalArrangement = Arrangement.SpaceBetween) {
-        Text(text = stringResource(R.string.categoryScreen_categories), modifier = defaultModifier.weight(1f))
         Text(
-            text = stringResource(R.string.common_quantity) + " ${categorySuccessContent.categoriesList.size}",
+            text = categoriesText,
+            modifier = defaultModifier.weight(1f)
+        )
+        Text(
+            text = categoriesQuantitySizeText,
             modifier = defaultModifier.weight(1f)
         )
     }

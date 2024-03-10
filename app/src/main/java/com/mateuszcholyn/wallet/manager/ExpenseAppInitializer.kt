@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.manager
 
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
@@ -20,18 +21,30 @@ class ExpenseAppInitializer(
     private suspend fun addCategories() {
         expenseAppManagerScope
             .categoriesScope
-            .forEach { addCategory(it) }
+            .forEach { addCategory(it, null) }
     }
 
-    private suspend fun addCategory(categoryScope: CategoryScope) {
+    private suspend fun addCategory(
+        categoryScope: CategoryScope,
+        parentCategoryScope: CategoryScope?,
+    ) {
         val createCategoryParameters =
             CreateCategoryParameters(
-                name = categoryScope.categoryName
+                name = categoryScope.categoryName,
+                parentCategory = parentCategoryScope?.let {
+                    Category(
+                        id = it.categoryId,
+                        name = it.categoryName,
+                    )
+                }
             )
         val category =
             expenseAppUseCases.createCategoryUseCase.invoke(createCategoryParameters)
 
         categoryScope.categoryId = category.id
+
+        // TODO: to chyba dobrze jest XD
+        categoryScope.subCategoriesScope.forEach { addCategory(it, categoryScope) }
 
         addExpenses(categoryScope)
     }

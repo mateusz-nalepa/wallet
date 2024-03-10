@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
-import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.AbstractCategoryQuickSummary
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.MainCategoryQuickSummary
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.RemoveCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDelegate
@@ -22,7 +22,7 @@ sealed class CategoryScreenState {
 }
 
 data class CategorySuccessContent(
-    val categoriesList: List<CategoryQuickSummary>,
+    val categoriesList: List<MainCategoryQuickSummary>,
 )
 
 
@@ -37,7 +37,8 @@ class CategoryScreenViewModel @Inject constructor(
     private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
 ) : ViewModel() { // done tests XD
 
-    var exportedCategoryScreenState = mutableStateOf<CategoryScreenState>(CategoryScreenState.Loading)
+    var exportedCategoryScreenState =
+        mutableStateOf<CategoryScreenState>(CategoryScreenState.Loading)
         private set
     private var categoryScreenState by MutableStateDelegate(exportedCategoryScreenState)
 
@@ -45,10 +46,10 @@ class CategoryScreenViewModel @Inject constructor(
         private set
     private var removeCategoryState by MutableStateDelegate(exportedRemoveCategoryState)
 
-    fun removeCategory(categoryId: CategoryId) {
+    fun removeCategory(abstractCategoryQuickSummary: AbstractCategoryQuickSummary) {
         viewModelScope.launch { // DONE
             try {
-                unsafeRemoveCategory(categoryId)
+                unsafeRemoveCategory(abstractCategoryQuickSummary)
             } catch (e: Exception) {
                 removeCategoryState =
                     removeCategoryState.copy(
@@ -58,10 +59,9 @@ class CategoryScreenViewModel @Inject constructor(
         }
     }
 
-    private suspend fun unsafeRemoveCategory(categoryId: CategoryId) {
-        val screenState = categoryScreenState as CategoryScreenState.Success
-        if (screenState.categorySuccessContent.categoriesList.find { it.categoryId == categoryId }!!.numberOfExpenses == 0L) {
-            removeCategoryUseCase.invoke(categoryId)
+    private suspend fun unsafeRemoveCategory(abstractCategoryQuickSummary: AbstractCategoryQuickSummary) {
+        if (abstractCategoryQuickSummary.numberOfExpenses == 0L) {
+            removeCategoryUseCase.invoke(abstractCategoryQuickSummary.id)
             refreshScreen()
         } else {
             removeCategoryState =
@@ -105,7 +105,7 @@ class CategoryScreenViewModel @Inject constructor(
     }
 
     private suspend fun prepareCategorySuccessContent(): CategorySuccessContent {
-        val quickSummaries = getCategoriesQuickSummaryUseCase.invoke().quickSummaries
+        val quickSummaries = getCategoriesQuickSummaryUseCase.invokeV2().quickSummaries
 
         return CategorySuccessContent(
             categoriesList = quickSummaries,

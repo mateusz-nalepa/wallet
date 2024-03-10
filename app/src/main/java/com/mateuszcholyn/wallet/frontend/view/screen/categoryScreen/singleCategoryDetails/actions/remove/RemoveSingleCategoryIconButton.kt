@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.R
-import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.AbstractCategoryQuickSummary
 import com.mateuszcholyn.wallet.frontend.view.composables.YesOrNoDialog
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryScreenActions
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.RemoveCategoryState
@@ -19,7 +19,7 @@ import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.RemoveCatego
 @Composable
 fun RemoveSingleCategoryIconButton(
     categoryScreenActions: CategoryScreenActions,
-    categoryQuickSummary: CategoryQuickSummary,
+    categoryQuickSummary: AbstractCategoryQuickSummary,
     removeCategoryState: RemoveCategoryState,
 ) {
     // Remove Confirmation Dialog
@@ -32,7 +32,7 @@ fun RemoveSingleCategoryIconButton(
             Text(text = stringResource(R.string.areYouSureYouWantToRemoveCategory))
         },
         onConfirm = {
-            categoryScreenActions.onCategoryRemoveAction.invoke(categoryQuickSummary.categoryId)
+            categoryScreenActions.onCategoryRemoveAction.invoke(categoryQuickSummary)
             categoryScreenActions.onCategoryRemoveModalClose.invoke()
         },
         onCancel = {

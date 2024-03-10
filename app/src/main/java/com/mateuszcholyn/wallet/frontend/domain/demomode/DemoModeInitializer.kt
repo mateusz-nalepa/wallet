@@ -5,6 +5,7 @@ import com.mateuszcholyn.wallet.manager.ExpenseAppInitializer
 import com.mateuszcholyn.wallet.manager.ExpenseAppManagerScope
 import com.mateuszcholyn.wallet.manager.category
 import com.mateuszcholyn.wallet.manager.expense
+import com.mateuszcholyn.wallet.manager.subCategory
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.fromUserLocalTimeZoneToUTCInstant
 import com.mateuszcholyn.wallet.util.localDateTimeUtils.minusDays
 import java.math.BigDecimal
@@ -32,15 +33,21 @@ class DemoModeInitializer(
                     paidAt = instantNow
                     description = "test"
                 }
-                expense {
-                    amount = BigDecimal("5.96")
-                    paidAt = instantNow.minusDays(1)
-                    description = "test"
+                subCategory {
+                    categoryName = "sub 1"
+                    expense {
+                        amount = BigDecimal("5.96")
+                        paidAt = instantNow.minusDays(1)
+                        description = "test"
+                    }
                 }
-                expense {
-                    amount = BigDecimal("12.95")
-                    paidAt = instantNow.minusDays(1)
-                    description = "test"
+                subCategory {
+                    categoryName = "sub 2"
+                    expense {
+                        amount = BigDecimal("12.95")
+                        paidAt = instantNow.minusDays(1)
+                        description = "test"
+                    }
                 }
                 expense {
                     amount = BigDecimal("15.95")

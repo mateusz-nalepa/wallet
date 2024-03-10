@@ -23,12 +23,19 @@ class CategoryScope {
     var categoryName = randomCategoryName()
 
     val expensesScope = mutableListOf<ExpenseScope>()
+    val subCategoriesScope = mutableListOf<CategoryScope>()
 }
 
 fun CategoryScope.expense(scope: ExpenseScope.() -> Unit): ExpenseScope {
     val expenseScope = ExpenseScope().apply(scope)
     expensesScope.add(expenseScope)
     return expenseScope
+}
+
+fun CategoryScope.subCategory(scope: CategoryScope.() -> Unit): CategoryScope {
+    val subCategoryScope = CategoryScope().apply(scope)
+    subCategoriesScope.add(subCategoryScope)
+    return subCategoryScope
 }
 
 class ExpenseScope {
