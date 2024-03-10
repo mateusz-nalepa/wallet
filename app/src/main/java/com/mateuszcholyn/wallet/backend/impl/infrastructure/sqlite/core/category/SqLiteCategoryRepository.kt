@@ -31,17 +31,21 @@ class SqLiteCategoryRepository(
         withContext(dispatcherProvider.provideIODispatcher()) {
             val categories = categoryDao.getAll()
 
-            categories
-                .map { rawCategory ->
-                    val parentCategory =
-                        if (rawCategory.parentCategoryId == null) {
-                            null
-                        } else {
-                            categories.find { it.categoryId == it.parentCategoryId }
-                        }
+            // TODO: ten kod, to mapowanie, to w sumie w domenie powinno być xd
+            val categoriesWithParent =
+                categories
+                    .map { rawCategory ->
+                        val parentCategory =
+                            if (rawCategory.parentCategoryId == null) {
+                                null
+                            } else {
+                                categories.find { it.categoryId == rawCategory.parentCategoryId }
+                            }
 
-                    rawCategory.toDomain(parentCategory)
-                }
+                        rawCategory.toDomain(parentCategory)
+                    }
+
+            categoriesWithParent
         }
 
     override suspend fun getById(categoryId: CategoryId): Category? =

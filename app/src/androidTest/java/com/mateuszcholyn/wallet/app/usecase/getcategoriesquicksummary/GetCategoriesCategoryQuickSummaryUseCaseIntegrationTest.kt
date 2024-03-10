@@ -1,13 +1,23 @@
 package com.mateuszcholyn.wallet.app.usecase.getcategoriesquicksummary
 
 import com.mateuszcholyn.wallet.app.setupintegrationtests.BaseIntegrationTest
-import com.mateuszcholyn.wallet.manager.*
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.AbstractCategoryQuickSummary
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
+import com.mateuszcholyn.wallet.manager.CategoryScope
+import com.mateuszcholyn.wallet.manager.ExpenseScope
+import com.mateuszcholyn.wallet.manager.category
+import com.mateuszcholyn.wallet.manager.expense
+import com.mateuszcholyn.wallet.manager.ext.core.category.createCategoryUseCase
 import com.mateuszcholyn.wallet.manager.ext.core.category.removeCategoryUseCase
+import com.mateuszcholyn.wallet.manager.ext.core.expense.addExpenseUseCase
 import com.mateuszcholyn.wallet.manager.ext.core.expense.removeExpenseUseCase
 import com.mateuszcholyn.wallet.manager.ext.core.expense.updateExpenseUseCase
 import com.mateuszcholyn.wallet.manager.ext.getcategoriesquicksummary.getCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.manager.ext.getcategoriesquicksummary.getCategoriesQuickSummaryUseCaseV2
+import com.mateuszcholyn.wallet.manager.randomInt
 import com.mateuszcholyn.wallet.manager.validator.validate
 import dagger.hilt.android.testing.HiltAndroidTest
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 @HiltAndroidTest
@@ -146,6 +156,66 @@ class GetCategoriesCategoryQuickSummaryUseCaseIntegrationTest : BaseIntegrationT
         quickSummaryList.validate {
             categoryIdDoesNotExist(categoryScope.categoryId)
         }
+    }
+
+    @Test
+    fun shouldReturnNumberOfExpensesPerMainCategoryAndSubCategories() {
+        // given
+        val manager = initExpenseAppManager { }
+        val givenExpensesInMainCategory = randomInt()
+        val givenExpensesInFirstSubCategory = randomInt()
+        val givenExpensesInSecondSubCategory = randomInt()
+
+        val mainCategory = manager.createCategoryUseCase {}
+        repeat(givenExpensesInMainCategory) {
+            manager.addExpenseUseCase {
+                categoryId = mainCategory.id
+            }
+        }
+
+        val firstSubCategory = manager.createCategoryUseCase {
+            parentCategory = mainCategory
+        }
+        repeat(givenExpensesInFirstSubCategory) {
+            manager.addExpenseUseCase {
+                categoryId = firstSubCategory.id
+            }
+        }
+
+        val secondSubCategory = manager.createCategoryUseCase {
+            parentCategory = mainCategory
+        }
+        repeat(givenExpensesInSecondSubCategory) {
+            manager.addExpenseUseCase {
+                categoryId = secondSubCategory.id
+            }
+        }
+
+        // when
+        val quickSummaryList = manager.getCategoriesQuickSummaryUseCaseV2()
+
+        // then
+        quickSummaryList.quickSummaries.size shouldBe 1
+        val mainCategorySummary = quickSummaryList.quickSummaries.first()
+        mainCategorySummary.basicFieldsShouldEqualTo(
+            mainCategory,
+            givenExpensesInMainCategory + givenExpensesInFirstSubCategory + givenExpensesInSecondSubCategory
+        )
+        // then subcategories
+        mainCategorySummary.subCategories.size shouldBe 2
+        mainCategorySummary.subCategories.first()
+            .basicFieldsShouldEqualTo(firstSubCategory, givenExpensesInFirstSubCategory)
+        mainCategorySummary.subCategories.last()
+            .basicFieldsShouldEqualTo(secondSubCategory, givenExpensesInSecondSubCategory)
+    }
+
+    private fun AbstractCategoryQuickSummary.basicFieldsShouldEqualTo(
+        category: Category,
+        numberOfExpenses: Int,
+    ) {
+        this.id shouldBe category.id
+        this.name shouldBe category.name
+        this.numberOfExpenses shouldBe numberOfExpenses.toLong()
     }
 
 }

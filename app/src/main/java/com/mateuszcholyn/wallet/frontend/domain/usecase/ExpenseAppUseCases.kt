@@ -4,6 +4,7 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.export.ExportV1Us
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1UseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.CreateCategoryUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.GetCategoriesUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.RemoveCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.UpdateCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.AddExpenseUseCase
@@ -17,6 +18,7 @@ data class ExpenseAppUseCases(
     val createCategoryUseCase: CreateCategoryUseCase,
     val updateCategoryUseCase: UpdateCategoryUseCase,
     val removeCategoryUseCase: RemoveCategoryUseCase,
+    val getCategoriesUseCase: GetCategoriesUseCase,
     // Expense
     val addExpenseUseCase: AddExpenseUseCase,
     val getExpenseUseCase: GetExpenseUseCase,

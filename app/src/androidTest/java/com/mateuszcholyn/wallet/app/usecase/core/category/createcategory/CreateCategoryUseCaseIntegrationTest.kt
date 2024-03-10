@@ -1,16 +1,21 @@
 package com.mateuszcholyn.wallet.app.usecase.core.category.createcategory
 
 import com.mateuszcholyn.wallet.app.setupintegrationtests.BaseIntegrationTest
+import com.mateuszcholyn.wallet.backend.api.core.category.AbstractCategory
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryHasExpensesException
+import com.mateuszcholyn.wallet.backend.impl.domain.core.category.UnableToAddSubCategoryToExistingSubCategoryException
 import com.mateuszcholyn.wallet.manager.ext.core.category.createCategoryUseCase
 import com.mateuszcholyn.wallet.manager.ext.core.category.removeCategoryUseCase
 import com.mateuszcholyn.wallet.manager.ext.core.expense.addExpenseUseCase
+import com.mateuszcholyn.wallet.manager.getAllCategoriesGrouped
 import com.mateuszcholyn.wallet.manager.randomCategoryName
 import com.mateuszcholyn.wallet.manager.validator.validate
 import com.mateuszcholyn.wallet.manager.validator.validateCategoryFromDatabase
 import com.mateuszcholyn.wallet.util.throwable.catchThrowable
 import com.mateuszcholyn.wallet.util.throwable.validate
 import dagger.hilt.android.testing.HiltAndroidTest
+import io.kotest.matchers.shouldBe
 import org.junit.Test
 
 @HiltAndroidTest
@@ -229,6 +234,69 @@ class CreateCategoryUseCaseIntegrationTest : BaseIntegrationTest() {
         throwable.cause?.validate {
             isInstanceOf(CategoryHasExpensesException::class)
             hasMessage("Category with id ${mainCategory.id.id} has expenses and cannot be removed")
+        }
+    }
+
+    @Test
+    fun shouldReturnCategoryWithSubCategories() {
+        // given
+        val manager = initExpenseAppManager { }
+
+        val mainCategory = manager.createCategoryUseCase {}
+
+        val firstSubCategory =
+            manager.createCategoryUseCase {
+                parentCategory = mainCategory
+            }
+
+        val secondSubCategory =
+            manager.createCategoryUseCase {
+                parentCategory = mainCategory
+            }
+
+        // when
+        val categoriesGrouped = manager.getAllCategoriesGrouped()
+
+        //  then
+        categoriesGrouped.size shouldBe 1
+        val firstMainCategory = categoriesGrouped.first()
+        firstMainCategory basicFieldsShouldEqualTo mainCategory
+
+        firstMainCategory.subCategories.size shouldBe 2
+        firstMainCategory.subCategories.first() basicFieldsShouldEqualTo firstSubCategory
+        firstMainCategory.subCategories.last() basicFieldsShouldEqualTo secondSubCategory
+    }
+
+    private infix fun AbstractCategory.basicFieldsShouldEqualTo(category: Category) {
+        this.id shouldBe category.id
+        this.name shouldBe category.name
+    }
+
+    @Test
+    fun shouldNotAddSubCategoryToExistingSubCategory() {
+        // given
+        val manager = initExpenseAppManager { }
+
+        val mainCategory = manager.createCategoryUseCase {}
+
+        val subCategory =
+            manager.createCategoryUseCase {
+                parentCategory = mainCategory
+            }
+
+        // when
+        val throwable =
+            catchThrowable {
+                manager.createCategoryUseCase {
+                    parentCategory = subCategory
+                }
+            }
+
+
+        // then
+        throwable.cause?.validate {
+            isInstanceOf(UnableToAddSubCategoryToExistingSubCategoryException::class)
+            hasMessage("Unable to add subcategory to existing subcategory. Existing subCategoryId: ${subCategory.id.id}")
         }
     }
 

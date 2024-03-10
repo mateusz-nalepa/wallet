@@ -2,10 +2,14 @@ package com.mateuszcholyn.wallet.backend.impl.domain.categoriesquicksummary
 
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoriesQuickSummaryAPI
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.MainCategoryQuickSummary
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.QuickSummaryList
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.QuickSummaryListV2
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.SubCategoryQuickSummary
+import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.api.core.category.Category
+import com.mateuszcholyn.wallet.backend.api.core.category.MainCategory
 import com.mateuszcholyn.wallet.backend.api.core.category.findOrThrow
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryAddedEvent
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRemovedEvent
@@ -44,6 +48,43 @@ class CategoriesQuickSummaryIMPL(
             .sortedByDescending { it.numberOfExpenses }
             .map { it.toCategoryQuickSummary(allCategories) }
             .let { QuickSummaryList(it) }
+    }
+
+    override suspend fun getQuickSummaryV2(): QuickSummaryListV2 =
+        joinCategoriesWithQuickSummaryInfo(
+            categories = categoryCoreServiceAPI.getAllGrouped(),
+            categoriesQuickSummaryResult = categoriesQuickSummaryRepository.getQuickSummaries(),
+        )
+
+    private fun joinCategoriesWithQuickSummaryInfo(
+        categories: List<MainCategory>,
+        categoriesQuickSummaryResult: List<CategoryQuickSummaryResult>,
+    ): QuickSummaryListV2 {
+        val mainCategoriesQuickSummaries =
+            categories
+                .map { mainCategory ->
+                    val subCategoriesQuickSummaries = mainCategory
+                        .subCategories
+                        .map { subCategory ->
+                            SubCategoryQuickSummary(
+                                id = subCategory.id,
+                                name = subCategory.name,
+                                numberOfExpenses = categoriesQuickSummaryResult
+                                    .first { it.categoryId == subCategory.id }.numberOfExpenses,
+                            )
+                        }
+
+                    MainCategoryQuickSummary(
+                        id = mainCategory.id,
+                        name = mainCategory.name,
+                        numberOfExpenses = categoriesQuickSummaryResult
+                            .first { it.categoryId == mainCategory.id }.numberOfExpenses +
+                            subCategoriesQuickSummaries.sumOf { it.numberOfExpenses },
+                        subCategories = subCategoriesQuickSummaries,
+                    )
+                }
+
+        return QuickSummaryListV2(mainCategoriesQuickSummaries)
     }
 
     override suspend fun removeAll() {

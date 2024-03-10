@@ -18,6 +18,7 @@ interface CategoriesQuickSummaryAPI {
     suspend fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent)
     suspend fun handleEventExpenseRemoved(expenseRemovedEvent: ExpenseRemovedEvent)
     suspend fun getQuickSummary(): QuickSummaryList
+    suspend fun getQuickSummaryV2(): QuickSummaryListV2
     suspend fun removeAll()
 }
 
@@ -25,17 +26,42 @@ data class QuickSummaryList(
     val quickSummaries: List<CategoryQuickSummary>,
 )
 
+data class QuickSummaryListV2(
+    val quickSummaries: List<MainCategoryQuickSummary>,
+)
+
 data class CategoryQuickSummary(
+    val isMainCategory: Boolean = false,
     val categoryId: CategoryId,
     val categoryName: String,
     val numberOfExpenses: Long,
 )
+
+interface AbstractCategoryQuickSummary {
+    val id: CategoryId
+    val name: String
+    val numberOfExpenses: Long
+}
+
+class MainCategoryQuickSummary(
+    override val id: CategoryId,
+    override val name: String,
+    override val numberOfExpenses: Long,
+    val subCategories: List<SubCategoryQuickSummary>,
+) : AbstractCategoryQuickSummary
+
+class SubCategoryQuickSummary(
+    override val id: CategoryId,
+    override val name: String,
+    override val numberOfExpenses: Long,
+) : AbstractCategoryQuickSummary
 
 fun randomCategoryQuickSummary(
     categoryName: String = randomCategoryName(),
     numberOfExpenses: Long = randomLong(),
 ): CategoryQuickSummary =
     CategoryQuickSummary(
+        true,
         randomCategoryId(),
         categoryName,
         numberOfExpenses,

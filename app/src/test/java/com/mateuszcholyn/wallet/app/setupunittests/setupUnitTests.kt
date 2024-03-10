@@ -19,6 +19,7 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.AllExpensesR
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1UseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.DefaultGetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.CreateCategoryUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.GetCategoriesUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.RemoveCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.UpdateCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.DefaultAddExpenseUseCase
@@ -96,6 +97,9 @@ internal fun createFrom(
             categoryCoreService = categoryCoreService,
         ),
         removeCategoryUseCase = RemoveCategoryUseCase(
+            categoryCoreService = categoryCoreService,
+        ),
+        getCategoriesUseCase = GetCategoriesUseCase(
             categoryCoreService = categoryCoreService,
         ),
         addExpenseUseCase = DefaultAddExpenseUseCase(

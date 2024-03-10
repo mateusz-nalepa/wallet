@@ -12,6 +12,7 @@ import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1UseC
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.DefaultGetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.CreateCategoryUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.GetCategoriesUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.RemoveCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.UpdateCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.AddExpenseUseCase
@@ -77,6 +78,12 @@ object HiltUseCasesModule {
             categoryCoreService = categoryCoreServiceAPI,
         )
 
+    @Provides
+    @Singleton
+    fun provideGetCategoriesUseCase(categoryCoreServiceAPI: CategoryCoreServiceAPI): GetCategoriesUseCase =
+        GetCategoriesUseCase(
+            categoryCoreService = categoryCoreServiceAPI,
+        )
 
     @Provides
     @Singleton
@@ -170,6 +177,7 @@ object HiltUseCasesModule {
         createCategoryUseCase: CreateCategoryUseCase,
         updateCategoryUseCase: UpdateCategoryUseCase,
         removeCategoryUseCase: RemoveCategoryUseCase,
+        getCategoriesUseCase: GetCategoriesUseCase,
         // Expense
         addExpenseUseCase: AddExpenseUseCase,
         getExpenseUseCase: GetExpenseUseCase,
@@ -187,6 +195,7 @@ object HiltUseCasesModule {
             createCategoryUseCase = createCategoryUseCase,
             updateCategoryUseCase = updateCategoryUseCase,
             removeCategoryUseCase = removeCategoryUseCase,
+            getCategoriesUseCase = getCategoriesUseCase,
             // Expense
             addExpenseUseCase = addExpenseUseCase,
             getExpenseUseCase = getExpenseUseCase,
