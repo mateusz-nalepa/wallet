@@ -25,7 +25,7 @@ const val CATEGORIES_TABLE_PARENT_CATEGORY_ID_COLUMN = "parent_category_id"
             entity = CategoryEntity::class,
             parentColumns = arrayOf(CATEGORIES_TABLE_CATEGORY_ID_COLUMN),
             childColumns = arrayOf(CATEGORIES_TABLE_PARENT_CATEGORY_ID_COLUMN),
-            onDelete = ForeignKey.CASCADE // TODO: na pewno?
+            onDelete = ForeignKey.RESTRICT, // TODO: na pewno?
         )
     ]
 )
