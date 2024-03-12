@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.backend.impl.domain.searchservice
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
+import com.mateuszcholyn.wallet.backend.api.core.category.SubCategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.NewSort
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
@@ -11,6 +12,7 @@ import java.time.Instant
 data class SearchSingleResultRepo(
     val expenseId: ExpenseId,
     val categoryId: CategoryId,
+    val subCategoryId: SubCategoryId?,
     val amount: BigDecimal,
     val paidAt: Instant,
     val description: String,
@@ -42,6 +44,7 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
             .filterByBeginDate(searchCriteria)
             .filterByEndDate(searchCriteria)
             .filterByCategory(searchCriteria)
+            .filterBySubCategory(searchCriteria)
             .filterByFromAmount(searchCriteria)
             .filterByToAmount(searchCriteria)
             .sort(searchCriteria)
@@ -79,6 +82,13 @@ class InMemorySearchServiceRepository : SearchServiceRepository {
     private fun List<SearchSingleResultRepo>.filterByCategory(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> =
         if (searchCriteria.categoryId != null) {
             filter { it.categoryId == searchCriteria.categoryId }
+        } else {
+            this
+        }
+
+    private fun List<SearchSingleResultRepo>.filterBySubCategory(searchCriteria: SearchCriteria): List<SearchSingleResultRepo> =
+        if (searchCriteria.subCategoryId != null) {
+            filter { it.subCategoryId == searchCriteria.subCategoryId }
         } else {
             this
         }

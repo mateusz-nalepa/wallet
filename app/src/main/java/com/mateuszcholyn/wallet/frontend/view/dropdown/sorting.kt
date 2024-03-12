@@ -7,6 +7,7 @@ import com.mateuszcholyn.wallet.backend.api.searchservice.NewSort
 
 data class SortElement(
     override val name: String? = null,
+    override val subName: String? = null,
     @StringRes
     override val nameKey: Int,
     val sort: NewSort,

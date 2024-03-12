@@ -49,7 +49,9 @@ class ExpenseAppInitializer(
         addExpenses(categoryScope)
     }
 
-    private suspend fun addExpenses(categoryScope: CategoryScope) {
+    private suspend fun addExpenses(
+        categoryScope: CategoryScope,
+    ) {
         categoryScope
             .expensesScope
             .forEach { expenseScope ->
@@ -57,12 +59,16 @@ class ExpenseAppInitializer(
             }
     }
 
-    private suspend fun addExpense(categoryId: CategoryId, expenseScope: ExpenseScope) {
+    private suspend fun addExpense(
+        categoryId: CategoryId,
+        expenseScope: ExpenseScope,
+    ) {
         val addExpenseParameters =
             AddExpenseParameters(
                 amount = expenseScope.amount,
                 description = expenseScope.description,
                 paidAt = expenseScope.paidAt,
+                // TODO: HODOR - to na pewno jest coś nie tak XD
                 categoryId = categoryId,
             )
         val category =

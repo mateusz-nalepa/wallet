@@ -6,12 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
+import com.mateuszcholyn.wallet.backend.api.core.category.MainCategory
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchAverageExpenseResult
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.frontend.di.usecases.LocalDateTimeProvider
 import com.mateuszcholyn.wallet.frontend.domain.appstate.DemoModeAppIsConfigured
-import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.GetCategoriesUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
 import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDelegate
@@ -61,7 +62,7 @@ data class ExportToCsvUiState(
 
 @HiltViewModel
 class HistoryScreenViewModel @Inject constructor(
-    private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
+    private val getCategoriesUseCase: GetCategoriesUseCase,
     private val searchServiceUseCase: SearchServiceUseCase,
     private val removeExpenseUseCase: RemoveExpenseUseCase,
     private val demoModeAppIsConfigured: DemoModeAppIsConfigured,
@@ -70,14 +71,17 @@ class HistoryScreenViewModel @Inject constructor(
 ) : ViewModel() { // done tests XD
 
 
-    val exposedHistoryScreenState: MutableState<HistoryScreenState> = mutableStateOf(HistoryScreenState.Loading)
+    val exposedHistoryScreenState: MutableState<HistoryScreenState> =
+        mutableStateOf(HistoryScreenState.Loading)
     private var historyScreenState by MutableStateDelegate(exposedHistoryScreenState)
 
 
-    val exposedHistorySearchForm: MutableState<HistorySearchForm> = mutableStateOf(HistorySearchForm())
+    val exposedHistorySearchForm: MutableState<HistorySearchForm> =
+        mutableStateOf(HistorySearchForm())
     private var historySearchForm by MutableStateDelegate(exposedHistorySearchForm)
 
-    val exposedHistoryResultState: MutableState<HistoryResultState> = mutableStateOf(HistoryResultState.Loading)
+    val exposedHistoryResultState: MutableState<HistoryResultState> =
+        mutableStateOf(HistoryResultState.Loading)
     private var historyResultState by MutableStateDelegate(exposedHistoryResultState)
 
     var exportedExportUiState = mutableStateOf(ExportToCsvUiState())
@@ -177,15 +181,16 @@ class HistoryScreenViewModel @Inject constructor(
                 loadResultsFromDb()
                 historyScreenState = HistoryScreenState.Visible
             } catch (t: Throwable) {
-                historyScreenState = HistoryScreenState.Error(R.string.error_unable_to_load_history_screen)
+                println(t)
+                historyScreenState =
+                    HistoryScreenState.Error(R.string.error_unable_to_load_history_screen)
 
             }
         }
     }
 
-    private suspend fun readCategoriesList(): List<CategoryView> {
-        return listOf(CategoryView.default) + getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
-    }
+    private suspend fun readCategoriesList(): List<CategoryView> =
+        listOf(CategoryView.default) + getCategoriesUseCase.invoke().mainCategories.toCategoriesView()
 
     fun loadResultsFromDb() {
         viewModelScope.launch { // DONE UI State
@@ -193,7 +198,9 @@ class HistoryScreenViewModel @Inject constructor(
                 historyResultState = HistoryResultState.Loading
                 historyResultState = HistoryResultState.Success(prepareSummarySuccessContent())
             } catch (e: Exception) {
-                historyResultState = HistoryResultState.Error(R.string.error_unable_to_load_expenses)
+                println(e)
+                historyResultState =
+                    HistoryResultState.Error(R.string.error_unable_to_load_expenses)
             }
         }
     }
@@ -210,7 +217,8 @@ class HistoryScreenViewModel @Inject constructor(
     }
 
 
-    val exposedRemoveUiState: MutableState<RemoveSingleExpenseUiState> = mutableStateOf(RemoveSingleExpenseUiState())
+    val exposedRemoveUiState: MutableState<RemoveSingleExpenseUiState> =
+        mutableStateOf(RemoveSingleExpenseUiState())
     private var removeUiState by MutableStateDelegate(exposedRemoveUiState)
 
     fun closeRemoveModalDialog() {
@@ -270,7 +278,9 @@ class HistoryScreenViewModel @Inject constructor(
     ) {
         val successResultState = historyResultState as HistoryResultState.Success
 
-        val fileName = "${csvGeneratorParameters.fileNamePrefix}-${LocalDateTime.now().toHumanDateTimeText()}.csv"
+        val fileName = "${csvGeneratorParameters.fileNamePrefix}-${
+            LocalDateTime.now().toHumanDateTimeText()
+        }.csv"
         val fileContent =
             historyToCsvGenerator.generate(
                 csvGeneratorParameters = csvGeneratorParameters,
@@ -298,3 +308,23 @@ fun CategoryQuickSummary.toCategoryView(): CategoryView =
         categoryId = categoryId.id,
         name = this.categoryName,
     )
+
+
+fun List<MainCategory>.toCategoriesView(): List<CategoryView> =
+    this.flatMap { mainCategory ->
+
+        listOf(
+            CategoryView(
+                name = mainCategory.name,
+                categoryId = mainCategory.id.id,
+            )
+        ) +
+            mainCategory.subCategories.map { subCategory ->
+                CategoryView(
+                    name = mainCategory.name,
+                    subName = subCategory.name,
+                    categoryId = mainCategory.id.id,
+                    subCategoryId = subCategory.id.id,
+                )
+            }
+    }

@@ -10,6 +10,7 @@ import java.time.LocalTime
 
 data class QuickRangeData(
     override val name: String? = null,
+    override val subName: String? = null,
     override val nameKey: Int,
     val beginDate: LocalDateTime?,
     val endDate: LocalDateTime?,

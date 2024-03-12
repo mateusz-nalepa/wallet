@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.backend.api.searchservice
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
+import com.mateuszcholyn.wallet.backend.api.core.category.SubCategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRemovedEvent
@@ -11,6 +12,7 @@ import java.time.Instant
 
 data class SearchCriteria(
     val categoryId: CategoryId? = null,
+    val subCategoryId: SubCategoryId? = null,
     val beginDate: Instant? = null,
     val endDate: Instant? = null,
     val fromAmount: BigDecimal? = null,
@@ -34,8 +36,12 @@ data class SearchServiceResult(
 
 data class SearchSingleResult(
     val expenseId: ExpenseId,
+
     val categoryId: CategoryId,
     val categoryName: String,
+    val subCategoryId: SubCategoryId?,
+    val subCategoryName: String?,
+
     val amount: BigDecimal,
     val paidAt: Instant,
     val description: String,

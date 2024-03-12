@@ -26,7 +26,14 @@ enum class CategorySubmitButton {
     LOADING,
 }
 
+enum class CategoryScreenMode {
+    CATEGORY,
+    SUB_CATEGORY,
+}
+
 data class CategoryFormUiState(
+//    val categoryScreenMode: CategoryScreenMode = CategoryScreenMode.SUB_CATEGORY,
+    val categoryScreenMode: CategoryScreenMode = CategoryScreenMode.CATEGORY,
     val categoryName: String = EMPTY_STRING,
     val isFormInvalid: Boolean = false,
     val submitButtonState: CategorySubmitButton = CategorySubmitButton.DISABLED,
@@ -51,23 +58,51 @@ fun CategoryFormStateless(
 ) {
     val state = rememberScrollState()
     Column(modifier = defaultModifier.verticalScroll(state)) {
-        ValidatedTextFieldV2(
-            textFieldLabel = stringResource(R.string.common_category),
-            value = categoryFormUiState.categoryName,
-            onValueChange = {
-                categoryFormUiActions.onCategoryValueChanged.invoke(it)
-            },
-            isValueInvalid = categoryFormUiState.isFormInvalid,
-            valueInvalidText = stringResource(R.string.validation_incorrectCategoryName),
-            modifier = defaultModifier,
-        )
-        if (categoryFormUiState.showCategoryAlreadyExistsWarning) {
-            Text(
-                text = stringResource(R.string.validation_warning_category_already_exists),
-                color = MaterialTheme.colors.primary,
-                modifier = defaultModifier,
-            )
+        when (categoryFormUiState.categoryScreenMode) {
+            CategoryScreenMode.CATEGORY -> {
+                ValidatedTextFieldV2(
+                    textFieldLabel = stringResource(R.string.common_category),
+                    value = categoryFormUiState.categoryName,
+                    onValueChange = {
+                        categoryFormUiActions.onCategoryValueChanged.invoke(it)
+                    },
+                    isValueInvalid = categoryFormUiState.isFormInvalid,
+                    valueInvalidText = stringResource(R.string.validation_incorrectCategoryName),
+                    modifier = defaultModifier,
+                )
+            }
+
+            CategoryScreenMode.SUB_CATEGORY -> {
+                ValidatedTextFieldV2(
+                    enabled = false,
+                    textFieldLabel = stringResource(R.string.main_category),
+                    value = categoryFormUiState.categoryName,
+                    onValueChange = {
+                        categoryFormUiActions.onCategoryValueChanged.invoke(it)
+                    },
+                    isValueInvalid = categoryFormUiState.isFormInvalid,
+                    valueInvalidText = stringResource(R.string.validation_incorrectCategoryName),
+                    modifier = defaultModifier,
+                )
+                ValidatedTextFieldV2(
+                    textFieldLabel = stringResource(R.string.sub_category),
+                    value = categoryFormUiState.categoryName,
+                    onValueChange = {},
+                    isValueInvalid = categoryFormUiState.isFormInvalid,
+                    valueInvalidText = stringResource(R.string.validation_incorrectCategoryName),
+                    modifier = defaultModifier,
+                )
+            }
         }
+
+        // chyba bym to wywalił całkowicie XD
+//        if (categoryFormUiState.showCategoryAlreadyExistsWarning) {
+//            Text(
+//                text = stringResource(R.string.validation_warning_category_already_exists),
+//                color = MaterialTheme.colors.primary,
+//                modifier = defaultModifier,
+//            )
+//        }
 
         MyErrorDialogProxy(
             errorModalState = categoryFormUiState.errorModalState,

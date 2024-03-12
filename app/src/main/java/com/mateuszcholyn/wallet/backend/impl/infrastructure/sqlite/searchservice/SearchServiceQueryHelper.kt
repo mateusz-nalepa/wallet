@@ -23,6 +23,10 @@ object SearchServiceQueryHelper {
             whereSections.add(" $CATEGORY_ID_FIELD_NAME = '${searchCriteria.categoryId.id}'")
         }
 
+        if (searchCriteria.subCategoryId != null) {
+            whereSections.add(" $SUB_CATEGORY_ID_FIELD_NAME = '${searchCriteria.subCategoryId.id}'")
+        }
+
         if (searchCriteria.beginDate != null) {
             whereSections.add(" $PAID_AT_FIELD_NAME >= ${searchCriteria.beginDate.toEpochMilli()} ")
         }

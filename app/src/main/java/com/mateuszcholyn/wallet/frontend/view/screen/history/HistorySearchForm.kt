@@ -1,6 +1,7 @@
 package com.mateuszcholyn.wallet.frontend.view.screen.history
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
+import com.mateuszcholyn.wallet.backend.api.core.category.SubCategoryId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.frontend.view.dropdown.GroupElement
 import com.mateuszcholyn.wallet.frontend.view.dropdown.QuickRangeData
@@ -38,6 +39,7 @@ data class HistorySearchForm(
 fun HistorySearchForm.toSearchCriteria(): SearchCriteria =
     SearchCriteria(
         categoryId = selectedCategory.categoryId?.let { CategoryId(it) },
+        subCategoryId = selectedCategory.subCategoryId?.let { SubCategoryId(it) },
         beginDate = beginDate?.fromUserLocalTimeZoneToUTCInstant(),
         endDate = endDate?.fromUserLocalTimeZoneToUTCInstant(),
         fromAmount = amountRangeStart.toDoubleOrDefaultZero().toBigDecimal(),

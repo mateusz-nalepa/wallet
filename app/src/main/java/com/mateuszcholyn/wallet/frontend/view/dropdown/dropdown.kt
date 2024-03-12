@@ -17,6 +17,7 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 interface DropdownElement {
     val name: String?
+    val subName: String?
     val nameKey: Int?
 }
 
@@ -41,7 +42,8 @@ fun <T> WalletDropdown(
         TextField(
             modifier = defaultModifier,
             readOnly = true,
-            value = resolveName(selectedElement.name, selectedElement.nameKey),
+//            value = resolveName(selectedElement.name, selectedElement.nameKey),
+            value = resolveNameForSelectedValue(selectedElement),
             onValueChange = { },
             label = { Text(dropdownName) },
             trailingIcon = {
@@ -68,7 +70,8 @@ fun <T> WalletDropdown(
                     }
                 ) {
                     Text(
-                        text = resolveName(element.name, element.nameKey),
+//                        text = resolveName(element.name, element.nameKey),
+                        text = resolveNameForSelectList(element),
                         modifier = defaultModifier,
                     )
                 }
@@ -84,3 +87,35 @@ private fun resolveName(
 ): String =
     name
         ?: stringResource(id = nameKey!!)
+
+@Composable
+private fun resolveNameForSelectedValue(
+    dropdownElement: DropdownElement,
+): String =
+    // case for subcategories only XD
+    if (dropdownElement.subName != null) {
+        val xd = dropdownElement.subName
+        val xd2 = dropdownElement.name ?: stringResource(id = dropdownElement.nameKey!!)
+        "$xd2 -> $xd"
+    } else {
+        // case when there is custom not translated text
+        dropdownElement.nameKey
+            ?.let { stringResource(it) }
+            ?: dropdownElement.name!!
+    }
+
+
+@Composable
+private fun resolveNameForSelectList(
+    dropdownElement: DropdownElement,
+): String =
+    // case for subcategories only XD
+    if (dropdownElement.subName != null) {
+        val xd = dropdownElement.subName
+        "\t\t\t$xd"
+    } else {
+        // case when there is custom not translated text
+        dropdownElement.nameKey
+            ?.let { stringResource(it) }
+            ?: dropdownElement.name!!
+    }

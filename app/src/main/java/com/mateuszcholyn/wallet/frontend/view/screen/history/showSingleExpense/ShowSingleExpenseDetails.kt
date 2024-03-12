@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Event
+import androidx.compose.material.icons.filled.SubdirectoryArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +35,16 @@ fun ShowSingleExpenseDetails(
     removeSingleExpenseUiState: RemoveSingleExpenseUiState,
 ) {
     Column {
+        if (searchSingleResult.subCategoryName != null) {
+            Row(modifier = defaultModifier.padding(bottom = 0.dp)) {
+                Icon(
+                    Icons.Filled.SubdirectoryArrowRight,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp),
+                )
+                Text(text = searchSingleResult.subCategoryName)
+            }
+        }
         Row(modifier = defaultModifier.padding(bottom = 0.dp)) {
             Icon(
                 Icons.Filled.Description,

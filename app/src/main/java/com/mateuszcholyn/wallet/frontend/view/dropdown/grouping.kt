@@ -10,6 +10,7 @@ import java.time.temporal.TemporalAdjusters
 
 data class GroupElement(
     override val name: String? = null,
+    override val subName: String? = null,
     override val nameKey: Int,
     val groupFunctionName: (SearchSingleResult) -> String,
     val groupFunction: (SearchSingleResult) -> String,

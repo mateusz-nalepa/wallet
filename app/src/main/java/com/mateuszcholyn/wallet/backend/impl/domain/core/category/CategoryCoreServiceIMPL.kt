@@ -1,5 +1,6 @@
 package com.mateuszcholyn.wallet.backend.impl.domain.core.category
 
+import com.mateuszcholyn.wallet.backend.api.core.category.CategoriesForFrontend
 import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
@@ -38,8 +39,10 @@ class CategoryCoreServiceIMPL(
         categoryRepositoryFacade.getAllCategories()
 
     // TODO: HODOR - teraz to koduj
-    override suspend fun getAllGrouped(): List<MainCategory> =
-        groupCategories(getAll())
+    override suspend fun getAllGrouped(): CategoriesForFrontend =
+        CategoriesForFrontend(
+            mainCategories = groupCategories(getAll()),
+        )
 
     private fun groupCategories(
         categories: List<Category>,
@@ -69,6 +72,7 @@ class CategoryCoreServiceIMPL(
         categoryRepositoryFacade.getById(categoryId)
 
     override suspend fun getByIdOrThrow(categoryId: CategoryId): Category =
+        // TODO: tutaj przenieś logikę wyciągania kategorii, w sensie to z parentem XD
         categoryRepositoryFacade.getByIdOrThrow(categoryId)
 
     override suspend fun remove(categoryId: CategoryId) {

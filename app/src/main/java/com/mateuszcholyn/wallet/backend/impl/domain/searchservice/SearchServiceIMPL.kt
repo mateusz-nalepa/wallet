@@ -1,8 +1,10 @@
 package com.mateuszcholyn.wallet.backend.impl.domain.searchservice
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
-import com.mateuszcholyn.wallet.backend.api.core.category.Category
-import com.mateuszcholyn.wallet.backend.api.core.category.findOrThrow
+import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
+import com.mateuszcholyn.wallet.backend.api.core.category.MainCategory
+import com.mateuszcholyn.wallet.backend.api.core.category.SubCategory
+import com.mateuszcholyn.wallet.backend.api.core.category.SubCategoryId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchServiceAPI
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchServiceResult
@@ -27,17 +29,19 @@ class SearchServiceIMPL(
     }
 
     override suspend fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent) {
-        searchServiceRepository.saveExpense(expenseAddedEvent.toSearchSingleResult())
+        expenseAddedEvent
+            .toSearchSingleResult()
+            .let { searchServiceRepository.saveExpense(it) }
     }
 
     override suspend fun getAll(
         searchCriteria: SearchCriteria,
     ): SearchServiceResult {
-        val allCategories = categoryCoreServiceAPI.getAll()
+        val allCategories = categoryCoreServiceAPI.getAllGrouped()
 
         return searchServiceRepository
             .getAll(searchCriteria)
-            .toSearchServiceResult(allCategories, searchCriteria)
+            .toSearchServiceResult(allCategories.mainCategories, searchCriteria)
     }
 
     override suspend fun removeAll() {
@@ -45,7 +49,7 @@ class SearchServiceIMPL(
     }
 
     private fun List<SearchSingleResultRepo>.toSearchServiceResult(
-        allCategories: List<Category>,
+        allCategories: List<MainCategory>,
         searchCriteria: SearchCriteria,
     ): SearchServiceResult {
 
@@ -66,14 +70,16 @@ class SearchServiceIMPL(
         this.copy(
             amount = expenseUpdatedEvent.newAmount,
             paidAt = expenseUpdatedEvent.newPaidAt,
-            categoryId = expenseUpdatedEvent.newCategoryId,
+            categoryId = expenseUpdatedEvent.newCategoryId.categoryId,
+            subCategoryId = expenseUpdatedEvent.newCategoryId.subCategoryId,
             description = expenseUpdatedEvent.newDescription,
         )
 
     private fun ExpenseAddedEvent.toSearchSingleResult(): SearchSingleResultRepo =
         SearchSingleResultRepo(
             expenseId = expenseId,
-            categoryId = categoryId,
+            categoryId = categoryId.categoryId,
+            subCategoryId = categoryId.subCategoryId,
             amount = amount,
             paidAt = paidAt,
             description = description,
@@ -81,13 +87,33 @@ class SearchServiceIMPL(
 }
 
 private fun SearchSingleResultRepo.toSearchSingleResult(
-    allCategories: List<Category>,
-): SearchSingleResult =
-    SearchSingleResult(
+    allCategories: List<MainCategory>,
+): SearchSingleResult {
+
+    val mainCategory = allCategories.findOrThrow(categoryId)
+
+    return SearchSingleResult(
         expenseId = expenseId,
+
         categoryId = categoryId,
-        categoryName = allCategories.findOrThrow(categoryId).name,
+        categoryName = mainCategory.name,
+
+        subCategoryId = subCategoryId?.id?.let { SubCategoryId(it) },
+        subCategoryName = subCategoryId?.let { mainCategory.findSubCategoryOrThrow(it).name },
+
         amount = amount,
         paidAt = paidAt,
         description = description,
     )
+}
+
+fun List<MainCategory>.findOrThrow(categoryId: CategoryId): MainCategory =
+    this
+        .find { it.id == categoryId }
+        ?: throw IllegalStateException("Category is missing. Should not happen :D")
+
+fun MainCategory.findSubCategoryOrThrow(subCategoryId: SubCategoryId): SubCategory =
+    this
+        .subCategories
+        .find { it.id.id == subCategoryId.id }
+        ?: throw IllegalStateException("Subcategory is missing. Should not happen :D")

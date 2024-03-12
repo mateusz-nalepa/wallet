@@ -3,7 +3,7 @@ package com.mateuszcholyn.wallet.backend.api.core.category
 interface CategoryCoreServiceAPI {
     suspend fun add(createCategoryParameters: CreateCategoryParameters): Category
     suspend fun getAll(): List<Category>
-    suspend fun getAllGrouped(): List<MainCategory>
+    suspend fun getAllGrouped(): CategoriesForFrontend
     suspend fun getByIdOrThrow(categoryId: CategoryId): Category
     suspend fun getById(categoryId: CategoryId): Category?
     suspend fun remove(categoryId: CategoryId)
@@ -22,6 +22,10 @@ data class CategoryId(
     val id: String,
 )
 
+data class SubCategoryId(
+    val id: String,
+)
+
 interface AbstractCategory {
     val id: CategoryId
     val name: String
@@ -37,6 +41,10 @@ class SubCategory(
     override val id: CategoryId,
     override val name: String,
 ) : AbstractCategory
+
+data class CategoriesForFrontend(
+    val mainCategories: List<MainCategory>,
+)
 
 data class Category(
     val id: CategoryId,

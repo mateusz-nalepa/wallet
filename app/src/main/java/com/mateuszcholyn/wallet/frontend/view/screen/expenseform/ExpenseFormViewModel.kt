@@ -9,15 +9,14 @@ import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseWithCategory
 import com.mateuszcholyn.wallet.frontend.di.usecases.LocalDateTimeProvider
-import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.GetCategoriesUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.AddExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.GetExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.UpdateExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDelegate
 import com.mateuszcholyn.wallet.frontend.view.screen.history.filters.CategoryView
-import com.mateuszcholyn.wallet.frontend.view.screen.history.toCategoryView
+import com.mateuszcholyn.wallet.frontend.view.screen.history.toCategoriesView
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.ErrorModalState
 import com.mateuszcholyn.wallet.frontend.view.util.PriceFormatterParameters
 import com.mateuszcholyn.wallet.frontend.view.util.asPrintableAmountWithoutCurrencySymbol
@@ -42,7 +41,7 @@ class ExpenseFormViewModel @Inject constructor(
     private val addExpenseUseCase: AddExpenseUseCase,
     private val updateExpenseUseCase: UpdateExpenseUseCase,
     private val getExpenseUseCase: GetExpenseUseCase,
-    private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
+    private val getCategoriesUseCase: GetCategoriesUseCase,
 ) : ViewModel() { // done tests XD
 
     private lateinit var onButtonSubmittedAction: () -> Unit
@@ -70,7 +69,7 @@ class ExpenseFormViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val categories =
-                    getCategoriesQuickSummaryUseCase.invoke().quickSummaries.map { it.toCategoryView() }
+                    getCategoriesUseCase.invoke().mainCategories.toCategoriesView()
 
                 when {
                     categories.isEmpty() -> {
@@ -157,7 +156,7 @@ class ExpenseFormViewModel @Inject constructor(
                     priceFormatterParameters
                 ),
                 description = existingExpense.description,
-                selectedCategory = existingExpense.toCategoryView(),
+                selectedCategory = existingExpense.toCategoryView(expenseFormDetailsUiState.categories),
                 paidAt = existingExpense.paidAt.fromUTCInstantToUserLocalTimeZone(),
             )
     }
@@ -232,7 +231,7 @@ class ExpenseFormViewModel @Inject constructor(
                     amount = expenseFormDetailsUiState.amount.stringToBigDecimal(),
                     description = expenseFormDetailsUiState.description,
                     paidAt = expenseFormDetailsUiState.paidAt.fromUserLocalTimeZoneToUTCInstant(),
-                    categoryId = CategoryId(expenseFormDetailsUiState.selectedCategory?.categoryId!!)
+                    categoryId = resolveCategoryId(),
                 )
             addExpenseUseCase.invoke(addExpenseParameters)
         }
@@ -245,12 +244,17 @@ class ExpenseFormViewModel @Inject constructor(
                     expenseId = (expenseScreenMode as ExpenseScreenMode.Update).expenseId,
                     amount = expenseFormDetailsUiState.amount.stringToBigDecimal(),
                     description = expenseFormDetailsUiState.description,
-                    categoryId = CategoryId(expenseFormDetailsUiState.selectedCategory?.categoryId!!),
+                    categoryId = resolveCategoryId(),
                     paidAt = expenseFormDetailsUiState.paidAt.fromUserLocalTimeZoneToUTCInstant(),
                 )
             updateExpenseUseCase.invoke(updatedExpense)
         }
     }
+
+    private fun resolveCategoryId(): CategoryId =
+        expenseFormDetailsUiState.selectedCategory?.subCategoryId
+            ?.let { CategoryId(it) }
+            ?: CategoryId(expenseFormDetailsUiState.selectedCategory?.categoryId!!)
 
     private fun genericSaveExpense(
         @StringRes
@@ -275,12 +279,12 @@ class ExpenseFormViewModel @Inject constructor(
 
 }
 
-private fun ExpenseWithCategory.toCategoryView(): CategoryView =
-    CategoryView(
-        categoryId = categoryId.id,
-        name = categoryName,
-    )
+private fun Expense.toCategoryView(categories: List<CategoryView>): CategoryView {
+    val expenseCategoryId = this.categoryId
 
+    return categories.find { it.subCategoryId == expenseCategoryId.id }
+        ?: categories.find { it.categoryId == expenseCategoryId.id }!!
+}
 
 private val AMOUNT_WITH_OPTIONAL_TWO_PLACES_AFTER_SEPARATOR_REGEX: Regex =
     "^(\\d*)(,|.)?(\\d{0,2})\$".toRegex()

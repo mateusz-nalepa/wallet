@@ -1,11 +1,9 @@
 package com.mateuszcholyn.wallet.manager
 
-import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
-import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.randomCategoryQuickSummary
 import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
+import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseWithCategory
 import com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.converters.InstantConverter
 import com.mateuszcholyn.wallet.frontend.domain.usecase.backup.impo.ImportV1Summary
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.backupV1.BackupCategoryV1
@@ -90,17 +88,16 @@ fun randomImportV1Summary(): ImportV1Summary =
         6,
     )
 
-fun randomExpenseWithCategory(
+fun randomExpense(
     expenseId: ExpenseId = randomExpenseId(),
     amount: BigDecimal = randomAmount(),
     paidAt: Instant = randomPaidAt(),
-    categoryQuickSummary: CategoryQuickSummary = randomCategoryQuickSummary(),
-): ExpenseWithCategory =
-    ExpenseWithCategory(
+    categoryId: CategoryId = randomCategoryId(),
+): Expense =
+    Expense(
         expenseId = expenseId,
         amount = amount,
         description = "torquent",
         paidAt = paidAt,
-        categoryId = categoryQuickSummary.categoryId,
-        categoryName = categoryQuickSummary.categoryName,
+        categoryId = categoryId,
     )

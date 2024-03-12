@@ -49,7 +49,10 @@ class MainCategoryQuickSummary(
     override val name: String,
     override val numberOfExpenses: Long,
     val subCategories: List<SubCategoryQuickSummary>,
-) : AbstractCategoryQuickSummary
+) : AbstractCategoryQuickSummary {
+    val numberOfExpensesWithoutSubCategories =
+        numberOfExpenses - subCategories.sumOf { it.numberOfExpenses }
+}
 
 class SubCategoryQuickSummary(
     override val id: CategoryId,

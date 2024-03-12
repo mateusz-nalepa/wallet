@@ -20,6 +20,7 @@ import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
 @Composable
 fun ValidatedTextFieldV2(
+    enabled: Boolean = true,
     textFieldLabel: String = stringResource(R.string.common_amount),
     value: String,
     onValueChange: (String) -> Unit,
@@ -39,6 +40,7 @@ fun ValidatedTextFieldV2(
             keyboardOptions = keyboardOptions,
             label = { Text(textFieldLabel) },
             modifier = modifier,
+            enabled = enabled,
             singleLine = true,
             trailingIcon = {
                 if (isValueInvalid) {

@@ -34,15 +34,21 @@ sealed class NavDrawerItem(
     @StringRes
     val titleTranslationKey: Int,
 ) {
-    data object Categories : NavDrawerItem("category", Icons.Rounded.Category, R.string.menuItem_categories)
+    data object Categories :
+        NavDrawerItem("category", Icons.Rounded.Category, R.string.menuItem_categories)
+
     data object AddExpenseForm : NavDrawerItem(
         expenseFormRoute(),
         Icons.Rounded.ShoppingCart,
         R.string.menuItem_addExpense,
     )
 
-    data object History : NavDrawerItem("history", Icons.Rounded.Summarize, R.string.menuItem_History)
-    data object Settings : NavDrawerItem("settings", Icons.Rounded.Settings, R.string.menuItem_Settings)
+    data object History :
+        NavDrawerItem("history", Icons.Rounded.Summarize, R.string.menuItem_History)
+
+    data object Settings :
+        NavDrawerItem("settings", Icons.Rounded.Settings, R.string.menuItem_Settings)
+
     data object Backup : NavDrawerItem("backup", Icons.Rounded.Backup, R.string.menuItem_Backup)
     data object About : NavDrawerItem("about", Icons.Rounded.Info, R.string.menuItem_About)
 }
@@ -68,8 +74,8 @@ fun categoryFormScreenRoute(categoryId: CategoryId): String =
 fun Navigation(
     navController: NavHostController,
 ) {
-//    NavHost(navController, startDestination = NavDrawerItem.History.route) {
-    NavHost(navController, startDestination = NavDrawerItem.Categories.route) {
+    NavHost(navController, startDestination = NavDrawerItem.History.route) {
+//    NavHost(navController, startDestination = NavDrawerItem.Categories.route) {
         composable(
             route = "expense-form?expenseId={expenseId}&mode={mode}",
             arguments = listOf(

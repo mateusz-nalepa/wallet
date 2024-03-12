@@ -7,6 +7,7 @@ import com.mateuszcholyn.wallet.userConfig.theme.WalletTheme
 
 data class ThemeDropdownElement(
     override val name: String? = null,
+    override val subName: String? = null,
     override val nameKey: Int,
     val walletTheme: WalletTheme,
 ) : DropdownElement

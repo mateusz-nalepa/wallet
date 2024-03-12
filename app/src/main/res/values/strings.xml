@@ -53,6 +53,8 @@
     <string name="common_noDescription">No description</string>
     <string name="common_range">Range</string>
     <string name="common_quantity">Quantity:</string>
+    <string name="main_category">Main Category</string>
+    <string name="sub_category">Subcategory</string>
     <string name="common_category">Category</string>
     <string name="common_amount">Amount</string>
     <string name="common_description">Description</string>

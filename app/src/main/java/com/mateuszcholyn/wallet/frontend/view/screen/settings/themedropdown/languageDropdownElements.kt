@@ -5,6 +5,7 @@ import com.mateuszcholyn.wallet.userConfig.language.WalletLanguage
 
 data class LanguageDropdownElement(
     override val name: String? = null,
+    override val subName: String? = null,
     override val nameKey: Int,
     val walletLanguage: WalletLanguage,
 ) : DropdownElement

@@ -2,6 +2,7 @@ package com.mateuszcholyn.wallet.backend.impl.infrastructure.sqlite.searchservic
 
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
+import com.mateuszcholyn.wallet.backend.api.core.category.SubCategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchCriteria
 import com.mateuszcholyn.wallet.backend.impl.domain.searchservice.SearchServiceRepository
@@ -53,6 +54,7 @@ private fun SearchSingleResultRepo.toEntity(): SearchServiceEntity =
     SearchServiceEntity(
         expenseId = expenseId.id,
         categoryId = categoryId.id,
+        subCategoryId = subCategoryId?.id,
         amount = amount,
         paidAt = paidAt,
         description = description,
@@ -62,6 +64,7 @@ private fun SearchServiceEntity.toDomain(): SearchSingleResultRepo =
     SearchSingleResultRepo(
         expenseId = ExpenseId(expenseId),
         categoryId = CategoryId(categoryId),
+        subCategoryId = subCategoryId?.let { SubCategoryId(it) },
         amount = amount,
         paidAt = paidAt,
         description = description,

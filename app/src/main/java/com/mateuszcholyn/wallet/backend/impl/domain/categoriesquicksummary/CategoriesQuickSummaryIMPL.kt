@@ -13,6 +13,7 @@ import com.mateuszcholyn.wallet.backend.api.core.category.MainCategory
 import com.mateuszcholyn.wallet.backend.api.core.category.findOrThrow
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryAddedEvent
 import com.mateuszcholyn.wallet.backend.impl.domain.core.category.CategoryRemovedEvent
+import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.CategoryPair
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseAddedEvent
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseRemovedEvent
 import com.mateuszcholyn.wallet.backend.impl.domain.core.expense.ExpenseUpdatedEvent
@@ -33,13 +34,18 @@ class CategoriesQuickSummaryIMPL(
     }
 
     override suspend fun handleEventExpenseAdded(expenseAddedEvent: ExpenseAddedEvent) {
-        incWithOne(expenseAddedEvent.categoryId)
+        incWithOne(expenseAddedEvent.categoryId.resolveCategoryId())
     }
 
     override suspend fun handleEventExpenseUpdated(expenseUpdatedEvent: ExpenseUpdatedEvent) {
-        decWithOne(expenseUpdatedEvent.oldCategoryId)
-        incWithOne(expenseUpdatedEvent.newCategoryId)
+        decWithOne(expenseUpdatedEvent.oldCategoryId.resolveCategoryId())
+        incWithOne(expenseUpdatedEvent.newCategoryId.resolveCategoryId())
     }
+
+    private fun CategoryPair.resolveCategoryId(): CategoryId =
+        subCategoryId
+            ?.let { CategoryId(it.id) }
+            ?: categoryId
 
     override suspend fun getQuickSummary(): QuickSummaryList {
         val allCategories = categoryCoreServiceAPI.getAll()
@@ -52,7 +58,7 @@ class CategoriesQuickSummaryIMPL(
 
     override suspend fun getQuickSummaryV2(): QuickSummaryListV2 =
         joinCategoriesWithQuickSummaryInfo(
-            categories = categoryCoreServiceAPI.getAllGrouped(),
+            categories = categoryCoreServiceAPI.getAllGrouped().mainCategories,
             categoriesQuickSummaryResult = categoriesQuickSummaryRepository.getQuickSummaries(),
         )
 

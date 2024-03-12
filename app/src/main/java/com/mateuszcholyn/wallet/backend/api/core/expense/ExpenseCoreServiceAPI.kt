@@ -9,8 +9,8 @@ interface ExpenseCoreServiceAPI {
     suspend fun remove(expenseId: ExpenseId)
     suspend fun getAll(): List<Expense>
     suspend fun update(updateExpenseParameters: Expense): Expense
-    suspend fun getExpenseWithCategoryDetails(expenseId: ExpenseId): ExpenseWithCategory
     suspend fun getById(expenseId: ExpenseId): Expense?
+    suspend fun getByIdOrThrow(expenseId: ExpenseId): Expense
     suspend fun removeAll()
 }
 
@@ -19,7 +19,7 @@ data class AddExpenseParameters(
     val amount: BigDecimal,
     val description: String,
     val paidAt: Instant,
-    val categoryId: CategoryId
+    val categoryId: CategoryId,
 )
 
 data class ExpenseId(
@@ -31,14 +31,5 @@ data class Expense(
     val amount: BigDecimal,
     val description: String,
     val paidAt: Instant,
-    val categoryId: CategoryId
-)
-
-data class ExpenseWithCategory(
-    val expenseId: ExpenseId,
-    val amount: BigDecimal,
-    val description: String,
-    val paidAt: Instant,
     val categoryId: CategoryId,
-    val categoryName: String,
 )

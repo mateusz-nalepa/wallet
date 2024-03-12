@@ -1,8 +1,8 @@
 package com.mateuszcholyn.wallet.backend.impl.domain.core.expense
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
+import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 
 class ExpenseRepositoryFacade(
     private val expenseRepository: ExpenseRepository,

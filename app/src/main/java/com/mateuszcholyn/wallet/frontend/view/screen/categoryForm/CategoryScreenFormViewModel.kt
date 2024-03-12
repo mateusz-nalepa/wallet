@@ -53,6 +53,7 @@ class CategoryScreenFormViewModel @Inject constructor(
         private set
     private var categoryFormUiState by MutableStateDelegate(exportedCategoryFormUiState)
 
+    // TODO: ogólnie skup się teraz na tym ekranie XD
 
     fun initCategoryFormScreen(
         existingCategoryId: String? = null,

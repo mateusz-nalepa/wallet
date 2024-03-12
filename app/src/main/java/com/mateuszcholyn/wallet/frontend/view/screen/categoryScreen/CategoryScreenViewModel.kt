@@ -98,6 +98,7 @@ class CategoryScreenViewModel @Inject constructor(
                 categoryScreenState = CategoryScreenState.Loading
                 categoryScreenState = CategoryScreenState.Success(prepareCategorySuccessContent())
             } catch (e: Exception) {
+                println(e)
                 categoryScreenState =
                     CategoryScreenState.Error(R.string.error_unable_to_load_categories)
             }

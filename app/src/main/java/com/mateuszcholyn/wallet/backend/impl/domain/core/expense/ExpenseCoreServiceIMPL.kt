@@ -1,11 +1,12 @@
 package com.mateuszcholyn.wallet.backend.impl.domain.core.expense
 
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryCoreServiceAPI
+import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
+import com.mateuszcholyn.wallet.backend.api.core.category.SubCategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseCoreServiceAPI
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
-import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseWithCategory
 import com.mateuszcholyn.wallet.backend.impl.domain.transaction.TransactionManager
 import com.mateuszcholyn.wallet.util.randomuuid.randomUUID
 
@@ -15,12 +16,17 @@ class ExpenseCoreServiceIMPL(
     private val categoryCoreServiceAPI: CategoryCoreServiceAPI,
     private val transactionManager: TransactionManager,
 ) : ExpenseCoreServiceAPI {
+    // to jest dobrze ogarnięte xd
     override suspend fun add(addExpenseParameters: AddExpenseParameters): Expense =
         transactionManager.runInTransaction {
             addExpenseParameters
                 .toNewExpense()
                 .let { expenseRepositoryFacade.create(it) }
-                .also { expensePublisher.publishExpenseAddedEvent(it.toExpenseAddedEvent()) }
+                .also {
+                    expensePublisher.publishExpenseAddedEvent(
+                        it.toExpenseAddedEvent(getCategoryPaidForCategory(it.categoryId))
+                    )
+                }
         }
 
     override suspend fun remove(expenseId: ExpenseId) {
@@ -36,34 +42,38 @@ class ExpenseCoreServiceIMPL(
 
     override suspend fun update(updateExpenseParameters: Expense): Expense =
         transactionManager.runInTransaction {
-            val oldExpense = expenseRepositoryFacade.getByIdOrThrow(updateExpenseParameters.expenseId)
+
+            val oldExpense =
+                expenseRepositoryFacade.getByIdOrThrow(updateExpenseParameters.expenseId)
 
             oldExpense
                 .updateUsing(updateExpenseParameters)
                 .let { expenseRepositoryFacade.update(it) }
                 .also {
                     expensePublisher.publishExpenseUpdatedEvent(
-                        it.toExpenseUpdatedEvent(oldExpense = oldExpense)
+                        it.toExpenseUpdatedEvent(
+                            oldCategoryPair = getCategoryPaidForCategory(oldExpense.categoryId),
+                            newCategoryPair = getCategoryPaidForCategory(updateExpenseParameters.categoryId),
+                        )
                     )
                 }
         }
 
-    override suspend fun getExpenseWithCategoryDetails(expenseId: ExpenseId): ExpenseWithCategory {
-        val expense = expenseRepositoryFacade.getByIdOrThrow(expenseId)
-        val category = categoryCoreServiceAPI.getByIdOrThrow(expense.categoryId)
+    // TODO this should be in category repo?
+    private suspend fun getCategoryPaidForCategory(categoryId: CategoryId): CategoryPair {
+        val category = categoryCoreServiceAPI.getByIdOrThrow(categoryId)
 
-        return ExpenseWithCategory(
-            expenseId = expenseId,
-            amount = expense.amount,
-            description = expense.description,
-            paidAt = expense.paidAt,
+        return resolveCategoryIdAndSubCategoryId(
             categoryId = category.id,
-            categoryName = category.name,
+            parentCategoryId = category.parentCategory?.id,
         )
     }
 
     override suspend fun getById(expenseId: ExpenseId): Expense? =
         expenseRepositoryFacade.getById(expenseId)
+
+    override suspend fun getByIdOrThrow(expenseId: ExpenseId): Expense =
+        expenseRepositoryFacade.getByIdOrThrow(expenseId)
 
     override suspend fun removeAll() {
         transactionManager.runInTransaction {
@@ -80,10 +90,12 @@ class ExpenseCoreServiceIMPL(
             categoryId = categoryId,
         )
 
-    private fun Expense.toExpenseAddedEvent(): ExpenseAddedEvent =
+    private fun Expense.toExpenseAddedEvent(
+        categoryPair: CategoryPair,
+    ): ExpenseAddedEvent =
         ExpenseAddedEvent(
             expenseId = expenseId,
-            categoryId = categoryId,
+            categoryId = categoryPair,
             amount = amount,
             paidAt = paidAt,
             description = description,
@@ -104,14 +116,32 @@ class ExpenseCoreServiceIMPL(
         )
 
     private fun Expense.toExpenseUpdatedEvent(
-        oldExpense: Expense,
+        oldCategoryPair: CategoryPair,
+        newCategoryPair: CategoryPair,
     ): ExpenseUpdatedEvent =
         ExpenseUpdatedEvent(
             expenseId = expenseId,
-            oldCategoryId = oldExpense.categoryId,
-            newCategoryId = categoryId,
+            oldCategoryId = oldCategoryPair,
+            newCategoryId = newCategoryPair,
             newAmount = amount,
             newPaidAt = paidAt,
             newDescription = description,
         )
 }
+
+fun resolveCategoryIdAndSubCategoryId(
+    categoryId: CategoryId,
+    parentCategoryId: CategoryId?,
+): CategoryPair =
+    if (parentCategoryId != null) { // there is subcategory
+        CategoryPair(
+            categoryId = parentCategoryId,
+            subCategoryId = SubCategoryId(categoryId.id),
+        )
+    } else {
+        CategoryPair(
+            categoryId = categoryId,
+            subCategoryId = null,
+        )
+    }
+
