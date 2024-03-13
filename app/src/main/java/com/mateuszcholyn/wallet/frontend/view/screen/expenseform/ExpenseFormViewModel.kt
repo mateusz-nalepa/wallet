@@ -10,7 +10,7 @@ import com.mateuszcholyn.wallet.backend.api.core.expense.AddExpenseParameters
 import com.mateuszcholyn.wallet.backend.api.core.expense.Expense
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.frontend.di.usecases.LocalDateTimeProvider
-import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.GetCategoriesUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.AddExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.GetExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.UpdateExpenseUseCase
@@ -41,7 +41,7 @@ class ExpenseFormViewModel @Inject constructor(
     private val addExpenseUseCase: AddExpenseUseCase,
     private val updateExpenseUseCase: UpdateExpenseUseCase,
     private val getExpenseUseCase: GetExpenseUseCase,
-    private val getCategoriesUseCase: GetCategoriesUseCase,
+    private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
 ) : ViewModel() { // done tests XD
 
     private lateinit var onButtonSubmittedAction: () -> Unit
@@ -69,7 +69,7 @@ class ExpenseFormViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val categories =
-                    getCategoriesUseCase.invoke().mainCategories.toCategoriesView()
+                    getCategoriesQuickSummaryUseCase.invokeV2().quickSummaries.toCategoriesView()
 
                 when {
                     categories.isEmpty() -> {

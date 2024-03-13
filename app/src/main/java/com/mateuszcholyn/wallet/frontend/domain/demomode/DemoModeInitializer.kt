@@ -47,6 +47,16 @@ class DemoModeInitializer(
                         paidAt = instantNow
                         description = "main 1 -> sub 2"
                     }
+                    expense {
+                        amount = BigDecimal("3")
+                        paidAt = instantNow
+                        description = "main 1 -> sub 3"
+                    }
+                    expense {
+                        amount = BigDecimal("3")
+                        paidAt = instantNow
+                        description = "main 1 -> sub 4"
+                    }
                 }
             }
             category {

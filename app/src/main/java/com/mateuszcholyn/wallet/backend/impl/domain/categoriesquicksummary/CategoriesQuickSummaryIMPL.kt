@@ -69,16 +69,18 @@ class CategoriesQuickSummaryIMPL(
         val mainCategoriesQuickSummaries =
             categories
                 .map { mainCategory ->
-                    val subCategoriesQuickSummaries = mainCategory
-                        .subCategories
-                        .map { subCategory ->
-                            SubCategoryQuickSummary(
-                                id = subCategory.id,
-                                name = subCategory.name,
-                                numberOfExpenses = categoriesQuickSummaryResult
-                                    .first { it.categoryId == subCategory.id }.numberOfExpenses,
-                            )
-                        }
+                    val subCategoriesQuickSummaries =
+                        mainCategory
+                            .subCategories
+                            .map { subCategory ->
+                                SubCategoryQuickSummary(
+                                    id = subCategory.id,
+                                    name = subCategory.name,
+                                    numberOfExpenses = categoriesQuickSummaryResult
+                                        .first { it.categoryId == subCategory.id }.numberOfExpenses,
+                                )
+                            }
+                            .sortedByDescending { it.numberOfExpenses }
 
                     MainCategoryQuickSummary(
                         id = mainCategory.id,

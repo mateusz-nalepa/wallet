@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.CategoryQuickSummary
-import com.mateuszcholyn.wallet.backend.api.core.category.MainCategory
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.MainCategoryQuickSummary
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchAverageExpenseResult
 import com.mateuszcholyn.wallet.backend.api.searchservice.SearchSingleResult
 import com.mateuszcholyn.wallet.frontend.di.usecases.LocalDateTimeProvider
 import com.mateuszcholyn.wallet.frontend.domain.appstate.DemoModeAppIsConfigured
-import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.GetCategoriesUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.expense.RemoveExpenseUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.searchservice.SearchServiceUseCase
 import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDelegate
@@ -62,7 +62,7 @@ data class ExportToCsvUiState(
 
 @HiltViewModel
 class HistoryScreenViewModel @Inject constructor(
-    private val getCategoriesUseCase: GetCategoriesUseCase,
+    private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
     private val searchServiceUseCase: SearchServiceUseCase,
     private val removeExpenseUseCase: RemoveExpenseUseCase,
     private val demoModeAppIsConfigured: DemoModeAppIsConfigured,
@@ -190,7 +190,7 @@ class HistoryScreenViewModel @Inject constructor(
     }
 
     private suspend fun readCategoriesList(): List<CategoryView> =
-        listOf(CategoryView.default) + getCategoriesUseCase.invoke().mainCategories.toCategoriesView()
+        listOf(CategoryView.default) + getCategoriesQuickSummaryUseCase.invokeV2().quickSummaries.toCategoriesView()
 
     fun loadResultsFromDb() {
         viewModelScope.launch { // DONE UI State
@@ -310,7 +310,7 @@ fun CategoryQuickSummary.toCategoryView(): CategoryView =
     )
 
 
-fun List<MainCategory>.toCategoriesView(): List<CategoryView> =
+fun List<MainCategoryQuickSummary>.toCategoriesView(): List<CategoryView> =
     this.flatMap { mainCategory ->
 
         listOf(
