@@ -38,7 +38,7 @@ data class CategoryQuickSummary(
     val numberOfExpenses: Long,
 )
 
-interface AbstractCategoryQuickSummary {
+sealed interface AbstractCategoryQuickSummary {
     val id: CategoryId
     val name: String
     val numberOfExpenses: Long
@@ -58,6 +58,7 @@ class SubCategoryQuickSummary(
     override val id: CategoryId,
     override val name: String,
     override val numberOfExpenses: Long,
+    val mainCategoryId: CategoryId,
 ) : AbstractCategoryQuickSummary
 
 fun randomCategoryQuickSummary(

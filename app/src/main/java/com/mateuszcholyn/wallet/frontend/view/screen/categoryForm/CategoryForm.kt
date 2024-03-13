@@ -15,7 +15,9 @@ import com.mateuszcholyn.wallet.frontend.view.skeleton.NavDrawerItem
 
 @Composable
 fun CategoryFormScreen(
+    categoryScreenFormMode: String,
     existingCategoryId: String? = null,
+    existingSubCategoryId: String? = null,
     navHostController: NavHostController,
     categoryScreenFormViewModel: CategoryScreenFormViewModel = hiltViewModel(),
 ) {
@@ -23,6 +25,8 @@ fun CategoryFormScreen(
     DisposableEffect(key1 = Unit, effect = {
         categoryScreenFormViewModel.initCategoryFormScreen(
             existingCategoryId = existingCategoryId,
+            existingSubCategoryId = existingSubCategoryId,
+            categoryScreenFormMode = categoryScreenFormMode,
             onButtonSubmittedAction = {
                 navHostController.navigate(NavDrawerItem.Categories.route)
             }

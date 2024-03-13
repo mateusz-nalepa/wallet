@@ -78,6 +78,7 @@ class CategoriesQuickSummaryIMPL(
                                     name = subCategory.name,
                                     numberOfExpenses = categoriesQuickSummaryResult
                                         .first { it.categoryId == subCategory.id }.numberOfExpenses,
+                                    mainCategoryId = mainCategory.id,
                                 )
                             }
                             .sortedByDescending { it.numberOfExpenses }

@@ -8,8 +8,9 @@ import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.core.category.Category
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
 import com.mateuszcholyn.wallet.backend.api.core.category.CreateCategoryParameters
-import com.mateuszcholyn.wallet.frontend.domain.usecase.categoriesquicksummary.GetCategoriesQuickSummaryUseCase
+import com.mateuszcholyn.wallet.backend.api.core.category.SubCategoryId
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.CreateCategoryUseCase
+import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.GetCategoriesUseCase
 import com.mateuszcholyn.wallet.frontend.domain.usecase.core.category.UpdateCategoryUseCase
 import com.mateuszcholyn.wallet.frontend.view.composables.delegat.MutableStateDelegate
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryFormUiState
@@ -32,20 +33,32 @@ sealed class CategoryScreenFormState {
 
 sealed interface CategoryScreenMode {
     data object Add : CategoryScreenMode
-    data class Update(val categoryId: CategoryId) : CategoryScreenMode
+    data class Update(
+        val categoryId: CategoryId,
+    ) : CategoryScreenMode
+
+    data class AddSubCategory(
+        val mainCategoryId: CategoryId,
+    ) : CategoryScreenMode
+
+    data class UpdateSubCategory(
+        val mainCategoryId: CategoryId,
+        val subCategoryId: SubCategoryId,
+    ) : CategoryScreenMode
 }
 
 @HiltViewModel
 class CategoryScreenFormViewModel @Inject constructor(
     private val createCategoryUseCase: CreateCategoryUseCase,
     private val updateCategoryUseCase: UpdateCategoryUseCase,
-    private val getCategoriesQuickSummaryUseCase: GetCategoriesQuickSummaryUseCase,
+    private val getCategoriesUseCase: GetCategoriesUseCase,
 ) : ViewModel() { // done tests XD
 
     private lateinit var onButtonSubmittedAction: () -> Unit
     private var categoryScreenMode: CategoryScreenMode = CategoryScreenMode.Add
 
-    var exportedCategoryScreenFormState = mutableStateOf<CategoryScreenFormState>(CategoryScreenFormState.Loading)
+    var exportedCategoryScreenFormState =
+        mutableStateOf<CategoryScreenFormState>(CategoryScreenFormState.Loading)
         private set
     private var categoryScreenFormState by MutableStateDelegate(exportedCategoryScreenFormState)
 
@@ -56,13 +69,15 @@ class CategoryScreenFormViewModel @Inject constructor(
     // TODO: ogólnie skup się teraz na tym ekranie XD
 
     fun initCategoryFormScreen(
+        categoryScreenFormMode: String,
         existingCategoryId: String? = null,
+        existingSubCategoryId: String? = null,
         onButtonSubmittedAction: () -> Unit,
     ) {
         this.onButtonSubmittedAction = onButtonSubmittedAction
         viewModelScope.launch {
             try {
-                val categoryQuickSummary = getCategoriesQuickSummaryUseCase.invoke().quickSummaries
+                val categories = getCategoriesUseCase.invoke().mainCategories
                 when (existingCategoryId == null) {
                     true -> {
                         categoryScreenMode = CategoryScreenMode.Add
@@ -74,19 +89,29 @@ class CategoryScreenFormViewModel @Inject constructor(
                     }
 
                     false -> {
-                        categoryScreenMode = CategoryScreenMode.Update(CategoryId(existingCategoryId))
+                        // tutaj poczatek, jest idk XD
+                        println("$categories and $existingSubCategoryId and $categoryScreenFormMode")
+                        categoryScreenMode =
+                            CategoryScreenMode.Update(CategoryId(existingCategoryId))
                         categoryFormUiState =
                             categoryFormUiState.copy(
                                 buttonLabelKey = R.string.button_updateCategory,
-                                categoryName = categoryQuickSummary.find { it.categoryId == CategoryId(existingCategoryId) }!!.categoryName,
+//                                categoryName = categories.find {
+//                                    it.categoryId == CategoryId(
+//                                        existingCategoryId
+//                                    )
+//                                }!!.categoryName,
                                 submitButtonState = CategorySubmitButton.ENABLED,
                             )
                     }
+                    // tutaj koniec, jest idk XD
                 }
 
-                categoryScreenFormState = CategoryScreenFormState.Success(categoryQuickSummary.map { it.categoryName })
+//                categoryScreenFormState =
+//                    CategoryScreenFormState.Success(categoryQuickSummary.map { it.categoryName })
             } catch (t: Throwable) {
-                categoryScreenFormState = CategoryScreenFormState.Error(R.string.error_unable_to_load_category_form)
+                categoryScreenFormState =
+                    CategoryScreenFormState.Error(R.string.error_unable_to_load_category_form)
 
             }
         }
@@ -111,7 +136,8 @@ class CategoryScreenFormViewModel @Inject constructor(
 
         val xdState = categoryScreenFormState
         if (xdState is CategoryScreenFormState.Success) {
-            val shouldShowWarning = shouldShowCategoryWarning(categoryNameFromForm, xdState.categoryNames)
+            val shouldShowWarning =
+                shouldShowCategoryWarning(categoryNameFromForm, xdState.categoryNames)
             categoryFormUiState =
                 categoryFormUiState.copy(
                     showCategoryAlreadyExistsWarning = shouldShowWarning,
@@ -126,15 +152,15 @@ class CategoryScreenFormViewModel @Inject constructor(
             )
 
 
-        when (val xd = categoryScreenMode) {
-            CategoryScreenMode.Add -> {
-                addCategory()
-            }
-
-            is CategoryScreenMode.Update -> {
-                updateCategory(xd.categoryId)
-            }
-        }
+//        when (val xd = categoryScreenMode) {
+//            CategoryScreenMode.Add -> {
+//                addCategory()
+//            }
+//
+//            is CategoryScreenMode.Update -> {
+//                updateCategory(xd.categoryId)
+//            }
+//        }
     }
 
     private fun addCategory() {

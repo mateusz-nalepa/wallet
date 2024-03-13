@@ -16,10 +16,12 @@ import androidx.navigation.NavHostController
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.AbstractCategoryQuickSummary
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
+import com.mateuszcholyn.wallet.backend.api.core.category.SubCategoryId
 import com.mateuszcholyn.wallet.frontend.view.screen.util.actionButton.MyErrorDialogProxy
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenError.ScreenError
 import com.mateuszcholyn.wallet.frontend.view.screen.util.screenLoading.ScreenLoading
 import com.mateuszcholyn.wallet.frontend.view.skeleton.categoryFormScreenRoute
+import com.mateuszcholyn.wallet.frontend.view.skeleton.subCategoryFormScreenRoute
 import com.mateuszcholyn.wallet.frontend.view.util.defaultButtonModifier
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 
@@ -27,6 +29,7 @@ data class CategoryScreenActions(
     val onRefreshScreenActions: () -> Unit,
     val onAddCategoryAction: () -> Unit,
     val onUpdateCategoryAction: (CategoryId) -> Unit,
+    val onUpdateSubCategoryAction: (CategoryId, SubCategoryId) -> Unit,
 
 
     val onCategoryRemoveModalOpen: () -> Unit,
@@ -61,6 +64,9 @@ fun CategoryScreen(
             },
             onUpdateCategoryAction = {
                 navHostController.navigate(categoryFormScreenRoute(it))
+            },
+            onUpdateSubCategoryAction = { categoryId, subCategoryId ->
+                navHostController.navigate(subCategoryFormScreenRoute(categoryId, subCategoryId))
             },
             onCategoryRemoveAction = {
                 categoryScreenViewModel.removeCategory(it)

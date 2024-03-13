@@ -9,6 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.AbstractCategoryQuickSummary
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.MainCategoryQuickSummary
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.SubCategoryQuickSummary
+import com.mateuszcholyn.wallet.backend.api.core.category.SubCategoryId
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryScreenActions
 
 @Composable
@@ -18,7 +21,18 @@ fun EditSingleCategoryIconButton(
 ) {
     IconButton(
         onClick = {
-            categoryScreenActions.onUpdateCategoryAction.invoke(categoryQuickSummary.id)
+            when (categoryQuickSummary) {
+                is MainCategoryQuickSummary -> {
+                    categoryScreenActions.onUpdateCategoryAction.invoke(categoryQuickSummary.id)
+                }
+
+                is SubCategoryQuickSummary -> {
+                    categoryScreenActions.onUpdateSubCategoryAction.invoke(
+                        categoryQuickSummary.mainCategoryId,
+                        SubCategoryId(categoryQuickSummary.id.id),
+                    )
+                }
+            }
         }
     ) {
         Icon(

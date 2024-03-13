@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.core.category.CategoryId
+import com.mateuszcholyn.wallet.backend.api.core.category.SubCategoryId
 import com.mateuszcholyn.wallet.backend.api.core.expense.ExpenseId
 import com.mateuszcholyn.wallet.frontend.view.screen.about.AboutScreen
 import com.mateuszcholyn.wallet.frontend.view.screen.backup.BackupDataScreen
@@ -66,7 +67,10 @@ fun categoryFormScreenRoute(): String =
     "category-form"
 
 fun categoryFormScreenRoute(categoryId: CategoryId): String =
-    "category-form?existingCategoryId=${categoryId.id}"
+    "category-form?existingCategoryId=${categoryId.id}&categoryScreenFormMode=CATEGORY"
+
+fun subCategoryFormScreenRoute(categoryId: CategoryId, subCategoryId: SubCategoryId): String =
+    "category-form?existingCategoryId=${categoryId.id}&existingSubCategoryId=${subCategoryId.id}&categoryScreenFormMode=SUB_CATEGORY"
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -101,17 +105,30 @@ fun Navigation(
             CategoryScreen(navHostController = navController)
         }
         composable(
-            route = "category-form?existingCategoryId={existingCategoryId}",
+            route = "category-form?existingCategoryId={existingCategoryId}&existingSubCategoryId={existingSubCategoryId}&categoryScreenFormMode={categoryScreenFormMode}",
             arguments = listOf(
                 navArgument("existingCategoryId") {
                     nullable = true
                     defaultValue = null
                     type = NavType.StringType
                 },
+                navArgument("existingSubCategoryId") {
+                    nullable = true
+                    defaultValue = null
+                    type = NavType.StringType
+                },
+                navArgument("categoryScreenFormMode") {
+                    nullable = false
+                    // TODO: weź do jakiejś stałej tego stringa
+                    defaultValue = "CATEGORY"
+                    type = NavType.StringType
+                },
             ),
         ) { backStackEntry ->
             CategoryFormScreen(
+                categoryScreenFormMode = backStackEntry.arguments?.getString("categoryScreenFormMode")!!,
                 existingCategoryId = backStackEntry.arguments?.getString("existingCategoryId"),
+                existingSubCategoryId = backStackEntry.arguments?.getString("existingSubCategoryId"),
                 navHostController = navController,
             )
         }

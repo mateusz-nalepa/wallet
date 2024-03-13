@@ -35,6 +35,7 @@ data class CategoryFormUiState(
 //    val categoryScreenMode: CategoryScreenMode = CategoryScreenMode.SUB_CATEGORY,
     val categoryScreenMode: CategoryScreenMode = CategoryScreenMode.CATEGORY,
     val categoryName: String = EMPTY_STRING,
+    val subCategoryName: String = EMPTY_STRING,
     val isFormInvalid: Boolean = false,
     val submitButtonState: CategorySubmitButton = CategorySubmitButton.DISABLED,
     val showCategoryAlreadyExistsWarning: Boolean = false,
