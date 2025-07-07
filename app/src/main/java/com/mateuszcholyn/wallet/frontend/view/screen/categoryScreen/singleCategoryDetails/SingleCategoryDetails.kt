@@ -3,37 +3,29 @@ package com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.singleCateg
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Article
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.mateuszcholyn.wallet.R
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.AbstractCategoryQuickSummary
 import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.MainCategoryQuickSummary
+import com.mateuszcholyn.wallet.backend.api.categoriesquicksummary.SubCategoryQuickSummary
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.CategoryScreenActions
-import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.NumberOfCategoriesStateless
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.RemoveCategoryState
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.singleCategoryDetails.actions.edit.EditSingleCategoryIconButton
 import com.mateuszcholyn.wallet.frontend.view.screen.categoryScreen.singleCategoryDetails.actions.remove.RemoveSingleCategoryIconButton
 import com.mateuszcholyn.wallet.frontend.view.util.currentAppContext
 import com.mateuszcholyn.wallet.frontend.view.util.defaultModifier
 import com.mateuszcholyn.wallet.frontend.view.util.showLongText
-import com.mateuszcholyn.wallet.frontend.view.util.subCategoryStartPadding
 
 
 @ExperimentalMaterialApi
@@ -58,22 +50,32 @@ fun SingleCategory(
     )
 
     if (detailsAreVisible) {
-        SingleCategoryDetails(
-            removeCategoryState = removeCategoryState,
-            categoryScreenActions = categoryScreenActions,
-            categoryQuickSummary = categoryQuickSummary,
-        )
+        if (categoryQuickSummary is SubCategoryQuickSummary) {
+            SingleSubCategoryDetails(
+                removeCategoryState = removeCategoryState,
+                categoryScreenActions = categoryScreenActions,
+                categoryQuickSummary = categoryQuickSummary,
+            )
+        }
+//        SingleCategoryDetails(
+//            removeCategoryState = removeCategoryState,
+//            categoryScreenActions = categoryScreenActions,
+//            categoryQuickSummary = categoryQuickSummary,
+//        )
         if (categoryQuickSummary is MainCategoryQuickSummary) {
+
+            SingleCategoryScreen()
+
             if (categoryQuickSummary.subCategories.isNotEmpty()) {
-                Row(
-                    modifier = Modifier.padding(start = subCategoryStartPadding)
-                ) {
-                    NumberOfCategoriesStateless(
-                        // TODO: translate me
-                        categoriesText = "Subcategories",
-                        categoriesQuantitySizeText = "Quantity: ${categoryQuickSummary.subCategories.size}",
-                    )
-                }
+//                Row(
+//                    modifier = Modifier.padding(start = subCategoryStartPadding)
+//                ) {
+//                    NumberOfCategoriesStateless(
+//                        // TODO: translate me
+//                        categoriesText = "Subcategories",
+//                        categoriesSize = categoryQuickSummary.subCategories.size,
+//                    )
+//                }
                 categoryQuickSummary.subCategories.forEachIndexed { subCategoryIndex, subCategory ->
                     SingleCategory(
                         index = subCategoryIndex + 1,
@@ -82,6 +84,12 @@ fun SingleCategory(
                         categoryQuickSummary = subCategory,
                     )
                 }
+                // tu teraz przeniosłem xd
+                SingleCategoryDetails(
+                    removeCategoryState = removeCategoryState,
+                    categoryScreenActions = categoryScreenActions,
+                    categoryQuickSummary = categoryQuickSummary,
+                )
             }
             Row(
                 modifier = defaultModifier.padding(top = 0.dp, bottom = 0.dp),
@@ -96,7 +104,7 @@ fun SingleCategory(
                     colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.secondary),
                 ) {
                     // TODO: translate me
-                    Text(text = "Add subcategory")
+                    Text(text = "Add subcategory! Implement me XD")
                 }
             }
         }
@@ -113,21 +121,18 @@ fun SingleCategoryDetails(
 ) {
 
     if (categoryQuickSummary is MainCategoryQuickSummary && categoryQuickSummary.numberOfExpensesWithoutSubCategories != 0L && categoryQuickSummary.subCategories.isNotEmpty()) {
+        // tu chyba nigdy nie wchodzi już xd albo tu XD
+
         Row(
             modifier = defaultModifier.padding(top = 0.dp, bottom = 0.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Row(horizontalArrangement = Arrangement.Start) {
-                Icon(
-                    Icons.Filled.Article,
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp),
-                )
-                Text(text = stringResource(R.string.categoryScreen_singleCategoryQuickInfoNumberOfExpenses) + " ${categoryQuickSummary.numberOfExpensesWithoutSubCategories}")
             }
 
             Row(horizontalArrangement = Arrangement.End) {
+                // co tutaj wywaliłem??
                 CategoryActionsStateless(
                     categoryScreenActions = categoryScreenActions,
                     categoryQuickSummary = categoryQuickSummary,
@@ -136,18 +141,39 @@ fun SingleCategoryDetails(
             }
         }
     } else {
-        Row(
-            modifier = defaultModifier.padding(top = 0.dp, bottom = 0.dp),
-            horizontalArrangement = Arrangement.End,
-        ) {
-            CategoryActionsStateless(
-                categoryScreenActions = categoryScreenActions,
-                categoryQuickSummary = categoryQuickSummary,
-                removeCategoryState = removeCategoryState,
-            )
-        }
+        // tu chyba nigdy nie wchodzi już xd
+        SingleSubCategoryDetails(
+            removeCategoryState = removeCategoryState,
+            categoryScreenActions = categoryScreenActions,
+            categoryQuickSummary = categoryQuickSummary,
+        )
     }
 
+}
+
+
+
+@Composable
+fun SingleCategoryScreen() {
+    Text(text = "ASD")
+}
+
+@Composable
+fun SingleSubCategoryDetails(
+    categoryScreenActions: CategoryScreenActions,
+    categoryQuickSummary: AbstractCategoryQuickSummary,
+    removeCategoryState: RemoveCategoryState,
+) {
+    Row(
+        modifier = defaultModifier.padding(top = 0.dp, bottom = 0.dp),
+        horizontalArrangement = Arrangement.End,
+    ) {
+        CategoryActionsStateless(
+            categoryScreenActions = categoryScreenActions,
+            categoryQuickSummary = categoryQuickSummary,
+            removeCategoryState = removeCategoryState,
+        )
+    }
 }
 
 @Composable

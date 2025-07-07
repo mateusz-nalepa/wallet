@@ -14,22 +14,18 @@ fun NumberOfCategories(
 ) {
     NumberOfCategoriesStateless(
         categoriesText = stringResource(R.string.categoryScreen_categories),
-        categoriesQuantitySizeText = stringResource(R.string.common_quantity) + " ${categorySuccessContent.categoriesList.size}",
+        categoriesSize = categorySuccessContent.categoriesList.size,
     )
 }
 
 @Composable
 fun NumberOfCategoriesStateless(
     categoriesText: String,
-    categoriesQuantitySizeText: String,
+    categoriesSize: Int,
 ) {
     Row(modifier = defaultModifier, horizontalArrangement = Arrangement.SpaceBetween) {
         Text(
-            text = categoriesText,
-            modifier = defaultModifier.weight(1f)
-        )
-        Text(
-            text = categoriesQuantitySizeText,
+            text = "$categoriesText: $categoriesSize",
             modifier = defaultModifier.weight(1f)
         )
     }

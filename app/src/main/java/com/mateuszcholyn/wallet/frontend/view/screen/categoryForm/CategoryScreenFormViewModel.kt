@@ -107,8 +107,9 @@ class CategoryScreenFormViewModel @Inject constructor(
                     // tutaj koniec, jest idk XD
                 }
 
-//                categoryScreenFormState =
+                categoryScreenFormState =
 //                    CategoryScreenFormState.Success(categoryQuickSummary.map { it.categoryName })
+                    CategoryScreenFormState.Success(listOf("asd"))
             } catch (t: Throwable) {
                 categoryScreenFormState =
                     CategoryScreenFormState.Error(R.string.error_unable_to_load_category_form)
