@@ -16,13 +16,13 @@ android {
 
     defaultConfig {
         applicationId "com.mateuszcholyn.wallet"
-        compileSdk 34
+        compileSdk 35
         minSdkVersion 28
-        targetSdkVersion 34
+        targetSdkVersion 35
         // for internal application use
-        versionCode 9
+        versionCode 10
         // shown to users
-        versionName "1.0.7"
+        versionName "1.0.8"
         testInstrumentationRunner 'com.mateuszcholyn.wallet.app.setupintegrationtests.CustomTestRunner'
         configurations.configureEach {
             resolutionStrategy {
@@ -66,7 +66,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.2"
+        kotlinCompilerExtensionVersion = "1.5.7"
     }
     lint {
         abortOnError false
