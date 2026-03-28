@@ -20,9 +20,9 @@ android {
         minSdkVersion 28
         targetSdkVersion 35
         // for internal application use
-        versionCode 10
+        versionCode 11
         // shown to users
-        versionName "1.0.8"
+        versionName "1.0.9"
         testInstrumentationRunner 'com.mateuszcholyn.wallet.app.setupintegrationtests.CustomTestRunner'
         configurations.configureEach {
             resolutionStrategy {
@@ -93,10 +93,10 @@ dependencies {
     implementation "androidx.core:core-ktx:1.12.0"
     implementation 'com.google.android.material:material:1.11.0'
 
-    implementation "com.fasterxml.jackson.core:jackson-core:2.13.1"
-    implementation "com.fasterxml.jackson.core:jackson-databind:2.13.1"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.1"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.1"
+    implementation "com.fasterxml.jackson.core:jackson-core:2.13.2"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.13.2"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.2"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2"
 
     implementation 'androidx.room:room-ktx:2.6.1'
     implementation 'androidx.room:room-runtime:2.6.1'
